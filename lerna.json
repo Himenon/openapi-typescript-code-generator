@@ -1,0 +1,19 @@
+{
+  "version": "independent",
+  "command": {
+    "version": {
+      "conventionalCommits": true,
+      "changelogPreset": "angular-all",
+      "exact": true
+    }
+  },
+  "publish": {
+    "access": "public",
+    "allowBranch": "main",
+    "ignoreChanges": ["CHANGELOG.md"]
+  },
+  "stream": true,
+  "concurrency": 1,
+  "npmClient": "yarn",
+  "packages": ["."]
+}

@@ -1,0 +1,6 @@
+{
+  "hooks": {
+    "pre-commit": "lint-staged",
+    "commit-msg": "commitlint --config commitlint.config.js -e $GIT_PARAMS"
+  }
+}
