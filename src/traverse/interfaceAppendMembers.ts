@@ -33,6 +33,22 @@ const createObjectMemberType = ({ factory }: ts.TransformationContext, members: 
   return factory.createTypeLiteralNode(members);
 };
 
+const createOptional = ({ factory }: ts.TransformationContext) => {
+  return factory.createToken(ts.SyntaxKind.QuestionToken);
+};
+
+const createPropertySignatures = (context: ts.TransformationContext, properties: { [key: string]: JSONSchema4 }): ts.PropertySignature[] => {
+  return Object.entries(properties).map(([key, childSchema]) => {
+    childSchema.required;
+    return context.factory.createPropertySignature(
+      undefined,
+      context.factory.createIdentifier(key),
+      childSchema.required === false ? createOptional(context) : undefined,
+      createTypeNode(context, childSchema),
+    );
+  });
+};
+
 /**
  * Don't use root schema root
  */
@@ -41,14 +57,7 @@ const createTypeNode = (context: ts.TransformationContext, schema: JSONSchema4):
     if (!schema.properties) {
       return createObjectMemberType(context, []);
     }
-    const members = Object.entries(schema.properties).map(([key, childSchema]) => {
-      return context.factory.createPropertySignature(
-        undefined,
-        context.factory.createIdentifier(key),
-        undefined,
-        createTypeNode(context, childSchema),
-      );
-    });
+    const members = createPropertySignatures(context, schema.properties);
     return createObjectMemberType(context, members);
   } else if (schema.type === "string") {
     return createStringType(context);
@@ -78,14 +87,7 @@ const createInterfaceFromRootObjectSchema = (context: ts.TransformationContext, 
   if (schema.type !== "object" || !schema.properties) {
     return [];
   }
-  return Object.entries(schema.properties).map(([key, childSchema]) => {
-    return context.factory.createPropertySignature(
-      undefined,
-      context.factory.createIdentifier(key),
-      undefined,
-      createTypeNode(context, childSchema),
-    );
-  });
+  return createPropertySignatures(context, schema.properties);
 };
 
 /**

@@ -8,26 +8,18 @@ const schemas: JSONSchema4 = {
       type: "string",
       required: false,
     },
-    age: {
-      type: "number",
-    },
-    body: {
-      type: "object",
-      properties: {
-        child: {
-          type: "string",
-        },
-      },
-    },
   },
 };
 
+const interfaceName = "MyTestInterface";
+const expectResult = `interface ${interfaceName} {
+    name?: string;
+}
+`;
+
 describe("Interface Generator", () => {
   it("Change Interface Name", () => {
-    const name = "MyTestInterface";
-    const expectResult = `interface ${name} {\n}\n`;
-    const result = generateInterface({ name, schemas });
-    console.log(JSON.stringify(result));
+    const result = generateInterface({ name: interfaceName, schema: schemas });
     expect(result).toBe(expectResult);
   });
 });

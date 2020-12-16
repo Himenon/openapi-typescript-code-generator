@@ -4,7 +4,7 @@ describe("Interface Generator", () => {
   it("Change Interface Name", () => {
     const name = "MyTestInterface";
     const expectResult = `interface ${name} {\n}\n`;
-    const result = generateInterface({ name, schemas: {} });
+    const result = generateInterface({ name, schema: {} });
     expect(result).toBe(expectResult);
   });
 });
