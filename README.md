@@ -1,6 +1,31 @@
-# @himenon/node-lib-template
+# @himenon/typescript-codegen
+
+```bash
+AST --> TypeScript
+```
+
+## References
+
+TypeScript
+
+- https://ts-ast-viewer.com
+- http://akito0107.hatenablog.com/entry/2018/12/23/020323
+
+JavaScript
+
+- https://astexplorer.net/
+
+Flow
+
+- https://talks.leko.jp/transform-flow-to-typescript-using-ast/#0
+
+Babel
+
+- https://blog.ikeryo1182.com/typescript-transpiler/
 
 ## Usage
+
+## Development
 
 | scripts                   | description                                 |
 | :------------------------ | :------------------------------------------ |
@@ -26,4 +51,4 @@
 
 ## LICENCE
 
-[@himenon-node-lib-template](https://github.com/Himenon/node-lib-template)・MIT
+[@himenon-typescript-codegen](https://github.com/Himenon/typescript-codegen)・MIT

@@ -61,6 +61,11 @@
     "kind-of": "6.0.3",
     "node-fetch": "2.6.1"
   },
+  "dependencies": {
+    "@babel/generator": "^7.12.11",
+    "@babel/parser": "^7.12.11",
+    "@types/json-schema": "^7.0.6"
+  },
   "devDependencies": {
     "@commitlint/cli": "11.0.0",
     "@commitlint/config-conventional": "11.0.0",

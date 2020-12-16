@@ -1,9 +1,20 @@
-export const hello = (name: string): string => {
-  const params = {
-    hoge: 1,
-    fuga: 2,
-  };
-  return `Hello ${name} ${JSON.stringify(params)}`;
-};
+import * as ts from "typescript";
 
-console.log(hello("Your name"));
+const code = `
+interface Hoge {
+  name: string;
+}
+
+const hoge: Hoge = {
+  name: "hoge",
+};
+`;
+
+const source = ts.createSourceFile("", code, ts.ScriptTarget.ESNext);
+
+const result = ts.transform(source, []);
+result.dispose();
+
+const printer = ts.createPrinter();
+
+console.log(printer.printFile(result.transformed[0] as ts.SourceFile));

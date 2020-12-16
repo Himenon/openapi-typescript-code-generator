@@ -12,7 +12,7 @@
     "skipLibCheck": true,
     "sourceMap": false,
     "target": "esnext",
-    "lib": ["dom", "es2020"],
+    "lib": ["dom", "es2019"],
     "rootDir": ".",
     "outDir": "lib",
     "strict": true
