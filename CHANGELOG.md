@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.1.0"></a>
+# 0.1.0 (2020-12-17)
+
+
+### Features
+
+* optional対応 ([f9c6840](https://github.com/Himenon/node-lib-template/commit/f9c6840))
+
+
+
+
+
 <a name="0.0.7"></a>
 ## 0.0.7 (2020-12-15)
 

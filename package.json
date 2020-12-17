@@ -1,6 +1,6 @@
 {
   "name": "@himenon/node-lib-template",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "private": true,
   "description": "node library template",
   "keywords": [
