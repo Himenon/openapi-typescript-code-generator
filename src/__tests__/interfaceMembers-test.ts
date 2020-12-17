@@ -12,7 +12,7 @@ const schemas: JSONSchema4 = {
 };
 
 const interfaceName = "MyTestInterface";
-const expectResult = `interface ${interfaceName} {
+const expectResult = `export interface ${interfaceName} {
     name?: string;
 }
 `;

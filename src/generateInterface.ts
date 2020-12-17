@@ -15,6 +15,7 @@ export const generateInterface = (params: Params): string => {
     Traverse.InterfaceAppendMembers.traverse({
       schemas: params.schema || {},
     }),
+    Traverse.AddExport.traverse(),
   ]);
   return result;
 };

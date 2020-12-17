@@ -100,11 +100,11 @@ export const traverse = (params: Params) => <T extends ts.Node>(context: ts.Tran
       return node;
     }
     return context.factory.createInterfaceDeclaration(
-      undefined,
-      undefined,
+      node.decorators,
+      node.modifiers,
       node.name,
-      undefined,
-      undefined,
+      node.typeParameters,
+      node.heritageClauses,
       createInterfaceFromRootObjectSchema(context, params.schemas),
     );
   };
