@@ -1,5 +1,8 @@
-// https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#schema
-import { MapLike } from "./utils";
+import { JSONSchema7 as JSONSchema } from "json-schema";
+
+export type MapLike<K extends string, T> = {
+  [key in K]: T;
+};
 
 /**
  * @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#serverVariableObject
@@ -210,8 +213,8 @@ export interface XML {
 /**
  * @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#schemaObject
  */
-export interface Schema {
-  discriminator?: Discriminator
+export interface Schema extends JSONSchema {
+  discriminator?: Discriminator;
   xml?: XML;
   externalDocs: ExternalDocumentation;
   example: any;
@@ -266,7 +269,6 @@ export interface PathItem {
   parameters?: Array<Parameter | Reference>;
 }
 
-
 /**
  * @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#infoObject
  */
@@ -312,14 +314,17 @@ export interface Tag {
   externalDocs?: ExternalDocumentation;
 }
 
-export interface OpenApi3 {
+/**
+ * @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#openapi-object
+ */
+export interface OpenApi310 {
   openapi: string;
   info: Info;
-  servers: Server[];
-  paths: Paths;
-  webhooks: MapLike<string, PathItem | Reference>;
-  components: Components;
-  security: SecurityRequirement;
-  tags: Tag[];
-  externalDocs: ExternalDocumentation;
+  servers?: Server[];
+  paths?: Paths;
+  webhooks?: MapLike<string, PathItem | Reference>;
+  components?: Components;
+  security?: SecurityRequirement;
+  tags?: Tag[];
+  externalDocs?: ExternalDocumentation;
 }
