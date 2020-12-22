@@ -7,9 +7,13 @@ interface Params {
   schema?: JSONSchema4;
 }
 
-const code = `export interface DummyInterface {}`;
+const code = `export class Client {
+  constructor(private baseUrl: string) {
 
-export const generateInterface = (params: Params): string => {
+  }
+}`;
+
+export const generateClass = (params: Params): string => {
   const result = transform(code, [
     Traverse.InterfaceName.traverse({ name: params.name }),
     Traverse.InterfaceAppendMembers.traverse({

@@ -1,5 +1,5 @@
 {
-  "name": "@himenon/node-lib-template",
+  "name": "@himenon/openapi-typescript-ast-codegen",
   "version": "0.0.7",
   "private": true,
   "description": "node library template",
@@ -8,13 +8,13 @@
     "proxy directory",
     "typescript"
   ],
-  "homepage": "https://github.com/Himenon/node-lib-template#readme",
+  "homepage": "https://github.com/Himenon/openapi-typescript-ast-codegen#readme",
   "bugs": {
-    "url": "https://github.com/Himenon/node-lib-template/issues"
+    "url": "https://github.com/Himenon/openapi-typescript-ast-codegen/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:Himenon/node-lib-template.git"
+    "url": "git@github.com:Himenon/openapi-typescript-ast-codegen.git"
   },
   "license": "MIT",
   "author": {
