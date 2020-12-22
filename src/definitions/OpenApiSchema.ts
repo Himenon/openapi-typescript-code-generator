@@ -68,22 +68,21 @@ export interface Example {
 }
 
 /**
- * TODO styleに応じて型変更が可能とする
  * @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#parameterObject
  */
 export interface Parameter {
   // Fixed Fields
   name: string;
-  in: string;
+  in: "path" | "query" | "header" | "cookie";
   description?: string;
   required: boolean;
   deprecated?: boolean;
   allowEmptyValue: boolean;
 
-  style?: string;
+  style?: "matrix" | "label" | "form" | "simple" | "spaceDelimited" | "pipeDelimited" | "deepObject";
   explode?: string;
   allowReserved?: boolean;
-  schema?: Schema; // TODO
+  schema?: Schema;
   example?: any;
   examples?: MapLike<string, Example | Reference>;
 
@@ -226,8 +225,8 @@ export interface Schema extends JSONSchema {
 export interface Link {
   operationRef?: string;
   operationId?: string;
-  parameters?: MapLike<string, any | string>; // TODO expression
-  requestBody?: MapLike<string, any | string>; // TODO expression
+  parameters?: MapLike<string, any | string>;
+  requestBody?: MapLike<string, any | string>;
   description: string;
   server?: Server;
 }
