@@ -27,7 +27,7 @@ export interface NullParams {
 
 export type Params = StringParams | NumberParams | BooleanParams | ObjectParams | UndefinedParams | NullParams;
 
-export const generate = ({ factory }: ts.TransformationContext, params: Params): ts.TypeNode => {
+export const create = ({ factory }: ts.TransformationContext) => (params: Params): ts.TypeNode => {
   switch (params.type) {
     case "string":
       return factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword);
