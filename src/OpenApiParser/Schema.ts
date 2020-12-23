@@ -298,7 +298,7 @@ export interface Paths {
  * @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#componentsObject
  */
 export interface Components {
-  schemas?: MapLike<string, Schema>;
+  schemas?: MapLike<string, Schema | Reference>;
   responses?: MapLike<string, Response | Reference>;
   parameters?: MapLike<string, Parameter | Reference>;
   examples?: MapLike<string, Example | Reference>;

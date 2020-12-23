@@ -2,10 +2,6 @@ import { OpenApi } from "./OpenApiParser";
 import * as TypeScriptCodeGenerator from "./TypeScriptCodeGenerator";
 import * as Converter from "./Converter";
 
-export const generateTypeScriptCode = (openapi: OpenApi.OpenApi310) => {
-  console.info("DEBUG 中");
-  console.log({
-    Loaded: openapi,
-  });
-  return TypeScriptCodeGenerator.generate(Converter.create(openapi));
+export const generateTypeScriptCode = (entryFilename: string, openapi: OpenApi.OpenApi310): string => {
+  return TypeScriptCodeGenerator.generate(Converter.create(entryFilename, openapi));
 };

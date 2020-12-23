@@ -8,3 +8,5 @@ export abstract class BaseError extends Error {
 export class UnsetTypeError extends BaseError {}
 
 export class UnSupportError extends BaseError {}
+
+export class NotFoundFileError extends BaseError {}
