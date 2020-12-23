@@ -1,36 +1,11 @@
-import { OpenApi310 } from "./OpenApiParser/Schema";
+import { OpenApi } from "./OpenApiParser";
 import * as TypeScriptCodeGenerator from "./TypeScriptCodeGenerator";
+import * as Converter from "./Converter";
 
-const create: TypeScriptCodeGenerator.CreateFunction = context => {
-  const factory = TypeScriptCodeGenerator.Factory.create(context);
-  const statement = factory.Interface({
-    name: "Hoge2",
-    export: true,
-    members: [
-      factory.Property({
-        name: "hoge",
-        optional: true,
-        type: factory.TypeNode({
-          type: "string",
-        }),
-      }),
-    ],
-  });
-
-  return [
-    factory.Namespace({
-      name: "MyName",
-      statements: [statement],
-    }),
-    factory.Namespace({
-      name: "MyNam2",
-      statements: [statement],
-    }),
-  ];
-};
-
-export const generateTypeScriptCode = (openapi: OpenApi310) => {
+export const generateTypeScriptCode = (openapi: OpenApi.OpenApi310) => {
   console.info("DEBUG 中");
-  TypeScriptCodeGenerator.generate(create);
-  return JSON.stringify(openapi, null, 2);
+  console.log({
+    Loaded: openapi,
+  });
+  return TypeScriptCodeGenerator.generate(Converter.create(openapi));
 };

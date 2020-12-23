@@ -1,4 +1,4 @@
-import { Components } from "./OpenApiSchema";
+import { Components } from "../Schema";
 
 /**
  *

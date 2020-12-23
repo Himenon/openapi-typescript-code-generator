@@ -1,55 +1,21 @@
 import * as ts from "typescript";
-import { UnsetTypeError } from "../Exception";
+import * as TypeScriptCodeGenerator from "../TypeScriptCodeGenerator";
 import { OpenApi } from "../OpenApiParser";
-import { Factory } from "../TypeScriptCodeGenerator";
+import * as Parameters from "./Parameters";
+import * as Schemas from "./Schemas";
 
-export const convert = (factory: Factory.Type, schema: OpenApi.Schema | OpenApi.JSONSchemaDefinition): ts.TypeNode => {
-  if (typeof schema === "boolean") {
-    throw new Error("わからん");
-  }
-  if (!schema.type) {
-    throw new UnsetTypeError("Please set type");
-  }
-  switch (schema.type) {
-    case "boolean":
-    case "integer":
-    case "null":
-    case "number":
-    case "string":
-      return factory.TypeNode({
-        type: schema.type,
-      });
-    case "array":
-      if (Array.isArray(schema.items) || typeof schema.items === "boolean") {
-        throw new Error("間違っている");
+export const create = (rootSchema: OpenApi.OpenApi310): TypeScriptCodeGenerator.CreateFunction => {
+  return (context: ts.TransformationContext): ts.Statement[] => {
+    const statements: ts.Statement[] = [];
+    const factory = TypeScriptCodeGenerator.Factory.create(context);
+    if (rootSchema.components) {
+      if (rootSchema.components.schemas) {
+        statements.push(Schemas.generate(factory, rootSchema.components.schemas));
       }
-      return factory.TypeNode({
-        type: schema.type,
-        value: schema.items
-          ? convert(factory, schema.items)
-          : factory.TypeNode({
-              type: "undefined",
-            }),
-      });
-    case "object":
-      if (!schema.properties) {
-        return factory.TypeNode({
-          type: "undefined",
-        });
+      if (rootSchema.components.parameters) {
+        statements.push(Parameters.generate(factory, rootSchema.components.parameters));
       }
-      // eslint-disable-next-line no-case-declarations
-      const value = Object.entries(schema.properties).map(([name, jsonSchema]) => {
-        return factory.Property({
-          name,
-          type: convert(factory, jsonSchema),
-          optional: true,
-        });
-      });
-      return factory.TypeNode({
-        type: schema.type,
-        value,
-      });
-    default:
-      throw new Error("あかん");
-  }
+    }
+    return statements;
+  };
 };

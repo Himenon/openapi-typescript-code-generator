@@ -1,4 +1,8 @@
-import { JSONSchema7 as JSONSchema, JSONSchema7Definition as JSONSchemaDefinition, JSONSchema7TypeName as JSONSchemaTypeName } from "json-schema";
+import {
+  JSONSchema7 as JSONSchema,
+  JSONSchema7Definition as JSONSchemaDefinition,
+  JSONSchema7TypeName as JSONSchemaTypeName,
+} from "json-schema";
 
 export { JSONSchema, JSONSchemaDefinition, JSONSchemaTypeName };
 
@@ -29,8 +33,8 @@ export interface Server {
  */
 export interface Reference {
   $ref: string;
-  summary: string;
-  description: string;
+  summary?: string;
+  description?: string;
 }
 
 /**
@@ -294,16 +298,16 @@ export interface Paths {
  * @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#componentsObject
  */
 export interface Components {
-  schemas: MapLike<string, Schema>;
-  responses: MapLike<string, Response | Reference>;
-  parameters: MapLike<string, Parameter | Reference>;
-  examples: MapLike<string, Example | Reference>;
-  requestBodies: MapLike<string, RequestBody | Reference>;
-  headers: MapLike<string, Header | Reference>;
-  securitySchemes: MapLike<string, SecuritySchema | Reference>;
-  links: MapLike<string, Link | Reference>;
-  callbacks: MapLike<string, Callback>;
-  pathItems: MapLike<string, PathItem>;
+  schemas?: MapLike<string, Schema>;
+  responses?: MapLike<string, Response | Reference>;
+  parameters?: MapLike<string, Parameter | Reference>;
+  examples?: MapLike<string, Example | Reference>;
+  requestBodies?: MapLike<string, RequestBody | Reference>;
+  headers?: MapLike<string, Header | Reference>;
+  securitySchemes?: MapLike<string, SecuritySchema | Reference>;
+  links?: MapLike<string, Link | Reference>;
+  callbacks?: MapLike<string, Callback>;
+  pathItems?: MapLike<string, PathItem>;
 }
 
 /**

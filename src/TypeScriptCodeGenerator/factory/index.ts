@@ -3,6 +3,7 @@ import * as Interface from "./Interface";
 import * as Namespace from "./Namespace";
 import * as Property from "./Property";
 import * as TypeNode from "./TypeNode";
+import * as LiteralTypeNode from "./LiteralTypeNode";
 
 export { Interface, Namespace, Property, TypeNode };
 
@@ -11,6 +12,7 @@ export interface Type {
   Namespace: Namespace.Factory;
   Property: Property.Factory;
   TypeNode: TypeNode.Factory;
+  LiteralTypeNode: LiteralTypeNode.Factory;
 }
 
 export const create = (context: ts.TransformationContext): Type => {
@@ -19,5 +21,6 @@ export const create = (context: ts.TransformationContext): Type => {
     Namespace: Namespace.create(context),
     Property: Property.create(context),
     TypeNode: TypeNode.create(context),
+    LiteralTypeNode: LiteralTypeNode.create(context),
   };
 };
