@@ -17,6 +17,7 @@ export const generate = (
     return factory.Interface({
       export: true,
       name,
+      comment: parameter.description,
       members: [
         factory.Property({
           name: "name",

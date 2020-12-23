@@ -43,6 +43,7 @@ export const convert = (factory: Factory.Type, schema: OpenApi.Schema | OpenApi.
           name,
           type: convert(factory, jsonSchema),
           optional: true,
+          comment: typeof jsonSchema !== "boolean" ? jsonSchema.description : undefined,
         });
       });
       return factory.TypeNode({

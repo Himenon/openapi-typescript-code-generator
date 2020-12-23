@@ -12,16 +12,18 @@ export const generate = (factory: Factory.Type, schemas: OpenApi.MapLike<string,
     if (!schema.properties) {
       throw new UnsetTypeError("schema.properties");
     }
-    const members = Object.entries(schema.properties).map(([propertyName, value]) => {
+    const members = Object.entries(schema.properties).map(([propertyName, property]) => {
       return factory.Property({
         name: propertyName,
-        type: ToTypeNode.convert(factory, value),
+        type: ToTypeNode.convert(factory, property),
+        comment: typeof property !== "boolean" ? property.description : undefined,
       });
     });
     return factory.Interface({
       export: true,
       name,
       members,
+      comment: schema.description,
     });
   });
   return factory.Namespace({
