@@ -6,7 +6,9 @@ export interface Params {
   statements: ts.Statement[];
 }
 
-export const create = ({ factory }: ts.TransformationContext) => (params: Params): ts.ModuleDeclaration => {
+export type Factory = (params: Params) => ts.ModuleDeclaration;
+
+export const create = ({ factory }: ts.TransformationContext): Factory => (params: Params): ts.ModuleDeclaration => {
   return factory.createModuleDeclaration(
     undefined,
     params.export && [factory.createModifier(ts.SyntaxKind.ExportKeyword)],

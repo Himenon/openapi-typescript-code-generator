@@ -1,9 +1,9 @@
 import { Components } from "./OpenApiSchema";
 
 /**
- * 
- * @param components 
+ *
+ * @param components
  */
 export const generate = (components: Components) => {
-  components
-}
+  components;
+};

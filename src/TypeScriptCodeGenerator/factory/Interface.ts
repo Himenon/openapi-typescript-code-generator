@@ -6,7 +6,9 @@ export interface Params {
   members: readonly ts.TypeElement[];
 }
 
-export const create = ({ factory }: ts.TransformationContext) => (params: Params): ts.InterfaceDeclaration => {
+export type Factory = (params: Params) => ts.InterfaceDeclaration;
+
+export const create = ({ factory }: ts.TransformationContext): Factory => (params: Params): ts.InterfaceDeclaration => {
   return factory.createInterfaceDeclaration(
     undefined,
     params.export && [factory.createModifier(ts.SyntaxKind.ExportKeyword)],

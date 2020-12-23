@@ -6,7 +6,9 @@ export interface Params {
   type: ts.TypeNode;
 }
 
-export const create = ({ factory }: ts.TransformationContext) => (params: Params): ts.PropertySignature => {
+export type Factory = (params: Params) => ts.PropertySignature;
+
+export const create = ({ factory }: ts.TransformationContext): Factory => (params: Params): ts.PropertySignature => {
   return factory.createPropertySignature(
     undefined,
     factory.createIdentifier(params.name),

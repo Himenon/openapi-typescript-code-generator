@@ -1,4 +1,4 @@
-import { OpenApi310 } from "./codegen/OpenApiSchema";
+import { OpenApi310 } from "./OpenApiParser/Schema";
 import * as TypeScriptCodeGenerator from "./TypeScriptCodeGenerator";
 
 const create: TypeScriptCodeGenerator.CreateFunction = context => {
