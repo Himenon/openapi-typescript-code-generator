@@ -1,8 +1,10 @@
 import * as ts from "typescript";
-import { JSONSchema4 } from "json-schema";
+import { JSONSchema4 as JSONSchema } from "json-schema";
+
+export { JSONSchema };
 
 export interface Params {
-  schemas: JSONSchema4;
+  schemas: JSONSchema;
 }
 
 const createStringType = ({ factory }: ts.TransformationContext): ts.TypeNode => {

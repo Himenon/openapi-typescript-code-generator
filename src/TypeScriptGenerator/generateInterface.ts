@@ -1,10 +1,9 @@
 import { transform } from "./transform";
 import * as Traverse from "./traverse";
-import { JSONSchema4 } from "json-schema";
 
 interface Params {
   name: string;
-  schema?: JSONSchema4;
+  schema?: Traverse.InterfaceAppendMembers.JSONSchema;
 }
 
 const code = `export interface DummyInterface {}`;

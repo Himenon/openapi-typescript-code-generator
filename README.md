@@ -4,6 +4,25 @@
 AST --> TypeScript
 ```
 
+## Design
+
+### Components
+
+`$ref: "./components/{Directory1}/{Directory2}/{File}"`
+
+| TypeScript  | Match Pattern  |
+| :---------- | :------------- |
+| `namespace` | Directory Name |
+| `interface` | File Name      |
+
+Components Object
+
+| TypeScript  | Match Pattern |
+| :---------- | :------------ |
+| `namespace` | Field Name    |
+| `interface` | Type Name     |
+
+
 ## References
 
 TypeScript

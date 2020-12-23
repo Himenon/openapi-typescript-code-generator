@@ -1,4 +1,4 @@
-import { generateInterface } from "../generateInterface";
+import { generateInterface } from "../../generateInterface";
 
 describe("Interface Generator", () => {
   it("Change Interface Name", () => {

@@ -1,5 +1,5 @@
 import { JSONSchema4 } from "json-schema";
-import { generateInterface } from "../generateInterface";
+import { generateInterface } from "../../generateInterface";
 
 const schemas: JSONSchema4 = {
   type: "object",

@@ -14,5 +14,6 @@ module.exports = {
   rules: {
     "no-unused-vars": "error",
     "@typescript-eslint/ban-types": "warn",
+    "@typescript-eslint/no-namespace": "off",
   },
 };

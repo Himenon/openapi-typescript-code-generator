@@ -1,5 +1,5 @@
 import { transform } from "./transform";
-import * as Traverse from "./traverse";
+import * as Traverse from "./TypeScriptGenerator/traverse";
 import { JSONSchema4 } from "json-schema";
 
 interface Params {
