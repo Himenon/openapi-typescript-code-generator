@@ -39,5 +39,6 @@ export const generate = (
     export: true,
     name: "Parameters",
     statements: interfaces,
+    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#parameterObject`,
   });
 };

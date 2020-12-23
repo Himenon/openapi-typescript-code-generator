@@ -30,5 +30,6 @@ export const generate = (factory: Factory.Type, schemas: OpenApi.MapLike<string,
     export: true,
     name: "Components",
     statements: interfaces,
+    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#schemaObject`,
   });
 };
