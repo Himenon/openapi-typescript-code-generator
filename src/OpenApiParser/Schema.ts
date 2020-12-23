@@ -1,4 +1,6 @@
-import { JSONSchema7 as JSONSchema } from "json-schema";
+import { JSONSchema7 as JSONSchema, JSONSchema7Definition as JSONSchemaDefinition, JSONSchema7TypeName as JSONSchemaTypeName } from "json-schema";
+
+export { JSONSchema, JSONSchemaDefinition, JSONSchemaTypeName };
 
 export type MapLike<K extends string, T> = {
   [key in K]: T;
@@ -215,8 +217,8 @@ export interface XML {
 export interface Schema extends JSONSchema {
   discriminator?: Discriminator;
   xml?: XML;
-  externalDocs: ExternalDocumentation;
-  example: any;
+  externalDocs?: ExternalDocumentation;
+  example?: any;
 }
 
 /**

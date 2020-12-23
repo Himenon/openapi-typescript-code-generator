@@ -1,1 +1,1 @@
-export * as OpenAPiSchema from "./OpenApiSchema";
+export * as OpenApi from "./Schema";

@@ -4,6 +4,10 @@ export interface StringParams {
   type: "string";
 }
 
+export interface IntegerParams {
+  type: "integer";
+}
+
 export interface NumberParams {
   type: "number";
 }
@@ -21,11 +25,16 @@ export interface UndefinedParams {
   type: "undefined";
 }
 
+export interface ArrayParams {
+  type: "array";
+  value: ts.TypeNode;
+}
+
 export interface NullParams {
   type: "null";
 }
 
-export type Params = StringParams | NumberParams | BooleanParams | ObjectParams | UndefinedParams | NullParams;
+export type Params = StringParams | IntegerParams | NumberParams | BooleanParams | ObjectParams | ArrayParams | UndefinedParams | NullParams;
 
 export type Factory = (params: Params) => ts.TypeNode;
 
@@ -34,6 +43,7 @@ export const create = ({ factory }: ts.TransformationContext): Factory => (param
     case "string":
       return factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword);
     case "number":
+    case "integer":
       return factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword);
     case "boolean":
       return factory.createKeywordTypeNode(ts.SyntaxKind.BooleanKeyword);
@@ -43,6 +53,8 @@ export const create = ({ factory }: ts.TransformationContext): Factory => (param
       return factory.createKeywordTypeNode(ts.SyntaxKind.UndefinedKeyword);
     case "null":
       return factory.createLiteralTypeNode(factory.createNull());
+    case "array":
+      return factory.createArrayTypeNode(params.value);
     default:
       throw new Error("UnSupport Type");
   }
