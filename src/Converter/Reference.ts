@@ -1,6 +1,7 @@
 import * as fs from "fs"; // TODO 使わない
 import * as path from "path";
 import { UnSupportError, NotFoundFileError } from "../Exception";
+import * as Logger from "../Logger";
 import { OpenApi } from "../OpenApiParser";
 import { isReference } from "./Guard";
 import * as yaml from "js-yaml";
@@ -35,7 +36,7 @@ const aliasPatterns = [
 /**
  * TODO Validation
  */
-export const generate = <T>(entryFilename: string, filename: string, reference: OpenApi.Reference): AliasReference<T> => {
+export const generate = <T>(entryPoint: string, currentPoint: string, reference: OpenApi.Reference): AliasReference<T> => {
   const ref = reference.$ref;
 
   let matchPattern: string | undefined;
@@ -57,44 +58,29 @@ export const generate = <T>(entryFilename: string, filename: string, reference: 
     throw new UnSupportError("Please Pull Request ! Welcome !");
   }
 
-  const basedir = path.dirname(filename);
-  const referenceFilename = path.join(basedir, ref);
+  const basedir = path.dirname(currentPoint);
+  const referencePoint = path.join(basedir, ref);
 
-  console.log({
-    entryFilename,
-    filename,
-    ref,
-    referenceFilename,
-  });
-
-  const existFile = fs.existsSync(referenceFilename) && fs.statSync(referenceFilename).isFile();
+  const existFile = fs.existsSync(referencePoint) && fs.statSync(referencePoint).isFile();
   if (!existFile) {
-    throw new NotFoundFileError(`"${filename}": $ref: "${referenceFilename}"`);
+    Logger.error("");
+    Logger.error(`CurrentPoint   : "${currentPoint}"`);
+    Logger.error(`ReferencePoint : "${referencePoint}"`);
+    Logger.error("");
+    throw new NotFoundFileError("Not found reference point from current point.");
   }
 
-  // entry filename : /some/path/index.yml
-  // filename       : /some/path/index.yml
-  // $ref           : ./components/fuga/hoge.yml    ----- 1 => /some/path/components/fuga/hoge.yml
+  const ext = path.extname(referencePoint);
+  const relativePathFromEntryPoint = path.relative(path.dirname(entryPoint), referencePoint);
+  const name = relativePathFromEntryPoint.replace(ext, "").split("/");
 
-  // entry filename : /some/path/index.yml
-  // filename       : /some/path/components/hoge.yml
-  // $ref           : ./fuga/hoge.yml               ----- 1 => /some/path/components/fuga/hoge.yml
-
-  // ./components/
-  // ./components/hoge.yml      => [components, hoge] --> export namespace Components { export interface Hoge { } };
-  // ./components/fuga/hoge.yml => [components, fuga, hoge] --> export namespace Components { export namespace Fuga { export interface Hoge {} } };
-
-  const ext = path.extname(referenceFilename);
-  const relativePathFromEntryFile = path.relative(path.dirname(entryFilename), referenceFilename);
-  const name = relativePathFromEntryFile.replace(ext, "").split("/");
-
-  const data = fs.readFileSync(referenceFilename, { encoding: "utf-8" });
+  const data = fs.readFileSync(referencePoint, { encoding: "utf-8" });
 
   if (ext === ".json") {
     return {
       internal: false,
       name,
-      referenceFilename,
+      referenceFilename: referencePoint,
       data: JSON.parse(data),
     };
   }
@@ -103,12 +89,12 @@ export const generate = <T>(entryFilename: string, filename: string, reference: 
     return {
       internal: false,
       name,
-      referenceFilename,
+      referenceFilename: referencePoint,
       data: yaml.safeLoad(data) as any,
     };
   }
 
-  throw new UnSupportError(`UnSupport Extension file: ${referenceFilename}`);
+  throw new UnSupportError(`UnSupport Extension file: ${referencePoint}`);
 };
 
 export const resolve = (entryFilename: string, referenceFilename: string, reference: OpenApi.Reference): OpenApi.Schema | string => {

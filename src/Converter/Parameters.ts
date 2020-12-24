@@ -5,25 +5,21 @@ import { Factory } from "../TypeScriptCodeGenerator";
 import * as Guard from "./Guard";
 
 export const generate = (
-  entryFilename: string,
-  referenceFilename: string,
+  entryPoint: string,
+  currentPoint: string,
   factory: Factory.Type,
   parameters: OpenApi.MapLike<string, OpenApi.Parameter | OpenApi.Reference>,
 ): ts.ModuleDeclaration => {
   const interfaces = Object.entries(parameters).map(([name, parameter]) => {
     if (Guard.isReference(parameter)) {
-      const alias = Reference.generate<OpenApi.MapLike<string, OpenApi.Parameter | OpenApi.Reference>>(
-        entryFilename,
-        referenceFilename,
-        parameter,
-      );
+      const alias = Reference.generate<OpenApi.MapLike<string, OpenApi.Parameter | OpenApi.Reference>>(entryPoint, currentPoint, parameter);
       if (alias.internal) {
         return factory.Interface({
           name: `TODO:${parameter.$ref}`,
           members: [],
         });
       }
-      return generate(entryFilename, alias.referenceFilename, factory, alias.data);
+      return generate(entryPoint, alias.referenceFilename, factory, alias.data);
     }
     return factory.Interface({
       export: true,

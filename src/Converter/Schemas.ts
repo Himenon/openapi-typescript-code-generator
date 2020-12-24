@@ -23,18 +23,18 @@ const generateMembers = (entryFilename: string, referenceFilename: string, facto
 };
 
 export const generate = (
-  entryFilename: string,
-  referenceFilename: string,
+  entryPoint: string,
+  currentPoint: string,
   factory: Factory.Type,
   schemas: OpenApi.MapLike<string, OpenApi.Schema | OpenApi.Reference>,
 ): ts.ModuleDeclaration => {
   const interfaces = Object.entries(schemas).map(([name, schema]) => {
     if (Guard.isReference(schema)) {
-      const alias = Reference.generate<OpenApi.Schema | OpenApi.Reference>(entryFilename, referenceFilename, schema);
+      const alias = Reference.generate<OpenApi.Schema | OpenApi.Reference>(entryPoint, currentPoint, schema);
       if (alias.internal) {
         throw new Error("これから" + alias.name);
       }
-      const members = generateMembers(entryFilename, alias.referenceFilename, factory, alias.data);
+      const members = generateMembers(entryPoint, alias.referenceFilename, factory, alias.data);
       return factory.Interface({
         export: true,
         name,
@@ -42,7 +42,7 @@ export const generate = (
         comment: schema.description,
       });
     }
-    const members = generateMembers(entryFilename, referenceFilename, factory, schema);
+    const members = generateMembers(entryPoint, currentPoint, factory, schema);
     return factory.Interface({
       export: true,
       name,
