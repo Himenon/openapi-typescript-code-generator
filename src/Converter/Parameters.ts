@@ -1,10 +1,11 @@
 import * as ts from "typescript";
 import * as Reference from "./Reference";
+import * as Paramter from "./Parameter";
 import { OpenApi } from "../OpenApiParser";
 import { Factory } from "../TypeScriptCodeGenerator";
 import * as Guard from "./Guard";
 
-export const generate = (
+export const generateNamespace = (
   entryPoint: string,
   currentPoint: string,
   factory: Factory.Type,
@@ -19,29 +20,10 @@ export const generate = (
           members: [],
         });
       }
-      return generate(entryPoint, alias.referenceFilename, factory, alias.data);
+      return generateNamespace(entryPoint, alias.referenceFilename, factory, alias.data);
     }
-    return factory.Interface({
-      export: true,
-      name,
-      comment: parameter.description,
-      members: [
-        factory.Property({
-          name: "name",
-          type: factory.LiteralTypeNode({ value: parameter.name }),
-        }),
-        factory.Property({
-          name: "in",
-          type: factory.LiteralTypeNode({ value: parameter.in }),
-        }),
-        factory.Property({
-          name: "required",
-          type: factory.LiteralTypeNode({ value: parameter.required }),
-        }),
-      ],
-    });
+    return Paramter.generateInterface(entryPoint, currentPoint, factory, name, parameter);
   });
-
   return factory.Namespace({
     export: true,
     name: "Parameters",

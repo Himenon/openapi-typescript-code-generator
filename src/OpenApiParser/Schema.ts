@@ -98,7 +98,7 @@ export interface Parameter {
 /**
  * @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject
  */
-export type Header = Partial<Parameter>;
+export type Header = Omit<Parameter, "name" | "in">;
 
 /**
  * @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#encodingObject
