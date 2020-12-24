@@ -3,6 +3,7 @@ import { OpenApi } from "../OpenApiParser";
 import * as Parameters from "./Parameters";
 import { Factory } from "../TypeScriptCodeGenerator";
 import * as Operation from "./Operation";
+import * as Servers from "./Servers";
 
 export const generateNamespace = (
   entryPoint: string,
@@ -43,6 +44,6 @@ export const generateNamespace = (
     export: true,
     name,
     statements,
-    comment: pathItem.description,
+    comment: Servers.addComment(pathItem.description, pathItem.servers),
   });
 };

@@ -3,6 +3,7 @@ import { OpenApi } from "../OpenApiParser";
 import { Factory } from "../TypeScriptCodeGenerator";
 import { UnsetTypeError, UnSupportError } from "../Exception";
 import * as ToTypeNode from "./toTypeNode";
+import * as ExternalDocumentation from "./ExternalDocumentation";
 
 export const generatePropertySignatures = (
   entryPoint: string,
@@ -25,6 +26,10 @@ export const generatePropertySignatures = (
   });
 };
 
+/**
+ *
+ * @docs
+ */
 export const generateInterface = (
   entryPoint: string,
   currentPoint: string,
@@ -36,6 +41,6 @@ export const generateInterface = (
     export: true,
     name,
     members: generatePropertySignatures(entryPoint, currentPoint, factory, schema),
-    comment: schema.description,
+    comment: ExternalDocumentation.addComment(schema.description, schema.externalDocs),
   });
 };

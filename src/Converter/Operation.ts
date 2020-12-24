@@ -6,6 +6,8 @@ import * as Guard from "./Guard";
 import * as Parameter from "./Parameter";
 import * as RequestBody from "./RequestBody";
 import * as Responses from "./Responses";
+import * as ExternalDocumentation from "./ExternalDocumentation";
+import * as Servers from "./Servers";
 
 export const generateNamespace = (
   entryPoint: string,
@@ -63,7 +65,7 @@ export const generateNamespace = (
   return factory.Namespace({
     export: true,
     name,
-    comment: generateComment(),
+    comment: ExternalDocumentation.addComment(Servers.addComment(generateComment(), operation.servers), operation.externalDocs),
     deprecated: operation.deprecated,
     statements,
   });
