@@ -32,11 +32,10 @@ export const generateInterface = (
   name: string,
   schema: OpenApi.Schema,
 ): ts.InterfaceDeclaration => {
-  const members = generatePropertySignatures(entryPoint, currentPoint, factory, schema);
   return factory.Interface({
     export: true,
     name,
-    members,
+    members: generatePropertySignatures(entryPoint, currentPoint, factory, schema),
     comment: schema.description,
   });
 };

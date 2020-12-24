@@ -18,12 +18,7 @@ export const generateNamespace = (
     }
     return previous.concat(Header.generateInterface(entryPoint, currentPoint, factory, name, header));
   }, []);
-  const contentSignatures = Object.entries(response.content || {}).reduce<ts.PropertySignature[]>((previous, [protocol, mediaType]) => {
-    if (!mediaType.schema) {
-      return previous;
-    }
-    return previous.concat(MediaType.generatePropertySignature(entryPoint, currentPoint, factory, protocol, mediaType.schema));
-  }, []);
+  const contentSignatures = MediaType.generatePropertySignatures(entryPoint, currentPoint, factory, response.content || {});
 
   return factory.Namespace({
     export: true,

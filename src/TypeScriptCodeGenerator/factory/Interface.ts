@@ -3,6 +3,7 @@ import * as ts from "typescript";
 
 export interface Params {
   export?: true;
+  deprecated?: boolean;
   name: string;
   members: readonly ts.TypeElement[];
   comment?: string;
@@ -20,7 +21,7 @@ export const create = ({ factory }: ts.TransformationContext): Factory => (param
     params.members,
   );
   if (params.comment) {
-    return ts.addSyntheticLeadingComment(node, ts.SyntaxKind.MultiLineCommentTrivia, generateComment(params.comment), true);
+    return ts.addSyntheticLeadingComment(node, ts.SyntaxKind.MultiLineCommentTrivia, generateComment(params.comment, params.deprecated), true);
   }
   return node;
 };

@@ -9,7 +9,7 @@ export const generatePropertySignatures = (
   factory: Factory.Type,
   parameter: OpenApi.Parameter,
 ): ts.PropertySignature[] => {
-  return [
+  const signatures: ts.PropertySignature[] = [
     factory.Property({
       name: "name",
       type: factory.LiteralTypeNode({ value: parameter.name }),
@@ -22,12 +22,18 @@ export const generatePropertySignatures = (
       name: "required",
       type: factory.LiteralTypeNode({ value: parameter.required }),
     }),
-    parameter.schema &&
+  ];
+
+  if (parameter.schema) {
+    signatures.push(
       factory.Property({
         name: "schema",
         type: convert(entryPoint, currentPoint, factory, parameter.schema),
       }),
-  ].filter(Boolean) as ts.PropertySignature[];
+    );
+  }
+
+  return signatures;
 };
 
 export const generateInterface = (

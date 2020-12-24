@@ -1,7 +1,7 @@
 import { EOL } from "os";
 
-export const generateComment = (comment: string): string => {
-  const splitComments = comment.split(EOL);
+export const generateComment = (comment: string, deprecated?: boolean): string => {
+  const splitComments = deprecated ? ["@deprecated"].concat(comment.split(EOL)) : comment.split(EOL);
   const comments = splitComments.filter((comment, index) => {
     if (index === splitComments.length - 1 && comment === "") {
       return false;

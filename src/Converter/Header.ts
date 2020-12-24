@@ -1,4 +1,3 @@
-import { EOL } from "os";
 import * as ts from "typescript";
 import { OpenApi } from "../OpenApiParser";
 import { Factory } from "../TypeScriptCodeGenerator";
@@ -10,17 +9,23 @@ export const generatePropertySignatures = (
   factory: Factory.Type,
   header: OpenApi.Header,
 ): ts.PropertySignature[] => {
-  return [
+  const signatures: ts.PropertySignature[] = [
     factory.Property({
       name: "required",
       type: factory.LiteralTypeNode({ value: !!header.required }),
     }),
-    header.schema &&
+  ];
+
+  if (header.schema) {
+    signatures.push(
       factory.Property({
         name: "schema",
         type: convert(entryPoint, currentPoint, factory, header.schema),
       }),
-  ].filter(Boolean) as ts.PropertySignature[];
+    );
+  }
+
+  return signatures;
 };
 
 export const generateInterface = (
@@ -33,7 +38,8 @@ export const generateInterface = (
   return factory.Interface({
     export: true,
     name,
-    comment: header.deprecated ? ["@deprecated", header.description].join(EOL) : header.description,
+    deprecated: header.deprecated,
+    comment: header.description,
     members: generatePropertySignatures(entryPoint, currentPoint, factory, header),
   });
 };
