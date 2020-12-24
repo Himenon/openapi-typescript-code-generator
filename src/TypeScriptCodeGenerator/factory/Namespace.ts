@@ -6,6 +6,7 @@ export interface Params {
   name: string;
   statements: ts.Statement[];
   comment?: string;
+  deprecated?: boolean;
 }
 
 export type Factory = (params: Params) => ts.ModuleDeclaration;
@@ -19,7 +20,7 @@ export const create = ({ factory }: ts.TransformationContext): Factory => (param
     ts.NodeFlags.Namespace,
   );
   if (params.comment) {
-    return ts.addSyntheticLeadingComment(node, ts.SyntaxKind.MultiLineCommentTrivia, generateComment(params.comment), true);
+    return ts.addSyntheticLeadingComment(node, ts.SyntaxKind.MultiLineCommentTrivia, generateComment(params.comment, params.deprecated), true);
   }
   return node;
 };

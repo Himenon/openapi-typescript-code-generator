@@ -20,23 +20,34 @@ export const generateNamespace = (
   }, []);
   const contentSignatures = MediaType.generatePropertySignatures(entryPoint, currentPoint, factory, response.content || {});
 
-  return factory.Namespace({
-    export: true,
-    name,
-    comment: response.description,
-    statements: [
+  const statements: ts.Statement[] = [];
+
+  if (headerInterfaces.length > 0) {
+    statements.push(
       factory.Namespace({
         export: true,
         name: "Header",
         statements: headerInterfaces,
         comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject`,
       }),
+    );
+  }
+
+  if (contentSignatures.length > 0) {
+    statements.push(
       factory.Interface({
         export: true,
         name: "Content",
         members: contentSignatures,
         comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject`,
       }),
-    ],
+    );
+  }
+
+  return factory.Namespace({
+    export: true,
+    name,
+    comment: response.description,
+    statements,
   });
 };

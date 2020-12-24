@@ -7,6 +7,7 @@ import * as Responses from "./Responses";
 import * as RequestBodies from "./RequestBodies";
 import * as Headers from "./Headers";
 import * as SecuritySchemas from "./SecuritySchemas";
+import * as PathItems from "./PathItems";
 
 export const create = (entryPoint: string, rootSchema: OpenApi.OpenApi310): TypeScriptCodeGenerator.CreateFunction => {
   const currentPoint = entryPoint;
@@ -32,6 +33,13 @@ export const create = (entryPoint: string, rootSchema: OpenApi.OpenApi310): Type
       if (rootSchema.components.securitySchemes) {
         statements.push(SecuritySchemas.generateNamespace(entryPoint, currentPoint, factory, rootSchema.components.securitySchemes));
       }
+      if (rootSchema.components.pathItems) {
+        statements.push(PathItems.generateNamespace(entryPoint, currentPoint, factory, rootSchema.components.pathItems));
+      }
+      // TODO
+      // if (rootSchema.components.links) {
+      //   statements.push(SecuritySchemas.generateNamespace(entryPoint, currentPoint, factory, rootSchema.components.links));
+      // }
     }
     return statements;
   };

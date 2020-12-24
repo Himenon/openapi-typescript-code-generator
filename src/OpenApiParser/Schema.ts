@@ -246,7 +246,7 @@ export interface Operation {
   description?: string;
   externalDocs?: ExternalDocumentation;
   operationId?: string;
-  parameters?: Parameter | Reference;
+  parameters?: [Parameter | Reference];
   requestBody?: RequestBody | Reference;
   responses?: Responses;
   callbacks?: MapLike<string, Callback | Reference>;
@@ -271,7 +271,7 @@ export interface PathItem {
   patch?: Operation;
   trace?: Operation;
   servers?: Server[];
-  parameters?: Array<Parameter | Reference>;
+  parameters?: (Parameter | Reference)[];
 }
 
 /**
