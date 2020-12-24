@@ -38,7 +38,12 @@ export const create = (entryPoint: string, rootSchema: OpenApi.OpenApi310): Type
       }
       // TODO
       // if (rootSchema.components.links) {
-      //   statements.push(SecuritySchemas.generateNamespace(entryPoint, currentPoint, factory, rootSchema.components.links));
+      //   statements.push(Links.generateNamespace(entryPoint, currentPoint, factory, rootSchema.components.links));
+      // }
+
+      // TODO
+      // if (rootSchema.components.callbacks) {
+      //   statements.push(Callbacks.generateNamespace(entryPoint, currentPoint, factory, rootSchema.components.callbacks));
       // }
     }
     return statements;
