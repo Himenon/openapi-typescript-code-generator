@@ -20,7 +20,7 @@ export const generateNamespace = (
           members: [],
         });
       }
-      return generateNamespace(entryPoint, alias.referenceFilename, factory, alias.data);
+      return generateNamespace(entryPoint, alias.referencePoint, factory, alias.data);
     }
     return RequestBody.generateNamespace(entryPoint, currentPoint, factory, name, requestBody);
   });

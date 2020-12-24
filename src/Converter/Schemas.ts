@@ -20,7 +20,7 @@ export const generateNamespace = (
       return factory.Interface({
         export: true,
         name,
-        members: Schema.generatePropertySignatures(entryPoint, alias.referenceFilename, factory, alias.data),
+        members: Schema.generatePropertySignatures(entryPoint, alias.referencePoint, factory, alias.data),
         comment: schema.description,
       });
     }

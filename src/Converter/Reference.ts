@@ -13,7 +13,7 @@ export interface InternalAliasReference {
 
 export interface ExternalAliasReference<T> {
   internal: false;
-  referenceFilename: string;
+  referencePoint: string;
   name: string[];
   data: T;
 }
@@ -80,7 +80,7 @@ export const generate = <T>(entryPoint: string, currentPoint: string, reference:
     return {
       internal: false,
       name,
-      referenceFilename: referencePoint,
+      referencePoint: referencePoint,
       data: JSON.parse(data),
     };
   }
@@ -89,7 +89,7 @@ export const generate = <T>(entryPoint: string, currentPoint: string, reference:
     return {
       internal: false,
       name,
-      referenceFilename: referencePoint,
+      referencePoint: referencePoint,
       data: yaml.safeLoad(data) as any,
     };
   }
@@ -103,7 +103,7 @@ export const resolve = (entryFilename: string, referenceFilename: string, refere
     return alias.name;
   }
   if (isReference(alias.data)) {
-    return resolve(entryFilename, alias.referenceFilename, alias.data);
+    return resolve(entryFilename, alias.referencePoint, alias.data);
   }
   return alias.data;
 };

@@ -19,7 +19,7 @@ export const convert = (
     if (alias.internal) {
       throw new Error("これから対応");
     }
-    return convert(entryPoint, alias.referenceFilename, factory, alias.data);
+    return convert(entryPoint, alias.referencePoint, factory, alias.data);
   }
   if (!schema.type) {
     throw new UnsetTypeError("Please set type or $ref " + JSON.stringify(schema));

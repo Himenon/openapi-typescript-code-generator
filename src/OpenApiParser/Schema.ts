@@ -179,7 +179,7 @@ export interface OAuthFlows {
  * @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#securitySchemeObject
  */
 export interface SecuritySchema {
-  type: string;
+  type: "apiKey" | "http" | "mutualTLS" | "oauth2" | "openIdConnect";
   description?: string;
   name: string;
   in: "query" | "header" | "cookie";
