@@ -1,9 +1,8 @@
 import * as ts from "typescript";
 import { Factory } from "../TypeScriptCodeGenerator";
-import { UnsetTypeError, FeatureDevelopmentError } from "../Exception";
+import { FeatureDevelopmentError } from "../Exception";
 import * as ToTypeNode from "./toTypeNode";
 import * as ExternalDocumentation from "./ExternalDocumentation";
-import * as Logger from "../Logger";
 import { ObjectSchema, PrimitiveSchema } from "./types";
 import * as Guard from "./Guard";
 
@@ -13,13 +12,8 @@ export const generatePropertySignatures = (
   factory: Factory.Type,
   schema: ObjectSchema,
 ): ts.PropertySignature[] => {
-  if (!schema.type) {
-    Logger.showFilePosition(entryPoint, currentPoint);
-    throw new UnsetTypeError("schema.type");
-  }
   if (!schema.properties) {
-    Logger.showFilePosition(entryPoint, currentPoint);
-    throw new UnsetTypeError("schema.properties");
+    return [];
   }
   const required: string[] = schema.required || [];
   return Object.entries(schema.properties).map(([propertyName, property]) => {
@@ -69,12 +63,31 @@ export const generateTypeAlias = (
   name: string,
   schema: PrimitiveSchema,
 ): ts.TypeAliasDeclaration => {
-  const typeNode = factory.TypeNode({
-    type: schema.type,
-  });
+  let type: ts.TypeNode;
+  if (schema.enum) {
+    if (Guard.isNumberArray(schema.enum) && (schema.type === "number" || schema.type === "integer")) {
+      type = factory.TypeNode({
+        type: schema.type,
+        enum: schema.enum,
+      });
+    } else if (Guard.isStringArray(schema.enum) && schema.type === "string") {
+      type = factory.TypeNode({
+        type: schema.type,
+        enum: schema.enum,
+      });
+    } else {
+      type = factory.TypeNode({
+        type: schema.type,
+      });
+    }
+  } else {
+    type = factory.TypeNode({
+      type: schema.type,
+    });
+  }
   return factory.TypeAliasDeclaration({
     export: true,
     name,
-    typeNode,
+    type,
   });
 };

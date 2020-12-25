@@ -3,7 +3,7 @@ import * as ts from "typescript";
 export interface Params {
   export?: true;
   name: string;
-  typeNode: ts.TypeNode;
+  type: ts.TypeNode;
 }
 
 export type Factory = (params: Params) => ts.TypeAliasDeclaration;
@@ -14,7 +14,7 @@ export const create = ({ factory }: ts.TransformationContext): Factory => (param
     params.export && [factory.createModifier(ts.SyntaxKind.ExportKeyword)],
     factory.createIdentifier(params.name),
     undefined,
-    params.typeNode,
+    params.type,
   );
   return node;
 };
