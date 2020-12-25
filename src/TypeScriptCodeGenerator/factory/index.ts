@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import ts from "typescript";
 import * as Interface from "./Interface";
 import * as Namespace from "./Namespace";
 import * as Property from "./Property";

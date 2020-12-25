@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import ts from "typescript";
 import { OpenApi } from "../OpenApiParser";
 import * as Parameters from "./Parameters";
 import { Factory } from "../TypeScriptCodeGenerator";

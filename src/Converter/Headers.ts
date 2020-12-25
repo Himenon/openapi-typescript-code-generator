@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import ts from "typescript";
 import * as Reference from "./Reference";
 import * as Header from "./Header";
 import { OpenApi } from "../OpenApiParser";

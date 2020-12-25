@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import ts from "typescript";
 import { UnsetTypeError } from "../Exception";
 import { OpenApi } from "../OpenApiParser";
 import { Factory } from "../TypeScriptCodeGenerator";

@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import ts from "typescript";
 import * as LiteralTypeNode from "./LiteralTypeNode";
 import * as UnionTypeNode from "./UnionTypeNode";
 

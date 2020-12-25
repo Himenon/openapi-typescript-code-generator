@@ -1,5 +1,5 @@
 import { EOL } from "os";
-import * as ts from "typescript";
+import ts from "typescript";
 import { OpenApi } from "../OpenApiParser";
 import { Factory } from "../TypeScriptCodeGenerator";
 import * as Guard from "./Guard";

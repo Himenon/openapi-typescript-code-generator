@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import ts from "typescript";
 import { Factory } from "../TypeScriptCodeGenerator";
 import { FeatureDevelopmentError } from "../Exception";
 import * as ToTypeNode from "./toTypeNode";

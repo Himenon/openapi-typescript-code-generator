@@ -1,5 +1,5 @@
 import { EOL } from "os";
-import * as ts from "typescript";
+import ts from "typescript";
 import * as TypeScriptCodeGenerator from "../TypeScriptCodeGenerator";
 import { OpenApi } from "../OpenApiParser";
 import * as Parameters from "./Parameters";

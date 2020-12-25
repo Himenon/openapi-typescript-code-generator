@@ -1,5 +1,5 @@
 import { generateComment } from "./utils";
-import * as ts from "typescript";
+import ts from "typescript";
 
 export interface Params {
   export?: true;
