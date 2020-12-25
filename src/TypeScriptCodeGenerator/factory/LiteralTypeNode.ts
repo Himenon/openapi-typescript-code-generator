@@ -17,7 +17,8 @@ export const create = ({ factory }: ts.TransformationContext): Factory => (param
   };
   const node = createNode();
   if (params.comment) {
-    return ts.addSyntheticLeadingComment(node, ts.SyntaxKind.MultiLineCommentTrivia, generateComment(params.comment), true);
+    const comment = generateComment(params.comment);
+    return ts.addSyntheticLeadingComment(node, ts.SyntaxKind.MultiLineCommentTrivia, comment.value, comment.hasTrailingNewLine);
   }
   return node;
 };

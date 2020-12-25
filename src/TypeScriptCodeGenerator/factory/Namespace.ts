@@ -20,7 +20,8 @@ export const create = ({ factory }: ts.TransformationContext): Factory => (param
     ts.NodeFlags.Namespace,
   );
   if (params.comment) {
-    return ts.addSyntheticLeadingComment(node, ts.SyntaxKind.MultiLineCommentTrivia, generateComment(params.comment, params.deprecated), true);
+    const comment = generateComment(params.comment, params.deprecated);
+    return ts.addSyntheticLeadingComment(node, ts.SyntaxKind.MultiLineCommentTrivia, comment.value, comment.hasTrailingNewLine);
   }
   return node;
 };

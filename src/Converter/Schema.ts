@@ -1,6 +1,6 @@
 import * as ts from "typescript";
 import { Factory } from "../TypeScriptCodeGenerator";
-import { UnsetTypeError, DevelopmentError } from "../Exception";
+import { UnsetTypeError, FeatureDevelopmentError } from "../Exception";
 import * as ToTypeNode from "./toTypeNode";
 import * as ExternalDocumentation from "./ExternalDocumentation";
 import * as Logger from "../Logger";
@@ -23,7 +23,7 @@ export const generatePropertySignatures = (
   return Object.entries(schema.properties).map(([propertyName, property]) => {
     return factory.Property({
       name: propertyName,
-      type: ToTypeNode.convert(entryPoint, currentPoint, factory, property),
+      type: ToTypeNode.convert(entryPoint, currentPoint, factory, property, { parent: schema }),
       comment: typeof property !== "boolean" ? property.description : undefined,
     });
   });
@@ -37,7 +37,7 @@ export const generateInterface = (
   schema: ObjectSchema,
 ): ts.InterfaceDeclaration => {
   if (schema.type !== "object") {
-    throw new DevelopmentError("Please use generateTypeAlias");
+    throw new FeatureDevelopmentError("Please use generateTypeAlias");
   }
   return factory.Interface({
     export: true,

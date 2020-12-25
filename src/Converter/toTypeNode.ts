@@ -4,12 +4,18 @@ import { OpenApi } from "../OpenApiParser";
 import { Factory } from "../TypeScriptCodeGenerator";
 import { isReference } from "./Guard";
 import * as Reference from "./Reference";
+import * as Logger from "../Logger";
+
+export interface Option {
+  parent?: any;
+}
 
 export const convert = (
   entryPoint: string,
   currentPoint: string,
   factory: Factory.Type,
   schema: OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition,
+  option?: Option,
 ): ts.TypeNode => {
   if (typeof schema === "boolean") {
     throw new Error("わからん");
@@ -19,10 +25,15 @@ export const convert = (
     if (alias.internal) {
       throw new Error("これから対応");
     }
-    return convert(entryPoint, alias.referencePoint, factory, alias.data);
+    return convert(entryPoint, alias.referencePoint, factory, alias.data, { parent: schema });
   }
   if (!schema.type) {
-    throw new UnsetTypeError("Please set type or $ref " + JSON.stringify(schema));
+    if (option && option.parent) {
+      Logger.info("Parent Schema:");
+      Logger.info(JSON.stringify(option.parent));
+    }
+    Logger.showFilePosition(entryPoint, currentPoint);
+    throw new UnsetTypeError("Please set 'type' or '$ref' property \n" + JSON.stringify(schema));
   }
   switch (schema.type) {
     case "boolean":
@@ -40,7 +51,7 @@ export const convert = (
       return factory.TypeNode({
         type: schema.type,
         value: schema.items
-          ? convert(entryPoint, currentPoint, factory, schema.items)
+          ? convert(entryPoint, currentPoint, factory, schema.items, { parent: schema })
           : factory.TypeNode({
               type: "undefined",
             }),
@@ -55,7 +66,7 @@ export const convert = (
       const value = Object.entries(schema.properties).map(([name, jsonSchema]) => {
         return factory.Property({
           name,
-          type: convert(entryPoint, currentPoint, factory, jsonSchema),
+          type: convert(entryPoint, currentPoint, factory, jsonSchema, { parent: schema.properties }),
           optional: true,
           comment: typeof jsonSchema !== "boolean" ? jsonSchema.description : undefined,
         });

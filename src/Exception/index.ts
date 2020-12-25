@@ -11,4 +11,4 @@ export class UnSupportError extends BaseError {}
 
 export class NotFoundFileError extends BaseError {}
 
-export class DevelopmentError extends BaseError {}
+export class FeatureDevelopmentError extends BaseError {}

@@ -33,41 +33,51 @@ const aliasPatterns = [
   "#/components/pathItems/",
 ];
 
+export const generateInternalAliasReference = (reference: OpenApi.Reference): InternalAliasReference | undefined => {
+  let matchPattern: string | undefined;
+  aliasPatterns.forEach(aliasPattern => {
+    if (new RegExp("^" + aliasPattern).test(reference.$ref)) {
+      matchPattern = aliasPattern;
+    }
+  });
+
+  if (!matchPattern) {
+    return;
+  }
+  const name = reference.$ref.split(matchPattern)[1];
+  return {
+    internal: true,
+    name,
+  };
+};
+
+export const generateReferencePoint = (currentPoint: string, reference: OpenApi.Reference): string => {
+  const basedir = path.dirname(currentPoint);
+  const ref = reference.$ref;
+  return path.join(basedir, ref);
+};
+
 /**
  * TODO Validation
  */
 export const generate = <T>(entryPoint: string, currentPoint: string, reference: OpenApi.Reference): AliasReference<T> => {
   const ref = reference.$ref;
-
-  let matchPattern: string | undefined;
-  aliasPatterns.forEach(aliasPattern => {
-    if (new RegExp("^" + aliasPattern).test(ref)) {
-      matchPattern = aliasPattern;
-    }
-  });
-
-  if (matchPattern) {
-    const name = ref.split(matchPattern)[1];
-    return {
-      internal: true,
-      name,
-    };
+  const internalAliasReference = generateInternalAliasReference(reference);
+  if (internalAliasReference) {
+    return internalAliasReference;
   }
 
   if (ref.startsWith("http")) {
     throw new UnSupportError("Please Pull Request ! Welcome !");
   }
 
-  const basedir = path.dirname(currentPoint);
-  const referencePoint = path.join(basedir, ref);
+  const referencePoint = generateReferencePoint(currentPoint, reference);
 
   const existFile = fs.existsSync(referencePoint) && fs.statSync(referencePoint).isFile();
   if (!existFile) {
-    Logger.error("");
-    Logger.error(`CurrentPoint   : "${currentPoint}"`);
-    Logger.error(`ReferencePoint : "${referencePoint}"`);
-    Logger.error("");
-    throw new NotFoundFileError("Not found reference point from current point.");
+    Logger.showFilePosition(entryPoint, currentPoint, referencePoint);
+    Logger.error(JSON.stringify(reference, null, 2));
+    throw new NotFoundFileError(`Not found reference point from current point. \n Path: ${referencePoint}`);
   }
 
   const ext = path.extname(referencePoint);

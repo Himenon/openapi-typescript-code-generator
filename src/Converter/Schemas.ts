@@ -1,7 +1,7 @@
 import * as ts from "typescript";
 import { OpenApi } from "../OpenApiParser";
 import { Factory } from "../TypeScriptCodeGenerator";
-import { DevelopmentError, UnSupportError } from "../Exception";
+import { FeatureDevelopmentError, UnSupportError } from "../Exception";
 import * as Guard from "./Guard";
 import * as Reference from "./Reference";
 import * as Schema from "./Schema";
@@ -16,16 +16,16 @@ export const generateNamespace = (
     if (Guard.isReference(schema)) {
       const alias = Reference.generate<OpenApi.Schema | OpenApi.Reference>(entryPoint, currentPoint, schema);
       if (alias.internal) {
-        throw new Error("これから" + alias.name);
+        throw new FeatureDevelopmentError("これから" + alias.name);
       }
       if (Guard.isReference(alias.data)) {
-        throw new DevelopmentError("aliasの先がaliasだった場合");
+        throw new FeatureDevelopmentError("aliasの先がaliasだった場合");
       }
       if (Guard.isObjectSchema(alias.data)) {
-        return Schema.generateInterface(entryPoint, currentPoint, factory, name, alias.data);
+        return Schema.generateInterface(entryPoint, alias.referencePoint, factory, name, alias.data);
       }
       if (Guard.isPrimitiveSchema(alias.data)) {
-        return Schema.generateTypeAlias(entryPoint, currentPoint, factory, name, alias.data);
+        return Schema.generateTypeAlias(entryPoint, alias.referencePoint, factory, name, alias.data);
       }
       throw new UnSupportError("schema.type = Array[] not supported.");
     }

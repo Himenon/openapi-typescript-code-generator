@@ -1,6 +1,11 @@
 import { EOL } from "os";
 
-export const generateComment = (comment: string, deprecated?: boolean): string => {
+export interface Comment {
+  hasTrailingNewLine: boolean;
+  value: string;
+}
+
+export const generateComment = (comment: string, deprecated?: boolean): Comment => {
   const splitComments = deprecated ? ["@deprecated"].concat(comment.split(EOL)) : comment.split(EOL);
   const comments = splitComments.filter((comment, index) => {
     if (index === splitComments.length - 1 && comment === "") {
@@ -8,5 +13,14 @@ export const generateComment = (comment: string, deprecated?: boolean): string =
     }
     return true;
   });
-  return "*" + EOL + comments.map(comment => ` * ${comment}`).join(EOL) + EOL + " ";
+  if (comments.length === 1) {
+    return {
+      hasTrailingNewLine: true,
+      value: "* " + comments.join("") + " ",
+    };
+  }
+  return {
+    hasTrailingNewLine: true,
+    value: "*" + EOL + comments.map(comment => ` * ${comment}`).join(EOL) + EOL + " ",
+  };
 };
