@@ -11,8 +11,10 @@ export type Factory = (params: Params) => ts.LiteralTypeNode;
 export const create = ({ factory }: ts.TransformationContext): Factory => (params: Params): ts.LiteralTypeNode => {
   const createNode = () => {
     if (typeof params.value === "string") {
-      return factory.createLiteralTypeNode(factory.createStringLiteral(params.value));
+      const literal = ts.setEmitFlags(factory.createStringLiteral(params.value), ts.EmitFlags.NoAsciiEscaping);
+      return factory.createLiteralTypeNode(literal);
     }
+
     if (typeof params.value === "number") {
       return factory.createLiteralTypeNode(factory.createNumericLiteral(params.value));
     }
