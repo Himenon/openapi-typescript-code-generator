@@ -8,6 +8,10 @@ export interface ObjectSchema extends Omit<OpenApi.Schema, "type"> {
   type: "object";
 }
 
+export interface ObjectSchemaWithAdditionalProperties extends ObjectSchema {
+  additionalProperties: OpenApi.JSONSchemaDefinition;
+}
+
 export interface ArraySchema extends Omit<OpenApi.Schema, "type"> {
   type: "array";
 }

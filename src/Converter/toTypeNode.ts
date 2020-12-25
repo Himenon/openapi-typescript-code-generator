@@ -7,6 +7,7 @@ import * as Reference from "./Reference";
 import * as Logger from "../Logger";
 import * as Guard from "./Guard";
 import { UnknownError } from "../Exception";
+import { ObjectSchemaWithAdditionalProperties } from "./types";
 
 export interface Option {
   parent?: any;
@@ -20,7 +21,11 @@ export const convert = (
   option?: Option,
 ): ts.TypeNode => {
   if (typeof schema === "boolean") {
-    throw new Error("わからん");
+    // https://swagger.io/docs/specification/data-models/dictionaries/#free-form
+    return factory.TypeNode({
+      type: "object",
+      value: [],
+    });
   }
   if (isReference(schema)) {
     const alias = Reference.generate<OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition>(entryPoint, currentPoint, schema);
@@ -89,6 +94,13 @@ export const convert = (
         });
       }
       const required: string[] = schema.required || [];
+      // https://swagger.io/docs/specification/data-models/dictionaries/#free-form
+      if (schema.additionalProperties === true) {
+        return factory.TypeNode({
+          type: schema.type,
+          value: [],
+        });
+      }
       const value = Object.entries(schema.properties).map(([name, jsonSchema]) => {
         return factory.Property({
           name,
@@ -97,6 +109,16 @@ export const convert = (
           comment: typeof jsonSchema !== "boolean" ? jsonSchema.description : undefined,
         });
       });
+      if (schema.additionalProperties) {
+        const additionalProperties = factory.IndexSignature({
+          name: "key",
+          type: convert(entryPoint, currentPoint, factory, schema.additionalProperties, { parent: schema.properties }),
+        });
+        return factory.TypeNode({
+          type: schema.type,
+          value: [...value, additionalProperties],
+        });
+      }
       return factory.TypeNode({
         type: schema.type,
         value,
@@ -105,4 +127,24 @@ export const convert = (
     default:
       throw new UnknownError("what is this?");
   }
+};
+
+export const convertAdditionalProperties = (
+  entryPoint: string,
+  currentPoint: string,
+  factory: Factory.Type,
+  schema: ObjectSchemaWithAdditionalProperties,
+): ts.IndexSignatureDeclaration => {
+  // // https://swagger.io/docs/specification/data-models/dictionaries/#free-form
+  if (schema.additionalProperties === true) {
+    factory.TypeNode({
+      type: schema.type,
+      value: [],
+    });
+  }
+  const additionalProperties = factory.IndexSignature({
+    name: "key",
+    type: convert(entryPoint, currentPoint, factory, schema.additionalProperties, { parent: schema.properties }),
+  });
+  return additionalProperties;
 };

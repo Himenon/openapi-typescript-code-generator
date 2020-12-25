@@ -5,6 +5,7 @@ import * as ToTypeNode from "./toTypeNode";
 import * as ExternalDocumentation from "./ExternalDocumentation";
 import * as Logger from "../Logger";
 import { ObjectSchema, PrimitiveSchema } from "./types";
+import * as Guard from "./Guard";
 
 export const generatePropertySignatures = (
   entryPoint: string,
@@ -41,10 +42,22 @@ export const generateInterface = (
   if (schema.type !== "object") {
     throw new FeatureDevelopmentError("Please use generateTypeAlias");
   }
+  let members: ts.TypeElement[] = [];
+  const propertySignatures = generatePropertySignatures(entryPoint, currentPoint, factory, schema);
+  if (Guard.isObjectSchemaWithAdditionalProperties(schema)) {
+    const additionalProperties = ToTypeNode.convertAdditionalProperties(entryPoint, currentPoint, factory, schema);
+    if (schema.additionalProperties === true) {
+      members = members.concat(additionalProperties);
+    } else {
+      members = [...propertySignatures, additionalProperties];
+    }
+  } else {
+    members = propertySignatures;
+  }
   return factory.Interface({
     export: true,
     name,
-    members: generatePropertySignatures(entryPoint, currentPoint, factory, schema),
+    members,
     comment: ExternalDocumentation.addComment(schema.description, schema.externalDocs),
   });
 };

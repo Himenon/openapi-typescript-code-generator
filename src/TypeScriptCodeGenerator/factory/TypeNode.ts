@@ -23,7 +23,7 @@ export interface BooleanParams {
 
 export interface ObjectParams {
   type: "object";
-  value: ts.PropertySignature[];
+  value: ts.TypeElement[];
 }
 
 export interface UndefinedParams {
