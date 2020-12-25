@@ -11,18 +11,22 @@ export const generatePropertySignatures = (
   const signatures: ts.PropertySignature[] = [
     factory.Property({
       name: "type",
+      optional: false,
       type: factory.LiteralTypeNode({ value: securitySchema.type }),
     }),
     factory.Property({
       name: "name",
+      optional: false,
       type: factory.LiteralTypeNode({ value: securitySchema.name }),
     }),
     factory.Property({
       name: "in",
+      optional: false,
       type: factory.LiteralTypeNode({ value: securitySchema.in }),
     }),
     factory.Property({
       name: "openIdConnectUrl",
+      optional: false,
       type: factory.LiteralTypeNode({ value: securitySchema.openIdConnectUrl }),
     }),
   ];

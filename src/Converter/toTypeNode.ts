@@ -88,12 +88,12 @@ export const convert = (
           type: "undefined",
         });
       }
-      // eslint-disable-next-line no-case-declarations
+      const required: string[] = schema.required || [];
       const value = Object.entries(schema.properties).map(([name, jsonSchema]) => {
         return factory.Property({
           name,
           type: convert(entryPoint, currentPoint, factory, jsonSchema, { parent: schema.properties }),
-          optional: true,
+          optional: !required.includes(name),
           comment: typeof jsonSchema !== "boolean" ? jsonSchema.description : undefined,
         });
       });

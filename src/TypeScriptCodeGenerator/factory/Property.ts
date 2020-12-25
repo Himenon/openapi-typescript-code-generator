@@ -3,7 +3,7 @@ import { generateComment } from "./utils";
 
 export interface Params {
   name: string;
-  optional?: true;
+  optional: boolean;
   type: ts.TypeNode;
   comment?: string;
 }
@@ -14,7 +14,7 @@ export const create = ({ factory }: ts.TransformationContext): Factory => (param
   const node = factory.createPropertySignature(
     undefined,
     params.name,
-    params.optional && factory.createToken(ts.SyntaxKind.QuestionToken),
+    params.optional ? factory.createToken(ts.SyntaxKind.QuestionToken) : undefined,
     params.type,
   );
   if (params.comment) {

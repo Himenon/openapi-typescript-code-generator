@@ -20,9 +20,11 @@ export const generatePropertySignatures = (
     Logger.showFilePosition(entryPoint, currentPoint);
     throw new UnsetTypeError("schema.properties");
   }
+  const required: string[] = schema.required || [];
   return Object.entries(schema.properties).map(([propertyName, property]) => {
     return factory.Property({
       name: propertyName,
+      optional: !required.includes(propertyName),
       type: ToTypeNode.convert(entryPoint, currentPoint, factory, property, { parent: schema }),
       comment: typeof property !== "boolean" ? property.description : undefined,
     });

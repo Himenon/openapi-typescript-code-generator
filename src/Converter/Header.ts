@@ -12,6 +12,7 @@ export const generatePropertySignatures = (
   const signatures: ts.PropertySignature[] = [
     factory.Property({
       name: "required",
+      optional: false,
       type: factory.LiteralTypeNode({ value: !!header.required }),
     }),
   ];
@@ -20,6 +21,7 @@ export const generatePropertySignatures = (
     signatures.push(
       factory.Property({
         name: "schema",
+        optional: false,
         type: convert(entryPoint, currentPoint, factory, header.schema),
       }),
     );

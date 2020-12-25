@@ -12,6 +12,7 @@ export const generatePropertySignature = (
 ): ts.PropertySignature => {
   return factory.Property({
     name: `"${protocol}"`,
+    optional: false,
     type: convert(entryPoint, currentPoint, factory, schema),
   });
 };
