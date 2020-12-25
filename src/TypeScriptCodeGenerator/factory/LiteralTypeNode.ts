@@ -2,7 +2,7 @@ import { generateComment } from "./utils";
 import * as ts from "typescript";
 
 export interface Params {
-  value: string | boolean;
+  value: string | boolean | number;
   comment?: string;
 }
 
@@ -12,6 +12,9 @@ export const create = ({ factory }: ts.TransformationContext): Factory => (param
   const createNode = () => {
     if (typeof params.value === "string") {
       return factory.createLiteralTypeNode(factory.createStringLiteral(params.value));
+    }
+    if (typeof params.value === "number") {
+      return factory.createLiteralTypeNode(factory.createNumericLiteral(params.value));
     }
     return factory.createLiteralTypeNode(params.value ? factory.createTrue() : factory.createFalse());
   };

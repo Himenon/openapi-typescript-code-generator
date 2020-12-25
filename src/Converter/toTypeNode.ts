@@ -5,6 +5,8 @@ import { Factory } from "../TypeScriptCodeGenerator";
 import { isReference } from "./Guard";
 import * as Reference from "./Reference";
 import * as Logger from "../Logger";
+import * as Guard from "./Guard";
+import { UnknownError } from "../Exception";
 
 export interface Option {
   parent?: any;
@@ -37,14 +39,37 @@ export const convert = (
   }
   switch (schema.type) {
     case "boolean":
-    case "integer":
-    case "null":
-    case "number":
-    case "string":
+    case "null": {
       return factory.TypeNode({
         type: schema.type,
       });
-    case "array":
+    }
+    case "integer":
+    case "number": {
+      const items = schema.enum;
+      if (items && Guard.isNumberArray(items)) {
+        return factory.TypeNode({
+          type: schema.type,
+          enum: items,
+        });
+      }
+      return factory.TypeNode({
+        type: schema.type,
+      });
+    }
+    case "string": {
+      const items = schema.enum;
+      if (items && Guard.isStringArray(items)) {
+        return factory.TypeNode({
+          type: schema.type,
+          enum: items,
+        });
+      }
+      return factory.TypeNode({
+        type: schema.type,
+      });
+    }
+    case "array": {
       if (Array.isArray(schema.items) || typeof schema.items === "boolean") {
         throw new Error("間違っている");
       }
@@ -56,7 +81,8 @@ export const convert = (
               type: "undefined",
             }),
       });
-    case "object":
+    }
+    case "object": {
       if (!schema.properties) {
         return factory.TypeNode({
           type: "undefined",
@@ -75,7 +101,8 @@ export const convert = (
         type: schema.type,
         value,
       });
+    }
     default:
-      throw new Error("あかん");
+      throw new UnknownError("what is this?");
   }
 };

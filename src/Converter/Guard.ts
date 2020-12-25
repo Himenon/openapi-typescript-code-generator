@@ -29,3 +29,11 @@ export const isPrimitiveSchema = (schema: OpenApi.Schema): schema is PrimitiveSc
   }
   return true;
 };
+
+export const isNumberArray = (list: any[]): list is number[] => {
+  return !list.some(item => typeof item !== "number");
+};
+
+export const isStringArray = (list: any[]): list is string[] => {
+  return !list.some(item => typeof item !== "string");
+};

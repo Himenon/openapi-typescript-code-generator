@@ -2,9 +2,10 @@ import {
   JSONSchema7 as JSONSchema,
   JSONSchema7Definition as JSONSchemaDefinition,
   JSONSchema7TypeName as JSONSchemaTypeName,
+  JSONSchema7Type as JSONSchemaType,
 } from "json-schema";
 
-export { JSONSchema, JSONSchemaDefinition, JSONSchemaTypeName };
+export { JSONSchema, JSONSchemaDefinition, JSONSchemaType, JSONSchemaTypeName };
 
 export type MapLike<K extends string, T> = {
   [key in K]: T;
