@@ -4,6 +4,7 @@ import { FeatureDevelopmentError } from "../Exception";
 import * as ToTypeNode from "./toTypeNode";
 import * as ExternalDocumentation from "./ExternalDocumentation";
 import { ObjectSchema, PrimitiveSchema } from "./types";
+import { OpenApi } from "../OpenApiParser";
 import * as Guard from "./Guard";
 
 export const generatePropertySignatures = (
@@ -85,6 +86,22 @@ export const generateTypeAlias = (
       type: schema.type,
     });
   }
+  return factory.TypeAliasDeclaration({
+    export: true,
+    name,
+    type,
+  });
+};
+
+export const generateMultiTypeAlias = (
+  entryPoint: string,
+  currentPoint: string,
+  factory: Factory.Type,
+  name: string,
+  schemas: OpenApi.Schema[],
+  multiType: "oneOf" | "allOf" | "anyOf",
+): ts.TypeAliasDeclaration => {
+  const type = ToTypeNode.generateMultiTypeNode(entryPoint, currentPoint, factory, schemas, ToTypeNode.convert, multiType);
   return factory.TypeAliasDeclaration({
     export: true,
     name,

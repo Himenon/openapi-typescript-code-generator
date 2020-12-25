@@ -21,13 +21,31 @@ export const generateNamespace = (
       if (Guard.isReference(alias.data)) {
         throw new FeatureDevelopmentError("aliasの先がaliasだった場合");
       }
+      if (Guard.isAllOfSchema(alias.data)) {
+        return Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, alias.data.allOf, "allOf");
+      }
+      if (Guard.isOneOfSchema(alias.data)) {
+        return Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, alias.data.oneOf, "oneOf");
+      }
+      if (Guard.isAnyOfSchema(alias.data)) {
+        return Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, alias.data.anyOf, "allOf");
+      }
       if (Guard.isObjectSchema(alias.data)) {
         return Schema.generateInterface(entryPoint, alias.referencePoint, factory, name, alias.data);
       }
       if (Guard.isPrimitiveSchema(alias.data)) {
         return Schema.generateTypeAlias(entryPoint, alias.referencePoint, factory, name, alias.data);
       }
-      throw new UnSupportError("schema.type = Array[] not supported.");
+      throw new UnSupportError("schema.type = Array[] not supported. " + JSON.stringify(alias.data));
+    }
+    if (Guard.isAllOfSchema(schema)) {
+      return Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.allOf, "allOf");
+    }
+    if (Guard.isOneOfSchema(schema)) {
+      return Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.oneOf, "oneOf");
+    }
+    if (Guard.isAnyOfSchema(schema)) {
+      return Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.anyOf, "anyOf");
     }
     if (Guard.isObjectSchema(schema)) {
       return Schema.generateInterface(entryPoint, currentPoint, factory, name, schema);
@@ -38,7 +56,7 @@ export const generateNamespace = (
     if (Guard.isPrimitiveSchema(schema)) {
       return Schema.generateTypeAlias(entryPoint, currentPoint, factory, name, schema);
     }
-    throw new UnSupportError("schema.type = Array[] not supported.");
+    throw new UnSupportError("schema.type = Array[] not supported. " + JSON.stringify(schema));
   });
   return factory.Namespace({
     export: true,

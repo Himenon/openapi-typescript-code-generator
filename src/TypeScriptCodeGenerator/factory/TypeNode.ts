@@ -39,7 +39,20 @@ export interface NullParams {
   type: "null";
 }
 
-export type Params = StringParams | IntegerParams | NumberParams | BooleanParams | ObjectParams | ArrayParams | UndefinedParams | NullParams;
+export interface NeverParams {
+  type: "never";
+}
+
+export type Params =
+  | StringParams
+  | IntegerParams
+  | NumberParams
+  | BooleanParams
+  | ObjectParams
+  | ArrayParams
+  | UndefinedParams
+  | NullParams
+  | NeverParams;
 
 export type Factory = (params: Params) => ts.TypeNode;
 
@@ -74,8 +87,10 @@ export const create = (context: ts.TransformationContext): Factory => (params: P
         return factory.createLiteralTypeNode(factory.createNull());
       case "array":
         return factory.createArrayTypeNode(params.value);
+      case "never":
+        return factory.createKeywordTypeNode(ts.SyntaxKind.NeverKeyword);
       default:
-        throw new Error("UnSupport Type");
+        throw new Error(`UnSupport Type: ${JSON.stringify(params)}`);
     }
   };
   const node = createNode();

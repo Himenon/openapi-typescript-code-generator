@@ -4,6 +4,18 @@ export interface UnSupportSchema extends Omit<OpenApi.Schema, "type"> {
   type: OpenApi.JSONSchemaTypeName[];
 }
 
+export interface OneOfSchema extends Omit<OpenApi.Schema, "oneOf"> {
+  oneOf: OpenApi.JSONSchema[];
+}
+
+export interface AllOfSchema extends Omit<OpenApi.Schema, "allOf"> {
+  allOf: OpenApi.JSONSchema[];
+}
+
+export interface AnyOfSchema extends Omit<OpenApi.Schema, "anyOf"> {
+  anyOf: OpenApi.JSONSchema[];
+}
+
 export interface ObjectSchema extends Omit<OpenApi.Schema, "type"> {
   type: "object";
 }

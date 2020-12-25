@@ -2,18 +2,48 @@ import ts from "typescript";
 import { UnsetTypeError } from "../Exception";
 import { OpenApi } from "../OpenApiParser";
 import { Factory } from "../TypeScriptCodeGenerator";
-import { isReference } from "./Guard";
 import * as Reference from "./Reference";
 import * as Logger from "../Logger";
 import * as Guard from "./Guard";
-import { UnknownError } from "../Exception";
+import { UnknownError, FeatureDevelopmentError, UnSupportError } from "../Exception";
 import { ObjectSchemaWithAdditionalProperties } from "./types";
+
+export type Convert = (
+  entryPoint: string,
+  currentPoint: string,
+  factory: Factory.Type,
+  schema: OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition,
+  option?: Option,
+) => ts.TypeNode;
 
 export interface Option {
   parent?: any;
 }
 
-export const convert = (
+export const generateMultiTypeNode = (
+  entryPoint: string,
+  currentPoint: string,
+  factory: Factory.Type,
+  schemas: OpenApi.JSONSchema[],
+  convert: Convert,
+  multiType: "oneOf" | "allOf" | "anyOf",
+): ts.TypeNode => {
+  const typeNodes = schemas.map(schema => convert(entryPoint, currentPoint, factory, schema));
+  if (multiType === "oneOf") {
+    return factory.UnionTypeNode({
+      typeNodes,
+    });
+  }
+  if (multiType === "allOf") {
+    return factory.IntersectionTypeNode({
+      typeNodes,
+    });
+  }
+  // TODO Calculate intersection types
+  return factory.TypeNode({ type: "never" });
+};
+
+export const convert: Convert = (
   entryPoint: string,
   currentPoint: string,
   factory: Factory.Type,
@@ -27,13 +57,26 @@ export const convert = (
       value: [],
     });
   }
-  if (isReference(schema)) {
+  // Reference
+  if (Guard.isReference(schema)) {
     const alias = Reference.generate<OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition>(entryPoint, currentPoint, schema);
     if (alias.internal) {
-      throw new Error("これから対応");
+      throw new FeatureDevelopmentError("next features");
     }
     return convert(entryPoint, alias.referencePoint, factory, alias.data, { parent: schema });
   }
+
+  if (Guard.isOneOfSchema(schema)) {
+    return generateMultiTypeNode(entryPoint, currentPoint, factory, schema.oneOf, convert, "oneOf");
+  }
+  if (Guard.isAllOfSchema(schema)) {
+    return generateMultiTypeNode(entryPoint, currentPoint, factory, schema.allOf, convert, "allOf");
+  }
+  if (Guard.isAnyOfSchema(schema)) {
+    return generateMultiTypeNode(entryPoint, currentPoint, factory, schema.anyOf, convert, "anyOf");
+  }
+
+  // schema.type
   if (!schema.type) {
     if (option && option.parent) {
       Logger.info("Parent Schema:");
@@ -76,7 +119,7 @@ export const convert = (
     }
     case "array": {
       if (Array.isArray(schema.items) || typeof schema.items === "boolean") {
-        throw new Error("間違っている");
+        throw new UnSupportError(`schema.items = ${JSON.stringify(schema.items)}`);
       }
       return factory.TypeNode({
         type: schema.type,
