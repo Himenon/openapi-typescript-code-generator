@@ -2,15 +2,17 @@ import * as ts from "typescript";
 import * as Interface from "./Interface";
 import * as Namespace from "./Namespace";
 import * as Property from "./Property";
+import * as TypeAliasDeclaration from "./TypeAliasDeclaration";
 import * as TypeNode from "./TypeNode";
 import * as LiteralTypeNode from "./LiteralTypeNode";
 
-export { Interface, Namespace, Property, TypeNode };
+export { Interface, Namespace, Property, TypeAliasDeclaration, TypeNode, LiteralTypeNode };
 
 export interface Type {
   Interface: Interface.Factory;
   Namespace: Namespace.Factory;
   Property: Property.Factory;
+  TypeAliasDeclaration: TypeAliasDeclaration.Factory;
   TypeNode: TypeNode.Factory;
   LiteralTypeNode: LiteralTypeNode.Factory;
 }
@@ -20,6 +22,7 @@ export const create = (context: ts.TransformationContext): Type => {
     Interface: Interface.create(context),
     Namespace: Namespace.create(context),
     Property: Property.create(context),
+    TypeAliasDeclaration: TypeAliasDeclaration.create(context),
     TypeNode: TypeNode.create(context),
     LiteralTypeNode: LiteralTypeNode.create(context),
   };
