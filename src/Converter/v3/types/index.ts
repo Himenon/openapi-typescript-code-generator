@@ -1,4 +1,6 @@
-import { OpenApi } from "../OpenApiParser";
+import * as OpenApi from "./OpenApiSchemaV3";
+
+export { OpenApi };
 
 export interface UnSupportSchema extends Omit<OpenApi.Schema, "type"> {
   type: OpenApi.JSONSchemaTypeName[];

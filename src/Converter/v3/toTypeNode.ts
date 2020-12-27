@@ -1,11 +1,11 @@
 import ts from "typescript";
-import { UnsetTypeError } from "../Exception";
-import { OpenApi } from "../OpenApiParser";
-import { Factory } from "../TypeScriptCodeGenerator";
+import { UnsetTypeError } from "../../Exception";
+import { OpenApi } from "./types";
+import { Factory } from "../../TypeScriptCodeGenerator";
 import * as Reference from "./Reference";
-import * as Logger from "../Logger";
+import * as Logger from "../../Logger";
 import * as Guard from "./Guard";
-import { UnknownError, FeatureDevelopmentError, UnSupportError } from "../Exception";
+import { UnknownError, FeatureDevelopmentError, UnSupportError } from "../../Exception";
 import { ObjectSchemaWithAdditionalProperties } from "./types";
 
 export type Convert = (

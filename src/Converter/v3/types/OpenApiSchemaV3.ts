@@ -323,7 +323,7 @@ export interface Tag {
 /**
  * @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#openapi-object
  */
-export interface OpenApi310 {
+export interface RootTypes {
   openapi: string;
   info: Info;
   servers?: Server[];

@@ -1,7 +1,7 @@
 import ts from "typescript";
-import { OpenApi } from "../OpenApiParser";
+import { OpenApi } from "./types";
 import * as Parameters from "./Parameters";
-import { Factory } from "../TypeScriptCodeGenerator";
+import { Factory } from "../../TypeScriptCodeGenerator";
 import * as Operation from "./Operation";
 import * as Servers from "./Servers";
 

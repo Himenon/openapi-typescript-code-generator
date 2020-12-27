@@ -1,26 +1,25 @@
-import { OpenApi } from "../OpenApiParser";
 import * as Types from "./types";
 
-export const isReference = (data: any): data is OpenApi.Reference => {
+export const isReference = (data: any): data is Types.OpenApi.Reference => {
   if (typeof data !== "object" || data === null) {
     return false;
   }
   return typeof data.$ref === "string";
 };
 
-export const isUnSupportSchema = (schema: OpenApi.Schema): schema is Types.UnSupportSchema => {
+export const isUnSupportSchema = (schema: Types.OpenApi.Schema): schema is Types.UnSupportSchema => {
   return Array.isArray(schema.type);
 };
 
-export const isObjectSchema = (schema: OpenApi.Schema): schema is Types.ObjectSchema => {
+export const isObjectSchema = (schema: Types.OpenApi.Schema): schema is Types.ObjectSchema => {
   return schema.type === "object";
 };
 
-export const isArraySchema = (schema: OpenApi.Schema): schema is Types.ArraySchema => {
+export const isArraySchema = (schema: Types.OpenApi.Schema): schema is Types.ArraySchema => {
   return schema.type === "array";
 };
 
-export const isPrimitiveSchema = (schema: OpenApi.Schema): schema is Types.PrimitiveSchema => {
+export const isPrimitiveSchema = (schema: Types.OpenApi.Schema): schema is Types.PrimitiveSchema => {
   if (typeof schema.type !== "string") {
     return false;
   }
@@ -45,14 +44,14 @@ export const isObjectSchemaWithAdditionalProperties = (schema: Types.ObjectSchem
   return !!schema.additionalProperties;
 };
 
-export const isOneOfSchema = (schema: OpenApi.Schema): schema is Types.OneOfSchema => {
+export const isOneOfSchema = (schema: Types.OpenApi.Schema): schema is Types.OneOfSchema => {
   return !!schema.oneOf && typeof schema.oneOf !== "boolean" && Array.isArray(schema.oneOf);
 };
 
-export const isAllOfSchema = (schema: OpenApi.Schema): schema is Types.AllOfSchema => {
+export const isAllOfSchema = (schema: Types.OpenApi.Schema): schema is Types.AllOfSchema => {
   return !!schema.allOf && typeof schema.allOf !== "boolean" && Array.isArray(schema.allOf);
 };
 
-export const isAnyOfSchema = (schema: OpenApi.Schema): schema is Types.AnyOfSchema => {
+export const isAnyOfSchema = (schema: Types.OpenApi.Schema): schema is Types.AnyOfSchema => {
   return !!schema.anyOf && typeof schema.anyOf !== "boolean" && Array.isArray(schema.anyOf);
 };

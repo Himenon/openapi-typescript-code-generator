@@ -1,8 +1,8 @@
 import * as fs from "fs"; // TODO 使わない
 import * as path from "path";
-import { UnSupportError, NotFoundFileError } from "../Exception";
-import * as Logger from "../Logger";
-import { OpenApi } from "../OpenApiParser";
+import { UnSupportError, NotFoundFileError } from "../../Exception";
+import * as Logger from "../../Logger";
+import { OpenApi } from "./types";
 import { isReference } from "./Guard";
 import * as yaml from "js-yaml";
 

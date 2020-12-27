@@ -1,8 +1,8 @@
 import ts from "typescript";
 import * as Reference from "./Reference";
 import * as Paramter from "./Parameter";
-import { OpenApi } from "../OpenApiParser";
-import { Factory } from "../TypeScriptCodeGenerator";
+import { OpenApi } from "./types";
+import { Factory } from "../../TypeScriptCodeGenerator";
 import * as Guard from "./Guard";
 
 export const generateNamespace = (

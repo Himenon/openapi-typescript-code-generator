@@ -1,7 +1,7 @@
 import ts from "typescript";
-import { OpenApi } from "../OpenApiParser";
-import { Factory } from "../TypeScriptCodeGenerator";
-import { FeatureDevelopmentError, UnSupportError } from "../Exception";
+import { OpenApi } from "./types";
+import { Factory } from "../../TypeScriptCodeGenerator";
+import { FeatureDevelopmentError, UnSupportError } from "../../Exception";
 import * as Guard from "./Guard";
 import * as Reference from "./Reference";
 import * as Schema from "./Schema";

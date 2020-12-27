@@ -1,5 +1,5 @@
 import { EOL } from "os";
-import { OpenApi } from "../OpenApiParser";
+import { OpenApi } from "./types";
 
 export const addComment = (comment?: string, server?: OpenApi.Server): string | undefined => {
   if (!server) {
