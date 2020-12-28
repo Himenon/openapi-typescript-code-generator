@@ -5,6 +5,7 @@ import { FeatureDevelopmentError, UnSupportError } from "../../Exception";
 import * as Guard from "./Guard";
 import * as Reference from "./Reference";
 import * as Schema from "./Schema";
+import {} from "./store";
 
 export const generateNamespace = (
   entryPoint: string,
@@ -12,7 +13,7 @@ export const generateNamespace = (
   factory: Factory.Type,
   schemas: OpenApi.MapLike<string, OpenApi.Schema | OpenApi.Reference>,
 ): ts.ModuleDeclaration => {
-  const interfaces = Object.entries(schemas).map(([name, schema]) => {
+  const statements = Object.entries(schemas).map(([name, schema]) => {
     if (Guard.isReference(schema)) {
       const alias = Reference.generate<OpenApi.Schema | OpenApi.Reference>(entryPoint, currentPoint, schema);
       if (alias.internal) {
@@ -58,10 +59,12 @@ export const generateNamespace = (
     }
     throw new UnSupportError("schema.type = Array[] not supported. " + JSON.stringify(schema));
   });
+
+  statements.map(statement => statement.name.text);
   return factory.Namespace({
     export: true,
     name: "Components",
-    statements: interfaces,
+    statements,
     comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#schemaObject`,
   });
 };

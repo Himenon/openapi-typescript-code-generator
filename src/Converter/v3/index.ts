@@ -9,6 +9,7 @@ import * as RequestBodies from "./RequestBodies";
 import * as Headers from "./Headers";
 import * as SecuritySchemas from "./SecuritySchemas";
 import * as PathItems from "./PathItems";
+import { Store } from "./store";
 
 export { OpenApi };
 
@@ -65,30 +66,35 @@ export interface Converter {
 export const create = (entryPoint: string, rootSchema: OpenApi.RootTypes): Converter => {
   const currentPoint = entryPoint;
   const createFunction = (context: ts.TransformationContext): ts.Statement[] => {
-    const statements: ts.Statement[] = [];
+    const store = Store.create();
     const factory = TypeScriptCodeGenerator.Factory.create(context);
-    ts.addSyntheticLeadingComment;
     if (rootSchema.components) {
       if (rootSchema.components.schemas) {
-        statements.push(Schemas.generateNamespace(entryPoint, currentPoint, factory, rootSchema.components.schemas));
+        store.addNamespace("schemas", Schemas.generateNamespace(entryPoint, currentPoint, factory, rootSchema.components.schemas));
       }
       if (rootSchema.components.headers) {
-        statements.push(Headers.generateNamespace(entryPoint, currentPoint, factory, rootSchema.components.headers));
+        store.addNamespace("headers", Headers.generateNamespace(entryPoint, currentPoint, factory, rootSchema.components.headers));
       }
       if (rootSchema.components.responses) {
-        statements.push(Responses.generateNamespace(entryPoint, currentPoint, factory, rootSchema.components.responses));
+        store.addNamespace("responses", Responses.generateNamespace(entryPoint, currentPoint, factory, rootSchema.components.responses));
       }
       if (rootSchema.components.parameters) {
-        statements.push(Parameters.generateNamespace(entryPoint, currentPoint, factory, rootSchema.components.parameters));
+        store.addNamespace("parameters", Parameters.generateNamespace(entryPoint, currentPoint, factory, rootSchema.components.parameters));
       }
       if (rootSchema.components.requestBodies) {
-        statements.push(RequestBodies.generateNamespace(entryPoint, currentPoint, factory, rootSchema.components.requestBodies));
+        store.addNamespace(
+          "requestBodies",
+          RequestBodies.generateNamespace(entryPoint, currentPoint, factory, rootSchema.components.requestBodies),
+        );
       }
       if (rootSchema.components.securitySchemes) {
-        statements.push(SecuritySchemas.generateNamespace(entryPoint, currentPoint, factory, rootSchema.components.securitySchemes));
+        store.addNamespace(
+          "securitySchemes",
+          SecuritySchemas.generateNamespace(entryPoint, currentPoint, factory, rootSchema.components.securitySchemes),
+        );
       }
       if (rootSchema.components.pathItems) {
-        statements.push(PathItems.generateNamespace(entryPoint, currentPoint, factory, rootSchema.components.pathItems));
+        store.addNamespace("pathItems", PathItems.generateNamespace(entryPoint, currentPoint, factory, rootSchema.components.pathItems));
       }
       // TODO
       // if (rootSchema.components.links) {
@@ -100,7 +106,7 @@ export const create = (entryPoint: string, rootSchema: OpenApi.RootTypes): Conve
       //   statements.push(Callbacks.generateNamespace(entryPoint, currentPoint, factory, rootSchema.components.callbacks));
       // }
     }
-    return statements;
+    return store.getRootStatements();
   };
 
   return {
