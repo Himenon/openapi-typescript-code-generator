@@ -4,10 +4,12 @@ import * as Paramter from "./Parameter";
 import { OpenApi } from "./types";
 import { Factory } from "../../TypeScriptCodeGenerator";
 import * as Guard from "./Guard";
+import { Store } from "./store";
 
 export const generateNamespace = (
   entryPoint: string,
   currentPoint: string,
+  store: Store.Type,
   factory: Factory.Type,
   parameters: OpenApi.MapLike<string, OpenApi.Parameter | OpenApi.Reference>,
 ): ts.ModuleDeclaration => {

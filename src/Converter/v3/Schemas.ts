@@ -5,11 +5,12 @@ import { FeatureDevelopmentError, UnSupportError } from "../../Exception";
 import * as Guard from "./Guard";
 import * as Reference from "./Reference";
 import * as Schema from "./Schema";
-import {} from "./store";
+import { Store } from "./store";
 
 export const generateNamespace = (
   entryPoint: string,
   currentPoint: string,
+  store: Store.Type,
   factory: Factory.Type,
   schemas: OpenApi.MapLike<string, OpenApi.Schema | OpenApi.Reference>,
 ): ts.ModuleDeclaration => {

@@ -1,4 +1,5 @@
 import ts from "typescript";
+
 export interface Components {
   schemas: ts.ModuleDeclaration | undefined;
   headers: ts.ModuleDeclaration | undefined;
@@ -13,7 +14,9 @@ export interface State {
   components: Components;
 }
 
-export const componentNames: Array<keyof State["components"]> = [
+export type ComponentName = keyof State["components"];
+
+export const componentNames: ComponentName[] = [
   "schemas",
   "headers",
   "responses",

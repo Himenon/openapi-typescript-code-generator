@@ -1,14 +1,30 @@
 import * as fs from "fs"; // TODO 使わない
 import * as path from "path";
-import { UnSupportError, NotFoundFileError } from "../../Exception";
+import { UnSupportError, NotFoundFileError, FeatureDevelopmentError } from "../../Exception";
 import * as Logger from "../../Logger";
 import { OpenApi } from "./types";
 import { isReference } from "./Guard";
 import * as yaml from "js-yaml";
+import { State } from "./store";
+
+export type AliasReference<T> = InternalAliasReference | ExternalAliasReference<T>;
+
+export type AliasPattern =
+  | "#/components/schemas/"
+  | "#/components/responses/"
+  | "#/components/parameters/"
+  // | "#/components/examples/"
+  | "#/components/requestBodies/"
+  | "#/components/headers/"
+  | "#/components/securitySchemes/"
+  // | "#/components/links/"
+  // | "#/components/callbacks/"
+  | "#/components/pathItems/";
 
 export interface InternalAliasReference {
   internal: true;
   name: string;
+  target: State.ComponentName;
 }
 
 export interface ExternalAliasReference<T> {
@@ -18,36 +34,48 @@ export interface ExternalAliasReference<T> {
   data: T;
 }
 
-export type AliasReference<T> = InternalAliasReference | ExternalAliasReference<T>;
-
-const aliasPatterns = [
+const aliasPatterns: readonly AliasPattern[] = [
   "#/components/schemas/",
   "#/components/responses/",
   "#/components/parameters/",
-  "#/components/examples/",
+  // "#/components/examples/",
   "#/components/requestBodies/",
   "#/components/headers/",
   "#/components/securitySchemes/",
-  "#/components/links/",
-  "#/components/callbacks/",
+  // "#/components/links/",
+  // "#/components/callbacks/",
   "#/components/pathItems/",
 ];
 
+export const aliasComponents: { readonly [aliasKey in AliasPattern]: State.ComponentName } = {
+  "#/components/schemas/": "schemas",
+  "#/components/responses/": "responses",
+  "#/components/parameters/": "parameters",
+  // "#/components/examples/": "examples",
+  "#/components/requestBodies/": "requestBodies",
+  "#/components/headers/": "headers",
+  "#/components/securitySchemes/": "securitySchemes",
+  // "#/components/links/": "links",
+  // "#/components/callbacks/": "callbacks",
+  "#/components/pathItems/": "pathItems",
+};
+
 export const generateInternalAliasReference = (reference: OpenApi.Reference): InternalAliasReference | undefined => {
-  let matchPattern: string | undefined;
+  let aliasKey: AliasPattern | undefined;
   aliasPatterns.forEach(aliasPattern => {
     if (new RegExp("^" + aliasPattern).test(reference.$ref)) {
-      matchPattern = aliasPattern;
+      aliasKey = aliasPattern;
     }
   });
 
-  if (!matchPattern) {
+  if (!aliasKey) {
     return;
   }
-  const name = reference.$ref.split(matchPattern)[1];
+  const name = reference.$ref.split(aliasKey)[1];
   return {
     internal: true,
     name,
+    target: aliasComponents[aliasKey],
   };
 };
 
@@ -68,7 +96,7 @@ export const generate = <T>(entryPoint: string, currentPoint: string, reference:
   }
 
   if (ref.startsWith("http")) {
-    throw new UnSupportError("Please Pull Request ! Welcome !");
+    throw new FeatureDevelopmentError("Please Pull Request ! Welcome !");
   }
 
   const referencePoint = generateReferencePoint(currentPoint, reference);

@@ -4,10 +4,12 @@ import * as RequestBody from "./RequestBody";
 import { OpenApi } from "./types";
 import { Factory } from "../../TypeScriptCodeGenerator";
 import * as Guard from "./Guard";
+import { Store } from "./store";
 
 export const generateNamespace = (
   entryPoint: string,
   currentPoint: string,
+  store: Store.Type,
   factory: Factory.Type,
   requestBodies: OpenApi.MapLike<string, OpenApi.RequestBody | OpenApi.Reference>,
 ): ts.ModuleDeclaration => {
@@ -20,7 +22,7 @@ export const generateNamespace = (
           members: [],
         });
       }
-      return generateNamespace(entryPoint, alias.referencePoint, factory, alias.data);
+      return generateNamespace(entryPoint, alias.referencePoint, store, factory, alias.data);
     }
     return RequestBody.generateNamespace(entryPoint, currentPoint, factory, name, requestBody);
   });

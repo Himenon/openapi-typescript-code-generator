@@ -1,14 +1,14 @@
 import ts from "typescript";
 import { State, createDefaultState, componentNames } from "./State";
 
-export interface Store {
+export interface Type {
   getNamespace: (name: keyof State["components"]) => ts.ModuleDeclaration | undefined;
   addNamespace: (name: keyof State["components"], namespace: ts.ModuleDeclaration) => void;
   getStatement: (componentName: keyof State["components"], name: string) => ts.Statement | undefined;
   getRootStatements: () => ts.Statement[];
 }
 
-export const create = (): Store => {
+export const create = (): Type => {
   const state: State = createDefaultState();
 
   return {

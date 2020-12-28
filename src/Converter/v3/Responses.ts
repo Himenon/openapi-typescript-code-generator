@@ -3,10 +3,12 @@ import { OpenApi } from "./types";
 import { Factory } from "../../TypeScriptCodeGenerator";
 import * as Guard from "./Guard";
 import * as Response from "./Response";
+import { Store } from "./store";
 
 export const generateNamespace = (
   entryPoint: string,
   currentPoint: string,
+  store: Store.Type,
   factory: Factory.Type,
   responses: OpenApi.MapLike<string, OpenApi.Response | OpenApi.Reference>,
 ): ts.ModuleDeclaration => {
