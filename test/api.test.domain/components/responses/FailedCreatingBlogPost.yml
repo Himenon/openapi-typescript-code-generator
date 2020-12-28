@@ -1,0 +1,16 @@
+description: "Failed creating blog post"
+content:
+  application/json:
+    description: Blog post creation failed response.
+    schema:
+      type: object
+      required:
+        - meta
+      properties:
+        meta:
+          type: object
+          required:
+            - status
+          properties:
+            status:
+              type: number

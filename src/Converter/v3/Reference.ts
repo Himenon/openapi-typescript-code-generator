@@ -1,11 +1,10 @@
-import * as fs from "fs"; // TODO 使わない
 import * as path from "path";
-import { UnSupportError, NotFoundFileError, FeatureDevelopmentError } from "../../Exception";
+import { NotFoundFileError, FeatureDevelopmentError } from "../../Exception";
 import * as Logger from "../../Logger";
 import { OpenApi } from "./types";
 import { isReference } from "./Guard";
-import * as yaml from "js-yaml";
 import { State } from "./store";
+import { fileSystem } from "../../FileSystem";
 
 export type AliasReference<T> = InternalAliasReference | ExternalAliasReference<T>;
 
@@ -101,8 +100,7 @@ export const generate = <T>(entryPoint: string, currentPoint: string, reference:
 
   const referencePoint = generateReferencePoint(currentPoint, reference);
 
-  const existFile = fs.existsSync(referencePoint) && fs.statSync(referencePoint).isFile();
-  if (!existFile) {
+  if (!fileSystem.existSync(referencePoint)) {
     Logger.showFilePosition(entryPoint, currentPoint, referencePoint);
     Logger.error(JSON.stringify(reference, null, 2));
     throw new NotFoundFileError(`Not found reference point from current point. \n Path: ${referencePoint}`);
@@ -112,27 +110,12 @@ export const generate = <T>(entryPoint: string, currentPoint: string, reference:
   const relativePathFromEntryPoint = path.relative(path.dirname(entryPoint), referencePoint);
   const name = relativePathFromEntryPoint.replace(ext, "").split("/");
 
-  const data = fs.readFileSync(referencePoint, { encoding: "utf-8" });
-
-  if (ext === ".json") {
-    return {
-      internal: false,
-      name,
-      referencePoint: referencePoint,
-      data: JSON.parse(data),
-    };
-  }
-
-  if (ext === ".yml" || ext === ".yaml") {
-    return {
-      internal: false,
-      name,
-      referencePoint: referencePoint,
-      data: yaml.safeLoad(data) as any,
-    };
-  }
-
-  throw new UnSupportError(`UnSupport Extension file: ${referencePoint}`);
+  return {
+    internal: false,
+    name,
+    referencePoint,
+    data: fileSystem.loadJsonOrYaml(referencePoint),
+  };
 };
 
 export const resolve = (entryFilename: string, referenceFilename: string, reference: OpenApi.Reference): OpenApi.Schema | string => {

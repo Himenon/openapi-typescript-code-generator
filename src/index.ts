@@ -1,14 +1,15 @@
 import * as Converter from "./Converter";
 import * as TypeScriptCodeGenerator from "./TypeScriptCodeGenerator";
 import { EOL } from "os";
+import { fileSystem } from "./FileSystem";
 
 export interface Params {
   version: "v3";
   entryPoint: string;
-  schema: Converter.v3.OpenApi.RootTypes;
 }
 
-export const generateTypeScriptCode = ({ version, entryPoint, schema }: Params): string => {
+export const generateTypeScriptCode = ({ version, entryPoint }: Params): string => {
+  const schema = fileSystem.loadJsonOrYaml(entryPoint);
   switch (version) {
     case "v3": {
       const { createFunction, generateLeadingComment } = Converter.v3.create(entryPoint, schema);
