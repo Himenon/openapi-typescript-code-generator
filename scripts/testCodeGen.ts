@@ -8,6 +8,7 @@ const main = () => {
   };
   const code = CodeGenerator.generateTypeScriptCode(params);
   fs.writeFileSync("test/code/api.test.domain.ts", code, { encoding: "utf-8" });
+  console.log(`Generate Code : test/code/api.test.domain.ts`);
 };
 
 main();
