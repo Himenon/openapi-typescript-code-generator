@@ -24,7 +24,7 @@ export const generateNamespace = (
 
   if (headerInterfaces.length > 0) {
     statements.push(
-      factory.Namespace({
+      factory.Namespace.create({
         export: true,
         name: "Header",
         statements: headerInterfaces,
@@ -44,7 +44,7 @@ export const generateNamespace = (
     );
   }
 
-  return factory.Namespace({
+  return factory.Namespace.create({
     export: true,
     name,
     comment: response.description,

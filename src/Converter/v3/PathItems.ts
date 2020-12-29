@@ -18,7 +18,7 @@ export const generateNamespace = (
     const name = pathName.replace("/", "$");
     if (Guard.isReference(pathItem)) {
       const reference = Reference.generate<OpenApi.PathItem | OpenApi.Reference>(entryPoint, currentPoint, pathItem);
-      if (reference.internal) {
+      if (reference.type === "local") {
         if (reference.target !== "schemas") {
           throw new SchemaOnlySupportError(`The ref target only supports "schemas". The current target is "${reference.target}".`);
         }
@@ -32,7 +32,7 @@ export const generateNamespace = (
     }
     return PathItem.generateNamespace(entryPoint, currentPoint, factory, name, pathItem);
   });
-  return factory.Namespace({
+  return factory.Namespace.create({
     export: true,
     name: "PathItems",
     statements,

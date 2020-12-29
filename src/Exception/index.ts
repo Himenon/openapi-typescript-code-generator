@@ -16,3 +16,5 @@ export class NotFoundFileError extends BaseError {}
 export class FeatureDevelopmentError extends BaseError {}
 
 export class SchemaOnlySupportError extends BaseError {}
+
+export class UndefinedComponent extends BaseError {}

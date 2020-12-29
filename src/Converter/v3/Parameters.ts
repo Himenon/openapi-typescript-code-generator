@@ -15,21 +15,21 @@ export const generateNamespace = (
 ): ts.ModuleDeclaration => {
   const statements: ts.InterfaceDeclaration[] = Object.entries(parameters).map(([name, parameter]) => {
     if (Guard.isReference(parameter)) {
-      const alias = Reference.generate<OpenApi.Parameter | OpenApi.Reference>(entryPoint, currentPoint, parameter);
-      if (alias.internal) {
+      const reference = Reference.generate<OpenApi.Parameter | OpenApi.Reference>(entryPoint, currentPoint, parameter);
+      if (reference.type === "local") {
         return factory.Interface({
           name: `TODO:${parameter.$ref}`,
           members: [],
         });
       }
-      if (Guard.isReference(alias.data)) {
+      if (Guard.isReference(reference.data)) {
         throw new Error("これから");
       }
-      return Paramter.generateInterface(entryPoint, alias.referencePoint, factory, name, alias.data);
+      return Paramter.generateInterface(entryPoint, reference.referencePoint, factory, name, reference.data);
     }
     return Paramter.generateInterface(entryPoint, currentPoint, factory, name, parameter);
   });
-  return factory.Namespace({
+  return factory.Namespace.create({
     export: true,
     name: "Parameters",
     statements,
@@ -45,21 +45,21 @@ export const generateNamespaceWithList = (
 ): ts.ModuleDeclaration => {
   const statements: ts.InterfaceDeclaration[] = parameters.map(parameter => {
     if (Guard.isReference(parameter)) {
-      const alias = Reference.generate<OpenApi.Parameter | OpenApi.Reference>(entryPoint, currentPoint, parameter);
-      if (alias.internal) {
+      const reference = Reference.generate<OpenApi.Parameter | OpenApi.Reference>(entryPoint, currentPoint, parameter);
+      if (reference.type === "local") {
         return factory.Interface({
           name: `TODO:${parameter.$ref}`,
           members: [],
         });
       }
-      if (Guard.isReference(alias.data)) {
+      if (Guard.isReference(reference.data)) {
         throw new Error("これから");
       }
-      return Paramter.generateInterface(entryPoint, alias.referencePoint, factory, alias.data.name, alias.data);
+      return Paramter.generateInterface(entryPoint, reference.referencePoint, factory, reference.data.name, reference.data);
     }
     return Paramter.generateInterface(entryPoint, currentPoint, factory, parameter.name, parameter);
   });
-  return factory.Namespace({
+  return factory.Namespace.create({
     export: true,
     name: "Parameters",
     statements,

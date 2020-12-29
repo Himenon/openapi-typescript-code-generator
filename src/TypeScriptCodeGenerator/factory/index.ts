@@ -26,7 +26,7 @@ export interface Type {
 export const create = (context: ts.TransformationContext): Type => {
   return {
     Interface: Interface.create(context),
-    Namespace: Namespace.create(context),
+    Namespace: Namespace.make(context),
     Property: Property.create(context),
     TypeAliasDeclaration: TypeAliasDeclaration.create(context),
     TypeNode: TypeNode.create(context),

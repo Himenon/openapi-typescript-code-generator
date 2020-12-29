@@ -2,6 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import * as yaml from "js-yaml";
 import { UnSupportError } from "../Exception";
+import * as Dot from "dot-prop";
 
 export interface Type {
   existSync: (entrypoint: string) => boolean;
@@ -9,22 +10,33 @@ export interface Type {
 }
 
 const create = (): Type => {
+  const FRAGMENT = "#/";
+
+  const loadJsonOrYaml = (filename: string): any => {
+    const ext = path.extname(filename);
+    const data = fs.readFileSync(filename, { encoding: "utf-8" });
+    switch (ext) {
+      case ".json":
+        return JSON.parse(data);
+      case ".yml":
+      case ".yaml":
+        return yaml.safeLoad(data);
+      default:
+        throw new UnSupportError(`Not support file: ${filename}`);
+    }
+  };
   return {
     existSync: (entryPoint: string): boolean => {
       return !!(fs.existsSync(entryPoint) && fs.statSync(entryPoint).isFile());
     },
     loadJsonOrYaml: (entryPoint: string): any => {
-      const ext = path.extname(entryPoint);
-      const data = fs.readFileSync(entryPoint, { encoding: "utf-8" });
-      switch (ext) {
-        case ".json":
-          return JSON.parse(data);
-        case ".yml":
-        case ".yaml":
-          return yaml.safeLoad(data);
-        default:
-          throw new UnSupportError(`Not support file: ${entryPoint}`);
+      const hasFragment: boolean = new RegExp(FRAGMENT).test(entryPoint);
+      if (hasFragment) {
+        const [filename, fragment] = entryPoint.split(FRAGMENT);
+        const data = loadJsonOrYaml(filename);
+        return Dot.get(data, fragment.replace(/\//g, "."));
       }
+      return loadJsonOrYaml(entryPoint);
     },
   };
 };

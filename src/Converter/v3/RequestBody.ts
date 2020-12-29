@@ -12,7 +12,7 @@ export const generateNamespace = (
 ): ts.ModuleDeclaration => {
   const contentSignatures = MediaType.generatePropertySignatures(entryPoint, currentPoint, factory, requestBody.content || {});
 
-  return factory.Namespace({
+  return factory.Namespace.create({
     export: true,
     name,
     comment: requestBody.description,

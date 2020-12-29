@@ -17,7 +17,7 @@ export const generateNamespace = (
   const statements = Object.entries(schemas).map(([name, schema]) => {
     if (Guard.isReference(schema)) {
       const alias = Reference.generate<OpenApi.Schema | OpenApi.Reference>(entryPoint, currentPoint, schema);
-      if (alias.internal) {
+      if (alias.type === "local") {
         throw new FeatureDevelopmentError("これから" + alias.name);
       }
       if (Guard.isReference(alias.data)) {
@@ -62,7 +62,7 @@ export const generateNamespace = (
   });
 
   statements.map(statement => statement.name.text);
-  return factory.Namespace({
+  return factory.Namespace.create({
     export: true,
     name: "Components",
     statements,

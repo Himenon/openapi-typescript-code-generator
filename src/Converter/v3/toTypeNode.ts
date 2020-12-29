@@ -60,7 +60,7 @@ export const convert: Convert = (
   // Reference
   if (Guard.isReference(schema)) {
     const alias = Reference.generate<OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition>(entryPoint, currentPoint, schema);
-    if (alias.internal) {
+    if (alias.type === "local") {
       throw new FeatureDevelopmentError("next features");
     }
     return convert(entryPoint, alias.referencePoint, factory, alias.data, { parent: schema });

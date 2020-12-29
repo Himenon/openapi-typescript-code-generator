@@ -40,7 +40,7 @@ export const generateNamespace = (
   if (pathItem.parameters) {
     statements.push(Parameters.generateNamespaceWithList(entryPoint, currentPoint, factory, pathItem.parameters));
   }
-  return factory.Namespace({
+  return factory.Namespace.create({
     export: true,
     name,
     statements,

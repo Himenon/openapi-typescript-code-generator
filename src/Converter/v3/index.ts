@@ -66,8 +66,8 @@ export interface Converter {
 export const create = (entryPoint: string, rootSchema: OpenApi.RootTypes): Converter => {
   const currentPoint = entryPoint;
   const createFunction = (context: ts.TransformationContext): ts.Statement[] => {
-    const store = Store.create();
     const factory = TypeScriptCodeGenerator.Factory.create(context);
+    const store = Store.create(factory);
     if (rootSchema.components) {
       if (rootSchema.components.schemas) {
         store.addNamespace("schemas", Schemas.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.schemas));

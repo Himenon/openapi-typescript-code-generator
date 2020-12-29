@@ -6,9 +6,7 @@ import { isReference } from "./Guard";
 import { State } from "./store";
 import { fileSystem } from "../../FileSystem";
 
-export type AliasReference<T> = InternalAliasReference | ExternalAliasReference<T>;
-
-export type AliasPattern =
+export type LocalReferencePattern =
   | "#/components/schemas/"
   | "#/components/responses/"
   | "#/components/parameters/"
@@ -20,20 +18,36 @@ export type AliasPattern =
   // | "#/components/callbacks/"
   | "#/components/pathItems/";
 
-export interface InternalAliasReference {
-  internal: true;
+export interface LocalReference {
+  type: "local";
   name: string;
   target: State.ComponentName;
 }
 
-export interface ExternalAliasReference<T> {
-  internal: false;
+export interface RemoteReference<T> {
+  type: "remote";
   referencePoint: string;
-  name: string[];
+  names: string[];
+  target: State.ComponentName | undefined;
   data: T;
 }
 
-const aliasPatterns: readonly AliasPattern[] = [
+export type ReferenceType<T> = LocalReference | RemoteReference<T>;
+
+const relativePathMap: { [key: string]: State.ComponentName } = {
+  "components/schemas/": "schemas",
+  "components/responses/": "responses",
+  "components/parameters/": "parameters",
+  // "components/examples/": "examples",
+  "components/requestBodies/": "requestBodies",
+  "components/headers/": "headers",
+  "components/securitySchemes/": "securitySchemes",
+  // "components/links/": "links",
+  // "components/callbacks/": "callbacks",
+  "components/pathItems/": "pathItems",
+};
+
+const localReferencePatterns: readonly LocalReferencePattern[] = [
   "#/components/schemas/",
   "#/components/responses/",
   "#/components/parameters/",
@@ -46,7 +60,7 @@ const aliasPatterns: readonly AliasPattern[] = [
   "#/components/pathItems/",
 ];
 
-export const aliasComponents: { readonly [aliasKey in AliasPattern]: State.ComponentName } = {
+export const localReferenceComponents: { readonly [aliasKey in LocalReferencePattern]: State.ComponentName } = {
   "#/components/schemas/": "schemas",
   "#/components/responses/": "responses",
   "#/components/parameters/": "parameters",
@@ -59,22 +73,22 @@ export const aliasComponents: { readonly [aliasKey in AliasPattern]: State.Compo
   "#/components/pathItems/": "pathItems",
 };
 
-export const generateInternalAliasReference = (reference: OpenApi.Reference): InternalAliasReference | undefined => {
-  let aliasKey: AliasPattern | undefined;
-  aliasPatterns.forEach(aliasPattern => {
-    if (new RegExp("^" + aliasPattern).test(reference.$ref)) {
-      aliasKey = aliasPattern;
+export const generateLocalReference = (reference: OpenApi.Reference): LocalReference | undefined => {
+  let localReferencePattern: LocalReferencePattern | undefined;
+  localReferencePatterns.forEach(referencePattern => {
+    if (new RegExp("^" + referencePattern).test(reference.$ref)) {
+      localReferencePattern = referencePattern;
     }
   });
 
-  if (!aliasKey) {
+  if (!localReferencePattern) {
     return;
   }
-  const name = reference.$ref.split(aliasKey)[1];
+  const name = reference.$ref.split(localReferencePattern)[1];
   return {
-    internal: true,
+    type: "local",
     name,
-    target: aliasComponents[aliasKey],
+    target: localReferenceComponents[localReferencePattern],
   };
 };
 
@@ -84,14 +98,11 @@ export const generateReferencePoint = (currentPoint: string, reference: OpenApi.
   return path.join(basedir, ref);
 };
 
-/**
- * TODO Validation
- */
-export const generate = <T>(entryPoint: string, currentPoint: string, reference: OpenApi.Reference): AliasReference<T> => {
+export const generate = <T>(entryPoint: string, currentPoint: string, reference: OpenApi.Reference): ReferenceType<T> => {
   const ref = reference.$ref;
-  const internalAliasReference = generateInternalAliasReference(reference);
-  if (internalAliasReference) {
-    return internalAliasReference;
+  const localReference = generateLocalReference(reference);
+  if (localReference) {
+    return localReference;
   }
 
   if (ref.startsWith("http")) {
@@ -108,23 +119,25 @@ export const generate = <T>(entryPoint: string, currentPoint: string, reference:
 
   const ext = path.extname(referencePoint);
   const relativePathFromEntryPoint = path.relative(path.dirname(entryPoint), referencePoint);
-  const name = relativePathFromEntryPoint.replace(ext, "").split("/");
+  const names: string[] = relativePathFromEntryPoint.replace(ext, "").split("/");
+
+  let target: State.ComponentName | undefined;
+  Object.keys(relativePathMap).forEach(relativePath => {
+    if (new RegExp(relativePath).test(relativePathFromEntryPoint)) {
+      target = relativePathMap[relativePath];
+    }
+  });
+
+  const data = fileSystem.loadJsonOrYaml(referencePoint);
+  if (isReference(data)) {
+    return generate<T>(entryPoint, referencePoint, data);
+  }
 
   return {
-    internal: false,
-    name,
+    type: "remote",
+    names,
     referencePoint,
-    data: fileSystem.loadJsonOrYaml(referencePoint),
+    target,
+    data,
   };
-};
-
-export const resolve = (entryFilename: string, referenceFilename: string, reference: OpenApi.Reference): OpenApi.Schema | string => {
-  const alias = generate<OpenApi.Schema | OpenApi.Reference>(entryFilename, referenceFilename, reference);
-  if (alias.internal) {
-    return alias.name;
-  }
-  if (isReference(alias.data)) {
-    return resolve(entryFilename, alias.referencePoint, alias.data);
-  }
-  return alias.data;
 };

@@ -16,7 +16,7 @@ export const generateNamespace = (
   const statements = Object.entries(requestBodies).map(([name, requestBody]) => {
     if (Guard.isReference(requestBody)) {
       const alias = Reference.generate<OpenApi.MapLike<string, OpenApi.RequestBody | OpenApi.Reference>>(entryPoint, currentPoint, requestBody);
-      if (alias.internal) {
+      if (alias.type === "local") {
         return factory.Interface({
           name: `TODO:${requestBody.$ref}`,
           members: [],
@@ -26,7 +26,7 @@ export const generateNamespace = (
     }
     return RequestBody.generateNamespace(entryPoint, currentPoint, factory, name, requestBody);
   });
-  return factory.Namespace({
+  return factory.Namespace.create({
     export: true,
     name: "RequestBodies",
     statements,

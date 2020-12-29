@@ -16,7 +16,7 @@ export const generateNamespace = (
   const statements: ts.InterfaceDeclaration[] = Object.entries(headers).map(([name, header]) => {
     if (Guard.isReference(header)) {
       const alias = Reference.generate<OpenApi.Header | OpenApi.Reference>(entryPoint, currentPoint, header);
-      if (alias.internal === true) {
+      if (alias.type === "local") {
         throw new Error("これからやります");
       }
       if (Guard.isReference(alias.data)) {
@@ -26,7 +26,7 @@ export const generateNamespace = (
     }
     return Header.generateInterface(entryPoint, currentPoint, factory, name, header);
   });
-  return factory.Namespace({
+  return factory.Namespace.create({
     export: true,
     name: "Headers",
     statements,

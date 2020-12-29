@@ -40,7 +40,7 @@ export const generateNamespace = (
       return Parameter.generateInterface(entryPoint, currentPoint, factory, parameter.name, parameter);
     });
     statements.push(
-      factory.Namespace({
+      factory.Namespace.create({
         name: "Parameters",
         export: true,
         statements: interfaces,
@@ -62,7 +62,7 @@ export const generateNamespace = (
     statements.push(Responses.generateNamespaceWithStatusCode(entryPoint, currentPoint, factory, operation.responses));
   }
 
-  return factory.Namespace({
+  return factory.Namespace.create({
     export: true,
     name,
     comment: ExternalDocumentation.addComment(Servers.addComment(generateComment(), operation.servers), operation.externalDocs),

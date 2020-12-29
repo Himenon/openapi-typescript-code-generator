@@ -5,6 +5,7 @@ import { OpenApi } from "./types";
 import { Factory } from "../../TypeScriptCodeGenerator";
 import * as Guard from "./Guard";
 import { Store } from "./store";
+import { UndefinedComponent } from "../../Exception";
 
 export const generateNamespace = (
   entryPoint: string,
@@ -13,23 +14,28 @@ export const generateNamespace = (
   factory: Factory.Type,
   requestBodies: OpenApi.MapLike<string, OpenApi.SecuritySchema | OpenApi.Reference>,
 ): ts.ModuleDeclaration => {
-  const statements: ts.InterfaceDeclaration[] = Object.entries(requestBodies).map(([name, requestBody]) => {
-    if (Guard.isReference(requestBody)) {
-      const alias = Reference.generate<OpenApi.SecuritySchema | OpenApi.Reference>(entryPoint, currentPoint, requestBody);
-      if (alias.internal) {
-        return factory.Interface({
-          name: `TODO:${requestBody.$ref}`,
-          members: [],
-        });
+  const statements: ts.InterfaceDeclaration[] = Object.entries(requestBodies).reduce<ts.InterfaceDeclaration[]>(
+    (previous, [name, requestBody]) => {
+      if (Guard.isReference(requestBody)) {
+        const reference = Reference.generate<OpenApi.SecuritySchema | OpenApi.Reference>(entryPoint, currentPoint, requestBody);
+        if (reference.type === "local") {
+          if (!store.hasStatement(reference.target, reference.name)) {
+            throw new UndefinedComponent(`Reference "${requestBody.$ref}" did not found in ${reference.target} by ${reference.name}`);
+          }
+          return previous;
+        }
+        if (Guard.isReference(reference.data)) {
+          throw new Error("これから");
+        }
+        previous.push(SecuritySchema.generateInterface(entryPoint, reference.referencePoint, factory, name, reference.data));
+        return previous;
       }
-      if (Guard.isReference(alias.data)) {
-        throw new Error("これから");
-      }
-      return SecuritySchema.generateInterface(entryPoint, alias.referencePoint, factory, name, alias.data);
-    }
-    return SecuritySchema.generateInterface(entryPoint, currentPoint, factory, name, requestBody);
-  });
-  return factory.Namespace({
+      previous.push(SecuritySchema.generateInterface(entryPoint, currentPoint, factory, name, requestBody));
+      return previous;
+    },
+    [],
+  );
+  return factory.Namespace.create({
     export: true,
     name: "SecuritySchemas",
     statements,
