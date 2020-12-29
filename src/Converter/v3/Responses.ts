@@ -21,12 +21,14 @@ export const generateNamespace = (
         if (!store.hasStatement(reference.target, reference.name)) {
           throw new UndefinedComponent(`Reference "${response.$ref}" did not found in ${reference.target} by ${reference.name}`);
         }
-        return statements;
-      }
-      if (reference.type === "remote") {
-        statements.push(Response.generateNamespace(entryPoint, currentPoint, factory, name, reference.data));
+      } else if (reference.type === "remote") {
+        if (reference.key) {
+          statements.push(Response.generateNamespace(entryPoint, currentPoint, factory, reference.key, reference.data));
+        }
       }
       return statements;
+    } else {
+      statements.push(Response.generateNamespace(entryPoint, currentPoint, factory, name, response));
     }
     return statements;
   }, []);

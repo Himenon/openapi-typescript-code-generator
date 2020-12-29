@@ -5,6 +5,7 @@ import { OpenApi } from "./types";
 import { Factory } from "../../TypeScriptCodeGenerator";
 import * as Guard from "./Guard";
 import { Store } from "./store";
+import { UndefinedComponent } from "../../Exception";
 
 export const generateNamespace = (
   entryPoint: string,
@@ -13,19 +14,24 @@ export const generateNamespace = (
   factory: Factory.Type,
   headers: OpenApi.MapLike<string, OpenApi.Header | OpenApi.Reference>,
 ): ts.ModuleDeclaration => {
-  const statements: ts.InterfaceDeclaration[] = Object.entries(headers).map(([name, header]) => {
+  const statements = Object.entries(headers).reduce<ts.InterfaceDeclaration[]>((statements, [name, header]) => {
     if (Guard.isReference(header)) {
-      const alias = Reference.generate<OpenApi.Header | OpenApi.Reference>(entryPoint, currentPoint, header);
-      if (alias.type === "local") {
-        throw new Error("これからやります");
+      const reference = Reference.generate<OpenApi.Header>(entryPoint, currentPoint, header);
+      if (reference.type === "local") {
+        if (!store.hasStatement(reference.target, reference.name)) {
+          throw new UndefinedComponent(`Reference "${header.$ref}" did not found in ${reference.target} by ${reference.name}`);
+        }
+      } else if (reference.type === "remote") {
+        if (reference.key) {
+          statements.push(Header.generateInterface(entryPoint, reference.referencePoint, factory, reference.key, reference.data));
+        }
       }
-      if (Guard.isReference(alias.data)) {
-        throw new Error("これから");
-      }
-      return Header.generateInterface(entryPoint, alias.referencePoint, factory, name, alias.data);
+      return statements;
     }
-    return Header.generateInterface(entryPoint, currentPoint, factory, name, header);
-  });
+    statements.push(Header.generateInterface(entryPoint, currentPoint, factory, name, header));
+
+    return statements;
+  }, []);
   return factory.Namespace.create({
     export: true,
     name: "Headers",

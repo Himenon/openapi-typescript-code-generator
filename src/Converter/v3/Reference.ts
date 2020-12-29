@@ -27,7 +27,8 @@ export interface LocalReference {
 export interface RemoteReference<T> {
   type: "remote";
   referencePoint: string;
-  names: string[];
+  key: string | undefined;
+  keys: string[];
   target: State.ComponentName | undefined;
   data: T;
 }
@@ -119,7 +120,7 @@ export const generate = <T>(entryPoint: string, currentPoint: string, reference:
 
   const ext = path.extname(referencePoint);
   const relativePathFromEntryPoint = path.relative(path.dirname(entryPoint), referencePoint);
-  const names: string[] = relativePathFromEntryPoint.replace(ext, "").split("/");
+  const keys: string[] = relativePathFromEntryPoint.replace(ext, "").split("/");
 
   let target: State.ComponentName | undefined;
   Object.keys(relativePathMap).forEach(relativePath => {
@@ -133,9 +134,12 @@ export const generate = <T>(entryPoint: string, currentPoint: string, reference:
     return generate<T>(entryPoint, referencePoint, data);
   }
 
+  const oneLevel = keys[0] === "components" && State.componentNames.some(componentName => componentName === keys[1]) && keys.length === 3;
+
   return {
     type: "remote",
-    names,
+    key: oneLevel ? keys[2] : undefined,
+    keys,
     referencePoint,
     target,
     data,

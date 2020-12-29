@@ -45,6 +45,8 @@ components:
       schema:
         type: string
         example: "https://example.com"
+    Authorization:
+      $ref: "./components/headers/Authorization.yml"
   responses:
     SucceededCreatingBlogPost:
       description: "Succeeded in creating a blog post"
