@@ -21,17 +21,7 @@ export interface StatementMap {
   [key: string]: Statement | undefined;
 }
 
-export interface Components {
-  schemas: StatementMap | undefined;
-  headers: StatementMap | undefined;
-  responses: StatementMap | undefined;
-  parameters: StatementMap | undefined;
-  requestBodies: StatementMap | undefined;
-  securitySchemes: StatementMap | undefined;
-  pathItems: StatementMap | undefined;
-}
-
-export type ComponentName = keyof Components;
+export type ComponentName = "schemas" | "headers" | "responses" | "parameters" | "requestBodies" | "securitySchemes" | "pathItems";
 
 export type GenerateKey<T extends Statement["type"]> = T extends "namespace" ? NamespaceKey : T extends "interface" ? InterfaceKey : never;
 export type GetStatement<T extends Statement["type"]> = T extends "namespace"

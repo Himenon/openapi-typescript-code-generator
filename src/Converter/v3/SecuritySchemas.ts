@@ -19,8 +19,8 @@ export const generateNamespace = (
       if (Guard.isReference(requestBody)) {
         const reference = Reference.generate<OpenApi.SecuritySchema | OpenApi.Reference>(entryPoint, currentPoint, requestBody);
         if (reference.type === "local") {
-          if (!store.hasStatement(reference.target, reference.name)) {
-            throw new UndefinedComponent(`Reference "${requestBody.$ref}" did not found in ${reference.target} by ${reference.name}`);
+          if (!store.hasStatement(reference.path, "interface")) {
+            throw new UndefinedComponent(`Reference "${requestBody.$ref}" did not found in ${reference.path} by ${reference.name}`);
           }
           return previous;
         }

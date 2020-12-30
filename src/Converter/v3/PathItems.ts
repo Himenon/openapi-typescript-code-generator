@@ -19,8 +19,8 @@ export const generateNamespace = (
     if (Guard.isReference(pathItem)) {
       const reference = Reference.generate<OpenApi.PathItem | OpenApi.Reference>(entryPoint, currentPoint, pathItem);
       if (reference.type === "local") {
-        if (reference.target !== "schemas") {
-          throw new SchemaOnlySupportError(`The ref target only supports "schemas". The current target is "${reference.target}".`);
+        if (reference.path !== "schemas") {
+          throw new SchemaOnlySupportError(`The ref target only supports "schemas". The current target is "${reference.path}".`);
         }
         console.log(reference.name);
         throw new Error("これから");

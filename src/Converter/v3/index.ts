@@ -70,34 +70,25 @@ export const create = (entryPoint: string, rootSchema: OpenApi.RootTypes): Conve
     const store = Store.create(factory);
     if (rootSchema.components) {
       if (rootSchema.components.schemas) {
-        store.addNamespace("schemas", Schemas.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.schemas));
+        Schemas.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.schemas);
       }
       if (rootSchema.components.headers) {
-        Headers.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.headers)
+        Headers.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.headers);
       }
       if (rootSchema.components.responses) {
-        store.addNamespace("responses", Responses.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.responses));
+        Responses.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.responses);
       }
       if (rootSchema.components.parameters) {
-        store.addNamespace(
-          "parameters",
-          Parameters.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.parameters),
-        );
+        Parameters.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.parameters);
       }
       if (rootSchema.components.requestBodies) {
-        store.addNamespace(
-          "requestBodies",
-          RequestBodies.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.requestBodies),
-        );
+        RequestBodies.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.requestBodies);
       }
       if (rootSchema.components.securitySchemes) {
-        store.addNamespace(
-          "securitySchemes",
-          SecuritySchemas.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.securitySchemes),
-        );
+        SecuritySchemas.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.securitySchemes);
       }
       if (rootSchema.components.pathItems) {
-        store.addNamespace("pathItems", PathItems.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.pathItems));
+        PathItems.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.pathItems);
       }
       // TODO
       // if (rootSchema.components.links) {

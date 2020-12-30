@@ -35,13 +35,13 @@ export const get = <T extends Def.Statement["type"]>(
   return undefined;
 };
 
-export const set = (
-  obj: Def.StatementMap,
+export const set = <T extends Def.StatementMap>(
+  obj: T,
   path: string,
   statement: Def.Statement,
   createNamespace: (name: string) => Def.NamespaceStatement,
   delimiter = SLASH_DELIMITER,
-): Def.StatementMap => {
+): T => {
   const [firstPath, ...pathArray] = path.split(delimiter);
   if (!firstPath) {
     return obj;
@@ -51,6 +51,6 @@ export const set = (
   const target = childObj ? childObj : createNamespace(firstPath);
   target.statements = set(target.statements, pathArray.join(delimiter), statement, createNamespace, delimiter);
   const key = Def.generateKey(isBottom ? statement.type : target.type, firstPath);
-  obj[key] = isBottom ? statement : target;
+  (obj as Def.StatementMap)[key] = isBottom ? statement : target;
   return obj;
 };

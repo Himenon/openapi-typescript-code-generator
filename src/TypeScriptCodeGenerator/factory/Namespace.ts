@@ -18,12 +18,6 @@ export interface CreateParams {
 export interface CreateMultiParams extends Omit<CreateParams, "name"> {
   names: string[];
 }
-
-export interface CreateOrUpdateMultiParams extends Omit<CreateParams, "name"> {
-  node?: ts.ModuleDeclaration;
-  names: string[];
-}
-
 export interface UpdateParams {
   node: ts.ModuleDeclaration;
   statements: ts.Statement[];
@@ -33,7 +27,6 @@ export interface Factory {
   create: (params: CreateParams) => ts.ModuleDeclaration;
   findNamespace: (params: FindStatementParams) => ts.Statement | undefined;
   createMultiple: (params: CreateMultiParams) => ts.ModuleDeclaration;
-  createOrUpdateMultiParams: (params: CreateOrUpdateMultiParams) => ts.ModuleDeclaration;
   update: (params: UpdateParams) => ts.ModuleDeclaration;
   addStatements: (params: UpdateParams) => ts.ModuleDeclaration;
 }
@@ -88,23 +81,6 @@ export const createMultiple = (context: ts.TransformationContext): Factory["crea
   }, child);
 };
 
-export const createOrUpdateMultiParams = (context: ts.TransformationContext): Factory["createOrUpdateMultiParams"] => (
-  params: CreateOrUpdateMultiParams,
-): ts.ModuleDeclaration => {
-  const { node, ...rest } = params;
-  if (!node) {
-    return createMultiple(context)(rest);
-  }
-  return params.names.reduce<ts.ModuleDeclaration>((parentNode, childName, index) => {
-    const childStatement = findStatement(context)({ node: parentNode, name: childName });
-    const restNames = params.names.slice(index - 1, params.names.length);
-    const statement = childStatement
-      ? createOrUpdateMultiParams(context)({ ...params, node: parentNode, names: restNames })
-      : createMultiple(context)({ ...params, names: restNames });
-    return addStatements(context)({ node: parentNode, statements: [statement] });
-  }, node);
-};
-
 export const update = (context: ts.TransformationContext): Factory["update"] => (params: UpdateParams): ts.ModuleDeclaration => {
   const { factory } = context;
   const { node, statements } = params;
@@ -131,7 +107,6 @@ export const make = (context: ts.TransformationContext): Factory => {
     create: create(context),
     update: update(context),
     createMultiple: createMultiple(context),
-    createOrUpdateMultiParams: createOrUpdateMultiParams(context),
-    addStatements: update(context),
+    addStatements: addStatements(context),
   };
 };

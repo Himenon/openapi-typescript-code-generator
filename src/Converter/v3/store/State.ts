@@ -1,17 +1,9 @@
 import * as Def from "./Definition";
 
 export interface Type {
-  components: Def.Components;
+  components: Def.StatementMap;
 }
 
 export const createDefaultState = (): Type => ({
-  components: {
-    schemas: undefined,
-    headers: undefined,
-    responses: undefined,
-    parameters: undefined,
-    requestBodies: undefined,
-    securitySchemes: undefined,
-    pathItems: undefined,
-  },
+  components: {},
 });

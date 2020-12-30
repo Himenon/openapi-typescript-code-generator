@@ -13,31 +13,38 @@ export const generateNamespace = (
   store: Store.Type,
   factory: Factory.Type,
   responses: OpenApi.MapLike<string, OpenApi.Response | OpenApi.Reference>,
-): ts.ModuleDeclaration => {
-  const statements = Object.entries(responses).reduce<ts.Statement[]>((statements, [name, response]) => {
+): void => {
+  store.addComponent("responses", {
+    type: "namespace",
+    value: factory.Namespace.create({
+      export: true,
+      name: "Responses",
+      statements: [],
+      comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#responsesObject`,
+    }),
+    statements: {},
+  });
+  Object.entries(responses).forEach(([name, response]) => {
     if (Guard.isReference(response)) {
       const reference = Reference.generate<OpenApi.Response>(entryPoint, currentPoint, response);
       if (reference.type === "local") {
-        if (!store.hasStatement(reference.target, reference.name)) {
-          throw new UndefinedComponent(`Reference "${response.$ref}" did not found in ${reference.target} by ${reference.name}`);
+        if (!store.hasStatement(reference.path, "interface")) {
+          throw new UndefinedComponent(`Reference "${response.$ref}" did not found in ${reference.path} by ${reference.name}`);
         }
       } else if (reference.type === "remote") {
-        if (reference.key) {
-          statements.push(Response.generateNamespace(entryPoint, currentPoint, factory, reference.key, reference.data));
-        }
+        store.addStatement(reference.path, {
+          type: "namespace",
+          value: Response.generateNamespace(entryPoint, currentPoint, factory, reference.name, reference.data),
+          statements: {},
+        });
       }
-      return statements;
     } else {
-      statements.push(Response.generateNamespace(entryPoint, currentPoint, factory, name, response));
+      store.addStatement(`components/responses/${name}`, {
+        type: "namespace",
+        value: Response.generateNamespace(entryPoint, currentPoint, factory, name, response),
+        statements: {},
+      });
     }
-    return statements;
-  }, []);
-
-  return factory.Namespace.create({
-    export: true,
-    name: "Responses",
-    statements,
-    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#responsesObject`,
   });
 };
 

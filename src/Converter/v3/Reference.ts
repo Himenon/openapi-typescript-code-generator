@@ -21,13 +21,21 @@ export type LocalReferencePattern =
 export interface LocalReference {
   type: "local";
   name: string;
-  target: string;
+  /**
+   * /components/headers/hoge/fuga
+   */
+  path: string;
 }
 
 export interface RemoteReference<T> {
   type: "remote";
   referencePoint: string;
-  target: string;
+  /**
+   * /components/headers/hoge/fuga
+   */
+  path: string;
+
+  name: string;
   data: T;
 }
 
@@ -71,10 +79,11 @@ export const generateLocalReference = (reference: OpenApi.Reference): LocalRefer
     return;
   }
   const name = reference.$ref.split(localReferencePattern)[1];
+  const targetPath = localReferenceComponents[localReferencePattern] as string;
   return {
     type: "local",
     name,
-    target: localReferenceComponents[localReferencePattern],
+    path: targetPath,
   };
 };
 
@@ -106,7 +115,7 @@ export const generate = <T>(entryPoint: string, currentPoint: string, reference:
   const ext = path.extname(referencePoint);
   const relativePathFromEntryPoint = path.relative(path.dirname(entryPoint), referencePoint);
   const keys: string[] = relativePathFromEntryPoint.replace(ext, "").split("/");
-  const target: string = keys.join("."); // components/hoge/hoge/hoge
+  const targetPath: string = keys.join("/"); // components/hoge/hoge/hoge
 
   const data = fileSystem.loadJsonOrYaml(referencePoint);
   if (isReference(data)) {
@@ -116,7 +125,8 @@ export const generate = <T>(entryPoint: string, currentPoint: string, reference:
   return {
     type: "remote",
     referencePoint,
-    target,
+    path: targetPath,
+    name: keys[keys.length - 1],
     data,
   };
 };
