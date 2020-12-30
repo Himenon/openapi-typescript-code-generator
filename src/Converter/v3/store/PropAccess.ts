@@ -2,12 +2,12 @@ import * as Def from "./Definition";
 
 const SLASH_DELIMITER = "/" as const;
 
-export const get = <T extends Def.Statement["type"]>(
-  obj: Def.StatementMap,
+export const get = <A, B, T extends Def.Statement<A, B>["type"]>(
+  obj: Def.StatementMap<A, B>,
   type: T,
   path: string,
   delimiter = SLASH_DELIMITER,
-): Def.GetStatement<T> | undefined => {
+): Def.GetStatement<A, B, T> | undefined => {
   const pathArray = path.split(delimiter);
   const firstKey = pathArray[0];
   const nextPath = pathArray.slice(1, pathArray.length);
@@ -22,24 +22,24 @@ export const get = <T extends Def.Statement["type"]>(
 
   if (target.type === "namespace") {
     if (isFinal) {
-      return target as Def.GetStatement<T>;
+      return target as Def.GetStatement<A, B, T>;
     } else {
       return get(target.statements, type, nextPath.join(delimiter), delimiter);
     }
   }
 
   if (target.type === "interface") {
-    return target as Def.GetStatement<T>;
+    return target as Def.GetStatement<A, B, T>;
   }
 
   return undefined;
 };
 
-export const set = <T extends Def.StatementMap>(
+export const set = <A, B, T extends Def.StatementMap<A, B>>(
   obj: T,
   path: string,
-  statement: Def.Statement,
-  createNamespace: (name: string) => Def.NamespaceStatement,
+  statement: Def.Statement<A, B>,
+  createNamespace: (name: string) => Def.NamespaceStatement<A, B>,
   delimiter = SLASH_DELIMITER,
 ): T => {
   const [firstPath, ...pathArray] = path.split(delimiter);
@@ -51,6 +51,6 @@ export const set = <T extends Def.StatementMap>(
   const target = childObj ? childObj : createNamespace(firstPath);
   target.statements = set(target.statements, pathArray.join(delimiter), statement, createNamespace, delimiter);
   const key = Def.generateKey(isBottom ? statement.type : target.type, firstPath);
-  (obj as Def.StatementMap)[key] = isBottom ? statement : target;
+  (obj as Def.StatementMap<A, B>)[key] = isBottom ? statement : target;
   return obj;
 };
