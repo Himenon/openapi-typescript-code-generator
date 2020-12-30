@@ -1,32 +1,10 @@
-import ts from "typescript";
+import * as Def from "./Definition";
 
-export interface Components {
-  schemas: ts.ModuleDeclaration | undefined;
-  headers: ts.ModuleDeclaration | undefined;
-  responses: ts.ModuleDeclaration | undefined;
-  parameters: ts.ModuleDeclaration | undefined;
-  requestBodies: ts.ModuleDeclaration | undefined;
-  securitySchemes: ts.ModuleDeclaration | undefined;
-  pathItems: ts.ModuleDeclaration | undefined;
+export interface Type {
+  components: Def.Components;
 }
 
-export interface State {
-  components: Components;
-}
-
-export type ComponentName = keyof State["components"];
-
-export const componentNames: ComponentName[] = [
-  "schemas",
-  "headers",
-  "responses",
-  "parameters",
-  "requestBodies",
-  "securitySchemes",
-  "pathItems",
-];
-
-export const createDefaultState = (): State => ({
+export const createDefaultState = (): Type => ({
   components: {
     schemas: undefined,
     headers: undefined,

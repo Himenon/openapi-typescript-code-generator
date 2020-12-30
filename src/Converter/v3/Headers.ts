@@ -1,4 +1,3 @@
-import ts from "typescript";
 import * as Reference from "./Reference";
 import * as Header from "./Header";
 import { OpenApi } from "./types";
@@ -13,8 +12,18 @@ export const generateNamespace = (
   store: Store.Type,
   factory: Factory.Type,
   headers: OpenApi.MapLike<string, OpenApi.Header | OpenApi.Reference>,
-): ts.ModuleDeclaration => {
-  const statements = Object.entries(headers).reduce<ts.InterfaceDeclaration[]>((statements, [name, header]) => {
+): void => {
+  store.addStatement("headers", {
+    type: "namespace",
+    value: factory.Namespace.create({
+      export: true,
+      name: "Headers",
+      statements: [],
+      comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#componentsObject`,
+    }),
+    statements: [],
+  });
+  Object.entries(headers).forEach(([name, header]) => {
     if (Guard.isReference(header)) {
       const reference = Reference.generate<OpenApi.Header>(entryPoint, currentPoint, header);
       if (reference.type === "local") {
@@ -22,20 +31,16 @@ export const generateNamespace = (
           throw new UndefinedComponent(`Reference "${header.$ref}" did not found in ${reference.target} by ${reference.name}`);
         }
       } else if (reference.type === "remote") {
-        if (reference.key) {
-          statements.push(Header.generateInterface(entryPoint, reference.referencePoint, factory, reference.key, reference.data));
-        }
+        store.addStatement(reference.target, {
+          type: "interface",
+          value: Header.generateInterface(entryPoint, reference.referencePoint, factory, reference.target, reference.data),
+        });
       }
-      return statements;
+      return;
     }
-    statements.push(Header.generateInterface(entryPoint, currentPoint, factory, name, header));
-
-    return statements;
-  }, []);
-  return factory.Namespace.create({
-    export: true,
-    name: "Headers",
-    statements,
-    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#componentsObject`,
+    store.addStatement("components/Headers", {
+      type: "interface",
+      value: Header.generateInterface(entryPoint, currentPoint, factory, name, header),
+    });
   });
 };

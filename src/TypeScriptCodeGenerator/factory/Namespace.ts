@@ -2,12 +2,26 @@ import { generateComment } from "./utils";
 import ts from "typescript";
 import * as ModuleBlock from "./ModuleBlock";
 
+export interface FindStatementParams {
+  node: ts.ModuleDeclaration;
+  name: string;
+}
+
 export interface CreateParams {
   export?: true;
   name: string;
   statements: ts.Statement[];
   comment?: string;
   deprecated?: boolean;
+}
+
+export interface CreateMultiParams extends Omit<CreateParams, "name"> {
+  names: string[];
+}
+
+export interface CreateOrUpdateMultiParams extends Omit<CreateParams, "name"> {
+  node?: ts.ModuleDeclaration;
+  names: string[];
 }
 
 export interface UpdateParams {
@@ -17,9 +31,25 @@ export interface UpdateParams {
 
 export interface Factory {
   create: (params: CreateParams) => ts.ModuleDeclaration;
+  findNamespace: (params: FindStatementParams) => ts.Statement | undefined;
+  createMultiple: (params: CreateMultiParams) => ts.ModuleDeclaration;
+  createOrUpdateMultiParams: (params: CreateOrUpdateMultiParams) => ts.ModuleDeclaration;
   update: (params: UpdateParams) => ts.ModuleDeclaration;
   addStatements: (params: UpdateParams) => ts.ModuleDeclaration;
 }
+
+// eslint-disable-next-line no-unused-vars
+export const findStatement = (context: ts.TransformationContext): Factory["findNamespace"] => (
+  params: FindStatementParams,
+): ts.Statement | undefined => {
+  let statement: ts.Statement | undefined;
+  params.node.forEachChild(node => {
+    if (ts.isModuleDeclaration(node) && node.name.text === params.name) {
+      statement = node;
+    }
+  });
+  return statement;
+};
 
 export const create = ({ factory }: ts.TransformationContext): Factory["create"] => (params: CreateParams): ts.ModuleDeclaration => {
   const node = factory.createModuleDeclaration(
@@ -34,6 +64,45 @@ export const create = ({ factory }: ts.TransformationContext): Factory["create"]
     return ts.addSyntheticLeadingComment(node, ts.SyntaxKind.MultiLineCommentTrivia, comment.value, comment.hasTrailingNewLine);
   }
   return node;
+};
+
+export const createMultiple = (context: ts.TransformationContext): Factory["createMultiple"] => (
+  params: CreateMultiParams,
+): ts.ModuleDeclaration => {
+  const names = params.names.reverse();
+  const firstName = names[0];
+  const restNames = names.slice(1, names.length);
+  const child = create(context)({
+    export: true,
+    name: firstName,
+    statements: params.statements,
+    comment: params.comment,
+    deprecated: params.deprecated,
+  });
+  return restNames.reduce<ts.ModuleDeclaration>((previousStatement, currentName) => {
+    return create(context)({
+      export: true,
+      name: currentName,
+      statements: [previousStatement],
+    });
+  }, child);
+};
+
+export const createOrUpdateMultiParams = (context: ts.TransformationContext): Factory["createOrUpdateMultiParams"] => (
+  params: CreateOrUpdateMultiParams,
+): ts.ModuleDeclaration => {
+  const { node, ...rest } = params;
+  if (!node) {
+    return createMultiple(context)(rest);
+  }
+  return params.names.reduce<ts.ModuleDeclaration>((parentNode, childName, index) => {
+    const childStatement = findStatement(context)({ node: parentNode, name: childName });
+    const restNames = params.names.slice(index - 1, params.names.length);
+    const statement = childStatement
+      ? createOrUpdateMultiParams(context)({ ...params, node: parentNode, names: restNames })
+      : createMultiple(context)({ ...params, names: restNames });
+    return addStatements(context)({ node: parentNode, statements: [statement] });
+  }, node);
 };
 
 export const update = (context: ts.TransformationContext): Factory["update"] => (params: UpdateParams): ts.ModuleDeclaration => {
@@ -58,8 +127,11 @@ export const addStatements = (context: ts.TransformationContext): Factory["addSt
 
 export const make = (context: ts.TransformationContext): Factory => {
   return {
+    findNamespace: findStatement(context),
     create: create(context),
     update: update(context),
+    createMultiple: createMultiple(context),
+    createOrUpdateMultiParams: createOrUpdateMultiParams(context),
     addStatements: update(context),
   };
 };

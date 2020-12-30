@@ -73,7 +73,7 @@ export const create = (entryPoint: string, rootSchema: OpenApi.RootTypes): Conve
         store.addNamespace("schemas", Schemas.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.schemas));
       }
       if (rootSchema.components.headers) {
-        store.addNamespace("headers", Headers.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.headers));
+        Headers.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.headers)
       }
       if (rootSchema.components.responses) {
         store.addNamespace("responses", Responses.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.responses));
