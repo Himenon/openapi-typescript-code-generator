@@ -46,10 +46,11 @@ export const set = (
   if (!firstPath) {
     return obj;
   }
+  const isBottom = pathArray.length === 0;
   const childObj = get(obj, "namespace", firstPath, delimiter);
   const target = childObj ? childObj : createNamespace(firstPath);
   target.statements = set(target.statements, pathArray.join(delimiter), statement, createNamespace, delimiter);
-  const key = Def.generateKey(target.type, firstPath);
-  obj[key] = target;
+  const key = Def.generateKey(isBottom ? statement.type : target.type, firstPath);
+  obj[key] = isBottom ? statement : target;
   return obj;
 };
