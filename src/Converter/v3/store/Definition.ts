@@ -7,7 +7,7 @@ export type Keys = InterfaceKey | NamespaceKey;
 export interface NamespaceStatement {
   type: "namespace";
   value: ts.ModuleDeclaration;
-  statements: { [key: string]: Statement };
+  statements: StatementMap;
 }
 
 export interface InterfaceStatement {
@@ -19,7 +19,7 @@ export type Statement = NamespaceStatement | InterfaceStatement;
 
 export interface StatementMap {
   [key: string]: Statement | undefined;
-};
+}
 
 export interface Components {
   schemas: StatementMap | undefined;
@@ -33,11 +33,16 @@ export interface Components {
 
 export type ComponentName = keyof Components;
 
-type GenerateKey<T extends "namespace" | "interface"> = T extends "namespace" ? NamespaceKey : (T extends "interface" ? InterfaceKey : never);
+export type GenerateKey<T extends Statement["type"]> = T extends "namespace" ? NamespaceKey : T extends "interface" ? InterfaceKey : never;
+export type GetStatement<T extends Statement["type"]> = T extends "namespace"
+  ? NamespaceStatement
+  : T extends "interface"
+  ? InterfaceStatement
+  : never;
 
-export const generateKey = <T extends "namespace" | "interface">(type: T, key: string): GenerateKey<T>  => {
+export const generateKey = <T extends Statement["type"]>(type: T, key: string): GenerateKey<T> => {
   return `${type}:${key}` as GenerateKey<T>;
-}
+};
 
 export const componentNames: ComponentName[] = [
   "schemas",
