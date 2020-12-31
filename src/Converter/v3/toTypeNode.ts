@@ -59,11 +59,11 @@ export const convert: Convert = (
   }
   // Reference
   if (Guard.isReference(schema)) {
-    const alias = Reference.generate<OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition>(entryPoint, currentPoint, schema);
-    if (alias.type === "local") {
+    const reference = Reference.generate<OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition>(entryPoint, currentPoint, schema);
+    if (reference.type === "local") {
       throw new FeatureDevelopmentError("next features");
     }
-    return convert(entryPoint, alias.referencePoint, factory, alias.data, { parent: schema });
+    return convert(entryPoint, reference.referencePoint, factory, reference.data, { parent: schema });
   }
 
   if (Guard.isOneOfSchema(schema)) {

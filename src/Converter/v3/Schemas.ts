@@ -1,4 +1,3 @@
-import ts from "typescript";
 import { OpenApi } from "./types";
 import { Factory } from "../../TypeScriptCodeGenerator";
 import { FeatureDevelopmentError, UnSupportError } from "../../Exception";
@@ -13,59 +12,96 @@ export const generateNamespace = (
   store: Store.Type,
   factory: Factory.Type,
   schemas: OpenApi.MapLike<string, OpenApi.Schema | OpenApi.Reference>,
-): ts.ModuleDeclaration => {
-  const statements = Object.entries(schemas).map(([name, schema]) => {
+): void => {
+  store.addComponent("schemas", {
+    type: "namespace",
+    value: factory.Namespace.create({
+      export: true,
+      name: "Components",
+      statements: [],
+      comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#schemaObject`,
+    }),
+    statements: {},
+  });
+  Object.entries(schemas).forEach(([name, schema]) => {
     if (Guard.isReference(schema)) {
-      const alias = Reference.generate<OpenApi.Schema | OpenApi.Reference>(entryPoint, currentPoint, schema);
-      if (alias.type === "local") {
-        throw new FeatureDevelopmentError("これから" + alias.name);
+      const reference = Reference.generate<OpenApi.Schema>(entryPoint, currentPoint, schema);
+      const path = reference.path;
+      if (reference.type === "local") {
+        throw new FeatureDevelopmentError("これから" + reference.name);
       }
-      if (Guard.isReference(alias.data)) {
+      if (Guard.isReference(reference.data)) {
         throw new FeatureDevelopmentError("aliasの先がaliasだった場合");
       }
-      if (Guard.isAllOfSchema(alias.data)) {
-        return Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, alias.data.allOf, "allOf");
+      if (Guard.isAllOfSchema(reference.data)) {
+        return store.addStatement(path, {
+          type: "typeAlias",
+          value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, reference.data.allOf, "allOf"),
+        });
       }
-      if (Guard.isOneOfSchema(alias.data)) {
-        return Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, alias.data.oneOf, "oneOf");
+      if (Guard.isOneOfSchema(reference.data)) {
+        return store.addStatement(path, {
+          type: "typeAlias",
+          value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, reference.data.oneOf, "oneOf"),
+        });
       }
-      if (Guard.isAnyOfSchema(alias.data)) {
-        return Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, alias.data.anyOf, "allOf");
+      if (Guard.isAnyOfSchema(reference.data)) {
+        return store.addStatement(path, {
+          type: "typeAlias",
+          value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, reference.data.anyOf, "allOf"),
+        });
       }
-      if (Guard.isObjectSchema(alias.data)) {
-        return Schema.generateInterface(entryPoint, alias.referencePoint, factory, name, alias.data);
+      if (Guard.isObjectSchema(reference.data)) {
+        return store.addStatement(path, {
+          type: "interface",
+          value: Schema.generateInterface(entryPoint, reference.referencePoint, factory, name, reference.data),
+        });
       }
-      if (Guard.isPrimitiveSchema(alias.data)) {
-        return Schema.generateTypeAlias(entryPoint, alias.referencePoint, factory, name, alias.data);
+      if (Guard.isPrimitiveSchema(reference.data)) {
+        return store.addStatement(path, {
+          type: "typeAlias",
+          value: Schema.generateTypeAlias(entryPoint, reference.referencePoint, factory, name, reference.data),
+        });
       }
-      throw new UnSupportError("schema.type = Array[] not supported. " + JSON.stringify(alias.data));
+      throw new UnSupportError("schema.type = Array[] not supported. " + JSON.stringify(reference.data));
     }
+    const path = `components/schemas/${name}`;
     if (Guard.isAllOfSchema(schema)) {
-      return Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.allOf, "allOf");
+      return store.addStatement(path, {
+        type: "typeAlias",
+        value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.allOf, "allOf"),
+      });
     }
     if (Guard.isOneOfSchema(schema)) {
-      return Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.oneOf, "oneOf");
+      return store.addStatement(path, {
+        type: "typeAlias",
+        value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.oneOf, "oneOf"),
+      });
     }
     if (Guard.isAnyOfSchema(schema)) {
-      return Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.anyOf, "anyOf");
+      return store.addStatement(path, {
+        type: "typeAlias",
+        value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.anyOf, "anyOf"),
+      });
     }
     if (Guard.isObjectSchema(schema)) {
-      return Schema.generateInterface(entryPoint, currentPoint, factory, name, schema);
+      return store.addStatement(path, {
+        type: "interface",
+        value: Schema.generateInterface(entryPoint, currentPoint, factory, name, schema),
+      });
     }
     if (Guard.isObjectSchema(schema)) {
-      return Schema.generateInterface(entryPoint, currentPoint, factory, name, schema);
+      return store.addStatement(path, {
+        type: "interface",
+        value: Schema.generateInterface(entryPoint, currentPoint, factory, name, schema),
+      });
     }
     if (Guard.isPrimitiveSchema(schema)) {
-      return Schema.generateTypeAlias(entryPoint, currentPoint, factory, name, schema);
+      return store.addStatement(path, {
+        type: "typeAlias",
+        value: Schema.generateTypeAlias(entryPoint, currentPoint, factory, name, schema),
+      });
     }
     throw new UnSupportError("schema.type = Array[] not supported. " + JSON.stringify(schema));
-  });
-
-  statements.map(statement => statement.name.text);
-  return factory.Namespace.create({
-    export: true,
-    name: "Components",
-    statements,
-    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#schemaObject`,
   });
 };

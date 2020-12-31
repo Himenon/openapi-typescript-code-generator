@@ -22,7 +22,7 @@ export interface LocalReference {
   type: "local";
   name: string;
   /**
-   * /components/headers/hoge/fuga
+   * components/headers/hoge/fuga
    */
   path: string;
 }

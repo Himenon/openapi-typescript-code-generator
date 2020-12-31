@@ -8,24 +8,25 @@ import * as fs from "fs";
 
 export type A = State.A;
 export type B = State.B;
+export type C = State.C;
 
 export interface Type {
-  addComponent: (componentName: Def.ComponentName, statement: Def.Statement<A, B>) => void;
+  addComponent: (componentName: Def.ComponentName, statement: Def.Statement<A, B, C>) => void;
   /**
    * @params path: "components/headers/hoge"
    */
-  addStatement: (path: string, statement: Def.Statement<A, B>) => void;
+  addStatement: (path: string, statement: Def.Statement<A, B, C>) => void;
   /**
    * @params path: "components/headers/hoge"
    */
-  hasStatement: (path: string, type: Def.Statement<A, B>["type"]) => boolean;
+  hasStatement: (path: string, type: Def.Statement<A, B, C>["type"]) => boolean;
   getRootStatements: () => ts.Statement[];
 }
 
 export const create = (factory: Factory.Type): Type => {
   const state: State.Type = State.createDefaultState();
 
-  const createNamespace = (name: string): Def.NamespaceStatement<A, B> => {
+  const createNamespace = (name: string): Def.NamespaceStatement<A, B, C> => {
     const value = factory.Namespace.create({
       export: true,
       name,
@@ -38,18 +39,18 @@ export const create = (factory: Factory.Type): Type => {
     };
   };
 
-  const addComponent = (componentName: Def.ComponentName, statement: Def.Statement<A, B>): void => {
+  const addComponent = (componentName: Def.ComponentName, statement: Def.Statement<A, B, C>): void => {
     const key = Def.generateKey("namespace", componentName);
     console.log(`AddComponent : "${key}"`);
     state.components[key] = statement;
   };
 
-  const hasStatement = (path: string, type: Def.Statement<A, B>["type"]): boolean => {
+  const hasStatement = (path: string, type: Def.Statement<A, B, C>["type"]): boolean => {
     const targetPath = relative("components", path);
     return !!PropAccess.get(state.components, type, targetPath);
   };
 
-  const addStatement = (path: string, statement: Def.Statement<A, B>): void => {
+  const addStatement = (path: string, statement: Def.Statement<A, B, C>): void => {
     const targetPath = relative("components", path);
     console.log(`AddStatement : ${statement.type} "${path}"`);
     state.components = PropAccess.set(state.components, targetPath, statement, createNamespace);
@@ -59,13 +60,16 @@ export const create = (factory: Factory.Type): Type => {
     return node.value;
   };
 
-  const namespaceToTsStatement = (node: Def.NamespaceStatement<A, B>): ts.Statement => {
+  const namespaceToTsStatement = (node: Def.NamespaceStatement<A, B, C>): ts.Statement => {
     const statements = Object.values(node.statements).reduce<ts.Statement[]>((previous, childStatement) => {
       if (!childStatement) {
         return previous;
       }
       if (childStatement.type === "namespace") {
         return previous.concat(namespaceToTsStatement(childStatement));
+      }
+      if (childStatement.type === "typeAlias") {
+        return previous.concat(childStatement.value);
       }
       return previous.concat(interfaceToStatement(childStatement));
     }, []);

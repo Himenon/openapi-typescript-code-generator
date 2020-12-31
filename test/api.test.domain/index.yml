@@ -38,6 +38,8 @@ components:
         #   $ref: "#/components/schemas/UserId"
     BlogId:
       $ref: "./components/schemas/BlogId.yml"
+    Favorite:
+      $ref: "./components/schemas/Favorite.yml"
   headers:
     Origin:
       required: true
