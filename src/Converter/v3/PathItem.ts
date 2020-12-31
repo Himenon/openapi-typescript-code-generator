@@ -1,4 +1,3 @@
-import ts from "typescript";
 import { OpenApi } from "./types";
 import * as Parameters from "./Parameters";
 import { Factory } from "../../TypeScriptCodeGenerator";
@@ -11,41 +10,46 @@ export const generateNamespace = (
   currentPoint: string,
   store: Store.Type,
   factory: Factory.Type,
+  parentPath: string,
   name: string,
   pathItem: OpenApi.PathItem,
-): ts.ModuleDeclaration => {
-  const statements: ts.Statement[] = [];
+): void => {
+  const basePath = `${parentPath}/${name}`;
+  store.addStatement(basePath, {
+    type: "namespace",
+    value: factory.Namespace.create({
+      export: true,
+      name,
+      statements: [],
+      comment: Servers.addComment(pathItem.description, pathItem.servers),
+    }),
+    statements: {},
+  });
   if (pathItem.get) {
-    statements.push(Operation.generateNamespace(entryPoint, currentPoint, store, factory, "GET", pathItem.get));
+    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "GET", pathItem.get);
   }
   if (pathItem.put) {
-    statements.push(Operation.generateNamespace(entryPoint, currentPoint, store, factory, "PUT", pathItem.put));
+    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "PUT", pathItem.put);
   }
   if (pathItem.post) {
-    statements.push(Operation.generateNamespace(entryPoint, currentPoint, store, factory, "POST", pathItem.post));
+    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "POST", pathItem.post);
   }
   if (pathItem.delete) {
-    statements.push(Operation.generateNamespace(entryPoint, currentPoint, store, factory, "DELETE", pathItem.delete));
+    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "DELETE", pathItem.delete);
   }
   if (pathItem.options) {
-    statements.push(Operation.generateNamespace(entryPoint, currentPoint, store, factory, "OPTIONS", pathItem.options));
+    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "OPTIONS", pathItem.options);
   }
   if (pathItem.head) {
-    statements.push(Operation.generateNamespace(entryPoint, currentPoint, store, factory, "HEAD", pathItem.head));
+    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "HEAD", pathItem.head);
   }
   if (pathItem.patch) {
-    statements.push(Operation.generateNamespace(entryPoint, currentPoint, store, factory, "PATCH", pathItem.patch));
+    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "PATCH", pathItem.patch);
   }
   if (pathItem.trace) {
-    statements.push(Operation.generateNamespace(entryPoint, currentPoint, store, factory, "TRACE", pathItem.trace));
+    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "TRACE", pathItem.trace);
   }
   if (pathItem.parameters) {
-    statements.push(Parameters.generateNamespaceWithList(entryPoint, currentPoint, factory, pathItem.parameters));
+    Parameters.generateNamespaceWithList(entryPoint, currentPoint, store, factory, pathItem.parameters);
   }
-  return factory.Namespace.create({
-    export: true,
-    name,
-    statements,
-    comment: Servers.addComment(pathItem.description, pathItem.servers),
-  });
 };

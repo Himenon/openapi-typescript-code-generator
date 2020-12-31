@@ -1,4 +1,3 @@
-import ts from "typescript";
 import * as Reference from "./Reference";
 import * as Paramter from "./Parameter";
 import { OpenApi } from "./types";
@@ -12,57 +11,77 @@ export const generateNamespace = (
   store: Store.Type,
   factory: Factory.Type,
   parameters: OpenApi.MapLike<string, OpenApi.Parameter | OpenApi.Reference>,
-): ts.ModuleDeclaration => {
-  const statements: ts.InterfaceDeclaration[] = Object.entries(parameters).map(([name, parameter]) => {
+): void => {
+  store.addComponent("parameters", {
+    type: "namespace",
+    value: factory.Namespace.create({
+      export: true,
+      name: "Parameters",
+      statements: [],
+      comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#parameterObject`,
+    }),
+    statements: {},
+  });
+
+  Object.entries(parameters).forEach(([name, parameter]) => {
     if (Guard.isReference(parameter)) {
-      const reference = Reference.generate<OpenApi.Parameter | OpenApi.Reference>(entryPoint, currentPoint, parameter);
+      const reference = Reference.generate<OpenApi.Parameter>(entryPoint, currentPoint, parameter);
       if (reference.type === "local") {
         return factory.Interface({
           name: `TODO:${parameter.$ref}`,
           members: [],
         });
       }
-      if (Guard.isReference(reference.data)) {
-        throw new Error("これから");
-      }
-      return Paramter.generateInterface(entryPoint, reference.referencePoint, factory, name, reference.data);
+      const path = `components/parameters/${reference.name}`;
+      return store.addStatement(path, {
+        type: "interface",
+        value: Paramter.generateInterface(entryPoint, reference.referencePoint, factory, reference.name, reference.data),
+      });
     }
-    return Paramter.generateInterface(entryPoint, currentPoint, factory, name, parameter);
-  });
-  return factory.Namespace.create({
-    export: true,
-    name: "Parameters",
-    statements,
-    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#parameterObject`,
+    const path = `components/parameters/${name}`;
+    return store.addStatement(path, {
+      type: "interface",
+      value: Paramter.generateInterface(entryPoint, currentPoint, factory, name, parameter),
+    });
   });
 };
 
 export const generateNamespaceWithList = (
   entryPoint: string,
   currentPoint: string,
+  store: Store.Type,
   factory: Factory.Type,
   parameters: (OpenApi.Parameter | OpenApi.Reference)[],
-): ts.ModuleDeclaration => {
-  const statements: ts.InterfaceDeclaration[] = parameters.map(parameter => {
+): void => {
+  store.addComponent("parameters", {
+    type: "namespace",
+    value: factory.Namespace.create({
+      export: true,
+      name: "Parameters",
+      statements: [],
+      comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#parameterObject`,
+    }),
+    statements: {},
+  });
+  parameters.forEach(parameter => {
     if (Guard.isReference(parameter)) {
-      const reference = Reference.generate<OpenApi.Parameter | OpenApi.Reference>(entryPoint, currentPoint, parameter);
+      const reference = Reference.generate<OpenApi.Parameter>(entryPoint, currentPoint, parameter);
       if (reference.type === "local") {
         return factory.Interface({
           name: `TODO:${parameter.$ref}`,
           members: [],
         });
       }
-      if (Guard.isReference(reference.data)) {
-        throw new Error("これから");
-      }
-      return Paramter.generateInterface(entryPoint, reference.referencePoint, factory, reference.data.name, reference.data);
+      const path = `components/parameters/${reference.name}`;
+      return store.addStatement(path, {
+        type: "interface",
+        value: Paramter.generateInterface(entryPoint, reference.referencePoint, factory, reference.data.name, reference.data),
+      });
     }
-    return Paramter.generateInterface(entryPoint, currentPoint, factory, parameter.name, parameter);
-  });
-  return factory.Namespace.create({
-    export: true,
-    name: "Parameters",
-    statements,
-    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#parameterObject`,
+    const path = `components/parameters/${parameter.name}`;
+    return store.addStatement(path, {
+      type: "interface",
+      value: Paramter.generateInterface(entryPoint, currentPoint, factory, parameter.name, parameter),
+    });
   });
 };

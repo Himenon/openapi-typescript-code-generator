@@ -10,27 +10,40 @@ import * as ExternalDocumentation from "./ExternalDocumentation";
 import * as Servers from "./Servers";
 import { Store } from "./store";
 
+const generateComment = (operation: OpenApi.Operation): string => {
+  const comments: string[] = [];
+  if (operation.summary) {
+    comments.push(operation.summary);
+  }
+  if (operation.description) {
+    comments.push(operation.description);
+  }
+  if (operation.tags) {
+    comments.push(`tags: ${operation.tags.join(", ")}`);
+  }
+  return comments.join(EOL);
+};
+
 export const generateNamespace = (
   entryPoint: string,
   currentPoint: string,
   store: Store.Type,
   factory: Factory.Type,
+  parentPath: string,
   name: string,
   operation: OpenApi.Operation,
-): ts.ModuleDeclaration => {
-  const generateComment = (): string => {
-    const comments: string[] = [];
-    if (operation.summary) {
-      comments.push(operation.summary);
-    }
-    if (operation.description) {
-      comments.push(operation.description);
-    }
-    if (operation.tags) {
-      comments.push(`tags: ${operation.tags.join(", ")}`);
-    }
-    return comments.join(EOL);
-  };
+): void => {
+  store.addStatement(`${parentPath}/${name}`, {
+    type: "namespace",
+    value: factory.Namespace.create({
+      export: true,
+      name,
+      comment: ExternalDocumentation.addComment(Servers.addComment(generateComment(operation), operation.servers), operation.externalDocs),
+      deprecated: operation.deprecated,
+      statements: [],
+    }),
+    statements: {},
+  });
 
   const statements: ts.Statement[] = [];
 
@@ -63,12 +76,4 @@ export const generateNamespace = (
     }
     Responses.generateNamespaceWithStatusCode(entryPoint, currentPoint, store, factory, operation.responses);
   }
-
-  return factory.Namespace.create({
-    export: true,
-    name,
-    comment: ExternalDocumentation.addComment(Servers.addComment(generateComment(), operation.servers), operation.externalDocs),
-    deprecated: operation.deprecated,
-    statements,
-  });
 };
