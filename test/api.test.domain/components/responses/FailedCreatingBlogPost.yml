@@ -6,6 +6,7 @@ content:
       type: object
       required:
         - meta
+        - data
       properties:
         meta:
           type: object
@@ -14,3 +15,10 @@ content:
           properties:
             status:
               type: number
+        data:
+          type: object
+          required:
+            - reason
+          properties:
+            reason:
+              type: string

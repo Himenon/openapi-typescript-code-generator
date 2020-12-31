@@ -28,9 +28,9 @@ export const generateNamespace = (
       if (Guard.isReference(reference.data)) {
         throw new Error("これから");
       }
-      return PathItem.generateNamespace(entryPoint, reference.referencePoint, factory, name, reference.data);
+      return PathItem.generateNamespace(entryPoint, reference.referencePoint, store, factory, name, reference.data);
     }
-    return PathItem.generateNamespace(entryPoint, currentPoint, factory, name, pathItem);
+    return PathItem.generateNamespace(entryPoint, currentPoint, store, factory, name, pathItem);
   });
   return factory.Namespace.create({
     export: true,

@@ -4,6 +4,7 @@ import * as State from "./State";
 import { relative } from "path";
 import { Factory } from "../../../TypeScriptCodeGenerator";
 import * as PropAccess from "./PropAccess";
+import * as fs from "fs";
 
 export type A = State.A;
 export type B = State.B;
@@ -39,7 +40,7 @@ export const create = (factory: Factory.Type): Type => {
 
   const addComponent = (componentName: Def.ComponentName, statement: Def.Statement<A, B>): void => {
     const key = Def.generateKey("namespace", componentName);
-    console.log(`Namespaceに${key} が追加されました`);
+    console.log(`AddComponent : "${key}"`);
     state.components[key] = statement;
   };
 
@@ -50,7 +51,7 @@ export const create = (factory: Factory.Type): Type => {
 
   const addStatement = (path: string, statement: Def.Statement<A, B>): void => {
     const targetPath = relative("components", path);
-    console.log(`${path} に ${statement.type} が追加されました`);
+    console.log(`AddStatement : ${statement.type} "${path}"`);
     state.components = PropAccess.set(state.components, targetPath, statement, createNamespace);
   };
 
@@ -75,6 +76,7 @@ export const create = (factory: Factory.Type): Type => {
   };
 
   const getRootStatements = (): ts.Statement[] => {
+    fs.writeFileSync("debug/sample.json", JSON.stringify(state, null, 2), { encoding: "utf-8" });
     const statements = Def.componentNames.reduce<ts.Statement[]>((statements, componentName) => {
       const component = state.components[Def.generateKey("namespace", componentName)];
       if (!component) {

@@ -8,10 +8,12 @@ import * as RequestBody from "./RequestBody";
 import * as Responses from "./Responses";
 import * as ExternalDocumentation from "./ExternalDocumentation";
 import * as Servers from "./Servers";
+import { Store } from "./store";
 
 export const generateNamespace = (
   entryPoint: string,
   currentPoint: string,
+  store: Store.Type,
   factory: Factory.Type,
   name: string,
   operation: OpenApi.Operation,
@@ -59,7 +61,7 @@ export const generateNamespace = (
     if (Guard.isReference(operation.responses)) {
       throw new Error("これから対応します");
     }
-    statements.push(Responses.generateNamespaceWithStatusCode(entryPoint, currentPoint, factory, operation.responses));
+    Responses.generateNamespaceWithStatusCode(entryPoint, currentPoint, store, factory, operation.responses);
   }
 
   return factory.Namespace.create({

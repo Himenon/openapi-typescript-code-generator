@@ -1,53 +1,57 @@
-import ts from "typescript";
 import { OpenApi } from "./types";
 import { Factory } from "../../TypeScriptCodeGenerator";
 import * as Guard from "./Guard";
 import * as Header from "./Header";
 import * as MediaType from "./MediaType";
+import { Store } from "./store";
 
 export const generateNamespace = (
   entryPoint: string,
   currentPoint: string,
+  store: Store.Type,
   factory: Factory.Type,
   name: string,
   response: OpenApi.Response,
-): ts.ModuleDeclaration => {
-  const headerInterfaces = Object.entries(response.headers || {}).reduce<ts.InterfaceDeclaration[]>((previous, [name, header]) => {
+): void => {
+  store.addStatement(`components/responses/${name}`, {
+    type: "namespace",
+    value: factory.Namespace.create({
+      export: true,
+      name,
+      comment: response.description,
+      statements: [],
+    }),
+    statements: {},
+  });
+
+  Object.entries(response.headers || {}).forEach(([key, header]) => {
     if (Guard.isReference(header)) {
       throw new Error("対応中");
     }
-    return previous.concat(Header.generateInterface(entryPoint, currentPoint, factory, name, header));
-  }, []);
-  const contentSignatures = MediaType.generatePropertySignatures(entryPoint, currentPoint, factory, response.content || {});
+    store.addStatement(`components/responses/Header/${key}`, {
+      type: "interface",
+      value: Header.generateInterface(entryPoint, currentPoint, factory, key, header),
+    });
+  });
 
-  const statements: ts.Statement[] = [];
+  store.addStatement(`components/responses/${name}/Header`, {
+    type: "namespace",
+    value: factory.Namespace.create({
+      export: true,
+      name: "Header",
+      statements: [],
+      comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject`,
+    }),
+    statements: {},
+  });
 
-  if (headerInterfaces.length > 0) {
-    statements.push(
-      factory.Namespace.create({
-        export: true,
-        name: "Header",
-        statements: headerInterfaces,
-        comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject`,
-      }),
-    );
-  }
-
-  if (contentSignatures.length > 0) {
-    statements.push(
-      factory.Interface({
-        export: true,
-        name: "Content",
-        members: contentSignatures,
-        comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject`,
-      }),
-    );
-  }
-
-  return factory.Namespace.create({
-    export: true,
-    name,
-    comment: response.description,
-    statements,
+  store.addStatement(`components/responses/${name}/Content`, {
+    type: "interface",
+    value: factory.Interface({
+      export: true,
+      name: "Content",
+      members: MediaType.generatePropertySignatures(entryPoint, currentPoint, factory, response.content || {}),
+      comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject`,
+    }),
   });
 };

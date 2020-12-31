@@ -7,3 +7,4 @@ package-lock.json
 *.log
 private_npm_cache
 test/code
+debug

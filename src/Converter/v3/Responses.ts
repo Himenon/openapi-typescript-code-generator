@@ -1,4 +1,3 @@
-import ts from "typescript";
 import { OpenApi } from "./types";
 import { Factory } from "../../TypeScriptCodeGenerator";
 import * as Guard from "./Guard";
@@ -32,18 +31,10 @@ export const generateNamespace = (
           throw new UndefinedComponent(`Reference "${response.$ref}" did not found in ${reference.path} by ${reference.name}`);
         }
       } else if (reference.type === "remote") {
-        store.addStatement(reference.path, {
-          type: "namespace",
-          value: Response.generateNamespace(entryPoint, currentPoint, factory, reference.name, reference.data),
-          statements: {},
-        });
+        Response.generateNamespace(entryPoint, currentPoint, store, factory, reference.name, reference.data);
       }
     } else {
-      store.addStatement(`components/responses/${name}`, {
-        type: "namespace",
-        value: Response.generateNamespace(entryPoint, currentPoint, factory, name, response),
-        statements: {},
-      });
+      Response.generateNamespace(entryPoint, currentPoint, store, factory, name, response);
     }
   });
 };
@@ -51,23 +42,28 @@ export const generateNamespace = (
 export const generateNamespaceWithStatusCode = (
   entryPoint: string,
   currentPoint: string,
+  store: Store.Type,
   factory: Factory.Type,
   responses: OpenApi.Responses,
-): ts.ModuleDeclaration => {
-  const statements = Object.entries(responses).map(([statusCode, response]) => {
+): void => {
+  store.addStatement("components/responses", {
+    type: "namespace",
+    value: factory.Namespace.create({
+      export: true,
+      name: "Responses",
+      statements: [],
+      comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#responsesObject`,
+    }),
+    statements: {},
+  });
+
+  Object.entries(responses).map(([statusCode, response]) => {
     if (Guard.isReference(response)) {
       return factory.Interface({
         name: `TODO:${response.$ref}`,
         members: [],
       });
     }
-    return Response.generateNamespace(entryPoint, currentPoint, factory, `Status$${statusCode}`, response);
-  });
-
-  return factory.Namespace.create({
-    export: true,
-    name: "Responses",
-    statements,
-    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#responsesObject`,
+    Response.generateNamespace(entryPoint, currentPoint, store, factory, `Status$${statusCode}`, response);
   });
 };
