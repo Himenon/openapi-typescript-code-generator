@@ -58,6 +58,9 @@ export const create = (factory: Factory.Type): Type => {
   };
 
   const addStatement = (path: string, statement: Def.Statement<A, B, C>): void => {
+    if (!path.startsWith("components")) {
+      throw new Error("componentsから始まっていません :" + path);
+    }
     const targetPath = relative("components", path);
     console.log(`AddStatement: "${path}" ${statement.type}`);
     state.components = PropAccess.set(state.components, targetPath, statement, createNamespace);

@@ -69,7 +69,7 @@ export const generateNamespace = (
     if (Guard.isReference(operation.requestBody)) {
       throw new Error("これから対応します");
     }
-    statements.push(RequestBody.generateNamespace(entryPoint, currentPoint, factory, "RequestBody", operation.requestBody, context));
+    RequestBody.generateNamespace(entryPoint, currentPoint, store, factory, "RequestBody", operation.requestBody, context);
   }
 
   if (operation.responses) {
