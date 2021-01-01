@@ -13,7 +13,7 @@ export const generateNamespace = (
   store: Store.Type,
   factory: Factory.Type,
   responses: OpenApi.MapLike<string, OpenApi.Response | OpenApi.Reference>,
-  setReference: ToTypeNode.SetReferenceCallback,
+  context: ToTypeNode.Context,
 ): void => {
   store.addComponent("responses", {
     type: "namespace",
@@ -33,10 +33,10 @@ export const generateNamespace = (
           throw new UndefinedComponent(`Reference "${response.$ref}" did not found in ${reference.path} by ${reference.name}`);
         }
       } else if (reference.type === "remote") {
-        Response.generateNamespace(entryPoint, currentPoint, store, factory, reference.name, reference.data, setReference);
+        Response.generateNamespace(entryPoint, currentPoint, store, factory, reference.name, reference.data, context);
       }
     } else {
-      Response.generateNamespace(entryPoint, currentPoint, store, factory, name, response, setReference);
+      Response.generateNamespace(entryPoint, currentPoint, store, factory, name, response, context);
     }
   });
 };
@@ -47,7 +47,7 @@ export const generateNamespaceWithStatusCode = (
   store: Store.Type,
   factory: Factory.Type,
   responses: OpenApi.Responses,
-  setReference: ToTypeNode.SetReferenceCallback,
+  context: ToTypeNode.Context,
 ): void => {
   store.addStatement("components/responses", {
     type: "namespace",
@@ -67,6 +67,6 @@ export const generateNamespaceWithStatusCode = (
         members: [],
       });
     }
-    Response.generateNamespace(entryPoint, currentPoint, store, factory, `Status$${statusCode}`, response, setReference);
+    Response.generateNamespace(entryPoint, currentPoint, store, factory, `Status$${statusCode}`, response, context);
   });
 };

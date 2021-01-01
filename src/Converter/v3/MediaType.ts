@@ -9,12 +9,12 @@ export const generatePropertySignature = (
   factory: Factory.Type,
   protocol: string,
   schema: OpenApi.Schema,
-  setReference: ToTypeNode.SetReferenceCallback,
+  context: ToTypeNode.Context,
 ): ts.PropertySignature => {
   return factory.Property({
     name: `"${protocol}"`,
     optional: false,
-    type: ToTypeNode.convert(entryPoint, currentPoint, factory, schema, setReference),
+    type: ToTypeNode.convert(entryPoint, currentPoint, factory, schema, context),
   });
 };
 
@@ -23,12 +23,12 @@ export const generatePropertySignatures = (
   currentPoint: string,
   factory: Factory.Type,
   content: OpenApi.MapLike<string, OpenApi.MediaType>,
-  setReference: ToTypeNode.SetReferenceCallback,
+  context: ToTypeNode.Context,
 ): ts.PropertySignature[] => {
   return Object.entries(content).reduce<ts.PropertySignature[]>((previous, [protocol, mediaType]) => {
     if (!mediaType.schema) {
       return previous;
     }
-    return previous.concat(generatePropertySignature(entryPoint, currentPoint, factory, protocol, mediaType.schema, setReference));
+    return previous.concat(generatePropertySignature(entryPoint, currentPoint, factory, protocol, mediaType.schema, context));
   }, []);
 };

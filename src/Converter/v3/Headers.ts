@@ -13,7 +13,7 @@ export const generateNamespace = (
   store: Store.Type,
   factory: Factory.Type,
   headers: OpenApi.MapLike<string, OpenApi.Header | OpenApi.Reference>,
-  setReference: ToTypeNode.SetReferenceCallback,
+  context: ToTypeNode.Context,
 ): void => {
   store.addComponent("headers", {
     type: "namespace",
@@ -35,13 +35,13 @@ export const generateNamespace = (
       } else if (reference.type === "remote") {
         store.addStatement(reference.path, {
           type: "interface",
-          value: Header.generateInterface(entryPoint, reference.referencePoint, factory, reference.name, reference.data, setReference),
+          value: Header.generateInterface(entryPoint, reference.referencePoint, factory, reference.name, reference.data, context),
         });
       }
     } else {
       store.addStatement(`components/headers/${name}`, {
         type: "interface",
-        value: Header.generateInterface(entryPoint, currentPoint, factory, name, header, setReference),
+        value: Header.generateInterface(entryPoint, currentPoint, factory, name, header, context),
       });
     }
   });

@@ -12,7 +12,7 @@ export const generateNamespace = (
   store: Store.Type,
   factory: Factory.Type,
   parameters: OpenApi.MapLike<string, OpenApi.Parameter | OpenApi.Reference>,
-  setReference: ToTypeNode.SetReferenceCallback,
+  context: ToTypeNode.Context,
 ): void => {
   store.addComponent("parameters", {
     type: "namespace",
@@ -37,13 +37,13 @@ export const generateNamespace = (
       const path = `components/parameters/${reference.name}`;
       return store.addStatement(path, {
         type: "interface",
-        value: Paramter.generateInterface(entryPoint, reference.referencePoint, factory, reference.name, reference.data, setReference),
+        value: Paramter.generateInterface(entryPoint, reference.referencePoint, factory, reference.name, reference.data, context),
       });
     }
     const path = `components/parameters/${name}`;
     return store.addStatement(path, {
       type: "interface",
-      value: Paramter.generateInterface(entryPoint, currentPoint, factory, name, parameter, setReference),
+      value: Paramter.generateInterface(entryPoint, currentPoint, factory, name, parameter, context),
     });
   });
 };
@@ -54,7 +54,7 @@ export const generateNamespaceWithList = (
   store: Store.Type,
   factory: Factory.Type,
   parameters: (OpenApi.Parameter | OpenApi.Reference)[],
-  setReference: ToTypeNode.SetReferenceCallback,
+  context: ToTypeNode.Context,
 ): void => {
   store.addComponent("parameters", {
     type: "namespace",
@@ -79,13 +79,13 @@ export const generateNamespaceWithList = (
       const path = `components/parameters/${reference.name}`;
       return store.addStatement(path, {
         type: "interface",
-        value: Paramter.generateInterface(entryPoint, reference.referencePoint, factory, reference.data.name, reference.data, setReference),
+        value: Paramter.generateInterface(entryPoint, reference.referencePoint, factory, reference.data.name, reference.data, context),
       });
     }
     const path = `components/parameters/${parameter.name}`;
     return store.addStatement(path, {
       type: "interface",
-      value: Paramter.generateInterface(entryPoint, currentPoint, factory, parameter.name, parameter, setReference),
+      value: Paramter.generateInterface(entryPoint, currentPoint, factory, parameter.name, parameter, context),
     });
   });
 };

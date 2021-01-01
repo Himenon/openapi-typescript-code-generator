@@ -14,7 +14,7 @@ export const generateNamespace = (
   parentPath: string,
   name: string,
   pathItem: OpenApi.PathItem,
-  setReference: ToTypeNode.SetReferenceCallback,
+  context: ToTypeNode.Context,
 ): void => {
   const basePath = `${parentPath}/${name}`;
   store.addStatement(basePath, {
@@ -28,30 +28,30 @@ export const generateNamespace = (
     statements: {},
   });
   if (pathItem.get) {
-    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "GET", pathItem.get, setReference);
+    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "GET", pathItem.get, context);
   }
   if (pathItem.put) {
-    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "PUT", pathItem.put, setReference);
+    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "PUT", pathItem.put, context);
   }
   if (pathItem.post) {
-    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "POST", pathItem.post, setReference);
+    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "POST", pathItem.post, context);
   }
   if (pathItem.delete) {
-    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "DELETE", pathItem.delete, setReference);
+    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "DELETE", pathItem.delete, context);
   }
   if (pathItem.options) {
-    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "OPTIONS", pathItem.options, setReference);
+    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "OPTIONS", pathItem.options, context);
   }
   if (pathItem.head) {
-    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "HEAD", pathItem.head, setReference);
+    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "HEAD", pathItem.head, context);
   }
   if (pathItem.patch) {
-    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "PATCH", pathItem.patch, setReference);
+    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "PATCH", pathItem.patch, context);
   }
   if (pathItem.trace) {
-    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "TRACE", pathItem.trace, setReference);
+    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "TRACE", pathItem.trace, context);
   }
   if (pathItem.parameters) {
-    Parameters.generateNamespaceWithList(entryPoint, currentPoint, store, factory, pathItem.parameters, setReference);
+    Parameters.generateNamespaceWithList(entryPoint, currentPoint, store, factory, pathItem.parameters, context);
   }
 };

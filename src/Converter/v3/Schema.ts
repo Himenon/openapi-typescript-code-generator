@@ -12,7 +12,7 @@ export const generatePropertySignatures = (
   currentPoint: string,
   factory: Factory.Type,
   schema: ObjectSchema,
-  setReference: ToTypeNode.SetReferenceCallback,
+  context: ToTypeNode.Context,
 ): ts.PropertySignature[] => {
   if (!schema.properties) {
     return [];
@@ -22,7 +22,7 @@ export const generatePropertySignatures = (
     return factory.Property({
       name: propertyName,
       optional: !required.includes(propertyName),
-      type: ToTypeNode.convert(entryPoint, currentPoint, factory, property, setReference, { parent: schema }),
+      type: ToTypeNode.convert(entryPoint, currentPoint, factory, property, context, { parent: schema }),
       comment: typeof property !== "boolean" ? property.description : undefined,
     });
   });
@@ -34,15 +34,15 @@ export const generateInterface = (
   factory: Factory.Type,
   name: string,
   schema: ObjectSchema,
-  setReference: ToTypeNode.SetReferenceCallback,
+  context: ToTypeNode.Context,
 ): ts.InterfaceDeclaration => {
   if (schema.type !== "object") {
     throw new FeatureDevelopmentError("Please use generateTypeAlias");
   }
   let members: ts.TypeElement[] = [];
-  const propertySignatures = generatePropertySignatures(entryPoint, currentPoint, factory, schema, setReference);
+  const propertySignatures = generatePropertySignatures(entryPoint, currentPoint, factory, schema, context);
   if (Guard.isObjectSchemaWithAdditionalProperties(schema)) {
-    const additionalProperties = ToTypeNode.convertAdditionalProperties(entryPoint, currentPoint, factory, schema, setReference);
+    const additionalProperties = ToTypeNode.convertAdditionalProperties(entryPoint, currentPoint, factory, schema, context);
     if (schema.additionalProperties === true) {
       members = members.concat(additionalProperties);
     } else {
@@ -101,10 +101,10 @@ export const generateMultiTypeAlias = (
   factory: Factory.Type,
   name: string,
   schemas: OpenApi.Schema[],
-  setReference: ToTypeNode.SetReferenceCallback,
+  context: ToTypeNode.Context,
   multiType: "oneOf" | "allOf" | "anyOf",
 ): ts.TypeAliasDeclaration => {
-  const type = ToTypeNode.generateMultiTypeNode(entryPoint, currentPoint, factory, schemas, setReference, ToTypeNode.convert, multiType);
+  const type = ToTypeNode.generateMultiTypeNode(entryPoint, currentPoint, factory, schemas, context, ToTypeNode.convert, multiType);
   return factory.TypeAliasDeclaration.create({
     export: true,
     name,

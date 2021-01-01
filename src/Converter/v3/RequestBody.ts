@@ -10,9 +10,9 @@ export const generateNamespace = (
   factory: Factory.Type,
   name: string,
   requestBody: OpenApi.RequestBody,
-  setReference: ToTypeNode.SetReferenceCallback,
+  context: ToTypeNode.Context,
 ): ts.ModuleDeclaration => {
-  const contentSignatures = MediaType.generatePropertySignatures(entryPoint, currentPoint, factory, requestBody.content || {}, setReference);
+  const contentSignatures = MediaType.generatePropertySignatures(entryPoint, currentPoint, factory, requestBody.content || {}, context);
 
   return factory.Namespace.create({
     export: true,

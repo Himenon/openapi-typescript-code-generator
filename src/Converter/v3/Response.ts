@@ -13,7 +13,7 @@ export const generateNamespace = (
   factory: Factory.Type,
   name: string,
   response: OpenApi.Response,
-  setReference: ToTypeNode.SetReferenceCallback,
+  context: ToTypeNode.Context,
 ): void => {
   store.addStatement(`components/responses/${name}`, {
     type: "namespace",
@@ -32,7 +32,7 @@ export const generateNamespace = (
     }
     store.addStatement(`components/responses/Header/${key}`, {
       type: "interface",
-      value: Header.generateInterface(entryPoint, currentPoint, factory, key, header, setReference),
+      value: Header.generateInterface(entryPoint, currentPoint, factory, key, header, context),
     });
   });
 
@@ -52,7 +52,7 @@ export const generateNamespace = (
     value: factory.Interface({
       export: true,
       name: "Content",
-      members: MediaType.generatePropertySignatures(entryPoint, currentPoint, factory, response.content || {}, setReference),
+      members: MediaType.generatePropertySignatures(entryPoint, currentPoint, factory, response.content || {}, context),
       comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject`,
     }),
   });

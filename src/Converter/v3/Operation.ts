@@ -33,7 +33,7 @@ export const generateNamespace = (
   parentPath: string,
   name: string,
   operation: OpenApi.Operation,
-  setReference: ToTypeNode.SetReferenceCallback,
+  context: ToTypeNode.Context,
 ): void => {
   store.addStatement(`${parentPath}/${name}`, {
     type: "namespace",
@@ -54,7 +54,7 @@ export const generateNamespace = (
       if (Guard.isReference(parameter)) {
         throw new Error("これから対応します");
       }
-      return Parameter.generateInterface(entryPoint, currentPoint, factory, parameter.name, parameter, setReference);
+      return Parameter.generateInterface(entryPoint, currentPoint, factory, parameter.name, parameter, context);
     });
     statements.push(
       factory.Namespace.create({
@@ -69,13 +69,13 @@ export const generateNamespace = (
     if (Guard.isReference(operation.requestBody)) {
       throw new Error("これから対応します");
     }
-    statements.push(RequestBody.generateNamespace(entryPoint, currentPoint, factory, "RequestBody", operation.requestBody, setReference));
+    statements.push(RequestBody.generateNamespace(entryPoint, currentPoint, factory, "RequestBody", operation.requestBody, context));
   }
 
   if (operation.responses) {
     if (Guard.isReference(operation.responses)) {
       throw new Error("これから対応します");
     }
-    Responses.generateNamespaceWithStatusCode(entryPoint, currentPoint, store, factory, operation.responses, setReference);
+    Responses.generateNamespaceWithStatusCode(entryPoint, currentPoint, store, factory, operation.responses, context);
   }
 };

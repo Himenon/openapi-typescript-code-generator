@@ -8,7 +8,7 @@ export const generatePropertySignatures = (
   currentPoint: string,
   factory: Factory.Type,
   header: OpenApi.Header,
-  setReference: ToTypeNode.SetReferenceCallback,
+  context: ToTypeNode.Context,
 ): ts.PropertySignature[] => {
   const signatures: ts.PropertySignature[] = [
     factory.Property({
@@ -23,7 +23,7 @@ export const generatePropertySignatures = (
       factory.Property({
         name: "schema",
         optional: false,
-        type: ToTypeNode.convert(entryPoint, currentPoint, factory, header.schema, setReference),
+        type: ToTypeNode.convert(entryPoint, currentPoint, factory, header.schema, context),
       }),
     );
   }
@@ -37,13 +37,13 @@ export const generateInterface = (
   factory: Factory.Type,
   name: string,
   header: OpenApi.Header,
-  setReference: ToTypeNode.SetReferenceCallback,
+  context: ToTypeNode.Context,
 ): ts.InterfaceDeclaration => {
   return factory.Interface({
     export: true,
     name,
     deprecated: header.deprecated,
     comment: header.description,
-    members: generatePropertySignatures(entryPoint, currentPoint, factory, header, setReference),
+    members: generatePropertySignatures(entryPoint, currentPoint, factory, header, context),
   });
 };

@@ -13,7 +13,7 @@ export const generateNamespace = (
   store: Store.Type,
   factory: Factory.Type,
   requestBodies: OpenApi.MapLike<string, OpenApi.RequestBody | OpenApi.Reference>,
-  setReference: ToTypeNode.SetReferenceCallback,
+  context: ToTypeNode.Context,
 ): ts.ModuleDeclaration => {
   const statements = Object.entries(requestBodies).map(([name, requestBody]) => {
     if (Guard.isReference(requestBody)) {
@@ -24,9 +24,9 @@ export const generateNamespace = (
           members: [],
         });
       }
-      return generateNamespace(entryPoint, alias.referencePoint, store, factory, alias.data, setReference);
+      return generateNamespace(entryPoint, alias.referencePoint, store, factory, alias.data, context);
     }
-    return RequestBody.generateNamespace(entryPoint, currentPoint, factory, name, requestBody, setReference);
+    return RequestBody.generateNamespace(entryPoint, currentPoint, factory, name, requestBody, context);
   });
   return factory.Namespace.create({
     export: true,

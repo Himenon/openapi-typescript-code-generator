@@ -12,7 +12,7 @@ export const generateNamespace = (
   store: Store.Type,
   factory: Factory.Type,
   pathItems: OpenApi.MapLike<string, OpenApi.PathItem | OpenApi.Reference>,
-  setReference: ToTypeNode.SetReferenceCallback,
+  context: ToTypeNode.Context,
 ): void => {
   const basePath = "components/pathItems";
 
@@ -42,9 +42,9 @@ export const generateNamespace = (
         basePath,
         reference.name,
         reference.data,
-        setReference,
+        context,
       );
     }
-    return PathItem.generateNamespace(entryPoint, currentPoint, store, factory, basePath, name, pathItem, setReference);
+    return PathItem.generateNamespace(entryPoint, currentPoint, store, factory, basePath, name, pathItem, context);
   });
 };
