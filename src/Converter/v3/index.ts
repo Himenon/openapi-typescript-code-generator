@@ -96,7 +96,9 @@ const createContext = (entryPoint: string, store: Store.Type, factory: TypeScrip
       }
       return current;
     }, base);
-    console.log({ result, names });
+    if (names.length === 0) {
+      throw new Error("おかしい");
+    }
     return names.join("."); // C.D
   };
   const setReference: ToTypeNode.Context["setReference"] = (reference, convert) => {

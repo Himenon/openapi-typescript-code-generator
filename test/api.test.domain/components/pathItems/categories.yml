@@ -1,0 +1,35 @@
+get:
+  description: Returns pets based on ID
+  summary: Find pets by ID
+  operationId: getPetsById
+  responses:
+    "200":
+      description: pet response
+      content:
+        "*/*":
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  status:
+                    type: number
+              categories:
+                type: array
+                items:
+                  oneOf:
+                    - $ref: "../schemas/Category/Animal.yml"
+                    - $ref: "../schemas/Category/Game.yml"
+                    - $ref: "../schemas/Category/Study.yml"
+                    - $ref: "../schemas/Category/Technology.yml"
+
+  parameters:
+    - in: query
+      name: field
+      schema:
+        type: array
+        items:
+          type: string
+      required: true
+      explode: false

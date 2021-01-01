@@ -1,0 +1,13 @@
+type: object
+required:
+  - id
+  - name
+  - field
+properties:
+  id:
+    type: number
+  name:
+    type: string
+    description: Technology Title
+  field:
+    type: string

@@ -109,3 +109,5 @@ components:
       scheme: "http"
       openIdConnectUrl: ""
   pathItems:
+    /categories:
+      $ref: "./components/pathItems/categories.yml"

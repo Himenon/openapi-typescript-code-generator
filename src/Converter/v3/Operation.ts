@@ -1,5 +1,4 @@
 import { EOL } from "os";
-import ts from "typescript";
 import { OpenApi } from "./types";
 import { Factory } from "../../TypeScriptCodeGenerator";
 import * as Guard from "./Guard";
@@ -47,22 +46,16 @@ export const generateNamespace = (
     statements: {},
   });
 
-  const statements: ts.Statement[] = [];
-
   if (operation.parameters) {
-    const interfaces = operation.parameters.map(parameter => {
+    operation.parameters.forEach(parameter => {
       if (Guard.isReference(parameter)) {
         throw new Error("これから対応します");
       }
-      return Parameter.generateInterface(entryPoint, currentPoint, factory, parameter.name, parameter, context);
+      store.addStatement(`${parentPath}/${name}/Parameters/${parameter.name}`, {
+        type: "interface",
+        value: Parameter.generateInterface(entryPoint, currentPoint, factory, parameter.name, parameter, context),
+      });
     });
-    statements.push(
-      factory.Namespace.create({
-        name: "Parameters",
-        export: true,
-        statements: interfaces,
-      }),
-    );
   }
 
   if (operation.requestBody) {

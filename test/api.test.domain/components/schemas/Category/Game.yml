@@ -1,0 +1,13 @@
+type: object
+required:
+  - id
+  - name
+properties:
+  id:
+    type: number
+  name:
+    type: string
+    description: Game Title
+  kind:
+    type: string
+    enum: [Play Station, Nintendo Switch, XBOX]

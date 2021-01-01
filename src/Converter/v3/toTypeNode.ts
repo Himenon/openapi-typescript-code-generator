@@ -5,7 +5,7 @@ import { Factory } from "../../TypeScriptCodeGenerator";
 import * as Reference from "./Reference";
 import * as Logger from "../../Logger";
 import * as Guard from "./Guard";
-import { UnknownError, FeatureDevelopmentError, UnSupportError } from "../../Exception";
+import { UnknownError, UnSupportError } from "../../Exception";
 import { ObjectSchemaWithAdditionalProperties } from "./types";
 
 export interface Context {
@@ -68,7 +68,8 @@ export const convert: Convert = (
   if (Guard.isReference(schema)) {
     const reference = Reference.generate<OpenApi.Schema | OpenApi.JSONSchemaDefinition>(entryPoint, currentPoint, schema);
     if (reference.type === "local") {
-      throw new FeatureDevelopmentError("next features");
+      console.log({ reference });
+      return factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, reference) });
     }
     if (reference.componentName) {
       context.setReference(reference, convert);
