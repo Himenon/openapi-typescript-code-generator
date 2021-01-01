@@ -5,6 +5,7 @@ import { Factory } from "../../TypeScriptCodeGenerator";
 import * as Guard from "./Guard";
 import { Store } from "./store";
 import { UndefinedComponent } from "../../Exception";
+import * as ToTypeNode from "./toTypeNode";
 
 export const generateNamespace = (
   entryPoint: string,
@@ -12,6 +13,7 @@ export const generateNamespace = (
   store: Store.Type,
   factory: Factory.Type,
   headers: OpenApi.MapLike<string, OpenApi.Header | OpenApi.Reference>,
+  setReference: ToTypeNode.SetReferenceCallback,
 ): void => {
   store.addComponent("headers", {
     type: "namespace",
@@ -33,13 +35,13 @@ export const generateNamespace = (
       } else if (reference.type === "remote") {
         store.addStatement(reference.path, {
           type: "interface",
-          value: Header.generateInterface(entryPoint, reference.referencePoint, factory, reference.name, reference.data),
+          value: Header.generateInterface(entryPoint, reference.referencePoint, factory, reference.name, reference.data, setReference),
         });
       }
     } else {
       store.addStatement(`components/headers/${name}`, {
         type: "interface",
-        value: Header.generateInterface(entryPoint, currentPoint, factory, name, header),
+        value: Header.generateInterface(entryPoint, currentPoint, factory, name, header, setReference),
       });
     }
   });

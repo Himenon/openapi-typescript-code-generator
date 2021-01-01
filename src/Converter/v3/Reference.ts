@@ -40,7 +40,7 @@ export interface RemoteReference<T> {
   data: T;
 }
 
-export type ReferenceType<T> = LocalReference | RemoteReference<T>;
+export type Type<T> = LocalReference | RemoteReference<T>;
 
 const localReferencePatterns: readonly LocalReferencePattern[] = [
   "#/components/schemas/",
@@ -94,7 +94,7 @@ export const generateReferencePoint = (currentPoint: string, reference: OpenApi.
   return path.join(basedir, ref);
 };
 
-export const generate = <T>(entryPoint: string, currentPoint: string, reference: OpenApi.Reference): ReferenceType<T> => {
+export const generate = <T>(entryPoint: string, currentPoint: string, reference: OpenApi.Reference): Type<T> => {
   const localReference = generateLocalReference(reference);
   if (localReference) {
     return localReference;

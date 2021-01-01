@@ -5,6 +5,7 @@ import * as Guard from "./Guard";
 import * as Reference from "./Reference";
 import * as Schema from "./Schema";
 import { Store } from "./store";
+import * as ToTypeNode from "./toTypeNode";
 
 export const generateNamespace = (
   entryPoint: string,
@@ -12,6 +13,7 @@ export const generateNamespace = (
   store: Store.Type,
   factory: Factory.Type,
   schemas: OpenApi.MapLike<string, OpenApi.Schema | OpenApi.Reference>,
+  setReference: ToTypeNode.SetReferenceCallback,
 ): void => {
   store.addComponent("schemas", {
     type: "namespace",
@@ -30,38 +32,28 @@ export const generateNamespace = (
       if (reference.type === "local") {
         throw new FeatureDevelopmentError("これから" + reference.name);
       }
-      // if (reference.componentName) {
-      //   return store.addStatement(path, {
-      //     type: "typeAlias",
-      //     value: factory.TypeAliasDeclaration.createReference({
-      //       export: true,
-      //       name,
-      //       referenceName: reference.name,
-      //     }),
-      //   });
-      // }
       if (Guard.isAllOfSchema(reference.data)) {
         return store.addStatement(path, {
           type: "typeAlias",
-          value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, reference.data.allOf, "allOf"),
+          value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, reference.data.allOf, setReference, "allOf"),
         });
       }
       if (Guard.isOneOfSchema(reference.data)) {
         return store.addStatement(path, {
           type: "typeAlias",
-          value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, reference.data.oneOf, "oneOf"),
+          value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, reference.data.oneOf, setReference, "oneOf"),
         });
       }
       if (Guard.isAnyOfSchema(reference.data)) {
         return store.addStatement(path, {
           type: "typeAlias",
-          value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, reference.data.anyOf, "allOf"),
+          value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, reference.data.anyOf, setReference, "allOf"),
         });
       }
       if (Guard.isObjectSchema(reference.data)) {
         return store.addStatement(path, {
           type: "interface",
-          value: Schema.generateInterface(entryPoint, reference.referencePoint, factory, name, reference.data),
+          value: Schema.generateInterface(entryPoint, reference.referencePoint, factory, name, reference.data, setReference),
         });
       }
       if (Guard.isPrimitiveSchema(reference.data)) {
@@ -76,31 +68,31 @@ export const generateNamespace = (
     if (Guard.isAllOfSchema(schema)) {
       return store.addStatement(path, {
         type: "typeAlias",
-        value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.allOf, "allOf"),
+        value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.allOf, setReference, "allOf"),
       });
     }
     if (Guard.isOneOfSchema(schema)) {
       return store.addStatement(path, {
         type: "typeAlias",
-        value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.oneOf, "oneOf"),
+        value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.oneOf, setReference, "oneOf"),
       });
     }
     if (Guard.isAnyOfSchema(schema)) {
       return store.addStatement(path, {
         type: "typeAlias",
-        value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.anyOf, "anyOf"),
+        value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.anyOf, setReference, "anyOf"),
       });
     }
     if (Guard.isObjectSchema(schema)) {
       return store.addStatement(path, {
         type: "interface",
-        value: Schema.generateInterface(entryPoint, currentPoint, factory, name, schema),
+        value: Schema.generateInterface(entryPoint, currentPoint, factory, name, schema, setReference),
       });
     }
     if (Guard.isObjectSchema(schema)) {
       return store.addStatement(path, {
         type: "interface",
-        value: Schema.generateInterface(entryPoint, currentPoint, factory, name, schema),
+        value: Schema.generateInterface(entryPoint, currentPoint, factory, name, schema, setReference),
       });
     }
     if (Guard.isPrimitiveSchema(schema)) {

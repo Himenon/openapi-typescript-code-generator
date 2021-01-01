@@ -4,6 +4,7 @@ import { OpenApi } from "./types";
 import { Factory } from "../../TypeScriptCodeGenerator";
 import * as Guard from "./Guard";
 import { Store } from "./store";
+import * as ToTypeNode from "./toTypeNode";
 
 export const generateNamespace = (
   entryPoint: string,
@@ -11,6 +12,7 @@ export const generateNamespace = (
   store: Store.Type,
   factory: Factory.Type,
   pathItems: OpenApi.MapLike<string, OpenApi.PathItem | OpenApi.Reference>,
+  setReference: ToTypeNode.SetReferenceCallback,
 ): void => {
   const basePath = "components/pathItems";
 
@@ -32,8 +34,17 @@ export const generateNamespace = (
       if (reference.type === "local") {
         throw new Error("これから");
       }
-      return PathItem.generateNamespace(entryPoint, reference.referencePoint, store, factory, basePath, reference.name, reference.data);
+      return PathItem.generateNamespace(
+        entryPoint,
+        reference.referencePoint,
+        store,
+        factory,
+        basePath,
+        reference.name,
+        reference.data,
+        setReference,
+      );
     }
-    return PathItem.generateNamespace(entryPoint, currentPoint, store, factory, basePath, name, pathItem);
+    return PathItem.generateNamespace(entryPoint, currentPoint, store, factory, basePath, name, pathItem, setReference);
   });
 };

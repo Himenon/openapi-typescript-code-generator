@@ -1,13 +1,14 @@
 import ts from "typescript";
 import { OpenApi } from "./types";
 import { Factory } from "../../TypeScriptCodeGenerator";
-import { convert } from "./toTypeNode";
+import * as ToTypeNode from "./toTypeNode";
 
 export const generatePropertySignatures = (
   entryPoint: string,
   currentPoint: string,
   factory: Factory.Type,
   parameter: OpenApi.Parameter,
+  setReference: ToTypeNode.SetReferenceCallback,
 ): ts.PropertySignature[] => {
   const signatures: ts.PropertySignature[] = [
     factory.Property({
@@ -32,7 +33,7 @@ export const generatePropertySignatures = (
       factory.Property({
         name: "schema",
         optional: false,
-        type: convert(entryPoint, currentPoint, factory, parameter.schema),
+        type: ToTypeNode.convert(entryPoint, currentPoint, factory, parameter.schema, setReference),
       }),
     );
   }
@@ -46,11 +47,12 @@ export const generateInterface = (
   factory: Factory.Type,
   name: string,
   parameter: OpenApi.Parameter,
+  setReference: ToTypeNode.SetReferenceCallback,
 ): ts.InterfaceDeclaration => {
   return factory.Interface({
     export: true,
     name,
     comment: parameter.description,
-    members: generatePropertySignatures(entryPoint, currentPoint, factory, parameter),
+    members: generatePropertySignatures(entryPoint, currentPoint, factory, parameter, setReference),
   });
 };

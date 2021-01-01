@@ -1,7 +1,7 @@
 import ts from "typescript";
 import { OpenApi } from "./types";
 import { Factory } from "../../TypeScriptCodeGenerator";
-import { convert } from "./toTypeNode";
+import * as ToTypeNode from "./toTypeNode";
 
 export const generatePropertySignature = (
   entryPoint: string,
@@ -9,11 +9,12 @@ export const generatePropertySignature = (
   factory: Factory.Type,
   protocol: string,
   schema: OpenApi.Schema,
+  setReference: ToTypeNode.SetReferenceCallback,
 ): ts.PropertySignature => {
   return factory.Property({
     name: `"${protocol}"`,
     optional: false,
-    type: convert(entryPoint, currentPoint, factory, schema),
+    type: ToTypeNode.convert(entryPoint, currentPoint, factory, schema, setReference),
   });
 };
 
@@ -22,11 +23,12 @@ export const generatePropertySignatures = (
   currentPoint: string,
   factory: Factory.Type,
   content: OpenApi.MapLike<string, OpenApi.MediaType>,
+  setReference: ToTypeNode.SetReferenceCallback,
 ): ts.PropertySignature[] => {
   return Object.entries(content).reduce<ts.PropertySignature[]>((previous, [protocol, mediaType]) => {
     if (!mediaType.schema) {
       return previous;
     }
-    return previous.concat(generatePropertySignature(entryPoint, currentPoint, factory, protocol, mediaType.schema));
+    return previous.concat(generatePropertySignature(entryPoint, currentPoint, factory, protocol, mediaType.schema, setReference));
   }, []);
 };

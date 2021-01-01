@@ -9,6 +9,7 @@ import * as Responses from "./Responses";
 import * as ExternalDocumentation from "./ExternalDocumentation";
 import * as Servers from "./Servers";
 import { Store } from "./store";
+import * as ToTypeNode from "./toTypeNode";
 
 const generateComment = (operation: OpenApi.Operation): string => {
   const comments: string[] = [];
@@ -32,6 +33,7 @@ export const generateNamespace = (
   parentPath: string,
   name: string,
   operation: OpenApi.Operation,
+  setReference: ToTypeNode.SetReferenceCallback,
 ): void => {
   store.addStatement(`${parentPath}/${name}`, {
     type: "namespace",
@@ -52,7 +54,7 @@ export const generateNamespace = (
       if (Guard.isReference(parameter)) {
         throw new Error("これから対応します");
       }
-      return Parameter.generateInterface(entryPoint, currentPoint, factory, parameter.name, parameter);
+      return Parameter.generateInterface(entryPoint, currentPoint, factory, parameter.name, parameter, setReference);
     });
     statements.push(
       factory.Namespace.create({
@@ -67,13 +69,13 @@ export const generateNamespace = (
     if (Guard.isReference(operation.requestBody)) {
       throw new Error("これから対応します");
     }
-    statements.push(RequestBody.generateNamespace(entryPoint, currentPoint, factory, "RequestBody", operation.requestBody));
+    statements.push(RequestBody.generateNamespace(entryPoint, currentPoint, factory, "RequestBody", operation.requestBody, setReference));
   }
 
   if (operation.responses) {
     if (Guard.isReference(operation.responses)) {
       throw new Error("これから対応します");
     }
-    Responses.generateNamespaceWithStatusCode(entryPoint, currentPoint, store, factory, operation.responses);
+    Responses.generateNamespaceWithStatusCode(entryPoint, currentPoint, store, factory, operation.responses, setReference);
   }
 };

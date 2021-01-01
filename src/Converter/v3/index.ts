@@ -9,6 +9,7 @@ import * as RequestBodies from "./RequestBodies";
 import * as Headers from "./Headers";
 import * as SecuritySchemas from "./SecuritySchemas";
 import * as PathItems from "./PathItems";
+import * as ToTypeNode from "./toTypeNode";
 import { Store } from "./store";
 
 export { OpenApi };
@@ -68,27 +69,33 @@ export const create = (entryPoint: string, rootSchema: OpenApi.RootTypes): Conve
   const createFunction = (context: ts.TransformationContext): ts.Statement[] => {
     const factory = TypeScriptCodeGenerator.Factory.create(context);
     const store = Store.create(factory);
+
+    const setReference: ToTypeNode.SetReferenceCallback = reference => {
+      console.log("なんか来た\n" + JSON.stringify(reference, null, 2));
+      store.hasStatement();
+    };
+
     if (rootSchema.components) {
       if (rootSchema.components.schemas) {
-        Schemas.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.schemas);
+        Schemas.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.schemas, setReference);
       }
       if (rootSchema.components.headers) {
-        Headers.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.headers);
+        Headers.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.headers, setReference);
       }
       if (rootSchema.components.responses) {
-        Responses.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.responses);
+        Responses.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.responses, setReference);
       }
       if (rootSchema.components.parameters) {
-        Parameters.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.parameters);
+        Parameters.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.parameters, setReference);
       }
       if (rootSchema.components.requestBodies) {
-        RequestBodies.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.requestBodies);
+        RequestBodies.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.requestBodies, setReference);
       }
       if (rootSchema.components.securitySchemes) {
         SecuritySchemas.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.securitySchemes);
       }
       if (rootSchema.components.pathItems) {
-        PathItems.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.pathItems);
+        PathItems.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.pathItems, setReference);
       }
       // TODO
       // if (rootSchema.components.links) {

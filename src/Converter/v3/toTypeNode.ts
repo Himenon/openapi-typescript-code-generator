@@ -8,11 +8,14 @@ import * as Guard from "./Guard";
 import { UnknownError, FeatureDevelopmentError, UnSupportError } from "../../Exception";
 import { ObjectSchemaWithAdditionalProperties } from "./types";
 
+export type SetReferenceCallback = (reference: Reference.Type<OpenApi.Schema | OpenApi.JSONSchemaDefinition>) => void;
+
 export type Convert = (
   entryPoint: string,
   currentPoint: string,
   factory: Factory.Type,
   schema: OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition,
+  setReference: SetReferenceCallback,
   option?: Option,
 ) => ts.TypeNode;
 
@@ -25,10 +28,11 @@ export const generateMultiTypeNode = (
   currentPoint: string,
   factory: Factory.Type,
   schemas: OpenApi.JSONSchema[],
+  setReference: SetReferenceCallback,
   convert: Convert,
   multiType: "oneOf" | "allOf" | "anyOf",
 ): ts.TypeNode => {
-  const typeNodes = schemas.map(schema => convert(entryPoint, currentPoint, factory, schema));
+  const typeNodes = schemas.map(schema => convert(entryPoint, currentPoint, factory, schema, setReference));
   if (multiType === "oneOf") {
     return factory.UnionTypeNode({
       typeNodes,
@@ -48,6 +52,7 @@ export const convert: Convert = (
   currentPoint: string,
   factory: Factory.Type,
   schema: OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition,
+  setReference: SetReferenceCallback,
   option?: Option,
 ): ts.TypeNode => {
   if (typeof schema === "boolean") {
@@ -57,26 +62,26 @@ export const convert: Convert = (
       value: [],
     });
   }
-  // Reference
   if (Guard.isReference(schema)) {
     const reference = Reference.generate<OpenApi.Schema | OpenApi.JSONSchemaDefinition>(entryPoint, currentPoint, schema);
     if (reference.type === "local") {
       throw new FeatureDevelopmentError("next features");
     }
     if (reference.componentName) {
+      setReference(reference);
       return factory.TypeReferenceNode.create({ name: reference.name });
     }
-    return convert(entryPoint, reference.referencePoint, factory, reference.data, { parent: schema });
+    return convert(entryPoint, reference.referencePoint, factory, reference.data, setReference, { parent: schema });
   }
 
   if (Guard.isOneOfSchema(schema)) {
-    return generateMultiTypeNode(entryPoint, currentPoint, factory, schema.oneOf, convert, "oneOf");
+    return generateMultiTypeNode(entryPoint, currentPoint, factory, schema.oneOf, setReference, convert, "oneOf");
   }
   if (Guard.isAllOfSchema(schema)) {
-    return generateMultiTypeNode(entryPoint, currentPoint, factory, schema.allOf, convert, "allOf");
+    return generateMultiTypeNode(entryPoint, currentPoint, factory, schema.allOf, setReference, convert, "allOf");
   }
   if (Guard.isAnyOfSchema(schema)) {
-    return generateMultiTypeNode(entryPoint, currentPoint, factory, schema.anyOf, convert, "anyOf");
+    return generateMultiTypeNode(entryPoint, currentPoint, factory, schema.anyOf, setReference, convert, "anyOf");
   }
 
   // schema.type
@@ -127,7 +132,7 @@ export const convert: Convert = (
       return factory.TypeNode({
         type: schema.type,
         value: schema.items
-          ? convert(entryPoint, currentPoint, factory, schema.items, { parent: schema })
+          ? convert(entryPoint, currentPoint, factory, schema.items, setReference, { parent: schema })
           : factory.TypeNode({
               type: "undefined",
             }),
@@ -150,7 +155,7 @@ export const convert: Convert = (
       const value = Object.entries(schema.properties).map(([name, jsonSchema]) => {
         return factory.Property({
           name,
-          type: convert(entryPoint, currentPoint, factory, jsonSchema, { parent: schema.properties }),
+          type: convert(entryPoint, currentPoint, factory, jsonSchema, setReference, { parent: schema.properties }),
           optional: !required.includes(name),
           comment: typeof jsonSchema !== "boolean" ? jsonSchema.description : undefined,
         });
@@ -158,7 +163,7 @@ export const convert: Convert = (
       if (schema.additionalProperties) {
         const additionalProperties = factory.IndexSignature({
           name: "key",
-          type: convert(entryPoint, currentPoint, factory, schema.additionalProperties, { parent: schema.properties }),
+          type: convert(entryPoint, currentPoint, factory, schema.additionalProperties, setReference, { parent: schema.properties }),
         });
         return factory.TypeNode({
           type: schema.type,
@@ -180,6 +185,7 @@ export const convertAdditionalProperties = (
   currentPoint: string,
   factory: Factory.Type,
   schema: ObjectSchemaWithAdditionalProperties,
+  setReference: SetReferenceCallback,
 ): ts.IndexSignatureDeclaration => {
   // // https://swagger.io/docs/specification/data-models/dictionaries/#free-form
   if (schema.additionalProperties === true) {
@@ -190,7 +196,7 @@ export const convertAdditionalProperties = (
   }
   const additionalProperties = factory.IndexSignature({
     name: "key",
-    type: convert(entryPoint, currentPoint, factory, schema.additionalProperties, { parent: schema.properties }),
+    type: convert(entryPoint, currentPoint, factory, schema.additionalProperties, setReference, { parent: schema.properties }),
   });
   return additionalProperties;
 };

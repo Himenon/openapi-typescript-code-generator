@@ -41,7 +41,7 @@ export const create = (factory: Factory.Type): Type => {
 
   const addComponent = (componentName: Def.ComponentName, statement: Def.Statement<A, B, C>): void => {
     const key = Def.generateKey("namespace", componentName);
-    console.log(`AddComponent : "${key}"`);
+    // console.log(`AddComponent : "${key}"`);
     state.components[key] = statement;
   };
 
@@ -52,7 +52,7 @@ export const create = (factory: Factory.Type): Type => {
 
   const addStatement = (path: string, statement: Def.Statement<A, B, C>): void => {
     const targetPath = relative("components", path);
-    console.log(`AddStatement : ${statement.type} "${path}"`);
+    // console.log(`AddStatement : ${statement.type} "${path}"`);
     state.components = PropAccess.set(state.components, targetPath, statement, createNamespace);
   };
 

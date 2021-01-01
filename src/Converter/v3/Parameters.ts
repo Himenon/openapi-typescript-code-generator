@@ -4,6 +4,7 @@ import { OpenApi } from "./types";
 import { Factory } from "../../TypeScriptCodeGenerator";
 import * as Guard from "./Guard";
 import { Store } from "./store";
+import * as ToTypeNode from "./toTypeNode";
 
 export const generateNamespace = (
   entryPoint: string,
@@ -11,6 +12,7 @@ export const generateNamespace = (
   store: Store.Type,
   factory: Factory.Type,
   parameters: OpenApi.MapLike<string, OpenApi.Parameter | OpenApi.Reference>,
+  setReference: ToTypeNode.SetReferenceCallback,
 ): void => {
   store.addComponent("parameters", {
     type: "namespace",
@@ -35,13 +37,13 @@ export const generateNamespace = (
       const path = `components/parameters/${reference.name}`;
       return store.addStatement(path, {
         type: "interface",
-        value: Paramter.generateInterface(entryPoint, reference.referencePoint, factory, reference.name, reference.data),
+        value: Paramter.generateInterface(entryPoint, reference.referencePoint, factory, reference.name, reference.data, setReference),
       });
     }
     const path = `components/parameters/${name}`;
     return store.addStatement(path, {
       type: "interface",
-      value: Paramter.generateInterface(entryPoint, currentPoint, factory, name, parameter),
+      value: Paramter.generateInterface(entryPoint, currentPoint, factory, name, parameter, setReference),
     });
   });
 };
@@ -52,6 +54,7 @@ export const generateNamespaceWithList = (
   store: Store.Type,
   factory: Factory.Type,
   parameters: (OpenApi.Parameter | OpenApi.Reference)[],
+  setReference: ToTypeNode.SetReferenceCallback,
 ): void => {
   store.addComponent("parameters", {
     type: "namespace",
@@ -63,6 +66,7 @@ export const generateNamespaceWithList = (
     }),
     statements: {},
   });
+
   parameters.forEach(parameter => {
     if (Guard.isReference(parameter)) {
       const reference = Reference.generate<OpenApi.Parameter>(entryPoint, currentPoint, parameter);
@@ -75,13 +79,13 @@ export const generateNamespaceWithList = (
       const path = `components/parameters/${reference.name}`;
       return store.addStatement(path, {
         type: "interface",
-        value: Paramter.generateInterface(entryPoint, reference.referencePoint, factory, reference.data.name, reference.data),
+        value: Paramter.generateInterface(entryPoint, reference.referencePoint, factory, reference.data.name, reference.data, setReference),
       });
     }
     const path = `components/parameters/${parameter.name}`;
     return store.addStatement(path, {
       type: "interface",
-      value: Paramter.generateInterface(entryPoint, currentPoint, factory, parameter.name, parameter),
+      value: Paramter.generateInterface(entryPoint, currentPoint, factory, parameter.name, parameter, setReference),
     });
   });
 };
