@@ -5,6 +5,7 @@ import { OpenApi } from "./types";
 import { isReference } from "./Guard";
 import { Def } from "./store";
 import { fileSystem } from "../../FileSystem";
+import * as Guard from "./Guard";
 
 export type LocalReferencePattern =
   | "#/components/schemas/"
@@ -34,7 +35,7 @@ export interface RemoteReference<T> {
    * /components/headers/hoge/fuga
    */
   path: string;
-
+  componentName?: Def.ComponentName;
   name: string;
   data: T;
 }
@@ -94,13 +95,12 @@ export const generateReferencePoint = (currentPoint: string, reference: OpenApi.
 };
 
 export const generate = <T>(entryPoint: string, currentPoint: string, reference: OpenApi.Reference): ReferenceType<T> => {
-  const ref = reference.$ref;
   const localReference = generateLocalReference(reference);
   if (localReference) {
     return localReference;
   }
 
-  if (ref.startsWith("http")) {
+  if (reference.$ref.startsWith("http")) {
     throw new FeatureDevelopmentError("Please Pull Request ! Welcome !");
   }
 
@@ -112,12 +112,14 @@ export const generate = <T>(entryPoint: string, currentPoint: string, reference:
     throw new NotFoundFileError(`Not found reference point from current point. \n Path: ${referencePoint}`);
   }
 
-  const ext = path.extname(referencePoint);
-  const relativePathFromEntryPoint = path.relative(path.dirname(entryPoint), referencePoint);
-  const keys: string[] = relativePathFromEntryPoint.replace(ext, "").split("/");
-  const targetPath: string = keys.join("/"); // components/hoge/hoge/hoge
-
+  const relativePathFromEntryPoint = path.relative(path.dirname(entryPoint), referencePoint); // components/hoge/fuga.yml
+  const ext = path.extname(relativePathFromEntryPoint); // .yml
+  const pathArray: string[] = relativePathFromEntryPoint.replace(ext, "").split("/"); // ["components", "hoge", "fuga"]
+  const targetPath: string = pathArray.join("/"); // components/hoge/fuga
+  const schemaName = pathArray[pathArray.length - 1]; // fuga
+  const componentName = pathArray[0] === "components" ? pathArray[1] : "";
   const data = fileSystem.loadJsonOrYaml(referencePoint);
+
   if (isReference(data)) {
     return generate<T>(entryPoint, referencePoint, data);
   }
@@ -126,7 +128,8 @@ export const generate = <T>(entryPoint: string, currentPoint: string, reference:
     type: "remote",
     referencePoint,
     path: targetPath,
-    name: keys[keys.length - 1],
+    name: schemaName,
+    componentName: Guard.isComponentName(componentName) ? componentName : undefined,
     data,
   };
 };

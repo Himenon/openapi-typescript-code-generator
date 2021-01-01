@@ -1,3 +1,4 @@
+import { Def } from "./store";
 import * as Types from "./types";
 
 export const isReference = (data: any): data is Types.OpenApi.Reference => {
@@ -54,4 +55,8 @@ export const isAllOfSchema = (schema: Types.OpenApi.Schema): schema is Types.All
 
 export const isAnyOfSchema = (schema: Types.OpenApi.Schema): schema is Types.AnyOfSchema => {
   return !!schema.anyOf && typeof schema.anyOf !== "boolean" && Array.isArray(schema.anyOf);
+};
+
+export const isComponentName = (name: string): name is Def.ComponentName => {
+  return ["schemas", "headers", "responses", "parameters", "requestBodies", "securitySchemes", "pathItems"].includes(name);
 };

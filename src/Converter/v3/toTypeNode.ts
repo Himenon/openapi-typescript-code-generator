@@ -59,9 +59,12 @@ export const convert: Convert = (
   }
   // Reference
   if (Guard.isReference(schema)) {
-    const reference = Reference.generate<OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition>(entryPoint, currentPoint, schema);
+    const reference = Reference.generate<OpenApi.Schema | OpenApi.JSONSchemaDefinition>(entryPoint, currentPoint, schema);
     if (reference.type === "local") {
       throw new FeatureDevelopmentError("next features");
+    }
+    if (reference.componentName) {
+      return factory.TypeReferenceNode.create({ name: reference.name });
     }
     return convert(entryPoint, reference.referencePoint, factory, reference.data, { parent: schema });
   }

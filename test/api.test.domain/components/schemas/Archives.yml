@@ -1,0 +1,6 @@
+type: object
+properties:
+  blogId:
+    $ref: "./BlogId.yml"
+  authorId:
+    $ref: "./UserId.yml"

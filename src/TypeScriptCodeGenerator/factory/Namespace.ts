@@ -2,12 +2,12 @@ import { generateComment } from "./utils";
 import ts from "typescript";
 import * as ModuleBlock from "./ModuleBlock";
 
-export interface FindStatementParams {
+export interface Params$FindStatement {
   node: ts.ModuleDeclaration;
   name: string;
 }
 
-export interface CreateParams {
+export interface Params$Create {
   export?: true;
   name: string;
   statements: ts.Statement[];
@@ -15,25 +15,25 @@ export interface CreateParams {
   deprecated?: boolean;
 }
 
-export interface CreateMultiParams extends Omit<CreateParams, "name"> {
+export interface Params$CreateMulti extends Omit<Params$Create, "name"> {
   names: string[];
 }
-export interface UpdateParams {
+export interface Params$Update {
   node: ts.ModuleDeclaration;
   statements: ts.Statement[];
 }
 
 export interface Factory {
-  create: (params: CreateParams) => ts.ModuleDeclaration;
-  findNamespace: (params: FindStatementParams) => ts.Statement | undefined;
-  createMultiple: (params: CreateMultiParams) => ts.ModuleDeclaration;
-  update: (params: UpdateParams) => ts.ModuleDeclaration;
-  addStatements: (params: UpdateParams) => ts.ModuleDeclaration;
+  create: (params: Params$Create) => ts.ModuleDeclaration;
+  findNamespace: (params: Params$FindStatement) => ts.Statement | undefined;
+  createMultiple: (params: Params$CreateMulti) => ts.ModuleDeclaration;
+  update: (params: Params$Update) => ts.ModuleDeclaration;
+  addStatements: (params: Params$Update) => ts.ModuleDeclaration;
 }
 
 // eslint-disable-next-line no-unused-vars
 export const findStatement = (context: ts.TransformationContext): Factory["findNamespace"] => (
-  params: FindStatementParams,
+  params: Params$FindStatement,
 ): ts.Statement | undefined => {
   let statement: ts.Statement | undefined;
   params.node.forEachChild(node => {
@@ -44,7 +44,7 @@ export const findStatement = (context: ts.TransformationContext): Factory["findN
   return statement;
 };
 
-export const create = ({ factory }: ts.TransformationContext): Factory["create"] => (params: CreateParams): ts.ModuleDeclaration => {
+export const create = ({ factory }: ts.TransformationContext): Factory["create"] => (params: Params$Create): ts.ModuleDeclaration => {
   const node = factory.createModuleDeclaration(
     undefined,
     params.export && [factory.createModifier(ts.SyntaxKind.ExportKeyword)],
@@ -60,7 +60,7 @@ export const create = ({ factory }: ts.TransformationContext): Factory["create"]
 };
 
 export const createMultiple = (context: ts.TransformationContext): Factory["createMultiple"] => (
-  params: CreateMultiParams,
+  params: Params$CreateMulti,
 ): ts.ModuleDeclaration => {
   const names = params.names.reverse();
   const firstName = names[0];
@@ -81,7 +81,7 @@ export const createMultiple = (context: ts.TransformationContext): Factory["crea
   }, child);
 };
 
-export const update = (context: ts.TransformationContext): Factory["update"] => (params: UpdateParams): ts.ModuleDeclaration => {
+export const update = (context: ts.TransformationContext): Factory["update"] => (params: Params$Update): ts.ModuleDeclaration => {
   const { factory } = context;
   const { node, statements } = params;
   if (node.body && ts.isModuleBlock(node.body)) {
@@ -91,7 +91,7 @@ export const update = (context: ts.TransformationContext): Factory["update"] => 
   return factory.updateModuleDeclaration(node, node.decorators, node.modifiers, node.name, node.body);
 };
 
-export const addStatements = (context: ts.TransformationContext): Factory["addStatements"] => (params: UpdateParams): ts.ModuleDeclaration => {
+export const addStatements = (context: ts.TransformationContext): Factory["addStatements"] => (params: Params$Update): ts.ModuleDeclaration => {
   const { factory } = context;
   const { node, statements } = params;
   if (node.body && ts.isModuleBlock(node.body)) {

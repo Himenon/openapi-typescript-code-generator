@@ -86,7 +86,7 @@ export const generateTypeAlias = (
       type: schema.type,
     });
   }
-  return factory.TypeAliasDeclaration({
+  return factory.TypeAliasDeclaration.create({
     export: true,
     name,
     type,
@@ -102,7 +102,7 @@ export const generateMultiTypeAlias = (
   multiType: "oneOf" | "allOf" | "anyOf",
 ): ts.TypeAliasDeclaration => {
   const type = ToTypeNode.generateMultiTypeNode(entryPoint, currentPoint, factory, schemas, ToTypeNode.convert, multiType);
-  return factory.TypeAliasDeclaration({
+  return factory.TypeAliasDeclaration.create({
     export: true,
     name,
     type,

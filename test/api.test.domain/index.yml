@@ -18,16 +18,9 @@ tags:
 components:
   schemas:
     UserId:
-      type: number
+      $ref: "./components/schemas/UserId.yml"
     User:
-      type: object
-      properties:
-        name:
-          type: string
-          description: User name
-        age:
-          type: number
-          description: User age
+      $ref: "./components/schemas/User.yml"
     Blog:
       type: object
       properties:
@@ -40,77 +33,79 @@ components:
       $ref: "./components/schemas/BlogId.yml"
     Favorite:
       $ref: "./components/schemas/Favorite.yml"
-  headers:
-    Origin:
-      required: true
-      description: "request origin url"
-      schema:
-        type: string
-        example: "https://example.com"
-    Authorization:
-      $ref: "./components/headers/Authorization.yml"
-  responses:
-    SucceededCreatingBlogPost:
-      description: "Succeeded in creating a blog post"
-      content:
-        application/json:
-          description: Blog post creation success response.
-          schema:
-            type: object
-            required:
-              - meta
-            properties:
-              meta:
-                type: object
-                required:
-                  - status
-                properties:
-                  status:
-                    type: number
-        application/x-www-form-urlencoded:
-          description: Blog post creation success response.
-          schema:
-            type: object
-            properties:
-              meta:
-                type: object
-                properties:
-                  status:
-                    type: number
-    FailedCreatingBlogPost:
-      $ref: "./components/responses/FailedCreatingBlogPost.yml"
-  parameters:
-    BlogId:
-      name: slug
-      in: path
-      schema:
-        type: number
-        description: Blog Id
-      required: true
-  requestBodies:
-    BlogPost:
-      description:
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              title:
-                type: string
-                description: Blog title
-              body:
-                type: string
-                description: Blog body
-              tags:
-                type: array
-                items:
-                  type: string
-                  enum: [javascript, typescript, openapi]
-  securitySchemes:
-    UserSession:
-      type: apiKey
-      in: cookie
-      name: sessionKey
-      scheme: "http"
-      openIdConnectUrl: ""
-  pathItems:
+    Archives:
+      $ref: "./components/schemas/Archives.yml"
+  # headers:
+  #   Origin:
+  #     required: true
+  #     description: "request origin url"
+  #     schema:
+  #       type: string
+  #       example: "https://example.com"
+  #   Authorization:
+  #     $ref: "./components/headers/Authorization.yml"
+  # responses:
+  #   SucceededCreatingBlogPost:
+  #     description: "Succeeded in creating a blog post"
+  #     content:
+  #       application/json:
+  #         description: Blog post creation success response.
+  #         schema:
+  #           type: object
+  #           required:
+  #             - meta
+  #           properties:
+  #             meta:
+  #               type: object
+  #               required:
+  #                 - status
+  #               properties:
+  #                 status:
+  #                   type: number
+  #       application/x-www-form-urlencoded:
+  #         description: Blog post creation success response.
+  #         schema:
+  #           type: object
+  #           properties:
+  #             meta:
+  #               type: object
+  #               properties:
+  #                 status:
+  #                   type: number
+  #   FailedCreatingBlogPost:
+  #     $ref: "./components/responses/FailedCreatingBlogPost.yml"
+  # parameters:
+  #   BlogId:
+  #     name: slug
+  #     in: path
+  #     schema:
+  #       type: number
+  #       description: Blog Id
+  #     required: true
+  # requestBodies:
+  #   BlogPost:
+  #     description:
+  #     content:
+  #       application/json:
+  #         schema:
+  #           type: object
+  #           properties:
+  #             title:
+  #               type: string
+  #               description: Blog title
+  #             body:
+  #               type: string
+  #               description: Blog body
+  #             tags:
+  #               type: array
+  #               items:
+  #                 type: string
+  #                 enum: [javascript, typescript, openapi]
+  # securitySchemes:
+  #   UserSession:
+  #     type: apiKey
+  #     in: cookie
+  #     name: sessionKey
+  #     scheme: "http"
+  #     openIdConnectUrl: ""
+  # pathItems:

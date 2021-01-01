@@ -8,6 +8,7 @@ import * as LiteralTypeNode from "./LiteralTypeNode";
 import * as IndexSignature from "./IndexSignature";
 import * as UnionTypeNode from "./UnionTypeNode";
 import * as IntersectionTypeNode from "./IntersectionTypeNode";
+import * as TypeReferenceNode from "./TypeReferenceNode";
 
 export { Interface, Namespace, Property, TypeAliasDeclaration, TypeNode, LiteralTypeNode };
 
@@ -21,6 +22,7 @@ export interface Type {
   IndexSignature: IndexSignature.Factory;
   UnionTypeNode: UnionTypeNode.Factory;
   IntersectionTypeNode: IntersectionTypeNode.Factory;
+  TypeReferenceNode: TypeReferenceNode.Factory;
 }
 
 export const create = (context: ts.TransformationContext): Type => {
@@ -28,11 +30,12 @@ export const create = (context: ts.TransformationContext): Type => {
     Interface: Interface.create(context),
     Namespace: Namespace.make(context),
     Property: Property.create(context),
-    TypeAliasDeclaration: TypeAliasDeclaration.create(context),
+    TypeAliasDeclaration: TypeAliasDeclaration.make(context),
     TypeNode: TypeNode.create(context),
     LiteralTypeNode: LiteralTypeNode.create(context),
     IndexSignature: IndexSignature.create(context),
     UnionTypeNode: UnionTypeNode.create(context),
     IntersectionTypeNode: IntersectionTypeNode.create(context),
+    TypeReferenceNode: TypeReferenceNode.make(context),
   };
 };

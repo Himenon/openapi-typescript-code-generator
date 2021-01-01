@@ -30,9 +30,16 @@ export const generateNamespace = (
       if (reference.type === "local") {
         throw new FeatureDevelopmentError("これから" + reference.name);
       }
-      if (Guard.isReference(reference.data)) {
-        throw new FeatureDevelopmentError("aliasの先がaliasだった場合");
-      }
+      // if (reference.componentName) {
+      //   return store.addStatement(path, {
+      //     type: "typeAlias",
+      //     value: factory.TypeAliasDeclaration.createReference({
+      //       export: true,
+      //       name,
+      //       referenceName: reference.name,
+      //     }),
+      //   });
+      // }
       if (Guard.isAllOfSchema(reference.data)) {
         return store.addStatement(path, {
           type: "typeAlias",

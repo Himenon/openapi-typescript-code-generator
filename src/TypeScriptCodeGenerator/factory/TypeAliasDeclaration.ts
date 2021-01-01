@@ -1,14 +1,16 @@
 import ts from "typescript";
 
-export interface Params {
+export interface Params$Create {
   export?: true;
   name: string;
   type: ts.TypeNode;
 }
 
-export type Factory = (params: Params) => ts.TypeAliasDeclaration;
+export interface Factory {
+  create: (params: Params$Create) => ts.TypeAliasDeclaration;
+}
 
-export const create = ({ factory }: ts.TransformationContext): Factory => (params: Params): ts.TypeAliasDeclaration => {
+export const create = ({ factory }: ts.TransformationContext): Factory["create"] => (params: Params$Create): ts.TypeAliasDeclaration => {
   const node = factory.createTypeAliasDeclaration(
     undefined,
     params.export && [factory.createModifier(ts.SyntaxKind.ExportKeyword)],
@@ -17,4 +19,10 @@ export const create = ({ factory }: ts.TransformationContext): Factory => (param
     params.type,
   );
   return node;
+};
+
+export const make = (context: ts.TransformationContext): Factory => {
+  return {
+    create: create(context),
+  };
 };
