@@ -8,7 +8,7 @@ import * as Guard from "./Guard";
 import { UnknownError, FeatureDevelopmentError, UnSupportError } from "../../Exception";
 import { ObjectSchemaWithAdditionalProperties } from "./types";
 
-export type SetReferenceCallback = (reference: Reference.Type<OpenApi.Schema | OpenApi.JSONSchemaDefinition>) => void;
+export type SetReferenceCallback = (reference: Reference.Type<OpenApi.Schema | OpenApi.JSONSchemaDefinition>, convert: Convert) => void;
 
 export type Convert = (
   entryPoint: string,
@@ -68,7 +68,7 @@ export const convert: Convert = (
       throw new FeatureDevelopmentError("next features");
     }
     if (reference.componentName) {
-      setReference(reference);
+      setReference(reference, convert);
       return factory.TypeReferenceNode.create({ name: reference.name });
     }
     return convert(entryPoint, reference.referencePoint, factory, reference.data, setReference, { parent: schema });
@@ -152,7 +152,7 @@ export const convert: Convert = (
           value: [],
         });
       }
-      const value = Object.entries(schema.properties).map(([name, jsonSchema]) => {
+      const value: ts.PropertySignature[] = Object.entries(schema.properties).map(([name, jsonSchema]) => {
         return factory.Property({
           name,
           type: convert(entryPoint, currentPoint, factory, jsonSchema, setReference, { parent: schema.properties }),

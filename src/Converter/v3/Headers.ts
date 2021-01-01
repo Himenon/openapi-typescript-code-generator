@@ -29,7 +29,7 @@ export const generateNamespace = (
     if (Guard.isReference(header)) {
       const reference = Reference.generate<OpenApi.Header>(entryPoint, currentPoint, header);
       if (reference.type === "local") {
-        if (!store.hasStatement(reference.path, "interface")) {
+        if (!store.hasStatement(reference.path, ["interface"])) {
           throw new UndefinedComponent(`Reference "${header.$ref}" did not found in ${reference.path} by ${reference.name}`);
         }
       } else if (reference.type === "remote") {

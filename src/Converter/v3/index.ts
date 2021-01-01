@@ -70,9 +70,33 @@ export const create = (entryPoint: string, rootSchema: OpenApi.RootTypes): Conve
     const factory = TypeScriptCodeGenerator.Factory.create(context);
     const store = Store.create(factory);
 
-    const setReference: ToTypeNode.SetReferenceCallback = reference => {
-      console.log("なんか来た\n" + JSON.stringify(reference, null, 2));
-      store.hasStatement();
+    const setReference: ToTypeNode.SetReferenceCallback = (reference, convert) => {
+      if (store.hasStatement(reference.path, ["interface", "typeAlias"])) {
+        return;
+      }
+      if (reference.type === "remote") {
+        const typeNode = convert(entryPoint, reference.referencePoint, factory, reference.data, setReference);
+        if (ts.isTypeLiteralNode(typeNode)) {
+          store.addStatement(reference.path, {
+            type: "interface",
+            value: factory.Interface({
+              export: true,
+              name: reference.name,
+              members: typeNode.members,
+            }),
+          });
+        } else {
+          const value = factory.TypeAliasDeclaration.create({
+            export: true,
+            name: reference.name,
+            type: convert(entryPoint, reference.referencePoint, factory, reference.data, setReference),
+          });
+          store.addStatement(reference.path, {
+            type: "typeAlias",
+            value,
+          });
+        }
+      }
     };
 
     if (rootSchema.components) {

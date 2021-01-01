@@ -19,7 +19,7 @@ export interface Type {
   /**
    * @params path: "components/headers/hoge"
    */
-  hasStatement: (path: string, type: Def.Statement<A, B, C>["type"]) => boolean;
+  hasStatement: (path: string, types: Def.Statement<A, B, C>["type"][]) => boolean;
   getRootStatements: () => ts.Statement[];
 }
 
@@ -45,14 +45,14 @@ export const create = (factory: Factory.Type): Type => {
     state.components[key] = statement;
   };
 
-  const hasStatement = (path: string, type: Def.Statement<A, B, C>["type"]): boolean => {
+  const hasStatement = (path: string, types: Def.Statement<A, B, C>["type"][]): boolean => {
     const targetPath = relative("components", path);
-    return !!PropAccess.get(state.components, type, targetPath);
+    return types.some(type => !!PropAccess.get(state.components, type, targetPath));
   };
 
   const addStatement = (path: string, statement: Def.Statement<A, B, C>): void => {
     const targetPath = relative("components", path);
-    // console.log(`AddStatement : ${statement.type} "${path}"`);
+    console.log(`AddStatement: "${path}" ${statement.type}`);
     state.components = PropAccess.set(state.components, targetPath, statement, createNamespace);
   };
 
