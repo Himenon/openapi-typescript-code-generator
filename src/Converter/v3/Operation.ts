@@ -34,7 +34,9 @@ export const generateNamespace = (
   operation: OpenApi.Operation,
   context: ToTypeNode.Context,
 ): void => {
-  store.addStatement(`${parentPath}/${name}`, {
+  const basePath = `${parentPath}/${name}`;
+  console.log(`\n ---- Start: ${basePath} ---- \n`);
+  store.addStatement(basePath, {
     type: "namespace",
     value: factory.Namespace.create({
       export: true,
@@ -69,6 +71,8 @@ export const generateNamespace = (
     if (Guard.isReference(operation.responses)) {
       throw new Error("これから対応します");
     }
-    Responses.generateNamespaceWithStatusCode(entryPoint, currentPoint, store, factory, operation.responses, context);
+    Responses.generateNamespaceWithStatusCode(entryPoint, currentPoint, store, factory, basePath, operation.responses, context);
   }
+
+  console.log(`\n ---- Finish: ${basePath} ---- \n`);
 };

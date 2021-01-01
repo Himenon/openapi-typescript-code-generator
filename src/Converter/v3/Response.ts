@@ -11,11 +11,13 @@ export const generateNamespace = (
   currentPoint: string,
   store: Store.Type,
   factory: Factory.Type,
+  parentPath: string,
   name: string,
   response: OpenApi.Response,
   context: ToTypeNode.Context,
 ): void => {
-  store.addStatement(`components/responses/${name}`, {
+  const basePath = `${parentPath}/${name}`;
+  store.addStatement(`${basePath}`, {
     type: "namespace",
     value: factory.Namespace.create({
       export: true,
@@ -30,13 +32,13 @@ export const generateNamespace = (
     if (Guard.isReference(header)) {
       throw new Error("対応中");
     }
-    store.addStatement(`components/responses/Header/${key}`, {
+    store.addStatement(`${basePath}/Header/${key}`, {
       type: "interface",
       value: Header.generateInterface(entryPoint, currentPoint, factory, key, header, context),
     });
   });
 
-  store.addStatement(`components/responses/${name}/Header`, {
+  store.addStatement(`${basePath}/Header`, {
     type: "namespace",
     value: factory.Namespace.create({
       export: true,
@@ -47,7 +49,7 @@ export const generateNamespace = (
     statements: {},
   });
 
-  store.addStatement(`components/responses/${name}/Content`, {
+  store.addStatement(`${basePath}/Content`, {
     type: "interface",
     value: factory.Interface({
       export: true,

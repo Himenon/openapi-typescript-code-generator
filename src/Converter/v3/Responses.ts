@@ -15,6 +15,7 @@ export const generateNamespace = (
   responses: OpenApi.MapLike<string, OpenApi.Response | OpenApi.Reference>,
   context: ToTypeNode.Context,
 ): void => {
+  const basePath = "components/responses";
   store.addComponent("responses", {
     type: "namespace",
     value: factory.Namespace.create({
@@ -33,10 +34,10 @@ export const generateNamespace = (
           throw new UndefinedComponent(`Reference "${response.$ref}" did not found in ${reference.path} by ${reference.name}`);
         }
       } else if (reference.type === "remote") {
-        Response.generateNamespace(entryPoint, currentPoint, store, factory, reference.name, reference.data, context);
+        Response.generateNamespace(entryPoint, currentPoint, store, factory, basePath, reference.name, reference.data, context);
       }
     } else {
-      Response.generateNamespace(entryPoint, currentPoint, store, factory, name, response, context);
+      Response.generateNamespace(entryPoint, currentPoint, store, factory, basePath, name, response, context);
     }
   });
 };
@@ -46,10 +47,12 @@ export const generateNamespaceWithStatusCode = (
   currentPoint: string,
   store: Store.Type,
   factory: Factory.Type,
+  parentPath: string,
   responses: OpenApi.Responses,
   context: ToTypeNode.Context,
 ): void => {
-  store.addStatement("components/responses", {
+  const basePath = `${parentPath}/responses`;
+  store.addStatement(basePath, {
     type: "namespace",
     value: factory.Namespace.create({
       export: true,
@@ -62,11 +65,8 @@ export const generateNamespaceWithStatusCode = (
 
   Object.entries(responses).map(([statusCode, response]) => {
     if (Guard.isReference(response)) {
-      return factory.Interface({
-        name: `TODO:${response.$ref}`,
-        members: [],
-      });
+      throw new Error("これから");
     }
-    Response.generateNamespace(entryPoint, currentPoint, store, factory, `Status$${statusCode}`, response, context);
+    Response.generateNamespace(entryPoint, currentPoint, store, factory, basePath, `Status$${statusCode}`, response, context);
   });
 };
