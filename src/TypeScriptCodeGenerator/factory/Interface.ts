@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import { generateComment } from "./utils";
+import { escapeIdentiferText, generateComment } from "./utils";
 
 export interface Params {
   export?: true;
@@ -16,7 +16,7 @@ export const create = ({ factory }: ts.TransformationContext): Factory => (param
   const node = factory.createInterfaceDeclaration(
     undefined,
     params.export && [factory.createModifier(ts.SyntaxKind.ExportKeyword)],
-    factory.createIdentifier(params.name),
+    factory.createIdentifier(escapeIdentiferText(params.name)),
     undefined,
     undefined,
     params.members,

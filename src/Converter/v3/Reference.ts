@@ -101,6 +101,7 @@ export const generateLocalReference = (reference: OpenApi.Reference): LocalRefer
   if (!localPath.startsWith("components")) {
     throw new DevelopmentError(`localPath is not start "components":\n${localPath}`);
   }
+  console.log(`ReadLocalComponent: ${localPath}`);
   return {
     type: "local",
     name,
@@ -140,6 +141,8 @@ export const generate = <T>(entryPoint: string, currentPoint: string, reference:
   const schemaName = pathArray[pathArray.length - 1]; // fuga
   const componentName = pathArray[0] === "components" ? pathArray[1] : "";
   const data = fileSystem.loadJsonOrYaml(referencePoint);
+
+  console.log(`ReadFile: ${referencePoint}`);
 
   if (isReference(data)) {
     return generate<T>(entryPoint, referencePoint, data);

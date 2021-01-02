@@ -12,6 +12,7 @@ export const generatePropertySignature = (
   schema: OpenApi.Schema,
   context: ToTypeNode.Context,
 ): ts.PropertySignature => {
+  console.log(`------ Star:t ${protocol} ------`);
   return factory.Property({
     name: `"${protocol}"`,
     optional: false,
@@ -32,4 +33,20 @@ export const generatePropertySignatures = (
     }
     return previous.concat(generatePropertySignature(entryPoint, currentPoint, factory, protocol, mediaType.schema, context));
   }, []);
+};
+
+export const generateInterface = (
+  entryPoint: string,
+  currentPoint: string,
+  factory: Factory.Type,
+  name: string,
+  content: OpenApi.MapLike<string, OpenApi.MediaType>,
+  context: ToTypeNode.Context,
+): ts.InterfaceDeclaration => {
+  return factory.Interface({
+    export: true,
+    name,
+    members: generatePropertySignatures(entryPoint, currentPoint, factory, content, context),
+    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject`,
+  });
 };

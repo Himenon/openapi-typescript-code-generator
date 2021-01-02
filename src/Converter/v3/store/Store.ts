@@ -47,14 +47,15 @@ export const create = (factory: Factory.Type): Type => {
 
   const addComponent = (componentName: Def.ComponentName, statement: Def.Statement<A, B, C>): void => {
     const key = Def.generateKey("namespace", componentName);
-    // console.log(`AddComponent : "${key}"`);
+    console.log(`AddComponent : "${key}"`);
     state.components[key] = statement;
   };
 
   const getStatement = (path: string, type: Def.Statement<A, B, C>["type"]) => {
     const targetPath = relative("components", path);
     const result = PropAccess.get(state.components, type, targetPath);
-    console.log(`GetStatement(${type}): ${path} : ${!!result}`);
+    const flag = `${!!result}`.padEnd(5, " ");
+    console.log(`GetStatement(${type}): ${flag} - ${path}`);
     return result;
   };
 

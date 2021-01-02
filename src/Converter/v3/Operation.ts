@@ -1,7 +1,6 @@
 import { EOL } from "os";
 import * as path from "path";
 
-import { FeatureDevelopmentError } from "../../Exception";
 import { Factory } from "../../TypeScriptCodeGenerator";
 import * as ExternalDocumentation from "./ExternalDocumentation";
 import * as Guard from "./Guard";
@@ -64,7 +63,7 @@ export const generateNamespace = (
             type: "interface",
             value: Parameter.generateInterface(entryPoint, reference.referencePoint, factory, reference.name, reference.data, context),
           });
-          return store.addStatement(`${basePath}/Parameter/${reference.data.name}`, {
+          store.addStatement(`${basePath}/Parameter/${reference.data.name}`, {
             type: "typeAlias",
             value: factory.TypeAliasDeclaration.create({
               export: true,
@@ -72,16 +71,18 @@ export const generateNamespace = (
               type: factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, reference.path, "remote") }),
             }),
           });
+        } else {
+          store.addStatement(`${basePath}/Parameter/${reference.data.name}`, {
+            type: "interface",
+            value: Parameter.generateInterface(entryPoint, currentPoint, factory, reference.data.name, reference.data, context),
+          });
         }
-        return store.addStatement(`${basePath}/Parameter/${reference.data.name}`, {
+      } else {
+        store.addStatement(`${basePath}/Parameter/${parameter.name}`, {
           type: "interface",
-          value: Parameter.generateInterface(entryPoint, currentPoint, factory, reference.data.name, reference.data, context),
+          value: Parameter.generateInterface(entryPoint, currentPoint, factory, parameter.name, parameter, context),
         });
       }
-      store.addStatement(`${basePath}/Parameter/${parameter.name}`, {
-        type: "interface",
-        value: Parameter.generateInterface(entryPoint, currentPoint, factory, parameter.name, parameter, context),
-      });
     });
   }
 
@@ -90,6 +91,7 @@ export const generateNamespace = (
       const reference = Reference.generate<OpenApi.RequestBody>(entryPoint, currentPoint, operation.requestBody);
       if (reference.type === "local") {
         context.setReferenceHandler(reference);
+        // TODO 追加する必要がある
         factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, reference.path, "local") });
       } else if (reference.type === "remote" && reference.componentName) {
         const contentPath = path.join(reference.path, "Content"); // requestBodyはNamespaceを形成するため
@@ -112,9 +114,6 @@ export const generateNamespace = (
   }
 
   if (operation.responses) {
-    if (Guard.isReference(operation.responses)) {
-      throw new FeatureDevelopmentError("Local reference対応");
-    }
     Responses.generateNamespaceWithStatusCode(entryPoint, currentPoint, store, factory, basePath, operation.responses, context);
   }
 

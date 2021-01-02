@@ -61,6 +61,11 @@ components:
   responses:
     SucceededCreatingBlogPost:
       description: "Succeeded in creating a blog post"
+      headers:
+        X-Rate-Limit:
+          description: The number of allowed requests in the current period
+          schema:
+            type: integer
       content:
         application/json:
           schema:
@@ -113,6 +118,21 @@ components:
       scheme: "http"
       openIdConnectUrl: ""
   pathItems:
+    /blog:
+      post:
+        description: Create Blog
+        summary: Create Blog
+        operationId: createBlog
+        responses:
+          "200":
+            $ref: "#/components/responses/SucceededCreatingBlogPost"
+      delete:
+        description: Delete Blog
+        summary: Delete Blog
+        operationId: deleteBlog
+        responses:
+          "401":
+            $ref: "./components/responses/blog/AuthorizationError.yml"
     /categories:
       $ref: "./components/pathItems/categories.yml"
 

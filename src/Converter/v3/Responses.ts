@@ -1,3 +1,5 @@
+import * as path from "path";
+
 import { UndefinedComponent } from "../../Exception";
 import { Factory } from "../../TypeScriptCodeGenerator";
 import * as Guard from "./Guard";
@@ -52,46 +54,43 @@ export const generateNamespaceWithStatusCode = (
   context: ToTypeNode.Context,
 ): void => {
   const basePath = `${parentPath}/responses`;
+  console.log(`------ Start Create Responses: ${basePath} ------`);
   store.addStatement(basePath, {
     type: "namespace",
     value: factory.Namespace.create({
       export: true,
-      name: "Responses",
+      name: "Response",
       statements: [],
       comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#responsesObject`,
     }),
     statements: {},
   });
 
-  Object.entries(responses).map(([statusCode, response]) => {
-    const name = `Status$${statusCode}`;
+  Object.entries(responses).forEach(([statusCode, response]) => {
+    const nameWithStatusCode = `Status$${statusCode}`;
     if (Guard.isReference(response)) {
       const reference = Reference.generate<OpenApi.Response>(entryPoint, currentPoint, response);
       if (reference.type === "local") {
         context.setReferenceHandler(reference);
-        return factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, reference.path, "local") });
+        Response.generateReferenceNamespace(entryPoint, currentPoint, store, factory, basePath, nameWithStatusCode, reference, context);
       } else if (reference.componentName) {
+        // reference先に定義を作成
         Response.generateNamespace(
           entryPoint,
           reference.referencePoint,
           store,
           factory,
-          reference.path,
+          path.dirname(reference.path), // TODO 理由
           reference.name,
           reference.data,
           context,
         );
-        return store.addStatement(`${basePath}/${name}`, {
-          type: "typeAlias",
-          value: factory.TypeAliasDeclaration.create({
-            export: true,
-            name: name,
-            type: factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, reference.path, "remote") }),
-          }),
-        });
+        // referenceのTypeAliasの作成
+        Response.generateReferenceNamespace(entryPoint, currentPoint, store, factory, basePath, nameWithStatusCode, reference, context);
       }
-      return;
+    } else {
+      Response.generateNamespace(entryPoint, currentPoint, store, factory, basePath, nameWithStatusCode, response, context);
     }
-    Response.generateNamespace(entryPoint, currentPoint, store, factory, basePath, name, response, context);
   });
+  console.log(`------ Finish Create Responses: ${basePath} ------`);
 };

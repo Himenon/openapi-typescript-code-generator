@@ -5,6 +5,14 @@ export interface Comment {
   value: string;
 }
 
+export const isOnlyAlphabetText = (text: string): boolean => {
+  return new RegExp(/^[a-zA-Z]+$/).test(text);
+};
+
+export const escapeIdentiferText = (text: string): string => {
+  return text.replace(/-/g, "_");
+};
+
 export const generateComment = (comment: string, deprecated?: boolean): Comment => {
   const splitComments = deprecated ? ["@deprecated"].concat(comment.split(EOL)) : comment.split(EOL);
   const comments = splitComments.filter((comment, index) => {
