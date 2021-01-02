@@ -1,4 +1,12 @@
 description: "Failed creating blog post"
+headers:
+  Origin:
+    $ref: "../headers/Origin.yml"
+  ResponseTime:
+    required: true
+    description: "ResponseTime"
+    schema:
+      type: number
 content:
   application/json:
     description: Blog post creation failed response.
@@ -9,12 +17,7 @@ content:
         - data
       properties:
         meta:
-          type: object
-          required:
-            - status
-          properties:
-            status:
-              type: number
+          $ref: "#/components/schemas/ResponseMeta"
         data:
           type: object
           required:

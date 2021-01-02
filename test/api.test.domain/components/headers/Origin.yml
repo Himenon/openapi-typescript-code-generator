@@ -1,0 +1,5 @@
+required: true
+description: "Origin Header"
+schema:
+  type: string
+  example: "Request origin url"

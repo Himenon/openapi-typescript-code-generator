@@ -34,7 +34,7 @@ export const generateNamespace = (
           throw new UndefinedComponent(`Reference "${response.$ref}" did not found in ${reference.path} by ${reference.name}`);
         }
       } else if (reference.type === "remote") {
-        Response.generateNamespace(entryPoint, currentPoint, store, factory, basePath, reference.name, reference.data, context);
+        Response.generateNamespace(entryPoint, reference.referencePoint, store, factory, basePath, reference.name, reference.data, context);
       }
     } else {
       Response.generateNamespace(entryPoint, currentPoint, store, factory, basePath, name, response, context);
