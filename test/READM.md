@@ -88,3 +88,21 @@ components:
             #
             $ref: "#/components/schemas/Book"
 ```
+
+### reference
+
+- Local Reference
+  - Reference が生成されている場合
+    - Type Alias を作成
+  - Reference が生成されていない場合
+    - Reference を作成
+    - Type Alias を作成
+- Remote Reference
+  - Support している Directory Structure の場合
+    - Reference が生成されている場合
+      - Type Alias を作成
+    - Reference が生成されていない場合
+      - Reference を作成
+      - Type Alias を作成
+  - Support していない Directory Structure の場合
+    - Interface / TypeDeclaration を生成

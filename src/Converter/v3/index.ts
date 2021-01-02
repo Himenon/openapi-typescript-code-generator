@@ -24,14 +24,11 @@ export interface Converter {
 }
 
 const createContext = (entryPoint: string, store: Store.Type, factory: TypeScriptCodeGenerator.Factory.Type): ToTypeNode.Context => {
-  const getLocalReferenceName: ToTypeNode.Context["getReferenceName"] = (currentPoint, reference): string => {
-    if (reference.type !== "local") {
-      throw new DevelopmentError("Setting Miss");
-    }
+  const getLocalReferenceName: ToTypeNode.Context["getReferenceName"] = (currentPoint, referencePath): string => {
     const ext = Path.extname(currentPoint);
     const from = Path.relative(Path.dirname(entryPoint), currentPoint).replace(ext, ""); // components/schemas/A/B
     const base = Path.dirname(from);
-    const pathArray = reference.path.split("/");
+    const pathArray = referencePath.split("/");
     const names: string[] = [];
     pathArray.reduce((previous, lastPath, index) => {
       const current = [previous, lastPath].join("/");
@@ -56,16 +53,16 @@ const createContext = (entryPoint: string, store: Store.Type, factory: TypeScrip
       return current;
     }, base);
     if (names.length === 0) {
-      throw new DevelopmentError("Local Reference Error \n" + JSON.stringify({ reference, pathArray, names, base }, null, 2));
+      throw new DevelopmentError("Local Reference Error \n" + JSON.stringify({ referencePath, pathArray, names, base }, null, 2));
     }
     return names.join(".");
   };
 
-  const getReferenceName: ToTypeNode.Context["getReferenceName"] = (currentPoint, reference): string => {
+  const getReferenceName: ToTypeNode.Context["getReferenceName"] = (currentPoint, referencePath): string => {
     const ext = Path.extname(currentPoint);
     const from = Path.relative(Path.dirname(entryPoint), currentPoint).replace(ext, ""); // components/schemas/A/B
     const base = Path.dirname(from);
-    const target = reference.path; // components/schemas/A/C/D
+    const target = referencePath; // components/schemas/A/C/D
     const result = Path.relative(base, target);
     const names: string[] = [];
     const pathArray = result.split("/");
@@ -96,13 +93,13 @@ const createContext = (entryPoint: string, store: Store.Type, factory: TypeScrip
     }
     return names.join(".");
   };
-  const setReference: ToTypeNode.Context["setReference"] = (reference, convert) => {
+  const setReferenceHandler: ToTypeNode.Context["setReferenceHandler"] = reference => {
     if (store.hasStatement(reference.path, ["interface", "typeAlias"])) {
       return;
     }
     if (reference.type === "remote") {
-      const typeNode = convert(entryPoint, reference.referencePoint, factory, reference.data, {
-        setReference,
+      const typeNode = ToTypeNode.convert(entryPoint, reference.referencePoint, factory, reference.data, {
+        setReferenceHandler,
         getReferenceName,
         getLocalReferenceName,
       });
@@ -119,8 +116,8 @@ const createContext = (entryPoint: string, store: Store.Type, factory: TypeScrip
         const value = factory.TypeAliasDeclaration.create({
           export: true,
           name: reference.name,
-          type: convert(entryPoint, reference.referencePoint, factory, reference.data, {
-            setReference,
+          type: ToTypeNode.convert(entryPoint, reference.referencePoint, factory, reference.data, {
+            setReferenceHandler: setReferenceHandler,
             getReferenceName,
             getLocalReferenceName,
           }),
@@ -132,7 +129,7 @@ const createContext = (entryPoint: string, store: Store.Type, factory: TypeScrip
       }
     }
   };
-  return { setReference, getReferenceName, getLocalReferenceName };
+  return { setReferenceHandler: setReferenceHandler, getReferenceName, getLocalReferenceName };
 };
 
 export const create = (entryPoint: string, rootSchema: OpenApi.RootTypes): Converter => {

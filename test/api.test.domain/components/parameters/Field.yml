@@ -1,0 +1,8 @@
+in: query
+name: field
+schema:
+  type: array
+  items:
+    type: string
+required: true
+explode: false

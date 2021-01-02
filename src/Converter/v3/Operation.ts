@@ -5,6 +5,7 @@ import { Factory } from "../../TypeScriptCodeGenerator";
 import * as ExternalDocumentation from "./ExternalDocumentation";
 import * as Guard from "./Guard";
 import * as Parameter from "./Parameter";
+import * as Reference from "./Reference";
 import * as RequestBody from "./RequestBody";
 import * as Responses from "./Responses";
 import * as Servers from "./Servers";
@@ -53,9 +54,31 @@ export const generateNamespace = (
   if (operation.parameters) {
     operation.parameters.forEach(parameter => {
       if (Guard.isReference(parameter)) {
-        throw new FeatureDevelopmentError("Local reference対応");
+        const reference = Reference.generate<OpenApi.Parameter>(entryPoint, currentPoint, parameter);
+        if (reference.type === "local") {
+          context.setReferenceHandler(reference);
+          return factory.TypeReferenceNode.create({ name: context.getLocalReferenceName(currentPoint, reference.path) });
+        }
+        if (reference.componentName) {
+          store.addStatement(reference.path, {
+            type: "interface",
+            value: Parameter.generateInterface(entryPoint, reference.referencePoint, factory, reference.name, reference.data, context),
+          });
+          return store.addStatement(`${parentPath}/${name}/Parameter/${reference.data.name}`, {
+            type: "typeAlias",
+            value: factory.TypeAliasDeclaration.create({
+              export: true,
+              name: reference.data.name,
+              type: factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, reference.path) }),
+            }),
+          });
+        }
+        return store.addStatement(`${parentPath}/${name}/Parameter/${reference.data.name}`, {
+          type: "interface",
+          value: Parameter.generateInterface(entryPoint, currentPoint, factory, reference.data.name, reference.data, context),
+        });
       }
-      store.addStatement(`${parentPath}/${name}/Parameters/${parameter.name}`, {
+      store.addStatement(`${parentPath}/${name}/Parameter/${parameter.name}`, {
         type: "interface",
         value: Parameter.generateInterface(entryPoint, currentPoint, factory, parameter.name, parameter, context),
       });
