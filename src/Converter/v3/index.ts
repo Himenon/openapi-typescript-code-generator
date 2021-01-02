@@ -92,7 +92,7 @@ const createContext = (entryPoint: string, store: Store.Type, factory: TypeScrip
     if (names.length === 0) {
       throw new DevelopmentError("names.length === 0");
     }
-    return names.join("."); // C.D
+    return names.join(".");
   };
   const setReference: ToTypeNode.Context["setReference"] = (reference, convert) => {
     if (store.hasStatement(reference.path, ["interface", "typeAlias"])) {
