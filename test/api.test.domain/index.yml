@@ -34,14 +34,16 @@ components:
         title:
           type: string
           description: Blog Title
-        # authorId:
-        #   $ref: "#/components/schemas/UserId"
+        authorId:
+          $ref: "#/components/schemas/UserId"
     BlogId:
       $ref: "./components/schemas/BlogId.yml"
     Favorite:
       $ref: "./components/schemas/Favorite.yml"
     Archives:
       $ref: "./components/schemas/Archives.yml"
+    IpAddress:
+      type: string
   headers:
     Origin:
       required: true
@@ -51,6 +53,11 @@ components:
         example: "https://example.com"
     Authorization:
       $ref: "./components/headers/Authorization.yml"
+    IPAddress:
+      required: true
+      description: "Ip Address"
+      schema:
+        $ref: "#/components/schemas/IpAddress"
   responses:
     SucceededCreatingBlogPost:
       description: "Succeeded in creating a blog post"

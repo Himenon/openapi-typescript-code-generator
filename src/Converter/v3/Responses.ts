@@ -4,7 +4,7 @@ import * as Guard from "./Guard";
 import * as Response from "./Response";
 import * as Reference from "./Reference";
 import { Store } from "./store";
-import { UndefinedComponent } from "../../Exception";
+import { UndefinedComponent, FeatureDevelopmentError } from "../../Exception";
 import * as ToTypeNode from "./toTypeNode";
 
 export const generateNamespace = (
@@ -65,7 +65,7 @@ export const generateNamespaceWithStatusCode = (
 
   Object.entries(responses).map(([statusCode, response]) => {
     if (Guard.isReference(response)) {
-      throw new Error("これから");
+      throw new FeatureDevelopmentError("これから");
     }
     Response.generateNamespace(entryPoint, currentPoint, store, factory, basePath, `Status$${statusCode}`, response, context);
   });

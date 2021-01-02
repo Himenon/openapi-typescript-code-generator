@@ -9,6 +9,7 @@ import * as ExternalDocumentation from "./ExternalDocumentation";
 import * as Servers from "./Servers";
 import { Store } from "./store";
 import * as ToTypeNode from "./toTypeNode";
+import { FeatureDevelopmentError } from "../../Exception";
 
 const generateComment = (operation: OpenApi.Operation): string => {
   const comments: string[] = [];
@@ -51,7 +52,7 @@ export const generateNamespace = (
   if (operation.parameters) {
     operation.parameters.forEach(parameter => {
       if (Guard.isReference(parameter)) {
-        throw new Error("これから対応します");
+        throw new FeatureDevelopmentError("Local reference対応");
       }
       store.addStatement(`${parentPath}/${name}/Parameters/${parameter.name}`, {
         type: "interface",
@@ -62,14 +63,14 @@ export const generateNamespace = (
 
   if (operation.requestBody) {
     if (Guard.isReference(operation.requestBody)) {
-      throw new Error("これから対応します");
+      throw new FeatureDevelopmentError("Local reference対応");
     }
     RequestBody.generateNamespace(entryPoint, currentPoint, store, factory, "RequestBody", operation.requestBody, context);
   }
 
   if (operation.responses) {
     if (Guard.isReference(operation.responses)) {
-      throw new Error("これから対応します");
+      throw new FeatureDevelopmentError("Local reference対応");
     }
     Responses.generateNamespaceWithStatusCode(entryPoint, currentPoint, store, factory, basePath, operation.responses, context);
   }

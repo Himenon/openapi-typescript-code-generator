@@ -5,6 +5,7 @@ import { Factory } from "../../TypeScriptCodeGenerator";
 import * as Guard from "./Guard";
 import { Store } from "./store";
 import * as ToTypeNode from "./toTypeNode";
+import { FeatureDevelopmentError } from "../../Exception";
 
 export const generateNamespace = (
   entryPoint: string,
@@ -32,7 +33,7 @@ export const generateNamespace = (
     if (Guard.isReference(pathItem)) {
       const reference = Reference.generate<OpenApi.PathItem>(entryPoint, currentPoint, pathItem);
       if (reference.type === "local") {
-        throw new Error("これから");
+        throw new FeatureDevelopmentError("reference対応");
       }
       return PathItem.generateNamespace(
         entryPoint,

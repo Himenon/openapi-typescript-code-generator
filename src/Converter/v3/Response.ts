@@ -5,6 +5,7 @@ import * as Header from "./Header";
 import * as MediaType from "./MediaType";
 import { Store } from "./store";
 import * as ToTypeNode from "./toTypeNode";
+import { FeatureDevelopmentError } from "../../Exception";
 
 export const generateNamespace = (
   entryPoint: string,
@@ -30,7 +31,7 @@ export const generateNamespace = (
 
   Object.entries(response.headers || {}).forEach(([key, header]) => {
     if (Guard.isReference(header)) {
-      throw new Error("対応中");
+      throw new FeatureDevelopmentError("対応中");
     }
     store.addStatement(`${basePath}/Header/${key}`, {
       type: "interface",

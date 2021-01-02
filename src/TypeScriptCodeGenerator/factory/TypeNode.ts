@@ -1,6 +1,7 @@
 import ts from "typescript";
 import * as LiteralTypeNode from "./LiteralTypeNode";
 import * as UnionTypeNode from "./UnionTypeNode";
+import { UnSupportError } from "../../Exception";
 
 export interface StringParams {
   type: "string";
@@ -90,7 +91,7 @@ export const create = (context: ts.TransformationContext): Factory => (params: P
       case "never":
         return factory.createKeywordTypeNode(ts.SyntaxKind.NeverKeyword);
       default:
-        throw new Error(`UnSupport Type: ${JSON.stringify(params)}`);
+        throw new UnSupportError(`UnSupport Type: ${JSON.stringify(params)}`);
     }
   };
   const node = createNode();

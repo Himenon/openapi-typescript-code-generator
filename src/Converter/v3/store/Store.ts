@@ -6,6 +6,7 @@ import { Factory } from "../../../TypeScriptCodeGenerator";
 import * as PropAccess from "./PropAccess";
 import * as Masking from "./masking";
 import * as fs from "fs";
+import { UnSupportError } from "../../../Exception";
 import yaml from "js-yaml";
 
 export type A = State.A;
@@ -61,7 +62,7 @@ export const create = (factory: Factory.Type): Type => {
 
   const addStatement = (path: string, statement: Def.Statement<A, B, C>): void => {
     if (!path.startsWith("components")) {
-      throw new Error("componentsから始まっていません :" + path);
+      throw new UnSupportError("componentsから始まっていません :" + path);
     }
     const targetPath = relative("components", path);
     console.log(`AddStatement: "${path}" ${statement.type}`);

@@ -12,6 +12,7 @@ import * as PathItems from "./PathItems";
 import * as ToTypeNode from "./toTypeNode";
 import * as Comment from "./Comment";
 import { Store } from "./store";
+import { DevelopmentError } from "../../Exception";
 
 export { OpenApi };
 
@@ -23,7 +24,7 @@ export interface Converter {
 const createContext = (entryPoint: string, store: Store.Type, factory: TypeScriptCodeGenerator.Factory.Type): ToTypeNode.Context => {
   const getLocalReferenceName: ToTypeNode.Context["getReferenceName"] = (currentPoint, reference): string => {
     if (reference.type !== "local") {
-      throw new Error("Setting Miss");
+      throw new DevelopmentError("Setting Miss");
     }
     const ext = Path.extname(currentPoint);
     const from = Path.relative(Path.dirname(entryPoint), currentPoint).replace(ext, ""); // components/schemas/A/B
@@ -53,7 +54,7 @@ const createContext = (entryPoint: string, store: Store.Type, factory: TypeScrip
       return current;
     }, base);
     if (names.length === 0) {
-      throw new Error("Local Reference Error \n" + JSON.stringify({ reference, pathArray, names, base }, null, 2));
+      throw new DevelopmentError("Local Reference Error \n" + JSON.stringify({ reference, pathArray, names, base }, null, 2));
     }
     return names.join(".");
   };
@@ -89,7 +90,7 @@ const createContext = (entryPoint: string, store: Store.Type, factory: TypeScrip
       return current;
     }, base);
     if (names.length === 0) {
-      throw new Error("おかしい");
+      throw new DevelopmentError("names.length === 0");
     }
     return names.join("."); // C.D
   };

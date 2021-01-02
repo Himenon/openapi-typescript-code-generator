@@ -18,3 +18,5 @@ export class FeatureDevelopmentError extends BaseError {}
 export class SchemaOnlySupportError extends BaseError {}
 
 export class UndefinedComponent extends BaseError {}
+
+export class DevelopmentError extends BaseError {}

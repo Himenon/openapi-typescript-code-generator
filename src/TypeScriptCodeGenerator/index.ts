@@ -1,6 +1,7 @@
 import ts from "typescript";
 import { traverse, CreateFunction } from "./traverse";
 import * as Factory from "./factory";
+import { DevelopmentError } from "../Exception";
 
 export { CreateFunction, Factory };
 
@@ -17,7 +18,7 @@ export const generate = (createFunction: CreateFunction): string => {
   const result = ts.transform(source, transformers);
   result.dispose();
   if (result.transformed.length > 1) {
-    throw new Error("1個以上あるよ");
+    throw new DevelopmentError("1個以上あるよ");
   }
   return convertAstToTypeScriptCode(result.transformed[0]);
 };
