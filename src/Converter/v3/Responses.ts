@@ -1,4 +1,4 @@
-import { FeatureDevelopmentError, UndefinedComponent } from "../../Exception";
+import { UndefinedComponent } from "../../Exception";
 import { Factory } from "../../TypeScriptCodeGenerator";
 import * as Guard from "./Guard";
 import * as Reference from "./Reference";
@@ -64,9 +64,34 @@ export const generateNamespaceWithStatusCode = (
   });
 
   Object.entries(responses).map(([statusCode, response]) => {
+    const name = `Status$${statusCode}`;
     if (Guard.isReference(response)) {
-      throw new FeatureDevelopmentError("これから");
+      const reference = Reference.generate<OpenApi.Response>(entryPoint, currentPoint, response);
+      if (reference.type === "local") {
+        context.setReferenceHandler(reference);
+        return factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, reference.path, "local") });
+      } else if (reference.componentName) {
+        Response.generateNamespace(
+          entryPoint,
+          reference.referencePoint,
+          store,
+          factory,
+          reference.path,
+          reference.name,
+          reference.data,
+          context,
+        );
+        return store.addStatement(`${basePath}/${name}`, {
+          type: "typeAlias",
+          value: factory.TypeAliasDeclaration.create({
+            export: true,
+            name: name,
+            type: factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, reference.path, "remote") }),
+          }),
+        });
+      }
+      return;
     }
-    Response.generateNamespace(entryPoint, currentPoint, store, factory, basePath, `Status$${statusCode}`, response, context);
+    Response.generateNamespace(entryPoint, currentPoint, store, factory, basePath, name, response, context);
   });
 };

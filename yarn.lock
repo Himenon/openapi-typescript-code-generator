@@ -1970,7 +1970,7 @@ ajv@7.0.2, ajv@^7.0.2:
     require-from-string "^2.0.2"
     uri-js "^4.2.2"
 
-ajv@^6.10.0, ajv@^6.12.4, ajv@^6.5.5:
+ajv@^6.10.0, ajv@^6.12.4, ajv@^6.5.2, ajv@^6.5.5:
   version "6.12.6"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.12.6.tgz#baf5a62e802b07d977034586f8c3baf5adf26df4"
   integrity sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==
@@ -5838,6 +5838,11 @@ lodash.memoize@4.x:
   resolved "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
   integrity sha1-vMbEmkKihA7Zl/Mj6tpezRguC/4=
 
+lodash.merge@^4.6.1:
+  version "4.6.2"
+  resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
+  integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
+
 lodash.set@^4.3.2:
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/lodash.set/-/lodash.set-4.3.2.tgz#d8757b1da807dde24816b0d6a84bea1a76230b23"
@@ -6569,6 +6574,21 @@ onetime@^5.1.2:
   integrity sha512-kbpaSSGJTWdAY5KPVeMOKXSrPtr8C8C7wodJbcsd51jRnmD+GZu8Y0VoU6Dm5Z4vWr0Ig/1NKuWRKf7j5aaYSg==
   dependencies:
     mimic-fn "^2.1.0"
+
+openapi-schema-validator@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/openapi-schema-validator/-/openapi-schema-validator-7.0.1.tgz#0dd333419f55ef882183294bce5db6ee980fab59"
+  integrity sha512-P/dmF14xWbyaFVcoS1Fs2tUP4AhJO+eEnZV+jbApeo3569/Z2fiki6Mb6Rs7cfi0ewNnV4L4HiYH+HPZaKWnjQ==
+  dependencies:
+    ajv "^6.5.2"
+    lodash.merge "^4.6.1"
+    openapi-types "^7.0.1"
+    swagger-schema-official "2.0.0-bab6bed"
+
+openapi-types@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/openapi-types/-/openapi-types-7.0.1.tgz#966bcacfd14119fa12000dbc9d588bfd8df2e4d1"
+  integrity sha512-6pi4/Fw+JIW1HHda2Ij7LRJ5QJ8f6YzaXnsRA6m44BJz8nLq/j5gVFzPBKJo+uOFhAeHqZC/3uzhTpYPga3Q/A==
 
 opencollective-postinstall@^2.0.2:
   version "2.0.2"
@@ -8171,6 +8191,11 @@ supports-hyperlinks@^2.0.0:
   dependencies:
     has-flag "^4.0.0"
     supports-color "^7.0.0"
+
+swagger-schema-official@2.0.0-bab6bed:
+  version "2.0.0-bab6bed"
+  resolved "https://registry.yarnpkg.com/swagger-schema-official/-/swagger-schema-official-2.0.0-bab6bed.tgz#70070468d6d2977ca5237b2e519ca7d06a2ea3fd"
+  integrity sha1-cAcEaNbSl3ylI3suUZyn0Gouo/0=
 
 symbol-tree@^3.2.4:
   version "3.2.4"

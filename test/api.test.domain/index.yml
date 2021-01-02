@@ -63,7 +63,6 @@ components:
       description: "Succeeded in creating a blog post"
       content:
         application/json:
-          description: Blog post creation success response.
           schema:
             type: object
             required:
@@ -72,7 +71,6 @@ components:
               meta:
                 $ref: "#/components/schemas/ResponseMeta"
         application/x-www-form-urlencoded:
-          description: Blog post creation success response.
           schema:
             type: object
             properties:
@@ -90,7 +88,7 @@ components:
       required: true
   requestBodies:
     BlogPost:
-      description:
+      description: "BlogPost"
       content:
         application/json:
           schema:
@@ -117,3 +115,5 @@ components:
   pathItems:
     /categories:
       $ref: "./components/pathItems/categories.yml"
+
+paths:
