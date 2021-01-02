@@ -37,6 +37,7 @@
     "build": "yarn ts ./scripts/build.ts",
     "clean": "yarn ts ./scripts/clean.ts",
     "format:code": "prettier \"**/*.{js,jsx,ts,tsx,json,yml,yaml,md,html}\" --write",
+    "format:code:eslint": "eslint \"**/*.{ts,tsx}\" --fix",
     "format:yarn:lock": "yarn-deduplicate yarn.lock --strategy highest",
     "lerna:version:up": "lerna version --yes",
     "release:github:registry": "yarn publish --registry https://npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}",
@@ -44,6 +45,7 @@
     "test": "run-s test:depcruise test:jest",
     "test:code:gen": "yarn ts ./scripts/testCodeGen.ts",
     "test:depcruise": "depcruise --validate .dependency-cruiser.js src",
+    "test:eslint": "eslint \"src/**/*.{ts,tsx}\"",
     "test:jest": "jest -c ./jest.config.js",
     "ts": "ts-node -P tsconfig.build.json",
     "watch": "yarn ts ./scripts/watch.ts"
@@ -69,7 +71,8 @@
     "@types/json-schema": "^7.0.6",
     "change-case": "^4.1.2",
     "dot-prop": "^6.0.1",
-    "js-yaml": "^3.14.1"
+    "js-yaml": "^3.14.1",
+    "typescript": "4.0.5"
   },
   "devDependencies": {
     "@commitlint/cli": "11.0.0",
@@ -102,7 +105,6 @@
     "sort-package-json": "1.46.1",
     "ts-jest": "26.4.4",
     "ts-node": "9.0.0",
-    "typescript": "4.0.5",
     "yarn-deduplicate": "3.1.0"
   },
   "publishConfig": {

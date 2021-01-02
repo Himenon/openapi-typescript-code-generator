@@ -22,7 +22,6 @@ Components Object
 | `namespace` | Field Name    |
 | `interface` | Type Name     |
 
-
 ## References
 
 TypeScript
