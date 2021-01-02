@@ -1,6 +1,8 @@
-import { shell } from "./tools/shell";
-import * as chokidar from "chokidar";
 import * as path from "path";
+
+import * as chokidar from "chokidar";
+
+import { shell } from "./tools/shell";
 
 const cwd = path.join(__dirname, "../");
 

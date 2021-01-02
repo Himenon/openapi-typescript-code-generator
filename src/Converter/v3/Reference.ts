@@ -1,11 +1,12 @@
 import * as path from "path";
-import { NotFoundFileError, FeatureDevelopmentError } from "../../Exception";
-import * as Logger from "../../Logger";
-import { OpenApi } from "./types";
-import { isReference } from "./Guard";
-import { Def } from "./store";
+
+import { FeatureDevelopmentError, NotFoundFileError } from "../../Exception";
 import { fileSystem } from "../../FileSystem";
+import * as Logger from "../../Logger";
+import { isReference } from "./Guard";
 import * as Guard from "./Guard";
+import { Def } from "./store";
+import { OpenApi } from "./types";
 
 export type LocalReferencePattern =
   | "#/components/schemas/"

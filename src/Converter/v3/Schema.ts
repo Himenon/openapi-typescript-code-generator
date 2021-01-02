@@ -1,11 +1,12 @@
 import ts from "typescript";
-import { Factory } from "../../TypeScriptCodeGenerator";
+
 import { FeatureDevelopmentError } from "../../Exception";
-import * as ToTypeNode from "./toTypeNode";
+import { Factory } from "../../TypeScriptCodeGenerator";
 import * as ExternalDocumentation from "./ExternalDocumentation";
+import * as Guard from "./Guard";
+import * as ToTypeNode from "./toTypeNode";
 import { ObjectSchema, PrimitiveSchema } from "./types";
 import { OpenApi } from "./types";
-import * as Guard from "./Guard";
 
 export const generatePropertySignatures = (
   entryPoint: string,

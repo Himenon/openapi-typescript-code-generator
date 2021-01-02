@@ -1,8 +1,8 @@
-import { OpenApi } from "./types";
 import { Factory } from "../../TypeScriptCodeGenerator";
 import * as MediaType from "./MediaType";
-import * as ToTypeNode from "./toTypeNode";
 import { Store } from "./store";
+import * as ToTypeNode from "./toTypeNode";
+import { OpenApi } from "./types";
 
 export const generateNamespace = (
   entryPoint: string,

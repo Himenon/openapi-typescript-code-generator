@@ -1,5 +1,6 @@
-import { generateComment } from "./utils";
 import ts from "typescript";
+
+import { generateComment } from "./utils";
 
 export interface Params {
   value: string | boolean | number;

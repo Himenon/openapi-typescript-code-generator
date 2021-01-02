@@ -1,11 +1,11 @@
-import { OpenApi } from "./types";
+import { FeatureDevelopmentError, UndefinedComponent } from "../../Exception";
 import { Factory } from "../../TypeScriptCodeGenerator";
 import * as Guard from "./Guard";
-import * as Response from "./Response";
 import * as Reference from "./Reference";
+import * as Response from "./Response";
 import { Store } from "./store";
-import { UndefinedComponent, FeatureDevelopmentError } from "../../Exception";
 import * as ToTypeNode from "./toTypeNode";
+import { OpenApi } from "./types";
 
 export const generateNamespace = (
   entryPoint: string,

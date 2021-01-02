@@ -1,8 +1,10 @@
 import * as fs from "fs";
 import * as path from "path";
+
+import Dot from "dot-prop";
 import * as yaml from "js-yaml";
+
 import { UnSupportError } from "../Exception";
-import * as Dot from "dot-prop";
 
 export interface Type {
   existSync: (entrypoint: string) => boolean;

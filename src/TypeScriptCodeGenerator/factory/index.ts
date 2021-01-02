@@ -1,14 +1,15 @@
 import ts from "typescript";
+
+import * as IndexSignature from "./IndexSignature";
 import * as Interface from "./Interface";
+import * as IntersectionTypeNode from "./IntersectionTypeNode";
+import * as LiteralTypeNode from "./LiteralTypeNode";
 import * as Namespace from "./Namespace";
 import * as Property from "./Property";
 import * as TypeAliasDeclaration from "./TypeAliasDeclaration";
 import * as TypeNode from "./TypeNode";
-import * as LiteralTypeNode from "./LiteralTypeNode";
-import * as IndexSignature from "./IndexSignature";
-import * as UnionTypeNode from "./UnionTypeNode";
-import * as IntersectionTypeNode from "./IntersectionTypeNode";
 import * as TypeReferenceNode from "./TypeReferenceNode";
+import * as UnionTypeNode from "./UnionTypeNode";
 
 export { Interface, Namespace, Property, TypeAliasDeclaration, TypeNode, LiteralTypeNode };
 

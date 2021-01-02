@@ -1,11 +1,11 @@
-import * as Reference from "./Reference";
-import * as PathItem from "./PathItem";
-import { OpenApi } from "./types";
+import { FeatureDevelopmentError } from "../../Exception";
 import { Factory } from "../../TypeScriptCodeGenerator";
 import * as Guard from "./Guard";
+import * as PathItem from "./PathItem";
+import * as Reference from "./Reference";
 import { Store } from "./store";
 import * as ToTypeNode from "./toTypeNode";
-import { FeatureDevelopmentError } from "../../Exception";
+import { OpenApi } from "./types";
 
 export const generateNamespace = (
   entryPoint: string,

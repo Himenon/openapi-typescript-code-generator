@@ -1,10 +1,10 @@
-import * as Reference from "./Reference";
-import * as RequestBody from "./RequestBody";
-import { OpenApi } from "./types";
 import { Factory } from "../../TypeScriptCodeGenerator";
 import * as Guard from "./Guard";
+import * as Reference from "./Reference";
+import * as RequestBody from "./RequestBody";
 import { Store } from "./store";
 import * as ToTypeNode from "./toTypeNode";
+import { OpenApi } from "./types";
 
 export const generateNamespace = (
   entryPoint: string,

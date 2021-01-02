@@ -1,8 +1,8 @@
 import {
   JSONSchema7 as JSONSchema,
   JSONSchema7Definition as JSONSchemaDefinition,
-  JSONSchema7TypeName as JSONSchemaTypeName,
   JSONSchema7Type as JSONSchemaType,
+  JSONSchema7TypeName as JSONSchemaTypeName,
 } from "json-schema";
 
 export { JSONSchema, JSONSchemaDefinition, JSONSchemaType, JSONSchemaTypeName };

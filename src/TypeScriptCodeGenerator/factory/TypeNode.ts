@@ -1,7 +1,8 @@
 import ts from "typescript";
+
+import { UnSupportError } from "../../Exception";
 import * as LiteralTypeNode from "./LiteralTypeNode";
 import * as UnionTypeNode from "./UnionTypeNode";
-import { UnSupportError } from "../../Exception";
 
 export interface StringParams {
   type: "string";

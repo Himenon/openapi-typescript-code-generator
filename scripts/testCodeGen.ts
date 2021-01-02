@@ -1,5 +1,6 @@
-import * as CodeGenerator from "../lib";
 import * as fs from "fs";
+
+import * as CodeGenerator from "../lib";
 
 const main = () => {
   const params: CodeGenerator.Params = {

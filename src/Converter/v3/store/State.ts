@@ -1,4 +1,5 @@
 import ts from "typescript";
+
 import * as Def from "./Definition";
 
 export type A = ts.ModuleDeclaration;

@@ -1,11 +1,12 @@
 import ts from "typescript";
+
 import { UnsetTypeError } from "../../Exception";
-import { OpenApi } from "./types";
-import { Factory } from "../../TypeScriptCodeGenerator";
-import * as Reference from "./Reference";
+import { UnSupportError, UnknownError } from "../../Exception";
 import * as Logger from "../../Logger";
+import { Factory } from "../../TypeScriptCodeGenerator";
 import * as Guard from "./Guard";
-import { UnknownError, UnSupportError } from "../../Exception";
+import * as Reference from "./Reference";
+import { OpenApi } from "./types";
 import { ObjectSchemaWithAdditionalProperties } from "./types";
 
 export interface Context {

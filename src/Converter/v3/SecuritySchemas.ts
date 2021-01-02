@@ -1,10 +1,10 @@
-import * as Reference from "./Reference";
-import * as SecuritySchema from "./SecuritySchema";
-import { OpenApi } from "./types";
+import { UndefinedComponent } from "../../Exception";
 import { Factory } from "../../TypeScriptCodeGenerator";
 import * as Guard from "./Guard";
+import * as Reference from "./Reference";
+import * as SecuritySchema from "./SecuritySchema";
 import { Store } from "./store";
-import { UndefinedComponent } from "../../Exception";
+import { OpenApi } from "./types";
 
 export const generateNamespace = (
   entryPoint: string,

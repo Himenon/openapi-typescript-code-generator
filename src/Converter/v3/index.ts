@@ -1,18 +1,20 @@
-import ts from "typescript";
-import { OpenApi } from "./types";
 import * as Path from "path";
-import * as TypeScriptCodeGenerator from "../../TypeScriptCodeGenerator";
-import * as Parameters from "./Parameters";
-import * as Schemas from "./Schemas";
-import * as Responses from "./Responses";
-import * as RequestBodies from "./RequestBodies";
-import * as Headers from "./Headers";
-import * as SecuritySchemas from "./SecuritySchemas";
-import * as PathItems from "./PathItems";
-import * as ToTypeNode from "./toTypeNode";
-import * as Comment from "./Comment";
-import { Store } from "./store";
+
+import ts from "typescript";
+
 import { DevelopmentError } from "../../Exception";
+import * as TypeScriptCodeGenerator from "../../TypeScriptCodeGenerator";
+import * as Comment from "./Comment";
+import * as Headers from "./Headers";
+import * as Parameters from "./Parameters";
+import * as PathItems from "./PathItems";
+import * as RequestBodies from "./RequestBodies";
+import * as Responses from "./Responses";
+import * as Schemas from "./Schemas";
+import * as SecuritySchemas from "./SecuritySchemas";
+import { Store } from "./store";
+import * as ToTypeNode from "./toTypeNode";
+import { OpenApi } from "./types";
 
 export { OpenApi };
 

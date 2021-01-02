@@ -1,7 +1,8 @@
 import ts from "typescript";
-import { OpenApi } from "./types";
+
 import { Factory } from "../../TypeScriptCodeGenerator";
 import * as ToTypeNode from "./toTypeNode";
+import { OpenApi } from "./types";
 
 export const generatePropertySignatures = (
   entryPoint: string,

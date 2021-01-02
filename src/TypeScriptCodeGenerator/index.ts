@@ -1,7 +1,8 @@
 import ts from "typescript";
-import { traverse, CreateFunction } from "./traverse";
-import * as Factory from "./factory";
+
 import { DevelopmentError } from "../Exception";
+import * as Factory from "./factory";
+import { CreateFunction, traverse } from "./traverse";
 
 export { CreateFunction, Factory };
 

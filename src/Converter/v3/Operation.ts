@@ -1,15 +1,16 @@
 import { EOL } from "os";
-import { OpenApi } from "./types";
+
+import { FeatureDevelopmentError } from "../../Exception";
 import { Factory } from "../../TypeScriptCodeGenerator";
+import * as ExternalDocumentation from "./ExternalDocumentation";
 import * as Guard from "./Guard";
 import * as Parameter from "./Parameter";
 import * as RequestBody from "./RequestBody";
 import * as Responses from "./Responses";
-import * as ExternalDocumentation from "./ExternalDocumentation";
 import * as Servers from "./Servers";
 import { Store } from "./store";
 import * as ToTypeNode from "./toTypeNode";
-import { FeatureDevelopmentError } from "../../Exception";
+import { OpenApi } from "./types";
 
 const generateComment = (operation: OpenApi.Operation): string => {
   const comments: string[] = [];

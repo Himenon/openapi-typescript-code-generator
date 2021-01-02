@@ -1,13 +1,15 @@
-import ts from "typescript";
-import * as Def from "./Definition";
-import * as State from "./State";
-import { relative } from "path";
-import { Factory } from "../../../TypeScriptCodeGenerator";
-import * as PropAccess from "./PropAccess";
-import * as Masking from "./masking";
 import * as fs from "fs";
-import { UnSupportError } from "../../../Exception";
+import { relative } from "path";
+
 import yaml from "js-yaml";
+import ts from "typescript";
+
+import { UnSupportError } from "../../../Exception";
+import { Factory } from "../../../TypeScriptCodeGenerator";
+import * as Def from "./Definition";
+import * as Masking from "./masking";
+import * as PropAccess from "./PropAccess";
+import * as State from "./State";
 
 export type A = State.A;
 export type B = State.B;

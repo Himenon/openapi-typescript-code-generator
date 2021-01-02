@@ -1,5 +1,5 @@
-import * as State from "./State";
 import * as Def from "./Definition";
+import * as State from "./State";
 
 const maskingNamespace = (
   namespaceStatement: Def.NamespaceStatement<State.A, State.B, State.C>,

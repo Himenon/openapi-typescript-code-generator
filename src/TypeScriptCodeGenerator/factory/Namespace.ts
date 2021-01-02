@@ -1,6 +1,7 @@
-import { generateComment } from "./utils";
 import ts from "typescript";
+
 import * as ModuleBlock from "./ModuleBlock";
+import { generateComment } from "./utils";
 
 export interface Params$FindStatement {
   node: ts.ModuleDeclaration;
