@@ -1,10 +1,8 @@
-import * as Path from "path";
-
 import ts from "typescript";
 
-import { DevelopmentError } from "../../Exception";
 import * as TypeScriptCodeGenerator from "../../TypeScriptCodeGenerator";
 import * as Comment from "./Comment";
+import * as Context from "./Context";
 import * as Headers from "./Headers";
 import * as Parameters from "./Parameters";
 import * as PathItems from "./PathItems";
@@ -13,7 +11,6 @@ import * as Responses from "./Responses";
 import * as Schemas from "./Schemas";
 import * as SecuritySchemas from "./SecuritySchemas";
 import { Store } from "./store";
-import * as ToTypeNode from "./toTypeNode";
 import { OpenApi } from "./types";
 
 export { OpenApi };
@@ -23,121 +20,12 @@ export interface Converter {
   createFunction: TypeScriptCodeGenerator.CreateFunction;
 }
 
-const createContext = (entryPoint: string, store: Store.Type, factory: TypeScriptCodeGenerator.Factory.Type): ToTypeNode.Context => {
-  const getLocalReferenceName: ToTypeNode.Context["getReferenceName"] = (currentPoint, referencePath): string => {
-    const ext = Path.extname(currentPoint);
-    const from = Path.relative(Path.dirname(entryPoint), currentPoint).replace(ext, ""); // components/schemas/A/B
-    const base = Path.dirname(from);
-    const pathArray = referencePath.split("/");
-    const names: string[] = [];
-    pathArray.reduce((previous, lastPath, index) => {
-      const current = [previous, lastPath].join("/");
-      console.log(current);
-      const isLast = index === pathArray.length - 1;
-      if (isLast) {
-        const statement = store.getStatement(current, "interface");
-        if (statement) {
-          names.push(statement.value.name.text);
-        } else {
-          const statement2 = store.getStatement(current, "typeAlias");
-          if (statement2) {
-            names.push(statement2.value.name.text);
-          }
-        }
-      } else {
-        const statement = store.getStatement(current, "namespace");
-        if (statement) {
-          names.push(statement.value.name.text);
-        }
-      }
-      return current;
-    }, base);
-    if (names.length === 0) {
-      throw new DevelopmentError("Local Reference Error \n" + JSON.stringify({ referencePath, pathArray, names, base }, null, 2));
-    }
-    return names.join(".");
-  };
-
-  const getReferenceName: ToTypeNode.Context["getReferenceName"] = (currentPoint, referencePath): string => {
-    const ext = Path.extname(currentPoint);
-    const from = Path.relative(Path.dirname(entryPoint), currentPoint).replace(ext, ""); // components/schemas/A/B
-    const base = Path.dirname(from);
-    const target = referencePath; // components/schemas/A/C/D
-    const result = Path.relative(base, target);
-    const names: string[] = [];
-    const pathArray = result.split("/");
-    // TODO ifが複数あるのでリファクタリングする
-    pathArray.reduce((previous, lastPath, index) => {
-      const current = [previous, lastPath].join("/");
-      const isLast = index === pathArray.length - 1;
-      if (isLast) {
-        const statement = store.getStatement(current, "interface");
-        if (statement) {
-          names.push(statement.value.name.text);
-        } else {
-          const statement2 = store.getStatement(current, "typeAlias");
-          if (statement2) {
-            names.push(statement2.value.name.text);
-          }
-        }
-      } else {
-        const statement = store.getStatement(current, "namespace");
-        if (statement) {
-          names.push(statement.value.name.text);
-        }
-      }
-      return current;
-    }, base);
-    if (names.length === 0) {
-      throw new DevelopmentError("names.length === 0");
-    }
-    return names.join(".");
-  };
-  const setReferenceHandler: ToTypeNode.Context["setReferenceHandler"] = reference => {
-    if (store.hasStatement(reference.path, ["interface", "typeAlias"])) {
-      return;
-    }
-    if (reference.type === "remote") {
-      const typeNode = ToTypeNode.convert(entryPoint, reference.referencePoint, factory, reference.data, {
-        setReferenceHandler,
-        getReferenceName,
-        getLocalReferenceName,
-      });
-      if (ts.isTypeLiteralNode(typeNode)) {
-        store.addStatement(reference.path, {
-          type: "interface",
-          value: factory.Interface({
-            export: true,
-            name: reference.name,
-            members: typeNode.members,
-          }),
-        });
-      } else {
-        const value = factory.TypeAliasDeclaration.create({
-          export: true,
-          name: reference.name,
-          type: ToTypeNode.convert(entryPoint, reference.referencePoint, factory, reference.data, {
-            setReferenceHandler: setReferenceHandler,
-            getReferenceName,
-            getLocalReferenceName,
-          }),
-        });
-        store.addStatement(reference.path, {
-          type: "typeAlias",
-          value,
-        });
-      }
-    }
-  };
-  return { setReferenceHandler: setReferenceHandler, getReferenceName, getLocalReferenceName };
-};
-
 export const create = (entryPoint: string, rootSchema: OpenApi.RootTypes): Converter => {
   const currentPoint = entryPoint;
   const createFunction = (context: ts.TransformationContext): ts.Statement[] => {
     const factory = TypeScriptCodeGenerator.Factory.create(context);
     const store = Store.create(factory);
-    const toTypeNodeContext = createContext(entryPoint, store, factory);
+    const toTypeNodeContext = Context.create(entryPoint, store, factory);
 
     if (rootSchema.components) {
       if (rootSchema.components.schemas) {

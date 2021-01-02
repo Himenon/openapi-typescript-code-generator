@@ -1,6 +1,6 @@
 import * as path from "path";
 
-import { FeatureDevelopmentError, NotFoundFileError } from "../../Exception";
+import { DevelopmentError, FeatureDevelopmentError, NotFoundFileError } from "../../Exception";
 import { fileSystem } from "../../FileSystem";
 import * as Logger from "../../Logger";
 import { isReference } from "./Guard";
@@ -22,8 +22,12 @@ export type LocalReferencePattern =
 
 export interface LocalReference {
   type: "local";
+  /**
+   * @example #/components/schemas/Hoge -> Hoge
+   */
   name: string;
   /**
+   * startsWith `components`
    * components/headers/hoge/fuga
    */
   path: string;
@@ -31,13 +35,25 @@ export interface LocalReference {
 
 export interface RemoteReference<T> {
   type: "remote";
+  /**
+   * file path
+   */
   referencePoint: string;
   /**
-   * /components/headers/hoge/fuga
+   * startsWith `components`
+   * components/headers/hoge/fuga
    */
   path: string;
-  componentName?: Def.ComponentName;
+  /**
+   * From filename - extension
+   * @example a/b/c/Hoge.yml -> Hoge
+   */
   name: string;
+  /**
+   * If "componentName" exists, you can create an alias for the type.
+   * If it does not exist, you need to define the type directly.
+   */
+  componentName?: Def.ComponentName;
   data: T;
 }
 
@@ -81,17 +97,22 @@ export const generateLocalReference = (reference: OpenApi.Reference): LocalRefer
     return;
   }
   const name = reference.$ref.split(localReferencePattern)[1];
+  const localPath = path.join(localReferenceComponents[localReferencePattern], name);
+  if (!localPath.startsWith("components")) {
+    throw new DevelopmentError(`localPath is not start "components":\n${localPath}`);
+  }
   return {
     type: "local",
     name,
-    path: [localReferenceComponents[localReferencePattern], name].join("/"),
+    path: localPath,
   };
 };
 
 export const generateReferencePoint = (currentPoint: string, reference: OpenApi.Reference): string => {
   const basedir = path.dirname(currentPoint);
   const ref = reference.$ref;
-  return path.join(basedir, ref);
+  const referencePoint = path.join(basedir, ref);
+  return referencePoint;
 };
 
 export const generate = <T>(entryPoint: string, currentPoint: string, reference: OpenApi.Reference): Type<T> => {
@@ -122,6 +143,10 @@ export const generate = <T>(entryPoint: string, currentPoint: string, reference:
 
   if (isReference(data)) {
     return generate<T>(entryPoint, referencePoint, data);
+  }
+
+  if (!targetPath.startsWith("components")) {
+    throw new DevelopmentError(`targetPath is not start "components":\n${targetPath}`);
   }
 
   return {

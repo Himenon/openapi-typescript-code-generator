@@ -1,7 +1,7 @@
 get:
-  description: Returns pets based on ID
-  summary: Find pets by ID
-  operationId: getPetsById
+  description: get categories
+  summary: get categories api
+  operationId: getCategories
   responses:
     "200":
       description: pet response
@@ -26,3 +26,24 @@ get:
 
   parameters:
     - $ref: "../parameters/Field.yml"
+
+post:
+  description: createCategory
+  operationId: createCategory
+  requestBody:
+    $ref: "../requestBodies/Category.yml"
+
+delete:
+  description: deleteCategory
+  operationId: deleteCategory
+  requestBody:
+    description: "delete parameter"
+    content:
+      "application/json":
+        schema:
+          type: object
+          required:
+            - categoryId
+          properties:
+            categoryId:
+              $ref: "../schemas/Category/Id.yml"

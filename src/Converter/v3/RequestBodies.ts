@@ -14,6 +14,7 @@ export const generateNamespace = (
   requestBodies: OpenApi.MapLike<string, OpenApi.RequestBody | OpenApi.Reference>,
   context: ToTypeNode.Context,
 ): void => {
+  const basePath = "components/requestBodies";
   store.addComponent("requestBodies", {
     type: "namespace",
     value: factory.Namespace.create({
@@ -36,6 +37,6 @@ export const generateNamespace = (
       }
       return generateNamespace(entryPoint, reference.referencePoint, store, factory, reference.data, context);
     }
-    RequestBody.generateNamespace(entryPoint, currentPoint, store, factory, name, requestBody, context);
+    RequestBody.generateNamespace(entryPoint, currentPoint, store, factory, basePath, name, requestBody, context);
   });
 };

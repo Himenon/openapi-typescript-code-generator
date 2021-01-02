@@ -7,4 +7,4 @@ properties:
     type: number
   name:
     type: string
-    description: Game Title
+    description: Study Title

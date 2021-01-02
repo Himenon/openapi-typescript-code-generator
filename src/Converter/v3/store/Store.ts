@@ -53,8 +53,9 @@ export const create = (factory: Factory.Type): Type => {
 
   const getStatement = (path: string, type: Def.Statement<A, B, C>["type"]) => {
     const targetPath = relative("components", path);
-    console.log(`GetStatement: ${targetPath}`);
-    return PropAccess.get(state.components, type, targetPath);
+    const result = PropAccess.get(state.components, type, targetPath);
+    console.log(`GetStatement(${type}): ${path} : ${!!result}`);
+    return result;
   };
 
   const hasStatement = (path: string, types: Def.Statement<A, B, C>["type"][]): boolean => {
@@ -67,7 +68,7 @@ export const create = (factory: Factory.Type): Type => {
       throw new UnSupportError("componentsから始まっていません :" + path);
     }
     const targetPath = relative("components", path);
-    console.log(`AddStatement: "${path}" ${statement.type}`);
+    console.log(`AddStatement(${statement.type}): ${path}`);
     state.components = PropAccess.set(state.components, targetPath, statement, createNamespace);
   };
 
@@ -108,7 +109,7 @@ export const create = (factory: Factory.Type): Type => {
       }
       return statements;
     }, []);
-    fs.writeFileSync("debug/sample.yml", yaml.dump(Masking.maskValue(JSON.parse(JSON.stringify(state)))), { encoding: "utf-8" });
+    fs.writeFileSync("debug/sample.yml", yaml.dump(Masking.maskValue(state)), { encoding: "utf-8" });
     return statements;
   };
 
