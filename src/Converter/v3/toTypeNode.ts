@@ -11,6 +11,7 @@ import { ObjectSchemaWithAdditionalProperties } from "./types";
 export interface Context {
   setReference: (reference: Reference.Type<OpenApi.Schema | OpenApi.JSONSchemaDefinition>, convert: Convert) => void;
   getReferenceName: (currentPoint: string, reference: Reference.Type<OpenApi.Schema | OpenApi.JSONSchemaDefinition>) => string;
+  getLocalReferenceName: (currentPoint: string, reference: Reference.Type<OpenApi.Schema | OpenApi.JSONSchemaDefinition>) => string;
 }
 
 export type Convert = (
@@ -68,8 +69,7 @@ export const convert: Convert = (
   if (Guard.isReference(schema)) {
     const reference = Reference.generate<OpenApi.Schema | OpenApi.JSONSchemaDefinition>(entryPoint, currentPoint, schema);
     if (reference.type === "local") {
-      console.log({ reference });
-      return factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, reference) });
+      return factory.TypeReferenceNode.create({ name: context.getLocalReferenceName(currentPoint, reference) });
     }
     if (reference.componentName) {
       context.setReference(reference, convert);

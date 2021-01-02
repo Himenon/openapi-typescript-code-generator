@@ -21,6 +21,13 @@ components:
       $ref: "./components/schemas/UserId.yml"
     User:
       $ref: "./components/schemas/User.yml"
+    ResponseMeta:
+      type: object
+      required:
+        - statusCode
+      properties:
+        statusCode:
+          type: number
     Blog:
       type: object
       properties:
@@ -56,22 +63,14 @@ components:
               - meta
             properties:
               meta:
-                type: object
-                required:
-                  - status
-                properties:
-                  status:
-                    type: number
+                $ref: "#/components/schemas/ResponseMeta"
         application/x-www-form-urlencoded:
           description: Blog post creation success response.
           schema:
             type: object
             properties:
               meta:
-                type: object
-                properties:
-                  status:
-                    type: number
+                $ref: "#/components/schemas/ResponseMeta"
     FailedCreatingBlogPost:
       $ref: "./components/responses/FailedCreatingBlogPost.yml"
   parameters:

@@ -55,17 +55,17 @@ const localReferencePatterns: readonly LocalReferencePattern[] = [
   "#/components/pathItems/",
 ];
 
-export const localReferenceComponents: { readonly [aliasKey in LocalReferencePattern]: Def.ComponentName } = {
-  "#/components/schemas/": "schemas",
-  "#/components/responses/": "responses",
-  "#/components/parameters/": "parameters",
-  // "#/components/examples/": "examples",
-  "#/components/requestBodies/": "requestBodies",
-  "#/components/headers/": "headers",
-  "#/components/securitySchemes/": "securitySchemes",
-  // "#/components/links/": "links",
-  // "#/components/callbacks/": "callbacks",
-  "#/components/pathItems/": "pathItems",
+export const localReferenceComponents: { readonly [aliasKey in LocalReferencePattern]: string } = {
+  "#/components/schemas/": "components/schemas",
+  "#/components/responses/": "components/responses",
+  "#/components/parameters/": "components/parameters",
+  // "#/components/examples/": "components/examples",
+  "#/components/requestBodies/": "components/requestBodies",
+  "#/components/headers/": "components/headers",
+  "#/components/securitySchemes/": "components/securitySchemes",
+  // "#/components/links/": "components/links",
+  // "#/components/callbacks/": "components/callbacks",
+  "#/components/pathItems/": "components/pathItems",
 };
 
 export const generateLocalReference = (reference: OpenApi.Reference): LocalReference | undefined => {
@@ -80,11 +80,10 @@ export const generateLocalReference = (reference: OpenApi.Reference): LocalRefer
     return;
   }
   const name = reference.$ref.split(localReferencePattern)[1];
-  const targetPath = localReferenceComponents[localReferencePattern] as string;
   return {
     type: "local",
     name,
-    path: targetPath,
+    path: [localReferenceComponents[localReferencePattern], name].join("/"),
   };
 };
 

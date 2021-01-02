@@ -4,7 +4,9 @@ import * as State from "./State";
 import { relative } from "path";
 import { Factory } from "../../../TypeScriptCodeGenerator";
 import * as PropAccess from "./PropAccess";
+import * as Masking from "./masking";
 import * as fs from "fs";
+import yaml from "js-yaml";
 
 export type A = State.A;
 export type B = State.B;
@@ -90,7 +92,6 @@ export const create = (factory: Factory.Type): Type => {
   };
 
   const getRootStatements = (): ts.Statement[] => {
-    fs.writeFileSync("debug/sample.json", JSON.stringify(state, null, 2), { encoding: "utf-8" });
     const statements = Def.componentNames.reduce<ts.Statement[]>((statements, componentName) => {
       const component = state.components[Def.generateKey("namespace", componentName)];
       if (!component) {
@@ -104,6 +105,7 @@ export const create = (factory: Factory.Type): Type => {
       }
       return statements;
     }, []);
+    fs.writeFileSync("debug/sample.yml", yaml.dump(Masking.maskValue(JSON.parse(JSON.stringify(state)))), { encoding: "utf-8" });
     return statements;
   };
 
