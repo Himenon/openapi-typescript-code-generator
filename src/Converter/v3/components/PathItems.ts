@@ -1,11 +1,11 @@
-import { FeatureDevelopmentError, UnSupportError } from "../../Exception";
-import { Factory } from "../../TypeScriptCodeGenerator";
-import * as Guard from "./Guard";
+import { FeatureDevelopmentError, UnSupportError } from "../../../Exception";
+import { Factory } from "../../../TypeScriptCodeGenerator";
+import * as Guard from "../Guard";
+import { Store } from "../store";
+import * as ToTypeNode from "../toTypeNode";
+import { OpenApi } from "../types";
 import * as PathItem from "./PathItem";
 import * as Reference from "./Reference";
-import { Store } from "./store";
-import * as ToTypeNode from "./toTypeNode";
-import { OpenApi } from "./types";
 
 export const generateNamespace = (
   entryPoint: string,
@@ -29,7 +29,6 @@ export const generateNamespace = (
   });
 
   Object.entries(pathItems).forEach(([key, pathItem]) => {
-    const pathNameDollars = key;
     if (Guard.isReference(pathItem)) {
       const reference = Reference.generate<OpenApi.PathItem>(entryPoint, currentPoint, pathItem);
       if (reference.type === "local") {
@@ -43,7 +42,7 @@ export const generateNamespace = (
         throw new FeatureDevelopmentError("存在しないReferenceを参照する場合は全部生成する");
       }
     } else {
-      PathItem.generateNamespace(entryPoint, currentPoint, store, factory, basePath, pathNameDollars, pathItem, context);
+      PathItem.generateNamespace(entryPoint, currentPoint, store, factory, basePath, key, pathItem, context);
     }
   });
 };

@@ -1,15 +1,13 @@
 import * as path from "path";
 
-import ts from "typescript";
-
-import { Factory } from "../../TypeScriptCodeGenerator";
-import * as Guard from "./Guard";
+import { Factory } from "../../../TypeScriptCodeGenerator";
+import * as Guard from "../Guard";
+import { Def, State, Store } from "../store";
+import * as ToTypeNode from "../toTypeNode";
+import { OpenApi } from "../types";
 import * as Header from "./Header";
 import * as MediaType from "./MediaType";
 import * as Reference from "./Reference";
-import { Def, State, Store } from "./store";
-import * as ToTypeNode from "./toTypeNode";
-import { OpenApi } from "./types";
 
 export const generateNamespace = (
   entryPoint: string,

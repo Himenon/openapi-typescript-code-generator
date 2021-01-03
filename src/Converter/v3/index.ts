@@ -2,14 +2,14 @@ import ts from "typescript";
 
 import * as TypeScriptCodeGenerator from "../../TypeScriptCodeGenerator";
 import * as Comment from "./Comment";
+import * as Headers from "./components/Headers";
+import * as Parameters from "./components/Parameters";
+import * as PathItems from "./components/PathItems";
+import * as RequestBodies from "./components/RequestBodies";
+import * as Responses from "./components/Responses";
+import * as Schemas from "./components/Schemas";
+import * as SecuritySchemas from "./components/SecuritySchemas";
 import * as Context from "./Context";
-import * as Headers from "./Headers";
-import * as Parameters from "./Parameters";
-import * as PathItems from "./PathItems";
-import * as RequestBodies from "./RequestBodies";
-import * as Responses from "./Responses";
-import * as Schemas from "./Schemas";
-import * as SecuritySchemas from "./SecuritySchemas";
 import { Store } from "./store";
 import { OpenApi } from "./types";
 
@@ -20,7 +20,7 @@ export interface Converter {
   createFunction: TypeScriptCodeGenerator.CreateFunction;
 }
 
-export const create = (entryPoint: string, rootSchema: OpenApi.RootTypes): Converter => {
+export const create = (entryPoint: string, rootSchema: OpenApi.Document): Converter => {
   const currentPoint = entryPoint;
   const createFunction = (context: ts.TransformationContext): ts.Statement[] => {
     const factory = TypeScriptCodeGenerator.Factory.create(context);
@@ -59,6 +59,15 @@ export const create = (entryPoint: string, rootSchema: OpenApi.RootTypes): Conve
       //   statements.push(Callbacks.generateNamespace(entryPoint, currentPoint, factory, rootSchema.components.callbacks));
       // }
     }
+    // if (rootSchema.paths) {
+    //   Object.entries(rootSchema.paths).forEach(([pathName, pathItem]) => {
+    //     if (!pathName.startsWith("/")) {
+    //       throw new Error(`Not start slash: ${pathName}`);
+    //     }
+    //     PathItem.generateNamespace(entryPoint, currentPoint, store, factory, "components/pathItems", pathName.replace(/\//g, "$"), pathItem, toTypeNodeContext);
+    //   });
+    //   rootSchema.paths;
+    // }
     return store.getRootStatements();
   };
 

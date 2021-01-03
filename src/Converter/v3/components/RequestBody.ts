@@ -1,10 +1,10 @@
 import * as ts from "typescript";
 
-import { Factory } from "../../TypeScriptCodeGenerator";
+import { Factory } from "../../../TypeScriptCodeGenerator";
+import { Store } from "../store";
+import * as ToTypeNode from "../toTypeNode";
+import { OpenApi } from "../types";
 import * as MediaType from "./MediaType";
-import { Store } from "./store";
-import * as ToTypeNode from "./toTypeNode";
-import { OpenApi } from "./types";
 
 export const generateInterface = (
   entryPoint: string,

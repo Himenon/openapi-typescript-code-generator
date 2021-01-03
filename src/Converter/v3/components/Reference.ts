@@ -1,12 +1,11 @@
 import * as path from "path";
 
-import { DevelopmentError, FeatureDevelopmentError, NotFoundFileError } from "../../Exception";
-import { fileSystem } from "../../FileSystem";
-import * as Logger from "../../Logger";
-import { isReference } from "./Guard";
-import * as Guard from "./Guard";
-import { Def } from "./store";
-import { OpenApi } from "./types";
+import { DevelopmentError, FeatureDevelopmentError, NotFoundFileError } from "../../../Exception";
+import { fileSystem } from "../../../FileSystem";
+import * as Logger from "../../../Logger";
+import * as Guard from "../Guard";
+import { Def } from "../store";
+import { OpenApi } from "../types";
 
 export type LocalReferencePattern =
   | "#/components/schemas/"
@@ -144,7 +143,7 @@ export const generate = <T>(entryPoint: string, currentPoint: string, reference:
 
   console.log(`ReadFile: ${referencePoint}`);
 
-  if (isReference(data)) {
+  if (Guard.isReference(data)) {
     return generate<T>(entryPoint, referencePoint, data);
   }
 

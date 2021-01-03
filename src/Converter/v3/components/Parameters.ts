@@ -1,10 +1,10 @@
-import { Factory } from "../../TypeScriptCodeGenerator";
-import * as Guard from "./Guard";
+import { Factory } from "../../../TypeScriptCodeGenerator";
+import * as Guard from "../Guard";
+import { Store } from "../store";
+import * as ToTypeNode from "../toTypeNode";
+import { OpenApi } from "../types";
 import * as Paramter from "./Parameter";
 import * as Reference from "./Reference";
-import { Store } from "./store";
-import * as ToTypeNode from "./toTypeNode";
-import { OpenApi } from "./types";
 
 export const generateNamespace = (
   entryPoint: string,

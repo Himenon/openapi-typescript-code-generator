@@ -1,17 +1,17 @@
 import { EOL } from "os";
 import * as path from "path";
 
-import { Factory } from "../../TypeScriptCodeGenerator";
+import { Factory } from "../../../TypeScriptCodeGenerator";
+import * as Guard from "../Guard";
+import { Store } from "../store";
+import * as ToTypeNode from "../toTypeNode";
+import { OpenApi } from "../types";
 import * as ExternalDocumentation from "./ExternalDocumentation";
-import * as Guard from "./Guard";
 import * as Parameter from "./Parameter";
 import * as Reference from "./Reference";
 import * as RequestBody from "./RequestBody";
 import * as Responses from "./Responses";
 import * as Servers from "./Servers";
-import { Store } from "./store";
-import * as ToTypeNode from "./toTypeNode";
-import { OpenApi } from "./types";
 
 const generateComment = (operation: OpenApi.Operation): string => {
   const comments: string[] = [];

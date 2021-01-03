@@ -4,8 +4,8 @@ import { UnsetTypeError } from "../../Exception";
 import { UnSupportError, UnknownError } from "../../Exception";
 import * as Logger from "../../Logger";
 import { Factory } from "../../TypeScriptCodeGenerator";
+import * as Reference from "./components/Reference";
 import * as Guard from "./Guard";
-import * as Reference from "./Reference";
 import { OpenApi } from "./types";
 import { ObjectSchemaWithAdditionalProperties } from "./types";
 
