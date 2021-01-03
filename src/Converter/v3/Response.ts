@@ -22,8 +22,7 @@ export const generateNamespace = (
   context: ToTypeNode.Context,
 ): void => {
   const basePath = `${parentPath}/${name}`;
-  console.log(`------ Start: Response Namespace ${basePath} ------`);
-  store.addStatement(`${basePath}`, {
+  store.addStatement(basePath, {
     type: "namespace",
     value: factory.Namespace.create({
       export: true,
@@ -102,17 +101,17 @@ export const generateReferenceNamespace = (
   store: Store.Type,
   factory: Factory.Type,
   parentPath: string,
-  name: string,
+  nameWithStatusCode: string,
   responseReference: { name: string; path: string },
   context: ToTypeNode.Context,
 ): void => {
-  const basePath = `${parentPath}/${name}`;
+  const basePath = `${parentPath}/${nameWithStatusCode}`;
   const referenceNamespaceName = context.getReferenceName(currentPoint, responseReference.path, "remote");
   store.addStatement(basePath, {
     type: "namespace",
     value: factory.Namespace.create({
       export: true,
-      name: responseReference.name,
+      name: nameWithStatusCode,
       statements: [],
     }),
     statements: {},

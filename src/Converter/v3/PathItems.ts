@@ -29,7 +29,7 @@ export const generateNamespace = (
   });
 
   Object.entries(pathItems).forEach(([pathName, pathItem]) => {
-    const name = pathName.replace("/", "$");
+    const pathNameDollars = pathName.replace("/", "$"); // path
     if (Guard.isReference(pathItem)) {
       const reference = Reference.generate<OpenApi.PathItem>(entryPoint, currentPoint, pathItem);
       if (reference.type === "local") {
@@ -46,6 +46,6 @@ export const generateNamespace = (
         context,
       );
     }
-    return PathItem.generateNamespace(entryPoint, currentPoint, store, factory, basePath, name, pathItem, context);
+    return PathItem.generateNamespace(entryPoint, currentPoint, store, factory, basePath, pathNameDollars, pathItem, context);
   });
 };

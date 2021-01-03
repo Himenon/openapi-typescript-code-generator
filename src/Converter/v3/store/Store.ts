@@ -77,6 +77,10 @@ export const create = (factory: Factory.Type): Type => {
     return node.value;
   };
 
+  const typeAliasToStatement = (node: Def.TypeAliasStatement<C>): ts.Statement => {
+    return node.value;
+  };
+
   const namespaceToTsStatement = (node: Def.NamespaceStatement<A, B, C>): ts.Statement => {
     const statements = Object.values(node.statements).reduce<ts.Statement[]>((previous, childStatement) => {
       if (!childStatement) {
@@ -86,7 +90,7 @@ export const create = (factory: Factory.Type): Type => {
         return previous.concat(namespaceToTsStatement(childStatement));
       }
       if (childStatement.type === "typeAlias") {
-        return previous.concat(childStatement.value);
+        return previous.concat(typeAliasToStatement(childStatement));
       }
       return previous.concat(interfaceToStatement(childStatement));
     }, []);
@@ -107,6 +111,9 @@ export const create = (factory: Factory.Type): Type => {
       }
       if (component.type === "namespace") {
         return statements.concat(namespaceToTsStatement(component));
+      }
+      if (component.type === "typeAlias") {
+        return statements.concat(typeAliasToStatement(component));
       }
       return statements;
     }, []);
