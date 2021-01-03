@@ -118,7 +118,7 @@ components:
       scheme: "http"
       openIdConnectUrl: ""
   pathItems:
-    /blog:
+    BlogCRUD:
       post:
         description: Create Blog
         summary: Create Blog
@@ -133,7 +133,7 @@ components:
         responses:
           "401":
             $ref: "./components/responses/blog/AuthorizationError.yml"
-    /categories:
-      $ref: "./components/pathItems/categories.yml"
+    CategoryCRUD:
+      $ref: "./components/pathItems/CategoryCRUD.yml"
 
 paths:

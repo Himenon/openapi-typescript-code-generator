@@ -1,4 +1,4 @@
-import { FeatureDevelopmentError } from "../../Exception";
+import { FeatureDevelopmentError, UnSupportError } from "../../Exception";
 import { Factory } from "../../TypeScriptCodeGenerator";
 import * as Guard from "./Guard";
 import * as PathItem from "./PathItem";
@@ -28,24 +28,22 @@ export const generateNamespace = (
     statements: {},
   });
 
-  Object.entries(pathItems).forEach(([pathName, pathItem]) => {
-    const pathNameDollars = pathName.replace("/", "$"); // path
+  Object.entries(pathItems).forEach(([key, pathItem]) => {
+    const pathNameDollars = key;
     if (Guard.isReference(pathItem)) {
       const reference = Reference.generate<OpenApi.PathItem>(entryPoint, currentPoint, pathItem);
       if (reference.type === "local") {
-        throw new FeatureDevelopmentError("reference対応");
+        throw new UnSupportError("can't use components.pathItems local reference");
+      } else if (reference.componentName) {
+        if (key !== reference.name) {
+          throw new UnSupportError(`can't use difference pathItem key name. "${key}" !== "${reference.name}"`);
+        }
+        PathItem.generateNamespace(entryPoint, reference.referencePoint, store, factory, basePath, reference.name, reference.data, context);
+      } else {
+        throw new FeatureDevelopmentError("存在しないReferenceを参照する場合は全部生成する");
       }
-      return PathItem.generateNamespace(
-        entryPoint,
-        reference.referencePoint,
-        store,
-        factory,
-        basePath,
-        reference.name,
-        reference.data,
-        context,
-      );
+    } else {
+      PathItem.generateNamespace(entryPoint, currentPoint, store, factory, basePath, pathNameDollars, pathItem, context);
     }
-    return PathItem.generateNamespace(entryPoint, currentPoint, store, factory, basePath, pathNameDollars, pathItem, context);
   });
 };
