@@ -33,14 +33,8 @@ export const generateNamespace = (
 
   if (response.headers) {
     store.addStatement(`${basePath}/Header`, {
-      type: "namespace",
-      value: factory.Namespace.create({
-        export: true,
-        name: "Header",
-        statements: [],
-        comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject`,
-      }),
-      statements: {},
+      type: "interface",
+      value: Header.generateInterface(entryPoint, currentPoint, factory, "Header", response.headers, context),
     });
   }
 
@@ -50,45 +44,6 @@ export const generateNamespace = (
       value: MediaType.generateInterface(entryPoint, currentPoint, factory, "Content", response.content, context),
     });
   }
-
-  Object.entries(response.headers || {}).forEach(([name, header]) => {
-    if (Guard.isReference(header)) {
-      const reference = Reference.generate<OpenApi.Header>(entryPoint, currentPoint, header);
-      if (reference.type === "local") {
-        context.setReferenceHandler(reference);
-        store.addStatement(`${basePath}/Header/${name}`, {
-          type: "typeAlias",
-          value: factory.TypeAliasDeclaration.create({
-            name,
-            type: factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, reference.path, "local") }),
-          }),
-        });
-      } else if (reference.componentName) {
-        store.addStatement(reference.path, {
-          type: "typeAlias",
-          value: Header.generateTypeNode(entryPoint, reference.referencePoint, factory, reference.name, reference.data, context),
-        });
-        return store.addStatement(`${basePath}/Header/${name}`, {
-          type: "typeAlias",
-          value: factory.TypeAliasDeclaration.create({
-            export: true,
-            name: name,
-            type: factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, reference.path, "remote") }),
-          }),
-        });
-      } else {
-        store.addStatement(`${basePath}/Header/${name}`, {
-          type: "typeAlias",
-          value: Header.generateTypeNode(entryPoint, currentPoint, factory, name, reference.data, context),
-        });
-      }
-    } else {
-      store.addStatement(`${basePath}/Header/${name}`, {
-        type: "typeAlias",
-        value: Header.generateTypeNode(entryPoint, currentPoint, factory, name, header, context),
-      });
-    }
-  });
 
   console.log(`------ End: Response Namespace ------`);
 };

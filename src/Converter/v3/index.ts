@@ -43,9 +43,9 @@ export const create = (entryPoint: string, rootSchema: OpenApi.Document): Conver
       if (rootSchema.components.requestBodies) {
         RequestBodies.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.requestBodies, toTypeNodeContext);
       }
-      if (rootSchema.components.securitySchemes) {
-        SecuritySchemas.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.securitySchemes);
-      }
+      // if (rootSchema.components.securitySchemes) {
+      //   SecuritySchemas.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.securitySchemes);
+      // }
       if (rootSchema.components.pathItems) {
         PathItems.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.pathItems, toTypeNodeContext);
       }
