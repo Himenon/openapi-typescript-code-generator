@@ -52,37 +52,9 @@ export const generateNamespace = (
   });
 
   if (operation.parameters) {
-    operation.parameters.forEach(parameter => {
-      if (Guard.isReference(parameter)) {
-        const reference = Reference.generate<OpenApi.Parameter>(entryPoint, currentPoint, parameter);
-        if (reference.type === "local") {
-          context.setReferenceHandler(reference);
-          return factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, reference.path, "local") });
-        } else if (reference.componentName) {
-          store.addStatement(reference.path, {
-            type: "interface",
-            value: Parameter.generateInterface(entryPoint, reference.referencePoint, factory, reference.name, reference.data, context),
-          });
-          store.addStatement(`${basePath}/Parameter/${reference.data.name}`, {
-            type: "typeAlias",
-            value: factory.TypeAliasDeclaration.create({
-              export: true,
-              name: reference.data.name,
-              type: factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, reference.path, "remote") }),
-            }),
-          });
-        } else {
-          store.addStatement(`${basePath}/Parameter/${reference.data.name}`, {
-            type: "interface",
-            value: Parameter.generateInterface(entryPoint, currentPoint, factory, reference.data.name, reference.data, context),
-          });
-        }
-      } else {
-        store.addStatement(`${basePath}/Parameter/${parameter.name}`, {
-          type: "interface",
-          value: Parameter.generateInterface(entryPoint, currentPoint, factory, parameter.name, parameter, context),
-        });
-      }
+    store.addStatement(`${basePath}/Parameter`, {
+      type: "interface",
+      value: Parameter.generateInterface(entryPoint, currentPoint, factory, "Parameter", operation.parameters, context),
     });
   }
 

@@ -36,14 +36,14 @@ export const generateNamespace = (
       }
       const path = `components/parameters/${reference.name}`;
       return store.addStatement(path, {
-        type: "interface",
-        value: Paramter.generateInterface(entryPoint, reference.referencePoint, factory, reference.name, reference.data, context),
+        type: "typeAlias",
+        value: Paramter.generateTypeAlias(entryPoint, reference.referencePoint, factory, reference.name, reference.data, context),
       });
     }
     const path = `components/parameters/${name}`;
     return store.addStatement(path, {
-      type: "interface",
-      value: Paramter.generateInterface(entryPoint, currentPoint, factory, name, parameter, context),
+      type: "typeAlias",
+      value: Paramter.generateTypeAlias(entryPoint, currentPoint, factory, name, parameter, context),
     });
   });
 };
@@ -78,14 +78,14 @@ export const generateNamespaceWithList = (
       }
       const path = `components/parameters/${reference.name}`;
       return store.addStatement(path, {
-        type: "interface",
-        value: Paramter.generateInterface(entryPoint, reference.referencePoint, factory, reference.data.name, reference.data, context),
+        type: "typeAlias",
+        value: Paramter.generateTypeAlias(entryPoint, reference.referencePoint, factory, reference.data.name, reference.data, context),
       });
     }
     const path = `components/parameters/${parameter.name}`;
     return store.addStatement(path, {
-      type: "interface",
-      value: Paramter.generateInterface(entryPoint, currentPoint, factory, parameter.name, parameter, context),
+      type: "typeAlias",
+      value: Paramter.generateTypeAlias(entryPoint, currentPoint, factory, parameter.name, parameter, context),
     });
   });
 };

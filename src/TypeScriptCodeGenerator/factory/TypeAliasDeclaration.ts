@@ -1,9 +1,13 @@
 import ts from "typescript";
 
+import { generateComment } from "./utils";
+
 export interface Params$Create {
   export?: true;
   name: string;
   type: ts.TypeNode;
+  comment?: string;
+  deprecated?: boolean;
 }
 
 export interface Factory {
@@ -18,6 +22,10 @@ export const create = ({ factory }: ts.TransformationContext): Factory["create"]
     undefined,
     params.type,
   );
+  if (params.comment) {
+    const comment = generateComment(params.comment, params.deprecated);
+    return ts.addSyntheticLeadingComment(node, ts.SyntaxKind.MultiLineCommentTrivia, comment.value, comment.hasTrailingNewLine);
+  }
   return node;
 };
 
