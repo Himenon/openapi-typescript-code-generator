@@ -4,12 +4,12 @@ import * as TypeScriptCodeGenerator from "../../TypeScriptCodeGenerator";
 import * as Comment from "./Comment";
 import * as Headers from "./components/Headers";
 import * as Parameters from "./components/Parameters";
-import * as PathItem from "./components/PathItem";
 import * as PathItems from "./components/PathItems";
 import * as RequestBodies from "./components/RequestBodies";
 import * as Responses from "./components/Responses";
 import * as Schemas from "./components/Schemas";
 import * as Context from "./Context";
+import * as Paths from "./paths";
 import { Store } from "./store";
 import { OpenApi } from "./types";
 
@@ -60,23 +60,7 @@ export const create = (entryPoint: string, rootSchema: OpenApi.Document): Conver
       // }
     }
     if (rootSchema.paths) {
-      Object.entries(rootSchema.paths).forEach(([pathName, pathItem], index) => {
-        if (!pathName.startsWith("/")) {
-          throw new Error(`Not start slash: ${pathName}`);
-        }
-        const pathIdentifer = `Path$${index + 1}`;
-        PathItem.generateNamespace(
-          entryPoint,
-          currentPoint,
-          store,
-          factory,
-          "components/pathItems",
-          pathIdentifer,
-          pathItem,
-          toTypeNodeContext,
-          { topComment: `Endpoint: ${pathName}` },
-        );
-      });
+      Paths.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.paths, toTypeNodeContext);
     }
     return store.getRootStatements();
   };
