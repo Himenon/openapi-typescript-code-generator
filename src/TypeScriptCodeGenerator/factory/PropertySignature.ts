@@ -9,9 +9,11 @@ export interface Params {
   comment?: string;
 }
 
-export type Factory = (params: Params) => ts.PropertySignature;
+export interface Factory {
+  create: (params: Params) => ts.PropertySignature;
+}
 
-export const create = ({ factory }: ts.TransformationContext): Factory => (params: Params): ts.PropertySignature => {
+export const create = ({ factory }: ts.TransformationContext): Factory["create"] => (params: Params): ts.PropertySignature => {
   const node = factory.createPropertySignature(
     undefined,
     params.name,
@@ -23,4 +25,10 @@ export const create = ({ factory }: ts.TransformationContext): Factory => (param
     return ts.addSyntheticLeadingComment(node, ts.SyntaxKind.MultiLineCommentTrivia, comment.value, comment.hasTrailingNewLine);
   }
   return node;
+};
+
+export const make = (context: ts.TransformationContext): Factory => {
+  return {
+    create: create(context),
+  };
 };

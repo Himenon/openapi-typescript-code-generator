@@ -29,7 +29,7 @@ export const generateNamespace = (
     if (Guard.isReference(parameter)) {
       const reference = Reference.generate<OpenApi.Parameter>(entryPoint, currentPoint, parameter);
       if (reference.type === "local") {
-        return factory.Interface({
+        return factory.InterfaceDeclaration.create({
           name: `TODO:${parameter.$ref}`,
           members: [],
         });
@@ -71,7 +71,7 @@ export const generateNamespaceWithList = (
     if (Guard.isReference(parameter)) {
       const reference = Reference.generate<OpenApi.Parameter>(entryPoint, currentPoint, parameter);
       if (reference.type === "local") {
-        return factory.Interface({
+        return factory.InterfaceDeclaration.create({
           name: `TODO:${parameter.$ref}`,
           members: [],
         });

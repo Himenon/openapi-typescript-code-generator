@@ -45,7 +45,7 @@ export interface NeverParams {
   type: "never";
 }
 
-export type Params =
+export type Params$Create =
   | StringParams
   | IntegerParams
   | NumberParams
@@ -56,9 +56,11 @@ export type Params =
   | NullParams
   | NeverParams;
 
-export type Factory = (params: Params) => ts.TypeNode;
+export interface Factory {
+  create: (params: Params$Create) => ts.TypeNode;
+}
 
-export const create = (context: ts.TransformationContext): Factory => (params: Params): ts.TypeNode => {
+export const create = (context: ts.TransformationContext): Factory["create"] => (params: Params$Create): ts.TypeNode => {
   const { factory } = context;
   const literalTypeNode = LiteralTypeNode.create(context);
   const unionTypeNode = UnionTypeNode.create(context);
@@ -97,4 +99,10 @@ export const create = (context: ts.TransformationContext): Factory => (params: P
   };
   const node = createNode();
   return node;
+};
+
+export const make = (context: ts.TransformationContext): Factory => {
+  return {
+    create: create(context),
+  };
 };

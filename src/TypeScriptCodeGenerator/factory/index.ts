@@ -1,42 +1,43 @@
 import ts from "typescript";
 
-import * as IndexSignature from "./IndexSignature";
-import * as Interface from "./Interface";
+import * as IndexSignatureDeclaration from "./IndexSignatureDeclaration";
+import * as InterfaceDeclaration from "./InterfaceDeclaration";
 import * as IntersectionTypeNode from "./IntersectionTypeNode";
 import * as LiteralTypeNode from "./LiteralTypeNode";
 import * as Namespace from "./Namespace";
-import * as Property from "./Property";
+import * as PropertySignature from "./PropertySignature";
 import * as TypeAliasDeclaration from "./TypeAliasDeclaration";
 import * as TypeNode from "./TypeNode";
+import * as TypeParameterDeclaration from "./TypeParameterDeclaration";
 import * as TypeReferenceNode from "./TypeReferenceNode";
 import * as UnionTypeNode from "./UnionTypeNode";
 
-export { Interface, Namespace, Property, TypeAliasDeclaration, TypeNode, LiteralTypeNode };
-
 export interface Type {
-  Interface: Interface.Factory;
+  InterfaceDeclaration: InterfaceDeclaration.Factory;
   Namespace: Namespace.Factory;
-  Property: Property.Factory;
+  PropertySignature: PropertySignature.Factory;
   TypeAliasDeclaration: TypeAliasDeclaration.Factory;
   TypeNode: TypeNode.Factory;
   LiteralTypeNode: LiteralTypeNode.Factory;
-  IndexSignature: IndexSignature.Factory;
+  IndexSignatureDeclaration: IndexSignatureDeclaration.Factory;
   UnionTypeNode: UnionTypeNode.Factory;
   IntersectionTypeNode: IntersectionTypeNode.Factory;
   TypeReferenceNode: TypeReferenceNode.Factory;
+  TypeParameterDeclaration: TypeParameterDeclaration.Factory;
 }
 
 export const create = (context: ts.TransformationContext): Type => {
   return {
-    Interface: Interface.create(context),
+    InterfaceDeclaration: InterfaceDeclaration.make(context),
     Namespace: Namespace.make(context),
-    Property: Property.create(context),
+    PropertySignature: PropertySignature.make(context),
     TypeAliasDeclaration: TypeAliasDeclaration.make(context),
-    TypeNode: TypeNode.create(context),
-    LiteralTypeNode: LiteralTypeNode.create(context),
-    IndexSignature: IndexSignature.create(context),
-    UnionTypeNode: UnionTypeNode.create(context),
-    IntersectionTypeNode: IntersectionTypeNode.create(context),
+    TypeNode: TypeNode.make(context),
+    LiteralTypeNode: LiteralTypeNode.make(context),
+    IndexSignatureDeclaration: IndexSignatureDeclaration.make(context),
+    UnionTypeNode: UnionTypeNode.make(context),
+    IntersectionTypeNode: IntersectionTypeNode.make(context),
     TypeReferenceNode: TypeReferenceNode.make(context),
+    TypeParameterDeclaration: TypeParameterDeclaration.make(context),
   };
 };

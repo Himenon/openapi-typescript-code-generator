@@ -15,7 +15,7 @@ export const generateInterface = (
   context: ToTypeNode.Context,
 ): ts.InterfaceDeclaration => {
   const contentSignatures = MediaType.generatePropertySignatures(entryPoint, currentPoint, factory, requestBody.content || {}, context);
-  return factory.Interface({
+  return factory.InterfaceDeclaration.create({
     export: true,
     name,
     members: contentSignatures,

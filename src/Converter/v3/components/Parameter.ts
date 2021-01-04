@@ -43,7 +43,7 @@ export const generatePropertySignature = (
     const reference = Reference.generate<OpenApi.Parameter>(entryPoint, currentPoint, parameter);
     if (reference.type === "local") {
       context.setReferenceHandler(reference);
-      return factory.Property({
+      return factory.PropertySignature.create({
         name: context.getReferenceName(currentPoint, reference.path, "local"), // TODO
         optional: false,
         type: factory.TypeReferenceNode.create({
@@ -51,13 +51,13 @@ export const generatePropertySignature = (
         }),
       });
     }
-    return factory.Property({
+    return factory.PropertySignature.create({
       name: reference.data.name,
       optional: false,
       type: ToTypeNode.convert(entryPoint, currentPoint, factory, reference.data.schema || { type: "null" }, context),
     });
   }
-  return factory.Property({
+  return factory.PropertySignature.create({
     name: `"${parameter.name}"`, // TODO escapeText X-Rate-Limit -> "X-Rate-Limit"
     optional: false,
     type: ToTypeNode.convert(entryPoint, currentPoint, factory, parameter.schema || { type: "null" }, context),
@@ -84,7 +84,7 @@ export const generateInterface = (
   parameters: [OpenApi.Parameter | OpenApi.Reference],
   context: ToTypeNode.Context,
 ): ts.InterfaceDeclaration => {
-  return factory.Interface({
+  return factory.InterfaceDeclaration.create({
     export: true,
     name,
     comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject`,

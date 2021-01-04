@@ -10,25 +10,25 @@ export const generatePropertySignatures = (
   securitySchema: OpenApi.SecuritySchema,
 ): ts.PropertySignature[] => {
   const signatures: ts.PropertySignature[] = [
-    factory.Property({
+    factory.PropertySignature.create({
       name: "type",
       optional: false,
-      type: factory.LiteralTypeNode({ value: securitySchema.type }),
+      type: factory.LiteralTypeNode.create({ value: securitySchema.type }),
     }),
-    factory.Property({
+    factory.PropertySignature.create({
       name: "name",
       optional: false,
-      type: factory.LiteralTypeNode({ value: securitySchema.name }),
+      type: factory.LiteralTypeNode.create({ value: securitySchema.name }),
     }),
-    factory.Property({
+    factory.PropertySignature.create({
       name: "in",
       optional: false,
-      type: factory.LiteralTypeNode({ value: securitySchema.in }),
+      type: factory.LiteralTypeNode.create({ value: securitySchema.in }),
     }),
-    factory.Property({
+    factory.PropertySignature.create({
       name: "openIdConnectUrl",
       optional: false,
-      type: factory.LiteralTypeNode({ value: securitySchema.openIdConnectUrl }),
+      type: factory.LiteralTypeNode.create({ value: securitySchema.openIdConnectUrl }),
     }),
   ];
 
@@ -42,7 +42,7 @@ export const generateInterface = (
   name: string,
   securitySchema: OpenApi.SecuritySchema,
 ): ts.InterfaceDeclaration => {
-  return factory.Interface({
+  return factory.InterfaceDeclaration.create({
     export: true,
     name,
     comment: securitySchema.description,

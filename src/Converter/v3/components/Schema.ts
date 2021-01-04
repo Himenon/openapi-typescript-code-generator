@@ -19,7 +19,7 @@ export const generatePropertySignatures = (
   }
   const required: string[] = schema.required || [];
   return Object.entries(schema.properties).map(([propertyName, property]) => {
-    return factory.Property({
+    return factory.PropertySignature.create({
       name: propertyName,
       optional: !required.includes(propertyName),
       type: ToTypeNode.convert(entryPoint, currentPoint, factory, property, context, { parent: schema }),
@@ -51,7 +51,7 @@ export const generateInterface = (
   } else {
     members = propertySignatures;
   }
-  return factory.Interface({
+  return factory.InterfaceDeclaration.create({
     export: true,
     name,
     members,
@@ -69,22 +69,22 @@ export const generateTypeAlias = (
   let type: ts.TypeNode;
   if (schema.enum) {
     if (Guard.isNumberArray(schema.enum) && (schema.type === "number" || schema.type === "integer")) {
-      type = factory.TypeNode({
+      type = factory.TypeNode.create({
         type: schema.type,
         enum: schema.enum,
       });
     } else if (Guard.isStringArray(schema.enum) && schema.type === "string") {
-      type = factory.TypeNode({
+      type = factory.TypeNode.create({
         type: schema.type,
         enum: schema.enum,
       });
     } else {
-      type = factory.TypeNode({
+      type = factory.TypeNode.create({
         type: schema.type,
       });
     }
   } else {
-    type = factory.TypeNode({
+    type = factory.TypeNode.create({
       type: schema.type,
     });
   }

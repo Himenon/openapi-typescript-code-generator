@@ -38,17 +38,17 @@ export const generateMultiTypeNode = (
 ): ts.TypeNode => {
   const typeNodes = schemas.map(schema => convert(entryPoint, currentPoint, factory, schema, setReference));
   if (multiType === "oneOf") {
-    return factory.UnionTypeNode({
+    return factory.UnionTypeNode.create({
       typeNodes,
     });
   }
   if (multiType === "allOf") {
-    return factory.IntersectionTypeNode({
+    return factory.IntersectionTypeNode.create({
       typeNodes,
     });
   }
   // TODO Calculate intersection types
-  return factory.TypeNode({ type: "never" });
+  return factory.TypeNode.create({ type: "never" });
 };
 
 export const convert: Convert = (
@@ -61,7 +61,7 @@ export const convert: Convert = (
 ): ts.TypeNode => {
   if (typeof schema === "boolean") {
     // https://swagger.io/docs/specification/data-models/dictionaries/#free-form
-    return factory.TypeNode({
+    return factory.TypeNode.create({
       type: "object",
       value: [],
     });
@@ -106,7 +106,7 @@ export const convert: Convert = (
   switch (schema.type) {
     case "boolean":
     case "null": {
-      return factory.TypeNode({
+      return factory.TypeNode.create({
         type: schema.type,
       });
     }
@@ -114,24 +114,24 @@ export const convert: Convert = (
     case "number": {
       const items = schema.enum;
       if (items && Guard.isNumberArray(items)) {
-        return factory.TypeNode({
+        return factory.TypeNode.create({
           type: schema.type,
           enum: items,
         });
       }
-      return factory.TypeNode({
+      return factory.TypeNode.create({
         type: schema.type,
       });
     }
     case "string": {
       const items = schema.enum;
       if (items && Guard.isStringArray(items)) {
-        return factory.TypeNode({
+        return factory.TypeNode.create({
           type: schema.type,
           enum: items,
         });
       }
-      return factory.TypeNode({
+      return factory.TypeNode.create({
         type: schema.type,
       });
     }
@@ -139,31 +139,31 @@ export const convert: Convert = (
       if (Array.isArray(schema.items) || typeof schema.items === "boolean") {
         throw new UnSupportError(`schema.items = ${JSON.stringify(schema.items)}`);
       }
-      return factory.TypeNode({
+      return factory.TypeNode.create({
         type: schema.type,
         value: schema.items
           ? convert(entryPoint, currentPoint, factory, schema.items, context, { parent: schema })
-          : factory.TypeNode({
+          : factory.TypeNode.create({
               type: "undefined",
             }),
       });
     }
     case "object": {
       if (!schema.properties) {
-        return factory.TypeNode({
+        return factory.TypeNode.create({
           type: "undefined",
         });
       }
       const required: string[] = schema.required || [];
       // https://swagger.io/docs/specification/data-models/dictionaries/#free-form
       if (schema.additionalProperties === true) {
-        return factory.TypeNode({
+        return factory.TypeNode.create({
           type: schema.type,
           value: [],
         });
       }
       const value: ts.PropertySignature[] = Object.entries(schema.properties).map(([name, jsonSchema]) => {
-        return factory.Property({
+        return factory.PropertySignature.create({
           name,
           type: convert(entryPoint, currentPoint, factory, jsonSchema, context, { parent: schema.properties }),
           optional: !required.includes(name),
@@ -171,16 +171,16 @@ export const convert: Convert = (
         });
       });
       if (schema.additionalProperties) {
-        const additionalProperties = factory.IndexSignature({
+        const additionalProperties = factory.IndexSignatureDeclaration.create({
           name: "key",
           type: convert(entryPoint, currentPoint, factory, schema.additionalProperties, context, { parent: schema.properties }),
         });
-        return factory.TypeNode({
+        return factory.TypeNode.create({
           type: schema.type,
           value: [...value, additionalProperties],
         });
       }
-      return factory.TypeNode({
+      return factory.TypeNode.create({
         type: schema.type,
         value,
       });
@@ -199,12 +199,12 @@ export const convertAdditionalProperties = (
 ): ts.IndexSignatureDeclaration => {
   // // https://swagger.io/docs/specification/data-models/dictionaries/#free-form
   if (schema.additionalProperties === true) {
-    factory.TypeNode({
+    factory.TypeNode.create({
       type: schema.type,
       value: [],
     });
   }
-  const additionalProperties = factory.IndexSignature({
+  const additionalProperties = factory.IndexSignatureDeclaration.create({
     name: "key",
     type: convert(entryPoint, currentPoint, factory, schema.additionalProperties, setReference, { parent: schema.properties }),
   });

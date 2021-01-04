@@ -13,7 +13,7 @@ export const generatePropertySignature = (
   context: ToTypeNode.Context,
 ): ts.PropertySignature => {
   console.log(`------ Star:t ${protocol} ------`);
-  return factory.Property({
+  return factory.PropertySignature.create({
     name: `"${protocol}"`,
     optional: false,
     type: ToTypeNode.convert(entryPoint, currentPoint, factory, schema, context),
@@ -43,7 +43,7 @@ export const generateInterface = (
   content: OpenApi.MapLike<string, OpenApi.MediaType>,
   context: ToTypeNode.Context,
 ): ts.InterfaceDeclaration => {
-  return factory.Interface({
+  return factory.InterfaceDeclaration.create({
     export: true,
     name,
     members: generatePropertySignatures(entryPoint, currentPoint, factory, content, context),

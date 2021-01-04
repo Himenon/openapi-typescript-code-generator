@@ -1,13 +1,15 @@
 import ts from "typescript";
 
-export interface Params {
+export interface Params$Create {
   name: string;
   type: ts.TypeNode;
 }
 
-export type Factory = (params: Params) => ts.IndexSignatureDeclaration;
+export interface Factory {
+  create: (params: Params$Create) => ts.IndexSignatureDeclaration;
+}
 
-export const create = ({ factory }: ts.TransformationContext): Factory => (params: Params): ts.IndexSignatureDeclaration => {
+export const create = ({ factory }: ts.TransformationContext): Factory["create"] => (params: Params$Create): ts.IndexSignatureDeclaration => {
   const node = factory.createIndexSignature(
     undefined,
     undefined,
@@ -26,4 +28,10 @@ export const create = ({ factory }: ts.TransformationContext): Factory => (param
     params.type,
   );
   return node;
+};
+
+export const make = (context: ts.TransformationContext): Factory => {
+  return {
+    create: create(context),
+  };
 };

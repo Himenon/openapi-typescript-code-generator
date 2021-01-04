@@ -88,7 +88,7 @@ export const create = (entryPoint: string, store: Store.Type, factory: TypeScrip
       if (ts.isTypeLiteralNode(typeNode)) {
         store.addStatement(reference.path, {
           type: "interface",
-          value: factory.Interface({
+          value: factory.InterfaceDeclaration.create({
             export: true,
             name: reference.name,
             members: typeNode.members,

@@ -4,9 +4,17 @@ export interface Params {
   typeNodes: ts.TypeNode[];
 }
 
-export type Factory = (params: Params) => ts.IntersectionTypeNode;
+export interface Factory {
+  create: (params: Params) => ts.IntersectionTypeNode;
+}
 
-export const create = ({ factory }: ts.TransformationContext): Factory => (params: Params): ts.IntersectionTypeNode => {
+export const create = ({ factory }: ts.TransformationContext): Factory["create"] => (params: Params): ts.IntersectionTypeNode => {
   const node = factory.createIntersectionTypeNode(params.typeNodes);
   return node;
+};
+
+export const make = (context: ts.TransformationContext): Factory => {
+  return {
+    create: create(context),
+  };
 };

@@ -17,12 +17,12 @@ const operationToInterface = (
     throw new Error("not found operationId\n" + JSON.stringify(operation, null, 2));
   }
   const state = store.getOperationState(operationId);
-  return factory.Interface({
+  return factory.InterfaceDeclaration.create({
     export: true,
     name: `Params$${operationId}`,
     members: [
       state.parameterTypeName &&
-        factory.Property({
+        factory.PropertySignature.create({
           name: "parameter",
           optional: false,
           type: factory.TypeReferenceNode.create({
@@ -30,7 +30,7 @@ const operationToInterface = (
           }),
         }),
       state.requestBodyTypeName &&
-        factory.Property({
+        factory.PropertySignature.create({
           name: "requestBody",
           optional: false,
           type: factory.TypeReferenceNode.create({

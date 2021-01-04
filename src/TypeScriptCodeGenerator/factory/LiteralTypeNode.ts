@@ -7,9 +7,11 @@ export interface Params {
   comment?: string;
 }
 
-export type Factory = (params: Params) => ts.LiteralTypeNode;
+export interface Factory {
+  create: (params: Params) => ts.LiteralTypeNode;
+}
 
-export const create = ({ factory }: ts.TransformationContext): Factory => (params: Params): ts.LiteralTypeNode => {
+export const create = ({ factory }: ts.TransformationContext): Factory["create"] => (params: Params): ts.LiteralTypeNode => {
   const createNode = () => {
     if (typeof params.value === "string") {
       const literal = ts.setEmitFlags(factory.createStringLiteral(params.value), ts.EmitFlags.NoAsciiEscaping);
@@ -27,4 +29,10 @@ export const create = ({ factory }: ts.TransformationContext): Factory => (param
     return ts.addSyntheticLeadingComment(node, ts.SyntaxKind.MultiLineCommentTrivia, comment.value, comment.hasTrailingNewLine);
   }
   return node;
+};
+
+export const make = (context: ts.TransformationContext): Factory => {
+  return {
+    create: create(context),
+  };
 };
