@@ -8,8 +8,16 @@ export type C = ts.TypeAliasDeclaration;
 
 export interface Type {
   components: Def.StatementMap<A, B, C>;
+  paths: {
+    // "/a/b/c1": { ref: "components/pathItems/$hoge" }
+    // "/a/b/c2": { ref: "components/pathItems/HogeCRUD" }
+    [pathString: string]: {
+      ref: string;
+    }
+  }
 }
 
 export const createDefaultState = (): Type => ({
   components: {},
+  paths: {},
 });

@@ -34,14 +34,14 @@ export const generateNamespace = (
         }
       } else if (reference.type === "remote") {
         store.addStatement(reference.path, {
-          type: "interface",
-          value: Header.generateInterface(entryPoint, reference.referencePoint, factory, reference.name, reference.data, context),
+          type: "typeAlias",
+          value: Header.generateTypeNode(entryPoint, reference.referencePoint, factory, reference.name, reference.data, context),
         });
       }
     } else {
       store.addStatement(`components/headers/${name}`, {
-        type: "interface",
-        value: Header.generateInterface(entryPoint, currentPoint, factory, name, header, context),
+        type: "typeAlias",
+        value: Header.generateTypeNode(entryPoint, currentPoint, factory, name, header, context),
       });
     }
   });
