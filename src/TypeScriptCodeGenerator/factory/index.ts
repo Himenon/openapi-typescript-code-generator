@@ -1,5 +1,6 @@
 import ts from "typescript";
 
+import * as IndexedAccessTypeNode from "./IndexedAccessTypeNode";
 import * as IndexSignatureDeclaration from "./IndexSignatureDeclaration";
 import * as InterfaceDeclaration from "./InterfaceDeclaration";
 import * as IntersectionTypeNode from "./IntersectionTypeNode";
@@ -8,12 +9,15 @@ import * as Namespace from "./Namespace";
 import * as PropertySignature from "./PropertySignature";
 import * as TypeAliasDeclaration from "./TypeAliasDeclaration";
 import * as TypeNode from "./TypeNode";
+import * as TypeOperatorNode from "./TypeOperatorNode";
 import * as TypeParameterDeclaration from "./TypeParameterDeclaration";
 import * as TypeReferenceNode from "./TypeReferenceNode";
 import * as UnionTypeNode from "./UnionTypeNode";
 
 export interface Type {
   InterfaceDeclaration: InterfaceDeclaration.Factory;
+  IndexedAccessTypeNode: IndexedAccessTypeNode.Factory;
+  TypeOperatorNode: TypeOperatorNode.Factory;
   Namespace: Namespace.Factory;
   PropertySignature: PropertySignature.Factory;
   TypeAliasDeclaration: TypeAliasDeclaration.Factory;
@@ -29,6 +33,7 @@ export interface Type {
 export const create = (context: ts.TransformationContext): Type => {
   return {
     InterfaceDeclaration: InterfaceDeclaration.make(context),
+    IndexedAccessTypeNode: IndexedAccessTypeNode.make(context),
     Namespace: Namespace.make(context),
     PropertySignature: PropertySignature.make(context),
     TypeAliasDeclaration: TypeAliasDeclaration.make(context),
@@ -39,5 +44,6 @@ export const create = (context: ts.TransformationContext): Type => {
     IntersectionTypeNode: IntersectionTypeNode.make(context),
     TypeReferenceNode: TypeReferenceNode.make(context),
     TypeParameterDeclaration: TypeParameterDeclaration.make(context),
+    TypeOperatorNode: TypeOperatorNode.make(context),
   };
 };
