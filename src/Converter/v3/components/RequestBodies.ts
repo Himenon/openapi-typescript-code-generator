@@ -31,7 +31,6 @@ export const generateNamespace = (
       const reference = Reference.generate<OpenApi.MapLike<string, OpenApi.RequestBody>>(entryPoint, currentPoint, requestBody);
       if (reference.type === "local") {
         return factory.TypeReferenceNode.create({
-          export: true,
           name: reference.name,
         });
       }

@@ -107,7 +107,6 @@ export const generateReferenceNamespace = (
       export: true,
       name: "Content",
       type: factory.TypeReferenceNode.create({
-        export: true,
         name: referenceNamespaceName + ".Content",
       }),
     }),

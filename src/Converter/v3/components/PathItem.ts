@@ -15,15 +15,17 @@ export const generateNamespace = (
   name: string,
   pathItem: OpenApi.PathItem,
   context: ToTypeNode.Context,
+  options?: { topComment?: string },
 ): void => {
   const basePath = `${parentPath}/${name}`;
+  const topComment = options && options.topComment && options.topComment;
   store.addStatement(basePath, {
     type: "namespace",
     value: factory.Namespace.create({
       export: true,
       name,
       statements: [],
-      comment: Servers.addComment(pathItem.description, pathItem.servers),
+      comment: Servers.addComment([topComment, pathItem.description], pathItem.servers),
     }),
     statements: {},
   });

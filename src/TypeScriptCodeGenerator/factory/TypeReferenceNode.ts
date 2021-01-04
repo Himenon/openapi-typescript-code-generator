@@ -1,7 +1,6 @@
 import ts from "typescript";
 
 export interface Params$Create {
-  export?: true;
   name: string;
 }
 

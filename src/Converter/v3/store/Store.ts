@@ -27,6 +27,7 @@ export interface Type {
    */
   hasStatement: (path: string, types: Def.Statement<A, B, C>["type"][]) => boolean;
   getRootStatements: () => ts.Statement[];
+  dump: (filename: string) => void;
 }
 
 export const create = (factory: Factory.Type): Type => {
@@ -66,7 +67,7 @@ export const create = (factory: Factory.Type): Type => {
 
   const addStatement = (path: string, statement: Def.Statement<A, B, C>): void => {
     if (!path.startsWith("components")) {
-      throw new UnSupportError("componentsから始まっていません :" + path);
+      throw new UnSupportError(`componentsから始まっていません。path=${path}`);
     }
     const targetPath = relative("components", path);
     console.log(`AddStatement(${statement.type}): ${path}`);
@@ -100,6 +101,10 @@ export const create = (factory: Factory.Type): Type => {
     });
   };
 
+  const dump = (filename: string) => {
+    fs.writeFileSync(filename, yaml.dump(Masking.maskValue(state)), { encoding: "utf-8" });
+  };
+
   const getRootStatements = (): ts.Statement[] => {
     const statements = Def.componentNames.reduce<ts.Statement[]>((statements, componentName) => {
       const component = state.components[Def.generateKey("namespace", componentName)];
@@ -127,5 +132,6 @@ export const create = (factory: Factory.Type): Type => {
     getStatement,
     getRootStatements,
     addComponent,
+    dump,
   };
 };

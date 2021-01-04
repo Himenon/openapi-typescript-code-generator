@@ -110,7 +110,7 @@ export const create = (entryPoint: string, store: Store.Type, factory: TypeScrip
       }
     } else if (reference.type === "local") {
       if (!store.hasStatement(reference.path, ["namespace", "interface", "typeAlias"])) {
-        throw new FeatureDevelopmentError("TODO Local Referenceが作成されていない場合");
+        throw new FeatureDevelopmentError("TODO Local Referenceが作成されていない場合 \n " + JSON.stringify(reference, null, 2));
       }
     }
   };

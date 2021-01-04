@@ -44,7 +44,7 @@ export const generateNamespace = (
     value: factory.Namespace.create({
       export: true,
       name,
-      comment: ExternalDocumentation.addComment(Servers.addComment(generateComment(operation), operation.servers), operation.externalDocs),
+      comment: ExternalDocumentation.addComment(Servers.addComment([generateComment(operation)], operation.servers), operation.externalDocs),
       deprecated: operation.deprecated,
       statements: [],
     }),
