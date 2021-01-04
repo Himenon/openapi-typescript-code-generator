@@ -6,6 +6,11 @@ export type A = ts.ModuleDeclaration;
 export type B = ts.InterfaceDeclaration;
 export type C = ts.TypeAliasDeclaration;
 
+export interface OperationState {
+  parameterTypeName?: string;
+  requestBodyTypeName?: string;
+}
+
 export interface Type {
   components: Def.StatementMap<A, B, C>;
   paths: {
@@ -16,10 +21,14 @@ export interface Type {
     };
   };
   arguments: ts.Statement[];
+  operations: {
+    [operationId: string]: OperationState;
+  };
 }
 
 export const createDefaultState = (): Type => ({
   components: {},
   paths: {},
   arguments: [],
+  operations: {},
 });

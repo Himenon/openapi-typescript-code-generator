@@ -28,6 +28,8 @@ export interface Type {
   hasStatement: (path: string, types: Def.Statement<A, B, C>["type"][]) => boolean;
   addAdditionalStatement: (statements: ts.Statement[]) => void;
   getRootStatements: () => ts.Statement[];
+  updateOperationState: (operationId: string, state: Partial<State.OperationState>) => void;
+  getOperationState: (operationId: string) => State.OperationState;
   dump: (filename: string) => void;
 }
 
@@ -131,6 +133,24 @@ export const create = (factory: Factory.Type): Type => {
     return statements.concat(state.arguments);
   };
 
+  const updateOperationState = (operationId: string, newOperationState: Partial<State.OperationState>) => {
+    let operationState = state.operations[operationId];
+    if (operationState) {
+      operationState = { ...operationState, ...newOperationState };
+    } else {
+      operationState = newOperationState;
+    }
+    state.operations[operationId] = operationState;
+  };
+
+  const getOperationState = (operationId: string): State.OperationState => {
+    const operationState = state.operations[operationId];
+    if (operationState) {
+      return operationState;
+    }
+    return {};
+  };
+
   return {
     hasStatement,
     addStatement,
@@ -138,6 +158,8 @@ export const create = (factory: Factory.Type): Type => {
     getRootStatements,
     addComponent,
     dump,
+    updateOperationState,
+    getOperationState,
     addAdditionalStatement: addArgumentInterfaces,
   };
 };

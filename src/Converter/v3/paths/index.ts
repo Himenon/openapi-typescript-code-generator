@@ -8,8 +8,7 @@ import * as Guard from "../Guard";
 import { Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
 import { OpenApi } from "../types";
-
-export * as Arguments from "./Arguments";
+import * as Arguments from "./Arguments";
 
 export const generateStatements = (
   entryPoint: string,
@@ -48,5 +47,6 @@ export const generateStatements = (
       );
     }
   });
-  store.addAdditionalStatement(statements.flat());
+
+  store.addAdditionalStatement([...statements.flat(), ...Arguments.generateInterfaces(store, factory, paths)]);
 };
