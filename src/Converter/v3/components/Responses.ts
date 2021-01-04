@@ -1,11 +1,14 @@
 import * as path from "path";
 
+import ts from "typescript";
+
 import { UndefinedComponent } from "../../../Exception";
 import { Factory } from "../../../TypeScriptCodeGenerator";
 import * as Guard from "../Guard";
 import { Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
 import { OpenApi } from "../types";
+import * as MediaType from "./MediaType";
 import * as Reference from "./Reference";
 import * as Response from "./Response";
 
@@ -93,4 +96,65 @@ export const generateNamespaceWithStatusCode = (
     }
   });
   console.log(`------ Finish Create Responses: ${basePath} ------`);
+};
+
+export const generateInterfacesWithStatusCode = (
+  entryPoint: string,
+  currentPoint: string,
+  store: Store.Type,
+  factory: Factory.Type,
+  parentPath: string,
+  operationId: string,
+  responses: OpenApi.Responses,
+  context: ToTypeNode.Context,
+): ts.InterfaceDeclaration[] => {
+  const statements: ts.InterfaceDeclaration[] = [];
+  const basePath = `${parentPath}/responses`;
+  Object.entries(responses).forEach(([statusCode, response]) => {
+    const nameWithStatusCode = `Status$${statusCode}`;
+    if (!response) {
+      return;
+    }
+    if (Guard.isReference(response)) {
+      const reference = Reference.generate<OpenApi.Response>(entryPoint, currentPoint, response);
+      if (reference.type === "local") {
+        context.setReferenceHandler(reference);
+        Response.generateReferenceNamespace(entryPoint, currentPoint, store, factory, basePath, nameWithStatusCode, reference, context);
+      } else if (reference.componentName) {
+        // reference先に定義を作成
+        Response.generateNamespace(
+          entryPoint,
+          reference.referencePoint,
+          store,
+          factory,
+          path.dirname(reference.path), // TODO 理由
+          reference.name,
+          reference.data,
+          context,
+        );
+        // referenceのTypeAliasの作成
+        const content = reference.data.content;
+        if (content) {
+          statements.push(
+            MediaType.generateInterface(entryPoint, currentPoint, factory, `Response$${operationId}$${nameWithStatusCode}`, content, context),
+          );
+        }
+      }
+    } else {
+      if (response.content) {
+        statements.push(
+          MediaType.generateInterface(
+            entryPoint,
+            currentPoint,
+            factory,
+            `Response$${operationId}$${nameWithStatusCode}`,
+            response.content,
+            context,
+          ),
+        );
+      }
+    }
+  });
+
+  return statements;
 };

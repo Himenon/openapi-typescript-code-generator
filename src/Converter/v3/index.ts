@@ -60,7 +60,7 @@ export const create = (entryPoint: string, rootSchema: OpenApi.Document): Conver
       // }
     }
     if (rootSchema.paths) {
-      Paths.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.paths, toTypeNodeContext);
+      Paths.generateStatements(entryPoint, currentPoint, store, factory, rootSchema.paths, toTypeNodeContext);
     }
     return store.getRootStatements();
   };

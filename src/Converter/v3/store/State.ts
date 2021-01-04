@@ -13,11 +13,13 @@ export interface Type {
     // "/a/b/c2": { ref: "components/pathItems/HogeCRUD" }
     [pathString: string]: {
       ref: string;
-    }
-  }
+    };
+  };
+  arguments: ts.Statement[];
 }
 
 export const createDefaultState = (): Type => ({
   components: {},
   paths: {},
+  arguments: [],
 });

@@ -26,6 +26,7 @@ export interface Type {
    * @params path: "components/headers/hoge"
    */
   hasStatement: (path: string, types: Def.Statement<A, B, C>["type"][]) => boolean;
+  addAdditionalStatement: (statements: ts.Statement[]) => void;
   getRootStatements: () => ts.Statement[];
   dump: (filename: string) => void;
 }
@@ -105,6 +106,10 @@ export const create = (factory: Factory.Type): Type => {
     fs.writeFileSync(filename, yaml.dump(Masking.maskValue(state)), { encoding: "utf-8" });
   };
 
+  const addArgumentInterfaces = (statements: ts.Statement[]) => {
+    state.arguments = statements;
+  };
+
   const getRootStatements = (): ts.Statement[] => {
     const statements = Def.componentNames.reduce<ts.Statement[]>((statements, componentName) => {
       const component = state.components[Def.generateKey("namespace", componentName)];
@@ -123,7 +128,7 @@ export const create = (factory: Factory.Type): Type => {
       return statements;
     }, []);
     fs.writeFileSync("debug/sample.yml", yaml.dump(Masking.maskValue(state)), { encoding: "utf-8" });
-    return statements;
+    return statements.concat(state.arguments);
   };
 
   return {
@@ -133,5 +138,6 @@ export const create = (factory: Factory.Type): Type => {
     getRootStatements,
     addComponent,
     dump,
+    addAdditionalStatement: addArgumentInterfaces,
   };
 };

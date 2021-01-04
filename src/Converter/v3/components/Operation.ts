@@ -1,6 +1,8 @@
 import { EOL } from "os";
 import * as path from "path";
 
+import ts from "typescript";
+
 import { Factory } from "../../../TypeScriptCodeGenerator";
 import * as Guard from "../Guard";
 import { Store } from "../store";
@@ -90,4 +92,68 @@ export const generateNamespace = (
   }
 
   console.log(`\n ---- Finish: ${basePath} ---- \n`);
+};
+
+export const generateStatements = (
+  entryPoint: string,
+  currentPoint: string,
+  store: Store.Type,
+  factory: Factory.Type,
+  parentPath: string,
+  name: string, // PUT POST PATCH
+  operation: OpenApi.Operation,
+  context: ToTypeNode.Context,
+): ts.Statement[] => {
+  let statements: ts.Statement[] = [];
+  const basePath = `${parentPath}/${name}`;
+  const operationId = operation.operationId;
+  if (!operationId) {
+    throw new Error("not setting operationId\n" + JSON.stringify(operation));
+  }
+  if (operation.parameters) {
+    statements.push(Parameter.generateInterface(entryPoint, currentPoint, factory, `Parameter$${operationId}`, operation.parameters, context));
+  }
+  if (operation.requestBody) {
+    const requestBodyName = `RequestBody$${operationId}`;
+    if (Guard.isReference(operation.requestBody)) {
+      const reference = Reference.generate<OpenApi.RequestBody>(entryPoint, currentPoint, operation.requestBody);
+      if (reference.type === "local") {
+        context.setReferenceHandler(reference);
+        // TODO 追加する必要がある
+        factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, reference.path, "local") });
+      } else if (reference.type === "remote" && reference.componentName) {
+        const contentPath = path.join(reference.path, "Content"); // requestBodyはNamespaceを形成するため
+        store.addStatement(contentPath, {
+          type: "interface",
+          value: RequestBody.generateInterface(entryPoint, reference.referencePoint, factory, "Content", reference.data, context),
+        });
+        statements.push(
+          factory.TypeAliasDeclaration.create({
+            export: true,
+            name: requestBodyName,
+            type: factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, contentPath, "remote") }),
+          }),
+        );
+      }
+    } else {
+      statements.push(RequestBody.generateInterface(entryPoint, currentPoint, factory, requestBodyName, operation.requestBody, context));
+    }
+  }
+
+  if (operation.responses) {
+    statements = statements.concat(
+      Responses.generateInterfacesWithStatusCode(
+        entryPoint,
+        currentPoint,
+        store,
+        factory,
+        basePath,
+        operationId,
+        operation.responses,
+        context,
+      ).flat(),
+    );
+  }
+
+  return statements;
 };

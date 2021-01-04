@@ -1,3 +1,5 @@
+import ts from "typescript";
+
 import { Factory } from "../../../TypeScriptCodeGenerator";
 import { Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
@@ -56,4 +58,47 @@ export const generateNamespace = (
   if (pathItem.parameters) {
     Parameters.generateNamespaceWithList(entryPoint, currentPoint, store, factory, pathItem.parameters, context);
   }
+};
+
+export const generateStatements = (
+  entryPoint: string,
+  currentPoint: string,
+  store: Store.Type,
+  factory: Factory.Type,
+  parentPath: string,
+  name: string,
+  pathItem: OpenApi.PathItem,
+  context: ToTypeNode.Context,
+): ts.Statement[] => {
+  const statements: ts.Statement[][] = [];
+  const basePath = `${parentPath}/${name}`;
+  if (pathItem.get) {
+    statements.push(Operation.generateStatements(entryPoint, currentPoint, store, factory, basePath, "GET", pathItem.get, context));
+  }
+  if (pathItem.put) {
+    statements.push(Operation.generateStatements(entryPoint, currentPoint, store, factory, basePath, "PUT", pathItem.put, context));
+  }
+  if (pathItem.post) {
+    statements.push(Operation.generateStatements(entryPoint, currentPoint, store, factory, basePath, "POST", pathItem.post, context));
+  }
+  if (pathItem.delete) {
+    statements.push(Operation.generateStatements(entryPoint, currentPoint, store, factory, basePath, "DELETE", pathItem.delete, context));
+  }
+  if (pathItem.options) {
+    statements.push(Operation.generateStatements(entryPoint, currentPoint, store, factory, basePath, "OPTIONS", pathItem.options, context));
+  }
+  if (pathItem.head) {
+    statements.push(Operation.generateStatements(entryPoint, currentPoint, store, factory, basePath, "HEAD", pathItem.head, context));
+  }
+  if (pathItem.patch) {
+    statements.push(Operation.generateStatements(entryPoint, currentPoint, store, factory, basePath, "PATCH", pathItem.patch, context));
+  }
+  if (pathItem.trace) {
+    statements.push(Operation.generateStatements(entryPoint, currentPoint, store, factory, basePath, "TRACE", pathItem.trace, context));
+  }
+  // if (pathItem.parameters) {
+  //   Parameters.generateNamespaceWithList(entryPoint, currentPoint, store, factory, pathItem.parameters, context);
+  // }
+
+  return statements.flat();
 };
