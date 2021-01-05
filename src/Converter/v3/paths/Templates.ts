@@ -168,53 +168,71 @@ export interface MethodParam {
  * }
  */
 const createMethod = (factory: Factory.Type, params: MethodParam): ts.MethodDeclaration => {
-  const typeArgument0 =
-    params.responseTypeName &&
-    factory.TypeParameterDeclaration.create({
-      name: "C",
-      constraint: factory.TypeOperatorNode.create({
-        syntaxKind: "keyof",
+  const parameters: ts.ParameterDeclaration[] = [];
+  if (params.paramsTypeName) {
+    parameters.push(
+      factory.ParameterDeclaration.create({
+        name: "params",
+        modifiers: undefined,
         type: factory.TypeReferenceNode.create({
-          name: params.responseTypeName,
+          name: params.paramsTypeName,
         }),
       }),
-    });
-  const parameter0 = factory.ParameterDeclaration.create({
-    name: "params",
-    modifiers: undefined,
-    type: params.paramsTypeName
-      ? factory.TypeReferenceNode.create({
-          name: params.paramsTypeName,
-        })
-      : factory.TypeNode.create({
+    );
+  } else {
+    parameters.push(
+      factory.ParameterDeclaration.create({
+        name: "params",
+        modifiers: undefined,
+        type: factory.TypeNode.create({
           type: "object",
           value: [],
         }),
-  });
+      }),
+    );
+  }
 
-  const returnType = factory.TypeReferenceNode.create({
+  const typeParameters: ts.TypeParameterDeclaration[] = [];
+  let returnType: ts.TypeNode = factory.TypeReferenceNode.create({
     name: "Promise",
     typeArguments: [
-      params.responseTypeName
-        ? factory.IndexedAccessTypeNode.create({
-            objectType: factory.TypeReferenceNode.create({
-              name: params.responseTypeName,
-            }),
-            indexType: factory.TypeReferenceNode.create({
-              name: "C",
-            }),
-          })
-        : factory.TypeNode.create({
-            type: "void",
-          }),
+      factory.TypeNode.create({
+        type: "void",
+      }),
     ],
   });
+  if (params.responseTypeName) {
+    typeParameters.push(
+      factory.TypeParameterDeclaration.create({
+        name: "C",
+        constraint: factory.TypeOperatorNode.create({
+          syntaxKind: "keyof",
+          type: factory.TypeReferenceNode.create({
+            name: params.responseTypeName,
+          }),
+        }),
+      }),
+    );
+    returnType = factory.TypeReferenceNode.create({
+      name: "Promise",
+      typeArguments: [
+        factory.IndexedAccessTypeNode.create({
+          objectType: factory.TypeReferenceNode.create({
+            name: params.responseTypeName,
+          }),
+          indexType: factory.TypeReferenceNode.create({
+            name: "C",
+          }),
+        }),
+      ],
+    });
+  }
 
   return factory.MethodDeclaration.create({
     name: params.methodName,
-    parameters: [parameter0],
+    parameters: parameters,
     type: returnType,
-    typeParameters: typeArgument0 ? [typeArgument0] : [],
+    typeParameters: typeParameters,
     body: factory.Block.create({
       statements: [factory.ReturnStatement.create({})],
       multiLine: true,
