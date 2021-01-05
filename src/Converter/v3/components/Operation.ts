@@ -41,6 +41,10 @@ export const generateNamespace = (
 ): void => {
   const basePath = `${parentPath}/${name}`;
   console.log(`\n ---- Start: ${basePath} ---- \n`);
+  const operationId = operation.operationId;
+  if (!operationId) {
+    throw new Error("not setting operationId\n" + JSON.stringify(operation));
+  }
   store.addStatement(basePath, {
     type: "namespace",
     value: factory.Namespace.create({
@@ -57,6 +61,11 @@ export const generateNamespace = (
     store.addStatement(`${basePath}/Parameter`, {
       type: "interface",
       value: Parameter.generateInterface(entryPoint, currentPoint, factory, "Parameter", operation.parameters, context),
+    });
+    store.updateOperationState(operationId, {
+      parameters: operation.parameters
+        .map(parameter => Parameter.getSchema(entryPoint, currentPoint, parameter))
+        .filter(Boolean) as OpenApi.Parameter[],
     });
   }
 

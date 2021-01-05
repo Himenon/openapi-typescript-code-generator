@@ -1,5 +1,6 @@
 import ts from "typescript";
 
+import { OpenApi } from "../types";
 import * as Def from "./Definition";
 
 export type A = ts.ModuleDeclaration;
@@ -9,6 +10,7 @@ export type C = ts.TypeAliasDeclaration;
 export interface OperationState {
   parameterName?: string;
   requestBodyName?: string;
+  parameters: OpenApi.Parameter[];
 }
 
 export interface Type {
@@ -25,6 +27,14 @@ export interface Type {
     [operationId: string]: OperationState;
   };
 }
+
+export const createDefaultOperationState = (state: Partial<OperationState>): OperationState => {
+  return {
+    parameterName: state.parameterName,
+    requestBodyName: state.parameterName,
+    parameters: state.parameters || [],
+  };
+};
 
 export const createDefaultState = (): Type => ({
   components: {},

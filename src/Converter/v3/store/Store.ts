@@ -31,6 +31,7 @@ export interface Type {
   updateOperationState: (operationId: string, state: Partial<State.OperationState>) => void;
   getOperationState: (operationId: string) => State.OperationState;
   dump: (filename: string) => void;
+  dumpOperationState: (filename: string) => void;
 }
 
 export const create = (factory: Factory.Type): Type => {
@@ -108,6 +109,10 @@ export const create = (factory: Factory.Type): Type => {
     fs.writeFileSync(filename, yaml.dump(Masking.maskValue(state)), { encoding: "utf-8" });
   };
 
+  const dumpOperationState = (filename: string) => {
+    fs.writeFileSync(filename, JSON.stringify(state.operations, null, 2), { encoding: "utf-8" });
+  };
+
   const addAdditionalStatement = (statements: ts.Statement[]) => {
     state.additionalStatements = state.additionalStatements.concat(statements);
   };
@@ -136,9 +141,10 @@ export const create = (factory: Factory.Type): Type => {
   const updateOperationState = (operationId: string, newOperationState: Partial<State.OperationState>) => {
     let operationState = state.operations[operationId];
     if (operationState) {
-      operationState = { ...operationState, ...newOperationState };
+      const parameters = operationState.parameters.concat(newOperationState.parameters || []);
+      operationState = { ...operationState, ...newOperationState, parameters };
     } else {
-      operationState = newOperationState;
+      operationState = State.createDefaultOperationState(newOperationState);
     }
     state.operations[operationId] = operationState;
   };
@@ -148,7 +154,7 @@ export const create = (factory: Factory.Type): Type => {
     if (operationState) {
       return operationState;
     }
-    return {};
+    return State.createDefaultOperationState({});
   };
 
   return {
@@ -161,5 +167,6 @@ export const create = (factory: Factory.Type): Type => {
     updateOperationState,
     getOperationState,
     addAdditionalStatement,
+    dumpOperationState,
   };
 };

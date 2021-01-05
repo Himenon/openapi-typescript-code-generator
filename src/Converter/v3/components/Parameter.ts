@@ -1,5 +1,6 @@
 import ts from "typescript";
 
+import { FeatureDevelopmentError } from "../../../Exception";
 import { Factory } from "../../../TypeScriptCodeGenerator";
 import * as Guard from "../Guard";
 import * as ToTypeNode from "../toTypeNode";
@@ -90,4 +91,23 @@ export const generateInterface = (
     comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject`,
     members: generatePropertySignatures(entryPoint, currentPoint, factory, parameters, context),
   });
+};
+
+export const getSchema = (
+  entryPoint: string,
+  currentPoint: string,
+  parameter: OpenApi.Parameter | OpenApi.Reference,
+): OpenApi.Parameter | undefined => {
+  let schema: OpenApi.Parameter | undefined;
+  if (Guard.isReference(parameter)) {
+    const reference = Reference.generate<OpenApi.Parameter>(entryPoint, currentPoint, parameter);
+    if (reference.type === "local") {
+      throw new FeatureDevelopmentError("feature support \n" + JSON.stringify(reference, null, 2));
+    } else {
+      schema = reference.data;
+    }
+  } else {
+    schema = parameter;
+  }
+  return schema;
 };
