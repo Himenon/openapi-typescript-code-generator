@@ -48,5 +48,9 @@ export const generateStatements = (
     }
   });
 
-  store.addAdditionalStatement([...statements.flat(), ...Generator.generateInterfaces(store, factory, paths)]);
+  store.addAdditionalStatement([
+    ...statements.flat(),
+    ...Generator.generateInterfaces(store, factory, paths),
+    Generator.generateApiClient(store, factory, paths),
+  ]);
 };

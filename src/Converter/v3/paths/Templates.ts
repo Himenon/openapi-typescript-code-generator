@@ -109,3 +109,103 @@ export const generateRequestTypes = (
     comment: description,
   });
 };
+
+/**
+ * export class Client<ApiClient> {
+ *   constructor(private apiClient: ApiClient, private baseUrl: string) {}
+ * }
+ */
+export const createApiClientClass = (factory: Factory.Type, members: ts.ClassElement[]) => {
+  return factory.ClassDeclaration.create({
+    name: "Client",
+    export: true,
+    members,
+    typeParameterDeclaration: [
+      factory.TypeParameterDeclaration.create({
+        name: "ApiClient",
+      }),
+    ],
+  });
+};
+
+/**
+ * constructor(private apiClient: ApiClient, private baseUrl: string) { }
+ */
+const createApiClientConstructor = (factory: Factory.Type): ts.ConstructorDeclaration => {
+  const parameter1 = factory.ParameterDeclaration.create({
+    modifiers: "private",
+    name: "apiClient",
+    type: factory.TypeReferenceNode.create({
+      name: "ApiClient",
+    }),
+  });
+  const parameter2 = factory.ParameterDeclaration.create({
+    modifiers: "private",
+    name: "baseUrl",
+    type: factory.TypeNode.create({
+      type: "string",
+    }),
+  });
+  return factory.ConstructorDeclaration.create({
+    parameters: [parameter1, parameter2],
+    body: factory.Block.create({
+      statements: [],
+      multiLine: false,
+    }),
+  });
+};
+
+export interface MethodParam {
+  methodName: string;
+  paramsTypeName?: string;
+  responseTypeName?: string;
+}
+
+/**
+ *
+ * public {methodName} (params: {paramsTypeName}): Promise<{responseTypeName}> {
+ *
+ * }
+ */
+const createMethod = (factory: Factory.Type, params: MethodParam): ts.MethodDeclaration => {
+  const parameter0 = factory.ParameterDeclaration.create({
+    name: "params",
+    modifiers: undefined,
+    type: params.paramsTypeName
+      ? factory.TypeReferenceNode.create({
+          name: params.paramsTypeName,
+        })
+      : factory.TypeNode.create({
+          type: "object",
+          value: [],
+        }),
+  });
+
+  const returnType = factory.TypeReferenceNode.create({
+    name: "Promise",
+    typeArguments: [
+      params.responseTypeName
+        ? factory.TypeReferenceNode.create({
+            name: params.responseTypeName,
+          })
+        : factory.TypeNode.create({
+            type: "void",
+          }),
+    ],
+  });
+
+  return factory.MethodDeclaration.create({
+    name: params.methodName,
+    parameters: [parameter0],
+    type: returnType,
+    body: factory.Block.create({
+      statements: [factory.ReturnStatement.create({})],
+      multiLine: true,
+    }),
+  });
+};
+
+export const createApiClientCode = (factory: Factory.Type, methodParams: MethodParam[]): ts.ClassDeclaration => {
+  const members = methodParams.map(params => createMethod(factory, params));
+  return createApiClientClass(factory, [createApiClientConstructor(factory), ...members]);
+};

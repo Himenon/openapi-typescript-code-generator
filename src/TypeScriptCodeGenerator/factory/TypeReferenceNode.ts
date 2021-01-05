@@ -2,6 +2,7 @@ import ts from "typescript";
 
 export interface Params$Create {
   name: string;
+  typeArguments?: readonly ts.TypeNode[];
 }
 
 export interface Factory {
@@ -9,7 +10,7 @@ export interface Factory {
 }
 
 export const create = ({ factory }: ts.TransformationContext): Factory["create"] => (params: Params$Create): ts.TypeReferenceNode => {
-  const node = factory.createTypeReferenceNode(factory.createIdentifier(params.name), undefined);
+  const node = factory.createTypeReferenceNode(factory.createIdentifier(params.name), params.typeArguments);
   return node;
 };
 
