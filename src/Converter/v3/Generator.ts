@@ -7,12 +7,20 @@ import { OpenApi } from "./types";
 
 const OPERATIONS: (keyof OpenApi.PathItem)[] = ["get", "put", "post", "delete", "options", "head", "patch", "trace"];
 
-interface Params {
-  methodName: string;
-  argumentInterfaceName: string;
-  parameterName?: string;
-  requestBodyName?: string;
-}
+type Params = Templates.ApiClientClass.Params;
+
+const getSuccessStatusCodes = (operation: OpenApi.Operation): string[] => {
+  const statusCodeList: string[] = [];
+  Object.keys(operation.responses || {}).forEach(statusCodeLike => {
+    if (typeof statusCodeLike === "string") {
+      const statusCodeNumberValue = parseInt(statusCodeLike, 10);
+      if (200 <= statusCodeNumberValue && statusCodeNumberValue < 300) {
+        statusCodeList.push(statusCodeNumberValue.toString());
+      }
+    }
+  });
+  return statusCodeList;
+};
 
 const generateParams = (store: Store.Type, pathItem: OpenApi.PathItem): Params[] => {
   return OPERATIONS.reduce<Params[]>((previous, httpMethodName) => {
@@ -22,11 +30,14 @@ const generateParams = (store: Store.Type, pathItem: OpenApi.PathItem): Params[]
       return previous;
     }
     const state = store.getOperationState(operationId);
+    // see components/responses
+    const responseNames = getSuccessStatusCodes(operation).map(statusCode => `Response$${operationId}$Status$${statusCode}`);
     return previous.concat({
       methodName: operationId,
       argumentInterfaceName: `Params$${operationId}`,
       parameterName: state.parameterName,
       requestBodyName: state.requestBodyName,
+      responseNames: responseNames,
     });
   }, []);
 };

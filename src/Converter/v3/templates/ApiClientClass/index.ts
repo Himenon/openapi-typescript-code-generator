@@ -7,6 +7,7 @@ import * as Method from "./Method";
 
 export interface Params {
   methodName: string;
+  responseNames: string[];
   argumentInterfaceName: string;
   parameterName?: string;
   requestBodyName?: string;
@@ -17,7 +18,7 @@ export const create = (factory: Factory.Type, list: Params[]): ts.Statement => {
     return Method.create(factory, {
       name: params.methodName,
       parameterName: params.parameterName,
-      requestBodyName: params.requestBodyName,
+      responseNames: params.responseNames,
     });
   });
   const members = [Constructor.create(factory), ...methodList];

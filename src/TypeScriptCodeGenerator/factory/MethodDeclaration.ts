@@ -2,6 +2,7 @@ import ts from "typescript";
 
 export interface Params$Create {
   name: string;
+  async?: boolean;
   private?: boolean;
   typeParameters?: readonly ts.TypeParameterDeclaration[];
   parameters?: ts.ParameterDeclaration[];
@@ -14,9 +15,18 @@ export interface Factory {
 }
 
 export const create = ({ factory }: ts.TransformationContext): Factory["create"] => (params: Params$Create): ts.MethodDeclaration => {
+  const modifiers: ts.Modifier[] = [];
+  if (params.private) {
+    modifiers.push(factory.createModifier(ts.SyntaxKind.PrivateKeyword));
+  } else {
+    modifiers.push(factory.createModifier(ts.SyntaxKind.PublicKeyword));
+  }
+  if (params.async) {
+    modifiers.push(factory.createModifier(ts.SyntaxKind.AsyncKeyword));
+  }
   const node = factory.createMethodDeclaration(
     undefined,
-    [params.private ? factory.createModifier(ts.SyntaxKind.PrivateKeyword) : factory.createModifier(ts.SyntaxKind.PublicKeyword)],
+    modifiers,
     undefined,
     factory.createIdentifier(params.name),
     undefined,

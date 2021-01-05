@@ -5,7 +5,7 @@ import { Factory } from "../../../../TypeScriptCodeGenerator";
 export interface Params {
   name: string;
   parameterName?: string;
-  requestBodyName?: string;
+  responseNames?: string[];
 }
 
 /**
@@ -14,7 +14,7 @@ export interface Params {
  *
  * }
  */
-export const create = (factory: Factory.Type, { name, parameterName, requestBodyName }: Params): ts.MethodDeclaration => {
+export const create = (factory: Factory.Type, { name, parameterName, responseNames }: Params): ts.MethodDeclaration => {
   const genericsIdentifier = "C";
   const parameters: ts.ParameterDeclaration[] = [];
   if (parameterName) {
@@ -49,15 +49,23 @@ export const create = (factory: Factory.Type, { name, parameterName, requestBody
       }),
     ],
   });
-  if (requestBodyName) {
+  if (responseNames && responseNames.length > 0) {
+    const isOne = responseNames.length === 1;
+    const typeNodes = responseNames.map(responseName =>
+      factory.TypeReferenceNode.create({
+        name: responseName,
+      }),
+    );
     typeParameters.push(
       factory.TypeParameterDeclaration.create({
         name: genericsIdentifier,
         constraint: factory.TypeOperatorNode.create({
           syntaxKind: "keyof",
-          type: factory.TypeReferenceNode.create({
-            name: requestBodyName,
-          }),
+          type: isOne
+            ? typeNodes[0]
+            : factory.UnionTypeNode.create({
+                typeNodes: typeNodes,
+              }),
         }),
       }),
     );
@@ -65,9 +73,11 @@ export const create = (factory: Factory.Type, { name, parameterName, requestBody
       name: "Promise",
       typeArguments: [
         factory.IndexedAccessTypeNode.create({
-          objectType: factory.TypeReferenceNode.create({
-            name: requestBodyName,
-          }),
+          objectType: isOne
+            ? typeNodes[0]
+            : factory.UnionTypeNode.create({
+                typeNodes: typeNodes,
+              }),
           indexType: factory.TypeReferenceNode.create({
             name: genericsIdentifier,
           }),
@@ -78,6 +88,7 @@ export const create = (factory: Factory.Type, { name, parameterName, requestBody
 
   return factory.MethodDeclaration.create({
     name: name,
+    async: true,
     parameters: parameters,
     type: returnType,
     typeParameters: typeParameters,
