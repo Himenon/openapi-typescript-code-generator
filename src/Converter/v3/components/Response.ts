@@ -42,8 +42,6 @@ export const generateNamespace = (
       value: MediaType.generateInterface(entryPoint, currentPoint, factory, "Content", response.content, context),
     });
   }
-
-  console.log(`------ End: Response Namespace ------`);
 };
 
 export const generateReferenceNamespace = (

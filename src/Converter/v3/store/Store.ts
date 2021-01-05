@@ -52,7 +52,6 @@ export const create = (factory: Factory.Type): Type => {
 
   const addComponent = (componentName: Def.ComponentName, statement: Def.Statement<A, B, C>): void => {
     const key = Def.generateKey("namespace", componentName);
-    console.log(`AddComponent : "${key}"`);
     state.components[key] = statement;
   };
 
@@ -60,7 +59,6 @@ export const create = (factory: Factory.Type): Type => {
     const targetPath = relative("components", path);
     const result = PropAccess.get(state.components, type, targetPath);
     const flag = `${!!result}`.padEnd(5, " ");
-    console.log(`GetStatement(${type}): ${flag} - ${path}`);
     return result;
   };
 
@@ -74,7 +72,6 @@ export const create = (factory: Factory.Type): Type => {
       throw new UnSupportError(`componentsから始まっていません。path=${path}`);
     }
     const targetPath = relative("components", path);
-    console.log(`AddStatement(${statement.type}): ${path}`);
     state.components = PropAccess.set(state.components, targetPath, statement, createNamespace);
   };
 

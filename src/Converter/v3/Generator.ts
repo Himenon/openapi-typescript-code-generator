@@ -55,5 +55,5 @@ export const generateApiClientCode = (store: Store.Type, factory: Factory.Type, 
   });
   statements.push(Templates.ApiClientClass.create(factory, list));
   store.addAdditionalStatement(statements);
-  store.dumpOperationState("debug/state.yml");
+  store.dumpOperationState("debug/state.json");
 };

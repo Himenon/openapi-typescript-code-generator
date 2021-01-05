@@ -57,7 +57,6 @@ export const generateNamespaceWithStatusCode = (
   context: ToTypeNode.Context,
 ): void => {
   const basePath = `${parentPath}/responses`;
-  console.log(`------ Start Create Responses: ${basePath} ------`);
   store.addStatement(basePath, {
     type: "namespace",
     value: factory.Namespace.create({
@@ -95,7 +94,6 @@ export const generateNamespaceWithStatusCode = (
       Response.generateNamespace(entryPoint, currentPoint, store, factory, basePath, nameWithStatusCode, response, context);
     }
   });
-  console.log(`------ Finish Create Responses: ${basePath} ------`);
 };
 
 export const generateInterfacesWithStatusCode = (

@@ -12,7 +12,6 @@ export const generatePropertySignature = (
   schema: OpenApi.Schema,
   context: ToTypeNode.Context,
 ): ts.PropertySignature => {
-  console.log(`------ Star:t ${protocol} ------`);
   return factory.PropertySignature.create({
     name: `"${protocol}"`,
     optional: false,

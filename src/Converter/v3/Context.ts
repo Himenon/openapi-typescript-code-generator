@@ -18,13 +18,6 @@ const generatePath = (entryPoint: string, currentPoint: string, referencePath: s
   const base = Path.dirname(from);
   const result = Path.relative(base, referencePath); // remoteの場合? localの場合 referencePath.split("/")
   const pathArray = result.split("/");
-  console.log({
-    entryPoint,
-    currentPoint,
-    referencePath,
-    base,
-    result,
-  });
   return {
     pathArray,
     base,
@@ -33,7 +26,6 @@ const generatePath = (entryPoint: string, currentPoint: string, referencePath: s
 
 const generateName = (store: Store.Type, base: string, pathArray: string[]): string => {
   let names: string[] = [];
-  console.log("\nStart Generate Name\n");
   pathArray.reduce((previous, lastPath, index) => {
     const current = Path.join(previous, lastPath);
     // ディレクトリが深い場合は相対パスが`..`を繰り返す可能性があり、
@@ -61,13 +53,11 @@ const generateName = (store: Store.Type, base: string, pathArray: string[]): str
         names.push(statement.value.name.text);
       }
     }
-    console.log({ previous, lastPath, current, names });
     return current;
   }, base);
   if (names.length === 0) {
     throw new DevelopmentError("Local Reference Error \n" + JSON.stringify({ pathArray, names, base }, null, 2));
   }
-  console.log(`\nFinish Generate Name: ${names.join(".")}\n`);
   return names.join(".");
 };
 

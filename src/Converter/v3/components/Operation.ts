@@ -40,7 +40,6 @@ export const generateNamespace = (
   context: ToTypeNode.Context,
 ): void => {
   const basePath = `${parentPath}/${name}`;
-  console.log(`\n ---- Start: ${basePath} ---- \n`);
   const operationId = operation.operationId;
   if (!operationId) {
     throw new Error("not setting operationId\n" + JSON.stringify(operation));
@@ -99,8 +98,6 @@ export const generateNamespace = (
   if (operation.responses) {
     Responses.generateNamespaceWithStatusCode(entryPoint, currentPoint, store, factory, basePath, operation.responses, context);
   }
-
-  console.log(`\n ---- Finish: ${basePath} ---- \n`);
 };
 
 export const generateStatements = (
@@ -119,10 +116,16 @@ export const generateStatements = (
   if (!operationId) {
     throw new Error("not setting operationId\n" + JSON.stringify(operation));
   }
+
   if (operation.parameters) {
     const parameterName = `Parameter$${operationId}`;
     statements.push(Parameter.generateInterface(entryPoint, currentPoint, factory, parameterName, operation.parameters, context));
-    store.updateOperationState(operationId, { parameterName: parameterName });
+    store.updateOperationState(operationId, {
+      parameterName: parameterName,
+      parameters: operation.parameters
+        .map(parameter => Parameter.getSchema(entryPoint, currentPoint, parameter))
+        .filter(Boolean) as OpenApi.Parameter[],
+    });
   }
   if (operation.requestBody) {
     const requestBodyName = `RequestBody$${operationId}`;
