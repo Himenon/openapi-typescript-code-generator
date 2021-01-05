@@ -3,6 +3,7 @@ import ts from "typescript";
 export interface Params$Create {
   name: string;
   private?: boolean;
+  typeParameters?: readonly ts.TypeParameterDeclaration[];
   parameters?: ts.ParameterDeclaration[];
   type?: ts.TypeNode;
   body?: ts.Block;
@@ -19,7 +20,7 @@ export const create = ({ factory }: ts.TransformationContext): Factory["create"]
     undefined,
     factory.createIdentifier(params.name),
     undefined,
-    undefined,
+    params.typeParameters,
     params.parameters || [],
     params.type,
     params.body,

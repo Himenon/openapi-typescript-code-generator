@@ -168,6 +168,17 @@ export interface MethodParam {
  * }
  */
 const createMethod = (factory: Factory.Type, params: MethodParam): ts.MethodDeclaration => {
+  const typeArgument0 =
+    params.responseTypeName &&
+    factory.TypeParameterDeclaration.create({
+      name: "C",
+      constraint: factory.TypeOperatorNode.create({
+        syntaxKind: "keyof",
+        type: factory.TypeReferenceNode.create({
+          name: params.responseTypeName,
+        }),
+      }),
+    });
   const parameter0 = factory.ParameterDeclaration.create({
     name: "params",
     modifiers: undefined,
@@ -185,8 +196,13 @@ const createMethod = (factory: Factory.Type, params: MethodParam): ts.MethodDecl
     name: "Promise",
     typeArguments: [
       params.responseTypeName
-        ? factory.TypeReferenceNode.create({
-            name: params.responseTypeName,
+        ? factory.IndexedAccessTypeNode.create({
+            objectType: factory.TypeReferenceNode.create({
+              name: params.responseTypeName,
+            }),
+            indexType: factory.TypeReferenceNode.create({
+              name: "C",
+            }),
           })
         : factory.TypeNode.create({
             type: "void",
@@ -198,6 +214,7 @@ const createMethod = (factory: Factory.Type, params: MethodParam): ts.MethodDecl
     name: params.methodName,
     parameters: [parameter0],
     type: returnType,
+    typeParameters: typeArgument0 ? [typeArgument0] : [],
     body: factory.Block.create({
       statements: [factory.ReturnStatement.create({})],
       multiLine: true,
