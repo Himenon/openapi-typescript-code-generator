@@ -113,7 +113,7 @@ export const generateStatements = (
   if (operation.parameters) {
     const parameterName = `Parameter$${operationId}`;
     statements.push(Parameter.generateInterface(entryPoint, currentPoint, factory, parameterName, operation.parameters, context));
-    store.updateOperationState(operationId, { parameterTypeName: parameterName });
+    store.updateOperationState(operationId, { parameterName: parameterName });
   }
   if (operation.requestBody) {
     const requestBodyName = `RequestBody$${operationId}`;
@@ -136,11 +136,11 @@ export const generateStatements = (
             type: factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, contentPath, "remote") }),
           }),
         );
-        store.updateOperationState(operationId, { requestBodyTypeName: requestBodyName });
+        store.updateOperationState(operationId, { requestBodyName: requestBodyName });
       }
     } else {
       statements.push(RequestBody.generateInterface(entryPoint, currentPoint, factory, requestBodyName, operation.requestBody, context));
-      store.updateOperationState(operationId, { requestBodyTypeName: requestBodyName });
+      store.updateOperationState(operationId, { requestBodyName: requestBodyName });
     }
   }
 

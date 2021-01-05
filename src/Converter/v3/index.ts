@@ -9,6 +9,7 @@ import * as RequestBodies from "./components/RequestBodies";
 import * as Responses from "./components/Responses";
 import * as Schemas from "./components/Schemas";
 import * as Context from "./Context";
+import * as Generator from "./Generator";
 import * as Paths from "./paths";
 import { Store } from "./store";
 import { OpenApi } from "./types";
@@ -61,6 +62,7 @@ export const create = (entryPoint: string, rootSchema: OpenApi.Document): Conver
     }
     if (rootSchema.paths) {
       Paths.generateStatements(entryPoint, currentPoint, store, factory, rootSchema.paths, toTypeNodeContext);
+      Generator.generateApiClientCode(store, factory, rootSchema.paths);
     }
     return store.getRootStatements();
   };

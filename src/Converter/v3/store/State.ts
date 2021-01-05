@@ -7,8 +7,8 @@ export type B = ts.InterfaceDeclaration;
 export type C = ts.TypeAliasDeclaration;
 
 export interface OperationState {
-  parameterTypeName?: string;
-  requestBodyTypeName?: string;
+  parameterName?: string;
+  requestBodyName?: string;
 }
 
 export interface Type {
@@ -20,7 +20,7 @@ export interface Type {
       ref: string;
     };
   };
-  arguments: ts.Statement[];
+  additionalStatements: ts.Statement[];
   operations: {
     [operationId: string]: OperationState;
   };
@@ -29,6 +29,6 @@ export interface Type {
 export const createDefaultState = (): Type => ({
   components: {},
   paths: {},
-  arguments: [],
+  additionalStatements: [],
   operations: {},
 });

@@ -108,8 +108,8 @@ export const create = (factory: Factory.Type): Type => {
     fs.writeFileSync(filename, yaml.dump(Masking.maskValue(state)), { encoding: "utf-8" });
   };
 
-  const addArgumentInterfaces = (statements: ts.Statement[]) => {
-    state.arguments = statements;
+  const addAdditionalStatement = (statements: ts.Statement[]) => {
+    state.additionalStatements = state.additionalStatements.concat(statements);
   };
 
   const getRootStatements = (): ts.Statement[] => {
@@ -130,7 +130,7 @@ export const create = (factory: Factory.Type): Type => {
       return statements;
     }, []);
     fs.writeFileSync("debug/sample.yml", yaml.dump(Masking.maskValue(state)), { encoding: "utf-8" });
-    return statements.concat(state.arguments);
+    return statements.concat(state.additionalStatements);
   };
 
   const updateOperationState = (operationId: string, newOperationState: Partial<State.OperationState>) => {
@@ -160,6 +160,6 @@ export const create = (factory: Factory.Type): Type => {
     dump,
     updateOperationState,
     getOperationState,
-    addAdditionalStatement: addArgumentInterfaces,
+    addAdditionalStatement,
   };
 };
