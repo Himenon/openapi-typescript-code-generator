@@ -84,7 +84,7 @@ export interface Parameter {
   description?: string;
   required: boolean;
   deprecated?: boolean;
-  allowEmptyValue: boolean;
+  allowEmptyValue?: boolean;
 
   style?: "matrix" | "label" | "form" | "simple" | "spaceDelimited" | "pipeDelimited" | "deepObject";
   explode?: string;

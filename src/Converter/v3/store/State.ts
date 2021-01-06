@@ -8,6 +8,7 @@ export type B = ts.InterfaceDeclaration;
 export type C = ts.TypeAliasDeclaration;
 
 export interface OperationState {
+  requestUri: string;
   parameterName?: string;
   requestBodyName?: string;
   parameters: OpenApi.Parameter[];
@@ -28,8 +29,9 @@ export interface Type {
   };
 }
 
-export const createDefaultOperationState = (state: Partial<OperationState>): OperationState => {
+export const createDefaultOperationState = (requestUri: string, state: Partial<OperationState>): OperationState => {
   return {
+    requestUri: requestUri,
     parameterName: state.parameterName,
     requestBodyName: state.parameterName,
     parameters: state.parameters || [],

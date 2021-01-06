@@ -18,9 +18,9 @@ export const generateStatements = (
   context: ToTypeNode.Context,
 ): void => {
   const statements: ts.Statement[][] = [];
-  Object.entries(paths).forEach(([pathName, pathItem], index) => {
-    if (!pathName.startsWith("/")) {
-      throw new Error(`Not start slash: ${pathName}`);
+  Object.entries(paths).forEach(([requestUri, pathItem], index) => {
+    if (!requestUri.startsWith("/")) {
+      throw new Error(`Not start slash: ${requestUri}`);
     }
     const pathIdentifer = `Path$${index + 1}`;
     if (Guard.isReference(pathItem)) {
@@ -34,6 +34,7 @@ export const generateStatements = (
           reference.referencePoint,
           store,
           factory,
+          requestUri,
           "components/pathItems",
           pathIdentifer,
           reference.data,
@@ -42,7 +43,17 @@ export const generateStatements = (
       );
     } else {
       statements.push(
-        PathItem.generateStatements(entryPoint, currentPoint, store, factory, "components/pathItems", pathIdentifer, pathItem, context),
+        PathItem.generateStatements(
+          entryPoint,
+          currentPoint,
+          store,
+          factory,
+          requestUri,
+          "components/pathItems",
+          pathIdentifer,
+          pathItem,
+          context,
+        ),
       );
     }
   });

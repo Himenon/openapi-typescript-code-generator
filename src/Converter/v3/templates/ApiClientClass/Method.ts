@@ -1,11 +1,16 @@
 import ts from "typescript";
 
 import { Factory } from "../../../../TypeScriptCodeGenerator";
+import * as MethodBody from "./MethodBody";
+
+export { MethodBody };
 
 export interface Params {
+  requestUri: string;
   name: string;
   parameterName?: string;
   responseNames?: string[];
+  requestParameterCategories: MethodBody.Param[];
 }
 
 /**
@@ -14,7 +19,10 @@ export interface Params {
  *
  * }
  */
-export const create = (factory: Factory.Type, { name, parameterName, responseNames }: Params): ts.MethodDeclaration => {
+export const create = (
+  factory: Factory.Type,
+  { name, requestUri, parameterName, responseNames, requestParameterCategories }: Params,
+): ts.MethodDeclaration => {
   const genericsIdentifier = "C";
   const parameters: ts.ParameterDeclaration[] = [];
   if (parameterName) {
@@ -93,7 +101,7 @@ export const create = (factory: Factory.Type, { name, parameterName, responseNam
     type: returnType,
     typeParameters: typeParameters,
     body: factory.Block.create({
-      statements: [factory.ReturnStatement.create({})],
+      statements: MethodBody.create(factory, requestUri, requestParameterCategories),
       multiLine: true,
     }),
   });

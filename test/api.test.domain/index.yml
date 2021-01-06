@@ -130,6 +130,11 @@ components:
         description: Delete Blog
         summary: Delete Blog
         operationId: deleteBlog
+        parameter:
+          - in: path
+            name: id
+            schema:
+              type: number
         responses:
           "401":
             $ref: "./components/responses/blog/AuthorizationError.yml"
@@ -145,10 +150,16 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/SucceededCreatingBlogPost"
+  /blog/{id}:
     delete:
       description: Delete Blog
       summary: Delete Blog
       operationId: deleteBlog
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: number
       responses:
         "401":
           $ref: "./components/responses/blog/AuthorizationError.yml"

@@ -28,7 +28,7 @@ export interface Type {
   hasStatement: (path: string, types: Def.Statement<A, B, C>["type"][]) => boolean;
   addAdditionalStatement: (statements: ts.Statement[]) => void;
   getRootStatements: () => ts.Statement[];
-  updateOperationState: (operationId: string, state: Partial<State.OperationState>) => void;
+  updateOperationState: (requestUri: string, operationId: string, state: Partial<State.OperationState>) => void;
   getOperationState: (operationId: string) => State.OperationState;
   dump: (filename: string) => void;
   dumpOperationState: (filename: string) => void;
@@ -135,13 +135,14 @@ export const create = (factory: Factory.Type): Type => {
     return statements.concat(state.additionalStatements);
   };
 
-  const updateOperationState = (operationId: string, newOperationState: Partial<State.OperationState>) => {
+  const updateOperationState = (requestUri: string, operationId: string, newOperationState: Partial<State.OperationState>) => {
+    console.log({ requestUri, operationId });
     let operationState = state.operations[operationId];
     if (operationState) {
       const parameters = operationState.parameters.concat(newOperationState.parameters || []);
       operationState = { ...operationState, ...newOperationState, parameters };
     } else {
-      operationState = State.createDefaultOperationState(newOperationState);
+      operationState = State.createDefaultOperationState(requestUri, newOperationState);
     }
     state.operations[operationId] = operationState;
   };
@@ -151,7 +152,8 @@ export const create = (factory: Factory.Type): Type => {
     if (operationState) {
       return operationState;
     }
-    return State.createDefaultOperationState({});
+    dumpOperationState("debug/error-getOperationState.json");
+    throw new Error(`Not found ${operationId}`);
   };
 
   return {

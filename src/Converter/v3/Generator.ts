@@ -9,6 +9,15 @@ const OPERATIONS: (keyof OpenApi.PathItem)[] = ["get", "put", "post", "delete", 
 
 type Params = Templates.ApiClientClass.Params;
 
+const convertParameterToRequestParameterCategory = (parameter: OpenApi.Parameter): Templates.ApiClientClass.Method.MethodBody.Param => {
+  return {
+    name: parameter.name,
+    in: parameter.in,
+    required: parameter.required,
+    style: parameter.style,
+  };
+};
+
 const getSuccessStatusCodes = (operation: OpenApi.Operation): string[] => {
   const statusCodeList: string[] = [];
   Object.keys(operation.responses || {}).forEach(statusCodeLike => {
@@ -32,12 +41,15 @@ const generateParams = (store: Store.Type, pathItem: OpenApi.PathItem): Params[]
     const state = store.getOperationState(operationId);
     // see components/responses
     const responseNames = getSuccessStatusCodes(operation).map(statusCode => `Response$${operationId}$Status$${statusCode}`);
+    const requestParameterCategories = state.parameters.map(convertParameterToRequestParameterCategory);
     return previous.concat({
       methodName: operationId,
       argumentInterfaceName: `Params$${operationId}`,
       parameterName: state.parameterName,
       requestBodyName: state.requestBodyName,
       responseNames: responseNames,
+      requestParameterCategories: requestParameterCategories,
+      requestUri: state.requestUri,
     });
   }, []);
 };

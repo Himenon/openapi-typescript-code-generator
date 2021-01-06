@@ -61,11 +61,6 @@ export const generateNamespace = (
       type: "interface",
       value: Parameter.generateInterface(entryPoint, currentPoint, factory, "Parameter", operation.parameters, context),
     });
-    store.updateOperationState(operationId, {
-      parameters: operation.parameters
-        .map(parameter => Parameter.getSchema(entryPoint, currentPoint, parameter))
-        .filter(Boolean) as OpenApi.Parameter[],
-    });
   }
 
   if (operation.requestBody) {
@@ -105,6 +100,7 @@ export const generateStatements = (
   currentPoint: string,
   store: Store.Type,
   factory: Factory.Type,
+  requestUri: string,
   parentPath: string,
   name: string, // PUT POST PATCH
   operation: OpenApi.Operation,
@@ -116,11 +112,11 @@ export const generateStatements = (
   if (!operationId) {
     throw new Error("not setting operationId\n" + JSON.stringify(operation));
   }
-
+  store.updateOperationState(requestUri, operationId, {});
   if (operation.parameters) {
     const parameterName = `Parameter$${operationId}`;
     statements.push(Parameter.generateInterface(entryPoint, currentPoint, factory, parameterName, operation.parameters, context));
-    store.updateOperationState(operationId, {
+    store.updateOperationState(requestUri, operationId, {
       parameterName: parameterName,
       parameters: operation.parameters
         .map(parameter => Parameter.getSchema(entryPoint, currentPoint, parameter))
@@ -148,11 +144,11 @@ export const generateStatements = (
             type: factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, contentPath, "remote") }),
           }),
         );
-        store.updateOperationState(operationId, { requestBodyName: requestBodyName });
+        store.updateOperationState(requestUri, operationId, { requestBodyName: requestBodyName });
       }
     } else {
       statements.push(RequestBody.generateInterface(entryPoint, currentPoint, factory, requestBodyName, operation.requestBody, context));
-      store.updateOperationState(operationId, { requestBodyName: requestBodyName });
+      store.updateOperationState(requestUri, operationId, { requestBodyName: requestBodyName });
     }
   }
 

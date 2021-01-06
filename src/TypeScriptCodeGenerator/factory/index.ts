@@ -1,8 +1,10 @@
 import ts from "typescript";
 
+import * as BinaryExpression from "./BinaryExpression";
 import * as Block from "./Block";
 import * as ClassDeclaration from "./ClassDeclaration";
 import * as ConstructorDeclaration from "./ConstructorDeclaration";
+import * as Identifier from "./Identifier";
 import * as IndexedAccessTypeNode from "./IndexedAccessTypeNode";
 import * as IndexSignatureDeclaration from "./IndexSignatureDeclaration";
 import * as InterfaceDeclaration from "./InterfaceDeclaration";
@@ -10,15 +12,25 @@ import * as IntersectionTypeNode from "./IntersectionTypeNode";
 import * as LiteralTypeNode from "./LiteralTypeNode";
 import * as MethodDeclaration from "./MethodDeclaration";
 import * as Namespace from "./Namespace";
+import * as NoSubstitutionTemplateLiteral from "./NoSubstitutionTemplateLiteral";
 import * as ParameterDeclaration from "./ParameterDeclaration";
+import * as PropertyAccessExpression from "./PropertyAccessExpression";
 import * as PropertySignature from "./PropertySignature";
 import * as ReturnStatement from "./ReturnStatement";
+import * as TemplateExpression from "./TemplateExpression";
+import * as TemplateHead from "./TemplateHead";
+import * as TemplateMiddle from "./TemplateMiddle";
+import * as TemplateSpan from "./TemplateSpan";
+import * as TemplateTail from "./TemplateTail";
 import * as TypeAliasDeclaration from "./TypeAliasDeclaration";
 import * as TypeNode from "./TypeNode";
 import * as TypeOperatorNode from "./TypeOperatorNode";
 import * as TypeParameterDeclaration from "./TypeParameterDeclaration";
 import * as TypeReferenceNode from "./TypeReferenceNode";
 import * as UnionTypeNode from "./UnionTypeNode";
+import * as VariableDeclaration from "./VariableDeclaration";
+import * as VariableDeclarationList from "./VariableDeclarationList";
+import * as VariableStatement from "./VariableStatement";
 
 export interface Type {
   Block: Block.Factory;
@@ -40,6 +52,18 @@ export interface Type {
   TypeParameterDeclaration: TypeParameterDeclaration.Factory;
   ConstructorDeclaration: ConstructorDeclaration.Factory;
   ReturnStatement: ReturnStatement.Factory;
+  VariableDeclaration: VariableDeclaration.Factory;
+  VariableDeclarationList: VariableDeclarationList.Factory;
+  VariableStatement: VariableStatement.Factory;
+  BinaryExpression: BinaryExpression.Factory;
+  PropertyAccessExpression: PropertyAccessExpression.Factory;
+  NoSubstitutionTemplateLiteral: NoSubstitutionTemplateLiteral.Factory;
+  TemplateSpan: TemplateSpan.Factory;
+  TemplateExpression: TemplateExpression.Factory;
+  TemplateHead: TemplateHead.Factory;
+  TemplateMiddle: TemplateMiddle.Factory;
+  TemplateTail: TemplateTail.Factory;
+  Identifier: Identifier.Factory;
 }
 
 export const create = (context: ts.TransformationContext): Type => {
@@ -63,5 +87,17 @@ export const create = (context: ts.TransformationContext): Type => {
     MethodDeclaration: MethodDeclaration.make(context),
     ConstructorDeclaration: ConstructorDeclaration.make(context),
     ReturnStatement: ReturnStatement.make(context),
+    VariableDeclaration: VariableDeclaration.make(context),
+    VariableDeclarationList: VariableDeclarationList.make(context),
+    VariableStatement: VariableStatement.make(context),
+    BinaryExpression: BinaryExpression.make(context),
+    PropertyAccessExpression: PropertyAccessExpression.make(context),
+    NoSubstitutionTemplateLiteral: NoSubstitutionTemplateLiteral.make(context),
+    TemplateSpan: TemplateSpan.make(context),
+    TemplateExpression: TemplateExpression.make(context),
+    TemplateHead: TemplateHead.make(context),
+    TemplateMiddle: TemplateMiddle.make(context),
+    TemplateTail: TemplateTail.make(context),
+    Identifier: Identifier.make(context),
   };
 };
