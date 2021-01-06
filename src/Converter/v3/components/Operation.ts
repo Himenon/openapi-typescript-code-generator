@@ -100,6 +100,7 @@ export const generateStatements = (
   currentPoint: string,
   store: Store.Type,
   factory: Factory.Type,
+  httpMethod: string,
   requestUri: string,
   parentPath: string,
   name: string, // PUT POST PATCH
@@ -112,11 +113,11 @@ export const generateStatements = (
   if (!operationId) {
     throw new Error("not setting operationId\n" + JSON.stringify(operation));
   }
-  store.updateOperationState(requestUri, operationId, {});
+  store.updateOperationState(httpMethod, requestUri, operationId, {});
   if (operation.parameters) {
     const parameterName = `Parameter$${operationId}`;
     statements.push(Parameter.generateInterface(entryPoint, currentPoint, factory, parameterName, operation.parameters, context));
-    store.updateOperationState(requestUri, operationId, {
+    store.updateOperationState(httpMethod, requestUri, operationId, {
       parameterName: parameterName,
       parameters: operation.parameters
         .map(parameter => Parameter.getSchema(entryPoint, currentPoint, parameter))
@@ -144,11 +145,11 @@ export const generateStatements = (
             type: factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, contentPath, "remote") }),
           }),
         );
-        store.updateOperationState(requestUri, operationId, { requestBodyName: requestBodyName });
+        store.updateOperationState(httpMethod, requestUri, operationId, { requestBodyName: requestBodyName });
       }
     } else {
       statements.push(RequestBody.generateInterface(entryPoint, currentPoint, factory, requestBodyName, operation.requestBody, context));
-      store.updateOperationState(requestUri, operationId, { requestBodyName: requestBodyName });
+      store.updateOperationState(httpMethod, requestUri, operationId, { requestBodyName: requestBodyName });
     }
   }
 

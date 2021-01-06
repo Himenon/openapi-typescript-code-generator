@@ -2,6 +2,7 @@ import ts from "typescript";
 
 import * as BinaryExpression from "./BinaryExpression";
 import * as Block from "./Block";
+import * as CallExpression from "./CallExpression";
 import * as ClassDeclaration from "./ClassDeclaration";
 import * as ConstructorDeclaration from "./ConstructorDeclaration";
 import * as ElementAccessExpression from "./ElementAccessExpression";
@@ -20,6 +21,7 @@ import * as PropertyAccessExpression from "./PropertyAccessExpression";
 import * as PropertyAssignment from "./PropertyAssignment";
 import * as PropertySignature from "./PropertySignature";
 import * as ReturnStatement from "./ReturnStatement";
+import * as StringLiteral from "./StringLiteral";
 import * as TemplateExpression from "./TemplateExpression";
 import * as TemplateHead from "./TemplateHead";
 import * as TemplateMiddle from "./TemplateMiddle";
@@ -70,6 +72,8 @@ export interface Type {
   PropertyAssignment: PropertyAssignment.Factory;
   ObjectLiteralExpression: ObjectLiteralExpression.Factory;
   ElementAccessExpression: ElementAccessExpression.Factory;
+  CallExpression: CallExpression.Factory;
+  StringLiteral: StringLiteral.Factory;
 }
 
 export const create = (context: ts.TransformationContext): Type => {
@@ -108,5 +112,7 @@ export const create = (context: ts.TransformationContext): Type => {
     PropertyAssignment: PropertyAssignment.make(context),
     ObjectLiteralExpression: ObjectLiteralExpression.make(context),
     ElementAccessExpression: ElementAccessExpression.make(context),
+    CallExpression: CallExpression.make(context),
+    StringLiteral: StringLiteral.make(context),
   };
 };

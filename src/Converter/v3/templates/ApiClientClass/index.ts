@@ -9,6 +9,7 @@ export { Method };
 
 export interface Params {
   requestUri: string;
+  httpMethod: string;
   methodName: string;
   responseNames: string[];
   argumentInterfaceName: string;
@@ -20,6 +21,7 @@ export interface Params {
 export const create = (factory: Factory.Type, list: Params[]): ts.Statement => {
   const methodList = list.map(params => {
     return Method.create(factory, {
+      httpMethod: params.httpMethod,
       name: params.methodName,
       parameterName: params.argumentInterfaceName,
       responseNames: params.responseNames,

@@ -2,6 +2,7 @@ import ts from "typescript";
 
 import { Factory } from "../../../../../TypeScriptCodeGenerator";
 import * as Utils from "../../utils";
+import * as CallRequest from "./CallRequest";
 import * as HeaderParameter from "./HeaderParameter";
 import * as PathParameter from "./PathParameter";
 import * as QueryParameter from "./QueryParameter";
@@ -18,7 +19,7 @@ export interface Params$GenerateUrl {
   urlTemplate: Utils.Params$TemplateExpression;
 }
 
-export const create = (factory: Factory.Type, requestUri: string, list: Param[]): ts.Statement[] => {
+export const create = (factory: Factory.Type, httpMethod: string, requestUri: string, list: Param[]): ts.Statement[] => {
   const statements: ts.Statement[] = [];
 
   // Generate Path Parameter
@@ -38,6 +39,14 @@ export const create = (factory: Factory.Type, requestUri: string, list: Param[])
     return { ...previous, [current.name]: `params.parameter.${current.name}` };
   }, {});
   statements.push(QueryParameter.create(factory, { variableName: "queryParameters", object: queryObject }));
+
+  // Generate CallRequest
+
+  statements.push(
+    factory.ReturnStatement.create({
+      expression: CallRequest.create(factory, { httpMethod: httpMethod.toUpperCase() }),
+    }),
+  );
 
   return statements.length == 0 ? [factory.ReturnStatement.create({})] : statements;
 };

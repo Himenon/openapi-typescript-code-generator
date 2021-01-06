@@ -6,6 +6,7 @@ import * as MethodBody from "./MethodBody";
 export { MethodBody };
 
 export interface Params {
+  httpMethod: string;
   requestUri: string;
   name: string;
   parameterName?: string;
@@ -21,7 +22,7 @@ export interface Params {
  */
 export const create = (
   factory: Factory.Type,
-  { name, requestUri, parameterName, responseNames, requestParameterCategories }: Params,
+  { name, httpMethod, requestUri, parameterName, responseNames, requestParameterCategories }: Params,
 ): ts.MethodDeclaration => {
   const genericsIdentifier = "C";
   const parameters: ts.ParameterDeclaration[] = [];
@@ -101,7 +102,7 @@ export const create = (
     type: returnType,
     typeParameters: typeParameters,
     body: factory.Block.create({
-      statements: MethodBody.create(factory, requestUri, requestParameterCategories),
+      statements: MethodBody.create(factory, httpMethod, requestUri, requestParameterCategories),
       multiLine: true,
     }),
   });

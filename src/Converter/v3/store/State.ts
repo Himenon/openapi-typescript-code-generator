@@ -9,6 +9,7 @@ export type C = ts.TypeAliasDeclaration;
 
 export interface OperationState {
   requestUri: string;
+  httpMethod: string;
   parameterName?: string;
   requestBodyName?: string;
   parameters: OpenApi.Parameter[];
@@ -29,8 +30,9 @@ export interface Type {
   };
 }
 
-export const createDefaultOperationState = (requestUri: string, state: Partial<OperationState>): OperationState => {
+export const createDefaultOperationState = (httpMethod: string, requestUri: string, state: Partial<OperationState>): OperationState => {
   return {
+    httpMethod: httpMethod,
     requestUri: requestUri,
     parameterName: state.parameterName,
     requestBodyName: state.parameterName,

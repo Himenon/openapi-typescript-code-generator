@@ -28,7 +28,7 @@ export interface Type {
   hasStatement: (path: string, types: Def.Statement<A, B, C>["type"][]) => boolean;
   addAdditionalStatement: (statements: ts.Statement[]) => void;
   getRootStatements: () => ts.Statement[];
-  updateOperationState: (requestUri: string, operationId: string, state: Partial<State.OperationState>) => void;
+  updateOperationState: (httpMethod: string, requestUri: string, operationId: string, state: Partial<State.OperationState>) => void;
   getOperationState: (operationId: string) => State.OperationState;
   dump: (filename: string) => void;
   dumpOperationState: (filename: string) => void;
@@ -135,14 +135,18 @@ export const create = (factory: Factory.Type): Type => {
     return statements.concat(state.additionalStatements);
   };
 
-  const updateOperationState = (requestUri: string, operationId: string, newOperationState: Partial<State.OperationState>) => {
-    console.log({ requestUri, operationId });
+  const updateOperationState = (
+    httpMethod: string,
+    requestUri: string,
+    operationId: string,
+    newOperationState: Partial<State.OperationState>,
+  ) => {
     let operationState = state.operations[operationId];
     if (operationState) {
       const parameters = operationState.parameters.concat(newOperationState.parameters || []);
       operationState = { ...operationState, ...newOperationState, parameters };
     } else {
-      operationState = State.createDefaultOperationState(requestUri, newOperationState);
+      operationState = State.createDefaultOperationState(httpMethod, requestUri, newOperationState);
     }
     state.operations[operationId] = operationState;
   };

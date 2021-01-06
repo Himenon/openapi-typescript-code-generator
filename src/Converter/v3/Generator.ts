@@ -43,6 +43,7 @@ const generateParams = (store: Store.Type, pathItem: OpenApi.PathItem): Params[]
     const responseNames = getSuccessStatusCodes(operation).map(statusCode => `Response$${operationId}$Status$${statusCode}`);
     const requestParameterCategories = state.parameters.map(convertParameterToRequestParameterCategory);
     return previous.concat({
+      httpMethod: state.httpMethod,
       methodName: operationId,
       argumentInterfaceName: `Params$${operationId}`,
       parameterName: state.parameterName,
