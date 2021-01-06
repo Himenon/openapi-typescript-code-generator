@@ -1,8 +1,8 @@
 import ts from "typescript";
 
-import { Factory } from "../../../../TypeScriptCodeGenerator";
-import * as Utils from "../utils";
-import * as PathParameter from "./Body/PathParameter";
+import { Factory } from "../../../../../TypeScriptCodeGenerator";
+import * as Utils from "../../utils";
+import * as PathParameter from "./PathParameter";
 
 export interface Param {
   name: string;

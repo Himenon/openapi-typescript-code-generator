@@ -1,5 +1,6 @@
 import ts from "typescript";
 
+import { DevelopmentError } from "../../../Exception";
 import { Factory } from "../../../TypeScriptCodeGenerator";
 
 export interface StringItem {
@@ -124,12 +125,12 @@ export const generateTemplateExpression = (factory: Factory.Type, list: Params$T
     if (spanList.length === 0) {
       continue;
     }
-    const currentIndex = i;
-    const nextIndex = i + 1;
+    const currentIndex = 2 * i;
+    const nextIndex = 2 * i + 1;
     const currentItem = spanList[currentIndex];
     const nextItem = spanList[nextIndex];
-    if (currentItem.type !== "property") {
-      throw new Error("おかしい \n" + JSON.stringify(currentItem, null, 2));
+    if (currentItem.type === "string") {
+      throw new DevelopmentError("Logic Error");
     }
     templateSpans = templateSpans.concat(getTemplateSpan(factory, currentIndex, nextIndex, lastIndex, currentItem, nextItem));
   }
