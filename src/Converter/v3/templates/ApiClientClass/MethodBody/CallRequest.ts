@@ -8,7 +8,7 @@ export interface Params {
 }
 
 /**
- * this.apiClient.request("GET", url, requestBody, headers, queryParamter);
+ * this.apiClient.request("GET", url, requestBody, headers, queryParameters);
  */
 export const create = (factory: Factory.Type, params: Params): ts.CallExpression => {
   const expression = Utils.generateVariableIdentifier(factory, "this.apiClient.request");
@@ -18,7 +18,7 @@ export const create = (factory: Factory.Type, params: Params): ts.CallExpression
     factory.Identifier.create({ name: "url" }),
     factory.Identifier.create({ name: "requestBody" }),
     factory.Identifier.create({ name: "headers" }),
-    factory.Identifier.create({ name: "queryParamter" }),
+    factory.Identifier.create({ name: "queryParameters" }),
   ];
 
   return factory.CallExpression.create({
