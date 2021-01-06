@@ -17,6 +17,10 @@ export type Item = StringItem | ExpressionItem;
 
 export type Params$TemplateExpression = Item[];
 
+const isAlphabetOnlyText = (text: string): boolean => {
+  return /^[A-Za-z\s]+$/.test(text);
+};
+
 const getTemplateSpan = (
   factory: Factory.Type,
   currentIndex: number,
@@ -140,7 +144,10 @@ export const generateTemplateExpression = (factory: Factory.Type, list: Params$T
   });
 };
 
-export const generateVariableIdentifier = (factory: Factory.Type, name: string) => {
+export const generateVariableIdentifier = (
+  factory: Factory.Type,
+  name: string,
+): ts.Identifier | ts.PropertyAccessExpression | ts.ElementAccessExpression => {
   if (name.startsWith("/")) {
     throw new Error("can't start '/'. name=" + name);
   }
@@ -156,10 +163,30 @@ export const generateVariableIdentifier = (factory: Factory.Type, name: string) 
     name: n2,
   });
 
-  return rest.reduce<ts.PropertyAccessExpression>((previous, current: string) => {
-    return factory.PropertyAccessExpression.create({
+  return rest.reduce<ts.PropertyAccessExpression | ts.ElementAccessExpression>((previous, current: string) => {
+    if (isAlphabetOnlyText(current)) {
+      return factory.PropertyAccessExpression.create({
+        expression: previous,
+        name: current,
+      });
+    }
+    return factory.ElementAccessExpression.create({
       expression: previous,
-      name: current,
+      index: current,
     });
   }, first);
+};
+
+export const generateObjectLiteralExpression = (factory: Factory.Type, obj: { [key: string]: string }): ts.ObjectLiteralExpression => {
+  const properties = Object.entries(obj).map(([key, value]) => {
+    return factory.PropertyAssignment.create({
+      name: isAlphabetOnlyText(key) ? key : `"${key}"`, // TODO escape _ / . ...etc
+      initializer: generateVariableIdentifier(factory, value),
+    });
+  });
+
+  return factory.ObjectLiteralExpression.create({
+    properties: properties,
+    multiLine: true,
+  });
 };

@@ -1,0 +1,23 @@
+import ts from "typescript";
+
+import { Factory } from "../../../../../TypeScriptCodeGenerator";
+import * as Utils from "../../utils";
+
+export interface Params {
+  variableName: string;
+  object: { [key: string]: string };
+}
+
+export const create = (factory: Factory.Type, params: Params): ts.VariableStatement => {
+  return factory.VariableStatement.create({
+    declarationList: factory.VariableDeclarationList.create({
+      flag: "const",
+      declarations: [
+        factory.VariableDeclaration.create({
+          name: params.variableName,
+          initializer: Utils.generateObjectLiteralExpression(factory, params.object),
+        }),
+      ],
+    }),
+  });
+};
