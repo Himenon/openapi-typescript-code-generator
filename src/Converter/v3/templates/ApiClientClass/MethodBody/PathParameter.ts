@@ -54,7 +54,8 @@ const generateUrlTemplateExpression = (factory: Factory.Type, requestUri: string
     });
     return replacedText === text ? undefined : replacedText;
   };
-  requestUri.split("/").forEach(requestUriTick => {
+  const requestUrlTicks = requestUri.split("/");
+  requestUrlTicks.forEach((requestUriTick, index) => {
     if (requestUri === "") {
       temporaryStringList.push("");
       return;
@@ -75,6 +76,12 @@ const generateUrlTemplateExpression = (factory: Factory.Type, requestUri: string
       });
     } else {
       temporaryStringList.push(requestUriTick);
+    }
+    if (index === requestUrlTicks.length - 1) {
+      urlTemplate.push({
+        type: "string",
+        value: temporaryStringList.join("/"),
+      });
     }
   });
   return urlTemplate;
