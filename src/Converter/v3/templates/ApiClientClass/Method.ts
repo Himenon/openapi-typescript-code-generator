@@ -1,6 +1,7 @@
 import ts from "typescript";
 
 import { Factory } from "../../../../TypeScriptCodeGenerator";
+import * as Name from "../../Name";
 import * as MethodBody from "./MethodBody";
 
 export { MethodBody };
@@ -19,25 +20,30 @@ export interface Params {
   hasRequestBody: boolean;
 }
 
-/**
- * 関数の先頭の引数
- */
-// const generateTypeParameters = (factory: Factory.Type) => {
-//   const typeParameters: ts.TypeParameterDeclaration[] = [];
-//   typeParameters.push(
-//     factory.TypeParameterDeclaration.create({
-//       name: "C",
-//       constraint: factory.TypeOperatorNode.create({
-//         syntaxKind: "keyof",
-//         type: isOne
-//           ? typeNodes[0]
-//           : factory.UnionTypeNode.create({
-//               typeNodes: typeNodes,
-//             }),
-//       }),
-//     }),
-//   );
-// }
+const generateParams = (factory: Factory.Type, argumentParamsTypeDeclaration: string, requestContentTypeList: string[]) => {
+  const typeArguments: ts.TypeNode[] = [];
+  if (requestContentTypeList.length === 1) {
+    typeArguments.push(
+      factory.LiteralTypeNode.create({
+        value: requestContentTypeList[0],
+      }),
+    );
+  } else {
+    typeArguments.push(
+      factory.TypeReferenceNode.create({
+        name: "RequestContentType",
+      }),
+    );
+  }
+  return factory.ParameterDeclaration.create({
+    name: "params",
+    modifiers: undefined,
+    type: factory.TypeReferenceNode.create({
+      name: argumentParamsTypeDeclaration,
+      typeArguments,
+    }),
+  });
+};
 
 const generateResponseReturnType = (factory: Factory.Type, successResponseNameList: string[], successResponseContentTypeList: string[]) => {
   console.log({
@@ -65,10 +71,9 @@ const generateResponseReturnType = (factory: Factory.Type, successResponseNameLi
     });
   }
 
-  // --------
   const isOnlyOneResponseContentType = successResponseContentTypeList.length === 1;
   let indexType: ts.TypeNode = factory.TypeReferenceNode.create({
-    name: "C2",
+    name: "ResponseContentType",
   });
   if (isOnlyOneResponseContentType) {
     indexType = factory.TypeReferenceNode.create({
@@ -87,6 +92,31 @@ const generateResponseReturnType = (factory: Factory.Type, successResponseNameLi
   });
 };
 
+const methodTypeParameters = (factory: Factory.Type, params: Params): ts.TypeParameterDeclaration[] => {
+  const typeParameters: ts.TypeParameterDeclaration[] = [];
+  if (params.requestContentTypeList.length > 1) {
+    typeParameters.push(
+      factory.TypeParameterDeclaration.create({
+        name: "RequestContentType",
+        constraint: factory.TypeReferenceNode.create({
+          name: Name.requestContentType(params.operationId),
+        }),
+      }),
+    );
+  }
+  if (params.successResponseContentTypeList.length > 1) {
+    typeParameters.push(
+      factory.TypeParameterDeclaration.create({
+        name: "ResponseContentType",
+        constraint: factory.TypeReferenceNode.create({
+          name: Name.responseContentType(params.operationId),
+        }),
+      }),
+    );
+  }
+  return typeParameters;
+};
+
 /**
  *
  * public async {functionName}(params: {argumentParamsTypeDeclaration}<{RequestContentType}>): Promise<{requestBodyName}[ResponseContentType]> {
@@ -94,18 +124,12 @@ const generateResponseReturnType = (factory: Factory.Type, successResponseNameLi
  * }
  */
 export const create = (factory: Factory.Type, params: Params): ts.MethodDeclaration => {
+  const typeParameters: ts.TypeParameterDeclaration[] = methodTypeParameters(factory, params);
   const methodArguments: ts.ParameterDeclaration[] = [];
   const hasParamsArguments = params.hasParameter || params.hasRequestBody;
+
   if (hasParamsArguments) {
-    methodArguments.push(
-      factory.ParameterDeclaration.create({
-        name: "params",
-        modifiers: undefined,
-        type: factory.TypeReferenceNode.create({
-          name: params.argumentParamsTypeDeclaration,
-        }),
-      }),
-    );
+    methodArguments.push(generateParams(factory, params.argumentParamsTypeDeclaration, params.requestContentTypeList));
   }
 
   const returnType: ts.TypeNode = generateResponseReturnType(factory, params.successResponseNameList, params.successResponseContentTypeList);
@@ -126,7 +150,7 @@ export const create = (factory: Factory.Type, params: Params): ts.MethodDeclarat
     async: true,
     parameters: methodArguments,
     type: returnType,
-    typeParameters: [],
+    typeParameters: typeParameters,
     body: factory.Block.create({
       statements: MethodBody.create(factory, params.httpMethod, params.requestUri, params.requestParameterCategories),
       multiLine: true,
