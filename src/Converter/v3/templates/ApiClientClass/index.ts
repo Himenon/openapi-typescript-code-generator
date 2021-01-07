@@ -1,6 +1,7 @@
 import ts from "typescript";
 
 import { Factory } from "../../../../TypeScriptCodeGenerator";
+import * as ApiClientInterface from "./ApiClientInterface";
 import * as Class from "./Class";
 import * as Constructor from "./Constructor";
 import * as Method from "./Method";
@@ -10,7 +11,7 @@ export { Method };
 export interface Params {
   requestUri: string;
   httpMethod: string;
-  methodName: string;
+  operationId: string;
   responseNames: string[];
   argumentInterfaceName: string;
   parameterName?: string;
@@ -18,11 +19,11 @@ export interface Params {
   requestParameterCategories: Method.MethodBody.Param[];
 }
 
-export const create = (factory: Factory.Type, list: Params[]): ts.Statement => {
+export const create = (factory: Factory.Type, list: Params[]): ts.Statement[] => {
   const methodList = list.map(params => {
     return Method.create(factory, {
       httpMethod: params.httpMethod,
-      name: params.methodName,
+      name: params.operationId,
       parameterName: params.argumentInterfaceName,
       responseNames: params.responseNames,
       requestParameterCategories: params.requestParameterCategories,
@@ -30,5 +31,5 @@ export const create = (factory: Factory.Type, list: Params[]): ts.Statement => {
     });
   });
   const members = [Constructor.create(factory), ...methodList];
-  return Class.create(factory, members);
+  return [...ApiClientInterface.create(factory), Class.create(factory, members)];
 };

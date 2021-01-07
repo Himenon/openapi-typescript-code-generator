@@ -11,6 +11,11 @@ export const create = (factory: Factory.Type): ts.ConstructorDeclaration => {
     name: "apiClient",
     type: factory.TypeReferenceNode.create({
       name: "ApiClient",
+      typeArguments: [
+        factory.TypeReferenceNode.create({
+          name: "RequestOption",
+        }),
+      ],
     }),
   });
   const parameter2 = factory.ParameterDeclaration.create({

@@ -45,6 +45,10 @@ export interface NeverParams {
   type: "never";
 }
 
+export interface AnyParams {
+  type: "any";
+}
+
 export interface VoidParams {
   type: "void";
 }
@@ -59,7 +63,8 @@ export type Params$Create =
   | UndefinedParams
   | NullParams
   | VoidParams
-  | NeverParams;
+  | NeverParams
+  | AnyParams;
 
 export interface Factory {
   create: (params: Params$Create) => ts.TypeNode;
@@ -100,6 +105,8 @@ export const create = (context: ts.TransformationContext): Factory["create"] => 
         return factory.createKeywordTypeNode(ts.SyntaxKind.NeverKeyword);
       case "void":
         return factory.createKeywordTypeNode(ts.SyntaxKind.VoidKeyword);
+      case "any":
+        return factory.createKeywordTypeNode(ts.SyntaxKind.AnyKeyword);
       default:
         throw new UnSupportError(`UnSupport Type: ${JSON.stringify(params)}`);
     }

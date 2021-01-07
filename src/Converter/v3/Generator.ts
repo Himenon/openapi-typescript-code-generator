@@ -44,7 +44,7 @@ const generateParams = (store: Store.Type, pathItem: OpenApi.PathItem): Params[]
     const requestParameterCategories = state.parameters.map(convertParameterToRequestParameterCategory);
     return previous.concat({
       httpMethod: state.httpMethod,
-      methodName: operationId,
+      operationId: operationId,
       argumentInterfaceName: `Params$${operationId}`,
       parameterName: state.parameterName,
       requestBodyName: state.requestBodyName,
@@ -59,14 +59,29 @@ export const generateApiClientCode = (store: Store.Type, factory: Factory.Type, 
   const list = Object.values(paths)
     .map(pathItem => generateParams(store, pathItem))
     .flat();
-  const statements: ts.Statement[] = list.map(params => {
-    return Templates.ApiClientArgument.create(factory, {
-      name: params.argumentInterfaceName,
-      parameterName: params.parameterName,
-      requestBodyName: params.requestBodyName,
-    });
+  const statements: ts.Statement[] = [];
+  list.forEach(params => {
+    if (params.requestBodyName) {
+      statements.push(
+        Templates.ApiClientArgument.createRequestContentTypeReference(factory, {
+          operationId: params.operationId,
+          requestBodyName: params.requestBodyName,
+        }),
+      );
+    }
+    statements.push(
+      Templates.ApiClientArgument.create(factory, {
+        name: params.argumentInterfaceName,
+        operationId: params.operationId,
+        parameterName: params.parameterName,
+        requestBodyName: params.requestBodyName,
+      }),
+    );
   });
-  statements.push(Templates.ApiClientClass.create(factory, list));
+  Templates.ApiClientClass.create(factory, list).forEach(newStatement => {
+    statements.push(newStatement);
+  });
+
   store.addAdditionalStatement(statements);
   store.dumpOperationState("debug/state.json");
 };

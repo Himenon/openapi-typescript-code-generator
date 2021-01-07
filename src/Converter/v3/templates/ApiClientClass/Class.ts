@@ -14,7 +14,7 @@ export const create = (factory: Factory.Type, members: ts.ClassElement[]): ts.Cl
     members,
     typeParameterDeclaration: [
       factory.TypeParameterDeclaration.create({
-        name: "ApiClient",
+        name: "RequestOption",
       }),
     ],
   });

@@ -2,6 +2,7 @@ import ts from "typescript";
 
 export interface Params$Create {
   name: string;
+  optional?: true;
   modifiers?: "private" | "public";
   type?: ts.TypeNode;
 }
@@ -25,7 +26,7 @@ export const create = ({ factory }: ts.TransformationContext): Factory["create"]
     modifiers,
     undefined,
     factory.createIdentifier(params.name),
-    undefined,
+    params.optional && factory.createToken(ts.SyntaxKind.QuestionToken),
     params.type,
     undefined,
   );

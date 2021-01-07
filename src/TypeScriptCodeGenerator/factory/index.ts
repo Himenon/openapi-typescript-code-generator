@@ -6,6 +6,7 @@ import * as CallExpression from "./CallExpression";
 import * as ClassDeclaration from "./ClassDeclaration";
 import * as ConstructorDeclaration from "./ConstructorDeclaration";
 import * as ElementAccessExpression from "./ElementAccessExpression";
+import * as FunctionTypeNode from "./FunctionTypeNode";
 import * as Identifier from "./Identifier";
 import * as IndexedAccessTypeNode from "./IndexedAccessTypeNode";
 import * as IndexSignatureDeclaration from "./IndexSignatureDeclaration";
@@ -28,6 +29,7 @@ import * as TemplateMiddle from "./TemplateMiddle";
 import * as TemplateSpan from "./TemplateSpan";
 import * as TemplateTail from "./TemplateTail";
 import * as TypeAliasDeclaration from "./TypeAliasDeclaration";
+import * as TypeLiteralNode from "./TypeLiteralNode";
 import * as TypeNode from "./TypeNode";
 import * as TypeOperatorNode from "./TypeOperatorNode";
 import * as TypeParameterDeclaration from "./TypeParameterDeclaration";
@@ -74,6 +76,8 @@ export interface Type {
   ElementAccessExpression: ElementAccessExpression.Factory;
   CallExpression: CallExpression.Factory;
   StringLiteral: StringLiteral.Factory;
+  FunctionTypeNode: FunctionTypeNode.Factory;
+  TypeLiteralNode: TypeLiteralNode.Factory;
 }
 
 export const create = (context: ts.TransformationContext): Type => {
@@ -114,5 +118,7 @@ export const create = (context: ts.TransformationContext): Type => {
     ElementAccessExpression: ElementAccessExpression.make(context),
     CallExpression: CallExpression.make(context),
     StringLiteral: StringLiteral.make(context),
+    FunctionTypeNode: FunctionTypeNode.make(context),
+    TypeLiteralNode: TypeLiteralNode.make(context),
   };
 };

@@ -4,9 +4,31 @@ import { Factory } from "../../../TypeScriptCodeGenerator";
 
 export interface Params {
   name: string;
+  operationId: string;
   parameterName?: string;
   requestBodyName?: string;
 }
+
+export interface Params2 {
+  operationId: string;
+  requestBodyName: string;
+}
+
+// export type RequestContentType${operationId} = keyof RequestBody${operationId};
+// export type ResponseContentType${operationId} = keyof Response${operationId}$Status$...;
+
+export const createRequestContentTypeReference = (factory: Factory.Type, { operationId, requestBodyName }: Params2) => {
+  return factory.TypeAliasDeclaration.create({
+    export: true,
+    name: `RequestContentType$${operationId}`,
+    type: factory.TypeOperatorNode.create({
+      syntaxKind: "keyof",
+      type: factory.TypeReferenceNode.create({
+        name: requestBodyName,
+      }),
+    }),
+  });
+};
 
 /**
  * Function Template
@@ -17,7 +39,7 @@ export interface Params {
  *   requestBody: {requestBodyName}[T];
  * }
  */
-export const create = (factory: Factory.Type, { name, parameterName, requestBodyName }: Params): ts.InterfaceDeclaration => {
+export const create = (factory: Factory.Type, { name, parameterName, requestBodyName, operationId }: Params): ts.InterfaceDeclaration => {
   const typeParameters: ts.TypeParameterDeclaration[] = [];
   const members: ts.TypeElement[] = [];
   const genericsName = "T";
@@ -25,11 +47,8 @@ export const create = (factory: Factory.Type, { name, parameterName, requestBody
     typeParameters.push(
       factory.TypeParameterDeclaration.create({
         name: genericsName,
-        constraint: factory.TypeOperatorNode.create({
-          syntaxKind: "keyof",
-          type: factory.TypeReferenceNode.create({
-            name: requestBodyName,
-          }),
+        constraint: factory.TypeReferenceNode.create({
+          name: `RequestContentType$${operationId}`,
         }),
       }),
     );
@@ -47,15 +66,6 @@ export const create = (factory: Factory.Type, { name, parameterName, requestBody
   }
 
   if (requestBodyName) {
-    const contentType = factory.PropertySignature.create({
-      name: "contentType",
-      optional: false,
-      type: factory.TypeReferenceNode.create({
-        name: "T",
-      }),
-    });
-    members.push(contentType);
-
     const requestBody = factory.PropertySignature.create({
       name: "requestBody",
       optional: false,
