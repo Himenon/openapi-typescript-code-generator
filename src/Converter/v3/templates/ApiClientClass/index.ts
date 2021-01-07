@@ -5,10 +5,11 @@ import * as ApiClientInterface from "./ApiClientInterface";
 import * as Class from "./Class";
 import * as Constructor from "./Constructor";
 import * as Method from "./Method";
+import * as Types from "./types";
 
 export { Method };
 
-export type Params = Method.Params;
+export type Params = Types.MethodParams;
 
 export const create = (factory: Factory.Type, list: Params[]): ts.Statement[] => {
   const methodList = list.map(params => {

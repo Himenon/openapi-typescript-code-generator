@@ -3,22 +3,10 @@ import ts from "typescript";
 import { Factory } from "../../../../TypeScriptCodeGenerator";
 import * as Name from "../../Name";
 import * as MethodBody from "./MethodBody";
+import * as Types from "./types";
 
+export type MethodBodyParams = Types.MethodBodyParams;
 export { MethodBody };
-
-export interface Params {
-  operationId: string;
-  httpMethod: string;
-  requestUri: string;
-  functionName: string;
-  argumentParamsTypeDeclaration: string;
-  successResponseNameList: string[];
-  requestParameterCategories: MethodBody.Param[];
-  requestContentTypeList: string[];
-  successResponseContentTypeList: string[];
-  hasParameter: boolean;
-  hasRequestBody: boolean;
-}
 
 const generateParams = (factory: Factory.Type, argumentParamsTypeDeclaration: string, requestContentTypeList: string[]) => {
   const typeArguments: ts.TypeNode[] = [];
@@ -92,7 +80,7 @@ const generateResponseReturnType = (factory: Factory.Type, successResponseNameLi
   });
 };
 
-const methodTypeParameters = (factory: Factory.Type, params: Params): ts.TypeParameterDeclaration[] => {
+const methodTypeParameters = (factory: Factory.Type, params: Types.MethodParams): ts.TypeParameterDeclaration[] => {
   const typeParameters: ts.TypeParameterDeclaration[] = [];
   if (params.requestContentTypeList.length > 1) {
     typeParameters.push(
@@ -123,7 +111,7 @@ const methodTypeParameters = (factory: Factory.Type, params: Params): ts.TypePar
  *
  * }
  */
-export const create = (factory: Factory.Type, params: Params): ts.MethodDeclaration => {
+export const create = (factory: Factory.Type, params: Types.MethodParams): ts.MethodDeclaration => {
   const typeParameters: ts.TypeParameterDeclaration[] = methodTypeParameters(factory, params);
   const methodArguments: ts.ParameterDeclaration[] = [];
   const hasParamsArguments = params.hasParameter || params.hasRequestBody;

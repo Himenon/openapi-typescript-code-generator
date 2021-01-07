@@ -6,7 +6,7 @@ import { Store } from "./store";
 import * as Templates from "./templates";
 import { OpenApi } from "./types";
 
-const convertParameterToRequestParameterCategory = (parameter: OpenApi.Parameter): Templates.ApiClientClass.Method.MethodBody.Param => {
+const convertParameterToRequestParameterCategory = (parameter: OpenApi.Parameter): Templates.ApiClientClass.Method.MethodBodyParams => {
   return {
     name: parameter.name,
     in: parameter.in,
@@ -70,16 +70,12 @@ export const generateApiClientCode = (store: Store.Type, factory: Factory.Type):
   const statements: ts.Statement[] = [];
   list.forEach(params => {
     if (params.hasRequestBody) {
-      statements.push(Templates.ApiClientArgument.createRequestContentTypeReference(factory, params.operationId));
+      statements.push(Templates.ApiClientArgument.createRequestContentTypeReference(factory, params));
     }
-    statements.push(
-      Templates.ApiClientArgument.create(factory, {
-        name: params.argumentParamsTypeDeclaration,
-        operationId: params.operationId,
-        hasParameter: params.hasParameter,
-        hasRequestBody: params.hasRequestBody,
-      }),
-    );
+    if (params.successResponseNameList.length > 0) {
+      statements.push(Templates.ApiClientArgument.createResponseContentTypeReference(factory, params));
+    }
+    statements.push(Templates.ApiClientArgument.create(factory, params));
   });
   Templates.ApiClientClass.create(factory, list).forEach(newStatement => {
     statements.push(newStatement);
