@@ -8,29 +8,11 @@ import * as Method from "./Method";
 
 export { Method };
 
-export interface Params {
-  requestUri: string;
-  httpMethod: string;
-  operationId: string;
-  responseNames: string[];
-  requestContentTypeList: string[]; // "application/json", "application/xml" ...
-  successResponseContentTypeList: string[]; // "application/json", "application/xml" ...
-  argumentInterfaceName: string;
-  hasParameter: boolean;
-  hasRequestBody: boolean;
-  requestParameterCategories: Method.MethodBody.Param[];
-}
+export type Params = Method.Params;
 
 export const create = (factory: Factory.Type, list: Params[]): ts.Statement[] => {
   const methodList = list.map(params => {
-    return Method.create(factory, {
-      httpMethod: params.httpMethod,
-      name: params.operationId,
-      parameterName: params.argumentInterfaceName,
-      responseNames: params.responseNames,
-      requestParameterCategories: params.requestParameterCategories,
-      requestUri: params.requestUri,
-    });
+    return Method.create(factory, params);
   });
   const members = [Constructor.create(factory), ...methodList];
   return [...ApiClientInterface.create(factory), Class.create(factory, members)];

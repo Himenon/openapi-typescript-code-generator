@@ -17,7 +17,7 @@ export type Item = StringItem | ExpressionItem;
 
 export type Params$TemplateExpression = Item[];
 
-const isAlphabetOnlyText = (text: string): boolean => {
+export const isAlphabetOnlyText = (text: string): boolean => {
   return /^[A-Za-z\s]+$/.test(text);
 };
 

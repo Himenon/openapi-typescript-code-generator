@@ -6,8 +6,6 @@ import { Store } from "./store";
 import * as Templates from "./templates";
 import { OpenApi } from "./types";
 
-type Params = Templates.ApiClientClass.Params;
-
 const convertParameterToRequestParameterCategory = (parameter: OpenApi.Parameter): Templates.ApiClientClass.Method.MethodBody.Param => {
   return {
     name: parameter.name,
@@ -43,16 +41,17 @@ const getSuccessResponseContentTypeList = (responses: { [statusCode: string]: Op
   return contentTypeList;
 };
 
-const generateParams = (store: Store.Type): Params[] => {
+const generateParams = (store: Store.Type): Templates.ApiClientClass.Params[] => {
   const operationState = store.getNoReferenceOperationState();
-  const params: Params[] = [];
+  const params: Templates.ApiClientClass.Params[] = [];
   Object.entries(operationState).forEach(([operationId, value]) => {
-    const item: Params = {
+    const item: Templates.ApiClientClass.Params = {
       operationId: operationId,
       requestUri: value.requestUri,
       httpMethod: value.httpMethod,
-      responseNames: getSuccessStatusCodes(value.responses).map(statusCode => Name.responseName(operationId, statusCode)),
-      argumentInterfaceName: Name.argumentInterfaceName(operationId),
+      successResponseNameList: getSuccessStatusCodes(value.responses).map(statusCode => Name.responseName(operationId, statusCode)),
+      argumentParamsTypeDeclaration: Name.argumentParamsTypeDeclaration(operationId),
+      functionName: operationId,
       hasRequestBody: !!value.requestBody,
       hasParameter: value.parameters ? value.parameters.length > 0 : false,
       requestParameterCategories: value.parameters ? value.parameters.map(convertParameterToRequestParameterCategory) : [],
@@ -62,6 +61,7 @@ const generateParams = (store: Store.Type): Params[] => {
     params.push(item);
   });
 
+  console.log(params);
   return params;
 };
 
@@ -74,7 +74,7 @@ export const generateApiClientCode = (store: Store.Type, factory: Factory.Type):
     }
     statements.push(
       Templates.ApiClientArgument.create(factory, {
-        name: params.argumentInterfaceName,
+        name: params.argumentParamsTypeDeclaration,
         operationId: params.operationId,
         hasParameter: params.hasParameter,
         hasRequestBody: params.hasRequestBody,

@@ -194,12 +194,12 @@ paths:
                     properties:
                       status:
                         type: number
-            application/xml:
-              schema:
-                type: object
-                properties:
-                  meta:
-                    type: object
-                    properties:
-                      status:
-                        type: number
+            # application/xml:
+            #   schema:
+            #     type: object
+            #     properties:
+            #       meta:
+            #         type: object
+            #         properties:
+            #           status:
+            #             type: number

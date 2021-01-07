@@ -30,7 +30,6 @@ export const createRequestContentTypeReference = (factory: Factory.Type, operati
  * Function Template
  *
  * export interface {name}<T extends keyof {requestBodyName}> {
- *   contentType: T;
  *   parameter: {parameterName};
  *   requestBody: {requestBodyName}[T];
  * }

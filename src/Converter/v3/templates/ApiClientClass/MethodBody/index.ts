@@ -44,7 +44,7 @@ export const create = (factory: Factory.Type, httpMethod: string, requestUri: st
 
   statements.push(
     factory.ReturnStatement.create({
-      expression: CallRequest.create(factory, { httpMethod: httpMethod.toUpperCase() }),
+      expression: CallRequest.create(factory, { httpMethod: httpMethod.toUpperCase(), hasRequestBody: false, contentType: undefined }),
     }),
   );
 
