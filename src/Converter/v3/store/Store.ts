@@ -141,6 +141,10 @@ export const create = (factory: Factory.Type): Type => {
     operationId: string,
     newOperationState: Partial<State.OperationState>,
   ) => {
+    console.log({
+      httpMethod,
+      requestUri,
+    });
     let operationState = state.operations[operationId];
     if (operationState) {
       const parameters = operationState.parameters.concat(newOperationState.parameters || []);

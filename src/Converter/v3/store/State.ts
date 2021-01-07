@@ -12,6 +12,8 @@ export interface OperationState {
   httpMethod: string;
   parameterName?: string;
   requestBodyName?: string;
+  requestContentTypeList: string[]; // "application/json", "application/xml" ...
+  successResponseContentTypeList: string[]; // "application/json", "application/xml" ...
   parameters: OpenApi.Parameter[];
 }
 
@@ -35,6 +37,8 @@ export const createDefaultOperationState = (httpMethod: string, requestUri: stri
     httpMethod: httpMethod,
     requestUri: requestUri,
     parameterName: state.parameterName,
+    requestContentTypeList: [],
+    successResponseContentTypeList: [],
     requestBodyName: state.parameterName,
     parameters: state.parameters || [],
   };

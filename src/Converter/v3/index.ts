@@ -1,3 +1,5 @@
+import * as fs from "fs";
+
 import ts from "typescript";
 
 import * as TypeScriptCodeGenerator from "../../TypeScriptCodeGenerator";
@@ -11,6 +13,7 @@ import * as Schemas from "./components/Schemas";
 import * as Context from "./Context";
 import * as Generator from "./Generator";
 import * as Paths from "./paths";
+import * as ResolveReference from "./ResolveReference";
 import { Store } from "./store";
 import { OpenApi } from "./types";
 
@@ -23,6 +26,9 @@ export interface Converter {
 
 export const create = (entryPoint: string, rootSchema: OpenApi.Document): Converter => {
   const currentPoint = entryPoint;
+
+  const a = ResolveReference.resolve(entryPoint, currentPoint, JSON.parse(JSON.stringify(rootSchema)));
+  fs.writeFileSync("debug/combine.json", JSON.stringify(a, null, 2), { encoding: "utf-8" });
   const createFunction = (context: ts.TransformationContext): ts.Statement[] => {
     const factory = TypeScriptCodeGenerator.Factory.create(context);
     const store = Store.create(factory);

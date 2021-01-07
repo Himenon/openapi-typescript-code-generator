@@ -13,6 +13,8 @@ export interface Params {
   httpMethod: string;
   operationId: string;
   responseNames: string[];
+  requestContentTypeList: string[]; // "application/json", "application/xml" ...
+  successResponseContentTypeList: string[]; // "application/json", "application/xml" ...
   argumentInterfaceName: string;
   parameterName?: string;
   requestBodyName?: string;

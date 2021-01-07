@@ -95,20 +95,27 @@ export const generateNamespace = (
   }
 };
 
+const getSuccessResponseContentTypeList = (responses: OpenApi.Responses): string[] => {
+  return Object.keys(responses);
+};
+
+const getRequestContentTypeList = (requestBody: OpenApi.RequestBody): string[] => {
+  return Object.keys(requestBody.content);
+};
+
 export const generateStatements = (
   entryPoint: string,
   currentPoint: string,
   store: Store.Type,
   factory: Factory.Type,
-  httpMethod: string,
   requestUri: string,
   parentPath: string,
-  name: string, // PUT POST PATCH
+  httpMethod: string, // PUT POST PATCH
   operation: OpenApi.Operation,
   context: ToTypeNode.Context,
 ): ts.Statement[] => {
   let statements: ts.Statement[] = [];
-  const basePath = `${parentPath}/${name}`;
+  const basePath = `${parentPath}/${httpMethod}`;
   const operationId = operation.operationId;
   if (!operationId) {
     throw new Error("not setting operationId\n" + JSON.stringify(operation));
@@ -145,11 +152,18 @@ export const generateStatements = (
             type: factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, contentPath, "remote") }),
           }),
         );
-        store.updateOperationState(httpMethod, requestUri, operationId, { requestBodyName: requestBodyName });
+
+        store.updateOperationState(httpMethod, requestUri, operationId, {
+          requestBodyName: requestBodyName,
+          requestContentTypeList: getRequestContentTypeList(reference.data),
+        });
       }
     } else {
       statements.push(RequestBody.generateInterface(entryPoint, currentPoint, factory, requestBodyName, operation.requestBody, context));
-      store.updateOperationState(httpMethod, requestUri, operationId, { requestBodyName: requestBodyName });
+      store.updateOperationState(httpMethod, requestUri, operationId, {
+        requestBodyName: requestBodyName,
+        requestContentTypeList: getRequestContentTypeList(operation.requestBody),
+      });
     }
   }
 
@@ -166,6 +180,9 @@ export const generateStatements = (
         context,
       ).flat(),
     );
+    store.updateOperationState(httpMethod, requestUri, operationId, {
+      successResponseContentTypeList: getSuccessResponseContentTypeList(operation.responses),
+    });
   }
 
   return statements;

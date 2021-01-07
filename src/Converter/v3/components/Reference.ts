@@ -71,7 +71,7 @@ const localReferencePatterns: readonly LocalReferencePattern[] = [
   "#/components/pathItems/",
 ];
 
-export const localReferenceComponents: { readonly [aliasKey in LocalReferencePattern]: string } = {
+export const localReferenceComponents = {
   "#/components/schemas/": "components/schemas",
   "#/components/responses/": "components/responses",
   "#/components/parameters/": "components/parameters",
@@ -82,6 +82,16 @@ export const localReferenceComponents: { readonly [aliasKey in LocalReferencePat
   // "#/components/links/": "components/links",
   // "#/components/callbacks/": "components/callbacks",
   "#/components/pathItems/": "components/pathItems",
+} as const;
+
+export const getLocalReferencePattern = (reference: OpenApi.Reference) => {
+  let localReferencePattern: LocalReferencePattern | undefined;
+  localReferencePatterns.forEach(referencePattern => {
+    if (new RegExp("^" + referencePattern).test(reference.$ref)) {
+      localReferencePattern = referencePattern;
+    }
+  });
+  return localReferencePattern;
 };
 
 export const generateLocalReference = (reference: OpenApi.Reference): LocalReference | undefined => {
@@ -156,4 +166,40 @@ export const generate = <T>(entryPoint: string, currentPoint: string, reference:
     componentName: Guard.isComponentName(componentName) ? componentName : undefined,
     data,
   };
+};
+
+export const resolveRemoteReference = (
+  entryPoint: string,
+  currentPoint: string,
+  reference: OpenApi.Reference,
+): { referencePoint: string; data: any } => {
+  if (reference.$ref.startsWith("#") || reference.$ref.startsWith("http")) {
+    return { referencePoint: currentPoint, data: reference };
+  }
+  const referencePoint = generateReferencePoint(currentPoint, reference);
+  if (!fileSystem.existSync(referencePoint)) {
+    Logger.showFilePosition(entryPoint, currentPoint, referencePoint);
+    Logger.error(JSON.stringify(reference, null, 2));
+    throw new NotFoundFileError(`Not found reference point from current point. \n Path: ${referencePoint}`);
+  }
+  const data = fileSystem.loadJsonOrYaml(referencePoint);
+  if (Guard.isReference(data)) {
+    return resolveRemoteReference(entryPoint, referencePoint, data);
+  }
+  return {
+    referencePoint,
+    data,
+  };
+};
+
+export const resolveLocalReference = (entryPoint: string, currentPoint: string, reference: OpenApi.Reference): any => {
+  if (!reference.$ref.startsWith("#")) {
+    return reference;
+  }
+  const referencePoint = generateReferencePoint(currentPoint, reference);
+  const data = fileSystem.loadJsonOrYaml(referencePoint);
+  if (Guard.isReference(data)) {
+    return resolveRemoteReference(entryPoint, referencePoint, data);
+  }
+  return data;
 };

@@ -163,3 +163,43 @@ paths:
       responses:
         "401":
           $ref: "./components/responses/blog/AuthorizationError.yml"
+  /multi/response:
+    post:
+      operationId: createMultiResponse
+      description: Multi response test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+          application/xml:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        "200":
+          description: "Multiresponse"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      status:
+                        type: number

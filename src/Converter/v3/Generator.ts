@@ -48,6 +48,8 @@ const generateParams = (store: Store.Type, pathItem: OpenApi.PathItem): Params[]
       argumentInterfaceName: `Params$${operationId}`,
       parameterName: state.parameterName,
       requestBodyName: state.requestBodyName,
+      requestContentTypeList: state.requestContentTypeList,
+      successResponseContentTypeList: state.successResponseContentTypeList,
       responseNames: responseNames,
       requestParameterCategories: requestParameterCategories,
       requestUri: state.requestUri,
