@@ -95,13 +95,7 @@ export const getLocalReferencePattern = (reference: OpenApi.Reference) => {
 };
 
 export const generateLocalReference = (reference: OpenApi.Reference): LocalReference | undefined => {
-  let localReferencePattern: LocalReferencePattern | undefined;
-  localReferencePatterns.forEach(referencePattern => {
-    if (new RegExp("^" + referencePattern).test(reference.$ref)) {
-      localReferencePattern = referencePattern;
-    }
-  });
-
+  const localReferencePattern = getLocalReferencePattern(reference);
   if (!localReferencePattern) {
     return;
   }
