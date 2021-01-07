@@ -6,8 +6,10 @@ import ts from "typescript";
 
 import { UnSupportError } from "../../../Exception";
 import { Factory } from "../../../TypeScriptCodeGenerator";
+import { OpenApi } from "../types";
 import * as Def from "./Definition";
 import * as Masking from "./masking";
+import * as Operation from "./Operation";
 import * as PropAccess from "./PropAccess";
 import * as State from "./State";
 
@@ -32,10 +34,11 @@ export interface Type {
   getOperationState: (operationId: string) => State.OperationState;
   dump: (filename: string) => void;
   dumpOperationState: (filename: string) => void;
+  getNoReferenceOperationState: () => Operation.State;
 }
 
-export const create = (factory: Factory.Type): Type => {
-  const state: State.Type = State.createDefaultState();
+export const create = (factory: Factory.Type, rootDocument: OpenApi.Document): Type => {
+  const state: State.Type = State.createDefaultState(rootDocument);
 
   const createNamespace = (name: string): Def.NamespaceStatement<A, B, C> => {
     const value = factory.Namespace.create({
@@ -141,10 +144,6 @@ export const create = (factory: Factory.Type): Type => {
     operationId: string,
     newOperationState: Partial<State.OperationState>,
   ) => {
-    console.log({
-      httpMethod,
-      requestUri,
-    });
     let operationState = state.operations[operationId];
     if (operationState) {
       const parameters = operationState.parameters.concat(newOperationState.parameters || []);
@@ -164,6 +163,10 @@ export const create = (factory: Factory.Type): Type => {
     throw new Error(`Not found ${operationId}`);
   };
 
+  const getNoReferenceOperationState = (): Operation.State => {
+    return Operation.create(state.document);
+  };
+
   return {
     hasStatement,
     addStatement,
@@ -171,6 +174,7 @@ export const create = (factory: Factory.Type): Type => {
     getRootStatements,
     addComponent,
     dump,
+    getNoReferenceOperationState,
     updateOperationState,
     getOperationState,
     addAdditionalStatement,

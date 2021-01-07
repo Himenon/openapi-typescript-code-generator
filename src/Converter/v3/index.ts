@@ -27,11 +27,10 @@ export interface Converter {
 export const create = (entryPoint: string, rootSchema: OpenApi.Document): Converter => {
   const currentPoint = entryPoint;
 
-  const a = ResolveReference.resolve(entryPoint, currentPoint, JSON.parse(JSON.stringify(rootSchema)));
-  fs.writeFileSync("debug/combine.json", JSON.stringify(a, null, 2), { encoding: "utf-8" });
+  const noReferenceSchema = ResolveReference.resolve(entryPoint, currentPoint, JSON.parse(JSON.stringify(rootSchema)));
   const createFunction = (context: ts.TransformationContext): ts.Statement[] => {
     const factory = TypeScriptCodeGenerator.Factory.create(context);
-    const store = Store.create(factory);
+    const store = Store.create(factory, noReferenceSchema);
     const toTypeNodeContext = Context.create(entryPoint, store, factory);
 
     if (rootSchema.components) {
@@ -68,7 +67,7 @@ export const create = (entryPoint: string, rootSchema: OpenApi.Document): Conver
     }
     if (rootSchema.paths) {
       Paths.generateStatements(entryPoint, currentPoint, store, factory, rootSchema.paths, toTypeNodeContext);
-      Generator.generateApiClientCode(store, factory, rootSchema.paths);
+      Generator.generateApiClientCode(store, factory);
     }
     return store.getRootStatements();
   };

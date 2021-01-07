@@ -1,11 +1,10 @@
 import ts from "typescript";
 
 import { Factory } from "../../TypeScriptCodeGenerator";
+import * as Name from "./Name";
 import { Store } from "./store";
 import * as Templates from "./templates";
 import { OpenApi } from "./types";
-
-const OPERATIONS: (keyof OpenApi.PathItem)[] = ["get", "put", "post", "delete", "options", "head", "patch", "trace"];
 
 type Params = Templates.ApiClientClass.Params;
 
@@ -18,9 +17,9 @@ const convertParameterToRequestParameterCategory = (parameter: OpenApi.Parameter
   };
 };
 
-const getSuccessStatusCodes = (operation: OpenApi.Operation): string[] => {
+const getSuccessStatusCodes = (responses: { [statusCode: string]: OpenApi.Response }): string[] => {
   const statusCodeList: string[] = [];
-  Object.keys(operation.responses || {}).forEach(statusCodeLike => {
+  Object.keys(responses || {}).forEach(statusCodeLike => {
     if (typeof statusCodeLike === "string") {
       const statusCodeNumberValue = parseInt(statusCodeLike, 10);
       if (200 <= statusCodeNumberValue && statusCodeNumberValue < 300) {
@@ -31,52 +30,54 @@ const getSuccessStatusCodes = (operation: OpenApi.Operation): string[] => {
   return statusCodeList;
 };
 
-const generateParams = (store: Store.Type, pathItem: OpenApi.PathItem): Params[] => {
-  return OPERATIONS.reduce<Params[]>((previous, httpMethodName) => {
-    const operation = pathItem[httpMethodName] as OpenApi.Operation;
-    const operationId = operation && operation.operationId;
-    if (!operationId) {
-      return previous;
-    }
-    const state = store.getOperationState(operationId);
-    // see components/responses
-    const responseNames = getSuccessStatusCodes(operation).map(statusCode => `Response$${operationId}$Status$${statusCode}`);
-    const requestParameterCategories = state.parameters.map(convertParameterToRequestParameterCategory);
-    return previous.concat({
-      httpMethod: state.httpMethod,
-      operationId: operationId,
-      argumentInterfaceName: `Params$${operationId}`,
-      parameterName: state.parameterName,
-      requestBodyName: state.requestBodyName,
-      requestContentTypeList: state.requestContentTypeList,
-      successResponseContentTypeList: state.successResponseContentTypeList,
-      responseNames: responseNames,
-      requestParameterCategories: requestParameterCategories,
-      requestUri: state.requestUri,
-    });
-  }, []);
+const getRequestContentTypeList = (requestBody: OpenApi.RequestBody): string[] => {
+  return Object.keys(requestBody.content);
 };
 
-export const generateApiClientCode = (store: Store.Type, factory: Factory.Type, paths: OpenApi.Paths): void => {
-  const list = Object.values(paths)
-    .map(pathItem => generateParams(store, pathItem))
-    .flat();
+const getSuccessResponseContentTypeList = (responses: { [statusCode: string]: OpenApi.Response }): string[] => {
+  let contentTypeList: string[] = [];
+  getSuccessStatusCodes(responses).forEach(statusCode => {
+    const response = responses[statusCode];
+    contentTypeList = contentTypeList.concat(Object.keys(response.content || {}));
+  });
+  return contentTypeList;
+};
+
+const generateParams = (store: Store.Type): Params[] => {
+  const operationState = store.getNoReferenceOperationState();
+  const params: Params[] = [];
+  Object.entries(operationState).forEach(([operationId, value]) => {
+    const item: Params = {
+      operationId: operationId,
+      requestUri: value.requestUri,
+      httpMethod: value.httpMethod,
+      responseNames: getSuccessStatusCodes(value.responses).map(statusCode => Name.responseName(operationId, statusCode)),
+      argumentInterfaceName: Name.argumentInterfaceName(operationId),
+      hasRequestBody: !!value.requestBody,
+      hasParameter: value.parameters ? value.parameters.length > 0 : false,
+      requestParameterCategories: value.parameters ? value.parameters.map(convertParameterToRequestParameterCategory) : [],
+      requestContentTypeList: value.requestBody ? getRequestContentTypeList(value.requestBody) : [],
+      successResponseContentTypeList: getSuccessResponseContentTypeList(value.responses),
+    };
+    params.push(item);
+  });
+
+  return params;
+};
+
+export const generateApiClientCode = (store: Store.Type, factory: Factory.Type): void => {
+  const list = generateParams(store);
   const statements: ts.Statement[] = [];
   list.forEach(params => {
-    if (params.requestBodyName) {
-      statements.push(
-        Templates.ApiClientArgument.createRequestContentTypeReference(factory, {
-          operationId: params.operationId,
-          requestBodyName: params.requestBodyName,
-        }),
-      );
+    if (params.hasRequestBody) {
+      statements.push(Templates.ApiClientArgument.createRequestContentTypeReference(factory, params.operationId));
     }
     statements.push(
       Templates.ApiClientArgument.create(factory, {
         name: params.argumentInterfaceName,
         operationId: params.operationId,
-        parameterName: params.parameterName,
-        requestBodyName: params.requestBodyName,
+        hasParameter: params.hasParameter,
+        hasRequestBody: params.hasRequestBody,
       }),
     );
   });

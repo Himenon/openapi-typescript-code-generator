@@ -5,6 +5,7 @@ import ts from "typescript";
 
 import { Factory } from "../../../TypeScriptCodeGenerator";
 import * as Guard from "../Guard";
+import * as Name from "../Name";
 import { Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
 import { OpenApi } from "../types";
@@ -95,14 +96,6 @@ export const generateNamespace = (
   }
 };
 
-const getSuccessResponseContentTypeList = (responses: OpenApi.Responses): string[] => {
-  return Object.keys(responses);
-};
-
-const getRequestContentTypeList = (requestBody: OpenApi.RequestBody): string[] => {
-  return Object.keys(requestBody.content);
-};
-
 export const generateStatements = (
   entryPoint: string,
   currentPoint: string,
@@ -122,7 +115,7 @@ export const generateStatements = (
   }
   store.updateOperationState(httpMethod, requestUri, operationId, {});
   if (operation.parameters) {
-    const parameterName = `Parameter$${operationId}`;
+    const parameterName = Name.parameterName(operationId);
     statements.push(Parameter.generateInterface(entryPoint, currentPoint, factory, parameterName, operation.parameters, context));
     store.updateOperationState(httpMethod, requestUri, operationId, {
       parameterName: parameterName,
@@ -132,7 +125,7 @@ export const generateStatements = (
     });
   }
   if (operation.requestBody) {
-    const requestBodyName = `RequestBody$${operationId}`;
+    const requestBodyName = Name.requestBodyName(operationId);
     if (Guard.isReference(operation.requestBody)) {
       const reference = Reference.generate<OpenApi.RequestBody>(entryPoint, currentPoint, operation.requestBody);
       if (reference.type === "local") {
@@ -155,14 +148,12 @@ export const generateStatements = (
 
         store.updateOperationState(httpMethod, requestUri, operationId, {
           requestBodyName: requestBodyName,
-          requestContentTypeList: getRequestContentTypeList(reference.data),
         });
       }
     } else {
       statements.push(RequestBody.generateInterface(entryPoint, currentPoint, factory, requestBodyName, operation.requestBody, context));
       store.updateOperationState(httpMethod, requestUri, operationId, {
         requestBodyName: requestBodyName,
-        requestContentTypeList: getRequestContentTypeList(operation.requestBody),
       });
     }
   }
@@ -180,9 +171,6 @@ export const generateStatements = (
         context,
       ).flat(),
     );
-    store.updateOperationState(httpMethod, requestUri, operationId, {
-      successResponseContentTypeList: getSuccessResponseContentTypeList(operation.responses),
-    });
   }
 
   return statements;

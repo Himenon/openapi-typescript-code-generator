@@ -12,12 +12,11 @@ export interface OperationState {
   httpMethod: string;
   parameterName?: string;
   requestBodyName?: string;
-  requestContentTypeList: string[]; // "application/json", "application/xml" ...
-  successResponseContentTypeList: string[]; // "application/json", "application/xml" ...
   parameters: OpenApi.Parameter[];
 }
 
 export interface Type {
+  document: OpenApi.Document;
   components: Def.StatementMap<A, B, C>;
   paths: {
     // "/a/b/c1": { ref: "components/pathItems/$hoge" }
@@ -37,14 +36,13 @@ export const createDefaultOperationState = (httpMethod: string, requestUri: stri
     httpMethod: httpMethod,
     requestUri: requestUri,
     parameterName: state.parameterName,
-    requestContentTypeList: [],
-    successResponseContentTypeList: [],
     requestBodyName: state.parameterName,
     parameters: state.parameters || [],
   };
 };
 
-export const createDefaultState = (): Type => ({
+export const createDefaultState = (rootDocument: OpenApi.Document): Type => ({
+  document: rootDocument,
   components: {},
   paths: {},
   additionalStatements: [],

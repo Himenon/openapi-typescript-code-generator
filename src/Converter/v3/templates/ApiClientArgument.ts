@@ -1,30 +1,26 @@
 import ts from "typescript";
 
 import { Factory } from "../../../TypeScriptCodeGenerator";
+import * as Name from "../Name";
 
 export interface Params {
   name: string;
   operationId: string;
-  parameterName?: string;
-  requestBodyName?: string;
-}
-
-export interface Params2 {
-  operationId: string;
-  requestBodyName: string;
+  hasParameter: boolean;
+  hasRequestBody: boolean;
 }
 
 // export type RequestContentType${operationId} = keyof RequestBody${operationId};
 // export type ResponseContentType${operationId} = keyof Response${operationId}$Status$...;
 
-export const createRequestContentTypeReference = (factory: Factory.Type, { operationId, requestBodyName }: Params2) => {
+export const createRequestContentTypeReference = (factory: Factory.Type, operationId: string) => {
   return factory.TypeAliasDeclaration.create({
     export: true,
-    name: `RequestContentType$${operationId}`,
+    name: Name.requestContentType(operationId),
     type: factory.TypeOperatorNode.create({
       syntaxKind: "keyof",
       type: factory.TypeReferenceNode.create({
-        name: requestBodyName,
+        name: Name.requestBodyName(operationId),
       }),
     }),
   });
@@ -39,39 +35,39 @@ export const createRequestContentTypeReference = (factory: Factory.Type, { opera
  *   requestBody: {requestBodyName}[T];
  * }
  */
-export const create = (factory: Factory.Type, { name, parameterName, requestBodyName, operationId }: Params): ts.InterfaceDeclaration => {
+export const create = (factory: Factory.Type, { name, operationId, hasParameter, hasRequestBody }: Params): ts.InterfaceDeclaration => {
   const typeParameters: ts.TypeParameterDeclaration[] = [];
   const members: ts.TypeElement[] = [];
   const genericsName = "T";
-  if (requestBodyName) {
+  if (hasRequestBody) {
     typeParameters.push(
       factory.TypeParameterDeclaration.create({
         name: genericsName,
         constraint: factory.TypeReferenceNode.create({
-          name: `RequestContentType$${operationId}`,
+          name: Name.requestContentType(operationId),
         }),
       }),
     );
   }
 
-  if (parameterName) {
+  if (hasParameter) {
     const parameter = factory.PropertySignature.create({
       name: "parameter",
       optional: false,
       type: factory.TypeReferenceNode.create({
-        name: parameterName,
+        name: Name.parameterName(operationId),
       }),
     });
     members.push(parameter);
   }
 
-  if (requestBodyName) {
+  if (hasRequestBody) {
     const requestBody = factory.PropertySignature.create({
       name: "requestBody",
       optional: false,
       type: factory.IndexedAccessTypeNode.create({
         objectType: factory.TypeReferenceNode.create({
-          name: requestBodyName,
+          name: Name.requestBodyName(operationId),
         }),
         indexType: factory.TypeReferenceNode.create({
           name: genericsName,

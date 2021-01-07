@@ -26,7 +26,7 @@ const isLocalReference = (obj: any): boolean => {
 };
 
 const resolveRemoteReference = (entryPoint: string, currentPoint: string, obj: any, parentKey?: string): any => {
-  console.log(parentKey);
+  // console.log(parentKey);
   if (Guard.isReference(obj)) {
     if (isLocalReference(obj)) {
       return obj;
@@ -58,7 +58,7 @@ const resolveRemoteReference = (entryPoint: string, currentPoint: string, obj: a
 };
 
 const resolveLocalReference = (entryPoint: string, currentPoint: string, obj: any, rootSchema: any, parentKey?: string): any => {
-  console.log(parentKey);
+  // console.log(parentKey);
   if (Guard.isReference(obj)) {
     if (isRemoteReference(obj)) {
       throw new DevelopmentError("まずはremote referenceを解決してください\n" + JSON.stringify(obj, null, 2));

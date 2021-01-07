@@ -16,8 +16,8 @@ export interface Params {
   requestContentTypeList: string[]; // "application/json", "application/xml" ...
   successResponseContentTypeList: string[]; // "application/json", "application/xml" ...
   argumentInterfaceName: string;
-  parameterName?: string;
-  requestBodyName?: string;
+  hasParameter: boolean;
+  hasRequestBody: boolean;
   requestParameterCategories: Method.MethodBody.Param[];
 }
 
