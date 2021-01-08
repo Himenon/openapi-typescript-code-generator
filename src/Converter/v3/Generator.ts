@@ -18,7 +18,11 @@ const convertParameterToRequestParameterCategory = (parameter: OpenApi.Parameter
 
 const getSuccessStatusCodes = (responses: { [statusCode: string]: OpenApi.Response }): string[] => {
   const statusCodeList: string[] = [];
-  Object.keys(responses || {}).forEach(statusCodeLike => {
+  Object.entries(responses || {}).forEach(([statusCodeLike, response]) => {
+    // ContentTypeの定義が存在しない場合はstatusCodeを読み取らない
+    if (Object.keys(response.content || {}).length === 0) {
+      return;
+    }
     if (typeof statusCodeLike === "string") {
       const statusCodeNumberValue = parseInt(statusCodeLike, 10);
       if (200 <= statusCodeNumberValue && statusCodeNumberValue < 300) {
