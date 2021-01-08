@@ -12,10 +12,22 @@ export interface MethodParams {
   requestUri: string;
   functionName: string;
   argumentParamsTypeDeclaration: string;
-  successResponseNameList: string[];
   requestParameterCategories: MethodBodyParams[];
-  requestContentTypeList: string[];
-  successResponseContentTypeList: string[];
+  // Request Content Types
+  requestContentTypes: string[];
+  requestFirstContentType: string | undefined; // requestContentTypes.length === 1 only
+  hasOver2RequestContentTypes: boolean; // requestContentTypes.length > 1
+  // Response Success Name
+  responseSuccessNames: string[];
+  responseFirstSuccessName: string | undefined; // responseSuccessNames.length === 1 only
+  hasOver2SuccessNames: boolean; // responseSuccessNames.length > 1
+  // Response Success Content Type
+  responseSuccessContentTypes: string[];
+  responseFirstSuccessContentType: string | undefined; // responseSuccessContentTypes.length === 1
+  hasOver2SuccessResponseContentTypes: boolean; // successResponseContentTypes.length > 1
+  //
+  hasAdditionalHeaders: boolean; // hasOver2RequestContentTypes || hasOver2SuccessResponseContentTypes
+  // Arguments
   hasParameter: boolean;
   hasRequestBody: boolean;
 }

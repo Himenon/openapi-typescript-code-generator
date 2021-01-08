@@ -21,7 +21,6 @@ export const create = (factory: Factory.Type, params: Params): ts.CallExpression
   const expression = Utils.generateVariableIdentifier(factory, "this.apiClient.request");
   const argumentsArray = [
     factory.StringLiteral.create({ text: params.httpMethod }),
-    factory.Identifier.create({ name: "contentType" }),
     factory.Identifier.create({ name: "url" }),
     factory.Identifier.create({ name: params.hasRequestBody ? "requestBody" : "undefined" }),
     factory.Identifier.create({ name: "headers" }),

@@ -82,7 +82,7 @@ const generateResponseReturnType = (factory: Factory.Type, successResponseNameLi
 
 const methodTypeParameters = (factory: Factory.Type, params: Types.MethodParams): ts.TypeParameterDeclaration[] => {
   const typeParameters: ts.TypeParameterDeclaration[] = [];
-  if (params.requestContentTypeList.length > 1) {
+  if (params.requestContentTypes.length > 1) {
     typeParameters.push(
       factory.TypeParameterDeclaration.create({
         name: "RequestContentType",
@@ -92,7 +92,7 @@ const methodTypeParameters = (factory: Factory.Type, params: Types.MethodParams)
       }),
     );
   }
-  if (params.successResponseContentTypeList.length > 1) {
+  if (params.responseSuccessContentTypes.length > 1) {
     typeParameters.push(
       factory.TypeParameterDeclaration.create({
         name: "ResponseContentType",
@@ -117,10 +117,10 @@ export const create = (factory: Factory.Type, params: Types.MethodParams): ts.Me
   const hasParamsArguments = params.hasParameter || params.hasRequestBody;
 
   if (hasParamsArguments) {
-    methodArguments.push(generateParams(factory, params.argumentParamsTypeDeclaration, params.requestContentTypeList));
+    methodArguments.push(generateParams(factory, params.argumentParamsTypeDeclaration, params.requestContentTypes));
   }
 
-  const returnType: ts.TypeNode = generateResponseReturnType(factory, params.successResponseNameList, params.successResponseContentTypeList);
+  const returnType: ts.TypeNode = generateResponseReturnType(factory, params.responseSuccessNames, params.responseSuccessContentTypes);
 
   methodArguments.push(
     factory.ParameterDeclaration.create({

@@ -5,7 +5,6 @@ import { Factory } from "../../../../TypeScriptCodeGenerator";
 // export interface ApiClient<RequestOption> {
 //   request: (
 //     httpMethod: string,
-//     contentType: ContentType<string, string>,
 //     url: string,
 //     headers: { [key: string]: any } | undefined,
 //     requestBody: { [key: string]: any } | undefined,
@@ -13,43 +12,6 @@ import { Factory } from "../../../../TypeScriptCodeGenerator";
 //     options?: RequestOption,
 //   ) => Promise<any>;
 // }
-
-const createContentTypeInterface = (factory: Factory.Type) => {
-  return factory.InterfaceDeclaration.create({
-    export: true,
-    name: "ContentType",
-    typeParameters: [
-      factory.TypeParameterDeclaration.create({
-        name: "Req",
-        constraint: factory.TypeNode.create({
-          type: "string",
-        }),
-      }),
-      factory.TypeParameterDeclaration.create({
-        name: "Res",
-        constraint: factory.TypeNode.create({
-          type: "string",
-        }),
-      }),
-    ],
-    members: [
-      factory.PropertySignature.create({
-        name: "request",
-        optional: true,
-        type: factory.TypeReferenceNode.create({
-          name: "Req",
-        }),
-      }),
-      factory.PropertySignature.create({
-        name: "response",
-        optional: true,
-        type: factory.TypeReferenceNode.create({
-          name: "Res",
-        }),
-      }),
-    ],
-  });
-};
 
 const createObjectLikeInterface = (factory: Factory.Type) => {
   return factory.InterfaceDeclaration.create({
@@ -80,13 +42,6 @@ export const create = (factory: Factory.Type): ts.Statement[] => {
     name: "httpMethod",
     type: factory.TypeNode.create({ type: "string" }),
   });
-  const contentType = factory.ParameterDeclaration.create({
-    name: "contentType",
-    type: factory.TypeReferenceNode.create({
-      name: "ContentType",
-      typeArguments: [factory.TypeNode.create({ type: "string" }), factory.TypeNode.create({ type: "string" })],
-    }),
-  });
   const url = factory.ParameterDeclaration.create({
     name: "url",
     type: factory.TypeNode.create({ type: "string" }),
@@ -113,7 +68,7 @@ export const create = (factory: Factory.Type): ts.Statement[] => {
 
   const functionType = factory.FunctionTypeNode.create({
     typeParameters: undefined,
-    parameters: [httpMethod, contentType, url, headers, requestBody, queryParameters, options],
+    parameters: [httpMethod, url, headers, requestBody, queryParameters, options],
     type: factory.TypeReferenceNode.create({
       name: "Promise",
       typeArguments: [factory.TypeNode.create({ type: "any" })],
@@ -127,7 +82,6 @@ export const create = (factory: Factory.Type): ts.Statement[] => {
   });
 
   return [
-    createContentTypeInterface(factory),
     createObjectLikeInterface(factory),
     factory.InterfaceDeclaration.create({
       export: true,

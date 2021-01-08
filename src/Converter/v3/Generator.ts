@@ -38,25 +38,42 @@ const getSuccessResponseContentTypeList = (responses: { [statusCode: string]: Op
     const response = responses[statusCode];
     contentTypeList = contentTypeList.concat(Object.keys(response.content || {}));
   });
-  return contentTypeList;
+  return Array.from(new Set(contentTypeList));
 };
 
 const generateParams = (store: Store.Type): Templates.ApiClientClass.Params[] => {
   const operationState = store.getNoReferenceOperationState();
   const params: Templates.ApiClientClass.Params[] = [];
   Object.entries(operationState).forEach(([operationId, value]) => {
+    const responseSuccessNames = getSuccessStatusCodes(value.responses).map(statusCode => Name.responseName(operationId, statusCode));
+    const requestContentTypeList = value.requestBody ? getRequestContentTypeList(value.requestBody) : [];
+    const responseSuccessContentTypes = getSuccessResponseContentTypeList(value.responses);
+    const hasOver2RequestContentTypes = requestContentTypeList.length > 1;
+    const hasOver2SuccessNames = responseSuccessNames.length > 1;
     const item: Templates.ApiClientClass.Params = {
       operationId: operationId,
       requestUri: value.requestUri,
       httpMethod: value.httpMethod,
-      successResponseNameList: getSuccessStatusCodes(value.responses).map(statusCode => Name.responseName(operationId, statusCode)),
       argumentParamsTypeDeclaration: Name.argumentParamsTypeDeclaration(operationId),
       functionName: operationId,
       hasRequestBody: !!value.requestBody,
       hasParameter: value.parameters ? value.parameters.length > 0 : false,
       requestParameterCategories: value.parameters ? value.parameters.map(convertParameterToRequestParameterCategory) : [],
-      requestContentTypeList: value.requestBody ? getRequestContentTypeList(value.requestBody) : [],
-      successResponseContentTypeList: getSuccessResponseContentTypeList(value.responses),
+      // Request Content Types
+      requestContentTypes: requestContentTypeList,
+      requestFirstContentType: requestContentTypeList.length === 1 ? requestContentTypeList[0] : undefined,
+      hasOver2RequestContentTypes,
+      // Response Success Name
+      responseSuccessNames: responseSuccessNames,
+      responseFirstSuccessName: responseSuccessNames.length === 1 ? responseSuccessNames[0] : undefined,
+      hasOver2SuccessNames,
+      // Response Success Content Type
+      responseSuccessContentTypes,
+      responseFirstSuccessContentType: responseSuccessContentTypes.length === 1 ? responseSuccessContentTypes[0] : undefined,
+      hasOver2SuccessResponseContentTypes: responseSuccessContentTypes.length > 1,
+      //
+      hasAdditionalHeaders: hasOver2RequestContentTypes || hasOver2SuccessNames,
+      // Response Success Name
     };
     params.push(item);
   });
@@ -72,7 +89,7 @@ export const generateApiClientCode = (store: Store.Type, factory: Factory.Type):
     if (params.hasRequestBody) {
       statements.push(Templates.ApiClientArgument.createRequestContentTypeReference(factory, params));
     }
-    if (params.successResponseNameList.length > 0) {
+    if (params.responseSuccessNames.length > 0) {
       statements.push(Templates.ApiClientArgument.createResponseContentTypeReference(factory, params));
     }
     statements.push(Templates.ApiClientArgument.create(factory, params));
@@ -82,5 +99,4 @@ export const generateApiClientCode = (store: Store.Type, factory: Factory.Type):
   });
 
   store.addAdditionalStatement(statements);
-  store.dumpOperationState("debug/state.json");
 };

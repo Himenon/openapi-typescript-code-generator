@@ -24,7 +24,16 @@ export const create = (factory: Factory.Type, httpMethod: string, requestUri: st
   const headerObject = Object.values(headerParameter).reduce<{ [key: string]: string }>((previous, current) => {
     return { ...previous, [current.name]: `params.parameter.${current.name}` };
   }, {});
-  statements.push(HeaderParameter.create(factory, { variableName: "headers", object: headerObject }));
+  statements.push(
+    HeaderParameter.create(factory, {
+      variableName: "headers",
+      object: headerObject,
+      contentType: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    }),
+  );
 
   // Generate Query Parameter
   const queryParameter = list.filter(item => item.in === "query");

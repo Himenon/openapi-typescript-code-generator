@@ -177,7 +177,11 @@ export const generateVariableIdentifier = (
   }, first);
 };
 
-export const generateObjectLiteralExpression = (factory: Factory.Type, obj: { [key: string]: string }): ts.ObjectLiteralExpression => {
+export const generateObjectLiteralExpression = (
+  factory: Factory.Type,
+  obj: { [key: string]: string },
+  extraProperties: ts.PropertyAssignment[] = [],
+): ts.ObjectLiteralExpression => {
   const properties = Object.entries(obj).map(([key, value]) => {
     return factory.PropertyAssignment.create({
       name: isAlphabetOnlyText(key) ? key : `"${key}"`, // TODO escape _ / . ...etc
@@ -186,7 +190,7 @@ export const generateObjectLiteralExpression = (factory: Factory.Type, obj: { [k
   });
 
   return factory.ObjectLiteralExpression.create({
-    properties: properties,
+    properties: extraProperties.concat(properties),
     multiLine: true,
   });
 };

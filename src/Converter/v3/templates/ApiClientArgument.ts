@@ -21,12 +21,12 @@ export const createRequestContentTypeReference = (factory: Factory.Type, { opera
 };
 
 export const createResponseContentTypeReference = (factory: Factory.Type, params: Types.MethodParams) => {
-  if (params.successResponseNameList.length > 1) {
+  if (params.responseSuccessNames.length > 1) {
     return factory.TypeAliasDeclaration.create({
       export: true,
       name: Name.responseContentType(params.operationId),
       type: factory.UnionTypeNode.create({
-        typeNodes: params.successResponseNameList.map(item => {
+        typeNodes: params.responseSuccessNames.map(item => {
           return factory.TypeOperatorNode.create({
             syntaxKind: "keyof",
             type: factory.TypeReferenceNode.create({
@@ -43,10 +43,39 @@ export const createResponseContentTypeReference = (factory: Factory.Type, params
     type: factory.TypeOperatorNode.create({
       syntaxKind: "keyof",
       type: factory.TypeReferenceNode.create({
-        name: params.successResponseNameList[0],
+        name: params.responseSuccessNames[0],
       }),
     }),
   });
+};
+
+const createHeaders = (factory: Factory.Type, params: Types.MethodParams) => {
+  const members = [];
+
+  if (params.hasOver2RequestContentTypes) {
+    members.push(
+      factory.PropertySignature.create({
+        name: `"Content-Type"`,
+        optional: false,
+        type: factory.TypeReferenceNode.create({ name: "T" }),
+      }),
+    );
+  }
+
+  if (params.hasOver2SuccessResponseContentTypes) {
+    members.push(
+      factory.PropertySignature.create({
+        name: `Accept`,
+        optional: false,
+        type: factory.TypeReferenceNode.create({ name: "U" }),
+      }),
+    );
+  }
+  if (members.length === 0) {
+    return undefined;
+  }
+
+  return factory.TypeLiteralNode.create({ members });
 };
 
 /**
@@ -61,7 +90,8 @@ export const create = (factory: Factory.Type, params: Types.MethodParams): ts.In
   const typeParameters: ts.TypeParameterDeclaration[] = [];
   const members: ts.TypeElement[] = [];
   const genericsName = "T";
-  if (params.hasRequestBody) {
+
+  if (params.hasRequestBody && params.hasOver2RequestContentTypes) {
     typeParameters.push(
       factory.TypeParameterDeclaration.create({
         name: genericsName,
@@ -70,6 +100,16 @@ export const create = (factory: Factory.Type, params: Types.MethodParams): ts.In
         }),
       }),
     );
+  }
+
+  const headerDeclaration = createHeaders(factory, params);
+  if (headerDeclaration) {
+    const extraHeader = factory.PropertySignature.create({
+      name: "headers",
+      optional: false,
+      type: headerDeclaration,
+    });
+    members.push(extraHeader);
   }
 
   if (params.hasParameter) {
@@ -92,7 +132,7 @@ export const create = (factory: Factory.Type, params: Types.MethodParams): ts.In
           name: Name.requestBodyName(params.operationId),
         }),
         indexType: factory.TypeReferenceNode.create({
-          name: genericsName,
+          name: params.requestFirstContentType ? `"${params.requestFirstContentType}"` : genericsName,
         }),
       }),
     });
