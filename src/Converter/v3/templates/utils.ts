@@ -21,6 +21,13 @@ export const isAlphabetOnlyText = (text: string): boolean => {
   return /^[A-Za-z\s]+$/.test(text);
 };
 
+export const escapeText = (text: string) => {
+  if (isAlphabetOnlyText(text)) {
+    return text;
+  }
+  return `"${text}"`;
+};
+
 const getTemplateSpan = (
   factory: Factory.Type,
   currentIndex: number,
@@ -190,7 +197,7 @@ export const generateObjectLiteralExpression = (
     const initializer =
       item.type === "variable" ? generateVariableIdentifier(factory, item.value) : factory.StringLiteral.create({ text: item.value });
     return factory.PropertyAssignment.create({
-      name: isAlphabetOnlyText(key) ? key : `"${key}"`, // TODO escape _ / . ...etc
+      name: escapeText(key),
       initializer,
     });
   });

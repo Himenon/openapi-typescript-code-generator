@@ -44,7 +44,7 @@ export const create = (factory: Factory.Type, params: Params): ts.VariableStatem
       properties: childProperties,
     });
     const childObject = factory.PropertyAssignment.create({
-      name: key,
+      name: Utils.escapeText(key),
       initializer: childObjectInitializer,
     });
     return previous.concat(childObject);

@@ -105,8 +105,8 @@ export const generateInterfacesWithStatusCode = (
   operationId: string,
   responses: OpenApi.Responses,
   context: ToTypeNode.Context,
-): ts.InterfaceDeclaration[] => {
-  const statements: ts.InterfaceDeclaration[] = [];
+): ts.Statement[] => {
+  const statements: ts.Statement[] = [];
   Object.entries(responses).forEach(([statusCode, response]) => {
     const nameWithStatusCode = `Status$${statusCode}`;
     if (!response) {
@@ -116,10 +116,15 @@ export const generateInterfacesWithStatusCode = (
       const reference = Reference.generate<OpenApi.Response>(entryPoint, currentPoint, response);
       if (reference.type === "local") {
         context.setReferenceHandler(reference);
-        console.log({ nameWithStatusCode });
-        // statements.push(
-        //   MediaType.generateInterface(entryPoint, currentPoint, factory, Name.responseName(operationId, nameWithStatusCode), content, context),
-        // );
+        statements.push(
+          factory.TypeAliasDeclaration.create({
+            export: true,
+            name: Name.responseName(operationId, statusCode),
+            type: factory.TypeReferenceNode.create({
+              name: context.getReferenceName(currentPoint, `${reference.path}/Content`, "local"),
+            }),
+          }),
+        );
       } else if (reference.componentName) {
         // reference先に定義を作成
         Response.generateNamespace(
