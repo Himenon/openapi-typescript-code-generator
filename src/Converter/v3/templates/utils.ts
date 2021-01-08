@@ -177,15 +177,21 @@ export const generateVariableIdentifier = (
   }, first);
 };
 
+export interface LiteralExpressionObject {
+  [key: string]: { type: "string" | "variable"; value: string };
+}
+
 export const generateObjectLiteralExpression = (
   factory: Factory.Type,
-  obj: { [key: string]: string },
+  obj: LiteralExpressionObject,
   extraProperties: ts.PropertyAssignment[] = [],
 ): ts.ObjectLiteralExpression => {
-  const properties = Object.entries(obj).map(([key, value]) => {
+  const properties = Object.entries(obj).map(([key, item]) => {
+    const initializer =
+      item.type === "variable" ? generateVariableIdentifier(factory, item.value) : factory.StringLiteral.create({ text: item.value });
     return factory.PropertyAssignment.create({
       name: isAlphabetOnlyText(key) ? key : `"${key}"`, // TODO escape _ / . ...etc
-      initializer: generateVariableIdentifier(factory, value),
+      initializer,
     });
   });
 

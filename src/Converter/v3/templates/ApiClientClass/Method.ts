@@ -138,7 +138,7 @@ export const create = (factory: Factory.Type, params: Types.MethodParams): ts.Me
     type: returnType,
     typeParameters: typeParameters,
     body: factory.Block.create({
-      statements: MethodBody.create(factory, params.httpMethod, params.requestUri, params.requestParameterCategories),
+      statements: MethodBody.create(factory, params),
       multiLine: true,
     }),
   });

@@ -5,12 +5,6 @@ import * as Utils from "../../utils";
 
 export interface Params {
   httpMethod: string;
-  contentType:
-    | {
-        request: string;
-        response: string;
-      }
-    | undefined;
   hasRequestBody: boolean;
 }
 

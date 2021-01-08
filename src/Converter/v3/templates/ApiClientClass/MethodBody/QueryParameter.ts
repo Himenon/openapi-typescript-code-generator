@@ -5,7 +5,7 @@ import * as Utils from "../../utils";
 
 export interface Params {
   variableName: string;
-  object: { [key: string]: string };
+  object: Utils.LiteralExpressionObject;
 }
 
 export const create = (factory: Factory.Type, params: Params): ts.VariableStatement => {
