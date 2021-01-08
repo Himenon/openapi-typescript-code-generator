@@ -1,5 +1,3 @@
-import * as fs from "fs";
-
 import ts from "typescript";
 
 import * as TypeScriptCodeGenerator from "../../TypeScriptCodeGenerator";
@@ -28,6 +26,7 @@ export const create = (entryPoint: string, rootSchema: OpenApi.Document): Conver
   const currentPoint = entryPoint;
 
   const noReferenceSchema = ResolveReference.resolve(entryPoint, currentPoint, JSON.parse(JSON.stringify(rootSchema)));
+
   const createFunction = (context: ts.TransformationContext): ts.Statement[] => {
     const factory = TypeScriptCodeGenerator.Factory.create(context);
     const store = Store.create(factory, noReferenceSchema);

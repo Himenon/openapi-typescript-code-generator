@@ -11,6 +11,8 @@ export interface MethodParams {
   httpMethod: string;
   requestUri: string;
   functionName: string;
+  comment: string | undefined;
+  deprecated: boolean;
   argumentParamsTypeDeclaration: string;
   requestParameterCategories: MethodBodyParams[];
   // Request Content Types

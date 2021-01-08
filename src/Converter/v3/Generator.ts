@@ -67,7 +67,11 @@ const generateParams = (store: Store.Type): Templates.ApiClientClass.Params[] =>
       requestUri: item.requestUri,
       httpMethod: item.httpMethod,
       argumentParamsTypeDeclaration: Name.argumentParamsTypeDeclaration(operationId),
+      // function
       functionName: operationId,
+      comment: item.comment,
+      deprecated: item.deprecated,
+      //
       hasRequestBody: !!item.requestBody,
       hasParameter: item.parameters ? item.parameters.length > 0 : false,
       requestParameterCategories: item.parameters ? item.parameters.map(convertParameterToRequestParameterCategory) : [],

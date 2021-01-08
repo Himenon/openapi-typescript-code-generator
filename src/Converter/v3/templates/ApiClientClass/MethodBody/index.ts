@@ -60,7 +60,6 @@ export const create = (factory: Factory.Type, params: Types.MethodParams): ts.St
   if (params.hasQueryParameters) {
     const queryParameter = list.filter(item => item.in === "query");
     const queryObject = Object.values(queryParameter).reduce<{ [key: string]: QueryParameter.Item }>((previous, current) => {
-      console.log(current);
       return {
         ...previous,
         [current.name]: { type: "variable", value: `params.parameter.${current.name}`, style: current.style, explode: !!current.explode },

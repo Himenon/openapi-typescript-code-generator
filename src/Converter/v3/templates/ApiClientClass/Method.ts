@@ -135,6 +135,8 @@ export const create = (factory: Factory.Type, params: Types.MethodParams): ts.Me
     name: params.functionName,
     async: true,
     parameters: methodArguments,
+    comment: params.comment,
+    deprecated: params.deprecated,
     type: returnType,
     typeParameters: typeParameters,
     body: factory.Block.create({

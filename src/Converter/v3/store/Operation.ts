@@ -1,3 +1,5 @@
+import { EOL } from "os";
+
 import { DevelopmentError } from "../../../Exception";
 import { OpenApi } from "../types";
 
@@ -11,6 +13,8 @@ export interface State {
   [operationId: string]: {
     httpMethod: string;
     requestUri: string;
+    comment: string | undefined;
+    deprecated: boolean;
     requestBody?: OpenApi.RequestBody;
     parameters?: OpenApi.Parameter[];
     responses: Responses;
@@ -34,6 +38,8 @@ export const create = (rootSchema: OpenApi.Document): State => {
       state[operation.operationId] = {
         httpMethod,
         requestUri,
+        comment: [operation.summary, operation.description].filter(Boolean).join(EOL),
+        deprecated: !!operation.deprecated,
         requestBody: operation.requestBody as OpenApi.RequestBody,
         parameters: operation.parameters as OpenApi.Parameter[],
         responses: operation.responses as Responses,
