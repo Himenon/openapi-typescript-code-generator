@@ -53,10 +53,6 @@ export const create = (factory: Factory.Type, params: Types.MethodParams): ts.St
     HeaderParameter.create(factory, {
       variableName: "headers",
       object: headerObject,
-      // contentType: {
-      //   "Content-Type": "application/json",
-      //   Accept: "application/json",
-      // },
     }),
   );
 
@@ -71,7 +67,7 @@ export const create = (factory: Factory.Type, params: Types.MethodParams): ts.St
 
   statements.push(
     factory.ReturnStatement.create({
-      expression: CallRequest.create(factory, { httpMethod: params.httpMethod, hasRequestBody: false }),
+      expression: CallRequest.create(factory, params),
     }),
   );
 

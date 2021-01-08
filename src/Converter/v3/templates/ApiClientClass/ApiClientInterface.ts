@@ -2,9 +2,11 @@ import ts from "typescript";
 
 import { Factory } from "../../../../TypeScriptCodeGenerator";
 
+const httpMethodList: string[] = ["GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH", "TRACE"];
+
 // export interface ApiClient<RequestOption> {
 //   request: (
-//     httpMethod: string,
+//     httpMethod: "GET" | "PUT" | "POST" | "DELETE" | "OPTIONS" | "HEAD" | "PATCH" | "TRACE",
 //     url: string,
 //     headers: { [key: string]: any } | undefined,
 //     requestBody: { [key: string]: any } | undefined,
@@ -12,6 +14,14 @@ import { Factory } from "../../../../TypeScriptCodeGenerator";
 //     options?: RequestOption,
 //   ) => Promise<any>;
 // }
+
+const createHttpMethod = (factory: Factory.Type) => {
+  return factory.TypeAliasDeclaration.create({
+    export: true,
+    name: "HttpMethod",
+    type: factory.TypeNode.create({ type: "string", enum: httpMethodList }),
+  });
+};
 
 const createObjectLikeInterface = (factory: Factory.Type) => {
   return factory.InterfaceDeclaration.create({
@@ -40,7 +50,9 @@ export const create = (factory: Factory.Type): ts.Statement[] => {
 
   const httpMethod = factory.ParameterDeclaration.create({
     name: "httpMethod",
-    type: factory.TypeNode.create({ type: "string" }),
+    type: factory.TypeReferenceNode.create({
+      name: "HttpMethod",
+    }),
   });
   const url = factory.ParameterDeclaration.create({
     name: "url",
@@ -82,6 +94,7 @@ export const create = (factory: Factory.Type): ts.Statement[] => {
   });
 
   return [
+    createHttpMethod(factory),
     createObjectLikeInterface(factory),
     factory.InterfaceDeclaration.create({
       export: true,
