@@ -87,7 +87,7 @@ export interface Parameter {
   allowEmptyValue?: boolean;
 
   style?: "matrix" | "label" | "form" | "simple" | "spaceDelimited" | "pipeDelimited" | "deepObject";
-  explode?: string;
+  explode?: boolean;
   allowReserved?: boolean;
   schema?: Schema;
   example?: any;

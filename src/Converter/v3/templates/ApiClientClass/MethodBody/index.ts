@@ -59,14 +59,16 @@ export const create = (factory: Factory.Type, params: Types.MethodParams): ts.St
   // Generate Query Parameter
   if (params.hasQueryParameters) {
     const queryParameter = list.filter(item => item.in === "query");
-    const queryObject = Object.values(queryParameter).reduce<Utils.LiteralExpressionObject>((previous, current) => {
-      return { ...previous, [current.name]: { type: "variable", value: `params.parameter.${current.name}` } };
+    const queryObject = Object.values(queryParameter).reduce<{ [key: string]: QueryParameter.Item }>((previous, current) => {
+      return {
+        ...previous,
+        [current.name]: { type: "variable", value: `params.parameter.${current.name}`, style: current.style, explode: !!current.explode },
+      };
     }, {});
     statements.push(QueryParameter.create(factory, { variableName: "queryParameters", object: queryObject }));
   }
 
   // Generate CallRequest
-
   statements.push(
     factory.ReturnStatement.create({
       expression: CallRequest.create(factory, params),

@@ -23,6 +23,42 @@ const createHttpMethod = (factory: Factory.Type) => {
   });
 };
 
+const createQueryParamsDeclarations = (factory: Factory.Type) => {
+  const queryParameterDeclaration = factory.InterfaceDeclaration.create({
+    export: true,
+    name: "QueryParameter",
+    members: [
+      factory.PropertySignature.create({
+        name: "value",
+        optional: false,
+        type: factory.TypeNode.create({ type: "any" }),
+      }),
+      factory.PropertySignature.create({
+        name: "style",
+        optional: true,
+        type: factory.TypeNode.create({ type: "string", enum: ["form", "spaceDelimited", "pipeDelimited", "deepObject"] }),
+      }),
+      factory.PropertySignature.create({
+        name: "explode",
+        optional: false,
+        type: factory.TypeNode.create({ type: "boolean" }),
+      }),
+    ],
+  });
+  const queryParametersDeclaration = factory.InterfaceDeclaration.create({
+    export: true,
+    name: "QueryParameters",
+    members: [
+      factory.IndexSignatureDeclaration.create({
+        name: "key",
+        type: factory.TypeReferenceNode.create({ name: "QueryParameter" }),
+      }),
+    ],
+  });
+
+  return [queryParameterDeclaration, queryParametersDeclaration];
+};
+
 const createObjectLikeInterface = (factory: Factory.Type) => {
   return factory.InterfaceDeclaration.create({
     export: true,
@@ -68,7 +104,14 @@ export const create = (factory: Factory.Type): ts.Statement[] => {
   });
   const queryParameters = factory.ParameterDeclaration.create({
     name: "queryParameters",
-    type: objectLikeOrAnyType,
+    type: factory.UnionTypeNode.create({
+      typeNodes: [
+        factory.TypeReferenceNode.create({
+          name: "QueryParameters",
+        }),
+        factory.TypeNode.create({ type: "undefined" }),
+      ],
+    }),
   });
   const options = factory.ParameterDeclaration.create({
     name: "options",
@@ -96,6 +139,7 @@ export const create = (factory: Factory.Type): ts.Statement[] => {
   return [
     createHttpMethod(factory),
     createObjectLikeInterface(factory),
+    ...createQueryParamsDeclarations(factory),
     factory.InterfaceDeclaration.create({
       export: true,
       name: "ApiClient",
