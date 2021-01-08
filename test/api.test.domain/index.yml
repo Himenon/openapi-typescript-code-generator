@@ -150,7 +150,16 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/SucceededCreatingBlogPost"
-  /blog/{id}:
+  /user/{username}/hoge/:
+    get:
+      description: user page
+      operationId: getUser
+      parameters:
+        - in: path
+          name: username
+          schema:
+            type: string
+  /blog/{id}/:
     delete:
       description: Delete Blog
       summary: Delete Blog

@@ -32,7 +32,7 @@ const generateUrlVariableStatement = (factory: Factory.Type, urlTemplate: Utils.
   });
 };
 
-const generateUrlTemplateExpression = (
+export const generateUrlTemplateExpression = (
   factory: Factory.Type,
   requestUri: string,
   pathParameters: Types.MethodBodyParams[],
@@ -77,10 +77,17 @@ const generateUrlTemplateExpression = (
     }
     if (index === requestUrlTicks.length - 1) {
       const value = temporaryStringList.join("/");
-      urlTemplate.push({
-        type: "string",
-        value: value.startsWith("/") && value !== "" ? value : "/" + value,
-      });
+      if (value === "") {
+        urlTemplate.push({
+          type: "string",
+          value: requestUri.endsWith("/") ? "/" : "",
+        });
+      } else {
+        urlTemplate.push({
+          type: "string",
+          value: value.startsWith("/") ? value : "/" + value,
+        });
+      }
     }
   });
   return urlTemplate;
