@@ -22,39 +22,14 @@ export const generateStatements = (
     if (!requestUri.startsWith("/")) {
       throw new Error(`Not start slash: ${requestUri}`);
     }
-    const pathIdentifer = `Path$${index + 1}`;
     if (Guard.isReference(pathItem)) {
       const reference = Reference.generate<OpenApi.PathItem>(entryPoint, currentPoint, pathItem);
       if (reference.type === "local") {
         throw new FeatureDevelopmentError("これから対応");
       }
-      statements.push(
-        PathItem.generateStatements(
-          entryPoint,
-          reference.referencePoint,
-          store,
-          factory,
-          requestUri,
-          "components/pathItems",
-          pathIdentifer,
-          reference.data,
-          context,
-        ),
-      );
+      statements.push(PathItem.generateStatements(entryPoint, reference.referencePoint, store, factory, requestUri, reference.data, context));
     } else {
-      statements.push(
-        PathItem.generateStatements(
-          entryPoint,
-          currentPoint,
-          store,
-          factory,
-          requestUri,
-          "components/pathItems",
-          pathIdentifer,
-          pathItem,
-          context,
-        ),
-      );
+      statements.push(PathItem.generateStatements(entryPoint, currentPoint, store, factory, requestUri, pathItem, context));
     }
   });
 

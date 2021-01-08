@@ -102,13 +102,11 @@ export const generateStatements = (
   store: Store.Type,
   factory: Factory.Type,
   requestUri: string,
-  parentPath: string,
   httpMethod: string, // PUT POST PATCH
   operation: OpenApi.Operation,
   context: ToTypeNode.Context,
 ): ts.Statement[] => {
   let statements: ts.Statement[] = [];
-  const basePath = `${parentPath}/${httpMethod}`;
   const operationId = operation.operationId;
   if (!operationId) {
     throw new Error("not setting operationId\n" + JSON.stringify(operation));
@@ -160,16 +158,7 @@ export const generateStatements = (
 
   if (operation.responses) {
     statements = statements.concat(
-      Responses.generateInterfacesWithStatusCode(
-        entryPoint,
-        currentPoint,
-        store,
-        factory,
-        basePath,
-        operationId,
-        operation.responses,
-        context,
-      ).flat(),
+      Responses.generateInterfacesWithStatusCode(entryPoint, currentPoint, store, factory, operationId, operation.responses, context).flat(),
     );
   }
 

@@ -87,7 +87,6 @@ const generateParams = (store: Store.Type): Templates.ApiClientClass.Params[] =>
     params.push(formatParams);
   });
 
-  console.log(params);
   return params;
 };
 

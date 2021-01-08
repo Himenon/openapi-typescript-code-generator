@@ -66,48 +66,33 @@ export const generateStatements = (
   store: Store.Type,
   factory: Factory.Type,
   requestUri: string,
-  parentPath: string,
-  name: string,
   pathItem: OpenApi.PathItem,
   context: ToTypeNode.Context,
 ): ts.Statement[] => {
   const statements: ts.Statement[][] = [];
-  const basePath = `${parentPath}/${name}`;
   if (pathItem.get) {
-    statements.push(Operation.generateStatements(entryPoint, currentPoint, store, factory, requestUri, basePath, "GET", pathItem.get, context));
+    statements.push(Operation.generateStatements(entryPoint, currentPoint, store, factory, requestUri, "GET", pathItem.get, context));
   }
   if (pathItem.put) {
-    statements.push(Operation.generateStatements(entryPoint, currentPoint, store, factory, requestUri, basePath, "PUT", pathItem.put, context));
+    statements.push(Operation.generateStatements(entryPoint, currentPoint, store, factory, requestUri, "PUT", pathItem.put, context));
   }
   if (pathItem.post) {
-    statements.push(
-      Operation.generateStatements(entryPoint, currentPoint, store, factory, requestUri, basePath, "POST", pathItem.post, context),
-    );
+    statements.push(Operation.generateStatements(entryPoint, currentPoint, store, factory, requestUri, "POST", pathItem.post, context));
   }
   if (pathItem.delete) {
-    statements.push(
-      Operation.generateStatements(entryPoint, currentPoint, store, factory, requestUri, basePath, "DELETE", pathItem.delete, context),
-    );
+    statements.push(Operation.generateStatements(entryPoint, currentPoint, store, factory, requestUri, "DELETE", pathItem.delete, context));
   }
   if (pathItem.options) {
-    statements.push(
-      Operation.generateStatements(entryPoint, currentPoint, store, factory, requestUri, basePath, "OPTIONS", pathItem.options, context),
-    );
+    statements.push(Operation.generateStatements(entryPoint, currentPoint, store, factory, requestUri, "OPTIONS", pathItem.options, context));
   }
   if (pathItem.head) {
-    statements.push(
-      Operation.generateStatements(entryPoint, currentPoint, store, factory, requestUri, basePath, "HEAD", pathItem.head, context),
-    );
+    statements.push(Operation.generateStatements(entryPoint, currentPoint, store, factory, requestUri, "HEAD", pathItem.head, context));
   }
   if (pathItem.patch) {
-    statements.push(
-      Operation.generateStatements(entryPoint, currentPoint, store, factory, requestUri, basePath, "PATCH", pathItem.patch, context),
-    );
+    statements.push(Operation.generateStatements(entryPoint, currentPoint, store, factory, requestUri, "PATCH", pathItem.patch, context));
   }
   if (pathItem.trace) {
-    statements.push(
-      Operation.generateStatements(entryPoint, currentPoint, store, factory, requestUri, basePath, "TRACE", pathItem.trace, context),
-    );
+    statements.push(Operation.generateStatements(entryPoint, currentPoint, store, factory, requestUri, "TRACE", pathItem.trace, context));
   }
   // if (pathItem.parameters) {
   //   Parameters.generateNamespaceWithList(entryPoint, currentPoint, store, factory, pathItem.parameters, context);
