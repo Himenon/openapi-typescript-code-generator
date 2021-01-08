@@ -2,16 +2,9 @@ import ts from "typescript";
 
 import { Factory } from "../../../../../TypeScriptCodeGenerator";
 import * as Utils from "../../utils";
+import * as Types from "../types";
 
-export interface Param {
-  name: string;
-  in: "path";
-  required: boolean;
-  style?: "matrix" | "label" | "form" | "simple" | "spaceDelimited" | "pipeDelimited" | "deepObject";
-  explode?: string;
-}
-
-export const isPathParameter = (params: any): params is Param => {
+export const isPathParameter = (params: any): params is Types.MethodBodyParams => {
   return params.in === "path";
 };
 
@@ -39,7 +32,11 @@ const generateUrlVariableStatement = (factory: Factory.Type, urlTemplate: Utils.
   });
 };
 
-const generateUrlTemplateExpression = (factory: Factory.Type, requestUri: string, pathParameters: Param[]): Utils.Params$TemplateExpression => {
+const generateUrlTemplateExpression = (
+  factory: Factory.Type,
+  requestUri: string,
+  pathParameters: Types.MethodBodyParams[],
+): Utils.Params$TemplateExpression => {
   const patternMap = pathParameters.reduce<{ [key: string]: string }>((previous, item) => {
     return { ...previous, [`{${item.name}}`]: item.name };
   }, {});
@@ -87,7 +84,7 @@ const generateUrlTemplateExpression = (factory: Factory.Type, requestUri: string
   return urlTemplate;
 };
 
-export const create = (factory: Factory.Type, requestUri: string, pathParameters: Param[]): ts.VariableStatement => {
+export const create = (factory: Factory.Type, requestUri: string, pathParameters: Types.MethodBodyParams[]): ts.VariableStatement => {
   if (pathParameters.length > 0) {
     const urlTemplate = generateUrlTemplateExpression(factory, requestUri, pathParameters);
     return generateUrlVariableStatement(factory, urlTemplate);

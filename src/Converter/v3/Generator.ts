@@ -12,6 +12,7 @@ const convertParameterToRequestParameterCategory = (parameter: OpenApi.Parameter
     in: parameter.in,
     required: parameter.required,
     style: parameter.style,
+    explode: parameter.explode,
   };
 };
 

@@ -3,7 +3,7 @@ export interface MethodBodyParams {
   in: "path" | "query" | "header" | "cookie";
   required: boolean;
   style?: "matrix" | "label" | "form" | "simple" | "spaceDelimited" | "pipeDelimited" | "deepObject";
-  explode?: string;
+  explode?: boolean;
 }
 
 export interface MethodParams {
