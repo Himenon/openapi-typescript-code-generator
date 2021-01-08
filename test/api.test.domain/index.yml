@@ -168,9 +168,32 @@ paths:
               properties:
                 name:
                   type: string
-            responses:
+      responses:
         "401":
           $ref: "./components/responses/blog/AuthorizationError.yml"
+  /books/{bookId}/author/{authorId}/something:
+    get:
+      operationId: getBookAndAuthor
+      description: search book and author
+      parameters:
+        - in: path
+          name: bookId
+          schema:
+            type: number
+        - in: path
+          name: authorId
+          schema:
+            type: number
+      responses:
+        "200":
+          description: result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  authorName:
+                    type: string
   /multi/response:
     post:
       operationId: createMultiResponse

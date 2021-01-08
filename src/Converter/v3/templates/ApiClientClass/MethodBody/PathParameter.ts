@@ -61,9 +61,10 @@ const generateUrlTemplateExpression = (
     if (replacedText) {
       temporaryStringList.push(""); // ${a.b.c} は先頭に`/`をつけないため
       if (temporaryStringList.length > 0) {
+        const value = temporaryStringList.join("/");
         urlTemplate.push({
           type: "string",
-          value: temporaryStringList.join("/"),
+          value: value.startsWith("/") ? value : "/" + value,
         });
         temporaryStringList = [];
       }
@@ -75,9 +76,10 @@ const generateUrlTemplateExpression = (
       temporaryStringList.push(requestUriTick);
     }
     if (index === requestUrlTicks.length - 1) {
+      const value = temporaryStringList.join("/");
       urlTemplate.push({
         type: "string",
-        value: temporaryStringList.join("/"),
+        value: value.startsWith("/") && value !== "" ? value : "/" + value,
       });
     }
   });
