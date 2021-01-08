@@ -8,18 +8,19 @@ import * as Types from "./types";
 export type MethodBodyParams = Types.MethodBodyParams;
 export { MethodBody };
 
-const generateParams = (factory: Factory.Type, argumentParamsTypeDeclaration: string, requestContentTypeList: string[]) => {
+const generateParams = (factory: Factory.Type, params: Types.MethodParams) => {
   const typeArguments: ts.TypeNode[] = [];
-  if (requestContentTypeList.length === 1) {
-    typeArguments.push(
-      factory.LiteralTypeNode.create({
-        value: requestContentTypeList[0],
-      }),
-    );
-  } else {
+  if (params.hasOver2RequestContentTypes) {
     typeArguments.push(
       factory.TypeReferenceNode.create({
         name: "RequestContentType",
+      }),
+    );
+  }
+  if (params.hasOver2SuccessResponseContentTypes) {
+    typeArguments.push(
+      factory.TypeReferenceNode.create({
+        name: "ResponseContentType",
       }),
     );
   }
@@ -27,17 +28,13 @@ const generateParams = (factory: Factory.Type, argumentParamsTypeDeclaration: st
     name: "params",
     modifiers: undefined,
     type: factory.TypeReferenceNode.create({
-      name: argumentParamsTypeDeclaration,
+      name: params.argumentParamsTypeDeclaration,
       typeArguments,
     }),
   });
 };
 
 const generateResponseReturnType = (factory: Factory.Type, successResponseNameList: string[], successResponseContentTypeList: string[]) => {
-  console.log({
-    successResponseNameList,
-    successResponseContentTypeList,
-  });
   let objectType: ts.TypeNode = factory.TypeNode.create({
     type: "void",
   });
@@ -114,10 +111,11 @@ const methodTypeParameters = (factory: Factory.Type, params: Types.MethodParams)
 export const create = (factory: Factory.Type, params: Types.MethodParams): ts.MethodDeclaration => {
   const typeParameters: ts.TypeParameterDeclaration[] = methodTypeParameters(factory, params);
   const methodArguments: ts.ParameterDeclaration[] = [];
-  const hasParamsArguments = params.hasParameter || params.hasRequestBody;
+  const hasParamsArguments =
+    params.hasParameter || params.hasRequestBody || params.hasOver2SuccessResponseContentTypes || params.hasOver2RequestContentTypes;
 
   if (hasParamsArguments) {
-    methodArguments.push(generateParams(factory, params.argumentParamsTypeDeclaration, params.requestContentTypes));
+    methodArguments.push(generateParams(factory, params));
   }
 
   const returnType: ts.TypeNode = generateResponseReturnType(factory, params.responseSuccessNames, params.responseSuccessContentTypes);

@@ -4,9 +4,9 @@ import { Factory } from "../../../TypeScriptCodeGenerator";
 import * as Name from "../Name";
 import * as Types from "./ApiClientClass/types";
 
-// export type RequestContentType${operationId} = keyof RequestBody${operationId};
-// export type ResponseContentType${operationId} = keyof Response${operationId}$Status$...;
-
+/**
+ * export type RequestContentType${operationId} = keyof RequestBody${operationId};
+ */
 export const createRequestContentTypeReference = (factory: Factory.Type, { operationId }: Types.MethodParams) => {
   return factory.TypeAliasDeclaration.create({
     export: true,
@@ -19,9 +19,12 @@ export const createRequestContentTypeReference = (factory: Factory.Type, { opera
     }),
   });
 };
-
+/**
+ * export type ResponseContentType${operationId} = keyof Response${operationId}$Status$200;
+ * export type ResponseContentType${operationId} = keyof Response${operationId}$Status$200 | keyof Response${operationId}$Status$203;
+ */
 export const createResponseContentTypeReference = (factory: Factory.Type, params: Types.MethodParams) => {
-  if (params.responseSuccessNames.length > 1) {
+  if (params.hasOver2SuccessResponseContentTypes) {
     return factory.TypeAliasDeclaration.create({
       export: true,
       name: Name.responseContentType(params.operationId),
@@ -89,14 +92,23 @@ const createHeaders = (factory: Factory.Type, params: Types.MethodParams) => {
 export const create = (factory: Factory.Type, params: Types.MethodParams): ts.InterfaceDeclaration => {
   const typeParameters: ts.TypeParameterDeclaration[] = [];
   const members: ts.TypeElement[] = [];
-  const genericsName = "T";
-
   if (params.hasRequestBody && params.hasOver2RequestContentTypes) {
     typeParameters.push(
       factory.TypeParameterDeclaration.create({
-        name: genericsName,
+        name: "T",
         constraint: factory.TypeReferenceNode.create({
           name: Name.requestContentType(params.operationId),
+        }),
+      }),
+    );
+  }
+
+  if (params.hasOver2SuccessResponseContentTypes) {
+    typeParameters.push(
+      factory.TypeParameterDeclaration.create({
+        name: "U",
+        constraint: factory.TypeReferenceNode.create({
+          name: Name.responseContentType(params.operationId),
         }),
       }),
     );
@@ -132,7 +144,7 @@ export const create = (factory: Factory.Type, params: Types.MethodParams): ts.In
           name: Name.requestBodyName(params.operationId),
         }),
         indexType: factory.TypeReferenceNode.create({
-          name: params.requestFirstContentType ? `"${params.requestFirstContentType}"` : genericsName,
+          name: params.requestFirstContentType ? `"${params.requestFirstContentType}"` : "T",
         }),
       }),
     });
