@@ -13,7 +13,7 @@ export const generatePropertySignature = (
   context: ToTypeNode.Context,
 ): ts.PropertySignature => {
   return factory.PropertySignature.create({
-    name: `"${protocol}"`,
+    name: `"${protocol}"`, // TODO use Utils.escapeText
     optional: false,
     type: ToTypeNode.convert(entryPoint, currentPoint, factory, schema, context),
   });

@@ -100,7 +100,10 @@ export const generateApiClientCode = (store: Store.Type, factory: Factory.Type):
     if (params.responseSuccessNames.length > 0) {
       statements.push(Templates.ApiClientArgument.createResponseContentTypeReference(factory, params));
     }
-    statements.push(Templates.ApiClientArgument.create(factory, params));
+    const typeDeclaration = Templates.ApiClientArgument.create(factory, params);
+    if (typeDeclaration) {
+      statements.push(typeDeclaration);
+    }
   });
   Templates.ApiClientClass.create(factory, list).forEach(newStatement => {
     statements.push(newStatement);

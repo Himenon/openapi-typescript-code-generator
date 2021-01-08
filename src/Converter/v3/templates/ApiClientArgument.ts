@@ -89,7 +89,7 @@ const createHeaders = (factory: Factory.Type, params: Types.MethodParams) => {
  *   requestBody: {requestBodyName}[T];
  * }
  */
-export const create = (factory: Factory.Type, params: Types.MethodParams): ts.InterfaceDeclaration => {
+export const create = (factory: Factory.Type, params: Types.MethodParams): ts.InterfaceDeclaration | undefined => {
   const typeParameters: ts.TypeParameterDeclaration[] = [];
   const members: ts.TypeElement[] = [];
   if (params.hasRequestBody && params.hasOver2RequestContentTypes) {
@@ -149,6 +149,10 @@ export const create = (factory: Factory.Type, params: Types.MethodParams): ts.In
       }),
     });
     members.push(requestBody);
+  }
+
+  if (members.length === 0) {
+    return;
   }
 
   return factory.InterfaceDeclaration.create({
