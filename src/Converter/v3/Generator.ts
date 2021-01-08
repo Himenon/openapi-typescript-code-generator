@@ -41,24 +41,31 @@ const getSuccessResponseContentTypeList = (responses: { [statusCode: string]: Op
   return Array.from(new Set(contentTypeList));
 };
 
+const hasQueryParameters = (parameters?: OpenApi.Parameter[]): boolean => {
+  if (!parameters) {
+    return false;
+  }
+  return parameters.filter(parameter => parameter.in === "query").length > 0;
+};
+
 const generateParams = (store: Store.Type): Templates.ApiClientClass.Params[] => {
   const operationState = store.getNoReferenceOperationState();
   const params: Templates.ApiClientClass.Params[] = [];
-  Object.entries(operationState).forEach(([operationId, value]) => {
-    const responseSuccessNames = getSuccessStatusCodes(value.responses).map(statusCode => Name.responseName(operationId, statusCode));
-    const requestContentTypeList = value.requestBody ? getRequestContentTypeList(value.requestBody) : [];
-    const responseSuccessContentTypes = getSuccessResponseContentTypeList(value.responses);
+  Object.entries(operationState).forEach(([operationId, item]) => {
+    const responseSuccessNames = getSuccessStatusCodes(item.responses).map(statusCode => Name.responseName(operationId, statusCode));
+    const requestContentTypeList = item.requestBody ? getRequestContentTypeList(item.requestBody) : [];
+    const responseSuccessContentTypes = getSuccessResponseContentTypeList(item.responses);
     const hasOver2RequestContentTypes = requestContentTypeList.length > 1;
     const hasOver2SuccessNames = responseSuccessNames.length > 1;
-    const item: Templates.ApiClientClass.Params = {
+    const formatParams: Templates.ApiClientClass.Params = {
       operationId: operationId,
-      requestUri: value.requestUri,
-      httpMethod: value.httpMethod,
+      requestUri: item.requestUri,
+      httpMethod: item.httpMethod,
       argumentParamsTypeDeclaration: Name.argumentParamsTypeDeclaration(operationId),
       functionName: operationId,
-      hasRequestBody: !!value.requestBody,
-      hasParameter: value.parameters ? value.parameters.length > 0 : false,
-      requestParameterCategories: value.parameters ? value.parameters.map(convertParameterToRequestParameterCategory) : [],
+      hasRequestBody: !!item.requestBody,
+      hasParameter: item.parameters ? item.parameters.length > 0 : false,
+      requestParameterCategories: item.parameters ? item.parameters.map(convertParameterToRequestParameterCategory) : [],
       // Request Content Types
       requestContentTypes: requestContentTypeList,
       requestFirstContentType: requestContentTypeList.length === 1 ? requestContentTypeList[0] : undefined,
@@ -73,9 +80,10 @@ const generateParams = (store: Store.Type): Templates.ApiClientClass.Params[] =>
       hasOver2SuccessResponseContentTypes: responseSuccessContentTypes.length > 1,
       //
       hasAdditionalHeaders: hasOver2RequestContentTypes || hasOver2SuccessNames,
+      hasQueryParameters: hasQueryParameters(item.parameters),
       // Response Success Name
     };
-    params.push(item);
+    params.push(formatParams);
   });
 
   console.log(params);

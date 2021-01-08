@@ -27,6 +27,7 @@ export interface MethodParams {
   hasOver2SuccessResponseContentTypes: boolean; // successResponseContentTypes.length > 1
   //
   hasAdditionalHeaders: boolean; // hasOver2RequestContentTypes || hasOver2SuccessResponseContentTypes
+  hasQueryParameters: boolean;
   // Arguments
   hasParameter: boolean;
   hasRequestBody: boolean;

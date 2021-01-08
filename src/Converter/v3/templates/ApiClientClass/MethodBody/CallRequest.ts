@@ -19,7 +19,7 @@ export const create = (factory: Factory.Type, params: Types.MethodParams): ts.Ca
     factory.Identifier.create({ name: "url" }),
     params.hasRequestBody ? Utils.generateVariableIdentifier(factory, "params.requestBody") : factory.Identifier.create({ name: "undefined" }),
     factory.Identifier.create({ name: "headers" }),
-    factory.Identifier.create({ name: "queryParameters" }),
+    params.hasQueryParameters ? factory.Identifier.create({ name: "queryParameters" }) : factory.Identifier.create({ name: "undefined" }),
     factory.Identifier.create({ name: "option" }),
   ];
 
