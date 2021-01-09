@@ -5,6 +5,17 @@ export const responseName = (operationId: string, statusCode: string): string =>
 export const requestContentType = (operationId: string): string => `RequestContentType$${operationId}`;
 export const responseContentType = (operationId: string): string => `ResponseContentType$${operationId}`;
 
+export const isAlphabetOnlyText = (text: string): boolean => {
+  return /^[A-Za-z\s]+$/.test(text);
+};
+
+export const escapeText = (text: string) => {
+  if (isAlphabetOnlyText(text)) {
+    return text;
+  }
+  return `"${text}"`;
+};
+
 export const Components = {
   Schemas: "Schemas",
   Parameters: "Parameters",

@@ -47,7 +47,7 @@ export const generateMultiTypeNode = (
       typeNodes,
     });
   }
-  // TODO Calculate intersection types
+  // TODO Feature Development: Calculate intersection types
   return factory.TypeNode.create({ type: "never" });
 };
 

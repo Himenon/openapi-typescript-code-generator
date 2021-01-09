@@ -54,12 +54,12 @@ export const create = (entryPoint: string, rootSchema: OpenApi.Document): Conver
       if (rootSchema.components.pathItems) {
         PathItems.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.pathItems, toTypeNodeContext);
       }
-      // TODO
+      // TODO Feature Development
       // if (rootSchema.components.links) {
       //   statements.push(Links.generateNamespace(entryPoint, currentPoint, factory, rootSchema.components.links));
       // }
 
-      // TODO
+      // TODO Feature Development
       // if (rootSchema.components.callbacks) {
       //   statements.push(Callbacks.generateNamespace(entryPoint, currentPoint, factory, rootSchema.components.callbacks));
       // }

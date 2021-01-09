@@ -16,7 +16,7 @@ export type MapLike<K extends string, T> = {
  */
 export interface ServerVariable {
   enum: string[];
-  default?: string; // TODO enumの型で縛る
+  default?: string; // TODO change enum
   description?: string;
 }
 

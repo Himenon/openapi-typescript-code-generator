@@ -85,7 +85,7 @@ export const generateNamespaceWithStatusCode = (
           reference.referencePoint,
           store,
           factory,
-          path.dirname(reference.path), // TODO 理由
+          path.dirname(reference.path), // TODO write reason
           reference.name,
           reference.data,
           context,
@@ -134,7 +134,7 @@ export const generateInterfacesWithStatusCode = (
           reference.referencePoint,
           store,
           factory,
-          path.dirname(reference.path), // TODO 理由
+          path.dirname(reference.path), // TODO write reason
           reference.name,
           reference.data,
           context,

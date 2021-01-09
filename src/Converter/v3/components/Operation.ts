@@ -128,7 +128,7 @@ export const generateStatements = (
     store.updateOperationState(httpMethod, requestUri, operationId, {
       parameterName: parameterName,
       parameters: operation.parameters
-        .map(parameter => Parameter.getSchema(entryPoint, currentPoint, parameter))
+        .map(parameter => Parameter.getSchema(entryPoint, currentPoint, parameter, context))
         .filter(Boolean) as OpenApi.Parameter[],
     });
   }

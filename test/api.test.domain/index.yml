@@ -85,7 +85,7 @@ components:
       $ref: "./components/responses/FailedCreatingBlogPost.yml"
   parameters:
     BlogId:
-      name: slug
+      name: blogId
       in: path
       schema:
         type: number
@@ -143,8 +143,18 @@ components:
 
 paths:
   /blog:
+    get:
+      operationId: findBlog
+      description: Search Blog
+      parameters:
+        - $ref: "#/components/parameters/BlogId"
+      responses:
+        "200":
+          description: Found
+        "404":
+          description: Not found
     post:
-      description: Create Blog
+      description: Summary Create Blog
       summary: Create Blog
       operationId: createBlog
       requestBody:

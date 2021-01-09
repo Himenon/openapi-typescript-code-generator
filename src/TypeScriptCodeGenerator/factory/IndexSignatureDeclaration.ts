@@ -13,7 +13,7 @@ export const create = ({ factory }: ts.TransformationContext): Factory["create"]
   const node = factory.createIndexSignature(
     undefined,
     undefined,
-    // TODO もしかしたら拡張する
+    // TODO Feature Development: Refactoring
     [
       factory.createParameterDeclaration(
         undefined,

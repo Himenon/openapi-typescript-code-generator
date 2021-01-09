@@ -1,6 +1,7 @@
 import ts from "typescript";
 
 import { Factory } from "../../../TypeScriptCodeGenerator";
+import * as Name from "../Name";
 import * as ToTypeNode from "../toTypeNode";
 import { OpenApi } from "../types";
 
@@ -13,7 +14,7 @@ export const generatePropertySignature = (
   context: ToTypeNode.Context,
 ): ts.PropertySignature => {
   return factory.PropertySignature.create({
-    name: `"${protocol}"`, // TODO use Utils.escapeText
+    name: Name.escapeText(protocol),
     optional: false,
     type: ToTypeNode.convert(entryPoint, currentPoint, factory, schema, context),
   });

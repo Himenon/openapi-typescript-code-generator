@@ -2,6 +2,7 @@ import ts from "typescript";
 
 import { Factory } from "../../../TypeScriptCodeGenerator";
 import * as Guard from "../Guard";
+import * as Name from "../Name";
 import * as ToTypeNode from "../toTypeNode";
 import { OpenApi } from "../types";
 import * as Reference from "./Reference";
@@ -48,7 +49,7 @@ export const generatePropertySignature = (
     });
   }
   return factory.PropertySignature.create({
-    name: `"${name}"`, // TODO escapeText X-Rate-Limit -> "X-Rate-Limit"
+    name: Name.escapeText(name),
     optional: false,
     type: ToTypeNode.convert(entryPoint, currentPoint, factory, header.schema || { type: "null" }, context),
   });

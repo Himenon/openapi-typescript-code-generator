@@ -2,6 +2,7 @@ import ts from "typescript";
 
 import { DevelopmentError } from "../../../Exception";
 import { Factory } from "../../../TypeScriptCodeGenerator";
+import * as Name from "../Name";
 
 export interface StringItem {
   type: "string";
@@ -16,17 +17,6 @@ export interface ExpressionItem {
 export type Item = StringItem | ExpressionItem;
 
 export type Params$TemplateExpression = Item[];
-
-export const isAlphabetOnlyText = (text: string): boolean => {
-  return /^[A-Za-z\s]+$/.test(text);
-};
-
-export const escapeText = (text: string) => {
-  if (isAlphabetOnlyText(text)) {
-    return text;
-  }
-  return `"${text}"`;
-};
 
 const getTemplateSpan = (
   factory: Factory.Type,
@@ -171,7 +161,7 @@ export const generateVariableIdentifier = (
   });
 
   return rest.reduce<ts.PropertyAccessExpression | ts.ElementAccessExpression>((previous, current: string) => {
-    if (isAlphabetOnlyText(current)) {
+    if (Name.isAlphabetOnlyText(current)) {
       return factory.PropertyAccessExpression.create({
         expression: previous,
         name: current,
@@ -197,7 +187,7 @@ export const generateObjectLiteralExpression = (
     const initializer =
       item.type === "variable" ? generateVariableIdentifier(factory, item.value) : factory.StringLiteral.create({ text: item.value });
     return factory.PropertyAssignment.create({
-      name: escapeText(key),
+      name: Name.escapeText(key),
       initializer,
     });
   });

@@ -1,6 +1,7 @@
 import ts from "typescript";
 
 import { Factory } from "../../../../../TypeScriptCodeGenerator";
+import * as Name from "../../../Name";
 import * as Utils from "../../utils";
 
 export interface Item {
@@ -44,7 +45,7 @@ export const create = (factory: Factory.Type, params: Params): ts.VariableStatem
       properties: childProperties,
     });
     const childObject = factory.PropertyAssignment.create({
-      name: Utils.escapeText(key),
+      name: Name.escapeText(key),
       initializer: childObjectInitializer,
     });
     return previous.concat(childObject);

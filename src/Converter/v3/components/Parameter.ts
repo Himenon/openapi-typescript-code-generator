@@ -3,6 +3,7 @@ import ts from "typescript";
 import { FeatureDevelopmentError } from "../../../Exception";
 import { Factory } from "../../../TypeScriptCodeGenerator";
 import * as Guard from "../Guard";
+import * as Name from "../Name";
 import * as ToTypeNode from "../toTypeNode";
 import { OpenApi } from "../types";
 import * as Reference from "./Reference";
@@ -45,7 +46,7 @@ export const generatePropertySignature = (
     if (reference.type === "local") {
       context.setReferenceHandler(reference);
       return factory.PropertySignature.create({
-        name: context.getReferenceName(currentPoint, reference.path, "local"), // TODO
+        name: context.getReferenceName(currentPoint, reference.path, "local"),
         optional: false,
         type: factory.TypeReferenceNode.create({
           name: context.getReferenceName(currentPoint, reference.path, "local"),
@@ -59,7 +60,7 @@ export const generatePropertySignature = (
     });
   }
   return factory.PropertySignature.create({
-    name: `"${parameter.name}"`, // TODO escapeText X-Rate-Limit -> "X-Rate-Limit"
+    name: Name.escapeText(parameter.name),
     optional: false,
     type: ToTypeNode.convert(entryPoint, currentPoint, factory, parameter.schema || { type: "null" }, context),
   });
@@ -97,6 +98,7 @@ export const getSchema = (
   entryPoint: string,
   currentPoint: string,
   parameter: OpenApi.Parameter | OpenApi.Reference,
+  context: ToTypeNode.Context,
 ): OpenApi.Parameter | undefined => {
   let schema: OpenApi.Parameter | undefined;
   if (Guard.isReference(parameter)) {
