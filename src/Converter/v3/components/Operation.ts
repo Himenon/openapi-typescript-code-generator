@@ -30,6 +30,7 @@ const generateComment = (operation: OpenApi.Operation): string => {
   return comments.join(EOL);
 };
 
+// 使わない可能性あり
 export const generateNamespace = (
   entryPoint: string,
   currentPoint: string,
@@ -72,10 +73,7 @@ export const generateNamespace = (
       const reference = Reference.generate<OpenApi.RequestBody>(entryPoint, currentPoint, operation.requestBody);
       if (reference.type === "local") {
         context.setReferenceHandler(reference);
-        // TODO 追加する必要がある
-        console.log({
-          referenceName2: context.getReferenceName(currentPoint, reference.path, "local"),
-        });
+        // TODO (not-use) 追加する必要がある（このメソッドを使わない可能性あり）
         factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, reference.path, "local") });
       } else if (reference.type === "remote" && reference.componentName) {
         const contentPath = path.join(reference.path, "Content"); // requestBodyはNamespaceを形成するため

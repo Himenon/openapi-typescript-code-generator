@@ -1,3 +1,4 @@
+import { UnSupportError } from "../../../Exception";
 import { Factory } from "../../../TypeScriptCodeGenerator";
 import * as Guard from "../Guard";
 import * as Name from "../Name";
@@ -31,10 +32,7 @@ export const generateNamespace = (
     if (Guard.isReference(parameter)) {
       const reference = Reference.generate<OpenApi.Parameter>(entryPoint, currentPoint, parameter);
       if (reference.type === "local") {
-        return factory.InterfaceDeclaration.create({
-          name: `TODO:${parameter.$ref}`,
-          members: [],
-        });
+        throw new UnSupportError("What is components.parameters local reference?");
       }
       const path = `components/parameters/${reference.name}`;
       return store.addStatement(path, {
@@ -76,10 +74,7 @@ export const generateNamespaceWithList = (
     if (Guard.isReference(parameter)) {
       const reference = Reference.generate<OpenApi.Parameter>(entryPoint, currentPoint, parameter);
       if (reference.type === "local") {
-        return factory.InterfaceDeclaration.create({
-          name: `TODO:${parameter.$ref}`,
-          members: [],
-        });
+        throw new UnSupportError("What is components.parameters local reference?");
       }
       const path = `components/parameters/${reference.name}`;
       return store.addStatement(path, {

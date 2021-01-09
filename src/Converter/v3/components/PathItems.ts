@@ -8,6 +8,7 @@ import { OpenApi } from "../types";
 import * as PathItem from "./PathItem";
 import * as Reference from "./Reference";
 
+// 使わない可能性あり
 export const generateNamespace = (
   entryPoint: string,
   currentPoint: string,
