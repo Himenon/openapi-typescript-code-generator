@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import { relative } from "path";
 
+import Dot from "dot-prop";
 import yaml from "js-yaml";
 import ts from "typescript";
 
@@ -35,10 +36,22 @@ export interface Type {
   dump: (filename: string) => void;
   dumpOperationState: (filename: string) => void;
   getNoReferenceOperationState: () => Operation.State;
+  getPathItem: (localPath: string) => OpenApi.PathItem;
 }
 
 export const create = (factory: Factory.Type, rootDocument: OpenApi.Document): Type => {
   const state: State.Type = State.createDefaultState(rootDocument);
+
+  const getPathItem = (localPath: string): OpenApi.PathItem => {
+    if (!localPath.startsWith("components/pathItem")) {
+      throw new Error("Only use start with 'component/pathItems': " + localPath);
+    }
+    const result = Dot.get<OpenApi.PathItem>(state.document, localPath.replace(/\//g, "."));
+    if (!result) {
+      throw new Error(`Not found ${localPath}`);
+    }
+    return result;
+  };
 
   const createNamespace = (name: string): Def.NamespaceStatement<A, B, C> => {
     const value = factory.Namespace.create({
@@ -62,7 +75,6 @@ export const create = (factory: Factory.Type, rootDocument: OpenApi.Document): T
   const getStatement = (path: string, type: Def.Statement<A, B, C>["type"]) => {
     const targetPath = relative("components", path);
     const result = PropAccess.get(state.components, type, targetPath);
-    const flag = `${!!result}`.padEnd(5, " ");
     return result;
   };
 
@@ -179,5 +191,6 @@ export const create = (factory: Factory.Type, rootDocument: OpenApi.Document): T
     getOperationState,
     addAdditionalStatement,
     dumpOperationState,
+    getPathItem,
   };
 };

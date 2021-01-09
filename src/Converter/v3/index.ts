@@ -4,7 +4,7 @@ import * as TypeScriptCodeGenerator from "../../TypeScriptCodeGenerator";
 import * as Comment from "./Comment";
 import * as Headers from "./components/Headers";
 import * as Parameters from "./components/Parameters";
-import * as PathItems from "./components/PathItems";
+// import * as PathItems from "./components/PathItems";
 import * as RequestBodies from "./components/RequestBodies";
 import * as Responses from "./components/Responses";
 import * as Schemas from "./components/Schemas";
@@ -51,9 +51,9 @@ export const create = (entryPoint: string, rootSchema: OpenApi.Document): Conver
       // if (rootSchema.components.securitySchemes) {
       //   SecuritySchemas.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.securitySchemes);
       // }
-      if (rootSchema.components.pathItems) {
-        PathItems.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.pathItems, toTypeNodeContext);
-      }
+      // if (rootSchema.components.pathItems) {
+      //   PathItems.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.pathItems, toTypeNodeContext);
+      // }
       // TODO Feature Development
       // if (rootSchema.components.links) {
       //   statements.push(Links.generateNamespace(entryPoint, currentPoint, factory, rootSchema.components.links));

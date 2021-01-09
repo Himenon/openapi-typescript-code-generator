@@ -25,9 +25,12 @@ export const generateStatements = (
     if (Guard.isReference(pathItem)) {
       const reference = Reference.generate<OpenApi.PathItem>(entryPoint, currentPoint, pathItem);
       if (reference.type === "local") {
-        throw new FeatureDevelopmentError("これから対応");
+        statements.push(
+          PathItem.generateStatements(entryPoint, currentPoint, store, factory, requestUri, store.getPathItem(reference.path), context),
+        );
+      } else {
+        statements.push(PathItem.generateStatements(entryPoint, reference.referencePoint, store, factory, requestUri, reference.data, context));
       }
-      statements.push(PathItem.generateStatements(entryPoint, reference.referencePoint, store, factory, requestUri, reference.data, context));
     } else {
       statements.push(PathItem.generateStatements(entryPoint, currentPoint, store, factory, requestUri, pathItem, context));
     }

@@ -110,6 +110,15 @@ components:
                 items:
                   type: string
                   enum: [javascript, typescript, openapi]
+    BlogDeleteReason:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              reason:
+                type: string
   securitySchemes:
     UserSession:
       type: apiKey
@@ -129,7 +138,9 @@ components:
       delete:
         description: Delete Blog
         summary: Delete Blog
-        operationId: deleteBlog
+        operationId: deleteWithReason
+        requestBody:
+          $ref: "#/components/requestBodies/BlogDeleteReason"
         parameter:
           - in: path
             name: id
@@ -156,7 +167,7 @@ paths:
     post:
       description: Summary Create Blog
       summary: Create Blog
-      operationId: createBlog
+      operationId: createBlog2
       requestBody:
         $ref: "#/components/requestBodies/BlogPost"
       responses:
@@ -171,6 +182,8 @@ paths:
           name: username
           schema:
             type: string
+  /blog/{id}/delete/:
+    $ref: "#/components/pathItems/BlogCRUD"
   /blog/{id}/:
     delete:
       description: Delete Blog
