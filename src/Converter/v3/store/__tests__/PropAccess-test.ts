@@ -16,13 +16,16 @@ const createDummyInterfaceDeclaration = (name: string): B => {
 const testStatementMap = {
   "namespace:level1": {
     type: "namespace",
+    name: "level1",
     value: createDummyModuleDeclaration("level1"),
     statements: {
       "namespace:level2": {
         type: "namespace",
+        name: "level2",
         value: createDummyModuleDeclaration("level2"),
         statements: {
           "interface:level3": {
+            name: "level3",
             type: "interface",
             value: createDummyInterfaceDeclaration("level3"),
           },
@@ -30,6 +33,7 @@ const testStatementMap = {
       },
       "interface:level2": {
         type: "interface",
+        name: "level2",
         value: createDummyInterfaceDeclaration("level2"),
       },
     },
@@ -39,6 +43,7 @@ const testStatementMap = {
 const createNamespace = (name: string): Def.NamespaceStatement<A, B, C> => {
   return {
     type: "namespace",
+    name,
     value: createDummyModuleDeclaration(name),
     statements: {},
   };
@@ -85,7 +90,12 @@ describe("PropAccessTest", () => {
   });
   test("set: level1 & target: empty namespace", () => {
     const obj: Def.StatementMap<A, B, C> = {};
-    const statement: Def.NamespaceStatement<A, B, C> = { type: "namespace", value: createDummyModuleDeclaration("level1"), statements: {} };
+    const statement: Def.NamespaceStatement<A, B, C> = {
+      type: "namespace",
+      name: "level1",
+      value: createDummyModuleDeclaration("level1"),
+      statements: {},
+    };
     const result = PropAccess.set(obj, "level1", statement, createNamespace);
     expect(result).toStrictEqual({
       "namespace:level1": statement,
@@ -93,16 +103,23 @@ describe("PropAccessTest", () => {
   });
   test("set: level2 & target: empty namespace", () => {
     const obj: Def.StatementMap<A, B, C> = {};
-    const statement: Def.NamespaceStatement<A, B, C> = { type: "namespace", value: createDummyModuleDeclaration("level2"), statements: {} };
+    const statement: Def.NamespaceStatement<A, B, C> = {
+      type: "namespace",
+      name: "level2",
+      value: createDummyModuleDeclaration("level2"),
+      statements: {},
+    };
     const result = PropAccess.set(obj, "level1/level2", statement, createNamespace);
 
     const expectResult: Def.StatementMap<A, B, C> = {
       "namespace:level1": {
         type: "namespace",
+        name: "level1",
         value: createDummyModuleDeclaration("level1"),
         statements: {
           "namespace:level2": {
             type: "namespace",
+            name: "level2",
             value: createDummyModuleDeclaration("level2"),
             statements: {},
           },
@@ -114,15 +131,22 @@ describe("PropAccessTest", () => {
 
   test("set: level3 & target: empty namespace", () => {
     const obj: Def.StatementMap<A, B, C> = {};
-    const statement: Def.NamespaceStatement<A, B, C> = { type: "namespace", value: createDummyModuleDeclaration("mostDepth"), statements: {} };
+    const statement: Def.NamespaceStatement<A, B, C> = {
+      type: "namespace",
+      name: "mostDepth",
+      value: createDummyModuleDeclaration("mostDepth"),
+      statements: {},
+    };
     const result = PropAccess.set(obj, "level1/level2/level3", statement, createNamespace);
     const expectResult: Def.StatementMap<A, B, C> = {
       "namespace:level1": {
         type: "namespace",
+        name: "level1",
         value: createDummyModuleDeclaration("level1"),
         statements: {
           "namespace:level2": {
             type: "namespace",
+            name: "level2",
             value: createDummyModuleDeclaration("level2"),
             statements: {
               "namespace:level3": statement,
@@ -138,25 +162,33 @@ describe("PropAccessTest", () => {
     const obj: Def.StatementMap<A, B, C> = {
       "namespace:level1": {
         type: "namespace",
+        name: "Hello",
         value: createDummyModuleDeclaration("Hello"),
         statements: {
           "namespace:level2": {
             type: "namespace",
+            name: "World",
             value: createDummyModuleDeclaration("World"),
             statements: {},
           },
         },
       },
     };
-    const statement: Def.InterfaceStatement<B> = { type: "interface", value: createDummyInterfaceDeclaration("dummyInterface") };
+    const statement: Def.InterfaceStatement<B> = {
+      type: "interface",
+      name: "dummyInterface",
+      value: createDummyInterfaceDeclaration("dummyInterface"),
+    };
     const result = PropAccess.set(obj, "level1/level2", statement, createNamespace);
     const expectResult: Def.StatementMap<A, B, C> = {
       "namespace:level1": {
         type: "namespace",
+        name: "Hello",
         value: createDummyModuleDeclaration("Hello"),
         statements: {
           "namespace:level2": {
             type: "namespace",
+            name: "World",
             value: createDummyModuleDeclaration("World"),
             statements: {},
           },
@@ -171,10 +203,12 @@ describe("PropAccessTest", () => {
     const obj: Def.StatementMap<A, B, C> = {
       "namespace:level1": {
         type: "namespace",
+        name: "Hello",
         value: createDummyModuleDeclaration("Hello"),
         statements: {
           "namespace:level2": {
             type: "namespace",
+            name: "World",
             value: createDummyModuleDeclaration("World"),
             statements: {
               "namespace:level3": createNamespace("level3"),
@@ -183,19 +217,26 @@ describe("PropAccessTest", () => {
         },
       },
     };
-    const statement: Def.InterfaceStatement<B> = { type: "interface", value: createDummyInterfaceDeclaration("dummyInterface") };
+    const statement: Def.InterfaceStatement<B> = {
+      type: "interface",
+      name: "dummyInterface",
+      value: createDummyInterfaceDeclaration("dummyInterface"),
+    };
     const result = PropAccess.set(obj, "level1/level2/level3/level4", statement, createNamespace);
     const expectResult: Def.StatementMap<A, B, C> = {
       "namespace:level1": {
         type: "namespace",
+        name: "Hello",
         value: createDummyModuleDeclaration("Hello"),
         statements: {
           "namespace:level2": {
             type: "namespace",
+            name: "World",
             value: createDummyModuleDeclaration("World"),
             statements: {
               "namespace:level3": {
                 type: "namespace",
+                name: "level3",
                 value: createDummyModuleDeclaration("level3"),
                 statements: {
                   "interface:level4": statement,
