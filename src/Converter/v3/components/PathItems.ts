@@ -1,6 +1,7 @@
 import { FeatureDevelopmentError, UnSupportError } from "../../../Exception";
 import { Factory } from "../../../TypeScriptCodeGenerator";
 import * as Guard from "../Guard";
+import * as Name from "../Name";
 import { Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
 import { OpenApi } from "../types";
@@ -19,9 +20,10 @@ export const generateNamespace = (
 
   store.addComponent("pathItems", {
     type: "namespace",
+    name: Name.Components.PathItems,
     value: factory.Namespace.create({
       export: true,
-      name: "PathItems",
+      name: Name.Components.PathItems,
       statements: [],
       comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#componentsObject`,
     }),

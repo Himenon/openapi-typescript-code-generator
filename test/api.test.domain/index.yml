@@ -147,6 +147,8 @@ paths:
       description: Create Blog
       summary: Create Blog
       operationId: createBlog
+      requestBody:
+        $ref: "#/components/requestBodies/BlogPost"
       responses:
         "200":
           $ref: "#/components/responses/SucceededCreatingBlogPost"

@@ -1,6 +1,7 @@
 import * as path from "path";
 
 import { Factory } from "../../../TypeScriptCodeGenerator";
+import * as Name from "../Name";
 import { Def, State, Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
 import { OpenApi } from "../types";
@@ -20,6 +21,7 @@ export const generateNamespace = (
   const basePath = `${parentPath}/${name}`;
   store.addStatement(basePath, {
     type: "namespace",
+    name,
     value: factory.Namespace.create({
       export: true,
       name: name,
@@ -32,14 +34,16 @@ export const generateNamespace = (
   if (response.headers) {
     store.addStatement(`${basePath}/Header`, {
       type: "interface",
-      value: Header.generateInterface(entryPoint, currentPoint, factory, "Header", response.headers, context),
+      name: Name.ComponentChild.Header,
+      value: Header.generateInterface(entryPoint, currentPoint, factory, Name.ComponentChild.Header, response.headers, context),
     });
   }
 
   if (response.content) {
     store.addStatement(`${basePath}/Content`, {
       type: "interface",
-      value: MediaType.generateInterface(entryPoint, currentPoint, factory, "Content", response.content, context),
+      name: Name.ComponentChild.Content,
+      value: MediaType.generateInterface(entryPoint, currentPoint, factory, Name.ComponentChild.Content, response.content, context),
     });
   }
 };
@@ -58,6 +62,7 @@ export const generateReferenceNamespace = (
   const referenceNamespaceName = context.getReferenceName(currentPoint, responseReference.path, "remote");
   store.addStatement(basePath, {
     type: "namespace",
+    name: nameWithStatusCode,
     value: factory.Namespace.create({
       export: true,
       name: nameWithStatusCode,
@@ -72,9 +77,10 @@ export const generateReferenceNamespace = (
   if (headerNamespace) {
     store.addStatement(`${basePath}/Header`, {
       type: "namespace",
+      name: Name.ComponentChild.Header,
       value: factory.Namespace.create({
         export: true,
-        name: "Header",
+        name: Name.ComponentChild.Header,
         statements: [],
       }),
       statements: {},
@@ -84,13 +90,15 @@ export const generateReferenceNamespace = (
         return;
       }
       if (statement.type === "interface" || statement.type === "typeAlias") {
+        const aliasName = [referenceNamespaceName, Name.ComponentChild.Header, statement.name].join(".");
         store.addStatement(`${basePath}/Header/${statement.value.name.text}`, {
           type: "typeAlias",
+          name: aliasName,
           value: factory.TypeAliasDeclaration.create({
             export: true,
             name: statement.value.name.text,
             type: factory.TypeReferenceNode.create({
-              name: [referenceNamespaceName, "Header", statement.value.name.text].join("."),
+              name: aliasName,
             }),
           }),
         });
@@ -99,11 +107,12 @@ export const generateReferenceNamespace = (
   }
   store.addStatement(`${basePath}/Content`, {
     type: "typeAlias",
+    name: Name.ComponentChild.Content,
     value: factory.TypeAliasDeclaration.create({
       export: true,
-      name: "Content",
+      name: Name.ComponentChild.Content,
       type: factory.TypeReferenceNode.create({
-        name: referenceNamespaceName + ".Content",
+        name: referenceNamespaceName + "." + Name.ComponentChild.Content, // TODO Contextから作成？
       }),
     }),
   });

@@ -1,6 +1,7 @@
 import { FeatureDevelopmentError, UnSupportError } from "../../../Exception";
 import { Factory } from "../../../TypeScriptCodeGenerator";
 import * as Guard from "../Guard";
+import * as Name from "../Name";
 import { Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
 import { OpenApi } from "../types";
@@ -18,9 +19,10 @@ export const generateNamespace = (
   const basePath = "components/schemas";
   store.addComponent("schemas", {
     type: "namespace",
+    name: Name.Components.Schemas,
     value: factory.Namespace.create({
       export: true,
-      name: "Schemas",
+      name: Name.Components.Schemas,
       statements: [],
       comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#schemaObject`,
     }),
@@ -36,26 +38,31 @@ export const generateNamespace = (
       if (Guard.isAllOfSchema(reference.data)) {
         store.addStatement(path, {
           type: "typeAlias",
+          name: reference.name,
           value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, reference.name, reference.data.allOf, context, "allOf"),
         });
       } else if (Guard.isOneOfSchema(reference.data)) {
         store.addStatement(path, {
           type: "typeAlias",
+          name: reference.name,
           value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, reference.name, reference.data.oneOf, context, "oneOf"),
         });
       } else if (Guard.isAnyOfSchema(reference.data)) {
         store.addStatement(path, {
           type: "typeAlias",
+          name: reference.name,
           value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, reference.name, reference.data.anyOf, context, "allOf"),
         });
       } else if (Guard.isObjectSchema(reference.data)) {
         store.addStatement(path, {
           type: "interface",
+          name: reference.name,
           value: Schema.generateInterface(entryPoint, reference.referencePoint, factory, reference.name, reference.data, context),
         });
       } else if (Guard.isPrimitiveSchema(reference.data)) {
         store.addStatement(path, {
           type: "typeAlias",
+          name: reference.name,
           value: Schema.generateTypeAlias(entryPoint, reference.referencePoint, factory, reference.name, reference.data),
         });
       }
@@ -64,6 +71,7 @@ export const generateNamespace = (
       }
       return store.addStatement(`${basePath}/${name}`, {
         type: "typeAlias",
+        name,
         value: factory.TypeAliasDeclaration.create({
           export: true,
           name: name,
@@ -77,36 +85,42 @@ export const generateNamespace = (
     if (Guard.isAllOfSchema(schema)) {
       return store.addStatement(path, {
         type: "typeAlias",
+        name,
         value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.allOf, context, "allOf"),
       });
     }
     if (Guard.isOneOfSchema(schema)) {
       return store.addStatement(path, {
         type: "typeAlias",
+        name,
         value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.oneOf, context, "oneOf"),
       });
     }
     if (Guard.isAnyOfSchema(schema)) {
       return store.addStatement(path, {
         type: "typeAlias",
+        name,
         value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.anyOf, context, "anyOf"),
       });
     }
     if (Guard.isObjectSchema(schema)) {
       return store.addStatement(path, {
         type: "interface",
+        name,
         value: Schema.generateInterface(entryPoint, currentPoint, factory, name, schema, context),
       });
     }
     if (Guard.isObjectSchema(schema)) {
       return store.addStatement(path, {
         type: "interface",
+        name,
         value: Schema.generateInterface(entryPoint, currentPoint, factory, name, schema, context),
       });
     }
     if (Guard.isPrimitiveSchema(schema)) {
       return store.addStatement(path, {
         type: "typeAlias",
+        name,
         value: Schema.generateTypeAlias(entryPoint, currentPoint, factory, name, schema),
       });
     }

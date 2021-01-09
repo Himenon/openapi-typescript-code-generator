@@ -23,6 +23,7 @@ export const generateNamespace = (
   const topComment = options && options.topComment && options.topComment;
   store.addStatement(basePath, {
     type: "namespace",
+    name,
     value: factory.Namespace.create({
       export: true,
       name,

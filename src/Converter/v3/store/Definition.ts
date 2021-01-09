@@ -4,17 +4,20 @@ export type Keys = InterfaceKey | NamespaceKey;
 
 export interface NamespaceStatement<T, U, V> {
   type: "namespace";
+  name: string;
   value: T;
   statements: StatementMap<T, U, V>;
 }
 
 export interface TypeAliasStatement<T> {
   type: "typeAlias";
+  name: string;
   value: T;
 }
 
 export interface InterfaceStatement<T> {
   type: "interface";
+  name: string;
   value: T;
 }
 

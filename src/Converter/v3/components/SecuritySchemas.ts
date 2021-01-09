@@ -1,6 +1,7 @@
 import { UndefinedComponent } from "../../../Exception";
 import { Factory } from "../../../TypeScriptCodeGenerator";
 import * as Guard from "../Guard";
+import * as Name from "../Name";
 import { Store } from "../store";
 import { OpenApi } from "../types";
 import * as Reference from "./Reference";
@@ -15,9 +16,10 @@ export const generateNamespace = (
 ): void => {
   store.addComponent("securitySchemes", {
     type: "namespace",
+    name: Name.Components.SecuritySchemas,
     value: factory.Namespace.create({
       export: true,
-      name: "SecuritySchemas",
+      name: Name.Components.SecuritySchemas,
       statements: [],
       comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#securitySchemeObject`,
     }),
@@ -35,12 +37,14 @@ export const generateNamespace = (
       const path = `components/securitySchemes/${reference.name}`;
       return store.addStatement(path, {
         type: "interface",
+        name,
         value: SecuritySchema.generateInterface(entryPoint, reference.referencePoint, factory, name, reference.data),
       });
     }
     const path = `components/securitySchemes/${name}`;
     return store.addStatement(path, {
       type: "interface",
+      name: name,
       value: SecuritySchema.generateInterface(entryPoint, currentPoint, factory, name, requestBody),
     });
   });

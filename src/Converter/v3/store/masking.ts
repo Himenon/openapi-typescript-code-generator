@@ -15,6 +15,7 @@ const maskingNamespace = (
   );
   return {
     type: "namespace",
+    name: namespaceStatement.name,
     value: namespaceStatement.value.name.text as any,
     statements,
   };
@@ -23,6 +24,7 @@ const maskingNamespace = (
 const maskingInterface = (statement: Def.InterfaceStatement<State.B>): Def.InterfaceStatement<State.B> => {
   return {
     type: "interface",
+    name: statement.name,
     value: statement.value.name.text as any,
   };
 };
@@ -30,6 +32,7 @@ const maskingInterface = (statement: Def.InterfaceStatement<State.B>): Def.Inter
 const maskingTypeAlias = (statement: Def.TypeAliasStatement<State.C>): Def.TypeAliasStatement<State.C> => {
   return {
     type: "typeAlias",
+    name: statement.name,
     value: statement.value.name.text as any,
   };
 };

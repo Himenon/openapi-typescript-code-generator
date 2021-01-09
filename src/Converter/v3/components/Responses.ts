@@ -24,9 +24,10 @@ export const generateNamespace = (
   const basePath = "components/responses";
   store.addComponent("responses", {
     type: "namespace",
+    name: Name.Components.Responses,
     value: factory.Namespace.create({
       export: true,
-      name: "Responses",
+      name: Name.Components.Responses,
       statements: [],
       comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#responsesObject`,
     }),
@@ -60,9 +61,10 @@ export const generateNamespaceWithStatusCode = (
   const basePath = `${parentPath}/responses`;
   store.addStatement(basePath, {
     type: "namespace",
+    name: Name.ComponentChild.Response,
     value: factory.Namespace.create({
       export: true,
-      name: "Response",
+      name: Name.ComponentChild.Response,
       statements: [],
       comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#responsesObject`,
     }),

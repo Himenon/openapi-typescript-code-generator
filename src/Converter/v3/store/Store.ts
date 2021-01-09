@@ -48,6 +48,7 @@ export const create = (factory: Factory.Type, rootDocument: OpenApi.Document): T
     });
     return {
       type: "namespace",
+      name,
       value,
       statements: {},
     };

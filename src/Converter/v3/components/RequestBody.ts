@@ -36,6 +36,7 @@ export const generateNamespace = (
   const basePath = `${parentName}/${name}`;
   store.addStatement(basePath, {
     type: "namespace",
+    name,
     value: factory.Namespace.create({
       export: true,
       name,

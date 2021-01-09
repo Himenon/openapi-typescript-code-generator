@@ -1,5 +1,6 @@
 import { Factory } from "../../../TypeScriptCodeGenerator";
 import * as Guard from "../Guard";
+import * as Name from "../Name";
 import { Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
 import { OpenApi } from "../types";
@@ -17,9 +18,10 @@ export const generateNamespace = (
   const basePath = "components/requestBodies";
   store.addComponent("requestBodies", {
     type: "namespace",
+    name: Name.Components.RequestBodies,
     value: factory.Namespace.create({
       export: true,
-      name: "RequestBodies",
+      name: Name.Components.RequestBodies,
       statements: [],
       comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#componentsObject`,
     }),

@@ -36,16 +36,14 @@ const generateName = (store: Store.Type, base: string, pathArray: string[]): str
     const isLast = index === pathArray.length - 1;
     if (isLast) {
       const statement = store.getStatement(current, "interface");
-      if (statement) {
-        names.push(statement.value.name.text);
-      }
       const statement2 = store.getStatement(current, "typeAlias");
-      if (statement2) {
-        names.push(statement2.value.name.text);
-      }
       const statement3 = store.getStatement(current, "namespace");
-      if (statement3) {
-        names.push(statement3.value.name.text);
+      if (statement) {
+        names.push(statement.name);
+      } else if (statement2) {
+        names.push(statement2.name);
+      } else if (statement3) {
+        names.push(statement3.name);
       }
     } else {
       const statement = store.getStatement(current, "namespace");
@@ -78,6 +76,7 @@ export const create = (entryPoint: string, store: Store.Type, factory: TypeScrip
       if (ts.isTypeLiteralNode(typeNode)) {
         store.addStatement(reference.path, {
           type: "interface",
+          name: reference.name,
           value: factory.InterfaceDeclaration.create({
             export: true,
             name: reference.name,
@@ -94,6 +93,7 @@ export const create = (entryPoint: string, store: Store.Type, factory: TypeScrip
           }),
         });
         store.addStatement(reference.path, {
+          name: reference.name,
           type: "typeAlias",
           value,
         });

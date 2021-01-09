@@ -47,6 +47,7 @@ export const generateNamespace = (
   }
   store.addStatement(basePath, {
     type: "namespace",
+    name,
     value: factory.Namespace.create({
       export: true,
       name,
@@ -58,9 +59,11 @@ export const generateNamespace = (
   });
 
   if (operation.parameters) {
+    const parameterName = "Parameter";
     store.addStatement(`${basePath}/Parameter`, {
       type: "interface",
-      value: Parameter.generateInterface(entryPoint, currentPoint, factory, "Parameter", operation.parameters, context),
+      name: parameterName,
+      value: Parameter.generateInterface(entryPoint, currentPoint, factory, parameterName, operation.parameters, context),
     });
   }
 
@@ -70,19 +73,26 @@ export const generateNamespace = (
       if (reference.type === "local") {
         context.setReferenceHandler(reference);
         // TODO 追加する必要がある
+        console.log({
+          referenceName2: context.getReferenceName(currentPoint, reference.path, "local"),
+        });
         factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, reference.path, "local") });
       } else if (reference.type === "remote" && reference.componentName) {
         const contentPath = path.join(reference.path, "Content"); // requestBodyはNamespaceを形成するため
+        const name = "Content";
         store.addStatement(contentPath, {
           type: "interface",
-          value: RequestBody.generateInterface(entryPoint, reference.referencePoint, factory, "Content", reference.data, context),
+          name: name,
+          value: RequestBody.generateInterface(entryPoint, reference.referencePoint, factory, name, reference.data, context),
         });
+        const typeAliasName = context.getReferenceName(currentPoint, contentPath, "remote");
         store.addStatement(`${basePath}/RequestBody`, {
           type: "typeAlias",
+          name: typeAliasName,
           value: factory.TypeAliasDeclaration.create({
             export: true,
             name: "RequestBody",
-            type: factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, contentPath, "remote") }),
+            type: factory.TypeReferenceNode.create({ name: typeAliasName }),
           }),
         });
       }
@@ -128,13 +138,22 @@ export const generateStatements = (
       const reference = Reference.generate<OpenApi.RequestBody>(entryPoint, currentPoint, operation.requestBody);
       if (reference.type === "local") {
         context.setReferenceHandler(reference);
-        // TODO 追加する必要がある
-        factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, reference.path, "local") });
+        statements.push(
+          factory.TypeAliasDeclaration.create({
+            export: true,
+            name: Name.requestBodyName(operationId),
+            type: factory.TypeReferenceNode.create({
+              name: context.getReferenceName(currentPoint, `${reference.path}`, "local") + "." + Name.ComponentChild.Content, // TODO Contextから作成？
+            }),
+          }),
+        );
       } else if (reference.type === "remote" && reference.componentName) {
         const contentPath = path.join(reference.path, "Content"); // requestBodyはNamespaceを形成するため
+        const name = "Content";
         store.addStatement(contentPath, {
           type: "interface",
-          value: RequestBody.generateInterface(entryPoint, reference.referencePoint, factory, "Content", reference.data, context),
+          name: name,
+          value: RequestBody.generateInterface(entryPoint, reference.referencePoint, factory, name, reference.data, context),
         });
         statements.push(
           factory.TypeAliasDeclaration.create({

@@ -1,6 +1,7 @@
 import { UndefinedComponent } from "../../../Exception";
 import { Factory } from "../../../TypeScriptCodeGenerator";
 import * as Guard from "../Guard";
+import * as Name from "../Name";
 import { Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
 import { OpenApi } from "../types";
@@ -17,9 +18,10 @@ export const generateNamespace = (
 ): void => {
   store.addComponent("headers", {
     type: "namespace",
+    name: Name.Components.Headers,
     value: factory.Namespace.create({
       export: true,
-      name: "Headers",
+      name: Name.Components.Headers,
       statements: [],
       comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#componentsObject`,
     }),
@@ -35,12 +37,14 @@ export const generateNamespace = (
       } else if (reference.type === "remote") {
         store.addStatement(reference.path, {
           type: "typeAlias",
+          name: reference.name,
           value: Header.generateTypeNode(entryPoint, reference.referencePoint, factory, reference.name, reference.data, context),
         });
       }
     } else {
       store.addStatement(`components/headers/${name}`, {
         type: "typeAlias",
+        name: name,
         value: Header.generateTypeNode(entryPoint, currentPoint, factory, name, header, context),
       });
     }
