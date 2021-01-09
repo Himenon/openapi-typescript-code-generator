@@ -12,7 +12,6 @@ export interface OperationState {
   httpMethod: string;
   parameterName?: string;
   requestBodyName?: string;
-  parameters: OpenApi.Parameter[];
 }
 
 export interface Type {
@@ -37,7 +36,6 @@ export const createDefaultOperationState = (httpMethod: string, requestUri: stri
     requestUri: requestUri,
     parameterName: state.parameterName,
     requestBodyName: state.parameterName,
-    parameters: state.parameters || [],
   };
 };
 

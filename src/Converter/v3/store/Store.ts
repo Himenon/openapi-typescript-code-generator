@@ -147,8 +147,7 @@ export const create = (factory: Factory.Type, rootDocument: OpenApi.Document): T
   ) => {
     let operationState = state.operations[operationId];
     if (operationState) {
-      const parameters = operationState.parameters.concat(newOperationState.parameters || []);
-      operationState = { ...operationState, ...newOperationState, parameters };
+      operationState = { ...operationState, ...newOperationState };
     } else {
       operationState = State.createDefaultOperationState(httpMethod, requestUri, newOperationState);
     }

@@ -1,6 +1,5 @@
 import ts from "typescript";
 
-import { FeatureDevelopmentError } from "../../../Exception";
 import { Factory } from "../../../TypeScriptCodeGenerator";
 import * as Guard from "../Guard";
 import * as Name from "../Name";
@@ -46,7 +45,7 @@ export const generatePropertySignature = (
     if (reference.type === "local") {
       context.setReferenceHandler(reference);
       return factory.PropertySignature.create({
-        name: context.getReferenceName(currentPoint, reference.path, "local"),
+        name: reference.name,
         optional: false,
         type: factory.TypeReferenceNode.create({
           name: context.getReferenceName(currentPoint, reference.path, "local"),
@@ -70,7 +69,7 @@ export const generatePropertySignatures = (
   entryPoint: string,
   currentPoint: string,
   factory: Factory.Type,
-  parameters: [OpenApi.Parameter | OpenApi.Reference],
+  parameters: (OpenApi.Parameter | OpenApi.Reference)[],
   context: ToTypeNode.Context,
 ): ts.PropertySignature[] => {
   return parameters.map(parameter => {
@@ -94,22 +93,21 @@ export const generateInterface = (
   });
 };
 
-export const getSchema = (
+/**
+ * Alias作成用
+ */
+export const generateAliasInterface = (
   entryPoint: string,
   currentPoint: string,
-  parameter: OpenApi.Parameter | OpenApi.Reference,
+  factory: Factory.Type,
+  name: string,
+  parameters: (OpenApi.Parameter | OpenApi.Reference)[],
   context: ToTypeNode.Context,
-): OpenApi.Parameter | undefined => {
-  let schema: OpenApi.Parameter | undefined;
-  if (Guard.isReference(parameter)) {
-    const reference = Reference.generate<OpenApi.Parameter>(entryPoint, currentPoint, parameter);
-    if (reference.type === "local") {
-      throw new FeatureDevelopmentError("feature support \n" + JSON.stringify(reference, null, 2));
-    } else {
-      schema = reference.data;
-    }
-  } else {
-    schema = parameter;
-  }
-  return schema;
+): ts.InterfaceDeclaration => {
+  return factory.InterfaceDeclaration.create({
+    export: true,
+    name,
+    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject`,
+    members: generatePropertySignatures(entryPoint, currentPoint, factory, parameters, context),
+  });
 };

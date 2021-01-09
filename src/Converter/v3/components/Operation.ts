@@ -124,13 +124,7 @@ export const generateStatements = (
   store.updateOperationState(httpMethod, requestUri, operationId, {});
   if (operation.parameters) {
     const parameterName = Name.parameterName(operationId);
-    statements.push(Parameter.generateInterface(entryPoint, currentPoint, factory, parameterName, operation.parameters, context));
-    store.updateOperationState(httpMethod, requestUri, operationId, {
-      parameterName: parameterName,
-      parameters: operation.parameters
-        .map(parameter => Parameter.getSchema(entryPoint, currentPoint, parameter, context))
-        .filter(Boolean) as OpenApi.Parameter[],
-    });
+    statements.push(Parameter.generateAliasInterface(entryPoint, currentPoint, factory, parameterName, operation.parameters, context));
   }
   if (operation.requestBody) {
     const requestBodyName = Name.requestBodyName(operationId);
