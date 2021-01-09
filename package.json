@@ -1,20 +1,21 @@
 {
-  "name": "@himenon/openapi-typescript-ast-codegen",
+  "name": "@himenon/openapi-typescript-code-generator",
   "version": "0.1.0",
   "private": true,
   "description": "node library template",
   "keywords": [
-    "template",
-    "proxy directory",
-    "typescript"
+    "openapi",
+    "typescript",
+    "typescript-ast",
+    "code-generator"
   ],
-  "homepage": "https://github.com/Himenon/openapi-typescript-ast-codegen#readme",
+  "homepage": "https://github.com/Himenon/openapi-typescript-code-generator#readme",
   "bugs": {
-    "url": "https://github.com/Himenon/openapi-typescript-ast-codegen/issues"
+    "url": "https://github.com/Himenon/openapi-typescript-code-generator/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:Himenon/openapi-typescript-ast-codegen.git"
+    "url": "git@github.com:Himenon/openapi-typescript-code-generator.git"
   },
   "license": "MIT",
   "author": {

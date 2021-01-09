@@ -1,28 +1,43 @@
-# @himenon/typescript-codegen
+# @himenon/openapi-typescript-code-generator
+
+## 設計コンセプト
+
+- TypeScript AST を利用して正確にコードを生成する
+- リファレンス先のディレクトリ名とファイル名の写像によって決定される構造的型定義
+- Dependency Injection を利用することにより生成されたコードが他のライブラリに依存しない
+- ユーザーの拡張性を損なわないこと
+- ポータビリティを高めるための生成コードの 1 ファイル化
+- 型定義は実態を定義しないこと、すなわち、JavaScript へ変換したときに API Client のみが実態として残ること
+- OpenAPI の名前空間設計に沿った型定義構造を持つ
+
+## 使い方
+
+### Install
 
 ```bash
-AST --> TypeScript
+yarn add -D @himenon/openapi-typescript-code-generator
 ```
 
-## Design
+### Script
 
-### Components
+```ts
+import * as fs from "fs";
 
-`$ref: "./components/{Directory1}/{Directory2}/{File}"`
+import * as CodeGenerator from "@himenon/openapi-typescript-code-generator";
 
-| TypeScript  | Match Pattern  |
-| :---------- | :------------- |
-| `namespace` | Directory Name |
-| `interface` | File Name      |
+const main = () => {
+  const params: CodeGenerator.Params = {
+    version: "v3",
+    entryPoint: "test/api.test.domain/index.yml",
+  };
+  const code = CodeGenerator.generateTypeScriptCode(params);
+  fs.writeFileSync("test/code/api.test.domain.ts", code, { encoding: "utf-8" });
+};
 
-Components Object
+main();
+```
 
-| TypeScript  | Match Pattern |
-| :---------- | :------------ |
-| `namespace` | Field Name    |
-| `interface` | Type Name     |
-
-## References
+## How to contribute
 
 TypeScript
 
@@ -40,24 +55,6 @@ Flow
 Babel
 
 - https://blog.ikeryo1182.com/typescript-transpiler/
-
-## Usage
-
-## Development
-
-| scripts                   | description                                 |
-| :------------------------ | :------------------------------------------ |
-| `build`                   | typescript build and create proxy directory |
-| `clean`                   | clean up                                    |
-| `format:code`             | prettier                                    |
-| `format:yarn:lock`        | yarn.lock deduplicate                       |
-| `lerna:version:up`        | lerna version up                            |
-| `test`                    | execute test:depcruise, test:jest           |
-| `test:depcruise`          | dependency-cruiser's test                   |
-| `test:jest`               | jest test                                   |
-| `ts`                      | execute ts-node                             |
-| `release:github:registry` | publish github registry                     |
-| `release:npm:registry`    | publish npm registry                        |
 
 ## Features
 
