@@ -4,10 +4,9 @@ import { Factory } from "../../CodeGenerator";
 import * as Name from "./Name";
 import { Store } from "./store";
 import * as Templates from "./templates";
-import { OpenApi } from "./types";
-import { CodeGeneratorParams, MethodBodyParams } from "./types";
+import { CodeGeneratorParams, OpenApi, PickedParameter } from "./types";
 
-const convertParameterToRequestParameterCategory = (parameter: OpenApi.Parameter): MethodBodyParams => {
+const extractPickedParameter = (parameter: OpenApi.Parameter): PickedParameter => {
   return {
     name: parameter.name,
     in: parameter.in,
@@ -17,7 +16,7 @@ const convertParameterToRequestParameterCategory = (parameter: OpenApi.Parameter
   };
 };
 
-const getSuccessStatusCodes = (responses: { [statusCode: string]: OpenApi.Response }): string[] => {
+const extractSuccessStatusCode = (responses: { [statusCode: string]: OpenApi.Response }): string[] => {
   const statusCodeList: string[] = [];
   Object.entries(responses || {}).forEach(([statusCodeLike, response]) => {
     // ContentTypeの定義が存在しない場合はstatusCodeを読み取らない
@@ -40,7 +39,7 @@ const getRequestContentTypeList = (requestBody: OpenApi.RequestBody): string[] =
 
 const getSuccessResponseContentTypeList = (responses: { [statusCode: string]: OpenApi.Response }): string[] => {
   let contentTypeList: string[] = [];
-  getSuccessStatusCodes(responses).forEach(statusCode => {
+  extractSuccessStatusCode(responses).forEach(statusCode => {
     const response = responses[statusCode];
     contentTypeList = contentTypeList.concat(Object.keys(response.content || {}));
   });
@@ -58,7 +57,7 @@ const generateParams = (store: Store.Type): CodeGeneratorParams[] => {
   const operationState = store.getNoReferenceOperationState();
   const params: CodeGeneratorParams[] = [];
   Object.entries(operationState).forEach(([operationId, item]) => {
-    const responseSuccessNames = getSuccessStatusCodes(item.responses).map(statusCode => Name.responseName(operationId, statusCode));
+    const responseSuccessNames = extractSuccessStatusCode(item.responses).map(statusCode => Name.responseName(operationId, statusCode));
     const requestContentTypeList = item.requestBody ? getRequestContentTypeList(item.requestBody) : [];
     const responseSuccessContentTypes = getSuccessResponseContentTypeList(item.responses);
     const hasOver2RequestContentTypes = requestContentTypeList.length > 1;
@@ -75,7 +74,7 @@ const generateParams = (store: Store.Type): CodeGeneratorParams[] => {
       //
       hasRequestBody: !!item.requestBody,
       hasParameter: item.parameters ? item.parameters.length > 0 : false,
-      requestParameterCategories: item.parameters ? item.parameters.map(convertParameterToRequestParameterCategory) : [],
+      pickedParameters: item.parameters ? item.parameters.map(extractPickedParameter) : [],
       // Request Content Types
       requestContentTypes: requestContentTypeList,
       requestFirstContentType: requestContentTypeList.length === 1 ? requestContentTypeList[0] : undefined,

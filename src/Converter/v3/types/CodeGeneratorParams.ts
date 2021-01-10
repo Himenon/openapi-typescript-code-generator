@@ -1,10 +1,6 @@
-export interface MethodBodyParams {
-  name: string;
-  in: "path" | "query" | "header" | "cookie";
-  required: boolean;
-  style?: "matrix" | "label" | "form" | "simple" | "spaceDelimited" | "pipeDelimited" | "deepObject";
-  explode?: boolean;
-}
+import * as OpenApi from "./OpenApiSchemaV3";
+
+export type PickedParameter = Pick<OpenApi.Parameter, "name" | "in" | "required" | "style" | "explode">;
 
 export interface CodeGeneratorParams {
   operationId: string;
@@ -14,7 +10,7 @@ export interface CodeGeneratorParams {
   comment: string | undefined;
   deprecated: boolean;
   argumentParamsTypeDeclaration: string;
-  requestParameterCategories: MethodBodyParams[];
+  pickedParameters: PickedParameter[];
   // Request Content Types
   requestContentTypes: string[];
   requestFirstContentType: string | undefined; // requestContentTypes.length === 1 only

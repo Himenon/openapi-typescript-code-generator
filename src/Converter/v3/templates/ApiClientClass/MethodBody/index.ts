@@ -14,10 +14,10 @@ export interface Params$GenerateUrl {
 
 export const create = (factory: Factory.Type, params: CodeGeneratorParams): ts.Statement[] => {
   const statements: ts.Statement[] = [];
-  const list = params.requestParameterCategories;
+  const { pickedParameters } = params;
 
   // Generate Path Parameter
-  const pathParameters = list.filter(PathParameter.isPathParameter);
+  const pathParameters = pickedParameters.filter(PathParameter.isPathParameter);
   statements.push(PathParameter.create(factory, params.requestUri, pathParameters));
 
   const initialHeaderObject: Utils.LiteralExpressionObject = {};
@@ -45,7 +45,7 @@ export const create = (factory: Factory.Type, params: CodeGeneratorParams): ts.S
   }
 
   // Generate Header Parameter
-  const headerParameter = list.filter(item => item.in === "header");
+  const headerParameter = pickedParameters.filter(item => item.in === "header");
   const headerObject = Object.values(headerParameter).reduce<Utils.LiteralExpressionObject>((previous, current) => {
     return { ...previous, [current.name]: { type: "variable", value: `params.parameter.${current.name}` } };
   }, initialHeaderObject);
@@ -58,7 +58,7 @@ export const create = (factory: Factory.Type, params: CodeGeneratorParams): ts.S
 
   // Generate Query Parameter
   if (params.hasQueryParameters) {
-    const queryParameter = list.filter(item => item.in === "query");
+    const queryParameter = pickedParameters.filter(item => item.in === "query");
     const queryObject = Object.values(queryParameter).reduce<{ [key: string]: QueryParameter.Item }>((previous, current) => {
       return {
         ...previous,
