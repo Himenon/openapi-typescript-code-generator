@@ -160,3 +160,66 @@ components:
       $ref: "./components/schemas/Level1/Level2/Level3/RemoteArray.yml"
     RemoteRefObject:
       $ref: "./components/schemas/Level1/Level2/Level3/Level4/RemoteObject.yml"
+  headers:
+    StringHeader:
+      schema:
+        type: string
+    HeaderA:
+      $ref: "./components/headers/A.yml"
+    HeaderB:
+      $ref: "./components/headers/Level1/B.yml"
+  parameters:
+    StringQueryParams:
+      name: A
+      in: query
+      description: parameters.StringQueryParams
+      required: true
+      schema:
+        type: string
+    NumberQueryParams:
+      name: B
+      in: path
+      description: parameters.NumberQueryParams
+      required: true
+      schema:
+        type: integer
+  responses:
+    Continue:
+      description: |
+        Status Code 100
+        @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/100
+    SwitchingProtocol:
+      description: |
+        Status Code 101
+        @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/101
+    LocalReferenceStringDateTimeType:
+      description: Type Reference - string
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/StringDateTimeType"
+    LocalReferenceObjectType:
+      description: Local Reference - object
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ObjectHasPropertiesType"
+  requestBodies:
+    StringType:
+      description: Request body string type
+      content:
+        application/json:
+          schema:
+            type: string
+    LocalReferenceStringType:
+      description: Request body Local reference string type
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/StringHasEnumType"
+    DirectRemoteReferenceStringType:
+      description: Request body remote reference (direct)
+      content:
+        application/json:
+          schema:
+            $ref: "./components/schemas/DirectRef/StringType.yml"

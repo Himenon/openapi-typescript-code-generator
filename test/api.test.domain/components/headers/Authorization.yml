@@ -1,5 +1,0 @@
-required: true
-description: "authorization"
-schema:
-  type: string
-  example: "Basic Basic_64_encoded_code"
