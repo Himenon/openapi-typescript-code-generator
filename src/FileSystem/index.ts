@@ -22,7 +22,7 @@ const create = (): Type => {
         return JSON.parse(data);
       case ".yml":
       case ".yaml":
-        return yaml.safeLoad(data);
+        return yaml.load(data);
       default:
         throw new UnSupportError(`Not support file: ${filename}`);
     }
