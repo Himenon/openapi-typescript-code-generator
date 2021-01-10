@@ -1,3 +1,5 @@
+import * as path from "path";
+
 import { Factory } from "../../../CodeGenerator";
 import * as Guard from "../Guard";
 import * as Name from "../Name";
@@ -30,14 +32,23 @@ export const generateNamespace = (
 
   Object.entries(requestBodies).forEach(([name, requestBody]) => {
     if (Guard.isReference(requestBody)) {
-      const reference = Reference.generate<OpenApi.MapLike<string, OpenApi.RequestBody>>(entryPoint, currentPoint, requestBody);
+      const reference = Reference.generate<OpenApi.RequestBody>(entryPoint, currentPoint, requestBody);
       if (reference.type === "local") {
-        return factory.TypeReferenceNode.create({
-          name: reference.name,
-        });
+        throw new Error("not support");
+      } else if (reference.type === "remote") {
+        RequestBody.generateNamespace(
+          entryPoint,
+          reference.referencePoint,
+          store,
+          factory,
+          path.dirname(reference.path),
+          reference.name,
+          reference.data,
+          context,
+        );
       }
-      return generateNamespace(entryPoint, reference.referencePoint, store, factory, reference.data, context);
+    } else {
+      RequestBody.generateNamespace(entryPoint, currentPoint, store, factory, basePath, name, requestBody, context);
     }
-    RequestBody.generateNamespace(entryPoint, currentPoint, store, factory, basePath, name, requestBody, context);
   });
 };

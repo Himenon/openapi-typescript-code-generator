@@ -250,3 +250,9 @@ components:
         application/json:
           schema:
             $ref: "./components/schemas/DirectRef/ForRequestBody.yml"
+    RefRequestBodyA:
+      $ref: "./components/requestBodies/RequestBodyA.yml"
+    RefRequestBodyB:
+      $ref: "./components/requestBodies/Level1/RequestBodyB.yml"
+    RefRequestBodyC:
+      $ref: "./components/requestBodies/Level1/Level2/RequestBodyC.yml"
