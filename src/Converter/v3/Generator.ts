@@ -3,7 +3,6 @@ import ts from "typescript";
 import { Factory } from "../../CodeGenerator";
 import * as Name from "./Name";
 import { Store } from "./store";
-import * as Templates from "./templates";
 import { CodeGeneratorParams, OpenApi, PickedParameter } from "./types";
 
 const extractPickedParameter = (parameter: OpenApi.Parameter): PickedParameter => {
@@ -100,32 +99,7 @@ const generateCodeGeneratorParamsList = (store: Store.Type): CodeGeneratorParams
 
 export type MakeApiClientFunction = (context: ts.TransformationContext, codeGeneratorParamsList: CodeGeneratorParams[]) => ts.Statement[];
 
-export const generateApiClientCode = (
-  store: Store.Type,
-  factory: Factory.Type,
-  context: ts.TransformationContext,
-  makeApiClient: MakeApiClientFunction | undefined,
-): void => {
+export const generateApiClientCode = (store: Store.Type, context: ts.TransformationContext, makeApiClient: MakeApiClientFunction): void => {
   const codeGeneratorParamsList = generateCodeGeneratorParamsList(store);
-  if (makeApiClient) {
-    store.addAdditionalStatement(makeApiClient(context, codeGeneratorParamsList));
-    return;
-  }
-  const statements: ts.Statement[] = [];
-  codeGeneratorParamsList.forEach(codeGeneratorParams => {
-    if (codeGeneratorParams.hasRequestBody) {
-      statements.push(Templates.ApiClientArgument.createRequestContentTypeReference(factory, codeGeneratorParams));
-    }
-    if (codeGeneratorParams.responseSuccessNames.length > 0) {
-      statements.push(Templates.ApiClientArgument.createResponseContentTypeReference(factory, codeGeneratorParams));
-    }
-    const typeDeclaration = Templates.ApiClientArgument.create(factory, codeGeneratorParams);
-    if (typeDeclaration) {
-      statements.push(typeDeclaration);
-    }
-  });
-  Templates.ApiClientClass.create(factory, codeGeneratorParamsList).forEach(newStatement => {
-    statements.push(newStatement);
-  });
-  store.addAdditionalStatement(statements);
+  store.addAdditionalStatement(makeApiClient(context, codeGeneratorParamsList));
 };

@@ -1,7 +1,7 @@
 import ts from "typescript";
 
-import { Factory } from "../../../../../CodeGenerator";
-import * as Name from "../../../Name";
+import { Factory } from "../../../CodeGenerator";
+import { Name } from "../../../Converter/v3";
 import * as Utils from "../../utils";
 
 export interface Item {

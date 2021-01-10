@@ -1,8 +1,7 @@
 import ts from "typescript";
 
-import { Factory } from "../../../../CodeGenerator";
-import * as Name from "../../Name";
-import { CodeGeneratorParams } from "../../types";
+import { Factory } from "../../CodeGenerator";
+import { CodeGeneratorParams, Name } from "../../Converter/v3";
 import * as MethodBody from "./MethodBody";
 
 export { MethodBody };

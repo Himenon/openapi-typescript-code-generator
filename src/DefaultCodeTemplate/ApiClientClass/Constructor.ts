@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import { Factory } from "../../../../CodeGenerator";
+import { Factory } from "../../CodeGenerator";
 
 /**
  * constructor(private apiClient: ApiClient, private baseUrl: string) { }

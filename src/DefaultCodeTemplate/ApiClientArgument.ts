@@ -1,13 +1,12 @@
 import ts from "typescript";
 
-import { Factory } from "../../../CodeGenerator";
-import * as Name from "../Name";
-import * as Types from "../types";
+import { Factory } from "../CodeGenerator";
+import { CodeGeneratorParams, Name } from "../Converter/v3";
 
 /**
  * export type RequestContentType${operationId} = keyof RequestBody${operationId};
  */
-export const createRequestContentTypeReference = (factory: Factory.Type, { operationId }: Types.CodeGeneratorParams) => {
+export const createRequestContentTypeReference = (factory: Factory.Type, { operationId }: CodeGeneratorParams) => {
   return factory.TypeAliasDeclaration.create({
     export: true,
     name: Name.requestContentType(operationId),
@@ -23,7 +22,7 @@ export const createRequestContentTypeReference = (factory: Factory.Type, { opera
  * export type ResponseContentType${operationId} = keyof Response${operationId}$Status$200;
  * export type ResponseContentType${operationId} = keyof Response${operationId}$Status$200 | keyof Response${operationId}$Status$203;
  */
-export const createResponseContentTypeReference = (factory: Factory.Type, params: Types.CodeGeneratorParams) => {
+export const createResponseContentTypeReference = (factory: Factory.Type, params: CodeGeneratorParams) => {
   if (params.has2OrMoreSuccessResponseContentTypes) {
     return factory.TypeAliasDeclaration.create({
       export: true,
@@ -52,7 +51,7 @@ export const createResponseContentTypeReference = (factory: Factory.Type, params
   });
 };
 
-const createHeaders = (factory: Factory.Type, params: Types.CodeGeneratorParams) => {
+const createHeaders = (factory: Factory.Type, params: CodeGeneratorParams) => {
   const members = [];
 
   if (params.has2OrMoreRequestContentTypes) {
@@ -89,7 +88,7 @@ const createHeaders = (factory: Factory.Type, params: Types.CodeGeneratorParams)
  *   requestBody: {requestBodyName}[T];
  * }
  */
-export const create = (factory: Factory.Type, params: Types.CodeGeneratorParams): ts.InterfaceDeclaration | undefined => {
+export const create = (factory: Factory.Type, params: CodeGeneratorParams): ts.InterfaceDeclaration | undefined => {
   const typeParameters: ts.TypeParameterDeclaration[] = [];
   const members: ts.TypeElement[] = [];
   if (params.hasRequestBody && params.has2OrMoreRequestContentTypes) {

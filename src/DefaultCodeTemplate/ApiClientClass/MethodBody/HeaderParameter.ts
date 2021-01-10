@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import { Factory } from "../../../../../CodeGenerator";
+import { Factory } from "../../../CodeGenerator";
 import * as Utils from "../../utils";
 
 export interface Params {

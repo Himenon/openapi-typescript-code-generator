@@ -10,23 +10,24 @@ import * as Responses from "./components/Responses";
 import * as Schemas from "./components/Schemas";
 import * as Context from "./Context";
 import * as Generator from "./Generator";
+import * as Name from "./Name";
 import * as Paths from "./paths";
 import * as ResolveReference from "./ResolveReference";
 import { Store } from "./store";
-import { OpenApi } from "./types";
+import { CodeGeneratorParams, OpenApi, PickedParameter } from "./types";
 
-export { OpenApi };
+export { OpenApi, Generator, CodeGeneratorParams, PickedParameter, Name };
 
-export interface Converter {
+export interface Type {
   generateLeadingComment: () => string;
   createFunction: TypeScriptCodeGenerator.CreateFunction;
 }
 
 export interface Option {
-  makeApiClient?: Generator.MakeApiClientFunction;
+  makeApiClient: Generator.MakeApiClientFunction;
 }
 
-export const create = (entryPoint: string, rootSchema: OpenApi.Document, option: Option): Converter => {
+export const create = (entryPoint: string, rootSchema: OpenApi.Document, option: Option): Type => {
   const currentPoint = entryPoint;
 
   const noReferenceSchema = ResolveReference.resolve(entryPoint, currentPoint, JSON.parse(JSON.stringify(rootSchema)));
@@ -70,7 +71,7 @@ export const create = (entryPoint: string, rootSchema: OpenApi.Document, option:
     }
     if (rootSchema.paths) {
       Paths.generateStatements(entryPoint, currentPoint, store, factory, rootSchema.paths, toTypeNodeContext);
-      Generator.generateApiClientCode(store, factory, context, option.makeApiClient);
+      Generator.generateApiClientCode(store, context, option.makeApiClient);
     }
     return store.getRootStatements();
   };
