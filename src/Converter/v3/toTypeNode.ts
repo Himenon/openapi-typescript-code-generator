@@ -1,9 +1,9 @@
 import ts from "typescript";
 
+import { Factory } from "../../CodeGenerator";
 import { UnsetTypeError } from "../../Exception";
 import { UnSupportError, UnknownError } from "../../Exception";
 import * as Logger from "../../Logger";
-import { Factory } from "../../TypeScriptCodeGenerator";
 import * as Reference from "./components/Reference";
 import * as Guard from "./Guard";
 import { OpenApi } from "./types";

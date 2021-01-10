@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import { Factory } from "../../../../TypeScriptCodeGenerator";
+import { Factory } from "../../../../CodeGenerator";
 import * as Name from "../../Name";
 import * as MethodBody from "./MethodBody";
 import * as Types from "./types";

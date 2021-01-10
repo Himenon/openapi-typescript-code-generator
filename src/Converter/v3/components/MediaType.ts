@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import { Factory } from "../../../TypeScriptCodeGenerator";
+import { Factory } from "../../../CodeGenerator";
 import * as Name from "../Name";
 import * as ToTypeNode from "../toTypeNode";
 import { OpenApi } from "../types";

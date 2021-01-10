@@ -1,7 +1,7 @@
 import ts from "typescript";
 
+import { Factory } from "../../../CodeGenerator";
 import { DevelopmentError } from "../../../Exception";
-import { Factory } from "../../../TypeScriptCodeGenerator";
 import * as Name from "../Name";
 
 export interface StringItem {

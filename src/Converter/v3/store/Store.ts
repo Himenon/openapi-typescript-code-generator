@@ -5,8 +5,8 @@ import Dot from "dot-prop";
 import yaml from "js-yaml";
 import ts from "typescript";
 
+import { Factory } from "../../../CodeGenerator";
 import { UnSupportError } from "../../../Exception";
-import { Factory } from "../../../TypeScriptCodeGenerator";
 import { OpenApi } from "../types";
 import * as Def from "./Definition";
 import * as Masking from "./masking";

@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import { Factory } from "../../../TypeScriptCodeGenerator";
+import { Factory } from "../../../CodeGenerator";
 import * as Guard from "../Guard";
 import * as Name from "../Name";
 import * as ToTypeNode from "../toTypeNode";

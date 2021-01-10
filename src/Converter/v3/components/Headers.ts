@@ -1,5 +1,5 @@
+import { Factory } from "../../../CodeGenerator";
 import { UndefinedComponent } from "../../../Exception";
-import { Factory } from "../../../TypeScriptCodeGenerator";
 import * as Guard from "../Guard";
 import * as Name from "../Name";
 import { Store } from "../store";

@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import * as TypeScriptCodeGenerator from "../../TypeScriptCodeGenerator";
+import * as TypeScriptCodeGenerator from "../../CodeGenerator";
 import * as Comment from "./Comment";
 import * as Headers from "./components/Headers";
 import * as Parameters from "./components/Parameters";

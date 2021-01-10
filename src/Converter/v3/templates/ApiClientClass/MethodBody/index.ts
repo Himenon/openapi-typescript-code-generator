@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import { Factory } from "../../../../../TypeScriptCodeGenerator";
+import { Factory } from "../../../../../CodeGenerator";
 import * as Utils from "../../utils";
 import * as Types from "../types";
 import * as CallRequest from "./CallRequest";

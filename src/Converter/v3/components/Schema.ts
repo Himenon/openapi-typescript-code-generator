@@ -1,7 +1,7 @@
 import ts from "typescript";
 
+import { Factory } from "../../../CodeGenerator";
 import { FeatureDevelopmentError } from "../../../Exception";
-import { Factory } from "../../../TypeScriptCodeGenerator";
 import * as Guard from "../Guard";
 import * as ToTypeNode from "../toTypeNode";
 import { ObjectSchema, OpenApi, PrimitiveSchema } from "../types";

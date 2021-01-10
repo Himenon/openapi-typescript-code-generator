@@ -1,8 +1,8 @@
 import { EOL } from "os";
 
+import * as TypeScriptCodeGenerator from "./CodeGenerator";
 import * as Converter from "./Converter";
 import { fileSystem } from "./FileSystem";
-import * as TypeScriptCodeGenerator from "./TypeScriptCodeGenerator";
 
 export interface Params {
   version: "v3";

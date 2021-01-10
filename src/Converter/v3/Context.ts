@@ -2,8 +2,8 @@ import * as Path from "path";
 
 import ts from "typescript";
 
+import * as TypeScriptCodeGenerator from "../../CodeGenerator";
 import { DevelopmentError, FeatureDevelopmentError } from "../../Exception";
-import * as TypeScriptCodeGenerator from "../../TypeScriptCodeGenerator";
 import { Store } from "./store";
 import * as ToTypeNode from "./toTypeNode";
 

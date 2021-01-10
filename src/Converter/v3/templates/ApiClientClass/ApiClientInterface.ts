@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import { Factory } from "../../../../TypeScriptCodeGenerator";
+import { Factory } from "../../../../CodeGenerator";
 
 const httpMethodList: string[] = ["GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH", "TRACE"];
 

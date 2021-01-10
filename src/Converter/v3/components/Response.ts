@@ -1,6 +1,6 @@
 import * as path from "path";
 
-import { Factory } from "../../../TypeScriptCodeGenerator";
+import { Factory } from "../../../CodeGenerator";
 import * as Name from "../Name";
 import { Def, State, Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";

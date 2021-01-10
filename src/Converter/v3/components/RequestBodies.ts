@@ -1,4 +1,4 @@
-import { Factory } from "../../../TypeScriptCodeGenerator";
+import { Factory } from "../../../CodeGenerator";
 import * as Guard from "../Guard";
 import * as Name from "../Name";
 import { Store } from "../store";
