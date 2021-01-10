@@ -131,7 +131,7 @@ export const generateInterfacesWithStatusCode = (
             export: true,
             name: Name.responseName(operationId, statusCode),
             type: factory.TypeReferenceNode.create({
-              name: context.getReferenceName(currentPoint, `${reference.path}/Content`, "local"),
+              name: context.getReferenceName(currentPoint, `${reference.path}/Content`),
             }),
           }),
         );

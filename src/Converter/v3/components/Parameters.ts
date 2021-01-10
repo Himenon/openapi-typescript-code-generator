@@ -47,7 +47,7 @@ export const generateNamespace = (
             export: true,
             name: reference.data.name,
             type: factory.TypeReferenceNode.create({
-              name: context.getReferenceName(currentPoint, reference.path, "remote"),
+              name: context.getReferenceName(currentPoint, reference.path),
             }),
           }),
         });

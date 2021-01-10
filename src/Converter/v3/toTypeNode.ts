@@ -11,7 +11,7 @@ import { ObjectSchemaWithAdditionalProperties } from "./types";
 
 export interface Context {
   setReferenceHandler: (reference: Reference.Type<OpenApi.Schema | OpenApi.JSONSchemaDefinition>) => void;
-  getReferenceName: (currentPoint: string, referencePath: string, type: "remote" | "local") => string;
+  getReferenceName: (currentPoint: string, referencePath: string) => string;
 }
 
 export type Convert = (
@@ -71,14 +71,14 @@ export const convert: Convert = (
     if (reference.type === "local") {
       // Type Aliasを作成 (or すでにある場合は作成しない)
       context.setReferenceHandler(reference);
-      return factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, reference.path, "local") });
+      return factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, reference.path) });
     }
     // サポートしているディレクトリに対して存在する場合
     if (reference.componentName) {
       // Type AliasもしくはInterfaceを作成
       context.setReferenceHandler(reference);
       // Aliasを貼る
-      return factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, reference.path, "remote") });
+      return factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, reference.path) });
     }
     // サポートしていないディレクトリに存在する場合、直接Interface、もしくはTypeAliasを作成
     return convert(entryPoint, reference.referencePoint, factory, reference.data, context, { parent: schema });

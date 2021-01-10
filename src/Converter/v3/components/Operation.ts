@@ -74,7 +74,7 @@ export const generateNamespace = (
       if (reference.type === "local") {
         context.setReferenceHandler(reference);
         // TODO (not-use) 追加する必要がある（このメソッドを使わない可能性あり）
-        factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, reference.path, "local") });
+        factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, reference.path) });
       } else if (reference.type === "remote" && reference.componentName) {
         const contentPath = path.join(reference.path, "Content"); // requestBodyはNamespaceを形成するため
         const name = "Content";
@@ -83,7 +83,7 @@ export const generateNamespace = (
           name: name,
           value: RequestBody.generateInterface(entryPoint, reference.referencePoint, factory, name, reference.data, context),
         });
-        const typeAliasName = context.getReferenceName(currentPoint, contentPath, "remote");
+        const typeAliasName = context.getReferenceName(currentPoint, contentPath);
         store.addStatement(`${basePath}/RequestBody`, {
           type: "typeAlias",
           name: typeAliasName,
@@ -135,7 +135,7 @@ export const generateStatements = (
             export: true,
             name: Name.requestBodyName(operationId),
             type: factory.TypeReferenceNode.create({
-              name: context.getReferenceName(currentPoint, `${reference.path}`, "local") + "." + Name.ComponentChild.Content, // TODO Contextから作成？
+              name: context.getReferenceName(currentPoint, `${reference.path}`) + "." + Name.ComponentChild.Content, // TODO Contextから作成？
             }),
           }),
         );
@@ -151,7 +151,7 @@ export const generateStatements = (
           factory.TypeAliasDeclaration.create({
             export: true,
             name: requestBodyName,
-            type: factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, contentPath, "remote") }),
+            type: factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, contentPath) }),
           }),
         );
 

@@ -48,7 +48,7 @@ export const generatePropertySignature = (
         name: reference.name,
         optional: false,
         type: factory.TypeReferenceNode.create({
-          name: context.getReferenceName(currentPoint, reference.path, "local"),
+          name: context.getReferenceName(currentPoint, reference.path),
         }),
       });
     }

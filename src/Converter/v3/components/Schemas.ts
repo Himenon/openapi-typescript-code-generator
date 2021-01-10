@@ -32,7 +32,7 @@ export const generateNamespace = (
     if (Guard.isReference(schema)) {
       const reference = Reference.generate<OpenApi.Schema>(entryPoint, currentPoint, schema);
       if (reference.type === "local") {
-        const referenceName = context.getReferenceName(currentPoint, reference.path, "local");
+        const referenceName = context.getReferenceName(currentPoint, reference.path);
         store.addStatement(`${basePath}/${name}`, {
           type: "typeAlias",
           name: name,
@@ -57,7 +57,7 @@ export const generateNamespace = (
           export: true,
           name: name,
           type: factory.TypeReferenceNode.create({
-            name: context.getReferenceName(currentPoint, reference.path, "remote"),
+            name: context.getReferenceName(currentPoint, reference.path),
           }),
         }),
       });

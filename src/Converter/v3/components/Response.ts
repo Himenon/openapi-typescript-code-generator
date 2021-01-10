@@ -59,7 +59,7 @@ export const generateReferenceNamespace = (
   context: ToTypeNode.Context,
 ): void => {
   const basePath = `${parentPath}/${nameWithStatusCode}`;
-  const referenceNamespaceName = context.getReferenceName(currentPoint, responseReference.path, "remote");
+  const referenceNamespaceName = context.getReferenceName(currentPoint, responseReference.path);
   store.addStatement(basePath, {
     type: "namespace",
     name: nameWithStatusCode,

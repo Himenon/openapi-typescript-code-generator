@@ -12,7 +12,7 @@ export interface ReferencePathSet {
   base: string;
 }
 
-const generatePath = (entryPoint: string, currentPoint: string, referencePath: string, type: "local" | "remote"): ReferencePathSet => {
+const generatePath = (entryPoint: string, currentPoint: string, referencePath: string): ReferencePathSet => {
   const ext = Path.extname(currentPoint); // .yml
   const from = Path.relative(Path.dirname(entryPoint), currentPoint).replace(ext, ""); // components/schemas/A/B
   const base = Path.dirname(from);
@@ -60,8 +60,8 @@ const generateName = (store: Store.Type, base: string, pathArray: string[]): str
 };
 
 export const create = (entryPoint: string, store: Store.Type, factory: TypeScriptCodeGenerator.Factory.Type): ToTypeNode.Context => {
-  const getReferenceName: ToTypeNode.Context["getReferenceName"] = (currentPoint, referencePath, type): string => {
-    const { pathArray, base } = generatePath(entryPoint, currentPoint, referencePath, type);
+  const getReferenceName: ToTypeNode.Context["getReferenceName"] = (currentPoint, referencePath): string => {
+    const { pathArray, base } = generatePath(entryPoint, currentPoint, referencePath);
     return generateName(store, base, pathArray);
   };
   const setReferenceHandler: ToTypeNode.Context["setReferenceHandler"] = reference => {
