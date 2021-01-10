@@ -5,8 +5,9 @@ import * as Name from "./Name";
 import { Store } from "./store";
 import * as Templates from "./templates";
 import { OpenApi } from "./types";
+import { CodeGeneratorParams, MethodBodyParams } from "./types";
 
-const convertParameterToRequestParameterCategory = (parameter: OpenApi.Parameter): Templates.ApiClientClass.Method.MethodBodyParams => {
+const convertParameterToRequestParameterCategory = (parameter: OpenApi.Parameter): MethodBodyParams => {
   return {
     name: parameter.name,
     in: parameter.in,
@@ -53,16 +54,16 @@ const hasQueryParameters = (parameters?: OpenApi.Parameter[]): boolean => {
   return parameters.filter(parameter => parameter.in === "query").length > 0;
 };
 
-const generateParams = (store: Store.Type): Templates.ApiClientClass.Params[] => {
+const generateParams = (store: Store.Type): CodeGeneratorParams[] => {
   const operationState = store.getNoReferenceOperationState();
-  const params: Templates.ApiClientClass.Params[] = [];
+  const params: CodeGeneratorParams[] = [];
   Object.entries(operationState).forEach(([operationId, item]) => {
     const responseSuccessNames = getSuccessStatusCodes(item.responses).map(statusCode => Name.responseName(operationId, statusCode));
     const requestContentTypeList = item.requestBody ? getRequestContentTypeList(item.requestBody) : [];
     const responseSuccessContentTypes = getSuccessResponseContentTypeList(item.responses);
     const hasOver2RequestContentTypes = requestContentTypeList.length > 1;
     const hasOver2SuccessNames = responseSuccessNames.length > 1;
-    const formatParams: Templates.ApiClientClass.Params = {
+    const formatParams: CodeGeneratorParams = {
       operationId: operationId,
       requestUri: item.requestUri,
       httpMethod: item.httpMethod,

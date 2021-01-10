@@ -1,8 +1,8 @@
 import ts from "typescript";
 
 import { Factory } from "../../../../../../CodeGenerator";
+import { MethodBodyParams } from "../../../../types";
 import * as Utils from "../../../utils";
-import * as Types from "../../types";
 import * as PathParameter from "../PathParameter";
 
 const traverse = (expression: ts.Expression) => <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
@@ -34,7 +34,7 @@ const getText = (expression: ts.Expression) => {
 
 describe("PathParameter Test", () => {
   const factory = Factory.create({ factory: ts.factory } as ts.TransformationContext);
-  const generate = (url: string, pathParameter: Types.MethodBodyParams[]): string => {
+  const generate = (url: string, pathParameter: MethodBodyParams[]): string => {
     const urlTemplates = PathParameter.generateUrlTemplateExpression(factory, url, pathParameter);
     const expression = Utils.generateTemplateExpression(factory, urlTemplates);
     return getText(expression);

@@ -1,10 +1,10 @@
 import ts from "typescript";
 
 import { Factory } from "../../../../../CodeGenerator";
+import { MethodBodyParams } from "../../../types";
 import * as Utils from "../../utils";
-import * as Types from "../types";
 
-export const isPathParameter = (params: any): params is Types.MethodBodyParams => {
+export const isPathParameter = (params: any): params is MethodBodyParams => {
   return params.in === "path";
 };
 
@@ -35,7 +35,7 @@ const generateUrlVariableStatement = (factory: Factory.Type, urlTemplate: Utils.
 export const generateUrlTemplateExpression = (
   factory: Factory.Type,
   requestUri: string,
-  pathParameters: Types.MethodBodyParams[],
+  pathParameters: MethodBodyParams[],
 ): Utils.Params$TemplateExpression => {
   const patternMap = pathParameters.reduce<{ [key: string]: string }>((previous, item) => {
     return { ...previous, [`{${item.name}}`]: item.name };
@@ -93,7 +93,7 @@ export const generateUrlTemplateExpression = (
   return urlTemplate;
 };
 
-export const create = (factory: Factory.Type, requestUri: string, pathParameters: Types.MethodBodyParams[]): ts.VariableStatement => {
+export const create = (factory: Factory.Type, requestUri: string, pathParameters: MethodBodyParams[]): ts.VariableStatement => {
   if (pathParameters.length > 0) {
     const urlTemplate = generateUrlTemplateExpression(factory, requestUri, pathParameters);
     return generateUrlVariableStatement(factory, urlTemplate);

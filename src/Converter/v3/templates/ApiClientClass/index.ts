@@ -1,17 +1,15 @@
 import ts from "typescript";
 
 import { Factory } from "../../../../CodeGenerator";
+import { CodeGeneratorParams } from "../../types";
 import * as ApiClientInterface from "./ApiClientInterface";
 import * as Class from "./Class";
 import * as Constructor from "./Constructor";
 import * as Method from "./Method";
-import * as Types from "./types";
 
 export { Method };
 
-export type Params = Types.MethodParams;
-
-export const create = (factory: Factory.Type, list: Params[]): ts.Statement[] => {
+export const create = (factory: Factory.Type, list: CodeGeneratorParams[]): ts.Statement[] => {
   const methodList = list.map(params => {
     return Method.create(factory, params);
   });

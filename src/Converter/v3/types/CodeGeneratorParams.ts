@@ -6,7 +6,7 @@ export interface MethodBodyParams {
   explode?: boolean;
 }
 
-export interface MethodParams {
+export interface CodeGeneratorParams {
   operationId: string;
   httpMethod: string;
   requestUri: string;
