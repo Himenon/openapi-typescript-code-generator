@@ -151,7 +151,8 @@ export const convert: Convert = (
     case "object": {
       if (!schema.properties) {
         return factory.TypeNode.create({
-          type: "undefined",
+          type: "object",
+          value: [],
         });
       }
       const required: string[] = schema.required || [];
@@ -186,7 +187,7 @@ export const convert: Convert = (
       });
     }
     default:
-      throw new UnknownError("what is this?");
+      throw new UnknownError("what is this? \n" + JSON.stringify(schema, null, 2));
   }
 };
 

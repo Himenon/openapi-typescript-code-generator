@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.1.0-rc
 info:
   version: 1.0.0
   title: api.test.domain
@@ -14,3 +14,139 @@ servers:
 
 tags:
   - name: test
+
+components:
+  schemas:
+    StringType:
+      type: string
+      description: String Literal
+    StringHasEnumType:
+      type: string
+      enum: [a, A, b, B, c, C]
+    StringDateType:
+      type: string
+      format: date
+    StringDateTimeType:
+      type: string
+      format: date-time
+    StringPasswordType:
+      type: string
+      format: password
+    StringByteType:
+      type: string
+      format: byte
+    StringBinaryType:
+      type: string
+      format: binary
+    StringWithPatternType:
+      type: string
+      pattern: /^\d{3}-\d{2}-\d{4}$/
+    NumberType:
+      type: number
+      description: Number Literal
+    NumberHasEnumType:
+      type: number
+      enum: [1, 2, 3, 100, 123, 0.1, -0.1, 0.0]
+    NumberInt32Type:
+      type: number
+      format: int32
+    NumberInt64Type:
+      type: number
+      format: int64
+    NumberFloat:
+      type: number
+      format: float
+    NumberDouble:
+      type: number
+      format: double
+    BooleanType:
+      type: boolean
+      description: Boolean Literal
+    ArrayStringType:
+      type: array
+      items:
+        type: string
+    ArrayNumberType:
+      type: array
+      items:
+        type: number
+    ArrayBooleanType:
+      type: array
+      items:
+        type: boolean
+    ObjectEmptyPropertiesType:
+      type: object
+    ObjectHasPropertiesType:
+      type: object
+      properties:
+        stringType:
+          type: string
+        numberType:
+          type: number
+        booleanType:
+          type: boolean
+        arrayType:
+          type: string
+        objectType:
+          type: object
+          required:
+            - requiredStringType
+          properties:
+            requiredStringType:
+              type: string
+    RefStringType:
+      $ref: "#/components/schemas/StringType"
+    RefNumberType:
+      $ref: "#/components/schemas/NumberType"
+    RefBooleanType:
+      $ref: "#/components/schemas/BooleanType"
+    RefArrayStringType:
+      $ref: "#/components/schemas/BooleanType"
+    RefObjectHasPropertiesType:
+      $ref: "#/components/schemas/ObjectHasPropertiesType"
+    RefObjectProperties:
+      type: object
+      required:
+        - stringType
+        - numberType
+        - booleanType
+        - arrayType
+        - objectType
+      properties:
+        stringType:
+          $ref: "#/components/schemas/StringType"
+        numberType:
+          $ref: "#/components/schemas/NumberType"
+        booleanType:
+          $ref: "#/components/schemas/BooleanType"
+        arrayType:
+          $ref: "#/components/schemas/BooleanType"
+        objectType:
+          $ref: "#/components/schemas/ObjectHasPropertiesType"
+    OneOfType:
+      oneOf:
+        - type: string
+        - type: number
+        - type: object
+    AllOfType:
+      allOf:
+        - type: object
+          properties:
+            A:
+              type: string
+        - type: object
+          properties:
+            B:
+              type: string
+    OneOfRefType:
+      oneOf:
+        - $ref: "#/components/schemas/StringType"
+        - $ref: "#/components/schemas/NumberType"
+        - $ref: "#/components/schemas/ObjectHasPropertiesType"
+        - $ref: "#/components/schemas/RefObjectProperties"
+    AllOfRefType:
+      allOf:
+        - $ref: "#/components/schemas/StringType"
+        - $ref: "#/components/schemas/NumberType"
+        - $ref: "#/components/schemas/ObjectHasPropertiesType"
+        - $ref: "#/components/schemas/RefObjectProperties"

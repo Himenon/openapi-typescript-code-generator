@@ -3,7 +3,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "description": "This is the root document object of the OpenAPI document.",
-  "required": ["openapi", "info", "paths"],
+  "required": ["openapi", "info"],
   "additionalProperties": false,
   "patternProperties": {
     "^x-": {
@@ -741,6 +741,9 @@
         },
         "maxItems": {
           "$ref": "http://json-schema.org/draft-07/schema#/properties/maxItems"
+        },
+        "pattern": {
+          "type": "string"
         },
         "minItems": {
           "$ref": "http://json-schema.org/draft-07/schema#/properties/minItems"

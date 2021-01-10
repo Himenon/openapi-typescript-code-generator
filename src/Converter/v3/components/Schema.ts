@@ -4,7 +4,7 @@ import { Factory } from "../../../CodeGenerator";
 import { FeatureDevelopmentError } from "../../../Exception";
 import * as Guard from "../Guard";
 import * as ToTypeNode from "../toTypeNode";
-import { ObjectSchema, OpenApi, PrimitiveSchema } from "../types";
+import { ArraySchema, ObjectSchema, OpenApi, PrimitiveSchema } from "../types";
 import * as ExternalDocumentation from "./ExternalDocumentation";
 
 export const generatePropertySignatures = (
@@ -56,6 +56,22 @@ export const generateInterface = (
     name,
     members,
     comment: ExternalDocumentation.addComment(schema.description, schema.externalDocs),
+  });
+};
+
+export const generateArrayTypeAlias = (
+  entryPoint: string,
+  currentPoint: string,
+  factory: Factory.Type,
+  name: string,
+  schema: ArraySchema,
+  context: ToTypeNode.Context,
+): ts.TypeAliasDeclaration => {
+  return factory.TypeAliasDeclaration.create({
+    export: true,
+    name,
+    comment: schema.description,
+    type: ToTypeNode.convert(entryPoint, currentPoint, factory, schema, context),
   });
 };
 

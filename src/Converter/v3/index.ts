@@ -32,7 +32,7 @@ export const create = (entryPoint: string, rootSchema: OpenApi.Document, option:
   const currentPoint = entryPoint;
 
   const noReferenceOpenApiSchema = ResolveReference.resolve(entryPoint, currentPoint, JSON.parse(JSON.stringify(rootSchema)));
-  console.log(Validator.v3.validate(noReferenceOpenApiSchema));
+  Validator.v3.validate(noReferenceOpenApiSchema);
 
   const createFunction = (context: ts.TransformationContext): ts.Statement[] => {
     const factory = TypeScriptCodeGenerator.Factory.create(context);

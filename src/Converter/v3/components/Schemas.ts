@@ -33,7 +33,19 @@ export const generateNamespace = (
       const reference = Reference.generate<OpenApi.Schema>(entryPoint, currentPoint, schema);
       const path = reference.path;
       if (reference.type === "local") {
-        throw new FeatureDevelopmentError("これから" + reference.name);
+        const referenceName = context.getReferenceName(currentPoint, reference.path, "local");
+        store.addStatement(`${basePath}/${name}`, {
+          type: "typeAlias",
+          name: name,
+          value: factory.TypeAliasDeclaration.create({
+            export: true,
+            name: name,
+            type: factory.TypeReferenceNode.create({
+              name: referenceName,
+            }),
+          }),
+        });
+        return;
       }
       if (Guard.isAllOfSchema(reference.data)) {
         store.addStatement(path, {
@@ -52,6 +64,12 @@ export const generateNamespace = (
           type: "typeAlias",
           name: reference.name,
           value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, reference.name, reference.data.anyOf, context, "allOf"),
+        });
+      } else if (Guard.isArraySchema(reference.data)) {
+        store.addStatement(path, {
+          type: "typeAlias",
+          name: reference.name,
+          value: Schema.generateArrayTypeAlias(entryPoint, reference.referencePoint, factory, reference.name, reference.data, context),
         });
       } else if (Guard.isObjectSchema(reference.data)) {
         store.addStatement(path, {
@@ -101,6 +119,13 @@ export const generateNamespace = (
         type: "typeAlias",
         name,
         value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.anyOf, context, "anyOf"),
+      });
+    }
+    if (Guard.isArraySchema(schema)) {
+      return store.addStatement(path, {
+        type: "typeAlias",
+        name,
+        value: Schema.generateArrayTypeAlias(entryPoint, currentPoint, factory, name, schema, context),
       });
     }
     if (Guard.isObjectSchema(schema)) {
