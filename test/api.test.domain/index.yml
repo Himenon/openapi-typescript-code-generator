@@ -168,6 +168,12 @@ components:
       $ref: "./components/headers/A.yml"
     HeaderB:
       $ref: "./components/headers/Level1/B.yml"
+    # ReferenceOfHeaderToSchema:
+    #   description: headers -> schemas
+    #   content:
+    #     application/json:
+    #       schema:
+    #         $ref: "./components/schemas/DirectRef/ForHeader.yml"
   parameters:
     StringQueryParams:
       name: A
@@ -183,6 +189,12 @@ components:
       required: true
       schema:
         type: integer
+    ReferenceOfParameterToSchema:
+      description: parameters -> schemas
+      content:
+        application/json:
+          schema:
+            $ref: "./components/schemas/DirectRef/ForParameters.yml"
   responses:
     Continue:
       description: |
@@ -204,6 +216,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/ObjectHasPropertiesType"
+    ReferenceOfResponseToSchema:
+      description: Response -> Schema
+      content:
+        application/json:
+          schema:
+            $ref: "./components/schemas/DirectRef/ForResponse.yml"
   requestBodies:
     StringType:
       description: Request body string type
@@ -217,9 +235,9 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/StringHasEnumType"
-    DirectRemoteReferenceStringType:
-      description: Request body remote reference (direct)
+    ReferenceOfRequestBodyToSchema:
+      description: requestBodies -> schemas
       content:
         application/json:
           schema:
-            $ref: "./components/schemas/DirectRef/StringType.yml"
+            $ref: "./components/schemas/DirectRef/ForRequestBody.yml"

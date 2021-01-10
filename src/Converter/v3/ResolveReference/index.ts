@@ -33,6 +33,9 @@ const resolveRemoteReference = (entryPoint: string, currentPoint: string, obj: a
     }
     if (isRemoteReference(obj)) {
       const { referencePoint, data } = Reference.resolveRemoteReference(entryPoint, currentPoint, obj);
+      if (!data) {
+        throw new Error(`not defined schema: ${obj.$ref}`);
+      }
       if (isArray(data)) {
         return data.map((item, idx) => resolveRemoteReference(entryPoint, referencePoint, item, [parentKey, idx].join(".")));
       }
