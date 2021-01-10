@@ -8,56 +8,6 @@ import { OpenApi } from "../types";
 import * as Reference from "./Reference";
 import * as Schema from "./Schema";
 
-export const generateRemoteSchema = (
-  entryPoint: string,
-  currentPoint: string,
-  store: Store.Type,
-  factory: Factory.Type,
-  referencePoint: string,
-  referenceName: string,
-  schema: OpenApi.Schema,
-  context: ToTypeNode.Context,
-): void => {
-  console.log({ schema });
-  if (Guard.isAllOfSchema(schema)) {
-    store.addStatement(referencePoint, {
-      type: "typeAlias",
-      name: referenceName,
-      value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, referenceName, schema.allOf, context, "allOf"),
-    });
-  } else if (Guard.isOneOfSchema(schema)) {
-    store.addStatement(referencePoint, {
-      type: "typeAlias",
-      name: referenceName,
-      value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, referenceName, schema.oneOf, context, "oneOf"),
-    });
-  } else if (Guard.isAnyOfSchema(schema)) {
-    store.addStatement(referencePoint, {
-      type: "typeAlias",
-      name: referenceName,
-      value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, referenceName, schema.anyOf, context, "allOf"),
-    });
-  } else if (Guard.isArraySchema(schema)) {
-    store.addStatement(referencePoint, {
-      type: "typeAlias",
-      name: referenceName,
-      value: Schema.generateArrayTypeAlias(entryPoint, referencePoint, factory, referenceName, schema, context),
-    });
-  } else if (Guard.isObjectSchema(schema)) {
-    store.addStatement(referencePoint, {
-      type: "interface",
-      name: referenceName,
-      value: Schema.generateInterface(entryPoint, referencePoint, factory, referenceName, schema, context),
-    });
-  } else if (Guard.isPrimitiveSchema(schema)) {
-    store.addStatement(referencePoint, {
-      type: "typeAlias",
-      name: referenceName,
-      value: Schema.generateTypeAlias(entryPoint, referencePoint, factory, referenceName, schema),
-    });
-  }
-};
-
 export const generateNamespace = (
   entryPoint: string,
   currentPoint: string,
@@ -96,7 +46,7 @@ export const generateNamespace = (
         });
         return;
       }
-      generateRemoteSchema(entryPoint, currentPoint, store, factory, reference.path, reference.name, reference.data, context);
+      Schema.addSchema(entryPoint, currentPoint, store, factory, reference.path, reference.name, reference.data, context);
       if (store.hasStatement(`${basePath}/${name}`, ["interface", "typeAlias"])) {
         return;
       }

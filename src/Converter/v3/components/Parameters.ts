@@ -7,7 +7,7 @@ import * as ToTypeNode from "../toTypeNode";
 import { OpenApi } from "../types";
 import * as Paramter from "./Parameter";
 import * as Reference from "./Reference";
-import * as Schemas from "./Schemas";
+import * as Schema from "./Schema";
 
 export const generateNamespace = (
   entryPoint: string,
@@ -39,7 +39,7 @@ export const generateNamespace = (
         if (!reference.data.schema) {
           return;
         }
-        Schemas.generateRemoteSchema(entryPoint, currentPoint, store, factory, reference.path, reference.name, reference.data.schema, context);
+        Schema.addSchema(entryPoint, currentPoint, store, factory, reference.path, reference.name, reference.data.schema, context);
         store.addStatement(`${basePath}/${name}`, {
           type: "typeAlias",
           name: reference.data.name,

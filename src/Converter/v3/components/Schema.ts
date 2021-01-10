@@ -3,6 +3,7 @@ import ts from "typescript";
 import { Factory } from "../../../CodeGenerator";
 import { FeatureDevelopmentError } from "../../../Exception";
 import * as Guard from "../Guard";
+import { Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
 import { ArraySchema, ObjectSchema, OpenApi, PrimitiveSchema } from "../types";
 import * as ExternalDocumentation from "./ExternalDocumentation";
@@ -126,4 +127,56 @@ export const generateMultiTypeAlias = (
     name,
     type,
   });
+};
+
+export const addSchema = (
+  entryPoint: string,
+  currentPoint: string,
+  store: Store.Type,
+  factory: Factory.Type,
+  targetPoint: string,
+  declarationName: string,
+  schema: OpenApi.Schema | undefined,
+  context: ToTypeNode.Context,
+): void => {
+  if (!schema) {
+    return;
+  }
+  if (Guard.isAllOfSchema(schema)) {
+    store.addStatement(targetPoint, {
+      type: "typeAlias",
+      name: declarationName,
+      value: generateMultiTypeAlias(entryPoint, currentPoint, factory, declarationName, schema.allOf, context, "allOf"),
+    });
+  } else if (Guard.isOneOfSchema(schema)) {
+    store.addStatement(targetPoint, {
+      type: "typeAlias",
+      name: declarationName,
+      value: generateMultiTypeAlias(entryPoint, currentPoint, factory, declarationName, schema.oneOf, context, "oneOf"),
+    });
+  } else if (Guard.isAnyOfSchema(schema)) {
+    store.addStatement(targetPoint, {
+      type: "typeAlias",
+      name: declarationName,
+      value: generateMultiTypeAlias(entryPoint, currentPoint, factory, declarationName, schema.anyOf, context, "allOf"),
+    });
+  } else if (Guard.isArraySchema(schema)) {
+    store.addStatement(targetPoint, {
+      type: "typeAlias",
+      name: declarationName,
+      value: generateArrayTypeAlias(entryPoint, targetPoint, factory, declarationName, schema, context),
+    });
+  } else if (Guard.isObjectSchema(schema)) {
+    store.addStatement(targetPoint, {
+      type: "interface",
+      name: declarationName,
+      value: generateInterface(entryPoint, targetPoint, factory, declarationName, schema, context),
+    });
+  } else if (Guard.isPrimitiveSchema(schema)) {
+    store.addStatement(targetPoint, {
+      type: "typeAlias",
+      name: declarationName,
+      value: generateTypeAlias(entryPoint, targetPoint, factory, declarationName, schema),
+    });
+  }
 };

@@ -7,6 +7,7 @@ import * as ToTypeNode from "../toTypeNode";
 import { OpenApi } from "../types";
 import * as Header from "./Header";
 import * as Reference from "./Reference";
+import * as Schema from "./Schema";
 
 export const generateNamespace = (
   entryPoint: string,
@@ -35,11 +36,7 @@ export const generateNamespace = (
           throw new UndefinedComponent(`Reference "${header.$ref}" did not found in ${reference.path} by ${reference.name}`);
         }
       } else if (reference.type === "remote") {
-        store.addStatement(reference.path, {
-          type: "typeAlias",
-          name: reference.name,
-          value: Header.generateTypeNode(entryPoint, reference.referencePoint, factory, reference.name, reference.data, context),
-        });
+        Schema.addSchema(entryPoint, currentPoint, store, factory, reference.path, reference.name, reference.data.schema, context);
       }
     } else {
       store.addStatement(`components/headers/${name}`, {
