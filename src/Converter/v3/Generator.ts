@@ -64,7 +64,7 @@ const generateParams = (store: Store.Type): CodeGeneratorParams[] => {
     const hasOver2SuccessNames = responseSuccessNames.length > 1;
     const formatParams: CodeGeneratorParams = {
       operationId: operationId,
-      requestUri: item.requestUri,
+      rawRequestUri: item.requestUri,
       httpMethod: item.httpMethod,
       argumentParamsTypeDeclaration: Name.argumentParamsTypeDeclaration(operationId),
       // function
@@ -78,15 +78,15 @@ const generateParams = (store: Store.Type): CodeGeneratorParams[] => {
       // Request Content Types
       requestContentTypes: requestContentTypeList,
       requestFirstContentType: requestContentTypeList.length === 1 ? requestContentTypeList[0] : undefined,
-      hasOver2RequestContentTypes,
+      has2OrMoreRequestContentTypes: hasOver2RequestContentTypes,
       // Response Success Name
       responseSuccessNames: responseSuccessNames,
       responseFirstSuccessName: responseSuccessNames.length === 1 ? responseSuccessNames[0] : undefined,
-      hasOver2SuccessNames,
+      has2OrMoreSuccessNames: hasOver2SuccessNames,
       // Response Success Content Type
-      responseSuccessContentTypes,
-      responseFirstSuccessContentType: responseSuccessContentTypes.length === 1 ? responseSuccessContentTypes[0] : undefined,
-      hasOver2SuccessResponseContentTypes: responseSuccessContentTypes.length > 1,
+      successResponseContentTypes: responseSuccessContentTypes,
+      successResponseFirstContentType: responseSuccessContentTypes.length === 1 ? responseSuccessContentTypes[0] : undefined,
+      has2OrMoreSuccessResponseContentTypes: responseSuccessContentTypes.length > 1,
       //
       hasAdditionalHeaders: hasOver2RequestContentTypes || hasOver2SuccessNames,
       hasQueryParameters: hasQueryParameters(item.parameters),

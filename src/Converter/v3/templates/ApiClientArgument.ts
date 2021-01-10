@@ -24,7 +24,7 @@ export const createRequestContentTypeReference = (factory: Factory.Type, { opera
  * export type ResponseContentType${operationId} = keyof Response${operationId}$Status$200 | keyof Response${operationId}$Status$203;
  */
 export const createResponseContentTypeReference = (factory: Factory.Type, params: Types.CodeGeneratorParams) => {
-  if (params.hasOver2SuccessResponseContentTypes) {
+  if (params.has2OrMoreSuccessResponseContentTypes) {
     return factory.TypeAliasDeclaration.create({
       export: true,
       name: Name.responseContentType(params.operationId),
@@ -55,7 +55,7 @@ export const createResponseContentTypeReference = (factory: Factory.Type, params
 const createHeaders = (factory: Factory.Type, params: Types.CodeGeneratorParams) => {
   const members = [];
 
-  if (params.hasOver2RequestContentTypes) {
+  if (params.has2OrMoreRequestContentTypes) {
     members.push(
       factory.PropertySignature.create({
         name: `"Content-Type"`,
@@ -65,7 +65,7 @@ const createHeaders = (factory: Factory.Type, params: Types.CodeGeneratorParams)
     );
   }
 
-  if (params.hasOver2SuccessResponseContentTypes) {
+  if (params.has2OrMoreSuccessResponseContentTypes) {
     members.push(
       factory.PropertySignature.create({
         name: `Accept`,
@@ -92,7 +92,7 @@ const createHeaders = (factory: Factory.Type, params: Types.CodeGeneratorParams)
 export const create = (factory: Factory.Type, params: Types.CodeGeneratorParams): ts.InterfaceDeclaration | undefined => {
   const typeParameters: ts.TypeParameterDeclaration[] = [];
   const members: ts.TypeElement[] = [];
-  if (params.hasRequestBody && params.hasOver2RequestContentTypes) {
+  if (params.hasRequestBody && params.has2OrMoreRequestContentTypes) {
     typeParameters.push(
       factory.TypeParameterDeclaration.create({
         name: "T",
@@ -103,7 +103,7 @@ export const create = (factory: Factory.Type, params: Types.CodeGeneratorParams)
     );
   }
 
-  if (params.hasOver2SuccessResponseContentTypes) {
+  if (params.has2OrMoreSuccessResponseContentTypes) {
     typeParameters.push(
       factory.TypeParameterDeclaration.create({
         name: "U",

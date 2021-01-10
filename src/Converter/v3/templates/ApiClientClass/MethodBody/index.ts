@@ -18,10 +18,10 @@ export const create = (factory: Factory.Type, params: CodeGeneratorParams): ts.S
 
   // Generate Path Parameter
   const pathParameters = pickedParameters.filter(PathParameter.isPathParameter);
-  statements.push(PathParameter.create(factory, params.requestUri, pathParameters));
+  statements.push(PathParameter.create(factory, params.rawRequestUri, pathParameters));
 
   const initialHeaderObject: Utils.LiteralExpressionObject = {};
-  if (params.hasOver2RequestContentTypes) {
+  if (params.has2OrMoreRequestContentTypes) {
     initialHeaderObject["Content-Type"] = {
       type: "variable",
       value: `params.headers.Content-Type`,
@@ -32,15 +32,15 @@ export const create = (factory: Factory.Type, params: CodeGeneratorParams): ts.S
       value: params.requestFirstContentType,
     };
   }
-  if (params.hasOver2SuccessResponseContentTypes) {
+  if (params.has2OrMoreSuccessResponseContentTypes) {
     initialHeaderObject["Accept"] = {
       type: "variable",
       value: `params.headers.Accept`,
     };
-  } else if (params.responseFirstSuccessContentType) {
+  } else if (params.successResponseFirstContentType) {
     initialHeaderObject["Accept"] = {
       type: "string",
-      value: params.responseFirstSuccessContentType,
+      value: params.successResponseFirstContentType,
     };
   }
 

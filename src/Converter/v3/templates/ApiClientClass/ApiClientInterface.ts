@@ -4,17 +4,6 @@ import { Factory } from "../../../../CodeGenerator";
 
 const httpMethodList: string[] = ["GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH", "TRACE"];
 
-// export interface ApiClient<RequestOption> {
-//   request: (
-//     httpMethod: "GET" | "PUT" | "POST" | "DELETE" | "OPTIONS" | "HEAD" | "PATCH" | "TRACE",
-//     url: string,
-//     headers: { [key: string]: any } | undefined,
-//     requestBody: { [key: string]: any } | undefined,
-//     queryParameters: { [key: string]: any } | undefined,
-//     options?: RequestOption,
-//   ) => Promise<any>;
-// }
-
 const createHttpMethod = (factory: Factory.Type) => {
   return factory.TypeAliasDeclaration.create({
     export: true,

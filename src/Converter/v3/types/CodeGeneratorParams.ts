@@ -4,28 +4,26 @@ export type PickedParameter = Pick<OpenApi.Parameter, "name" | "in" | "required"
 
 export interface CodeGeneratorParams {
   operationId: string;
-  httpMethod: string;
-  requestUri: string;
+  httpMethod: string; // get, post, put, delete ...etc
+  rawRequestUri: string;
   functionName: string;
   comment: string | undefined;
   deprecated: boolean;
-  argumentParamsTypeDeclaration: string;
+  argumentParamsTypeDeclaration: string; // Params${operationId}[]
   pickedParameters: PickedParameter[];
   // Request Content Types
   requestContentTypes: string[];
   requestFirstContentType: string | undefined; // requestContentTypes.length === 1 only
-  hasOver2RequestContentTypes: boolean; // requestContentTypes.length > 1
+  has2OrMoreRequestContentTypes: boolean; // requestContentTypes.length > 1
   // Response Success Name
-  responseSuccessNames: string[];
+  responseSuccessNames: string[]; // `Response$${operationId}$Status$${statusCode}`[]
   responseFirstSuccessName: string | undefined; // responseSuccessNames.length === 1 only
-  hasOver2SuccessNames: boolean; // responseSuccessNames.length > 1
-  // Response Success Content Type
-  responseSuccessContentTypes: string[];
-  responseFirstSuccessContentType: string | undefined; // responseSuccessContentTypes.length === 1
-  hasOver2SuccessResponseContentTypes: boolean; // successResponseContentTypes.length > 1
-  //
-  hasAdditionalHeaders: boolean; // hasOver2RequestContentTypes || hasOver2SuccessResponseContentTypes
-  hasQueryParameters: boolean;
+  has2OrMoreSuccessNames: boolean; // responseSuccessNames.length > 1
+  successResponseContentTypes: string[]; // response.content[statusCode][contentType] ( 200 <= statusCode < 300 )
+  successResponseFirstContentType: string | undefined; // successResponseContentTypes.length === 1
+  has2OrMoreSuccessResponseContentTypes: boolean; // successResponseContentTypes.length > 1
+  hasAdditionalHeaders: boolean; // has2OrMoreRequestContentTypes || has2OrMoreSuccessResponseContentTypes
+  hasQueryParameters: boolean; // parameters.in === "query" && parameters.length > 0
   // Arguments
   hasParameter: boolean;
   hasRequestBody: boolean;
