@@ -139,6 +139,11 @@ export namespace Responses {
     }
     /** response A definition */
     export namespace ResponseA {
+        /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject */
+        export interface Header {
+            HeaderA: Headers.A;
+            HeaderB: string;
+        }
         /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
         export interface Content {
             \\"application/json\\": {
@@ -205,6 +210,37 @@ export namespace RequestBodies {
         /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#requestBodyObject */
         export interface Content {
             \\"application/json\\": Schemas.DirectRef.ForRequestBody;
+        }
+    }
+    /** Remote Request body A */
+    export namespace RequestBodyA {
+        /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#requestBodyObject */
+        export interface Content {
+            \\"application/json\\": {
+                body?: string;
+            };
+        }
+    }
+    export namespace Level1 {
+        /** Remote Request body B */
+        export namespace RequestBodyB {
+            /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#requestBodyObject */
+            export interface Content {
+                \\"application/json\\": {
+                    body?: string;
+                };
+            }
+        }
+        export namespace Level2 {
+            /** Remote Request body C */
+            export namespace RequestBodyC {
+                /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#requestBodyObject */
+                export interface Content {
+                    \\"application/json\\": {
+                        body?: string;
+                    };
+                }
+            }
         }
     }
 }
