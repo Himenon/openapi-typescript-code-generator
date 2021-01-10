@@ -1,7 +1,7 @@
 import ts from "typescript";
 
-import { Converter } from "../";
 import * as TypeScriptCodeGenerator from "../CodeGenerator";
+import * as Converter from "../Converter";
 import * as ApiClientArgument from "./ApiClientArgument";
 import * as ApiClientClass from "./ApiClientClass";
 
