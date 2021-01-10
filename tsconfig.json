@@ -15,6 +15,7 @@
     "lib": ["dom", "es2019"],
     "rootDir": ".",
     "outDir": "lib",
-    "strict": true
+    "strict": true,
+    "resolveJsonModule": true
   }
 }

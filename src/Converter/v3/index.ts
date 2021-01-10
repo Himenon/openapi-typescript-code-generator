@@ -1,6 +1,7 @@
 import ts from "typescript";
 
 import * as TypeScriptCodeGenerator from "../../CodeGenerator";
+import * as Validator from "../../Validator";
 import * as Comment from "./Comment";
 import * as Headers from "./components/Headers";
 import * as Parameters from "./components/Parameters";
@@ -30,11 +31,12 @@ export interface Option {
 export const create = (entryPoint: string, rootSchema: OpenApi.Document, option: Option): Type => {
   const currentPoint = entryPoint;
 
-  const noReferenceSchema = ResolveReference.resolve(entryPoint, currentPoint, JSON.parse(JSON.stringify(rootSchema)));
+  const noReferenceOpenApiSchema = ResolveReference.resolve(entryPoint, currentPoint, JSON.parse(JSON.stringify(rootSchema)));
+  console.log(Validator.v3.validate(noReferenceOpenApiSchema));
 
   const createFunction = (context: ts.TransformationContext): ts.Statement[] => {
     const factory = TypeScriptCodeGenerator.Factory.create(context);
-    const store = Store.create(factory, noReferenceSchema);
+    const store = Store.create(factory, noReferenceOpenApiSchema);
     const toTypeNodeContext = Context.create(entryPoint, store, factory);
 
     if (rootSchema.components) {
