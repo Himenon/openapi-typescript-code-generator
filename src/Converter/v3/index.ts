@@ -22,7 +22,11 @@ export interface Converter {
   createFunction: TypeScriptCodeGenerator.CreateFunction;
 }
 
-export const create = (entryPoint: string, rootSchema: OpenApi.Document): Converter => {
+export interface Option {
+  makeApiClient?: Generator.MakeApiClientFunction;
+}
+
+export const create = (entryPoint: string, rootSchema: OpenApi.Document, option: Option): Converter => {
   const currentPoint = entryPoint;
 
   const noReferenceSchema = ResolveReference.resolve(entryPoint, currentPoint, JSON.parse(JSON.stringify(rootSchema)));
@@ -66,7 +70,7 @@ export const create = (entryPoint: string, rootSchema: OpenApi.Document): Conver
     }
     if (rootSchema.paths) {
       Paths.generateStatements(entryPoint, currentPoint, store, factory, rootSchema.paths, toTypeNodeContext);
-      Generator.generateApiClientCode(store, factory);
+      Generator.generateApiClientCode(store, factory, context, option.makeApiClient);
     }
     return store.getRootStatements();
   };

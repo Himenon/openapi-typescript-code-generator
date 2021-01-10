@@ -53,7 +53,7 @@ const hasQueryParameters = (parameters?: OpenApi.Parameter[]): boolean => {
   return parameters.filter(parameter => parameter.in === "query").length > 0;
 };
 
-const generateParams = (store: Store.Type): CodeGeneratorParams[] => {
+const generateCodeGeneratorParamsList = (store: Store.Type): CodeGeneratorParams[] => {
   const operationState = store.getNoReferenceOperationState();
   const params: CodeGeneratorParams[] = [];
   Object.entries(operationState).forEach(([operationId, item]) => {
@@ -98,24 +98,34 @@ const generateParams = (store: Store.Type): CodeGeneratorParams[] => {
   return params;
 };
 
-export const generateApiClientCode = (store: Store.Type, factory: Factory.Type): void => {
-  const list = generateParams(store);
+export type MakeApiClientFunction = (context: ts.TransformationContext, codeGeneratorParamsList: CodeGeneratorParams[]) => ts.Statement[];
+
+export const generateApiClientCode = (
+  store: Store.Type,
+  factory: Factory.Type,
+  context: ts.TransformationContext,
+  makeApiClient: MakeApiClientFunction | undefined,
+): void => {
+  const codeGeneratorParamsList = generateCodeGeneratorParamsList(store);
+  if (makeApiClient) {
+    store.addAdditionalStatement(makeApiClient(context, codeGeneratorParamsList));
+    return;
+  }
   const statements: ts.Statement[] = [];
-  list.forEach(params => {
-    if (params.hasRequestBody) {
-      statements.push(Templates.ApiClientArgument.createRequestContentTypeReference(factory, params));
+  codeGeneratorParamsList.forEach(codeGeneratorParams => {
+    if (codeGeneratorParams.hasRequestBody) {
+      statements.push(Templates.ApiClientArgument.createRequestContentTypeReference(factory, codeGeneratorParams));
     }
-    if (params.responseSuccessNames.length > 0) {
-      statements.push(Templates.ApiClientArgument.createResponseContentTypeReference(factory, params));
+    if (codeGeneratorParams.responseSuccessNames.length > 0) {
+      statements.push(Templates.ApiClientArgument.createResponseContentTypeReference(factory, codeGeneratorParams));
     }
-    const typeDeclaration = Templates.ApiClientArgument.create(factory, params);
+    const typeDeclaration = Templates.ApiClientArgument.create(factory, codeGeneratorParams);
     if (typeDeclaration) {
       statements.push(typeDeclaration);
     }
   });
-  Templates.ApiClientClass.create(factory, list).forEach(newStatement => {
+  Templates.ApiClientClass.create(factory, codeGeneratorParamsList).forEach(newStatement => {
     statements.push(newStatement);
   });
-
   store.addAdditionalStatement(statements);
 };
