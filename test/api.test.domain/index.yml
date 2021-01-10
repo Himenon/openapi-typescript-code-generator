@@ -168,12 +168,10 @@ components:
       $ref: "./components/headers/A.yml"
     HeaderB:
       $ref: "./components/headers/Level1/B.yml"
-    # ReferenceOfHeaderToSchema:
-    #   description: headers -> schemas
-    #   content:
-    #     application/json:
-    #       schema:
-    #         $ref: "./components/schemas/DirectRef/ForHeader.yml"
+    ReferenceOfHeaderToSchema:
+      description: headers -> schemas
+      schema:
+        $ref: "./components/schemas/DirectRef/ForHeader.yml"
   parameters:
     StringQueryParams:
       name: A
@@ -194,10 +192,8 @@ components:
       required: true
       in: query
       name: for-ref
-      content:
-        application/json:
-          schema:
-            $ref: "./components/schemas/DirectRef/ForParameters.yml"
+      schema:
+        $ref: "./components/schemas/DirectRef/ForParameters.yml"
   responses:
     Continue:
       description: |

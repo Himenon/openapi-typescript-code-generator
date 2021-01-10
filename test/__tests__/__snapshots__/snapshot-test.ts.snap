@@ -85,9 +85,11 @@ export namespace Schemas {
     export type RemoteRefArray = Schemas.Level1.Level2.Level3.RemoteArray;
     export type RemoteRefObject = Schemas.Level1.Level2.Level3.Level4.RemoteObject;
     export namespace DirectRef {
+        export type ForHeader = string;
         export interface ForResponse {
             forResponse?: string;
         }
+        export type ForParameters = string;
         export interface ForRequestBody {
             a?: string;
         }
@@ -100,6 +102,7 @@ export namespace Headers {
     export namespace Level1 {
         export type B = string;
     }
+    export type ReferenceOfHeaderToSchema = Schemas.DirectRef.ForHeader;
 }
 /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#responsesObject */
 export namespace Responses {
@@ -142,7 +145,7 @@ export namespace Parameters {
     /** parameters.NumberQueryParams */
     export type NumberQueryParams = number;
     /** parameters -> schemas */
-    export type ReferenceOfParameterToSchema = null;
+    export type ReferenceOfParameterToSchema = Schemas.DirectRef.ForParameters;
 }
 /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#componentsObject */
 export namespace RequestBodies {
