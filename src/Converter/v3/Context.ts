@@ -3,7 +3,7 @@ import * as Path from "path";
 import ts from "typescript";
 
 import * as TypeScriptCodeGenerator from "../../CodeGenerator";
-import { DevelopmentError, FeatureDevelopmentError } from "../../Exception";
+import { DevelopmentError, NotFoundReference } from "../../Exception";
 import { Store } from "./store";
 import * as ToTypeNode from "./toTypeNode";
 
@@ -100,7 +100,7 @@ export const create = (entryPoint: string, store: Store.Type, factory: TypeScrip
       }
     } else if (reference.type === "local") {
       if (!store.hasStatement(reference.path, ["namespace", "interface", "typeAlias"])) {
-        throw new FeatureDevelopmentError("TODO Local Referenceが作成されていない場合 \n " + JSON.stringify(reference, null, 2));
+        throw new NotFoundReference(`The schema ${reference.name} is undefined in "${reference.path}".`);
       }
     }
   };

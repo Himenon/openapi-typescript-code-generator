@@ -94,17 +94,32 @@ components:
           properties:
             requiredStringType:
               type: string
-    RefStringType:
+    OneOfType:
+      oneOf:
+        - type: string
+        - type: number
+        - type: object
+    AllOfType:
+      allOf:
+        - type: object
+          properties:
+            A:
+              type: string
+        - type: object
+          properties:
+            B:
+              type: string
+    LocalRefStringType:
       $ref: "#/components/schemas/StringType"
-    RefNumberType:
+    LocalRefNumberType:
       $ref: "#/components/schemas/NumberType"
-    RefBooleanType:
+    LocalRefBooleanType:
       $ref: "#/components/schemas/BooleanType"
-    RefArrayStringType:
+    LocalRefArrayStringType:
       $ref: "#/components/schemas/BooleanType"
-    RefObjectHasPropertiesType:
+    LocalRefObjectHasPropertiesType:
       $ref: "#/components/schemas/ObjectHasPropertiesType"
-    RefObjectProperties:
+    LocalRefObjectProperties:
       type: object
       required:
         - stringType
@@ -123,30 +138,25 @@ components:
           $ref: "#/components/schemas/BooleanType"
         objectType:
           $ref: "#/components/schemas/ObjectHasPropertiesType"
-    OneOfType:
-      oneOf:
-        - type: string
-        - type: number
-        - type: object
-    AllOfType:
-      allOf:
-        - type: object
-          properties:
-            A:
-              type: string
-        - type: object
-          properties:
-            B:
-              type: string
-    OneOfRefType:
+    LocalRefOneOfType:
       oneOf:
         - $ref: "#/components/schemas/StringType"
         - $ref: "#/components/schemas/NumberType"
         - $ref: "#/components/schemas/ObjectHasPropertiesType"
-        - $ref: "#/components/schemas/RefObjectProperties"
-    AllOfRefType:
+        - $ref: "#/components/schemas/LocalRefObjectProperties"
+    LocalRefAllOfType:
       allOf:
         - $ref: "#/components/schemas/StringType"
         - $ref: "#/components/schemas/NumberType"
         - $ref: "#/components/schemas/ObjectHasPropertiesType"
-        - $ref: "#/components/schemas/RefObjectProperties"
+        - $ref: "#/components/schemas/LocalRefObjectProperties"
+    RemoteRefString:
+      $ref: "./components/schemas/RemoteString.yml"
+    RemoteRefBoolean:
+      $ref: "./components/schemas/Level1/RemoteBoolean.yml"
+    RemoteRefNumber:
+      $ref: "./components/schemas/Level1/Level2/RemoteNumber.yml"
+    RemoteRefArray:
+      $ref: "./components/schemas/Level1/Level2/Level3/RemoteArray.yml"
+    RemoteRefObject:
+      $ref: "./components/schemas/Level1/Level2/Level3/Level4/RemoteObject.yml"

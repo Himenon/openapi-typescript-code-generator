@@ -13,6 +13,8 @@ export class UnknownError extends BaseError {}
 
 export class NotFoundFileError extends BaseError {}
 
+export class NotFoundReference extends BaseError {}
+
 export class FeatureDevelopmentError extends BaseError {}
 
 export class SchemaOnlySupportError extends BaseError {}

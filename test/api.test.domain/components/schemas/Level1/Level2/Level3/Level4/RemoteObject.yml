@@ -1,8 +1,7 @@
 type: object
+description: Level 4
 properties:
-  id:
-    $ref: "./UserId.yml"
-  username:
+  A:
     type: string
-  age:
+  B:
     type: number
