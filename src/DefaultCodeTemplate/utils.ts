@@ -161,7 +161,7 @@ export const generateVariableIdentifier = (
   });
 
   return rest.reduce<ts.PropertyAccessExpression | ts.ElementAccessExpression>((previous, current: string) => {
-    if (Name.isAlphabetOnlyText(current)) {
+    if (Name.isAvailableVariableName(current)) {
       return factory.PropertyAccessExpression.create({
         expression: previous,
         name: current,

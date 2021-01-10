@@ -5,12 +5,12 @@ export const responseName = (operationId: string, statusCode: string): string =>
 export const requestContentType = (operationId: string): string => `RequestContentType$${operationId}`;
 export const responseContentType = (operationId: string): string => `ResponseContentType$${operationId}`;
 
-export const isAlphabetOnlyText = (text: string): boolean => {
-  return /^[A-Za-z\s]+$/.test(text);
+export const isAvailableVariableName = (text: string): boolean => {
+  return /^[A-Za-z_\s]+$/.test(text);
 };
 
 export const escapeText = (text: string) => {
-  if (isAlphabetOnlyText(text)) {
+  if (isAvailableVariableName(text)) {
     return text;
   }
   return `"${text}"`;
