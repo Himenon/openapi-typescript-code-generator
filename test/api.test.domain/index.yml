@@ -191,6 +191,9 @@ components:
         type: integer
     ReferenceOfParameterToSchema:
       description: parameters -> schemas
+      required: true
+      in: query
+      name: for-ref
       content:
         application/json:
           schema:
