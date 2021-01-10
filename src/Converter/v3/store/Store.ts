@@ -147,7 +147,6 @@ export const create = (factory: Factory.Type, rootDocument: OpenApi.Document): T
       }
       return statements;
     }, []);
-    fs.writeFileSync("debug/sample.yml", yaml.dump(Masking.maskValue(state)), { encoding: "utf-8" });
     return statements.concat(state.additionalStatements);
   };
 
