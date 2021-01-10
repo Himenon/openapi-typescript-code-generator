@@ -23,7 +23,7 @@ jobs:
       - name: Test & Build
         run: |
           yarn install --frozen-lockfile
-          yarn test
           yarn build
+          yarn test
         env:
           CI: true
