@@ -7,6 +7,7 @@ import * as ToTypeNode from "../toTypeNode";
 import { OpenApi } from "../types";
 import * as Paramter from "./Parameter";
 import * as Reference from "./Reference";
+import * as Schemas from "./Schemas";
 
 export const generateNamespace = (
   entryPoint: string,
@@ -16,6 +17,7 @@ export const generateNamespace = (
   parameters: OpenApi.MapLike<string, OpenApi.Parameter | OpenApi.Reference>,
   context: ToTypeNode.Context,
 ): void => {
+  const basePath = "components/parameters";
   store.addComponent("parameters", {
     type: "namespace",
     name: Name.Components.Parameters,
@@ -33,20 +35,31 @@ export const generateNamespace = (
       const reference = Reference.generate<OpenApi.Parameter>(entryPoint, currentPoint, parameter);
       if (reference.type === "local") {
         throw new UnSupportError("What is components.parameters local reference?");
+      } else {
+        if (!reference.data.schema) {
+          return;
+        }
+        Schemas.generateRemoteSchema(entryPoint, currentPoint, store, factory, reference.path, reference.name, reference.data.schema, context);
+        store.addStatement(`${basePath}/${name}`, {
+          type: "typeAlias",
+          name: reference.data.name,
+          value: factory.TypeAliasDeclaration.create({
+            export: true,
+            name: reference.data.name,
+            type: factory.TypeReferenceNode.create({
+              name: context.getReferenceName(currentPoint, reference.path, "remote"),
+            }),
+          }),
+        });
       }
-      const path = `components/parameters/${reference.name}`;
-      return store.addStatement(path, {
+    } else {
+      const path = `${basePath}/${name}`;
+      store.addStatement(path, {
         type: "typeAlias",
-        name: reference.name,
-        value: Paramter.generateTypeAlias(entryPoint, reference.referencePoint, factory, reference.name, reference.data, context),
+        name: parameter.name,
+        value: Paramter.generateTypeAlias(entryPoint, currentPoint, factory, parameter.name, parameter, context),
       });
     }
-    const path = `components/parameters/${name}`;
-    return store.addStatement(path, {
-      type: "typeAlias",
-      name: name,
-      value: Paramter.generateTypeAlias(entryPoint, currentPoint, factory, name, parameter, context),
-    });
   });
 };
 

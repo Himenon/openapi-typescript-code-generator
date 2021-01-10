@@ -174,24 +174,28 @@ components:
         $ref: "./components/schemas/DirectRef/ForHeader.yml"
   parameters:
     StringQueryParams:
-      name: A
+      name: StringQuery
       in: query
       description: parameters.StringQueryParams
       required: true
       schema:
         type: string
     NumberQueryParams:
-      name: B
+      name: NumberQuery
       in: path
       description: parameters.NumberQueryParams
       required: true
       schema:
         type: integer
+    RemoteReferenceA:
+      $ref: "./components/parameters/A.yml"
+    RemoteReferenceB:
+      $ref: "./components/parameters/level1/B.yml"
     ReferenceOfParameterToSchema:
       description: parameters -> schemas
       required: true
       in: query
-      name: for-ref
+      name: ForReference
       schema:
         $ref: "./components/schemas/DirectRef/ForParameters.yml"
   responses:

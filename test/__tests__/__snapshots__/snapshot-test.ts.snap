@@ -141,11 +141,17 @@ export namespace Responses {
 /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#parameterObject */
 export namespace Parameters {
     /** parameters.StringQueryParams */
-    export type StringQueryParams = string;
+    export type StringQuery = string;
     /** parameters.NumberQueryParams */
-    export type NumberQueryParams = number;
+    export type NumberQuery = number;
+    export type A = number;
+    export type RefA = Parameters.A;
+    export namespace level1 {
+        export type B = string;
+    }
+    export type RefB = Parameters.level1.B;
     /** parameters -> schemas */
-    export type ReferenceOfParameterToSchema = Schemas.DirectRef.ForParameters;
+    export type ForReference = Schemas.DirectRef.ForParameters;
 }
 /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#componentsObject */
 export namespace RequestBodies {
