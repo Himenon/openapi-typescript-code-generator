@@ -225,6 +225,12 @@ components:
         application/json:
           schema:
             $ref: "./components/schemas/DirectRef/ForResponse.yml"
+    RefResponseA:
+      $ref: "./components/responses/ResponseA.yml"
+    RefResponseB:
+      $ref: "./components/responses/Level1/ResponseB.yml"
+    RefResponseC:
+      $ref: "./components/responses/Level1/Level2/ResponseC.yml"
   requestBodies:
     StringType:
       description: Request body string type

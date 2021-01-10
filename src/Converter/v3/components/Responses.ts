@@ -41,7 +41,16 @@ export const generateNamespace = (
           throw new UndefinedComponent(`Reference "${response.$ref}" did not found in ${reference.path} by ${reference.name}`);
         }
       } else if (reference.type === "remote") {
-        Response.generateNamespace(entryPoint, reference.referencePoint, store, factory, basePath, reference.name, reference.data, context);
+        Response.generateNamespace(
+          entryPoint,
+          reference.referencePoint,
+          store,
+          factory,
+          path.dirname(reference.path), // referencePoint basename === namespace name
+          reference.name,
+          reference.data,
+          context,
+        );
       }
     } else {
       Response.generateNamespace(entryPoint, currentPoint, store, factory, basePath, name, response, context);
@@ -85,7 +94,7 @@ export const generateNamespaceWithStatusCode = (
           reference.referencePoint,
           store,
           factory,
-          path.dirname(reference.path), // TODO write reason
+          path.dirname(reference.path), // referencePoint basename === namespace name
           reference.name,
           reference.data,
           context,
@@ -110,7 +119,6 @@ export const generateInterfacesWithStatusCode = (
 ): ts.Statement[] => {
   const statements: ts.Statement[] = [];
   Object.entries(responses).forEach(([statusCode, response]) => {
-    const nameWithStatusCode = `Status$${statusCode}`;
     if (!response) {
       return;
     }
@@ -134,7 +142,7 @@ export const generateInterfacesWithStatusCode = (
           reference.referencePoint,
           store,
           factory,
-          path.dirname(reference.path), // TODO write reason
+          path.dirname(reference.path), // referencePoint basename === namespace name
           reference.name,
           reference.data,
           context,
@@ -143,28 +151,14 @@ export const generateInterfacesWithStatusCode = (
         const content = reference.data.content;
         if (content) {
           statements.push(
-            MediaType.generateInterface(
-              entryPoint,
-              currentPoint,
-              factory,
-              Name.responseName(operationId, nameWithStatusCode),
-              content,
-              context,
-            ),
+            MediaType.generateInterface(entryPoint, currentPoint, factory, Name.responseName(operationId, statusCode), content, context),
           );
         }
       }
     } else {
       if (response.content) {
         statements.push(
-          MediaType.generateInterface(
-            entryPoint,
-            currentPoint,
-            factory,
-            `Response$${operationId}$${nameWithStatusCode}`,
-            response.content,
-            context,
-          ),
+          MediaType.generateInterface(entryPoint, currentPoint, factory, Name.responseName(operationId, statusCode), response.content, context),
         );
       }
     }

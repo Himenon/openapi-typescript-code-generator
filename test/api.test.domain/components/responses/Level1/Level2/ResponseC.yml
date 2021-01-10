@@ -1,0 +1,9 @@
+description: response C definition
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        name:
+          type: string
+          enum: [responseC]

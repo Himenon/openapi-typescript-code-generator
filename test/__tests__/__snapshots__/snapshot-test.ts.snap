@@ -137,6 +137,37 @@ export namespace Responses {
             \\"application/json\\": Schemas.DirectRef.ForResponse;
         }
     }
+    /** response A definition */
+    export namespace ResponseA {
+        /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
+        export interface Content {
+            \\"application/json\\": {
+                name?: \\"responseA\\";
+            };
+        }
+    }
+    export namespace Level1 {
+        /** response B definition */
+        export namespace ResponseB {
+            /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
+            export interface Content {
+                \\"application/json\\": {
+                    name?: \\"responseB\\";
+                };
+            }
+        }
+        export namespace Level2 {
+            /** response C definition */
+            export namespace ResponseC {
+                /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
+                export interface Content {
+                    \\"application/json\\": {
+                        name?: \\"responseC\\";
+                    };
+                }
+            }
+        }
+    }
 }
 /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#parameterObject */
 export namespace Parameters {
