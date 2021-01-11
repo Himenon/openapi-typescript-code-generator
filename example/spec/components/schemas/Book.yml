@@ -1,0 +1,21 @@
+type: object
+description: Book Model
+required:
+  - title
+  - author
+  - ISBN
+  - publishAt
+  - updatedAt
+properties:
+  title:
+    type: string
+  author:
+    $ref: "./Author.yml"
+  ISBN:
+    type: string
+  publishAt:
+    type: string
+    format: date
+  updatedAt:
+    type: string
+    format: date
