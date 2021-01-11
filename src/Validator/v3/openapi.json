@@ -204,6 +204,9 @@
         },
         "callbacks": {
           "$ref": "#/definitions/callbacksOrReferences"
+        },
+        "pathItems": {
+          "$ref": "#/definitions/pathItemsOrReferences"
         }
       }
     },
@@ -218,6 +221,12 @@
         "^x-": {
           "$ref": "#/definitions/specificationExtension"
         }
+      }
+    },
+    "pathItemsOrReferences": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/pathItemsOrReference"
       }
     },
     "pathItem": {
@@ -1045,6 +1054,16 @@
       "oneOf": [
         {
           "$ref": "#/definitions/response"
+        },
+        {
+          "$ref": "#/definitions/reference"
+        }
+      ]
+    },
+    "pathItemsOrReference": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/pathItem"
         },
         {
           "$ref": "#/definitions/reference"

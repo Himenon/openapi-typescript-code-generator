@@ -256,3 +256,24 @@ components:
       $ref: "./components/requestBodies/Level1/RequestBodyB.yml"
     RefRequestBodyC:
       $ref: "./components/requestBodies/Level1/Level2/RequestBodyC.yml"
+
+  pathItems:
+    PathItemA:
+      summary: path item A
+      get:
+        tags: [A]
+        operationId: getA
+        parameters:
+          - $ref: "#/components/parameters/StringQueryParams"
+        responses:
+          "200":
+            description: Success response of getA
+            content:
+              application/json:
+                schema:
+                  type: object
+                  required:
+                    - meta
+                  properties:
+                    meta:
+                      type: string
