@@ -2,12 +2,14 @@
   "name": "@himenon/openapi-typescript-code-generator",
   "version": "0.1.0",
   "private": true,
-  "description": "node library template",
+  "description": "OpenAPI Code Generator using TypeScript AST.",
   "keywords": [
     "openapi",
+    "openapi3",
+    "openapi-codegen",
+    "openapi-generator",
     "typescript",
-    "typescript-ast",
-    "code-generator"
+    "typescript-ast"
   ],
   "homepage": "https://github.com/Himenon/openapi-typescript-code-generator#readme",
   "bugs": {
