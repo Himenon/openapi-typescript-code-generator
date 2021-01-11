@@ -65,6 +65,32 @@ const main = () => {
 main();
 ```
 
+### Restrictions
+
+#### Directory Restrictions for Remote Reference
+
+There is a limitation on the directory structure supported.
+To simplify implementation when converting directory structures to TypeScript namespaces, Remote References using `$ref` should only be defined in the following directory structures.
+If you want to extend it, please fork this repository and do it yourself.
+
+```
+spec.yml // entry file
+components/
+  headers/
+  parameters/
+  pathItems/
+  requestBodies/
+  responses/
+  schemas/
+  paths/
+```
+
+#### HTTP communication restrictions for Remote Reference
+
+`$ref: http://.... Currently not supported. We hope to support it in the future.
+
+Translated with www.DeepL.com/Translator (free version)
+
 ## Contributions
 
 First of all, thank you for your interest.
@@ -83,7 +109,7 @@ If your changes are in line with the design concept, please submit a pull reques
 - Conform to the OpenAPI specification.
 - It should be a single file to maintain portability.
 
-### Development Method
+### Development
 
 ```bash
 git clone https://github.com/Himenon/openapi-typescript-code-generator.git
@@ -99,6 +125,12 @@ TypeScript AST
 
 - https://ts-ast-viewer.com
 
-### LICENCE
+## LICENCE
 
 [@himenon/openapi-typescript-code-generator](https://github.com/Himenon/typescript-codegen), MIT
+
+### Reference implementation
+
+Validation Design
+
+- Copyright (c) 2018 Kogo Software LLC - [https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-schema-validator#readme](openapi-schema-validator)

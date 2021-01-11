@@ -13,7 +13,6 @@ import * as Context from "./Context";
 import * as Generator from "./Generator";
 import * as Name from "./Name";
 import * as Paths from "./paths";
-import * as ResolveReference from "./ResolveReference";
 import { Store } from "./store";
 import { CodeGeneratorParams, OpenApi, PickedParameter } from "./types";
 
@@ -28,11 +27,8 @@ export interface Option {
   makeApiClient: Generator.MakeApiClientFunction;
 }
 
-export const create = (entryPoint: string, rootSchema: OpenApi.Document, option: Option): Type => {
+export const create = (entryPoint: string, rootSchema: OpenApi.Document, noReferenceOpenApiSchema: OpenApi.Document, option: Option): Type => {
   const currentPoint = entryPoint;
-
-  const noReferenceOpenApiSchema = ResolveReference.resolve(entryPoint, currentPoint, JSON.parse(JSON.stringify(rootSchema)));
-  Validator.v3.validate(noReferenceOpenApiSchema);
 
   const createFunction = (context: ts.TransformationContext): ts.Statement[] => {
     const factory = TypeScriptCodeGenerator.Factory.create(context);

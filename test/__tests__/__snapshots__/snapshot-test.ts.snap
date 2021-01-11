@@ -47,65 +47,109 @@ export namespace Schemas {
     } & {
         B?: string;
     };
-    export type LocalRefStringType = Schemas.StringType;
-    export type LocalRefNumberType = Schemas.NumberType;
-    export type LocalRefBooleanType = Schemas.BooleanType;
-    export type LocalRefArrayStringType = Schemas.BooleanType;
-    export type LocalRefObjectHasPropertiesType = Schemas.ObjectHasPropertiesType;
+    export type LocalRefStringType = string;
+    export type LocalRefNumberType = number;
+    export type LocalRefBooleanType = boolean;
+    export type LocalRefArrayStringType = boolean;
+    export interface LocalRefObjectHasPropertiesType {
+        stringType?: string;
+        numberType?: number;
+        booleanType?: boolean;
+        arrayType?: string;
+        objectType?: {
+            requiredStringType: string;
+        };
+    }
     export interface LocalRefObjectProperties {
-        stringType: Schemas.StringType;
-        numberType: Schemas.NumberType;
-        booleanType: Schemas.BooleanType;
-        arrayType: Schemas.BooleanType;
-        objectType: Schemas.ObjectHasPropertiesType;
+        /** String Literal */
+        stringType: string;
+        /** Number Literal */
+        numberType: number;
+        /** Boolean Literal */
+        booleanType: boolean;
+        /** Boolean Literal */
+        arrayType: boolean;
+        objectType: {
+            stringType?: string;
+            numberType?: number;
+            booleanType?: boolean;
+            arrayType?: string;
+            objectType?: {
+                requiredStringType: string;
+            };
+        };
     }
-    export type LocalRefOneOfType = Schemas.StringType | Schemas.NumberType | Schemas.ObjectHasPropertiesType | Schemas.LocalRefObjectProperties;
-    export type LocalRefAllOfType = Schemas.StringType & Schemas.NumberType & Schemas.ObjectHasPropertiesType & Schemas.LocalRefObjectProperties;
-    export type RemoteString = string;
-    export type RemoteRefString = Schemas.RemoteString;
-    export namespace Level1 {
-        export type RemoteBoolean = boolean;
-        export namespace Level2 {
-            export type RemoteNumber = number;
-            export namespace Level3 {
-                /** Level 3 */
-                export type RemoteArray = string[];
-                export namespace Level4 {
-                    /** Level 4 */
-                    export interface RemoteObject {
-                        A?: string;
-                        B?: number;
-                    }
-                }
-            }
-        }
-    }
-    export type RemoteRefBoolean = Schemas.Level1.RemoteBoolean;
-    export type RemoteRefNumber = Schemas.Level1.Level2.RemoteNumber;
-    export type RemoteRefArray = Schemas.Level1.Level2.Level3.RemoteArray;
-    export type RemoteRefObject = Schemas.Level1.Level2.Level3.Level4.RemoteObject;
-    export namespace DirectRef {
-        export type ForHeader = string;
-        export interface ForResponse {
-            forResponse?: string;
-        }
-        export type ForParameters = string;
-        export interface ForRequestBody {
-            a?: string;
-        }
-    }
-    export namespace FullRemoteReference {
-        export type ForParameters = string;
+    export type LocalRefOneOfType = string | number | {
+        stringType?: string;
+        numberType?: number;
+        booleanType?: boolean;
+        arrayType?: string;
+        objectType?: {
+            requiredStringType: string;
+        };
+    } | {
+        /** String Literal */
+        stringType: string;
+        /** Number Literal */
+        numberType: number;
+        /** Boolean Literal */
+        booleanType: boolean;
+        /** Boolean Literal */
+        arrayType: boolean;
+        objectType: {
+            stringType?: string;
+            numberType?: number;
+            booleanType?: boolean;
+            arrayType?: string;
+            objectType?: {
+                requiredStringType: string;
+            };
+        };
+    };
+    export type LocalRefAllOfType = string & number & {
+        stringType?: string;
+        numberType?: number;
+        booleanType?: boolean;
+        arrayType?: string;
+        objectType?: {
+            requiredStringType: string;
+        };
+    } & {
+        /** String Literal */
+        stringType: string;
+        /** Number Literal */
+        numberType: number;
+        /** Boolean Literal */
+        booleanType: boolean;
+        /** Boolean Literal */
+        arrayType: boolean;
+        objectType: {
+            stringType?: string;
+            numberType?: number;
+            booleanType?: boolean;
+            arrayType?: string;
+            objectType?: {
+                requiredStringType: string;
+            };
+        };
+    };
+    export type RemoteRefString = string;
+    export type RemoteRefBoolean = boolean;
+    export type RemoteRefNumber = number;
+    /** Level 3 */
+    export type RemoteRefArray = string[];
+    /** Level 4 */
+    export interface RemoteRefObject {
+        A?: string;
+        B?: number;
     }
 }
 /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#componentsObject */
 export namespace Headers {
     export type StringHeader = string;
-    export type A = number;
-    export namespace Level1 {
-        export type B = string;
-    }
-    export type ReferenceOfHeaderToSchema = Schemas.DirectRef.ForHeader;
+    export type HeaderA = number;
+    export type HeaderB = string;
+    export type ReferenceOfHeaderToSchema = string;
 }
 /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#responsesObject */
 export namespace Responses {
@@ -123,28 +167,38 @@ export namespace Responses {
     export namespace LocalReferenceStringDateTimeType {
         /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
         export interface Content {
-            \\"application/json\\": Schemas.StringDateTimeType;
+            \\"application/json\\": string;
         }
     }
     /** Local Reference - object */
     export namespace LocalReferenceObjectType {
         /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
         export interface Content {
-            \\"application/json\\": Schemas.ObjectHasPropertiesType;
+            \\"application/json\\": {
+                stringType?: string;
+                numberType?: number;
+                booleanType?: boolean;
+                arrayType?: string;
+                objectType?: {
+                    requiredStringType: string;
+                };
+            };
         }
     }
     /** Response -> Schema */
     export namespace ReferenceOfResponseToSchema {
         /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
         export interface Content {
-            \\"application/json\\": Schemas.DirectRef.ForResponse;
+            \\"application/json\\": {
+                forResponse?: string;
+            };
         }
     }
     /** response A definition */
-    export namespace ResponseA {
+    export namespace RefResponseA {
         /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject */
         export interface Header {
-            HeaderA: Headers.A;
+            HeaderA: number;
             HeaderB: string;
         }
         /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
@@ -154,42 +208,22 @@ export namespace Responses {
             };
         }
     }
-    export namespace Level1 {
-        /** response B definition */
-        export namespace ResponseB {
-            /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
-            export interface Content {
-                \\"application/json\\": {
-                    name?: \\"responseB\\";
-                };
-            }
-        }
-        export namespace Level2 {
-            /** response C definition */
-            export namespace ResponseC {
-                /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
-                export interface Content {
-                    \\"application/json\\": {
-                        name?: \\"responseC\\";
-                    };
-                }
-            }
+    /** response B definition */
+    export namespace RefResponseB {
+        /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
+        export interface Content {
+            \\"application/json\\": {
+                name?: \\"responseB\\";
+            };
         }
     }
-    export namespace ForPathItems {
-        /** response A definition */
-        export namespace FullRemoteReference {
-            /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject */
-            export interface Header {
-                HeaderA: Headers.A;
-                HeaderB: string;
-            }
-            /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
-            export interface Content {
-                \\"application/json\\": {
-                    name?: \\"responseA\\";
-                };
-            }
+    /** response C definition */
+    export namespace RefResponseC {
+        /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
+        export interface Content {
+            \\"application/json\\": {
+                name?: \\"responseC\\";
+            };
         }
     }
 }
@@ -201,14 +235,12 @@ export namespace Parameters {
     export type NumberQueryParams = number;
     /** parameters.StringQueryParams */
     export type StringHeaderParams = string;
-    export type A = number;
-    export type RemoteReferenceA = Parameters.A;
-    export namespace level1 {
-        export type B = string;
-    }
-    export type RemoteReferenceB = Parameters.level1.B;
+    /** remote reference parameter */
+    export type RemoteReferenceA = number;
+    /** level1 - remote reference parameter */
+    export type RemoteReferenceB = string;
     /** parameters -> schemas */
-    export type ReferenceOfParameterToSchema = Schemas.DirectRef.ForParameters;
+    export type ReferenceOfParameterToSchema = string;
 }
 /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#componentsObject */
 export namespace RequestBodies {
@@ -223,18 +255,20 @@ export namespace RequestBodies {
     export namespace LocalReferenceStringType {
         /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#requestBodyObject */
         export interface Content {
-            \\"application/json\\": Schemas.StringHasEnumType;
+            \\"application/json\\": \\"a\\" | \\"A\\" | \\"b\\" | \\"B\\" | \\"c\\" | \\"C\\";
         }
     }
     /** requestBodies -> schemas */
     export namespace ReferenceOfRequestBodyToSchema {
         /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#requestBodyObject */
         export interface Content {
-            \\"application/json\\": Schemas.DirectRef.ForRequestBody;
+            \\"application/json\\": {
+                a?: string;
+            };
         }
     }
     /** Remote Request body A */
-    export namespace RequestBodyA {
+    export namespace RefRequestBodyA {
         /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#requestBodyObject */
         export interface Content {
             \\"application/json\\": {
@@ -242,26 +276,22 @@ export namespace RequestBodies {
             };
         }
     }
-    export namespace Level1 {
-        /** Remote Request body B */
-        export namespace RequestBodyB {
-            /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#requestBodyObject */
-            export interface Content {
-                \\"application/json\\": {
-                    body?: string;
-                };
-            }
+    /** Remote Request body B */
+    export namespace RefRequestBodyB {
+        /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#requestBodyObject */
+        export interface Content {
+            \\"application/json\\": {
+                body?: string;
+            };
         }
-        export namespace Level2 {
-            /** Remote Request body C */
-            export namespace RequestBodyC {
-                /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#requestBodyObject */
-                export interface Content {
-                    \\"application/json\\": {
-                        body?: string;
-                    };
-                }
-            }
+    }
+    /** Remote Request body C */
+    export namespace RefRequestBodyC {
+        /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#requestBodyObject */
+        export interface Content {
+            \\"application/json\\": {
+                body?: string;
+            };
         }
     }
 }
@@ -285,7 +315,7 @@ export interface RequestBody$getIncludeRemoteReference {
 }
 /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject */
 export interface Parameter$getFullRemoteReference {
-    FullRemoteReferenceQuery: Schemas.FullRemoteReference.ForParameters;
+    FullRemoteReferenceQuery: string;
 }
 /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
 export interface Response$getFullRemoteReference$Status$200 {

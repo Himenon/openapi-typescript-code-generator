@@ -63,6 +63,30 @@ const main = () => {
 main();
 ```
 
+### 制限
+
+#### Remote Reference のディレクトリ制限
+
+サポートしているディレクトリ構造に制限があります。
+ディレクトリ構造を TypeScript の Namespace へ変換するとき、実装を簡素化するために`$ref`を利用した Remote Reference は以下のディレクトリ構造にのみ定義してください。
+もし拡張したい場合は本リポジトリを Fork して独自に行ってください。
+
+```
+spec.yml // entry file
+components/
+  headers/
+  parameters/
+  pathItems/
+  requestBodies/
+  responses/
+  schemas/
+  paths/
+```
+
+#### Remote Reference の HTTP 通信制限
+
+`$ref: http://....`は現在サポートしていません。将来的にサポートしたいと考えています。
+
 ## コントリビューション
 
 はじめに、興味を持っていただきありがとうございます。
@@ -100,3 +124,9 @@ TypeScript AST
 ## LICENCE
 
 [@himenon/openapi-typescript-code-generator](https://github.com/Himenon/typescript-codegen)・MIT
+
+### 参考にした実装
+
+Validation 設計
+
+- Copyright (c) 2018 Kogo Software LLC - [https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-schema-validator#readme](openapi-schema-validator)
