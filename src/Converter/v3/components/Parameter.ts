@@ -55,7 +55,7 @@ export const generatePropertySignature = (
     return factory.PropertySignature.create({
       name: reference.data.name,
       optional: false,
-      type: ToTypeNode.convert(entryPoint, currentPoint, factory, reference.data.schema || { type: "null" }, context),
+      type: ToTypeNode.convert(entryPoint, reference.referencePoint, factory, reference.data.schema || { type: "null" }, context),
     });
   }
   return factory.PropertySignature.create({

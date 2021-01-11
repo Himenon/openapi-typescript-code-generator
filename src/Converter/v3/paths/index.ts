@@ -18,7 +18,7 @@ export const generateStatements = (
   context: ToTypeNode.Context,
 ): void => {
   const statements: ts.Statement[][] = [];
-  Object.entries(paths).forEach(([requestUri, pathItem], index) => {
+  Object.entries(paths).forEach(([requestUri, pathItem]) => {
     if (!requestUri.startsWith("/")) {
       throw new Error(`Not start slash: ${requestUri}`);
     }

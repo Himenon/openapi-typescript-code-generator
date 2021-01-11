@@ -1,0 +1,5 @@
+description: Request body string type
+content:
+  application/json:
+    schema:
+      type: string

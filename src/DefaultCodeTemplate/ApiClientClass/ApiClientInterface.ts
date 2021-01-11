@@ -68,7 +68,7 @@ export const create = (factory: Factory.Type): ts.Statement[] => {
         name: "ObjectLike",
       }),
       factory.TypeNode.create({
-        type: "undefined",
+        type: "any",
       }),
     ],
   });

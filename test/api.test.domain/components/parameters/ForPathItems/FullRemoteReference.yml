@@ -1,0 +1,6 @@
+name: FullRemoteReferenceQuery
+in: query
+description: Full Remote REference
+required: true
+schema:
+  $ref: "../../schemas/FullRemoteReference/ForParameters.yml"

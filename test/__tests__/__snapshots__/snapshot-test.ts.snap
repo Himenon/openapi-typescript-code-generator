@@ -94,6 +94,9 @@ export namespace Schemas {
             a?: string;
         }
     }
+    export namespace FullRemoteReference {
+        export type ForParameters = string;
+    }
 }
 /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#componentsObject */
 export namespace Headers {
@@ -173,21 +176,39 @@ export namespace Responses {
             }
         }
     }
+    export namespace ForPathItems {
+        /** response A definition */
+        export namespace FullRemoteReference {
+            /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject */
+            export interface Header {
+                HeaderA: Headers.A;
+                HeaderB: string;
+            }
+            /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
+            export interface Content {
+                \\"application/json\\": {
+                    name?: \\"responseA\\";
+                };
+            }
+        }
+    }
 }
 /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#parameterObject */
 export namespace Parameters {
     /** parameters.StringQueryParams */
-    export type StringQuery = string;
+    export type StringQueryParams = string;
     /** parameters.NumberQueryParams */
-    export type NumberQuery = number;
+    export type NumberQueryParams = number;
+    /** parameters.StringQueryParams */
+    export type StringHeaderParams = string;
     export type A = number;
-    export type RefA = Parameters.A;
+    export type RemoteReferenceA = Parameters.A;
     export namespace level1 {
         export type B = string;
     }
-    export type RefB = Parameters.level1.B;
+    export type RemoteReferenceB = Parameters.level1.B;
     /** parameters -> schemas */
-    export type ForReference = Schemas.DirectRef.ForParameters;
+    export type ReferenceOfParameterToSchema = Schemas.DirectRef.ForParameters;
 }
 /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#componentsObject */
 export namespace RequestBodies {
@@ -242,6 +263,95 @@ export namespace RequestBodies {
                 }
             }
         }
+    }
+}
+/** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject */
+export interface Parameter$getIncludeLocalReference {
+    StringQuery: string;
+}
+/** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
+export interface Response$getIncludeLocalReference$Status$200 {
+    \\"application/json\\": {
+        meta: string;
+    };
+}
+/** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject */
+export interface Parameter$getIncludeRemoteReference {
+    IncludeRemoteReference: number;
+}
+/** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#requestBodyObject */
+export interface RequestBody$getIncludeRemoteReference {
+    \\"application/json\\": string;
+}
+/** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject */
+export interface Parameter$getFullRemoteReference {
+    FullRemoteReferenceQuery: Schemas.FullRemoteReference.ForParameters;
+}
+/** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
+export interface Response$getFullRemoteReference$Status$200 {
+    \\"application/json\\": {
+        name?: \\"responseA\\";
+    };
+}
+export type ResponseContentType$getIncludeLocalReference = keyof Response$getIncludeLocalReference$Status$200;
+export interface Params$getIncludeLocalReference {
+    parameter: Parameter$getIncludeLocalReference;
+}
+export type RequestContentType$getIncludeRemoteReference = keyof RequestBody$getIncludeRemoteReference;
+export interface Params$getIncludeRemoteReference {
+    parameter: Parameter$getIncludeRemoteReference;
+    requestBody: RequestBody$getIncludeRemoteReference[\\"application/json\\"];
+}
+export type ResponseContentType$getFullRemoteReference = keyof Response$getFullRemoteReference$Status$200;
+export interface Params$getFullRemoteReference {
+    parameter: Parameter$getFullRemoteReference;
+}
+export type HttpMethod = \\"GET\\" | \\"PUT\\" | \\"POST\\" | \\"DELETE\\" | \\"OPTIONS\\" | \\"HEAD\\" | \\"PATCH\\" | \\"TRACE\\";
+export interface ObjectLike {
+    [key: string]: any;
+}
+export interface QueryParameter {
+    value: any;
+    style?: \\"form\\" | \\"spaceDelimited\\" | \\"pipeDelimited\\" | \\"deepObject\\";
+    explode: boolean;
+}
+export interface QueryParameters {
+    [key: string]: QueryParameter;
+}
+export interface ApiClient<RequestOption> {
+    request: (httpMethod: HttpMethod, url: string, headers: ObjectLike | any, requestBody: ObjectLike | any, queryParameters: QueryParameters | undefined, options?: RequestOption) => Promise<any>;
+}
+export class Client<RequestOption> {
+    constructor(private apiClient: ApiClient<RequestOption>, private baseUrl: string) { }
+    public async getIncludeLocalReference(params: Params$getIncludeLocalReference, option?: RequestOption): Promise<Response$getIncludeLocalReference$Status$200[\\"application/json\\"]> {
+        const url = this.baseUrl + \`/get/IncludeLocalReference\`;
+        const headers = {
+            Accept: \\"application/json\\"
+        };
+        const queryParameters: QueryParameters = {
+            StringQuery: { value: params.parameter.StringQuery, explode: false }
+        };
+        return this.apiClient.request(\\"GET\\", url, undefined, headers, queryParameters, option);
+    }
+    public async getIncludeRemoteReference(params: Params$getIncludeRemoteReference, option?: RequestOption): Promise<void> {
+        const url = this.baseUrl + \`/get/IncludeRemoteReference\`;
+        const headers = {
+            \\"Content-Type\\": \\"application/json\\"
+        };
+        const queryParameters: QueryParameters = {
+            IncludeRemoteReference: { value: params.parameter.IncludeRemoteReference, explode: false }
+        };
+        return this.apiClient.request(\\"GET\\", url, params.requestBody, headers, queryParameters, option);
+    }
+    public async getFullRemoteReference(params: Params$getFullRemoteReference, option?: RequestOption): Promise<Response$getFullRemoteReference$Status$200[\\"application/json\\"]> {
+        const url = this.baseUrl + \`/FullRemoteReference\`;
+        const headers = {
+            Accept: \\"application/json\\"
+        };
+        const queryParameters: QueryParameters = {
+            FullRemoteReferenceQuery: { value: params.parameter.FullRemoteReferenceQuery, explode: false }
+        };
+        return this.apiClient.request(\\"GET\\", url, undefined, headers, queryParameters, option);
     }
 }
 "

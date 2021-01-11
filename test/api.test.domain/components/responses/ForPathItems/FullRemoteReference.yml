@@ -1,0 +1,16 @@
+description: response A definition
+headers:
+  HeaderA:
+    $ref: "../../headers/A.yml"
+  HeaderB:
+    description: HeaderB
+    schema:
+      type: string
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        name:
+          type: string
+          enum: [responseA]

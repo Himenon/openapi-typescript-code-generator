@@ -187,6 +187,13 @@ components:
       required: true
       schema:
         type: integer
+    StringHeaderParams:
+      name: StringQuery
+      in: header
+      description: parameters.StringQueryParams
+      required: true
+      schema:
+        type: string
     RemoteReferenceA:
       $ref: "./components/parameters/A.yml"
     RemoteReferenceB:
@@ -258,11 +265,11 @@ components:
       $ref: "./components/requestBodies/Level1/Level2/RequestBodyC.yml"
 
   pathItems:
-    PathItemA:
-      summary: path item A
+    IncludeLocalReference:
+      summary: include local reference
       get:
-        tags: [A]
-        operationId: getA
+        tags: [local]
+        operationId: getIncludeLocalReference
         parameters:
           - $ref: "#/components/parameters/StringQueryParams"
         responses:
@@ -277,3 +284,23 @@ components:
                   properties:
                     meta:
                       type: string
+    IncludeRemoteReference:
+      summary: include remote reference
+      get:
+        tags: [remote]
+        operationId: getIncludeRemoteReference
+        parameters:
+          - $ref: "./components/parameters/ForRequestBodies/FromIncludeRemoteReference.yml"
+        requestBody:
+          $ref: "./components/requestBodies/ForPaths/IncludeRemoteReference.yml"
+        responses:
+          "200":
+            description: "OK"
+
+paths:
+  /get/IncludeLocalReference:
+    $ref: "#/components/pathItems/IncludeLocalReference"
+  /get/IncludeRemoteReference:
+    $ref: "#/components/pathItems/IncludeRemoteReference"
+  /FullRemoteReference:
+    $ref: "./components/pathItems/FullRemoteReference.yml"

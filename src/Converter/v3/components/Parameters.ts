@@ -42,10 +42,10 @@ export const generateNamespace = (
         Schema.addSchema(entryPoint, currentPoint, store, factory, reference.path, reference.name, reference.data.schema, context);
         store.addStatement(`${basePath}/${name}`, {
           type: "typeAlias",
-          name: reference.data.name,
+          name: name,
           value: factory.TypeAliasDeclaration.create({
             export: true,
-            name: reference.data.name,
+            name: name,
             type: factory.TypeReferenceNode.create({
               name: context.getReferenceName(currentPoint, reference.path),
             }),
@@ -56,8 +56,8 @@ export const generateNamespace = (
       const path = `${basePath}/${name}`;
       store.addStatement(path, {
         type: "typeAlias",
-        name: parameter.name,
-        value: Paramter.generateTypeAlias(entryPoint, currentPoint, factory, parameter.name, parameter, context),
+        name: name,
+        value: Paramter.generateTypeAlias(entryPoint, currentPoint, factory, name, parameter, context),
       });
     }
   });
@@ -92,8 +92,8 @@ export const generateNamespaceWithList = (
       const path = `components/parameters/${reference.name}`;
       return store.addStatement(path, {
         type: "typeAlias",
-        name: reference.data.name,
-        value: Paramter.generateTypeAlias(entryPoint, reference.referencePoint, factory, reference.data.name, reference.data, context),
+        name: reference.name,
+        value: Paramter.generateTypeAlias(entryPoint, reference.referencePoint, factory, reference.name, reference.data, context),
       });
     }
     const path = `components/parameters/${parameter.name}`;
