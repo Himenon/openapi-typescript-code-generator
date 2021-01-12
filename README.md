@@ -15,7 +15,7 @@ The hierarchical structure of the directory is converted to the hierarchical str
 yarn add -D @himenon/openapi-typescript-code-generator
 ```
 
-### デモ
+### DEMO
 
 - [DEMO](./example/README.md)
 

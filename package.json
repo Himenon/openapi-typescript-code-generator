@@ -75,8 +75,7 @@
     "@types/json-schema": "7.0.6",
     "ajv": "7.0.3",
     "dot-prop": "6.0.1",
-    "js-yaml": "4.0.0",
-    "typescript": "4.1.3"
+    "js-yaml": "4.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "11.0.0",
@@ -112,7 +111,11 @@
     "sort-package-json": "1.48.1",
     "ts-jest": "26.4.4",
     "ts-node": "9.1.1",
+    "typescript": "4.1.3",
     "yarn-deduplicate": "3.1.0"
+  },
+  "peerDependencies": {
+    "typescript": "4.1.3"
   },
   "publishConfig": {
     "access": "public"
