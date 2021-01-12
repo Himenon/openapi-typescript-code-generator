@@ -10,7 +10,8 @@
     "ts": "ts-node -P tsconfig.json"
   },
   "dependencies": {
-    "@himenon/openapi-parameter-formatter": "^0.2.1"
+    "@himenon/openapi-parameter-formatter": "0.2.1",
+    "@himenon/openapi-typescript-code-generator": "../lib"
   },
   "devDependencies": {
     "ts-node": "9.1.1",

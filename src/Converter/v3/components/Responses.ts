@@ -151,7 +151,14 @@ export const generateInterfacesWithStatusCode = (
         const content = reference.data.content;
         if (content) {
           statements.push(
-            MediaType.generateInterface(entryPoint, currentPoint, factory, Name.responseName(operationId, statusCode), content, context),
+            MediaType.generateInterface(
+              entryPoint,
+              reference.referencePoint,
+              factory,
+              Name.responseName(operationId, statusCode),
+              content,
+              context,
+            ),
           );
         }
       }

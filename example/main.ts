@@ -33,7 +33,7 @@ const apiClientImpl: ApiClient<RequestOption> = {
       requestBody,
       options,
     });
-    return Promise.resolve();
+    return Promise.resolve(); // you can use fetch or axios or superagent api libraries
   },
 };
 

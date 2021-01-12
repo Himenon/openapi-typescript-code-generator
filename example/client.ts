@@ -6,20 +6,35 @@
 // License  : MIT
 //
 
+export namespace schemas {
+  export interface Author {
+    id: string;
+    /** author name */
+    name: string;
+  }
+  export interface Book {
+    title: string;
+    author: Author;
+    ISBN: string;
+    publishAt: string;
+    updatedAt: string;
+  }
+}
+export namespace responses {
+  /** Get Books */
+  export namespace Books {
+    /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
+    export interface Content {
+      "application/json": {
+        books: schemas.Book[];
+      };
+    }
+  }
+}
 /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
 export interface Response$getBooks$Status$200 {
   "application/json": {
-    books: {
-      title: string;
-      author: {
-        id: string;
-        /** author name */
-        name: string;
-      };
-      ISBN: string;
-      publishAt: string;
-      updatedAt: string;
-    }[];
+    books: schemas.Book[];
   };
 }
 /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject */
@@ -33,17 +48,7 @@ export interface Parameter$searchBooks {
 /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
 export interface Response$searchBooks$Status$200 {
   "application/json": {
-    books?: {
-      title: string;
-      author: {
-        id: string;
-        /** author name */
-        name: string;
-      };
-      ISBN: string;
-      publishAt: string;
-      updatedAt: string;
-    }[];
+    books?: schemas.Book[];
   };
 }
 export type ResponseContentType$getBooks = keyof Response$getBooks$Status$200;

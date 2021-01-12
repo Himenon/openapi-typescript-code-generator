@@ -19,7 +19,7 @@ export interface Params {
 
 export const generateTypeScriptCode = ({ version, entryPoint, option, enableValidate = true }: Params): string => {
   const schema = fileSystem.loadJsonOrYaml(entryPoint);
-  const resolvedReferenceDocument = ResolveReference.resolve(entryPoint, entryPoint, schema);
+  const resolvedReferenceDocument = ResolveReference.resolve(entryPoint, entryPoint, JSON.parse(JSON.stringify(schema)));
 
   if (enableValidate) {
     Validator.v3.validate(resolvedReferenceDocument);

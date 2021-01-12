@@ -1,6 +1,6 @@
 import * as fs from "fs";
 
-import * as CodeGenerator from "../lib";
+import * as CodeGenerator from "@himenon/openapi-typescript-code-generator";
 
 const main = () => {
   const params: CodeGenerator.Params = {
