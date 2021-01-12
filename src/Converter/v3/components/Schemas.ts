@@ -46,7 +46,7 @@ export const generateNamespace = (
         });
         return;
       }
-      Schema.addSchema(entryPoint, currentPoint, store, factory, reference.path, reference.name, reference.data, context);
+      Schema.addSchema(entryPoint, reference.referencePoint, store, factory, reference.path, reference.name, reference.data, context);
       if (store.hasStatement(`${basePath}/${name}`, ["interface", "typeAlias"])) {
         return;
       }

@@ -164,19 +164,19 @@ export const addSchema = (
     store.addStatement(targetPoint, {
       type: "typeAlias",
       name: declarationName,
-      value: generateArrayTypeAlias(entryPoint, targetPoint, factory, declarationName, schema, context),
+      value: generateArrayTypeAlias(entryPoint, currentPoint, factory, declarationName, schema, context),
     });
   } else if (Guard.isObjectSchema(schema)) {
     store.addStatement(targetPoint, {
       type: "interface",
       name: declarationName,
-      value: generateInterface(entryPoint, targetPoint, factory, declarationName, schema, context),
+      value: generateInterface(entryPoint, currentPoint, factory, declarationName, schema, context),
     });
   } else if (Guard.isPrimitiveSchema(schema)) {
     store.addStatement(targetPoint, {
       type: "typeAlias",
       name: declarationName,
-      value: generateTypeAlias(entryPoint, targetPoint, factory, declarationName, schema),
+      value: generateTypeAlias(entryPoint, currentPoint, factory, declarationName, schema),
     });
   }
 };
