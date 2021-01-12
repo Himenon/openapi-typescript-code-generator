@@ -87,7 +87,7 @@ components/
 
 #### HTTP communication restrictions for Remote Reference
 
-`$ref: http://.... Currently not supported. We hope to support it in the future.
+`$ref: http://....` Currently not supported. We hope to support it in the future.
 
 Translated with www.DeepL.com/Translator (free version)
 
