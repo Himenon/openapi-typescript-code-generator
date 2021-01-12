@@ -1,6 +1,7 @@
 import "./clean";
-import { shell } from "./tools/shell";
+
 import { copyPackageSet } from "./tools/copyPackageSet";
+import { shell } from "./tools/shell";
 
 const main = async () => {
   await Promise.all([

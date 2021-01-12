@@ -1,0 +1,6 @@
+name: RefA
+in: query
+description: remote reference parameter
+required: true
+schema:
+  type: number

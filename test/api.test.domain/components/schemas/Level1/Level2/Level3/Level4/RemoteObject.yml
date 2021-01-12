@@ -1,0 +1,7 @@
+type: object
+description: Level 4
+properties:
+  A:
+    type: string
+  B:
+    type: number

@@ -6,3 +6,5 @@ package-lock.json
 .env*
 *.log
 private_npm_cache
+test/code
+debug

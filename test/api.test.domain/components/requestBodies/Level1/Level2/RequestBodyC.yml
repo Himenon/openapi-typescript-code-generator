@@ -1,0 +1,8 @@
+description: Remote Request body C
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        body:
+          type: string

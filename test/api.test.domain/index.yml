@@ -1,0 +1,321 @@
+openapi: 3.1.0-rc
+info:
+  version: 1.0.0
+  title: api.test.domain
+  description: Library test schema
+  license:
+    name: MIT
+
+servers:
+  - url: "http://dev.api.test.domain/"
+    description: Development Environment
+  - url: "https://api.test.domain/"
+    description: Production Environment
+
+tags:
+  - name: test
+
+components:
+  schemas:
+    StringType:
+      type: string
+      description: String Literal
+    StringHasEnumType:
+      type: string
+      enum: [a, A, b, B, c, C]
+    StringDateType:
+      type: string
+      format: date
+    StringDateTimeType:
+      type: string
+      format: date-time
+    StringPasswordType:
+      type: string
+      format: password
+    StringByteType:
+      type: string
+      format: byte
+    StringBinaryType:
+      type: string
+      format: binary
+    StringWithPatternType:
+      type: string
+      pattern: /^\d{3}-\d{2}-\d{4}$/
+    NumberType:
+      type: number
+      description: Number Literal
+    NumberHasEnumType:
+      type: number
+      enum: [1, 2, 3, 100, 123, 0.1, -0.1, 0.0]
+    NumberInt32Type:
+      type: number
+      format: int32
+    NumberInt64Type:
+      type: number
+      format: int64
+    NumberFloat:
+      type: number
+      format: float
+    NumberDouble:
+      type: number
+      format: double
+    BooleanType:
+      type: boolean
+      description: Boolean Literal
+    ArrayStringType:
+      type: array
+      items:
+        type: string
+    ArrayNumberType:
+      type: array
+      items:
+        type: number
+    ArrayBooleanType:
+      type: array
+      items:
+        type: boolean
+    ObjectEmptyPropertiesType:
+      type: object
+    ObjectHasPropertiesType:
+      type: object
+      properties:
+        stringType:
+          type: string
+        numberType:
+          type: number
+        booleanType:
+          type: boolean
+        arrayType:
+          type: string
+        objectType:
+          type: object
+          required:
+            - requiredStringType
+          properties:
+            requiredStringType:
+              type: string
+    OneOfType:
+      oneOf:
+        - type: string
+        - type: number
+        - type: object
+    AllOfType:
+      allOf:
+        - type: object
+          properties:
+            A:
+              type: string
+        - type: object
+          properties:
+            B:
+              type: string
+    LocalRefStringType:
+      $ref: "#/components/schemas/StringType"
+    LocalRefNumberType:
+      $ref: "#/components/schemas/NumberType"
+    LocalRefBooleanType:
+      $ref: "#/components/schemas/BooleanType"
+    LocalRefArrayStringType:
+      $ref: "#/components/schemas/BooleanType"
+    LocalRefObjectHasPropertiesType:
+      $ref: "#/components/schemas/ObjectHasPropertiesType"
+    LocalRefObjectProperties:
+      type: object
+      required:
+        - stringType
+        - numberType
+        - booleanType
+        - arrayType
+        - objectType
+      properties:
+        stringType:
+          $ref: "#/components/schemas/StringType"
+        numberType:
+          $ref: "#/components/schemas/NumberType"
+        booleanType:
+          $ref: "#/components/schemas/BooleanType"
+        arrayType:
+          $ref: "#/components/schemas/BooleanType"
+        objectType:
+          $ref: "#/components/schemas/ObjectHasPropertiesType"
+    LocalRefOneOfType:
+      oneOf:
+        - $ref: "#/components/schemas/StringType"
+        - $ref: "#/components/schemas/NumberType"
+        - $ref: "#/components/schemas/ObjectHasPropertiesType"
+        - $ref: "#/components/schemas/LocalRefObjectProperties"
+    LocalRefAllOfType:
+      allOf:
+        - $ref: "#/components/schemas/StringType"
+        - $ref: "#/components/schemas/NumberType"
+        - $ref: "#/components/schemas/ObjectHasPropertiesType"
+        - $ref: "#/components/schemas/LocalRefObjectProperties"
+    RemoteRefString:
+      $ref: "./components/schemas/RemoteString.yml"
+    RemoteRefBoolean:
+      $ref: "./components/schemas/Level1/RemoteBoolean.yml"
+    RemoteRefNumber:
+      $ref: "./components/schemas/Level1/Level2/RemoteNumber.yml"
+    RemoteRefArray:
+      $ref: "./components/schemas/Level1/Level2/Level3/RemoteArray.yml"
+    RemoteRefObject:
+      $ref: "./components/schemas/Level1/Level2/Level3/Level4/RemoteObject.yml"
+  headers:
+    StringHeader:
+      schema:
+        type: string
+    HeaderA:
+      $ref: "./components/headers/A.yml"
+    HeaderB:
+      $ref: "./components/headers/Level1/B.yml"
+    ReferenceOfHeaderToSchema:
+      description: headers -> schemas
+      schema:
+        $ref: "./components/schemas/DirectRef/ForHeader.yml"
+  parameters:
+    StringQueryParams:
+      name: StringQuery
+      in: query
+      description: parameters.StringQueryParams
+      required: true
+      schema:
+        type: string
+    NumberQueryParams:
+      name: NumberQuery
+      in: path
+      description: parameters.NumberQueryParams
+      required: true
+      schema:
+        type: integer
+    StringHeaderParams:
+      name: StringQuery
+      in: header
+      description: parameters.StringQueryParams
+      required: true
+      schema:
+        type: string
+    RemoteReferenceA:
+      $ref: "./components/parameters/A.yml"
+    RemoteReferenceB:
+      $ref: "./components/parameters/level1/B.yml"
+    ReferenceOfParameterToSchema:
+      description: parameters -> schemas
+      required: true
+      in: query
+      name: ForReference
+      schema:
+        $ref: "./components/schemas/DirectRef/ForParameters.yml"
+  responses:
+    Continue:
+      description: |
+        Status Code 100
+        @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/100
+    SwitchingProtocol:
+      description: |
+        Status Code 101
+        @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/101
+    LocalReferenceStringDateTimeType:
+      description: Type Reference - string
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/StringDateTimeType"
+    LocalReferenceObjectType:
+      description: Local Reference - object
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ObjectHasPropertiesType"
+    ReferenceOfResponseToSchema:
+      description: Response -> Schema
+      content:
+        application/json:
+          schema:
+            $ref: "./components/schemas/DirectRef/ForResponse.yml"
+    RefResponseA:
+      $ref: "./components/responses/ResponseA.yml"
+    RefResponseB:
+      $ref: "./components/responses/Level1/ResponseB.yml"
+    RefResponseC:
+      $ref: "./components/responses/Level1/Level2/ResponseC.yml"
+  requestBodies:
+    StringType:
+      description: Request body string type
+      content:
+        application/json:
+          schema:
+            type: string
+    LocalReferenceStringType:
+      description: Request body Local reference string type
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/StringHasEnumType"
+    ReferenceOfRequestBodyToSchema:
+      description: requestBodies -> schemas
+      content:
+        application/json:
+          schema:
+            $ref: "./components/schemas/DirectRef/ForRequestBody.yml"
+    RefRequestBodyA:
+      $ref: "./components/requestBodies/RequestBodyA.yml"
+    RefRequestBodyB:
+      $ref: "./components/requestBodies/Level1/RequestBodyB.yml"
+    RefRequestBodyC:
+      $ref: "./components/requestBodies/Level1/Level2/RequestBodyC.yml"
+
+  pathItems:
+    IncludeLocalReference:
+      summary: include local reference
+      get:
+        tags: [local]
+        operationId: getIncludeLocalReference
+        parameters:
+          - $ref: "#/components/parameters/StringQueryParams"
+        responses:
+          "200":
+            description: Success response of getA
+            content:
+              application/json:
+                schema:
+                  type: object
+                  required:
+                    - meta
+                  properties:
+                    meta:
+                      type: string
+    IncludeRemoteReference:
+      summary: include remote reference
+      get:
+        tags: [remote]
+        operationId: getIncludeRemoteReference
+        parameters:
+          - $ref: "./components/parameters/ForRequestBodies/FromIncludeRemoteReference.yml"
+        requestBody:
+          $ref: "./components/requestBodies/ForPaths/IncludeRemoteReference.yml"
+        responses:
+          "200":
+            description: "OK"
+
+paths:
+  /get/IncludeLocalReference:
+    $ref: "#/components/pathItems/IncludeLocalReference"
+  /get/IncludeRemoteReference:
+    $ref: "#/components/pathItems/IncludeRemoteReference"
+  /FullRemoteReference:
+    $ref: "./components/pathItems/FullRemoteReference.yml"
+  /get/reference/items:
+    get:
+      operationId: getReferenceItems
+      responses:
+        200:
+          description: Get Books
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  books:
+                    type: array
+                    items:
+                      $ref: "./components/schemas/Item.yml"

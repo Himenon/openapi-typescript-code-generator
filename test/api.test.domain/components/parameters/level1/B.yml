@@ -1,0 +1,6 @@
+name: RefB
+in: query
+description: level1 - remote reference parameter
+required: true
+schema:
+  type: string

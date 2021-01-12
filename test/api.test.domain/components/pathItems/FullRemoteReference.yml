@@ -1,0 +1,7 @@
+get:
+  operationId: getFullRemoteReference
+  responses:
+    "200":
+      $ref: "../responses/ForPathItems/FullRemoteReference.yml"
+  parameters:
+    - $ref: "../parameters/ForPathItems/FullRemoteReference.yml"

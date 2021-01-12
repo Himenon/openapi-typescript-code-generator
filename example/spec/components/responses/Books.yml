@@ -1,0 +1,12 @@
+description: Get Books
+content:
+  application/json:
+    schema:
+      type: object
+      required:
+        - books
+      properties:
+        books:
+          type: array
+          items:
+            $ref: "../schemas/Book.yml"
