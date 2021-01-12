@@ -89,8 +89,6 @@ components/
 
 `$ref: http://....` Currently not supported. We hope to support it in the future.
 
-Translated with www.DeepL.com/Translator (free version)
-
 ## Contributions
 
 First of all, thank you for your interest.
