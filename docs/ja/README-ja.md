@@ -26,7 +26,6 @@ import * as CodeGenerator from "@himenon/openapi-typescript-code-generator";
 
 const main = () => {
   const params: CodeGenerator.Params = {
-    version: "v3",
     entryPoint: "your/openapi/spec.yml", // support .yml, .yaml, .json
   };
   const code = CodeGenerator.generateTypeScriptCode(params);
@@ -51,7 +50,6 @@ import * as CodeGenerator from "../lib";
 
 const main = () => {
   const params: CodeGenerator.Params = {
-    version: "v3",
     entryPoint: "your/openapi/spec.yml", // support .yml, .yaml, .json
     option: {
       makeApiClient: (context: ts.TransformationContext, codeGeneratorParamsList: CodeGenerator.Converter.v3.CodeGeneratorParams[]): ts.Statement[] => {
