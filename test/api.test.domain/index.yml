@@ -304,3 +304,18 @@ paths:
     $ref: "#/components/pathItems/IncludeRemoteReference"
   /FullRemoteReference:
     $ref: "./components/pathItems/FullRemoteReference.yml"
+  /get/reference/items:
+    get:
+      operationId: getReferenceItems
+      responses:
+        200:
+          description: Get Books
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  books:
+                    type: array
+                    items:
+                      $ref: "./components/schemas/Item.yml"

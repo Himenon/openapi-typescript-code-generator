@@ -1,0 +1,12 @@
+type: object
+description: Item Model
+required:
+  - name
+  - children
+properties:
+  name:
+    type: string
+  children:
+    type: array
+    items:
+      $ref: "./Child.yml"

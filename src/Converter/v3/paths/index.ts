@@ -1,7 +1,6 @@
 import ts from "typescript";
 
 import { Factory } from "../../../CodeGenerator";
-import { FeatureDevelopmentError } from "../../../Exception";
 import * as PathItem from "../components/PathItem";
 import * as Reference from "../components/Reference";
 import * as Guard from "../Guard";

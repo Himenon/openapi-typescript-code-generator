@@ -52,15 +52,17 @@ export const generatePropertySignature = (
         }),
       });
     }
+    const isPathProperty = reference.data.in === "path";
     return factory.PropertySignature.create({
       name: reference.data.name,
-      optional: false,
+      optional: isPathProperty ? false : !reference.data.required,
       type: ToTypeNode.convert(entryPoint, reference.referencePoint, factory, reference.data.schema || { type: "null" }, context),
     });
   }
+  const isPathProperty = parameter.in === "path";
   return factory.PropertySignature.create({
     name: Name.escapeText(parameter.name),
-    optional: false,
+    optional: isPathProperty ? false : !parameter.required,
     type: ToTypeNode.convert(entryPoint, currentPoint, factory, parameter.schema || { type: "null" }, context),
   });
 };
