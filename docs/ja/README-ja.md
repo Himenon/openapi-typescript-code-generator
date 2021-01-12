@@ -13,6 +13,10 @@
 yarn add -D @himenon/openapi-typescript-code-generator
 ```
 
+### デモ
+
+- [DEMO](../../example/README.md)
+
 ### 基本的な使い方
 
 ```ts
