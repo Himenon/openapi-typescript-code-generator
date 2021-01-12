@@ -1,11 +1,12 @@
-import {
-  JSONSchema7 as JSONSchema,
-  JSONSchema7Definition as JSONSchemaDefinition,
-  JSONSchema7Type as JSONSchemaType,
-  JSONSchema7TypeName as JSONSchemaTypeName,
-} from "json-schema";
+import { JSONSchema7, JSONSchema7Type as JSONSchemaType, JSONSchema7TypeName as JSONSchemaTypeName } from "json-schema";
 
-export { JSONSchema, JSONSchemaDefinition, JSONSchemaType, JSONSchemaTypeName };
+export interface JSONSchema extends JSONSchema7 {
+  nullable?: boolean;
+}
+
+export type JSONSchemaDefinition = JSONSchema | boolean; // JSONSchema7Definition
+
+export { JSONSchemaType, JSONSchemaTypeName };
 
 export type MapLike<K extends string, T> = {
   [key in K]: T;

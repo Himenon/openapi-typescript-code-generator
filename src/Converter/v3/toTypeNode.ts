@@ -51,6 +51,20 @@ export const generateMultiTypeNode = (
   return factory.TypeNode.create({ type: "never" });
 };
 
+const nullable = (factory: Factory.Type, typeNode: ts.TypeNode, nullable: boolean): ts.TypeNode => {
+  if (nullable) {
+    return factory.UnionTypeNode.create({
+      typeNodes: [
+        typeNode,
+        factory.TypeNode.create({
+          type: "null",
+        }),
+      ],
+    });
+  }
+  return typeNode;
+};
+
 export const convert: Convert = (
   entryPoint: string,
   currentPoint: string,
@@ -104,7 +118,12 @@ export const convert: Convert = (
     throw new UnsetTypeError("Please set 'type' or '$ref' property \n" + JSON.stringify(schema));
   }
   switch (schema.type) {
-    case "boolean":
+    case "boolean": {
+      const typeNode = factory.TypeNode.create({
+        type: "boolean",
+      });
+      return nullable(factory, typeNode, !!schema.nullable);
+    }
     case "null": {
       return factory.TypeNode.create({
         type: schema.type,
@@ -113,33 +132,39 @@ export const convert: Convert = (
     case "integer":
     case "number": {
       const items = schema.enum;
+      let typeNode: ts.TypeNode;
       if (items && Guard.isNumberArray(items)) {
-        return factory.TypeNode.create({
+        typeNode = factory.TypeNode.create({
           type: schema.type,
           enum: items,
         });
+      } else {
+        typeNode = factory.TypeNode.create({
+          type: schema.type,
+        });
       }
-      return factory.TypeNode.create({
-        type: schema.type,
-      });
+      return nullable(factory, typeNode, !!schema.nullable);
     }
     case "string": {
       const items = schema.enum;
+      let typeNode: ts.TypeNode;
       if (items && Guard.isStringArray(items)) {
-        return factory.TypeNode.create({
+        typeNode = factory.TypeNode.create({
           type: schema.type,
           enum: items,
         });
+      } else {
+        typeNode = factory.TypeNode.create({
+          type: schema.type,
+        });
       }
-      return factory.TypeNode.create({
-        type: schema.type,
-      });
+      return nullable(factory, typeNode, !!schema.nullable);
     }
     case "array": {
       if (Array.isArray(schema.items) || typeof schema.items === "boolean") {
         throw new UnSupportError(`schema.items = ${JSON.stringify(schema.items)}`);
       }
-      return factory.TypeNode.create({
+      const typeNode = factory.TypeNode.create({
         type: schema.type,
         value: schema.items
           ? convert(entryPoint, currentPoint, factory, schema.items, context, { parent: schema })
@@ -147,6 +172,7 @@ export const convert: Convert = (
               type: "undefined",
             }),
       });
+      return nullable(factory, typeNode, !!schema.nullable);
     }
     case "object": {
       if (!schema.properties) {
@@ -155,36 +181,39 @@ export const convert: Convert = (
           value: [],
         });
       }
+      let typeNode: ts.TypeNode;
       const required: string[] = schema.required || [];
       // https://swagger.io/docs/specification/data-models/dictionaries/#free-form
       if (schema.additionalProperties === true) {
-        return factory.TypeNode.create({
+        typeNode = factory.TypeNode.create({
           type: schema.type,
           value: [],
         });
-      }
-      const value: ts.PropertySignature[] = Object.entries(schema.properties).map(([name, jsonSchema]) => {
-        return factory.PropertySignature.create({
-          name,
-          type: convert(entryPoint, currentPoint, factory, jsonSchema, context, { parent: schema.properties }),
-          optional: !required.includes(name),
-          comment: typeof jsonSchema !== "boolean" ? jsonSchema.description : undefined,
+      } else {
+        const value: ts.PropertySignature[] = Object.entries(schema.properties).map(([name, jsonSchema]) => {
+          return factory.PropertySignature.create({
+            name,
+            type: convert(entryPoint, currentPoint, factory, jsonSchema, context, { parent: schema.properties }),
+            optional: !required.includes(name),
+            comment: typeof jsonSchema !== "boolean" ? jsonSchema.description : undefined,
+          });
         });
-      });
-      if (schema.additionalProperties) {
-        const additionalProperties = factory.IndexSignatureDeclaration.create({
-          name: "key",
-          type: convert(entryPoint, currentPoint, factory, schema.additionalProperties, context, { parent: schema.properties }),
-        });
-        return factory.TypeNode.create({
+        if (schema.additionalProperties) {
+          const additionalProperties = factory.IndexSignatureDeclaration.create({
+            name: "key",
+            type: convert(entryPoint, currentPoint, factory, schema.additionalProperties, context, { parent: schema.properties }),
+          });
+          return factory.TypeNode.create({
+            type: schema.type,
+            value: [...value, additionalProperties],
+          });
+        }
+        typeNode = factory.TypeNode.create({
           type: schema.type,
-          value: [...value, additionalProperties],
+          value,
         });
       }
-      return factory.TypeNode.create({
-        type: schema.type,
-        value,
-      });
+      return nullable(factory, typeNode, !!schema.nullable);
     }
     default:
       throw new UnknownError("what is this? \n" + JSON.stringify(schema, null, 2));
