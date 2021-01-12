@@ -17,8 +17,8 @@ export const create = (factory: Factory.Type, params: CodeGeneratorParams): ts.C
   const argumentsArray = [
     factory.StringLiteral.create({ text: params.httpMethod.toUpperCase() }),
     factory.Identifier.create({ name: "url" }),
-    params.hasRequestBody ? Utils.generateVariableIdentifier(factory, "params.requestBody") : factory.Identifier.create({ name: "undefined" }),
     factory.Identifier.create({ name: "headers" }),
+    params.hasRequestBody ? Utils.generateVariableIdentifier(factory, "params.requestBody") : factory.Identifier.create({ name: "undefined" }),
     params.hasQueryParameters ? factory.Identifier.create({ name: "queryParameters" }) : factory.Identifier.create({ name: "undefined" }),
     factory.Identifier.create({ name: "option" }),
   ];

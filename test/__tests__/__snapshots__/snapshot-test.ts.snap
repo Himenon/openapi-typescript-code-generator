@@ -347,7 +347,7 @@ export class Client<RequestOption> {
         const queryParameters: QueryParameters = {
             StringQuery: { value: params.parameter.StringQuery, explode: false }
         };
-        return this.apiClient.request(\\"GET\\", url, undefined, headers, queryParameters, option);
+        return this.apiClient.request(\\"GET\\", url, headers, undefined, queryParameters, option);
     }
     public async getIncludeRemoteReference(params: Params$getIncludeRemoteReference, option?: RequestOption): Promise<void> {
         const url = this.baseUrl + \`/get/IncludeRemoteReference\`;
@@ -357,7 +357,7 @@ export class Client<RequestOption> {
         const queryParameters: QueryParameters = {
             IncludeRemoteReference: { value: params.parameter.IncludeRemoteReference, explode: false }
         };
-        return this.apiClient.request(\\"GET\\", url, params.requestBody, headers, queryParameters, option);
+        return this.apiClient.request(\\"GET\\", url, headers, params.requestBody, queryParameters, option);
     }
     public async getFullRemoteReference(params: Params$getFullRemoteReference, option?: RequestOption): Promise<Response$getFullRemoteReference$Status$200[\\"application/json\\"]> {
         const url = this.baseUrl + \`/FullRemoteReference\`;
@@ -367,14 +367,14 @@ export class Client<RequestOption> {
         const queryParameters: QueryParameters = {
             FullRemoteReferenceQuery: { value: params.parameter.FullRemoteReferenceQuery, explode: false }
         };
-        return this.apiClient.request(\\"GET\\", url, undefined, headers, queryParameters, option);
+        return this.apiClient.request(\\"GET\\", url, headers, undefined, queryParameters, option);
     }
     public async getReferenceItems(option?: RequestOption): Promise<Response$getReferenceItems$Status$200[\\"application/json\\"]> {
         const url = this.baseUrl + \`/get/reference/items\`;
         const headers = {
             Accept: \\"application/json\\"
         };
-        return this.apiClient.request(\\"GET\\", url, undefined, headers, undefined, option);
+        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
     }
 }
 "

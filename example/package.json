@@ -10,9 +10,14 @@
     "ts": "ts-node -P tsconfig.json"
   },
   "dependencies": {
-    "@himenon/openapi-parameter-formatter": "0.2.1"
+    "@himenon/openapi-parameter-formatter": "0.2.1",
+    "axios": "0.21.1",
+    "superagent": "6.1.0"
   },
   "devDependencies": {
+    "@types/node-fetch": "^2.5.7",
+    "@types/superagent": "^4.1.10",
+    "node-fetch": "^2.6.1",
     "ts-node": "9.1.1",
     "typescript": "4.1.3"
   }

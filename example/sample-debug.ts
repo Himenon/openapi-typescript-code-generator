@@ -3,11 +3,27 @@ import * as Formatter from "@himenon/openapi-parameter-formatter";
 import { ApiClient, Client, HttpMethod, ObjectLike, QueryParameters } from "./client";
 
 export interface RequestOption {
-  retry?: number;
+  timeout?: number;
 }
 
+const generateQueryString = (queryParameters: QueryParameters | undefined): string | undefined => {
+  if (!queryParameters) {
+    return undefined;
+  }
+  return Object.entries(queryParameters).reduce((queryString, [key, item]) => {
+    if (!item.style) {
+      return queryString + "&" + `${key}=${item}`;
+    }
+    const result = Formatter.QueryParameter.generate(key, item as Formatter.QueryParameter.Parameter);
+    if (result) {
+      return queryString + "&" + result;
+    }
+    return queryString;
+  }, "");
+};
+
 const apiClientImpl: ApiClient<RequestOption> = {
-  request: (
+  request: async (
     httpMethod: HttpMethod,
     url: string,
     headers: ObjectLike | any,
@@ -15,32 +31,25 @@ const apiClientImpl: ApiClient<RequestOption> = {
     queryParameters: QueryParameters | undefined,
     options?: RequestOption,
   ): Promise<any> => {
-    const query = Object.entries(queryParameters || {}).reduce((queryString, [key, item]) => {
-      if (!item.style) {
-        return queryString + "&" + `${key}=${item}`;
-      }
-      const result = Formatter.QueryParameter.generate(key, item as Formatter.QueryParameter.Parameter);
-      if (result) {
-        return queryString + "&" + result;
-      }
-      return queryString;
-    }, "");
-    const requestUrl = query.length > 0 ? url + "?" + query : url;
+    const query = generateQueryString(queryParameters);
+    const requestUrl = query ? url + "&" + query : url;
     console.log({
-      requestUrl,
       httpMethod,
+      url,
+      query,
+      requestUrl,
       headers,
       requestBody,
       options,
     });
-    return Promise.resolve(); // you can use fetch or axios or superagent api libraries
+    return Promise.resolve();
   },
 };
 
 const main = async () => {
   const client = new Client<RequestOption>(apiClientImpl, "https://example.com");
   await client.getBooks({
-    retry: 50,
+    timeout: 1000,
   });
   await client.searchBooks({
     parameter: {

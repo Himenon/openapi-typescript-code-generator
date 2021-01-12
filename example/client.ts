@@ -85,7 +85,7 @@ export class Client<RequestOption> {
     const headers = {
       Accept: "application/json",
     };
-    return this.apiClient.request("GET", url, undefined, headers, undefined, option);
+    return this.apiClient.request("GET", url, headers, undefined, undefined, option);
   }
   public async searchBooks(params: Params$searchBooks, option?: RequestOption): Promise<Response$searchBooks$Status$200["application/json"]> {
     const url = this.baseUrl + `/search/books`;
@@ -95,6 +95,6 @@ export class Client<RequestOption> {
     const queryParameters: QueryParameters = {
       filter: { value: params.parameter.filter, style: "deepObject", explode: true },
     };
-    return this.apiClient.request("GET", url, undefined, headers, queryParameters, option);
+    return this.apiClient.request("GET", url, headers, undefined, queryParameters, option);
   }
 }
