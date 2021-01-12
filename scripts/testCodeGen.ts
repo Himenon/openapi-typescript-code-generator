@@ -6,6 +6,11 @@ const main = () => {
   const params: CodeGenerator.Params = {
     version: "v3",
     entryPoint: "test/api.test.domain/index.yml",
+    log: {
+      validator: {
+        displayLogLines: 3,
+      },
+    },
   };
   fs.mkdirSync("test/code", { recursive: true });
   const code = CodeGenerator.generateTypeScriptCode(params);

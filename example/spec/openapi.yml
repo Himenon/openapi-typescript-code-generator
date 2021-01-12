@@ -35,10 +35,8 @@ paths:
             properties:
               title:
                 type: string
-                nullable: true
               author:
                 type: string
-                nullable: true
             additionalProperties:
               type: string
       responses:

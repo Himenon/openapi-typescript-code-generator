@@ -15,14 +15,17 @@ export interface Params {
   option?: Partial<Converter.v3.Option>;
   /** default: true */
   enableValidate?: boolean;
+  log?: {
+    validator?: Validator.v3.LogOption;
+  };
 }
 
-export const generateTypeScriptCode = ({ version, entryPoint, option, enableValidate = true }: Params): string => {
+export const generateTypeScriptCode = ({ version, entryPoint, option, enableValidate = true, log }: Params): string => {
   const schema = fileSystem.loadJsonOrYaml(entryPoint);
   const resolvedReferenceDocument = ResolveReference.resolve(entryPoint, entryPoint, JSON.parse(JSON.stringify(schema)));
 
   if (enableValidate) {
-    Validator.v3.validate(resolvedReferenceDocument);
+    Validator.v3.validate(resolvedReferenceDocument, log && log.validator);
   }
 
   switch (version) {
