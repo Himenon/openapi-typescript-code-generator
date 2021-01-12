@@ -4,7 +4,6 @@ import * as CodeGenerator from "../lib";
 
 const main = () => {
   const params: CodeGenerator.Params = {
-    version: "v3",
     entryPoint: "test/api.test.domain/index.yml",
     log: {
       validator: {

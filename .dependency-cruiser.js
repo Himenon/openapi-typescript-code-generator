@@ -65,7 +65,12 @@ module.exports = {
       },
       to: {
         dependencyTypes: ["npm-dev"],
+        pathNot: "typescript",
       },
+    },
+    {
+      name: "no-duplicate-dep-types",
+      severity: "ignore",
     },
     {
       name: "optional-deps-used",
@@ -91,6 +96,7 @@ module.exports = {
       from: {},
       to: {
         dependencyTypes: ["npm-peer"],
+        pathNot: "typescript",
       },
     },
   ],
