@@ -1,29 +1,13 @@
-import * as Formatter from "@himenon/openapi-parameter-formatter";
 import * as Superagent from "superagent";
 
 import { ApiClient, Client, HttpMethod, ObjectLike, QueryParameters } from "./client";
+import { generateQueryString } from "./utils";
 
 export interface RequestOption {
   retries?: number;
   timeout?: number;
   deadline?: number;
 }
-
-const generateQueryString = (queryParameters: QueryParameters | undefined): string | undefined => {
-  if (!queryParameters) {
-    return undefined;
-  }
-  return Object.entries(queryParameters).reduce((queryString, [key, item]) => {
-    if (!item.style) {
-      return queryString + "&" + `${key}=${item}`;
-    }
-    const result = Formatter.QueryParameter.generate(key, item as Formatter.QueryParameter.Parameter);
-    if (result) {
-      return queryString + "&" + result;
-    }
-    return queryString;
-  }, "");
-};
 
 const apiClientImpl: ApiClient<RequestOption> = {
   request: (
@@ -35,7 +19,7 @@ const apiClientImpl: ApiClient<RequestOption> = {
     options?: RequestOption,
   ): Promise<any> => {
     const query = generateQueryString(queryParameters);
-    const requestUrl = query ? url + "&" + query : url;
+    const requestUrl = query ? url + "?" + encodeURI(query) : url;
 
     return new Promise((resolve, reject) => {
       const agent = Superagent;
