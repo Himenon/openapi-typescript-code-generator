@@ -7,6 +7,8 @@
 
 ## 使い方
 
+- [Playground](https://himenon.github.io/openapi-typescript-code-generator-playground/index.html)
+
 ### インストール
 
 ```bash
