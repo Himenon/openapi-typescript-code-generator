@@ -9,6 +9,8 @@ The hierarchical structure of the directory is converted to the hierarchical str
 
 ## Usage
 
+- [Playground](https://himenon.github.io/openapi-typescript-code-generator-playground/index.html)
+
 ## Installation
 
 ```bash

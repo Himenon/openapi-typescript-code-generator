@@ -175,44 +175,36 @@ export const convert: Convert = (
       return nullable(factory, typeNode, !!schema.nullable);
     }
     case "object": {
-      if (!schema.properties) {
-        return factory.TypeNode.create({
-          type: "object",
-          value: [],
-        });
-      }
-      let typeNode: ts.TypeNode;
       const required: string[] = schema.required || [];
-      // https://swagger.io/docs/specification/data-models/dictionaries/#free-form
+      // // https://swagger.io/docs/specification/data-models/dictionaries/#free-form
       if (schema.additionalProperties === true) {
-        typeNode = factory.TypeNode.create({
+        return factory.TypeNode.create({
           type: schema.type,
           value: [],
         });
-      } else {
-        const value: ts.PropertySignature[] = Object.entries(schema.properties).map(([name, jsonSchema]) => {
-          return factory.PropertySignature.create({
-            name,
-            type: convert(entryPoint, currentPoint, factory, jsonSchema, context, { parent: schema.properties }),
-            optional: !required.includes(name),
-            comment: typeof jsonSchema !== "boolean" ? jsonSchema.description : undefined,
-          });
+      }
+      const value: ts.PropertySignature[] = Object.entries(schema.properties || {}).map(([name, jsonSchema]) => {
+        return factory.PropertySignature.create({
+          name,
+          type: convert(entryPoint, currentPoint, factory, jsonSchema, context, { parent: schema.properties }),
+          optional: !required.includes(name),
+          comment: typeof jsonSchema !== "boolean" ? jsonSchema.description : undefined,
         });
-        if (schema.additionalProperties) {
-          const additionalProperties = factory.IndexSignatureDeclaration.create({
-            name: "key",
-            type: convert(entryPoint, currentPoint, factory, schema.additionalProperties, context, { parent: schema.properties }),
-          });
-          return factory.TypeNode.create({
-            type: schema.type,
-            value: [...value, additionalProperties],
-          });
-        }
-        typeNode = factory.TypeNode.create({
+      });
+      if (schema.additionalProperties) {
+        const additionalProperties = factory.IndexSignatureDeclaration.create({
+          name: "key",
+          type: convert(entryPoint, currentPoint, factory, schema.additionalProperties, context, { parent: schema.properties }),
+        });
+        return factory.TypeNode.create({
           type: schema.type,
-          value,
+          value: [...value, additionalProperties],
         });
       }
+      const typeNode = factory.TypeNode.create({
+        type: schema.type,
+        value,
+      });
       return nullable(factory, typeNode, !!schema.nullable);
     }
     default:

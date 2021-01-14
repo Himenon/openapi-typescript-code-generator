@@ -109,6 +109,7 @@ export const generateTypeAlias = (
     export: true,
     name,
     type,
+    comment: schema.description,
   });
 };
 

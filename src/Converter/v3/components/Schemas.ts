@@ -56,6 +56,7 @@ export const generateNamespace = (
         value: factory.TypeAliasDeclaration.create({
           export: true,
           name: name,
+          comment: reference.data.description,
           type: factory.TypeReferenceNode.create({
             name: context.getReferenceName(currentPoint, reference.path),
           }),

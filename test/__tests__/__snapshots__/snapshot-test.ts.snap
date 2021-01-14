@@ -12,6 +12,7 @@ exports[`Generate Code Snapshot Test api.test.domain 1`] = `
 
 /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#schemaObject */
 export namespace Schemas {
+    /** String Literal */
     export type StringType = string;
     export type StringHasEnumType = \\"a\\" | \\"A\\" | \\"b\\" | \\"B\\" | \\"c\\" | \\"C\\";
     export type StringDateType = string;
@@ -20,12 +21,14 @@ export namespace Schemas {
     export type StringByteType = string;
     export type StringBinaryType = string;
     export type StringWithPatternType = string;
+    /** Number Literal */
     export type NumberType = number;
     export type NumberHasEnumType = 1 | 2 | 3 | 100 | 123 | 0.1 | -0.1 | 0;
     export type NumberInt32Type = number;
     export type NumberInt64Type = number;
     export type NumberFloat = number;
     export type NumberDouble = number;
+    /** Boolean Literal */
     export type BooleanType = boolean;
     export type ArrayStringType = string[];
     export type ArrayNumberType = number[];
@@ -64,8 +67,10 @@ export namespace Schemas {
     export type RemoteString = string;
     export type RemoteRefString = Schemas.RemoteString;
     export namespace Level1 {
+        /** Level 1 */
         export type RemoteBoolean = boolean;
         export namespace Level2 {
+            /** Level 2 */
             export type RemoteNumber = number;
             export namespace Level3 {
                 /** Level 3 */
@@ -80,9 +85,13 @@ export namespace Schemas {
             }
         }
     }
+    /** Level 1 */
     export type RemoteRefBoolean = Schemas.Level1.RemoteBoolean;
+    /** Level 2 */
     export type RemoteRefNumber = Schemas.Level1.Level2.RemoteNumber;
+    /** Level 3 */
     export type RemoteRefArray = Schemas.Level1.Level2.Level3.RemoteArray;
+    /** Level 4 */
     export type RemoteRefObject = Schemas.Level1.Level2.Level3.Level4.RemoteObject;
     export namespace DirectRef {
         export type ForHeader = string;
@@ -218,6 +227,16 @@ export namespace Parameters {
     export type RemoteReferenceB = Parameters.level1.B;
     /** parameters -> schemas */
     export type ReferenceOfParameterToSchema = Schemas.DirectRef.ForParameters;
+    /** deepObject */
+    export type DeepObjectParameter = {
+        [key: string]: {
+            gt?: string;
+            gte?: string;
+            lt?: string;
+            lte?: string;
+            any?: string | number | boolean;
+        };
+    };
 }
 /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#componentsObject */
 export namespace RequestBodies {
