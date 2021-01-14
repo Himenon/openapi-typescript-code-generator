@@ -205,6 +205,29 @@ components:
       name: ForReference
       schema:
         $ref: "./components/schemas/DirectRef/ForParameters.yml"
+    DeepObjectParameter:
+      description: deepObject
+      required: true
+      in: query
+      name: filter
+      schema:
+        type: object
+        additionalProperties:
+          type: object
+          properties:
+            gt:
+              type: string
+            gte:
+              type: string
+            lt:
+              type: string
+            lte:
+              type: string
+            any:
+              oneOf:
+                - type: string
+                - type: number
+                - type: boolean
   responses:
     Continue:
       description: |

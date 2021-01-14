@@ -218,6 +218,16 @@ export namespace Parameters {
     export type RemoteReferenceB = Parameters.level1.B;
     /** parameters -> schemas */
     export type ReferenceOfParameterToSchema = Schemas.DirectRef.ForParameters;
+    /** deepObject */
+    export type DeepObjectParameter = {
+        [key: string]: {
+            gt?: string;
+            gte?: string;
+            lt?: string;
+            lte?: string;
+            any?: string | number | boolean;
+        };
+    };
 }
 /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#componentsObject */
 export namespace RequestBodies {
