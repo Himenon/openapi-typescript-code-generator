@@ -85,7 +85,7 @@ export const generateNamespaceWithStatusCode = (
     if (Guard.isReference(response)) {
       const reference = Reference.generate<OpenApi.Response>(entryPoint, currentPoint, response);
       if (reference.type === "local") {
-        context.setReferenceHandler(reference);
+        context.setReferenceHandler(currentPoint, reference);
         Response.generateReferenceNamespace(entryPoint, currentPoint, store, factory, basePath, nameWithStatusCode, reference, context);
       } else if (reference.componentName) {
         // reference先に定義を作成
@@ -125,13 +125,14 @@ export const generateInterfacesWithStatusCode = (
     if (Guard.isReference(response)) {
       const reference = Reference.generate<OpenApi.Response>(entryPoint, currentPoint, response);
       if (reference.type === "local") {
-        context.setReferenceHandler(reference);
+        context.setReferenceHandler(currentPoint, reference);
+        const name = context.resolveReferencePath(currentPoint, `${reference.path}/Content`).maybeResolvedName;
         statements.push(
           factory.TypeAliasDeclaration.create({
             export: true,
             name: Name.responseName(operationId, statusCode),
             type: factory.TypeReferenceNode.create({
-              name: context.getReferenceName(currentPoint, `${reference.path}/Content`),
+              name: name,
             }),
           }),
         );

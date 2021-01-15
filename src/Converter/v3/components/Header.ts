@@ -33,12 +33,12 @@ export const generatePropertySignature = (
   if (Guard.isReference(header)) {
     const reference = Reference.generate<OpenApi.Header>(entryPoint, currentPoint, header);
     if (reference.type === "local") {
-      context.setReferenceHandler(reference);
+      context.setReferenceHandler(currentPoint, reference);
       return factory.PropertySignature.create({
         name,
         optional: false,
         type: factory.TypeReferenceNode.create({
-          name: context.getReferenceName(currentPoint, reference.path),
+          name: context.resolveReferencePath(currentPoint, reference.path).name,
         }),
       });
     }
@@ -46,7 +46,7 @@ export const generatePropertySignature = (
       name,
       optional: false,
       type: factory.TypeReferenceNode.create({
-        name: context.getReferenceName(currentPoint, reference.path),
+        name: context.resolveReferencePath(currentPoint, reference.path).name,
       }),
     });
   }
