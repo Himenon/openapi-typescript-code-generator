@@ -150,6 +150,28 @@ components:
         - $ref: "#/components/schemas/NumberType"
         - $ref: "#/components/schemas/ObjectHasPropertiesType"
         - $ref: "#/components/schemas/LocalRefObjectProperties"
+    LocalReferenceBeforeResolvedSchema1:
+      $ref: "#/components/schemas/UnresolvedTarget1"
+    UnresolvedTarget1:
+      type: boolean
+    LocalReferenceBeforeResolvedSchema2:
+      $ref: "#/components/schemas/UnresolvedTarget2"
+    UnresolvedTarget2:
+      $ref: "#/components/schemas/UnresolvedTarget3"
+    UnresolvedTarget3:
+      type: number
+    LocalReferenceBeforeResolvedSchema3:
+      type: object
+      properties:
+        unresolvedTarget4:
+          $ref: "#/components/schemas/UnresolvedTarget4"
+    UnresolvedTarget4:
+      type: object
+      properties:
+        unresolvedTarget5:
+          $ref: "#/components/schemas/UnresolvedTarget5"
+    UnresolvedTarget5:
+      type: string
     RemoteRefString:
       $ref: "./components/schemas/RemoteString.yml"
     RemoteRefBoolean:

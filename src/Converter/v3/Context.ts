@@ -3,7 +3,7 @@ import * as Path from "path";
 import ts from "typescript";
 
 import * as TypeScriptCodeGenerator from "../../CodeGenerator";
-import { DevelopmentError, NotFoundReference } from "../../Exception";
+import { DevelopmentError } from "../../Exception";
 import { Store } from "./store";
 import * as ToTypeNode from "./toTypeNode";
 
@@ -24,8 +24,9 @@ const generatePath = (entryPoint: string, currentPoint: string, referencePath: s
   };
 };
 
-const generateName = (store: Store.Type, base: string, pathArray: string[]): string => {
+const calculateReferencePath = (store: Store.Type, base: string, pathArray: string[]): ToTypeNode.ResolveReferencePath => {
   let names: string[] = [];
+  let unresolvedPaths: string[] = [];
   pathArray.reduce((previous, lastPath, index) => {
     const current = Path.join(previous, lastPath);
     // ディレクトリが深い場合は相対パスが`..`を繰り返す可能性があり、
@@ -33,22 +34,30 @@ const generateName = (store: Store.Type, base: string, pathArray: string[]): str
     if (lastPath === ".." && names.length > 0) {
       names = names.slice(0, names.length - 1);
     }
-    const isLast = index === pathArray.length - 1;
-    if (isLast) {
+    const isFinalPath = index === pathArray.length - 1;
+    if (isFinalPath) {
       const statement = store.getStatement(current, "interface");
       const statement2 = store.getStatement(current, "typeAlias");
       const statement3 = store.getStatement(current, "namespace");
       if (statement) {
         names.push(statement.name);
+        return current;
       } else if (statement2) {
         names.push(statement2.name);
+        return current;
       } else if (statement3) {
         names.push(statement3.name);
+        return current;
+      } else {
+        unresolvedPaths.push(lastPath);
       }
     } else {
       const statement = store.getStatement(current, "namespace");
       if (statement) {
-        names.push(statement.value.name.text);
+        unresolvedPaths = unresolvedPaths.slice(0, unresolvedPaths.length - 1);
+        names.push(statement.name);
+      } else {
+        unresolvedPaths.push(lastPath);
       }
     }
     return current;
@@ -56,22 +65,26 @@ const generateName = (store: Store.Type, base: string, pathArray: string[]): str
   if (names.length === 0) {
     throw new DevelopmentError("Local Reference Error \n" + JSON.stringify({ pathArray, names, base }, null, 2));
   }
-  return names.join(".");
+  return {
+    name: names.join("."),
+    maybeResolvedName: names.concat(unresolvedPaths).join("."),
+    unresolvedPaths,
+  };
 };
 
 export const create = (entryPoint: string, store: Store.Type, factory: TypeScriptCodeGenerator.Factory.Type): ToTypeNode.Context => {
-  const getReferenceName: ToTypeNode.Context["getReferenceName"] = (currentPoint, referencePath): string => {
+  const resolveReferencePath: ToTypeNode.Context["resolveReferencePath"] = (currentPoint, referencePath) => {
     const { pathArray, base } = generatePath(entryPoint, currentPoint, referencePath);
-    return generateName(store, base, pathArray);
+    return calculateReferencePath(store, base, pathArray);
   };
-  const setReferenceHandler: ToTypeNode.Context["setReferenceHandler"] = reference => {
+  const setReferenceHandler: ToTypeNode.Context["setReferenceHandler"] = (currentPoint, reference) => {
     if (store.hasStatement(reference.path, ["interface", "typeAlias"])) {
       return;
     }
     if (reference.type === "remote") {
       const typeNode = ToTypeNode.convert(entryPoint, reference.referencePoint, factory, reference.data, {
         setReferenceHandler,
-        getReferenceName,
+        resolveReferencePath,
       });
       if (ts.isTypeLiteralNode(typeNode)) {
         store.addStatement(reference.path, {
@@ -89,7 +102,7 @@ export const create = (entryPoint: string, store: Store.Type, factory: TypeScrip
           name: reference.name,
           type: ToTypeNode.convert(entryPoint, reference.referencePoint, factory, reference.data, {
             setReferenceHandler,
-            getReferenceName,
+            resolveReferencePath,
           }),
         });
         store.addStatement(reference.path, {
@@ -99,10 +112,22 @@ export const create = (entryPoint: string, store: Store.Type, factory: TypeScrip
         });
       }
     } else if (reference.type === "local") {
-      if (!store.hasStatement(reference.path, ["namespace", "interface", "typeAlias"])) {
-        throw new NotFoundReference(`The schema ${reference.name} is undefined in "${reference.path}".`);
+      if (!store.isAfterDefined(reference.path)) {
+        const { maybeResolvedName } = resolveReferencePath(currentPoint, reference.path);
+        const value = factory.TypeAliasDeclaration.create({
+          export: true,
+          name: reference.name,
+          type: factory.TypeReferenceNode.create({
+            name: maybeResolvedName,
+          }),
+        });
+        store.addStatement(reference.path, {
+          name: reference.name,
+          type: "typeAlias",
+          value,
+        });
       }
     }
   };
-  return { setReferenceHandler: setReferenceHandler, getReferenceName };
+  return { setReferenceHandler: setReferenceHandler, resolveReferencePath: resolveReferencePath };
 };

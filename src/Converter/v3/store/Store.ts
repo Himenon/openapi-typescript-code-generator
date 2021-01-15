@@ -37,6 +37,7 @@ export interface Type {
   dumpOperationState: (filename: string) => void;
   getNoReferenceOperationState: () => Operation.State;
   getPathItem: (localPath: string) => OpenApi.PathItem;
+  isAfterDefined: (referencePath: string) => boolean;
 }
 
 export const create = (factory: Factory.Type, rootDocument: OpenApi.Document): Type => {
@@ -79,8 +80,12 @@ export const create = (factory: Factory.Type, rootDocument: OpenApi.Document): T
   };
 
   const hasStatement = (path: string, types: Def.Statement<A, B, C>["type"][]): boolean => {
-    const targetPath = relative("components", path);
-    return types.some(type => !!PropAccess.get(state.components, type, targetPath));
+    const alreadyRegistered = types.some(type => !!getStatement(path, type));
+    return alreadyRegistered;
+  };
+
+  const isAfterDefined = (referencePath: string) => {
+    return !!Dot.get(state.document, referencePath.replace(/\//g, "."));
   };
 
   const addStatement = (path: string, statement: Def.Statement<A, B, C>): void => {
@@ -191,5 +196,6 @@ export const create = (factory: Factory.Type, rootDocument: OpenApi.Document): T
     addAdditionalStatement,
     dumpOperationState,
     getPathItem,
+    isAfterDefined,
   };
 };

@@ -72,9 +72,9 @@ export const generateNamespace = (
     if (Guard.isReference(operation.requestBody)) {
       const reference = Reference.generate<OpenApi.RequestBody>(entryPoint, currentPoint, operation.requestBody);
       if (reference.type === "local") {
-        context.setReferenceHandler(reference);
+        context.setReferenceHandler(currentPoint, reference);
         // TODO (not-use) 追加する必要がある（このメソッドを使わない可能性あり）
-        factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, reference.path) });
+        factory.TypeReferenceNode.create({ name: context.resolveReferencePath(currentPoint, reference.path).name });
       } else if (reference.type === "remote" && reference.componentName) {
         const contentPath = path.join(reference.path, "Content"); // requestBodyはNamespaceを形成するため
         const name = "Content";
@@ -83,7 +83,7 @@ export const generateNamespace = (
           name: name,
           value: RequestBody.generateInterface(entryPoint, reference.referencePoint, factory, name, reference.data, context),
         });
-        const typeAliasName = context.getReferenceName(currentPoint, contentPath);
+        const typeAliasName = context.resolveReferencePath(currentPoint, contentPath).name;
         store.addStatement(`${basePath}/RequestBody`, {
           type: "typeAlias",
           name: typeAliasName,
@@ -129,13 +129,13 @@ export const generateStatements = (
     if (Guard.isReference(operation.requestBody)) {
       const reference = Reference.generate<OpenApi.RequestBody>(entryPoint, currentPoint, operation.requestBody);
       if (reference.type === "local") {
-        context.setReferenceHandler(reference);
+        context.setReferenceHandler(currentPoint, reference);
         statements.push(
           factory.TypeAliasDeclaration.create({
             export: true,
             name: Name.requestBodyName(operationId),
             type: factory.TypeReferenceNode.create({
-              name: context.getReferenceName(currentPoint, `${reference.path}`) + "." + Name.ComponentChild.Content, // TODO Contextから作成？
+              name: context.resolveReferencePath(currentPoint, `${reference.path}`) + "." + Name.ComponentChild.Content, // TODO Contextから作成？
             }),
           }),
         );
@@ -151,7 +151,7 @@ export const generateStatements = (
           factory.TypeAliasDeclaration.create({
             export: true,
             name: requestBodyName,
-            type: factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, contentPath) }),
+            type: factory.TypeReferenceNode.create({ name: context.resolveReferencePath(currentPoint, contentPath).name }),
           }),
         );
 

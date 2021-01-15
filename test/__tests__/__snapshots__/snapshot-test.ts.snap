@@ -64,6 +64,18 @@ export namespace Schemas {
     }
     export type LocalRefOneOfType = Schemas.StringType | Schemas.NumberType | Schemas.ObjectHasPropertiesType | Schemas.LocalRefObjectProperties;
     export type LocalRefAllOfType = Schemas.StringType & Schemas.NumberType & Schemas.ObjectHasPropertiesType & Schemas.LocalRefObjectProperties;
+    export type LocalReferenceBeforeResolvedSchema1 = Schemas.UnresolvedTarget1;
+    export type UnresolvedTarget1 = boolean;
+    export type LocalReferenceBeforeResolvedSchema2 = Schemas.UnresolvedTarget2;
+    export type UnresolvedTarget2 = Schemas.UnresolvedTarget3;
+    export type UnresolvedTarget3 = number;
+    export interface LocalReferenceBeforeResolvedSchema3 {
+        unresolvedTarget4?: Schemas.UnresolvedTarget4;
+    }
+    export interface UnresolvedTarget4 {
+        unresolvedTarget5?: Schemas.UnresolvedTarget5;
+    }
+    export type UnresolvedTarget5 = string;
     export type RemoteString = string;
     export type RemoteRefString = Schemas.RemoteString;
     export namespace Level1 {

@@ -9,9 +9,15 @@ import * as Guard from "./Guard";
 import { OpenApi } from "./types";
 import { ObjectSchemaWithAdditionalProperties } from "./types";
 
+export interface ResolveReferencePath {
+  name: string;
+  maybeResolvedName: string;
+  unresolvedPaths: string[];
+}
+
 export interface Context {
-  setReferenceHandler: (reference: Reference.Type<OpenApi.Schema | OpenApi.JSONSchemaDefinition>) => void;
-  getReferenceName: (currentPoint: string, referencePath: string) => string;
+  setReferenceHandler: (currentPoint: string, reference: Reference.Type<OpenApi.Schema | OpenApi.JSONSchemaDefinition>) => void;
+  resolveReferencePath: (currentPoint: string, referencePath: string) => ResolveReferencePath;
 }
 
 export type Convert = (
@@ -84,15 +90,15 @@ export const convert: Convert = (
     const reference = Reference.generate<OpenApi.Schema | OpenApi.JSONSchemaDefinition>(entryPoint, currentPoint, schema);
     if (reference.type === "local") {
       // Type Aliasを作成 (or すでにある場合は作成しない)
-      context.setReferenceHandler(reference);
-      return factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, reference.path) });
+      context.setReferenceHandler(currentPoint, reference);
+      return factory.TypeReferenceNode.create({ name: context.resolveReferencePath(currentPoint, reference.path).maybeResolvedName });
     }
     // サポートしているディレクトリに対して存在する場合
     if (reference.componentName) {
       // Type AliasもしくはInterfaceを作成
-      context.setReferenceHandler(reference);
+      context.setReferenceHandler(currentPoint, reference);
       // Aliasを貼る
-      return factory.TypeReferenceNode.create({ name: context.getReferenceName(currentPoint, reference.path) });
+      return factory.TypeReferenceNode.create({ name: context.resolveReferencePath(currentPoint, reference.path).name });
     }
     // サポートしていないディレクトリに存在する場合、直接Interface、もしくはTypeAliasを作成
     return convert(entryPoint, reference.referencePoint, factory, reference.data, context, { parent: schema });
