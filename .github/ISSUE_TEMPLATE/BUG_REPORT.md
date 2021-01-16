@@ -14,7 +14,9 @@ labels: "Status: Unconfirmed"
 -->
 
 <!--
-Write the minimum OpenAPI JSON or YAML Schema needed to reproduce the bug.
+  Write the minimum OpenAPI JSON or YAML Schema needed to reproduce the bug.
+  If you can reproduce it with the following Playground, please post the URL too.
+  https://himenon.github.io/openapi-typescript-code-generator-playground/index.html
 -->
 
 ## The current behavior
