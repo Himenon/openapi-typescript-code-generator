@@ -20,9 +20,11 @@ components:
     StringType:
       type: string
       description: String Literal
+      example: "string-type"
     StringHasEnumType:
       type: string
       enum: [a, A, b, B, c, C]
+      example: "a"
     StringDateType:
       type: string
       format: date
@@ -47,15 +49,19 @@ components:
     NumberHasEnumType:
       type: number
       enum: [1, 2, 3, 100, 123, 0.1, -0.1, 0.0]
+      example: -0.1
     NumberInt32Type:
       type: number
       format: int32
+      example: 12
     NumberInt64Type:
       type: number
       format: int64
+      example: 64
     NumberFloat:
       type: number
       format: float
+      example: 3.141592
     NumberDouble:
       type: number
       format: double
@@ -70,10 +76,12 @@ components:
       type: array
       items:
         type: number
+      example: [1, 2, 3]
     ArrayBooleanType:
       type: array
       items:
         type: boolean
+      example: [true, false, true]
     ObjectEmptyPropertiesType:
       type: object
     ObjectHasPropertiesType:
@@ -94,6 +102,14 @@ components:
           properties:
             requiredStringType:
               type: string
+      example:
+        {
+          "stringType": "string-type",
+          "numberType": 1,
+          "booleanType": false,
+          "arrayType": [],
+          "objectType": { "requiredStringType": "required-string-type" },
+        }
     OneOfType:
       oneOf:
         - type: string

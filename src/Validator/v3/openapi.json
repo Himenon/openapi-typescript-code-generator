@@ -719,7 +719,26 @@
           "$ref": "#/definitions/externalDocs"
         },
         "example": {
-          "$ref": "#/definitions/any"
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "object"
+            },
+            {
+              "type": "array"
+            }
+          ]
         },
         "deprecated": {
           "type": "boolean"

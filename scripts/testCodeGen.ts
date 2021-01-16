@@ -7,7 +7,7 @@ const main = () => {
     entryPoint: "test/api.test.domain/index.yml",
     log: {
       validator: {
-        displayLogLines: 3,
+        displayLogLines: 1,
       },
     },
   };
