@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.1.6"></a>
+## 0.1.6 (2021-01-16)
+
+
+### Bug Fixes
+
+* **vadliation:** example property ([#10](https://github.com/Himenon/openapi-typescript-code-generator/issues/10)) ([c25ddac](https://github.com/Himenon/openapi-typescript-code-generator/commit/c25ddac)), closes [#9](https://github.com/Himenon/openapi-typescript-code-generator/issues/9)
+
+
+
+
+
 <a name="0.1.5"></a>
 ## 0.1.5 (2021-01-15)
 
