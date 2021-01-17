@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.1.7"></a>
+## 0.1.7 (2021-01-17)
+
+
+### Code Refactoring
+
+* **data-structure:** use [@himenon](https://github.com/himenon)/path-oriented-data-structure ([#11](https://github.com/Himenon/openapi-typescript-code-generator/issues/11)) ([bfe7a4d](https://github.com/Himenon/openapi-typescript-code-generator/commit/bfe7a4d))
+
+
+
+
+
 <a name="0.1.6"></a>
 ## 0.1.6 (2021-01-16)
 
