@@ -26,7 +26,6 @@ export interface Type {
   addAdditionalStatement: (statements: ts.Statement[]) => void;
   getRootStatements: () => ts.Statement[];
   updateOperationState: (httpMethod: string, requestUri: string, operationId: string, state: Partial<State.OperationState>) => void;
-  getOperationState: (operationId: string) => State.OperationState;
   getNoReferenceOperationState: () => Operation.State;
   getPathItem: (localPath: string) => OpenApi.PathItem;
   isAfterDefined: (referencePath: string) => boolean;
@@ -107,13 +106,6 @@ export const create = (factory: Factory.Type, rootDocument: OpenApi.Document): T
         operationState = State.createDefaultOperationState(httpMethod, requestUri, newOperationState);
       }
       state.operations[operationId] = operationState;
-    },
-    getOperationState: (operationId: string): State.OperationState => {
-      const operationState = state.operations[operationId];
-      if (operationState) {
-        return operationState;
-      }
-      throw new Error(`Not found ${operationId}`);
     },
     addAdditionalStatement: (statements: ts.Statement[]) => {
       state.additionalStatements = state.additionalStatements.concat(statements);
