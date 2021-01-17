@@ -11,13 +11,6 @@ export interface OperationState {
 
 export interface Type {
   document: OpenApi.Document;
-  paths: {
-    // "/a/b/c1": { ref: "components/pathItems/$hoge" }
-    // "/a/b/c2": { ref: "components/pathItems/HogeCRUD" }
-    [pathString: string]: {
-      ref: string;
-    };
-  };
   additionalStatements: ts.Statement[];
   operations: {
     [operationId: string]: OperationState;
@@ -35,7 +28,6 @@ export const createDefaultOperationState = (httpMethod: string, requestUri: stri
 
 export const createDefaultState = (rootDocument: OpenApi.Document): Type => ({
   document: rootDocument,
-  paths: {},
   additionalStatements: [],
   operations: {},
 });
