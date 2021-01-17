@@ -23,15 +23,9 @@ export const generateNamespace = (
 ): void => {
   const basePath = "components/responses";
   store.addComponent("responses", {
-    type: "namespace",
+    kind: "namespace",
     name: Name.Components.Responses,
-    value: factory.Namespace.create({
-      export: true,
-      name: Name.Components.Responses,
-      statements: [],
-      comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#responsesObject`,
-    }),
-    statements: {},
+    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#responsesObject`,
   });
   Object.entries(responses).forEach(([name, response]) => {
     if (Guard.isReference(response)) {
@@ -69,15 +63,9 @@ export const generateNamespaceWithStatusCode = (
 ): void => {
   const basePath = `${parentPath}/responses`;
   store.addStatement(basePath, {
-    type: "namespace",
+    kind: "namespace",
     name: Name.ComponentChild.Response,
-    value: factory.Namespace.create({
-      export: true,
-      name: Name.ComponentChild.Response,
-      statements: [],
-      comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#responsesObject`,
-    }),
-    statements: {},
+    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#responsesObject`,
   });
 
   Object.entries(responses).forEach(([statusCode, response]) => {

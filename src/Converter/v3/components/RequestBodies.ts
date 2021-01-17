@@ -19,15 +19,9 @@ export const generateNamespace = (
 ): void => {
   const basePath = "components/requestBodies";
   store.addComponent("requestBodies", {
-    type: "namespace",
+    kind: "namespace",
     name: Name.Components.RequestBodies,
-    value: factory.Namespace.create({
-      export: true,
-      name: Name.Components.RequestBodies,
-      statements: [],
-      comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#componentsObject`,
-    }),
-    statements: {},
+    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#componentsObject`,
   });
 
   Object.entries(requestBodies).forEach(([name, requestBody]) => {

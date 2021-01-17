@@ -18,15 +18,9 @@ export const generateNamespace = (
   context: ToTypeNode.Context,
 ): void => {
   store.addComponent("headers", {
-    type: "namespace",
+    kind: "namespace",
     name: Name.Components.Headers,
-    value: factory.Namespace.create({
-      export: true,
-      name: Name.Components.Headers,
-      statements: [],
-      comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#componentsObject`,
-    }),
-    statements: {},
+    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#componentsObject`,
   });
   Object.entries(headers).forEach(([name, header]) => {
     if (Guard.isReference(header)) {
@@ -40,7 +34,7 @@ export const generateNamespace = (
       }
     } else {
       store.addStatement(`components/headers/${name}`, {
-        type: "typeAlias",
+        kind: "typeAlias",
         name: name,
         value: Header.generateTypeNode(entryPoint, currentPoint, factory, name, header, context),
       });

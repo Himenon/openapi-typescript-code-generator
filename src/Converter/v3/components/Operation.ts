@@ -47,22 +47,16 @@ export const generateNamespace = (
     throw new Error("not setting operationId\n" + JSON.stringify(operation));
   }
   store.addStatement(basePath, {
-    type: "namespace",
+    kind: "namespace",
     name,
-    value: factory.Namespace.create({
-      export: true,
-      name,
-      comment: ExternalDocumentation.addComment(Servers.addComment([generateComment(operation)], operation.servers), operation.externalDocs),
-      deprecated: operation.deprecated,
-      statements: [],
-    }),
-    statements: {},
+    comment: ExternalDocumentation.addComment(Servers.addComment([generateComment(operation)], operation.servers), operation.externalDocs),
+    deprecated: operation.deprecated,
   });
 
   if (operation.parameters) {
     const parameterName = "Parameter";
     store.addStatement(`${basePath}/Parameter`, {
-      type: "interface",
+      kind: "interface",
       name: parameterName,
       value: Parameter.generateInterface(entryPoint, currentPoint, factory, parameterName, operation.parameters, context),
     });
@@ -79,13 +73,13 @@ export const generateNamespace = (
         const contentPath = path.join(reference.path, "Content"); // requestBodyはNamespaceを形成するため
         const name = "Content";
         store.addStatement(contentPath, {
-          type: "interface",
+          kind: "interface",
           name: name,
           value: RequestBody.generateInterface(entryPoint, reference.referencePoint, factory, name, reference.data, context),
         });
         const typeAliasName = context.resolveReferencePath(currentPoint, contentPath).name;
         store.addStatement(`${basePath}/RequestBody`, {
-          type: "typeAlias",
+          kind: "typeAlias",
           name: typeAliasName,
           value: factory.TypeAliasDeclaration.create({
             export: true,
@@ -143,7 +137,7 @@ export const generateStatements = (
         const contentPath = path.join(reference.path, "Content"); // requestBodyはNamespaceを形成するため
         const name = "Content";
         store.addStatement(contentPath, {
-          type: "interface",
+          kind: "interface",
           name: name,
           value: RequestBody.generateInterface(entryPoint, reference.referencePoint, factory, name, reference.data, context),
         });

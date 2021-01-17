@@ -88,7 +88,7 @@ export const create = (entryPoint: string, store: Store.Type, factory: TypeScrip
       });
       if (ts.isTypeLiteralNode(typeNode)) {
         store.addStatement(reference.path, {
-          type: "interface",
+          kind: "interface",
           name: reference.name,
           value: factory.InterfaceDeclaration.create({
             export: true,
@@ -107,7 +107,7 @@ export const create = (entryPoint: string, store: Store.Type, factory: TypeScrip
         });
         store.addStatement(reference.path, {
           name: reference.name,
-          type: "typeAlias",
+          kind: "typeAlias",
           value,
         });
       }
@@ -123,7 +123,7 @@ export const create = (entryPoint: string, store: Store.Type, factory: TypeScrip
         });
         store.addStatement(reference.path, {
           name: reference.name,
-          type: "typeAlias",
+          kind: "typeAlias",
           value,
         });
       }

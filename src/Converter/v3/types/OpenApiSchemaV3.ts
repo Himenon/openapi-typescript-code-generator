@@ -1,4 +1,4 @@
-import { JSONSchema7, JSONSchema7Type as JSONSchemaType, JSONSchema7TypeName as JSONSchemaTypeName } from "json-schema";
+import type { JSONSchema7, JSONSchema7Type as JSONSchemaType, JSONSchema7TypeName as JSONSchemaTypeName } from "json-schema";
 
 export interface JSONSchema extends JSONSchema7 {
   nullable?: boolean;
