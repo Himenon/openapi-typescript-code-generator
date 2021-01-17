@@ -1,4 +1,4 @@
-import { Operator, Tree } from "@himenon/path-oriented-data-structure";
+import type { Operator } from "@himenon/path-oriented-data-structure";
 
 import * as InterfaceNode from "./InterfaceNode";
 import * as NamespaceTree from "./NamespaceTree";
