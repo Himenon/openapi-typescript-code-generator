@@ -19,15 +19,9 @@ export const generateNamespace = (
 ): void => {
   const basePath = "components/parameters";
   store.addComponent("parameters", {
-    type: "namespace",
+    kind: "namespace",
     name: Name.Components.Parameters,
-    value: factory.Namespace.create({
-      export: true,
-      name: Name.Components.Parameters,
-      statements: [],
-      comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#parameterObject`,
-    }),
-    statements: {},
+    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#parameterObject`,
   });
 
   Object.entries(parameters).forEach(([name, parameter]) => {
@@ -41,7 +35,7 @@ export const generateNamespace = (
         }
         Schema.addSchema(entryPoint, currentPoint, store, factory, reference.path, reference.name, reference.data.schema, context);
         store.addStatement(`${basePath}/${name}`, {
-          type: "typeAlias",
+          kind: "typeAlias",
           name: name,
           value: factory.TypeAliasDeclaration.create({
             export: true,
@@ -55,7 +49,7 @@ export const generateNamespace = (
     } else {
       const path = `${basePath}/${name}`;
       store.addStatement(path, {
-        type: "typeAlias",
+        kind: "typeAlias",
         name: name,
         value: Paramter.generateTypeAlias(entryPoint, currentPoint, factory, name, parameter, context),
       });
@@ -72,15 +66,9 @@ export const generateNamespaceWithList = (
   context: ToTypeNode.Context,
 ): void => {
   store.addComponent("parameters", {
-    type: "namespace",
+    kind: "namespace",
     name: Name.Components.Parameters,
-    value: factory.Namespace.create({
-      export: true,
-      name: Name.Components.Parameters,
-      statements: [],
-      comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#parameterObject`,
-    }),
-    statements: {},
+    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#parameterObject`,
   });
 
   parameters.forEach(parameter => {
@@ -91,14 +79,14 @@ export const generateNamespaceWithList = (
       }
       const path = `components/parameters/${reference.name}`;
       return store.addStatement(path, {
-        type: "typeAlias",
+        kind: "typeAlias",
         name: reference.name,
         value: Paramter.generateTypeAlias(entryPoint, reference.referencePoint, factory, reference.name, reference.data, context),
       });
     }
     const path = `components/parameters/${parameter.name}`;
     return store.addStatement(path, {
-      type: "typeAlias",
+      kind: "typeAlias",
       name: parameter.name,
       value: Paramter.generateTypeAlias(entryPoint, currentPoint, factory, parameter.name, parameter, context),
     });

@@ -35,14 +35,13 @@ export const generateNamespace = (
 ): void => {
   const basePath = `${parentName}/${name}`;
   store.addStatement(basePath, {
-    type: "namespace",
+    kind: "namespace",
     name,
-    value: factory.Namespace.create({
-      export: true,
-      name,
-      comment: requestBody.description,
-      statements: [generateInterface(entryPoint, currentPoint, factory, "Content", requestBody, context)],
-    }),
-    statements: {},
+    comment: requestBody.description,
+  });
+  store.addStatement(`${basePath}/Content`, {
+    kind: "interface",
+    name: "Content",
+    value: generateInterface(entryPoint, currentPoint, factory, "Content", requestBody, context),
   });
 };

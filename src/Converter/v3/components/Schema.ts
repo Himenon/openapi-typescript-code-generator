@@ -145,37 +145,37 @@ export const addSchema = (
   }
   if (Guard.isAllOfSchema(schema)) {
     store.addStatement(targetPoint, {
-      type: "typeAlias",
+      kind: "typeAlias",
       name: declarationName,
       value: generateMultiTypeAlias(entryPoint, currentPoint, factory, declarationName, schema.allOf, context, "allOf"),
     });
   } else if (Guard.isOneOfSchema(schema)) {
     store.addStatement(targetPoint, {
-      type: "typeAlias",
+      kind: "typeAlias",
       name: declarationName,
       value: generateMultiTypeAlias(entryPoint, currentPoint, factory, declarationName, schema.oneOf, context, "oneOf"),
     });
   } else if (Guard.isAnyOfSchema(schema)) {
     store.addStatement(targetPoint, {
-      type: "typeAlias",
+      kind: "typeAlias",
       name: declarationName,
       value: generateMultiTypeAlias(entryPoint, currentPoint, factory, declarationName, schema.anyOf, context, "allOf"),
     });
   } else if (Guard.isArraySchema(schema)) {
     store.addStatement(targetPoint, {
-      type: "typeAlias",
+      kind: "typeAlias",
       name: declarationName,
       value: generateArrayTypeAlias(entryPoint, currentPoint, factory, declarationName, schema, context),
     });
   } else if (Guard.isObjectSchema(schema)) {
     store.addStatement(targetPoint, {
-      type: "interface",
+      kind: "interface",
       name: declarationName,
       value: generateInterface(entryPoint, currentPoint, factory, declarationName, schema, context),
     });
   } else if (Guard.isPrimitiveSchema(schema)) {
     store.addStatement(targetPoint, {
-      type: "typeAlias",
+      kind: "typeAlias",
       name: declarationName,
       value: generateTypeAlias(entryPoint, currentPoint, factory, declarationName, schema),
     });

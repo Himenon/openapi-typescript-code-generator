@@ -1,40 +1,32 @@
-import * as fs from "fs";
 import { relative } from "path";
 
+import { Tree } from "@himenon/path-oriented-data-structure";
 import Dot from "dot-prop";
-import yaml from "js-yaml";
 import ts from "typescript";
 
 import { Factory } from "../../../CodeGenerator";
 import { UnSupportError } from "../../../Exception";
 import { OpenApi } from "../types";
 import * as Def from "./Definition";
-import * as Masking from "./masking";
 import * as Operation from "./Operation";
-import * as PropAccess from "./PropAccess";
 import * as State from "./State";
-
-export type A = State.A;
-export type B = State.B;
-export type C = State.C;
+import * as Structure from "./structure";
 
 export interface Type {
-  addComponent: (componentName: Def.ComponentName, statement: Def.Statement<A, B, C>) => void;
+  addComponent: (componentName: Def.ComponentName, statement: Structure.ComponentParams) => void;
   /**
    * @params path: "components/headers/hoge"
    */
-  addStatement: (path: string, statement: Def.Statement<A, B, C>) => void;
-  getStatement: (path: string, types: Def.Statement<A, B, C>["type"]) => Def.Statement<A, B, C> | undefined;
+  addStatement: (path: string, statement: Structure.ComponentParams) => void;
+  getStatement: <T extends Structure.DataStructure.Kind>(path: string, kind: T) => Structure.DataStructure.GetChild<T> | undefined;
   /**
    * @params path: "components/headers/hoge"
    */
-  hasStatement: (path: string, types: Def.Statement<A, B, C>["type"][]) => boolean;
+  hasStatement: (path: string, types: Structure.DataStructure.Kind[]) => boolean;
   addAdditionalStatement: (statements: ts.Statement[]) => void;
   getRootStatements: () => ts.Statement[];
   updateOperationState: (httpMethod: string, requestUri: string, operationId: string, state: Partial<State.OperationState>) => void;
   getOperationState: (operationId: string) => State.OperationState;
-  dump: (filename: string) => void;
-  dumpOperationState: (filename: string) => void;
   getNoReferenceOperationState: () => Operation.State;
   getPathItem: (localPath: string) => OpenApi.PathItem;
   isAfterDefined: (referencePath: string) => boolean;
@@ -42,160 +34,100 @@ export interface Type {
 
 export const create = (factory: Factory.Type, rootDocument: OpenApi.Document): Type => {
   const state: State.Type = State.createDefaultState(rootDocument);
-
-  const getPathItem = (localPath: string): OpenApi.PathItem => {
-    if (!localPath.startsWith("components/pathItem")) {
-      throw new Error("Only use start with 'component/pathItems': " + localPath);
-    }
-    const result = Dot.get<OpenApi.PathItem>(state.document, localPath.replace(/\//g, "."));
-    if (!result) {
-      throw new Error(`Not found ${localPath}`);
-    }
-    return result;
-  };
-
-  const createNamespace = (name: string): Def.NamespaceStatement<A, B, C> => {
-    const value = factory.Namespace.create({
-      export: true,
-      name,
-      statements: [],
-    });
-    return {
-      type: "namespace",
-      name,
-      value,
-      statements: {},
-    };
-  };
-
-  const addComponent = (componentName: Def.ComponentName, statement: Def.Statement<A, B, C>): void => {
-    const key = Def.generateKey("namespace", componentName);
-    state.components[key] = statement;
-  };
-
-  const getStatement = (path: string, type: Def.Statement<A, B, C>["type"]) => {
-    const targetPath = relative("components", path);
-    const result = PropAccess.get(state.components, type, targetPath);
-    return result;
-  };
-
-  const hasStatement = (path: string, types: Def.Statement<A, B, C>["type"][]): boolean => {
-    const alreadyRegistered = types.some(type => !!getStatement(path, type));
-    return alreadyRegistered;
-  };
-
+  const { operator, getChildByPaths } = Structure.create();
   const isAfterDefined = (referencePath: string) => {
     return !!Dot.get(state.document, referencePath.replace(/\//g, "."));
   };
 
-  const addStatement = (path: string, statement: Def.Statement<A, B, C>): void => {
-    if (!path.startsWith("components")) {
-      throw new UnSupportError(`componentsから始まっていません。path=${path}`);
+  const convertNamespace = (tree: Tree<Structure.NamespaceTree.Kind> | Structure.NamespaceTree.Item): ts.Statement => {
+    const statements: ts.Statement[] = [];
+    Object.values(tree.getChildren()).map(child => {
+      if (child instanceof Tree || child instanceof Structure.NamespaceTree.Item) {
+        statements.push(convertNamespace(child));
+      } else if (child instanceof Structure.InterfaceNode.Item) {
+        statements.push(child.value);
+      } else if (child instanceof Structure.TypeAliasNode.Item) {
+        statements.push(child.value);
+      }
+    });
+    if (tree instanceof Structure.NamespaceTree.Item) {
+      return factory.Namespace.create({
+        export: true,
+        name: tree.params.name,
+        statements,
+        comment: tree.params.comment,
+        deprecated: tree.params.deprecated,
+      });
     }
-    const targetPath = relative("components", path);
-    state.components = PropAccess.set(state.components, targetPath, statement, createNamespace);
-  };
-
-  const interfaceToStatement = (node: Def.InterfaceStatement<B>): ts.Statement => {
-    return node.value;
-  };
-
-  const typeAliasToStatement = (node: Def.TypeAliasStatement<C>): ts.Statement => {
-    return node.value;
-  };
-
-  const namespaceToTsStatement = (node: Def.NamespaceStatement<A, B, C>): ts.Statement => {
-    const statements = Object.values(node.statements).reduce<ts.Statement[]>((previous, childStatement) => {
-      if (!childStatement) {
-        return previous;
-      }
-      if (childStatement.type === "namespace") {
-        return previous.concat(namespaceToTsStatement(childStatement));
-      }
-      if (childStatement.type === "typeAlias") {
-        return previous.concat(typeAliasToStatement(childStatement));
-      }
-      return previous.concat(interfaceToStatement(childStatement));
-    }, []);
-    return factory.Namespace.addStatements({
-      node: node.value,
+    return factory.Namespace.create({
+      export: true,
+      name: tree.name,
       statements,
     });
   };
 
-  const dump = (filename: string) => {
-    fs.writeFileSync(filename, yaml.dump(Masking.maskValue(state)), { encoding: "utf-8" });
-  };
-
-  const dumpOperationState = (filename: string) => {
-    fs.writeFileSync(filename, JSON.stringify(state.operations, null, 2), { encoding: "utf-8" });
-  };
-
-  const addAdditionalStatement = (statements: ts.Statement[]) => {
-    state.additionalStatements = state.additionalStatements.concat(statements);
-  };
-
   const getRootStatements = (): ts.Statement[] => {
+    // fs.writeFileSync("debug/tree.json", JSON.stringify(operator.getHierarchy(), null, 2), { encoding: "utf-8" });
     const statements = Def.componentNames.reduce<ts.Statement[]>((statements, componentName) => {
-      const component = state.components[Def.generateKey("namespace", componentName)];
-      if (!component) {
-        return statements;
-      }
-      if (component.type === "interface") {
-        return statements.concat(interfaceToStatement(component));
-      }
-      if (component.type === "namespace") {
-        return statements.concat(namespaceToTsStatement(component));
-      }
-      if (component.type === "typeAlias") {
-        return statements.concat(typeAliasToStatement(component));
+      const treeOfNamespace = getChildByPaths(componentName, "namespace");
+      if (treeOfNamespace) {
+        return statements.concat(convertNamespace(treeOfNamespace));
       }
       return statements;
     }, []);
     return statements.concat(state.additionalStatements);
   };
 
-  const updateOperationState = (
-    httpMethod: string,
-    requestUri: string,
-    operationId: string,
-    newOperationState: Partial<State.OperationState>,
-  ) => {
-    let operationState = state.operations[operationId];
-    if (operationState) {
-      operationState = { ...operationState, ...newOperationState };
-    } else {
-      operationState = State.createDefaultOperationState(httpMethod, requestUri, newOperationState);
-    }
-    state.operations[operationId] = operationState;
-  };
-
-  const getOperationState = (operationId: string): State.OperationState => {
-    const operationState = state.operations[operationId];
-    if (operationState) {
-      return operationState;
-    }
-    dumpOperationState("debug/error-getOperationState.json");
-    throw new Error(`Not found ${operationId}`);
-  };
-
-  const getNoReferenceOperationState = (): Operation.State => {
-    return Operation.create(state.document);
-  };
-
   return {
-    hasStatement,
-    addStatement,
-    getStatement,
+    hasStatement: (path: string, types: Structure.DataStructure.Kind[]): boolean => {
+      const alreadyRegistered = types.some(type => !!operator.getChildByPaths(path, type));
+      return alreadyRegistered;
+    },
+    addStatement: (path: string, statement: Structure.ComponentParams): void => {
+      if (!path.startsWith("components")) {
+        throw new UnSupportError(`componentsから始まっていません。path=${path}`);
+      }
+      const targetPath = relative("components", path);
+      operator.set(targetPath, Structure.createInstance(statement));
+    },
+    getStatement: <T extends Structure.DataStructure.Kind>(path: string, kind: T): Structure.DataStructure.GetChild<T> | undefined => {
+      const targetPath = relative("components", path);
+      return getChildByPaths(targetPath, kind);
+    },
     getRootStatements,
-    addComponent,
-    dump,
-    getNoReferenceOperationState,
-    updateOperationState,
-    getOperationState,
-    addAdditionalStatement,
-    dumpOperationState,
-    getPathItem,
+    addComponent: (componentName: Def.ComponentName, statement: Structure.ComponentParams): void => {
+      operator.set(`${componentName}`, Structure.createInstance(statement));
+    },
+    getNoReferenceOperationState: () => Operation.create(state.document),
+    updateOperationState: (httpMethod: string, requestUri: string, operationId: string, newOperationState: Partial<State.OperationState>) => {
+      let operationState = state.operations[operationId];
+      if (operationState) {
+        operationState = { ...operationState, ...newOperationState };
+      } else {
+        operationState = State.createDefaultOperationState(httpMethod, requestUri, newOperationState);
+      }
+      state.operations[operationId] = operationState;
+    },
+    getOperationState: (operationId: string): State.OperationState => {
+      const operationState = state.operations[operationId];
+      if (operationState) {
+        return operationState;
+      }
+      throw new Error(`Not found ${operationId}`);
+    },
+    addAdditionalStatement: (statements: ts.Statement[]) => {
+      state.additionalStatements = state.additionalStatements.concat(statements);
+    },
+    getPathItem: (localPath: string): OpenApi.PathItem => {
+      if (!localPath.startsWith("components/pathItem")) {
+        throw new Error("Only use start with 'component/pathItems': " + localPath);
+      }
+      const result = Dot.get<OpenApi.PathItem>(state.document, localPath.replace(/\//g, "."));
+      if (!result) {
+        throw new Error(`Not found ${localPath}`);
+      }
+      return result;
+    },
     isAfterDefined,
   };
 };

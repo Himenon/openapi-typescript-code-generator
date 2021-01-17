@@ -1,11 +1,6 @@
 import ts from "typescript";
 
 import { OpenApi } from "../types";
-import * as Def from "./Definition";
-
-export type A = ts.ModuleDeclaration;
-export type B = ts.InterfaceDeclaration;
-export type C = ts.TypeAliasDeclaration;
 
 export interface OperationState {
   requestUri: string;
@@ -16,7 +11,6 @@ export interface OperationState {
 
 export interface Type {
   document: OpenApi.Document;
-  components: Def.StatementMap<A, B, C>;
   paths: {
     // "/a/b/c1": { ref: "components/pathItems/$hoge" }
     // "/a/b/c2": { ref: "components/pathItems/HogeCRUD" }
@@ -41,7 +35,6 @@ export const createDefaultOperationState = (httpMethod: string, requestUri: stri
 
 export const createDefaultState = (rootDocument: OpenApi.Document): Type => ({
   document: rootDocument,
-  components: {},
   paths: {},
   additionalStatements: [],
   operations: {},

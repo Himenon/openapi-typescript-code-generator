@@ -22,15 +22,9 @@ export const generateNamespace = (
   const basePath = `${parentPath}/${name}`;
   const topComment = options && options.topComment && options.topComment;
   store.addStatement(basePath, {
-    type: "namespace",
+    kind: "namespace",
     name,
-    value: factory.Namespace.create({
-      export: true,
-      name,
-      statements: [],
-      comment: Servers.addComment([topComment, pathItem.description], pathItem.servers),
-    }),
-    statements: {},
+    comment: Servers.addComment([topComment, pathItem.description], pathItem.servers),
   });
   if (pathItem.get) {
     Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "GET", pathItem.get, context);

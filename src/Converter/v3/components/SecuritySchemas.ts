@@ -15,15 +15,9 @@ export const generateNamespace = (
   requestBodies: OpenApi.MapLike<string, OpenApi.SecuritySchema | OpenApi.Reference>,
 ): void => {
   store.addComponent("securitySchemes", {
-    type: "namespace",
+    kind: "namespace",
     name: Name.Components.SecuritySchemas,
-    value: factory.Namespace.create({
-      export: true,
-      name: Name.Components.SecuritySchemas,
-      statements: [],
-      comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#securitySchemeObject`,
-    }),
-    statements: {},
+    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#securitySchemeObject`,
   });
   Object.entries(requestBodies).forEach(([name, requestBody]) => {
     if (Guard.isReference(requestBody)) {
@@ -36,14 +30,14 @@ export const generateNamespace = (
       }
       const path = `components/securitySchemes/${reference.name}`;
       return store.addStatement(path, {
-        type: "interface",
+        kind: "interface",
         name,
         value: SecuritySchema.generateInterface(entryPoint, reference.referencePoint, factory, name, reference.data),
       });
     }
     const path = `components/securitySchemes/${name}`;
     return store.addStatement(path, {
-      type: "interface",
+      kind: "interface",
       name: name,
       value: SecuritySchema.generateInterface(entryPoint, currentPoint, factory, name, requestBody),
     });

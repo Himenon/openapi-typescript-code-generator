@@ -633,6 +633,11 @@
     unique-filename "^1.1.1"
     which "^1.3.1"
 
+"@himenon/path-oriented-data-structure@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@himenon/path-oriented-data-structure/-/path-oriented-data-structure-0.1.0.tgz#b417a3cb46e3bbc409c4fc5216c42d924f2e7433"
+  integrity sha512-pU4wymQPvBbtPDyeVP8RekOUsQbUiztEae38BIPLFRSqOM68xCNcFzng71HhI2ZdD0kbt+zK1HgQKwB/nv8VkA==
+
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@istanbuljs/load-nyc-config/-/load-nyc-config-1.0.0.tgz#10602de5570baea82f8afbfa2630b24e7a8cfe5b"
