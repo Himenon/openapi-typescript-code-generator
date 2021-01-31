@@ -69,6 +69,10 @@ const resolveLocalReference = (entryPoint: string, currentPoint: string, obj: an
     if (isLocalReference(obj)) {
       const ref = Reference.generateLocalReference(obj);
       if (!ref) {
+        console.log({
+          obj,
+          ref,
+        });
         throw new DevelopmentError(`なにかが間違っている\n${JSON.stringify(ref, null, 2)}`);
       }
       return DotProp.get(rootSchema, ref.path.replace(/\//g, "."));

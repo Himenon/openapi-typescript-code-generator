@@ -61,7 +61,7 @@ export const generatePropertySignatures = (
   entryPoint: string,
   currentPoint: string,
   factory: Factory.Type,
-  headers: OpenApi.MapLike<string, OpenApi.Header | OpenApi.Reference>,
+  headers: Record<string, OpenApi.Header | OpenApi.Reference>,
   context: ToTypeNode.Context,
 ): ts.PropertySignature[] => {
   return Object.entries(headers).map(([headerName, header]) => {
@@ -74,7 +74,7 @@ export const generateInterface = (
   currentPoint: string,
   factory: Factory.Type,
   name: string,
-  headers: OpenApi.MapLike<string, OpenApi.Header | OpenApi.Reference>,
+  headers: Record<string, OpenApi.Header | OpenApi.Reference>,
   context: ToTypeNode.Context,
 ): ts.InterfaceDeclaration => {
   return factory.InterfaceDeclaration.create({

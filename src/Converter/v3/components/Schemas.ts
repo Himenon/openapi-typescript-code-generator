@@ -13,7 +13,7 @@ export const generateNamespace = (
   currentPoint: string,
   store: Store.Type,
   factory: Factory.Type,
-  schemas: OpenApi.MapLike<string, OpenApi.Schema | OpenApi.Reference>,
+  schemas: Record<string, OpenApi.Schema | OpenApi.Reference>,
   context: ToTypeNode.Context,
 ): void => {
   const basePath = "components/schemas";

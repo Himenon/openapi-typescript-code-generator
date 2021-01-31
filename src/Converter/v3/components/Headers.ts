@@ -14,7 +14,7 @@ export const generateNamespace = (
   currentPoint: string,
   store: Store.Type,
   factory: Factory.Type,
-  headers: OpenApi.MapLike<string, OpenApi.Header | OpenApi.Reference>,
+  headers: Record<string, OpenApi.Header | OpenApi.Reference>,
   context: ToTypeNode.Context,
 ): void => {
   store.addComponent("headers", {

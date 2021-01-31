@@ -14,7 +14,7 @@ export const generateNamespace = (
   currentPoint: string,
   store: Store.Type,
   factory: Factory.Type,
-  requestBodies: OpenApi.MapLike<string, OpenApi.RequestBody | OpenApi.Reference>,
+  requestBodies: Record<string, OpenApi.RequestBody | OpenApi.Reference>,
   context: ToTypeNode.Context,
 ): void => {
   const basePath = "components/requestBodies";

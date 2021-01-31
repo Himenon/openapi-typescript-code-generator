@@ -24,7 +24,7 @@ export const generatePropertySignatures = (
   entryPoint: string,
   currentPoint: string,
   factory: Factory.Type,
-  content: OpenApi.MapLike<string, OpenApi.MediaType>,
+  content: Record<string, OpenApi.MediaType>,
   context: ToTypeNode.Context,
 ): ts.PropertySignature[] => {
   return Object.entries(content).reduce<ts.PropertySignature[]>((previous, [protocol, mediaType]) => {
@@ -40,7 +40,7 @@ export const generateInterface = (
   currentPoint: string,
   factory: Factory.Type,
   name: string,
-  content: OpenApi.MapLike<string, OpenApi.MediaType>,
+  content: Record<string, OpenApi.MediaType>,
   context: ToTypeNode.Context,
 ): ts.InterfaceDeclaration => {
   return factory.InterfaceDeclaration.create({
