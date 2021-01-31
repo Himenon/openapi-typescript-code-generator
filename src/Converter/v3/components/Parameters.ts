@@ -48,7 +48,7 @@ export const generateNamespace = (
         );
         store.addStatement(`${basePath}/${name}`, {
           kind: "typeAlias",
-          name: name,
+          name: converterContext.escapeDeclarationText(name),
           value: factory.TypeAliasDeclaration.create({
             export: true,
             name: converterContext.escapeDeclarationText(name),
@@ -62,7 +62,7 @@ export const generateNamespace = (
       const path = `${basePath}/${name}`;
       store.addStatement(path, {
         kind: "typeAlias",
-        name: name,
+        name: converterContext.escapeDeclarationText(name),
         value: Paramter.generateTypeAlias(entryPoint, currentPoint, factory, name, parameter, context, converterContext),
       });
     }
