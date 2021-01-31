@@ -23,7 +23,7 @@ export const generatePropertySignatures = (
   const required: string[] = schema.required || [];
   return Object.entries(schema.properties).map(([propertyName, property]) => {
     return factory.PropertySignature.create({
-      name: convertContext.escapeText(propertyName, { escape: true }),
+      name: convertContext.escapePropertySignatureName(propertyName),
       optional: !required.includes(propertyName),
       type: ToTypeNode.convert(entryPoint, currentPoint, factory, property, context, convertContext, { parent: schema }),
       comment: typeof property !== "boolean" ? property.description : undefined,

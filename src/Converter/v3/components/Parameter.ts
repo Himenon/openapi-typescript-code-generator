@@ -48,7 +48,7 @@ export const generatePropertySignature = (
     if (reference.type === "local") {
       context.setReferenceHandler(currentPoint, reference);
       return factory.PropertySignature.create({
-        name: converterContext.escapeText(reference.name, { escape: true }),
+        name: converterContext.escapePropertySignatureName(reference.name),
         optional: false,
         type: factory.TypeReferenceNode.create({
           name: context.resolveReferencePath(currentPoint, reference.path).name,
@@ -57,7 +57,7 @@ export const generatePropertySignature = (
     }
     const isPathProperty = reference.data.in === "path";
     return factory.PropertySignature.create({
-      name: converterContext.escapeText(reference.data.name, { escape: true }),
+      name: converterContext.escapePropertySignatureName(reference.data.name),
       optional: isPathProperty ? false : !reference.data.required,
       type: ToTypeNode.convert(
         entryPoint,
@@ -71,7 +71,7 @@ export const generatePropertySignature = (
   }
   const isPathProperty = parameter.in === "path";
   return factory.PropertySignature.create({
-    name: converterContext.escapeText(parameter.name, { escape: true }),
+    name: converterContext.escapePropertySignatureName(parameter.name),
     optional: isPathProperty ? false : !parameter.required,
     type: ToTypeNode.convert(entryPoint, currentPoint, factory, parameter.schema || { type: "null" }, context, converterContext),
   });

@@ -20,6 +20,10 @@ interface EscapeOption {
 export interface Types {
   escapeText: (name: string, options?: EscapeOption) => string;
   escapeOperationIdText: (operationId: string) => string;
+  /**
+   * 非破壊: PropertySignatureのname用のescape
+   */
+  escapePropertySignatureName: (text: string) => string;
 }
 
 /**
@@ -52,6 +56,9 @@ export const create = (): Types => {
         resultText = convertReservedWord(resultText);
       }
       return resultText;
+    },
+    escapePropertySignatureName: (text: string) => {
+      return Name.escapeText(text);
     },
   };
 };
