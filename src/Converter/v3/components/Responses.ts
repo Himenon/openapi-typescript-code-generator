@@ -124,7 +124,7 @@ export const generateInterfacesWithStatusCode = (
         statements.push(
           factory.TypeAliasDeclaration.create({
             export: true,
-            name: Name.responseName(operationId, statusCode),
+            name: Name.responseName(converterContext.escapeOperationIdText(operationId), statusCode),
             type: factory.TypeReferenceNode.create({
               name: name,
             }),
@@ -151,7 +151,7 @@ export const generateInterfacesWithStatusCode = (
               entryPoint,
               reference.referencePoint,
               factory,
-              Name.responseName(operationId, statusCode),
+              Name.responseName(converterContext.escapeOperationIdText(operationId), statusCode),
               content,
               context,
               converterContext,
@@ -166,7 +166,7 @@ export const generateInterfacesWithStatusCode = (
             entryPoint,
             currentPoint,
             factory,
-            Name.responseName(operationId, statusCode),
+            Name.responseName(converterContext.escapeOperationIdText(operationId), statusCode),
             response.content,
             context,
             converterContext,

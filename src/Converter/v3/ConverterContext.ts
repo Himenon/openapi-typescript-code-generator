@@ -7,12 +7,19 @@ import * as Name from "./Name";
 // }
 
 interface EscapeOption {
+  /**
+   * property nameなどをダブルクォーテーションで囲む
+   */
   escape?: boolean;
+  /**
+   * 予約語などが含まれる場合、変換を行う
+   */
   reservedWordEscape?: boolean;
 }
 
 export interface Types {
   escapeText: (name: string, options?: EscapeOption) => string;
+  escapeOperationIdText: (operationId: string) => string;
 }
 
 /**
@@ -29,9 +36,12 @@ export const create = (): Types => {
     if (Name.isAvailableVariableName(text)) {
       return text;
     }
-    return text.replace(/-/g, "_");
+    return text.replace(/-/g, "_").replace(/\//g, "__");
   };
   return {
+    escapeOperationIdText: (operationId: string): string => {
+      return convertString(operationId);
+    },
     escapeText: (name: string, options?: EscapeOption) => {
       const opt = options || {};
       let resultText = convertString(name);

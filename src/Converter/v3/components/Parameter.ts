@@ -48,7 +48,7 @@ export const generatePropertySignature = (
     if (reference.type === "local") {
       context.setReferenceHandler(currentPoint, reference);
       return factory.PropertySignature.create({
-        name: reference.name,
+        name: converterContext.escapeText(reference.name, { escape: true }),
         optional: false,
         type: factory.TypeReferenceNode.create({
           name: context.resolveReferencePath(currentPoint, reference.path).name,

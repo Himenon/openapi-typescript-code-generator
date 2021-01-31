@@ -137,13 +137,13 @@ export const generateStatements = (
   }
   store.updateOperationState(httpMethod, requestUri, operationId, {});
   if (operation.parameters) {
-    const parameterName = Name.parameterName(operationId);
+    const parameterName = Name.parameterName(converterContext.escapeOperationIdText(operationId));
     statements.push(
       Parameter.generateAliasInterface(entryPoint, currentPoint, factory, parameterName, operation.parameters, context, converterContext),
     );
   }
   if (operation.requestBody) {
-    const requestBodyName = Name.requestBodyName(operationId);
+    const requestBodyName = Name.requestBodyName(converterContext.escapeOperationIdText(operationId));
     if (Guard.isReference(operation.requestBody)) {
       const reference = Reference.generate<OpenApi.RequestBody>(entryPoint, currentPoint, operation.requestBody);
       if (reference.type === "local") {
@@ -151,7 +151,7 @@ export const generateStatements = (
         statements.push(
           factory.TypeAliasDeclaration.create({
             export: true,
-            name: Name.requestBodyName(operationId),
+            name: Name.requestBodyName(converterContext.escapeOperationIdText(operationId)),
             type: factory.TypeReferenceNode.create({
               name: context.resolveReferencePath(currentPoint, `${reference.path}`) + "." + Name.ComponentChild.Content, // TODO Contextから作成？
             }),

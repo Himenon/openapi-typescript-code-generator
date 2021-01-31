@@ -1,6 +1,5 @@
 import ts from "typescript";
 
-import { Factory } from "../../CodeGenerator";
 import * as Name from "./Name";
 import { Store } from "./store";
 import { CodeGeneratorParams, OpenApi, PickedParameter } from "./types";
