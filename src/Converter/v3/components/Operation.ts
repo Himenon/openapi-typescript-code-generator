@@ -137,7 +137,7 @@ export const generateStatements = (
   }
   store.updateOperationState(httpMethod, requestUri, operationId, {});
   if (operation.parameters) {
-    const parameterName = Name.parameterName(converterContext.escapeOperationIdText(operationId));
+    const parameterName = converterContext.generateParameterName(operationId);
     statements.push(
       Parameter.generateAliasInterface(entryPoint, currentPoint, factory, parameterName, operation.parameters, context, converterContext),
     );

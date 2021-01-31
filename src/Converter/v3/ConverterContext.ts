@@ -47,7 +47,7 @@ export const create = (): Types => {
     if (Name.isAvailableVariableName(text)) {
       return text;
     }
-    return text.replace(/-/g, "_").replace(/\//g, "__");
+    return text.replace(/-/g, "_").replace(/\//g, "$");
   };
   return {
     escapeOperationIdText: (operationId: string): string => {

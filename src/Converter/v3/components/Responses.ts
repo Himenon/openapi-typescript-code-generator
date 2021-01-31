@@ -140,16 +140,18 @@ export const generateInterfacesWithStatusCode = (
       const reference = Reference.generate<OpenApi.Response>(entryPoint, currentPoint, response);
       if (reference.type === "local") {
         context.setReferenceHandler(currentPoint, reference);
-        const name = context.resolveReferencePath(currentPoint, `${reference.path}/Content`).maybeResolvedName;
-        statements.push(
-          factory.TypeAliasDeclaration.create({
-            export: true,
-            name: converterContext.generateResponseName(operationId, statusCode),
-            type: factory.TypeReferenceNode.create({
-              name: name,
+        const { maybeResolvedName, unresolvedPaths } = context.resolveReferencePath(currentPoint, `${reference.path}/Content`);
+        if (unresolvedPaths.length === 0) {
+          statements.push(
+            factory.TypeAliasDeclaration.create({
+              export: true,
+              name: converterContext.generateResponseName(operationId, statusCode),
+              type: factory.TypeReferenceNode.create({
+                name: maybeResolvedName,
+              }),
             }),
-          }),
-        );
+          );
+        }
       } else if (reference.componentName) {
         // reference先に定義を作成
         Response.generateNamespace(
