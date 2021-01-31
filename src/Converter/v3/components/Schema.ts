@@ -57,7 +57,7 @@ export const generateInterface = (
   }
   return factory.InterfaceDeclaration.create({
     export: true,
-    name: convertContext.escapeText(name, { reservedWordEscape: true }),
+    name: convertContext.escapeDeclarationText(name),
     members,
     comment: ExternalDocumentation.addComment(schema.description, schema.externalDocs),
   });
@@ -74,7 +74,7 @@ export const generateArrayTypeAlias = (
 ): ts.TypeAliasDeclaration => {
   return factory.TypeAliasDeclaration.create({
     export: true,
-    name: convertContext.escapeText(name, { reservedWordEscape: true }),
+    name: convertContext.escapeDeclarationText(name),
     comment: schema.description,
     type: ToTypeNode.convert(entryPoint, currentPoint, factory, schema, context, convertContext),
   });
@@ -112,7 +112,7 @@ export const generateTypeAlias = (
   }
   return factory.TypeAliasDeclaration.create({
     export: true,
-    name: convertContext.escapeText(name, { reservedWordEscape: true }),
+    name: convertContext.escapeDeclarationText(name),
     type,
     comment: schema.description,
   });
@@ -140,7 +140,7 @@ export const generateMultiTypeAlias = (
   );
   return factory.TypeAliasDeclaration.create({
     export: true,
-    name: convertContext.escapeText(name, { reservedWordEscape: true }),
+    name: convertContext.escapeDeclarationText(name),
     type,
   });
 };
@@ -162,37 +162,37 @@ export const addSchema = (
   if (Guard.isAllOfSchema(schema)) {
     store.addStatement(targetPoint, {
       kind: "typeAlias",
-      name: convertContext.escapeText(declarationName, { reservedWordEscape: true }),
+      name: convertContext.escapeDeclarationText(declarationName),
       value: generateMultiTypeAlias(entryPoint, currentPoint, factory, declarationName, schema.allOf, context, "allOf", convertContext),
     });
   } else if (Guard.isOneOfSchema(schema)) {
     store.addStatement(targetPoint, {
       kind: "typeAlias",
-      name: convertContext.escapeText(declarationName, { reservedWordEscape: true }),
+      name: convertContext.escapeDeclarationText(declarationName),
       value: generateMultiTypeAlias(entryPoint, currentPoint, factory, declarationName, schema.oneOf, context, "oneOf", convertContext),
     });
   } else if (Guard.isAnyOfSchema(schema)) {
     store.addStatement(targetPoint, {
       kind: "typeAlias",
-      name: convertContext.escapeText(declarationName, { reservedWordEscape: true }),
+      name: convertContext.escapeDeclarationText(declarationName),
       value: generateMultiTypeAlias(entryPoint, currentPoint, factory, declarationName, schema.anyOf, context, "allOf", convertContext),
     });
   } else if (Guard.isArraySchema(schema)) {
     store.addStatement(targetPoint, {
       kind: "typeAlias",
-      name: convertContext.escapeText(declarationName, { reservedWordEscape: true }),
+      name: convertContext.escapeDeclarationText(declarationName),
       value: generateArrayTypeAlias(entryPoint, currentPoint, factory, declarationName, schema, context, convertContext),
     });
   } else if (Guard.isObjectSchema(schema)) {
     store.addStatement(targetPoint, {
       kind: "interface",
-      name: convertContext.escapeText(declarationName, { reservedWordEscape: true }),
+      name: convertContext.escapeDeclarationText(declarationName),
       value: generateInterface(entryPoint, currentPoint, factory, declarationName, schema, context, convertContext),
     });
   } else if (Guard.isPrimitiveSchema(schema)) {
     store.addStatement(targetPoint, {
       kind: "typeAlias",
-      name: convertContext.escapeText(declarationName, { reservedWordEscape: true }),
+      name: convertContext.escapeDeclarationText(declarationName),
       value: generateTypeAlias(entryPoint, currentPoint, factory, declarationName, schema, convertContext),
     });
   }

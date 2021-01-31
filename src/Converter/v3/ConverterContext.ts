@@ -6,24 +6,24 @@ import * as Name from "./Name";
 
 // }
 
-interface EscapeOption {
-  /**
-   * property nameなどをダブルクォーテーションで囲む
-   */
-  escape?: boolean;
-  /**
-   * 予約語などが含まれる場合、変換を行う
-   */
-  reservedWordEscape?: boolean;
-}
-
 export interface Types {
-  escapeText: (name: string, options?: EscapeOption) => string;
+  /**
+   * operationIdに対するescape
+   */
   escapeOperationIdText: (operationId: string) => string;
+  /**
+   * interface/namespace/typeAliasのnameをescapeする
+   * import/exportなどの予約語も裁く
+   */
+  escapeDeclarationText: (text: string) => string;
   /**
    * 非破壊: PropertySignatureのname用のescape
    */
   escapePropertySignatureName: (text: string) => string;
+  /**
+   * 破壊: TypeReferenceのname用のescape
+   */
+  escapeTypeReferenceNodeName: (text: string) => string;
 }
 
 /**
@@ -46,19 +46,14 @@ export const create = (): Types => {
     escapeOperationIdText: (operationId: string): string => {
       return convertString(operationId);
     },
-    escapeText: (name: string, options?: EscapeOption) => {
-      const opt = options || {};
-      let resultText = convertString(name);
-      if (opt.escape) {
-        resultText = Name.escapeText(resultText);
-      }
-      if (opt.reservedWordEscape) {
-        resultText = convertReservedWord(resultText);
-      }
-      return resultText;
+    escapeDeclarationText: (text: string) => {
+      return convertReservedWord(convertString(text));
     },
     escapePropertySignatureName: (text: string) => {
       return Name.escapeText(text);
+    },
+    escapeTypeReferenceNodeName: (text: string) => {
+      return convertString(text);
     },
   };
 };

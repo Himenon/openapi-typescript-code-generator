@@ -29,7 +29,7 @@ export const generateTypeAlias = (
 ): ts.TypeAliasDeclaration => {
   return factory.TypeAliasDeclaration.create({
     export: true,
-    name: converterContext.escapeText(name),
+    name: converterContext.escapeDeclarationText(name),
     comment: parameter.description,
     type: generateTypeNode(entryPoint, currentPoint, factory, parameter, context, converterContext),
   });
@@ -121,7 +121,7 @@ export const generateAliasInterface = (
 ): ts.InterfaceDeclaration => {
   return factory.InterfaceDeclaration.create({
     export: true,
-    name: converterContext.escapeText(name),
+    name: converterContext.escapeDeclarationText(name),
     comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject`,
     members: generatePropertySignatures(entryPoint, currentPoint, factory, parameters, context, converterContext),
   });

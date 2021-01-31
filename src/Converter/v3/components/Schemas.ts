@@ -31,12 +31,12 @@ export const generateNamespace = (
         const { maybeResolvedName } = context.resolveReferencePath(currentPoint, reference.path);
         store.addStatement(`${basePath}/${name}`, {
           kind: "typeAlias",
-          name: convertContext.escapeText(name, { reservedWordEscape: true }),
+          name: convertContext.escapeDeclarationText(name),
           value: factory.TypeAliasDeclaration.create({
             export: true,
-            name: convertContext.escapeText(name, { reservedWordEscape: true }),
+            name: convertContext.escapeDeclarationText(name),
             type: factory.TypeReferenceNode.create({
-              name: convertContext.escapeText(maybeResolvedName, { reservedWordEscape: true }),
+              name: convertContext.escapeDeclarationText(maybeResolvedName),
             }),
           }),
         });
@@ -58,13 +58,13 @@ export const generateNamespace = (
       }
       return store.addStatement(`${basePath}/${name}`, {
         kind: "typeAlias",
-        name: convertContext.escapeText(name, { reservedWordEscape: true }),
+        name: convertContext.escapeDeclarationText(name),
         value: factory.TypeAliasDeclaration.create({
           export: true,
-          name: convertContext.escapeText(name, { reservedWordEscape: true }),
+          name: convertContext.escapeDeclarationText(name),
           comment: reference.data.description,
           type: factory.TypeReferenceNode.create({
-            name: convertContext.escapeText(context.resolveReferencePath(currentPoint, reference.path).name, { reservedWordEscape: true }),
+            name: convertContext.escapeDeclarationText(context.resolveReferencePath(currentPoint, reference.path).name),
           }),
         }),
       });
@@ -73,42 +73,42 @@ export const generateNamespace = (
     if (Guard.isAllOfSchema(schema)) {
       return store.addStatement(path, {
         kind: "typeAlias",
-        name: convertContext.escapeText(name, { reservedWordEscape: true }),
+        name: convertContext.escapeDeclarationText(name),
         value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.allOf, context, "allOf", convertContext),
       });
     }
     if (Guard.isOneOfSchema(schema)) {
       return store.addStatement(path, {
         kind: "typeAlias",
-        name: convertContext.escapeText(name, { reservedWordEscape: true }),
+        name: convertContext.escapeDeclarationText(name),
         value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.oneOf, context, "oneOf", convertContext),
       });
     }
     if (Guard.isAnyOfSchema(schema)) {
       return store.addStatement(path, {
         kind: "typeAlias",
-        name: convertContext.escapeText(name, { reservedWordEscape: true }),
+        name: convertContext.escapeDeclarationText(name),
         value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.anyOf, context, "anyOf", convertContext),
       });
     }
     if (Guard.isArraySchema(schema)) {
       return store.addStatement(path, {
         kind: "typeAlias",
-        name: convertContext.escapeText(name, { reservedWordEscape: true }),
+        name: convertContext.escapeDeclarationText(name),
         value: Schema.generateArrayTypeAlias(entryPoint, currentPoint, factory, name, schema, context, convertContext),
       });
     }
     if (Guard.isObjectSchema(schema)) {
       return store.addStatement(path, {
         kind: "interface",
-        name: convertContext.escapeText(name, { reservedWordEscape: true }),
+        name: convertContext.escapeDeclarationText(name),
         value: Schema.generateInterface(entryPoint, currentPoint, factory, name, schema, context, convertContext),
       });
     }
     if (Guard.isObjectSchema(schema)) {
       return store.addStatement(path, {
         kind: "interface",
-        name: convertContext.escapeText(name, { reservedWordEscape: true }),
+        name: convertContext.escapeDeclarationText(name),
         value: Schema.generateInterface(entryPoint, currentPoint, factory, name, schema, context, convertContext),
       });
     }

@@ -138,7 +138,7 @@ export const create = (
           export: true,
           name: reference.name,
           type: factory.TypeReferenceNode.create({
-            name: maybeResolvedName,
+            name: converterContext.escapeTypeReferenceNodeName(maybeResolvedName),
           }),
         });
         store.addStatement(reference.path, {
