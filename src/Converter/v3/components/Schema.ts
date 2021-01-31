@@ -23,7 +23,7 @@ export const generatePropertySignatures = (
   const required: string[] = schema.required || [];
   return Object.entries(schema.properties).map(([propertyName, property]) => {
     return factory.PropertySignature.create({
-      name: convertContext.referenceName(propertyName),
+      name: convertContext.referenceName(propertyName, { escape: true }),
       optional: !required.includes(propertyName),
       type: ToTypeNode.convert(entryPoint, currentPoint, factory, property, context, convertContext, { parent: schema }),
       comment: typeof property !== "boolean" ? property.description : undefined,
@@ -57,7 +57,7 @@ export const generateInterface = (
   }
   return factory.InterfaceDeclaration.create({
     export: true,
-    name: convertContext.referenceName(name),
+    name: convertContext.referenceName(name, { reservedWordEscape: true }),
     members,
     comment: ExternalDocumentation.addComment(schema.description, schema.externalDocs),
   });
@@ -74,7 +74,7 @@ export const generateArrayTypeAlias = (
 ): ts.TypeAliasDeclaration => {
   return factory.TypeAliasDeclaration.create({
     export: true,
-    name: convertContext.referenceName(name),
+    name: convertContext.referenceName(name, { reservedWordEscape: true }),
     comment: schema.description,
     type: ToTypeNode.convert(entryPoint, currentPoint, factory, schema, context, convertContext),
   });
@@ -112,7 +112,7 @@ export const generateTypeAlias = (
   }
   return factory.TypeAliasDeclaration.create({
     export: true,
-    name: convertContext.referenceName(name),
+    name: convertContext.referenceName(name, { reservedWordEscape: true }),
     type,
     comment: schema.description,
   });
@@ -140,7 +140,7 @@ export const generateMultiTypeAlias = (
   );
   return factory.TypeAliasDeclaration.create({
     export: true,
-    name: convertContext.referenceName(name),
+    name: convertContext.referenceName(name, { reservedWordEscape: true }),
     type,
   });
 };
@@ -162,37 +162,37 @@ export const addSchema = (
   if (Guard.isAllOfSchema(schema)) {
     store.addStatement(targetPoint, {
       kind: "typeAlias",
-      name: convertContext.referenceName(declarationName),
+      name: convertContext.referenceName(declarationName, { reservedWordEscape: true }),
       value: generateMultiTypeAlias(entryPoint, currentPoint, factory, declarationName, schema.allOf, context, "allOf", convertContext),
     });
   } else if (Guard.isOneOfSchema(schema)) {
     store.addStatement(targetPoint, {
       kind: "typeAlias",
-      name: convertContext.referenceName(declarationName),
+      name: convertContext.referenceName(declarationName, { reservedWordEscape: true }),
       value: generateMultiTypeAlias(entryPoint, currentPoint, factory, declarationName, schema.oneOf, context, "oneOf", convertContext),
     });
   } else if (Guard.isAnyOfSchema(schema)) {
     store.addStatement(targetPoint, {
       kind: "typeAlias",
-      name: convertContext.referenceName(declarationName),
+      name: convertContext.referenceName(declarationName, { reservedWordEscape: true }),
       value: generateMultiTypeAlias(entryPoint, currentPoint, factory, declarationName, schema.anyOf, context, "allOf", convertContext),
     });
   } else if (Guard.isArraySchema(schema)) {
     store.addStatement(targetPoint, {
       kind: "typeAlias",
-      name: convertContext.referenceName(declarationName),
+      name: convertContext.referenceName(declarationName, { reservedWordEscape: true }),
       value: generateArrayTypeAlias(entryPoint, currentPoint, factory, declarationName, schema, context, convertContext),
     });
   } else if (Guard.isObjectSchema(schema)) {
     store.addStatement(targetPoint, {
       kind: "interface",
-      name: convertContext.referenceName(declarationName),
+      name: convertContext.referenceName(declarationName, { reservedWordEscape: true }),
       value: generateInterface(entryPoint, currentPoint, factory, declarationName, schema, context, convertContext),
     });
   } else if (Guard.isPrimitiveSchema(schema)) {
     store.addStatement(targetPoint, {
       kind: "typeAlias",
-      name: convertContext.referenceName(declarationName),
+      name: convertContext.referenceName(declarationName, { reservedWordEscape: true }),
       value: generateTypeAlias(entryPoint, currentPoint, factory, declarationName, schema, convertContext),
     });
   }

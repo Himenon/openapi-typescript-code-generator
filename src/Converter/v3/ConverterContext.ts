@@ -6,20 +6,42 @@ import * as Name from "./Name";
 
 // }
 
+interface ReferenceNameOption {
+  escape?: boolean;
+  reservedWordEscape?: boolean;
+}
+
 export interface Types {
-  referenceName: (name: string) => string;
+  referenceName: (name: string, options?: ReferenceNameOption) => string;
 }
 
 /**
  * ユーザーが利用できる各種変換オプション
  */
 export const create = (): Types => {
+  const convertReservedWord = (word: string): string => {
+    if (["import", "export"].includes(word)) {
+      return word + "_";
+    }
+    return word;
+  };
+  const convertString = (text: string): string => {
+    if (Name.isAvailableVariableName(text)) {
+      return text;
+    }
+    return text.replace(/-/g, "_");
+  };
   return {
-    referenceName: (name: string) => {
-      if (Name.isAvailableVariableName(name)) {
-        return name;
+    referenceName: (name: string, options?: ReferenceNameOption) => {
+      const opt = options || {};
+      let resultText = convertString(name);
+      if (opt.escape) {
+        resultText = Name.escapeText(resultText);
       }
-      return name.replace(/-/g, "_");
+      if (opt.reservedWordEscape) {
+        resultText = convertReservedWord(resultText);
+      }
+      return resultText;
     },
   };
 };

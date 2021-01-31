@@ -3,7 +3,6 @@ import ts from "typescript";
 import { Factory } from "../../../CodeGenerator";
 import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
-import * as Name from "../Name";
 import * as ToTypeNode from "../toTypeNode";
 import { OpenApi } from "../types";
 import * as Reference from "./Reference";
@@ -58,7 +57,7 @@ export const generatePropertySignature = (
     }
     const isPathProperty = reference.data.in === "path";
     return factory.PropertySignature.create({
-      name: reference.data.name,
+      name: converterContext.referenceName(reference.data.name, { escape: true }),
       optional: isPathProperty ? false : !reference.data.required,
       type: ToTypeNode.convert(
         entryPoint,
@@ -72,7 +71,7 @@ export const generatePropertySignature = (
   }
   const isPathProperty = parameter.in === "path";
   return factory.PropertySignature.create({
-    name: Name.escapeText(parameter.name),
+    name: converterContext.referenceName(parameter.name, { escape: true }),
     optional: isPathProperty ? false : !parameter.required,
     type: ToTypeNode.convert(entryPoint, currentPoint, factory, parameter.schema || { type: "null" }, context, converterContext),
   });

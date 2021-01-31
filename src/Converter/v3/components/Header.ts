@@ -3,7 +3,6 @@ import ts from "typescript";
 import { Factory } from "../../../CodeGenerator";
 import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
-import * as Name from "../Name";
 import * as ToTypeNode from "../toTypeNode";
 import { OpenApi } from "../types";
 import * as Reference from "./Reference";
@@ -54,7 +53,7 @@ export const generatePropertySignature = (
     });
   }
   return factory.PropertySignature.create({
-    name: Name.escapeText(name),
+    name: converterContext.referenceName(name, { escape: true }),
     optional: false,
     type: ToTypeNode.convert(entryPoint, currentPoint, factory, header.schema || { type: "null" }, context, converterContext),
   });
