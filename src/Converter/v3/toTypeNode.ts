@@ -96,7 +96,7 @@ export const convert: Convert = (
       // Type Aliasを作成 (or すでにある場合は作成しない)
       context.setReferenceHandler(currentPoint, reference);
       const { maybeResolvedName } = context.resolveReferencePath(currentPoint, reference.path);
-      return factory.TypeReferenceNode.create({ name: convertContext.referenceName(maybeResolvedName, { reservedWordEscape: true }) });
+      return factory.TypeReferenceNode.create({ name: convertContext.escapeText(maybeResolvedName, { reservedWordEscape: true }) });
     }
     // サポートしているディレクトリに対して存在する場合
     if (reference.componentName) {

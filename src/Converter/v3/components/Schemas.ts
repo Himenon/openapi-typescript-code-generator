@@ -31,12 +31,12 @@ export const generateNamespace = (
         const { maybeResolvedName } = context.resolveReferencePath(currentPoint, reference.path);
         store.addStatement(`${basePath}/${name}`, {
           kind: "typeAlias",
-          name: convertContext.referenceName(name, { reservedWordEscape: true }),
+          name: convertContext.escapeText(name, { reservedWordEscape: true }),
           value: factory.TypeAliasDeclaration.create({
             export: true,
-            name: convertContext.referenceName(name, { reservedWordEscape: true }),
+            name: convertContext.escapeText(name, { reservedWordEscape: true }),
             type: factory.TypeReferenceNode.create({
-              name: convertContext.referenceName(maybeResolvedName, { reservedWordEscape: true }),
+              name: convertContext.escapeText(maybeResolvedName, { reservedWordEscape: true }),
             }),
           }),
         });
@@ -58,13 +58,13 @@ export const generateNamespace = (
       }
       return store.addStatement(`${basePath}/${name}`, {
         kind: "typeAlias",
-        name: convertContext.referenceName(name, { reservedWordEscape: true }),
+        name: convertContext.escapeText(name, { reservedWordEscape: true }),
         value: factory.TypeAliasDeclaration.create({
           export: true,
-          name: convertContext.referenceName(name, { reservedWordEscape: true }),
+          name: convertContext.escapeText(name, { reservedWordEscape: true }),
           comment: reference.data.description,
           type: factory.TypeReferenceNode.create({
-            name: convertContext.referenceName(context.resolveReferencePath(currentPoint, reference.path).name, { reservedWordEscape: true }),
+            name: convertContext.escapeText(context.resolveReferencePath(currentPoint, reference.path).name, { reservedWordEscape: true }),
           }),
         }),
       });
@@ -73,42 +73,42 @@ export const generateNamespace = (
     if (Guard.isAllOfSchema(schema)) {
       return store.addStatement(path, {
         kind: "typeAlias",
-        name: convertContext.referenceName(name, { reservedWordEscape: true }),
+        name: convertContext.escapeText(name, { reservedWordEscape: true }),
         value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.allOf, context, "allOf", convertContext),
       });
     }
     if (Guard.isOneOfSchema(schema)) {
       return store.addStatement(path, {
         kind: "typeAlias",
-        name: convertContext.referenceName(name, { reservedWordEscape: true }),
+        name: convertContext.escapeText(name, { reservedWordEscape: true }),
         value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.oneOf, context, "oneOf", convertContext),
       });
     }
     if (Guard.isAnyOfSchema(schema)) {
       return store.addStatement(path, {
         kind: "typeAlias",
-        name: convertContext.referenceName(name, { reservedWordEscape: true }),
+        name: convertContext.escapeText(name, { reservedWordEscape: true }),
         value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.anyOf, context, "anyOf", convertContext),
       });
     }
     if (Guard.isArraySchema(schema)) {
       return store.addStatement(path, {
         kind: "typeAlias",
-        name: convertContext.referenceName(name, { reservedWordEscape: true }),
+        name: convertContext.escapeText(name, { reservedWordEscape: true }),
         value: Schema.generateArrayTypeAlias(entryPoint, currentPoint, factory, name, schema, context, convertContext),
       });
     }
     if (Guard.isObjectSchema(schema)) {
       return store.addStatement(path, {
         kind: "interface",
-        name: convertContext.referenceName(name, { reservedWordEscape: true }),
+        name: convertContext.escapeText(name, { reservedWordEscape: true }),
         value: Schema.generateInterface(entryPoint, currentPoint, factory, name, schema, context, convertContext),
       });
     }
     if (Guard.isObjectSchema(schema)) {
       return store.addStatement(path, {
         kind: "interface",
-        name: convertContext.referenceName(name, { reservedWordEscape: true }),
+        name: convertContext.escapeText(name, { reservedWordEscape: true }),
         value: Schema.generateInterface(entryPoint, currentPoint, factory, name, schema, context, convertContext),
       });
     }

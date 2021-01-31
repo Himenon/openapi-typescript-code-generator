@@ -47,7 +47,7 @@ export const generateNamespace = (
     } else {
       store.addStatement(`components/headers/${name}`, {
         kind: "typeAlias",
-        name: name,
+        name: converterContext.escapeText(name, { reservedWordEscape: true }),
         value: Header.generateTypeNode(entryPoint, currentPoint, factory, name, header, context, converterContext),
       });
     }

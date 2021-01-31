@@ -6,13 +6,13 @@ import * as Name from "./Name";
 
 // }
 
-interface ReferenceNameOption {
+interface EscapeOption {
   escape?: boolean;
   reservedWordEscape?: boolean;
 }
 
 export interface Types {
-  referenceName: (name: string, options?: ReferenceNameOption) => string;
+  escapeText: (name: string, options?: EscapeOption) => string;
 }
 
 /**
@@ -32,7 +32,7 @@ export const create = (): Types => {
     return text.replace(/-/g, "_");
   };
   return {
-    referenceName: (name: string, options?: ReferenceNameOption) => {
+    escapeText: (name: string, options?: EscapeOption) => {
       const opt = options || {};
       let resultText = convertString(name);
       if (opt.escape) {

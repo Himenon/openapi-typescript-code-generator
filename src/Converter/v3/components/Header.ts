@@ -18,7 +18,7 @@ export const generateTypeNode = (
 ): ts.TypeAliasDeclaration => {
   return factory.TypeAliasDeclaration.create({
     export: true,
-    name,
+    name: converterContext.escapeText(name),
     type: ToTypeNode.convert(entryPoint, currentPoint, factory, header.schema || { type: "null" }, context, converterContext),
   });
 };
@@ -37,7 +37,7 @@ export const generatePropertySignature = (
     if (reference.type === "local") {
       context.setReferenceHandler(currentPoint, reference);
       return factory.PropertySignature.create({
-        name,
+        name: converterContext.escapeText(name, { escape: true }),
         optional: false,
         type: factory.TypeReferenceNode.create({
           name: context.resolveReferencePath(currentPoint, reference.path).name,
@@ -45,7 +45,7 @@ export const generatePropertySignature = (
       });
     }
     return factory.PropertySignature.create({
-      name,
+      name: converterContext.escapeText(name, { escape: true }),
       optional: false,
       type: factory.TypeReferenceNode.create({
         name: context.resolveReferencePath(currentPoint, reference.path).name,
@@ -53,7 +53,7 @@ export const generatePropertySignature = (
     });
   }
   return factory.PropertySignature.create({
-    name: converterContext.referenceName(name, { escape: true }),
+    name: converterContext.escapeText(name, { escape: true }),
     optional: false,
     type: ToTypeNode.convert(entryPoint, currentPoint, factory, header.schema || { type: "null" }, context, converterContext),
   });
@@ -83,7 +83,7 @@ export const generateInterface = (
 ): ts.InterfaceDeclaration => {
   return factory.InterfaceDeclaration.create({
     export: true,
-    name,
+    name: converterContext.escapeText(name, { reservedWordEscape: true }),
     comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject`,
     members: generatePropertySignatures(entryPoint, currentPoint, factory, headers, context, converterContext),
   });
