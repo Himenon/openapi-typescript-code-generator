@@ -1,6 +1,7 @@
 import * as path from "path";
 
 import { Factory } from "../../../CodeGenerator";
+import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as Name from "../Name";
 import { Store } from "../store";
@@ -16,6 +17,7 @@ export const generateNamespace = (
   factory: Factory.Type,
   requestBodies: Record<string, OpenApi.RequestBody | OpenApi.Reference>,
   context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
 ): void => {
   const basePath = "components/requestBodies";
   store.addComponent("requestBodies", {
@@ -39,10 +41,11 @@ export const generateNamespace = (
           reference.name,
           reference.data,
           context,
+          converterContext,
         );
       }
     } else {
-      RequestBody.generateNamespace(entryPoint, currentPoint, store, factory, basePath, name, requestBody, context);
+      RequestBody.generateNamespace(entryPoint, currentPoint, store, factory, basePath, name, requestBody, context, converterContext);
     }
   });
 };

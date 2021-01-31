@@ -4,6 +4,7 @@ import * as path from "path";
 import ts from "typescript";
 
 import { Factory } from "../../../CodeGenerator";
+import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as Name from "../Name";
 import { Store } from "../store";
@@ -40,6 +41,7 @@ export const generateNamespace = (
   name: string,
   operation: OpenApi.Operation,
   context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
 ): void => {
   const basePath = `${parentPath}/${name}`;
   const operationId = operation.operationId;
@@ -58,7 +60,7 @@ export const generateNamespace = (
     store.addStatement(`${basePath}/Parameter`, {
       kind: "interface",
       name: parameterName,
-      value: Parameter.generateInterface(entryPoint, currentPoint, factory, parameterName, operation.parameters, context),
+      value: Parameter.generateInterface(entryPoint, currentPoint, factory, parameterName, operation.parameters, context, converterContext),
     });
   }
 
@@ -75,7 +77,7 @@ export const generateNamespace = (
         store.addStatement(contentPath, {
           kind: "interface",
           name: name,
-          value: RequestBody.generateInterface(entryPoint, reference.referencePoint, factory, name, reference.data, context),
+          value: RequestBody.generateInterface(entryPoint, reference.referencePoint, factory, name, reference.data, context, converterContext),
         });
         const typeAliasName = context.resolveReferencePath(currentPoint, contentPath).name;
         store.addStatement(`${basePath}/RequestBody`, {
@@ -89,12 +91,31 @@ export const generateNamespace = (
         });
       }
     } else {
-      RequestBody.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "RequestBody", operation.requestBody, context);
+      RequestBody.generateNamespace(
+        entryPoint,
+        currentPoint,
+        store,
+        factory,
+        basePath,
+        "RequestBody",
+        operation.requestBody,
+        context,
+        converterContext,
+      );
     }
   }
 
   if (operation.responses) {
-    Responses.generateNamespaceWithStatusCode(entryPoint, currentPoint, store, factory, basePath, operation.responses, context);
+    Responses.generateNamespaceWithStatusCode(
+      entryPoint,
+      currentPoint,
+      store,
+      factory,
+      basePath,
+      operation.responses,
+      context,
+      converterContext,
+    );
   }
 };
 
@@ -107,6 +128,7 @@ export const generateStatements = (
   httpMethod: string, // PUT POST PATCH
   operation: OpenApi.Operation,
   context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
 ): ts.Statement[] => {
   let statements: ts.Statement[] = [];
   const operationId = operation.operationId;
@@ -116,7 +138,9 @@ export const generateStatements = (
   store.updateOperationState(httpMethod, requestUri, operationId, {});
   if (operation.parameters) {
     const parameterName = Name.parameterName(operationId);
-    statements.push(Parameter.generateAliasInterface(entryPoint, currentPoint, factory, parameterName, operation.parameters, context));
+    statements.push(
+      Parameter.generateAliasInterface(entryPoint, currentPoint, factory, parameterName, operation.parameters, context, converterContext),
+    );
   }
   if (operation.requestBody) {
     const requestBodyName = Name.requestBodyName(operationId);
@@ -139,7 +163,7 @@ export const generateStatements = (
         store.addStatement(contentPath, {
           kind: "interface",
           name: name,
-          value: RequestBody.generateInterface(entryPoint, reference.referencePoint, factory, name, reference.data, context),
+          value: RequestBody.generateInterface(entryPoint, reference.referencePoint, factory, name, reference.data, context, converterContext),
         });
         statements.push(
           factory.TypeAliasDeclaration.create({
@@ -154,7 +178,9 @@ export const generateStatements = (
         });
       }
     } else {
-      statements.push(RequestBody.generateInterface(entryPoint, currentPoint, factory, requestBodyName, operation.requestBody, context));
+      statements.push(
+        RequestBody.generateInterface(entryPoint, currentPoint, factory, requestBodyName, operation.requestBody, context, converterContext),
+      );
       store.updateOperationState(httpMethod, requestUri, operationId, {
         requestBodyName: requestBodyName,
       });
@@ -163,7 +189,16 @@ export const generateStatements = (
 
   if (operation.responses) {
     statements = statements.concat(
-      Responses.generateInterfacesWithStatusCode(entryPoint, currentPoint, store, factory, operationId, operation.responses, context).flat(),
+      Responses.generateInterfacesWithStatusCode(
+        entryPoint,
+        currentPoint,
+        store,
+        factory,
+        operationId,
+        operation.responses,
+        context,
+        converterContext,
+      ).flat(),
     );
   }
 

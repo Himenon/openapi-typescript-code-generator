@@ -1,6 +1,7 @@
 import ts from "typescript";
 
 import { Factory } from "../../../CodeGenerator";
+import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as Name from "../Name";
 import * as ToTypeNode from "../toTypeNode";
@@ -14,11 +15,12 @@ export const generateTypeNode = (
   name: string,
   header: OpenApi.Header,
   context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
 ): ts.TypeAliasDeclaration => {
   return factory.TypeAliasDeclaration.create({
     export: true,
     name,
-    type: ToTypeNode.convert(entryPoint, currentPoint, factory, header.schema || { type: "null" }, context),
+    type: ToTypeNode.convert(entryPoint, currentPoint, factory, header.schema || { type: "null" }, context, converterContext),
   });
 };
 
@@ -29,6 +31,7 @@ export const generatePropertySignature = (
   name: string,
   header: OpenApi.Header | OpenApi.Reference,
   context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
 ): ts.PropertySignature => {
   if (Guard.isReference(header)) {
     const reference = Reference.generate<OpenApi.Header>(entryPoint, currentPoint, header);
@@ -53,7 +56,7 @@ export const generatePropertySignature = (
   return factory.PropertySignature.create({
     name: Name.escapeText(name),
     optional: false,
-    type: ToTypeNode.convert(entryPoint, currentPoint, factory, header.schema || { type: "null" }, context),
+    type: ToTypeNode.convert(entryPoint, currentPoint, factory, header.schema || { type: "null" }, context, converterContext),
   });
 };
 
@@ -63,9 +66,10 @@ export const generatePropertySignatures = (
   factory: Factory.Type,
   headers: Record<string, OpenApi.Header | OpenApi.Reference>,
   context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
 ): ts.PropertySignature[] => {
   return Object.entries(headers).map(([headerName, header]) => {
-    return generatePropertySignature(entryPoint, currentPoint, factory, headerName, header, context);
+    return generatePropertySignature(entryPoint, currentPoint, factory, headerName, header, context, converterContext);
   });
 };
 
@@ -76,11 +80,12 @@ export const generateInterface = (
   name: string,
   headers: Record<string, OpenApi.Header | OpenApi.Reference>,
   context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
 ): ts.InterfaceDeclaration => {
   return factory.InterfaceDeclaration.create({
     export: true,
     name,
     comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject`,
-    members: generatePropertySignatures(entryPoint, currentPoint, factory, headers, context),
+    members: generatePropertySignatures(entryPoint, currentPoint, factory, headers, context, converterContext),
   });
 };

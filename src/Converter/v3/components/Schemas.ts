@@ -1,5 +1,6 @@
 import { Factory } from "../../../CodeGenerator";
 import { UnSupportError } from "../../../Exception";
+import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as Name from "../Name";
 import { Store } from "../store";
@@ -15,6 +16,7 @@ export const generateNamespace = (
   factory: Factory.Type,
   schemas: Record<string, OpenApi.Schema | OpenApi.Reference>,
   context: ToTypeNode.Context,
+  convertContext: ConverterContext.Types,
 ): void => {
   const basePath = "components/schemas";
   store.addComponent("schemas", {
@@ -29,30 +31,40 @@ export const generateNamespace = (
         const { maybeResolvedName } = context.resolveReferencePath(currentPoint, reference.path);
         store.addStatement(`${basePath}/${name}`, {
           kind: "typeAlias",
-          name: name,
+          name: convertContext.referenceName(name),
           value: factory.TypeAliasDeclaration.create({
             export: true,
-            name: name,
+            name: convertContext.referenceName(name),
             type: factory.TypeReferenceNode.create({
-              name: maybeResolvedName,
+              name: convertContext.referenceName(maybeResolvedName),
             }),
           }),
         });
         return;
       }
-      Schema.addSchema(entryPoint, reference.referencePoint, store, factory, reference.path, reference.name, reference.data, context);
+      Schema.addSchema(
+        entryPoint,
+        reference.referencePoint,
+        store,
+        factory,
+        reference.path,
+        reference.name,
+        reference.data,
+        context,
+        convertContext,
+      );
       if (store.hasStatement(`${basePath}/${name}`, ["interface", "typeAlias"])) {
         return;
       }
       return store.addStatement(`${basePath}/${name}`, {
         kind: "typeAlias",
-        name,
+        name: convertContext.referenceName(name),
         value: factory.TypeAliasDeclaration.create({
           export: true,
-          name: name,
+          name: convertContext.referenceName(name),
           comment: reference.data.description,
           type: factory.TypeReferenceNode.create({
-            name: context.resolveReferencePath(currentPoint, reference.path).name,
+            name: convertContext.referenceName(context.resolveReferencePath(currentPoint, reference.path).name),
           }),
         }),
       });
@@ -61,50 +73,50 @@ export const generateNamespace = (
     if (Guard.isAllOfSchema(schema)) {
       return store.addStatement(path, {
         kind: "typeAlias",
-        name,
-        value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.allOf, context, "allOf"),
+        name: convertContext.referenceName(name),
+        value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.allOf, context, "allOf", convertContext),
       });
     }
     if (Guard.isOneOfSchema(schema)) {
       return store.addStatement(path, {
         kind: "typeAlias",
-        name,
-        value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.oneOf, context, "oneOf"),
+        name: convertContext.referenceName(name),
+        value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.oneOf, context, "oneOf", convertContext),
       });
     }
     if (Guard.isAnyOfSchema(schema)) {
       return store.addStatement(path, {
         kind: "typeAlias",
-        name,
-        value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.anyOf, context, "anyOf"),
+        name: convertContext.referenceName(name),
+        value: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.anyOf, context, "anyOf", convertContext),
       });
     }
     if (Guard.isArraySchema(schema)) {
       return store.addStatement(path, {
         kind: "typeAlias",
-        name,
-        value: Schema.generateArrayTypeAlias(entryPoint, currentPoint, factory, name, schema, context),
+        name: convertContext.referenceName(name),
+        value: Schema.generateArrayTypeAlias(entryPoint, currentPoint, factory, name, schema, context, convertContext),
       });
     }
     if (Guard.isObjectSchema(schema)) {
       return store.addStatement(path, {
         kind: "interface",
-        name,
-        value: Schema.generateInterface(entryPoint, currentPoint, factory, name, schema, context),
+        name: convertContext.referenceName(name),
+        value: Schema.generateInterface(entryPoint, currentPoint, factory, name, schema, context, convertContext),
       });
     }
     if (Guard.isObjectSchema(schema)) {
       return store.addStatement(path, {
         kind: "interface",
-        name,
-        value: Schema.generateInterface(entryPoint, currentPoint, factory, name, schema, context),
+        name: convertContext.referenceName(name),
+        value: Schema.generateInterface(entryPoint, currentPoint, factory, name, schema, context, convertContext),
       });
     }
     if (Guard.isPrimitiveSchema(schema)) {
       return store.addStatement(path, {
         kind: "typeAlias",
         name,
-        value: Schema.generateTypeAlias(entryPoint, currentPoint, factory, name, schema),
+        value: Schema.generateTypeAlias(entryPoint, currentPoint, factory, name, schema, convertContext),
       });
     }
     throw new UnSupportError("schema.type = Array[] not supported. " + JSON.stringify(schema));

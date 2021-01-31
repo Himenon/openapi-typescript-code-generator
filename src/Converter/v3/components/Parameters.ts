@@ -1,5 +1,6 @@
 import { Factory } from "../../../CodeGenerator";
 import { UnSupportError } from "../../../Exception";
+import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as Name from "../Name";
 import { Store } from "../store";
@@ -16,6 +17,7 @@ export const generateNamespace = (
   factory: Factory.Type,
   parameters: Record<string, OpenApi.Parameter | OpenApi.Reference>,
   context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
 ): void => {
   const basePath = "components/parameters";
   store.addComponent("parameters", {
@@ -33,7 +35,17 @@ export const generateNamespace = (
         if (!reference.data.schema) {
           return;
         }
-        Schema.addSchema(entryPoint, currentPoint, store, factory, reference.path, reference.name, reference.data.schema, context);
+        Schema.addSchema(
+          entryPoint,
+          currentPoint,
+          store,
+          factory,
+          reference.path,
+          reference.name,
+          reference.data.schema,
+          context,
+          converterContext,
+        );
         store.addStatement(`${basePath}/${name}`, {
           kind: "typeAlias",
           name: name,
@@ -51,7 +63,7 @@ export const generateNamespace = (
       store.addStatement(path, {
         kind: "typeAlias",
         name: name,
-        value: Paramter.generateTypeAlias(entryPoint, currentPoint, factory, name, parameter, context),
+        value: Paramter.generateTypeAlias(entryPoint, currentPoint, factory, name, parameter, context, converterContext),
       });
     }
   });
@@ -64,6 +76,7 @@ export const generateNamespaceWithList = (
   factory: Factory.Type,
   parameters: (OpenApi.Parameter | OpenApi.Reference)[],
   context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
 ): void => {
   store.addComponent("parameters", {
     kind: "namespace",
@@ -81,14 +94,22 @@ export const generateNamespaceWithList = (
       return store.addStatement(path, {
         kind: "typeAlias",
         name: reference.name,
-        value: Paramter.generateTypeAlias(entryPoint, reference.referencePoint, factory, reference.name, reference.data, context),
+        value: Paramter.generateTypeAlias(
+          entryPoint,
+          reference.referencePoint,
+          factory,
+          reference.name,
+          reference.data,
+          context,
+          converterContext,
+        ),
       });
     }
     const path = `components/parameters/${parameter.name}`;
     return store.addStatement(path, {
       kind: "typeAlias",
       name: parameter.name,
-      value: Paramter.generateTypeAlias(entryPoint, currentPoint, factory, parameter.name, parameter, context),
+      value: Paramter.generateTypeAlias(entryPoint, currentPoint, factory, parameter.name, parameter, context, converterContext),
     });
   });
 };

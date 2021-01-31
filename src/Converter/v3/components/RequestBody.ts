@@ -1,6 +1,7 @@
 import * as ts from "typescript";
 
 import { Factory } from "../../../CodeGenerator";
+import * as ConverterContext from "../ConverterContext";
 import { Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
 import { OpenApi } from "../types";
@@ -13,8 +14,16 @@ export const generateInterface = (
   name: string,
   requestBody: OpenApi.RequestBody,
   context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
 ): ts.InterfaceDeclaration => {
-  const contentSignatures = MediaType.generatePropertySignatures(entryPoint, currentPoint, factory, requestBody.content || {}, context);
+  const contentSignatures = MediaType.generatePropertySignatures(
+    entryPoint,
+    currentPoint,
+    factory,
+    requestBody.content || {},
+    context,
+    converterContext,
+  );
   return factory.InterfaceDeclaration.create({
     export: true,
     name,
@@ -32,6 +41,7 @@ export const generateNamespace = (
   name: string,
   requestBody: OpenApi.RequestBody,
   context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
 ): void => {
   const basePath = `${parentName}/${name}`;
   store.addStatement(basePath, {
@@ -42,6 +52,6 @@ export const generateNamespace = (
   store.addStatement(`${basePath}/Content`, {
     kind: "interface",
     name: "Content",
-    value: generateInterface(entryPoint, currentPoint, factory, "Content", requestBody, context),
+    value: generateInterface(entryPoint, currentPoint, factory, "Content", requestBody, context, converterContext),
   });
 };

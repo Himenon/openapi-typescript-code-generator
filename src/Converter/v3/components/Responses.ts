@@ -4,6 +4,7 @@ import ts from "typescript";
 
 import { Factory } from "../../../CodeGenerator";
 import { UndefinedComponent } from "../../../Exception";
+import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as Name from "../Name";
 import { Store } from "../store";
@@ -20,6 +21,7 @@ export const generateNamespace = (
   factory: Factory.Type,
   responses: Record<string, OpenApi.Response | OpenApi.Reference>,
   context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
 ): void => {
   const basePath = "components/responses";
   store.addComponent("responses", {
@@ -44,10 +46,11 @@ export const generateNamespace = (
           reference.name,
           reference.data,
           context,
+          converterContext,
         );
       }
     } else {
-      Response.generateNamespace(entryPoint, currentPoint, store, factory, basePath, name, response, context);
+      Response.generateNamespace(entryPoint, currentPoint, store, factory, basePath, name, response, context, converterContext);
     }
   });
 };
@@ -60,6 +63,7 @@ export const generateNamespaceWithStatusCode = (
   parentPath: string,
   responses: OpenApi.Responses,
   context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
 ): void => {
   const basePath = `${parentPath}/responses`;
   store.addStatement(basePath, {
@@ -86,12 +90,13 @@ export const generateNamespaceWithStatusCode = (
           reference.name,
           reference.data,
           context,
+          converterContext,
         );
         // referenceのTypeAliasの作成
         Response.generateReferenceNamespace(entryPoint, currentPoint, store, factory, basePath, nameWithStatusCode, reference, context);
       }
     } else {
-      Response.generateNamespace(entryPoint, currentPoint, store, factory, basePath, nameWithStatusCode, response, context);
+      Response.generateNamespace(entryPoint, currentPoint, store, factory, basePath, nameWithStatusCode, response, context, converterContext);
     }
   });
 };
@@ -104,6 +109,7 @@ export const generateInterfacesWithStatusCode = (
   operationId: string,
   responses: OpenApi.Responses,
   context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
 ): ts.Statement[] => {
   const statements: ts.Statement[] = [];
   Object.entries(responses).forEach(([statusCode, response]) => {
@@ -135,6 +141,7 @@ export const generateInterfacesWithStatusCode = (
           reference.name,
           reference.data,
           context,
+          converterContext,
         );
         // referenceのTypeAliasの作成
         const content = reference.data.content;
@@ -147,6 +154,7 @@ export const generateInterfacesWithStatusCode = (
               Name.responseName(operationId, statusCode),
               content,
               context,
+              converterContext,
             ),
           );
         }
@@ -154,7 +162,15 @@ export const generateInterfacesWithStatusCode = (
     } else {
       if (response.content) {
         statements.push(
-          MediaType.generateInterface(entryPoint, currentPoint, factory, Name.responseName(operationId, statusCode), response.content, context),
+          MediaType.generateInterface(
+            entryPoint,
+            currentPoint,
+            factory,
+            Name.responseName(operationId, statusCode),
+            response.content,
+            context,
+            converterContext,
+          ),
         );
       }
     }

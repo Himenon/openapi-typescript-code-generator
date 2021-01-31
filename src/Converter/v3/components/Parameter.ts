@@ -1,6 +1,7 @@
 import ts from "typescript";
 
 import { Factory } from "../../../CodeGenerator";
+import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as Name from "../Name";
 import * as ToTypeNode from "../toTypeNode";
@@ -13,8 +14,9 @@ export const generateTypeNode = (
   factory: Factory.Type,
   parameter: OpenApi.Parameter,
   context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
 ): ts.TypeNode => {
-  return ToTypeNode.convert(entryPoint, currentPoint, factory, parameter.schema || { type: "null" }, context);
+  return ToTypeNode.convert(entryPoint, currentPoint, factory, parameter.schema || { type: "null" }, context, converterContext);
 };
 
 export const generateTypeAlias = (
@@ -24,12 +26,13 @@ export const generateTypeAlias = (
   name: string,
   parameter: OpenApi.Parameter,
   context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
 ): ts.TypeAliasDeclaration => {
   return factory.TypeAliasDeclaration.create({
     export: true,
     name,
     comment: parameter.description,
-    type: generateTypeNode(entryPoint, currentPoint, factory, parameter, context),
+    type: generateTypeNode(entryPoint, currentPoint, factory, parameter, context, converterContext),
   });
 };
 
@@ -39,6 +42,7 @@ export const generatePropertySignature = (
   factory: Factory.Type,
   parameter: OpenApi.Parameter | OpenApi.Reference,
   context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
 ): ts.PropertySignature => {
   if (Guard.isReference(parameter)) {
     const reference = Reference.generate<OpenApi.Parameter>(entryPoint, currentPoint, parameter);
@@ -56,14 +60,21 @@ export const generatePropertySignature = (
     return factory.PropertySignature.create({
       name: reference.data.name,
       optional: isPathProperty ? false : !reference.data.required,
-      type: ToTypeNode.convert(entryPoint, reference.referencePoint, factory, reference.data.schema || { type: "null" }, context),
+      type: ToTypeNode.convert(
+        entryPoint,
+        reference.referencePoint,
+        factory,
+        reference.data.schema || { type: "null" },
+        context,
+        converterContext,
+      ),
     });
   }
   const isPathProperty = parameter.in === "path";
   return factory.PropertySignature.create({
     name: Name.escapeText(parameter.name),
     optional: isPathProperty ? false : !parameter.required,
-    type: ToTypeNode.convert(entryPoint, currentPoint, factory, parameter.schema || { type: "null" }, context),
+    type: ToTypeNode.convert(entryPoint, currentPoint, factory, parameter.schema || { type: "null" }, context, converterContext),
   });
 };
 
@@ -73,9 +84,10 @@ export const generatePropertySignatures = (
   factory: Factory.Type,
   parameters: (OpenApi.Parameter | OpenApi.Reference)[],
   context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
 ): ts.PropertySignature[] => {
   return parameters.map(parameter => {
-    return generatePropertySignature(entryPoint, currentPoint, factory, parameter, context);
+    return generatePropertySignature(entryPoint, currentPoint, factory, parameter, context, converterContext);
   });
 };
 
@@ -86,12 +98,13 @@ export const generateInterface = (
   name: string,
   parameters: [OpenApi.Parameter | OpenApi.Reference],
   context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
 ): ts.InterfaceDeclaration => {
   return factory.InterfaceDeclaration.create({
     export: true,
     name,
     comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject`,
-    members: generatePropertySignatures(entryPoint, currentPoint, factory, parameters, context),
+    members: generatePropertySignatures(entryPoint, currentPoint, factory, parameters, context, converterContext),
   });
 };
 
@@ -105,11 +118,12 @@ export const generateAliasInterface = (
   name: string,
   parameters: (OpenApi.Parameter | OpenApi.Reference)[],
   context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
 ): ts.InterfaceDeclaration => {
   return factory.InterfaceDeclaration.create({
     export: true,
     name,
     comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject`,
-    members: generatePropertySignatures(entryPoint, currentPoint, factory, parameters, context),
+    members: generatePropertySignatures(entryPoint, currentPoint, factory, parameters, context, converterContext),
   });
 };
