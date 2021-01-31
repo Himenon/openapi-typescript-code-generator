@@ -94,7 +94,7 @@ export const create = (entryPoint: string, rootSchema: OpenApi.Document, noRefer
     }
     if (rootSchema.paths) {
       Paths.generateStatements(entryPoint, currentPoint, store, factory, rootSchema.paths, toTypeNodeContext, converterContext);
-      Generator.generateApiClientCode(store, context, option.makeApiClient);
+      Generator.generateApiClientCode(store, context, converterContext, option.makeApiClient);
     }
     return store.getRootStatements();
   };

@@ -24,6 +24,8 @@ export interface Types {
    * 破壊: TypeReferenceのname用のescape
    */
   escapeTypeReferenceNodeName: (text: string) => string;
+
+  generateResponseName: (operationId: string, statusCode: string) => string;
 }
 
 /**
@@ -54,6 +56,9 @@ export const create = (): Types => {
     },
     escapeTypeReferenceNodeName: (text: string) => {
       return convertString(text);
+    },
+    generateResponseName: (operationId: string, statusCode: string): string => {
+      return Name.responseName(convertString(operationId), statusCode);
     },
   };
 };

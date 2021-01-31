@@ -168,7 +168,7 @@ export const generateStatements = (
         statements.push(
           factory.TypeAliasDeclaration.create({
             export: true,
-            name: requestBodyName,
+            name: converterContext.escapeDeclarationText(requestBodyName),
             type: factory.TypeReferenceNode.create({ name: context.resolveReferencePath(currentPoint, contentPath).name }),
           }),
         );

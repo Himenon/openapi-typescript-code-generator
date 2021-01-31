@@ -51,7 +51,7 @@ export const generateNamespace = (
           name: name,
           value: factory.TypeAliasDeclaration.create({
             export: true,
-            name: name,
+            name: converterContext.escapeDeclarationText(name),
             type: factory.TypeReferenceNode.create({
               name: context.resolveReferencePath(currentPoint, reference.path).name,
             }),

@@ -112,7 +112,7 @@ export const create = (
       } else {
         const value = factory.TypeAliasDeclaration.create({
           export: true,
-          name: reference.name,
+          name: converterContext.escapeDeclarationText(reference.name),
           type: ToTypeNode.convert(
             entryPoint,
             reference.referencePoint,
@@ -136,7 +136,7 @@ export const create = (
         const { maybeResolvedName } = resolveReferencePath(currentPoint, reference.path);
         const value = factory.TypeAliasDeclaration.create({
           export: true,
-          name: reference.name,
+          name: converterContext.escapeDeclarationText(reference.name),
           type: factory.TypeReferenceNode.create({
             name: converterContext.escapeTypeReferenceNodeName(maybeResolvedName),
           }),

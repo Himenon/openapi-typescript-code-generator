@@ -78,7 +78,17 @@ export const generateNamespaceWithStatusCode = (
       const reference = Reference.generate<OpenApi.Response>(entryPoint, currentPoint, response);
       if (reference.type === "local") {
         context.setReferenceHandler(currentPoint, reference);
-        Response.generateReferenceNamespace(entryPoint, currentPoint, store, factory, basePath, nameWithStatusCode, reference, context);
+        Response.generateReferenceNamespace(
+          entryPoint,
+          currentPoint,
+          store,
+          factory,
+          basePath,
+          nameWithStatusCode,
+          reference,
+          context,
+          converterContext,
+        );
       } else if (reference.componentName) {
         // reference先に定義を作成
         Response.generateNamespace(
@@ -93,7 +103,17 @@ export const generateNamespaceWithStatusCode = (
           converterContext,
         );
         // referenceのTypeAliasの作成
-        Response.generateReferenceNamespace(entryPoint, currentPoint, store, factory, basePath, nameWithStatusCode, reference, context);
+        Response.generateReferenceNamespace(
+          entryPoint,
+          currentPoint,
+          store,
+          factory,
+          basePath,
+          nameWithStatusCode,
+          reference,
+          context,
+          converterContext,
+        );
       }
     } else {
       Response.generateNamespace(entryPoint, currentPoint, store, factory, basePath, nameWithStatusCode, response, context, converterContext);
@@ -124,7 +144,7 @@ export const generateInterfacesWithStatusCode = (
         statements.push(
           factory.TypeAliasDeclaration.create({
             export: true,
-            name: Name.responseName(converterContext.escapeOperationIdText(operationId), statusCode),
+            name: converterContext.generateResponseName(operationId, statusCode),
             type: factory.TypeReferenceNode.create({
               name: name,
             }),
@@ -151,7 +171,7 @@ export const generateInterfacesWithStatusCode = (
               entryPoint,
               reference.referencePoint,
               factory,
-              Name.responseName(converterContext.escapeOperationIdText(operationId), statusCode),
+              converterContext.generateResponseName(operationId, statusCode),
               content,
               context,
               converterContext,
@@ -166,7 +186,7 @@ export const generateInterfacesWithStatusCode = (
             entryPoint,
             currentPoint,
             factory,
-            Name.responseName(converterContext.escapeOperationIdText(operationId), statusCode),
+            converterContext.generateResponseName(operationId, statusCode),
             response.content,
             context,
             converterContext,

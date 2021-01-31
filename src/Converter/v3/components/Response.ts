@@ -69,6 +69,7 @@ export const generateReferenceNamespace = (
   nameWithStatusCode: string,
   responseReference: { name: string; path: string },
   context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
 ): void => {
   const basePath = `${parentPath}/${nameWithStatusCode}`;
   const referenceNamespaceName = context.resolveReferencePath(currentPoint, responseReference.path).name;
@@ -93,7 +94,7 @@ export const generateReferenceNamespace = (
           name: aliasName,
           value: factory.TypeAliasDeclaration.create({
             export: true,
-            name: statement.name,
+            name: converterContext.escapeDeclarationText(statement.name),
             type: factory.TypeReferenceNode.create({
               name: aliasName,
             }),
