@@ -114,8 +114,34 @@ export const convert: Convert = (
     return generateMultiTypeNode(entryPoint, currentPoint, factory, schema.anyOf, context, convert, "anyOf");
   }
 
+  if (Guard.isHasNoMembersObject(schema)) {
+    return factory.TypeNode.create({
+      type: "object",
+      value: [],
+    });
+  }
+
   // schema.type
   if (!schema.type) {
+    // type: arrayを指定せずに、itemsのみを指定している場合に type array変換する
+    if (schema.items) {
+      return convert(entryPoint, currentPoint, factory, { ...schema, type: "array" }, context, { parent: schema });
+    }
+    // type: string/numberを指定せずに、enumのみを指定している場合に type array変換する
+    if (schema.enum) {
+      return convert(entryPoint, currentPoint, factory, { ...schema, type: "string" }, context, { parent: schema });
+    }
+    // type: objectを指定せずに、propertiesのみを指定している場合に type object変換する
+    if (schema.properties) {
+      return convert(entryPoint, currentPoint, factory, { ...schema, type: "object" }, context, { parent: schema });
+    }
+    // type: object, propertiesを指定せずに、requiredのみを指定している場合に type object変換する
+    if (schema.required) {
+      const properties = schema.required.reduce((s, name) => {
+        return { ...s, [name]: { type: "any" } };
+      }, {});
+      return convert(entryPoint, currentPoint, factory, { ...schema, type: "object", properties }, context, { parent: schema });
+    }
     if (option && option.parent) {
       Logger.info("Parent Schema:");
       Logger.info(JSON.stringify(option.parent));
@@ -214,7 +240,10 @@ export const convert: Convert = (
       return nullable(factory, typeNode, !!schema.nullable);
     }
     default:
-      throw new UnknownError("what is this? \n" + JSON.stringify(schema, null, 2));
+      return factory.TypeNode.create({
+        type: "any",
+      });
+    // throw new UnknownError("what is this? \n" + JSON.stringify(schema, null, 2));
   }
 };
 

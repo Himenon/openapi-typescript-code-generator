@@ -18,7 +18,7 @@ const isArray = (value: any): value is any[] => {
 };
 
 const isRemoteReference = (obj: any): boolean => {
-  return isObject(obj) && typeof obj.$ref === "string" && !obj.$ref.startsWith("#") && !obj.$ref.startsWith("http");
+  return isObject(obj) && typeof obj.$ref === "string" && !obj.$ref.startsWith("#") && obj.$ref.startsWith("http");
 };
 
 const isLocalReference = (obj: any): boolean => {
@@ -64,15 +64,15 @@ const resolveLocalReference = (entryPoint: string, currentPoint: string, obj: an
   // console.log(parentKey);
   if (Guard.isReference(obj)) {
     if (isRemoteReference(obj)) {
+      if (obj.$ref.startsWith("http")) {
+        console.warn(`Feature support: ${obj.$ref}`);
+        return {};
+      }
       throw new DevelopmentError("まずはremote referenceを解決してください\n" + JSON.stringify(obj, null, 2));
     }
     if (isLocalReference(obj)) {
       const ref = Reference.generateLocalReference(obj);
       if (!ref) {
-        console.log({
-          obj,
-          ref,
-        });
         throw new DevelopmentError(`なにかが間違っている\n${JSON.stringify(ref, null, 2)}`);
       }
       return DotProp.get(rootSchema, ref.path.replace(/\//g, "."));
