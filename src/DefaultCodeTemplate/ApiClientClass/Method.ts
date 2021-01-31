@@ -1,7 +1,7 @@
 import ts from "typescript";
 
 import { Factory } from "../../CodeGenerator";
-import { CodeGeneratorParams, Name } from "../../Converter/v3";
+import { CodeGeneratorParams } from "../../Converter/v3";
 import * as MethodBody from "./MethodBody";
 
 export { MethodBody };
@@ -82,7 +82,7 @@ const methodTypeParameters = (factory: Factory.Type, params: CodeGeneratorParams
       factory.TypeParameterDeclaration.create({
         name: "RequestContentType",
         constraint: factory.TypeReferenceNode.create({
-          name: Name.requestContentType(params.operationId),
+          name: params.requestContentTypeName,
         }),
       }),
     );
@@ -92,7 +92,7 @@ const methodTypeParameters = (factory: Factory.Type, params: CodeGeneratorParams
       factory.TypeParameterDeclaration.create({
         name: "ResponseContentType",
         constraint: factory.TypeReferenceNode.create({
-          name: Name.responseContentType(params.operationId),
+          name: params.responseContentTypeName,
         }),
       }),
     );

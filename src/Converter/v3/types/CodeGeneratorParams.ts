@@ -10,6 +10,10 @@ export interface CodeGeneratorParams {
   comment: string | undefined;
   deprecated: boolean;
   argumentParamsTypeDeclaration: string; // Params${operationId}[]
+  requestContentTypeName: string; // RequestContentType$${operationId}
+  responseContentTypeName: string; // ResponseContentType$${operationId}
+  parameterName: string; // `Parameter$${operationId}`
+  requestBodyName: string; // `RequestBody$${operationId}`
   pickedParameters: PickedParameter[];
   // Request Content Types
   requestContentTypes: string[];

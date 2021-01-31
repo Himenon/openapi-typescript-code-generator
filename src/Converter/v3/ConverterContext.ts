@@ -24,8 +24,13 @@ export interface Types {
    * 破壊: TypeReferenceのname用のescape
    */
   escapeTypeReferenceNodeName: (text: string) => string;
-
   generateResponseName: (operationId: string, statusCode: string) => string;
+  generateArgumentParamsTypeDeclaration: (operationId: string) => string;
+  generateRequestContentTypeName: (operationId: string) => string;
+  generateResponseContentTypeName: (operationId: string) => string;
+  generateParameterName: (operationId: string) => string;
+  generateRequestBodyName: (operationId: string) => string;
+  generateFunctionName: (operationId: string) => string;
 }
 
 /**
@@ -59,6 +64,24 @@ export const create = (): Types => {
     },
     generateResponseName: (operationId: string, statusCode: string): string => {
       return Name.responseName(convertString(operationId), statusCode);
+    },
+    generateArgumentParamsTypeDeclaration: (operationId: string) => {
+      return Name.argumentParamsTypeDeclaration(convertString(operationId));
+    },
+    generateRequestContentTypeName: (operationId: string) => {
+      return Name.requestContentType(convertString(operationId));
+    },
+    generateResponseContentTypeName: (operationId: string) => {
+      return Name.responseContentType(convertString(operationId));
+    },
+    generateParameterName: (operationId: string) => {
+      return Name.parameterName(convertString(operationId));
+    },
+    generateRequestBodyName: (operationId: string) => {
+      return Name.requestBodyName(convertString(operationId));
+    },
+    generateFunctionName: (operationId: string) => {
+      return convertString(operationId);
     },
   };
 };

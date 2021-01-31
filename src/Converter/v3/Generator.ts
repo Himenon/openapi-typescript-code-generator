@@ -1,7 +1,6 @@
 import ts from "typescript";
 
 import * as ConverterContext from "./ConverterContext";
-import * as Name from "./Name";
 import { Store } from "./store";
 import { CodeGeneratorParams, OpenApi, PickedParameter } from "./types";
 
@@ -63,15 +62,20 @@ const generateCodeGeneratorParamsList = (store: Store.Type, converterContext: Co
     const responseSuccessContentTypes = getSuccessResponseContentTypeList(item.responses);
     const hasOver2RequestContentTypes = requestContentTypeList.length > 1;
     const hasOver2SuccessNames = responseSuccessNames.length > 1;
+
     const formatParams: CodeGeneratorParams = {
       operationId: operationId,
       rawRequestUri: item.requestUri,
       httpMethod: item.httpMethod,
-      argumentParamsTypeDeclaration: Name.argumentParamsTypeDeclaration(operationId),
+      argumentParamsTypeDeclaration: converterContext.generateArgumentParamsTypeDeclaration(operationId),
       // function
-      functionName: operationId,
+      functionName: converterContext.generateFunctionName(operationId),
       comment: item.comment,
       deprecated: item.deprecated,
+      requestContentTypeName: converterContext.generateRequestContentTypeName(operationId),
+      responseContentTypeName: converterContext.generateResponseContentTypeName(operationId),
+      parameterName: converterContext.generateParameterName(operationId),
+      requestBodyName: converterContext.generateRequestBodyName(operationId),
       //
       hasRequestBody: !!item.requestBody,
       hasParameter: item.parameters ? item.parameters.length > 0 : false,
