@@ -197,3 +197,21 @@ export const generateObjectLiteralExpression = (
     multiLine: true,
   });
 };
+
+export const stringToArray = (text: string, delimiter: string): string[] => {
+  const list = text.split(delimiter);
+  return list.reduce<string[]>((current, item, index) => {
+    return index < list.length - 1 ? current.concat([item, delimiter]) : current.concat([item]);
+  }, []);
+};
+
+export const multiSplitStringToArray = (text: string, delimiters: string[]): string[] => {
+  return delimiters.reduce<string[]>(
+    (current, delimiter) => {
+      return current.reduce<string[]>((result, currentText) => {
+        return result.concat(stringToArray(currentText, delimiter));
+      }, []);
+    },
+    [text],
+  );
+};

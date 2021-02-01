@@ -97,5 +97,11 @@ describe("PathParameter Test", () => {
         { in: "path", name: "c", required: true },
       ]),
     ).toBe("`/a/${params.parameter.b}/${params.parameter.c}/`;\n");
+    expect(
+      generate("/a/{b}...{c}/", [
+        { in: "path", name: "b", required: true },
+        { in: "path", name: "c", required: true },
+      ]),
+    ).toBe("`/a/${params.parameter.b}...${params.parameter.c}/`;\n");
   });
 });

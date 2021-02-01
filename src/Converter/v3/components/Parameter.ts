@@ -3,6 +3,7 @@ import ts from "typescript";
 import { Factory } from "../../../CodeGenerator";
 import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
+import { Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
 import { OpenApi } from "../types";
 import * as Reference from "./Reference";
@@ -38,6 +39,7 @@ export const generateTypeAlias = (
 export const generatePropertySignature = (
   entryPoint: string,
   currentPoint: string,
+  store: Store.Type,
   factory: Factory.Type,
   parameter: OpenApi.Parameter | OpenApi.Reference,
   context: ToTypeNode.Context,
@@ -47,8 +49,9 @@ export const generatePropertySignature = (
     const reference = Reference.generate<OpenApi.Parameter>(entryPoint, currentPoint, parameter);
     if (reference.type === "local") {
       context.setReferenceHandler(currentPoint, reference);
+      const localRef = store.getParameter(reference.path);
       return factory.PropertySignature.create({
-        name: converterContext.escapePropertySignatureName(reference.name),
+        name: converterContext.escapePropertySignatureName(localRef.name),
         optional: false,
         type: factory.TypeReferenceNode.create({
           name: context.resolveReferencePath(currentPoint, reference.path).name,
@@ -80,19 +83,21 @@ export const generatePropertySignature = (
 export const generatePropertySignatures = (
   entryPoint: string,
   currentPoint: string,
+  store: Store.Type,
   factory: Factory.Type,
   parameters: (OpenApi.Parameter | OpenApi.Reference)[],
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
 ): ts.PropertySignature[] => {
   return parameters.map(parameter => {
-    return generatePropertySignature(entryPoint, currentPoint, factory, parameter, context, converterContext);
+    return generatePropertySignature(entryPoint, currentPoint, store, factory, parameter, context, converterContext);
   });
 };
 
 export const generateInterface = (
   entryPoint: string,
   currentPoint: string,
+  store: Store.Type,
   factory: Factory.Type,
   name: string,
   parameters: [OpenApi.Parameter | OpenApi.Reference],
@@ -103,7 +108,7 @@ export const generateInterface = (
     export: true,
     name,
     comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject`,
-    members: generatePropertySignatures(entryPoint, currentPoint, factory, parameters, context, converterContext),
+    members: generatePropertySignatures(entryPoint, currentPoint, store, factory, parameters, context, converterContext),
   });
 };
 
@@ -113,6 +118,7 @@ export const generateInterface = (
 export const generateAliasInterface = (
   entryPoint: string,
   currentPoint: string,
+  store: Store.Type,
   factory: Factory.Type,
   name: string,
   parameters: (OpenApi.Parameter | OpenApi.Reference)[],
@@ -123,6 +129,6 @@ export const generateAliasInterface = (
     export: true,
     name: converterContext.escapeDeclarationText(name),
     comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject`,
-    members: generatePropertySignatures(entryPoint, currentPoint, factory, parameters, context, converterContext),
+    members: generatePropertySignatures(entryPoint, currentPoint, store, factory, parameters, context, converterContext),
   });
 };

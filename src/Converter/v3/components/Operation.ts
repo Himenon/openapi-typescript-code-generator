@@ -60,7 +60,16 @@ export const generateNamespace = (
     store.addStatement(`${basePath}/Parameter`, {
       kind: "interface",
       name: parameterName,
-      value: Parameter.generateInterface(entryPoint, currentPoint, factory, parameterName, operation.parameters, context, converterContext),
+      value: Parameter.generateInterface(
+        entryPoint,
+        currentPoint,
+        store,
+        factory,
+        parameterName,
+        operation.parameters,
+        context,
+        converterContext,
+      ),
     });
   }
 
@@ -139,7 +148,16 @@ export const generateStatements = (
   if (operation.parameters) {
     const parameterName = converterContext.generateParameterName(operationId);
     statements.push(
-      Parameter.generateAliasInterface(entryPoint, currentPoint, factory, parameterName, operation.parameters, context, converterContext),
+      Parameter.generateAliasInterface(
+        entryPoint,
+        currentPoint,
+        store,
+        factory,
+        parameterName,
+        operation.parameters,
+        context,
+        converterContext,
+      ),
     );
   }
   if (operation.requestBody) {
