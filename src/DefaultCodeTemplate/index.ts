@@ -5,7 +5,7 @@ import * as Converter from "../Converter";
 import * as ApiClientArgument from "./ApiClientArgument";
 import * as ApiClientClass from "./ApiClientClass";
 
-export const makeClientApiClient: Converter.v3.Generator.MakeApiClientFunction = (
+export const rewriteCodeAfterTypeDeclaration: Converter.v3.Generator.RewriteCodeAfterTypeDeclaration = (
   context: ts.TransformationContext,
   codeGeneratorParamsList: Converter.v3.CodeGeneratorParams[],
 ): ts.Statement[] => {

@@ -365,8 +365,9 @@ export interface QueryParameter {
 export interface QueryParameters {
     [key: string]: QueryParameter;
 }
+export type SuccessResponses = Response$getIncludeLocalReference$Status$200 | Response$getFullRemoteReference$Status$200 | Response$getReferenceItems$Status$200;
 export interface ApiClient<RequestOption> {
-    request: (httpMethod: HttpMethod, url: string, headers: ObjectLike | any, requestBody: ObjectLike | any, queryParameters: QueryParameters | undefined, options?: RequestOption) => Promise<any>;
+    request: <T = SuccessResponses>(httpMethod: HttpMethod, url: string, headers: ObjectLike | any, requestBody: ObjectLike | any, queryParameters: QueryParameters | undefined, options?: RequestOption) => Promise<T>;
 }
 export class Client<RequestOption> {
     constructor(private apiClient: ApiClient<RequestOption>, private baseUrl: string) { }

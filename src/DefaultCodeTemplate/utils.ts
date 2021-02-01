@@ -198,12 +198,11 @@ export const generateObjectLiteralExpression = (
   });
 };
 
-export const stringToArray = (text: string, delimiter: string): string[] => {
-  const list = text.split(delimiter);
-  return list.reduce<string[]>((current, item, index) => {
-    return index < list.length - 1 ? current.concat([item, delimiter]) : current.concat([item]);
-  }, []);
-};
+/**
+ * "/{a}/b/{a}/c{a}/".split(new RegExp("({a})"))
+ * => ["/", "{a}", "/b/", "{a}", "/c", "{a}", "/"]
+ */
+export const stringToArray = (text: string, delimiter: string): string[] => text.split(new RegExp(`(${delimiter})`));
 
 export const multiSplitStringToArray = (text: string, delimiters: string[]): string[] => {
   return delimiters.reduce<string[]>(

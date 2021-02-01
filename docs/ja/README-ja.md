@@ -39,7 +39,7 @@ main();
 
 ### オリジナルの API Client テンプレートを作成する
 
-`option.makeApiClient`に型定義以外のコードを生成するためのエントリーポイントを用意しています。
+`option.rewriteCodeAfterTypeDeclaration`に型定義以外のコードを生成するためのエントリーポイントを用意しています。
 第 1 引数は TypeScript の`TransformationContext`が利用でき、第 2 引数はこれ以前に生成した型定義の情報が含まれます。
 [ts-ast-viewer](https://ts-ast-viewer.com)を利用することにより AST によるコード拡張がコード拡張を円滑にでます。
 
@@ -54,7 +54,7 @@ const main = () => {
   const params: CodeGenerator.Params = {
     entryPoint: "your/openapi/spec.yml", // support .yml, .yaml, .json
     option: {
-      makeApiClient: (context: ts.TransformationContext, codeGeneratorParamsList: CodeGenerator.Converter.v3.CodeGeneratorParams[]): ts.Statement[] => {
+      rewriteCodeAfterTypeDeclaration: (context: ts.TransformationContext, codeGeneratorParamsList: CodeGenerator.Converter.v3.CodeGeneratorParams[]): ts.Statement[] => {
         const factory = context.factory; // https://ts-ast-viewer.com/ is very very very useful !
         return []; // generate no api client
       },

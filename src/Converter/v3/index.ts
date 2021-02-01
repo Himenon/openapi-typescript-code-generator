@@ -24,7 +24,10 @@ export interface Type {
 }
 
 export interface Option {
-  makeApiClient: Generator.MakeApiClientFunction;
+  /**
+   * It is possible to rewrite the implementation after the type declaration.
+   */
+  rewriteCodeAfterTypeDeclaration: Generator.RewriteCodeAfterTypeDeclaration;
 }
 
 export const create = (entryPoint: string, rootSchema: OpenApi.Document, noReferenceOpenApiSchema: OpenApi.Document, option: Option): Type => {
@@ -94,7 +97,7 @@ export const create = (entryPoint: string, rootSchema: OpenApi.Document, noRefer
     }
     if (rootSchema.paths) {
       Paths.generateStatements(entryPoint, currentPoint, store, factory, rootSchema.paths, toTypeNodeContext, converterContext);
-      Generator.generateApiClientCode(store, context, converterContext, option.makeApiClient);
+      Generator.generateApiClientCode(store, context, converterContext, option.rewriteCodeAfterTypeDeclaration);
     }
     return store.getRootStatements();
   };

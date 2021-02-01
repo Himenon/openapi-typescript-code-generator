@@ -11,7 +11,9 @@ export { Converter };
 
 export interface Params {
   entryPoint: string;
-  option?: Partial<Converter.v3.Option>;
+  option?: {
+    rewriteCodeAfterTypeDeclaration?: Converter.v3.Generator.RewriteCodeAfterTypeDeclaration;
+  };
   /** default: true */
   enableValidate?: boolean;
   log?: {
@@ -28,8 +30,8 @@ export const generateTypeScriptCode = ({ entryPoint, option, enableValidate = tr
   }
 
   const convertOption: Converter.v3.Option = option
-    ? { makeApiClient: option.makeApiClient || DefaultCodeTemplate.makeClientApiClient }
-    : { makeApiClient: DefaultCodeTemplate.makeClientApiClient };
+    ? { rewriteCodeAfterTypeDeclaration: option.rewriteCodeAfterTypeDeclaration || DefaultCodeTemplate.rewriteCodeAfterTypeDeclaration }
+    : { rewriteCodeAfterTypeDeclaration: DefaultCodeTemplate.rewriteCodeAfterTypeDeclaration };
   const { createFunction, generateLeadingComment } = Converter.v3.create(entryPoint, schema, resolvedReferenceDocument, convertOption);
   return [generateLeadingComment(), TypeScriptCodeGenerator.generate(createFunction)].join(EOL + EOL + EOL);
 };
