@@ -46,7 +46,7 @@ const generateResponseReturnType = (factory: Factory.Type, successResponseNameLi
     });
   }
 
-  // レスすポンスが存在しないので Promise<void>
+  // レスポンスが存在しないので Promise<void>
   if (successResponseNameList.length === 0) {
     return factory.TypeReferenceNode.create({
       name: "Promise",

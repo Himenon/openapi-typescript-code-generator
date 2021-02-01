@@ -2,6 +2,7 @@ import ts from "typescript";
 
 export interface Params$Create {
   expression: ts.Expression;
+  typeArguments?: readonly ts.TypeNode[] | undefined;
   argumentsArray: readonly ts.Expression[];
 }
 
@@ -10,7 +11,7 @@ export interface Factory {
 }
 
 export const create = ({ factory }: ts.TransformationContext): Factory["create"] => (params: Params$Create): ts.CallExpression => {
-  const node = factory.createCallExpression(params.expression, undefined, params.argumentsArray);
+  const node = factory.createCallExpression(params.expression, params.typeArguments, params.argumentsArray);
   return node;
 };
 

@@ -25,6 +25,7 @@ export const create = (factory: Factory.Type, params: CodeGeneratorParams): ts.C
 
   return factory.CallExpression.create({
     expression: expression,
+    typeArguments: [],
     argumentsArray: argumentsArray,
   });
 };

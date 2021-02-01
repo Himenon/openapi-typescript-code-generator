@@ -3,6 +3,7 @@ import ts from "typescript";
 export interface Params$Create {
   name: string;
   constraint?: ts.TypeNode;
+  defaultType?: ts.TypeNode;
 }
 
 export interface Factory {
@@ -10,7 +11,7 @@ export interface Factory {
 }
 
 export const create = ({ factory }: ts.TransformationContext): Factory["create"] => (params: Params$Create): ts.TypeParameterDeclaration => {
-  const node = factory.createTypeParameterDeclaration(factory.createIdentifier(params.name), params.constraint, undefined);
+  const node = factory.createTypeParameterDeclaration(factory.createIdentifier(params.name), params.constraint, params.defaultType);
   return node;
 };
 

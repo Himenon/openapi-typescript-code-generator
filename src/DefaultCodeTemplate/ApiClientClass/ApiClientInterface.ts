@@ -1,8 +1,23 @@
 import ts from "typescript";
 
 import { Factory } from "../../CodeGenerator";
+import { CodeGeneratorParams } from "../../Converter/v3";
 
 const httpMethodList: string[] = ["GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH", "TRACE"];
+
+const createSuccessResponseTypeAlias = (typeName: string, factory: Factory.Type, successResponseNames: string[]) => {
+  return factory.TypeAliasDeclaration.create({
+    export: true,
+    name: typeName,
+    type: factory.UnionTypeNode.create({
+      typeNodes: successResponseNames.map(name => {
+        return factory.TypeReferenceNode.create({
+          name,
+        });
+      }),
+    }),
+  });
+};
 
 const createHttpMethod = (factory: Factory.Type) => {
   return factory.TypeAliasDeclaration.create({
@@ -61,7 +76,7 @@ const createObjectLikeInterface = (factory: Factory.Type) => {
   });
 };
 
-export const create = (factory: Factory.Type): ts.Statement[] => {
+export const create = (factory: Factory.Type, list: CodeGeneratorParams[]): ts.Statement[] => {
   const objectLikeOrAnyType = factory.UnionTypeNode.create({
     typeNodes: [
       factory.TypeReferenceNode.create({
@@ -110,12 +125,25 @@ export const create = (factory: Factory.Type): ts.Statement[] => {
     }),
   });
 
+  const successResponseNames = list.map(item => item.responseSuccessNames).flat();
+
   const functionType = factory.FunctionTypeNode.create({
-    typeParameters: undefined,
+    typeParameters: [
+      factory.TypeParameterDeclaration.create({
+        name: "T",
+        defaultType: factory.TypeReferenceNode.create({
+          name: "SuccessResponses",
+        }),
+      }),
+    ],
     parameters: [httpMethod, url, headers, requestBody, queryParameters, options],
     type: factory.TypeReferenceNode.create({
       name: "Promise",
-      typeArguments: [factory.TypeNode.create({ type: "any" })],
+      typeArguments: [
+        factory.TypeReferenceNode.create({
+          name: "T",
+        }),
+      ],
     }),
   });
 
@@ -129,6 +157,7 @@ export const create = (factory: Factory.Type): ts.Statement[] => {
     createHttpMethod(factory),
     createObjectLikeInterface(factory),
     ...createQueryParamsDeclarations(factory),
+    createSuccessResponseTypeAlias("SuccessResponses", factory, successResponseNames),
     factory.InterfaceDeclaration.create({
       export: true,
       name: "ApiClient",
