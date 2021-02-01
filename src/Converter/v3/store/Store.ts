@@ -29,6 +29,7 @@ export interface Type {
   getNoReferenceOperationState: () => Operation.State;
   getPathItem: (localPath: string) => OpenApi.PathItem;
   isAfterDefined: (referencePath: string) => boolean;
+  getParameter: (localPath: string) => OpenApi.Parameter;
 }
 
 export const create = (factory: Factory.Type, rootDocument: OpenApi.Document): Type => {
@@ -115,6 +116,16 @@ export const create = (factory: Factory.Type, rootDocument: OpenApi.Document): T
         throw new Error("Only use start with 'component/pathItems': " + localPath);
       }
       const result = Dot.get<OpenApi.PathItem>(state.document, localPath.replace(/\//g, "."));
+      if (!result) {
+        throw new Error(`Not found ${localPath}`);
+      }
+      return result;
+    },
+    getParameter: (localPath: string): OpenApi.Parameter => {
+      if (!localPath.startsWith("components/parameters")) {
+        throw new Error("Only use start with 'component/parameters': " + localPath);
+      }
+      const result = Dot.get<OpenApi.Parameter>(state.document, localPath.replace(/\//g, "."));
       if (!result) {
         throw new Error(`Not found ${localPath}`);
       }

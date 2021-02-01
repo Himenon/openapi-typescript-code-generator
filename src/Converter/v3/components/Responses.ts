@@ -4,6 +4,7 @@ import ts from "typescript";
 
 import { Factory } from "../../../CodeGenerator";
 import { UndefinedComponent } from "../../../Exception";
+import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as Name from "../Name";
 import { Store } from "../store";
@@ -18,8 +19,9 @@ export const generateNamespace = (
   currentPoint: string,
   store: Store.Type,
   factory: Factory.Type,
-  responses: OpenApi.MapLike<string, OpenApi.Response | OpenApi.Reference>,
+  responses: Record<string, OpenApi.Response | OpenApi.Reference>,
   context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
 ): void => {
   const basePath = "components/responses";
   store.addComponent("responses", {
@@ -44,10 +46,11 @@ export const generateNamespace = (
           reference.name,
           reference.data,
           context,
+          converterContext,
         );
       }
     } else {
-      Response.generateNamespace(entryPoint, currentPoint, store, factory, basePath, name, response, context);
+      Response.generateNamespace(entryPoint, currentPoint, store, factory, basePath, name, response, context, converterContext);
     }
   });
 };
@@ -60,6 +63,7 @@ export const generateNamespaceWithStatusCode = (
   parentPath: string,
   responses: OpenApi.Responses,
   context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
 ): void => {
   const basePath = `${parentPath}/responses`;
   store.addStatement(basePath, {
@@ -74,7 +78,17 @@ export const generateNamespaceWithStatusCode = (
       const reference = Reference.generate<OpenApi.Response>(entryPoint, currentPoint, response);
       if (reference.type === "local") {
         context.setReferenceHandler(currentPoint, reference);
-        Response.generateReferenceNamespace(entryPoint, currentPoint, store, factory, basePath, nameWithStatusCode, reference, context);
+        Response.generateReferenceNamespace(
+          entryPoint,
+          currentPoint,
+          store,
+          factory,
+          basePath,
+          nameWithStatusCode,
+          reference,
+          context,
+          converterContext,
+        );
       } else if (reference.componentName) {
         // reference先に定義を作成
         Response.generateNamespace(
@@ -86,12 +100,23 @@ export const generateNamespaceWithStatusCode = (
           reference.name,
           reference.data,
           context,
+          converterContext,
         );
         // referenceのTypeAliasの作成
-        Response.generateReferenceNamespace(entryPoint, currentPoint, store, factory, basePath, nameWithStatusCode, reference, context);
+        Response.generateReferenceNamespace(
+          entryPoint,
+          currentPoint,
+          store,
+          factory,
+          basePath,
+          nameWithStatusCode,
+          reference,
+          context,
+          converterContext,
+        );
       }
     } else {
-      Response.generateNamespace(entryPoint, currentPoint, store, factory, basePath, nameWithStatusCode, response, context);
+      Response.generateNamespace(entryPoint, currentPoint, store, factory, basePath, nameWithStatusCode, response, context, converterContext);
     }
   });
 };
@@ -104,6 +129,7 @@ export const generateInterfacesWithStatusCode = (
   operationId: string,
   responses: OpenApi.Responses,
   context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
 ): ts.Statement[] => {
   const statements: ts.Statement[] = [];
   Object.entries(responses).forEach(([statusCode, response]) => {
@@ -114,16 +140,18 @@ export const generateInterfacesWithStatusCode = (
       const reference = Reference.generate<OpenApi.Response>(entryPoint, currentPoint, response);
       if (reference.type === "local") {
         context.setReferenceHandler(currentPoint, reference);
-        const name = context.resolveReferencePath(currentPoint, `${reference.path}/Content`).maybeResolvedName;
-        statements.push(
-          factory.TypeAliasDeclaration.create({
-            export: true,
-            name: Name.responseName(operationId, statusCode),
-            type: factory.TypeReferenceNode.create({
-              name: name,
+        const { maybeResolvedName, unresolvedPaths } = context.resolveReferencePath(currentPoint, `${reference.path}/Content`);
+        if (unresolvedPaths.length === 0) {
+          statements.push(
+            factory.TypeAliasDeclaration.create({
+              export: true,
+              name: converterContext.generateResponseName(operationId, statusCode),
+              type: factory.TypeReferenceNode.create({
+                name: maybeResolvedName,
+              }),
             }),
-          }),
-        );
+          );
+        }
       } else if (reference.componentName) {
         // reference先に定義を作成
         Response.generateNamespace(
@@ -135,6 +163,7 @@ export const generateInterfacesWithStatusCode = (
           reference.name,
           reference.data,
           context,
+          converterContext,
         );
         // referenceのTypeAliasの作成
         const content = reference.data.content;
@@ -144,9 +173,10 @@ export const generateInterfacesWithStatusCode = (
               entryPoint,
               reference.referencePoint,
               factory,
-              Name.responseName(operationId, statusCode),
+              converterContext.generateResponseName(operationId, statusCode),
               content,
               context,
+              converterContext,
             ),
           );
         }
@@ -154,7 +184,15 @@ export const generateInterfacesWithStatusCode = (
     } else {
       if (response.content) {
         statements.push(
-          MediaType.generateInterface(entryPoint, currentPoint, factory, Name.responseName(operationId, statusCode), response.content, context),
+          MediaType.generateInterface(
+            entryPoint,
+            currentPoint,
+            factory,
+            converterContext.generateResponseName(operationId, statusCode),
+            response.content,
+            context,
+            converterContext,
+          ),
         );
       }
     }

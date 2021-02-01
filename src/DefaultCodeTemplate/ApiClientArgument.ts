@@ -1,19 +1,19 @@
 import ts from "typescript";
 
 import { Factory } from "../CodeGenerator";
-import { CodeGeneratorParams, Name } from "../Converter/v3";
+import { CodeGeneratorParams } from "../Converter/v3";
 
 /**
  * export type RequestContentType${operationId} = keyof RequestBody${operationId};
  */
-export const createRequestContentTypeReference = (factory: Factory.Type, { operationId }: CodeGeneratorParams) => {
+export const createRequestContentTypeReference = (factory: Factory.Type, params: CodeGeneratorParams) => {
   return factory.TypeAliasDeclaration.create({
     export: true,
-    name: Name.requestContentType(operationId),
+    name: params.requestContentTypeName,
     type: factory.TypeOperatorNode.create({
       syntaxKind: "keyof",
       type: factory.TypeReferenceNode.create({
-        name: Name.requestBodyName(operationId),
+        name: params.requestBodyName,
       }),
     }),
   });
@@ -26,7 +26,7 @@ export const createResponseContentTypeReference = (factory: Factory.Type, params
   if (params.has2OrMoreSuccessResponseContentTypes) {
     return factory.TypeAliasDeclaration.create({
       export: true,
-      name: Name.responseContentType(params.operationId),
+      name: params.responseContentTypeName,
       type: factory.UnionTypeNode.create({
         typeNodes: params.responseSuccessNames.map(item => {
           return factory.TypeOperatorNode.create({
@@ -41,7 +41,7 @@ export const createResponseContentTypeReference = (factory: Factory.Type, params
   }
   return factory.TypeAliasDeclaration.create({
     export: true,
-    name: Name.responseContentType(params.operationId),
+    name: params.responseContentTypeName,
     type: factory.TypeOperatorNode.create({
       syntaxKind: "keyof",
       type: factory.TypeReferenceNode.create({
@@ -96,7 +96,7 @@ export const create = (factory: Factory.Type, params: CodeGeneratorParams): ts.I
       factory.TypeParameterDeclaration.create({
         name: "T",
         constraint: factory.TypeReferenceNode.create({
-          name: Name.requestContentType(params.operationId),
+          name: params.requestContentTypeName,
         }),
       }),
     );
@@ -107,7 +107,7 @@ export const create = (factory: Factory.Type, params: CodeGeneratorParams): ts.I
       factory.TypeParameterDeclaration.create({
         name: "U",
         constraint: factory.TypeReferenceNode.create({
-          name: Name.responseContentType(params.operationId),
+          name: params.responseContentTypeName,
         }),
       }),
     );
@@ -128,7 +128,7 @@ export const create = (factory: Factory.Type, params: CodeGeneratorParams): ts.I
       name: "parameter",
       optional: false,
       type: factory.TypeReferenceNode.create({
-        name: Name.parameterName(params.operationId),
+        name: params.parameterName,
       }),
     });
     members.push(parameter);
@@ -140,7 +140,7 @@ export const create = (factory: Factory.Type, params: CodeGeneratorParams): ts.I
       optional: false,
       type: factory.IndexedAccessTypeNode.create({
         objectType: factory.TypeReferenceNode.create({
-          name: Name.requestBodyName(params.operationId),
+          name: params.requestBodyName,
         }),
         indexType: factory.TypeReferenceNode.create({
           name: params.requestFirstContentType ? `"${params.requestFirstContentType}"` : "T",

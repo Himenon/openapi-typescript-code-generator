@@ -11,12 +11,12 @@ export type LocalReferencePattern =
   | "#/components/schemas/"
   | "#/components/responses/"
   | "#/components/parameters/"
-  // | "#/components/examples/"
+  | "#/components/examples/"
   | "#/components/requestBodies/"
   | "#/components/headers/"
   | "#/components/securitySchemes/"
-  // | "#/components/links/"
-  // | "#/components/callbacks/"
+  | "#/components/links/"
+  | "#/components/callbacks/"
   | "#/components/pathItems/";
 
 export interface LocalReference {
@@ -62,12 +62,12 @@ const localReferencePatterns: readonly LocalReferencePattern[] = [
   "#/components/schemas/",
   "#/components/responses/",
   "#/components/parameters/",
-  // "#/components/examples/",
+  "#/components/examples/",
   "#/components/requestBodies/",
   "#/components/headers/",
   "#/components/securitySchemes/",
-  // "#/components/links/",
-  // "#/components/callbacks/",
+  "#/components/links/",
+  "#/components/callbacks/",
   "#/components/pathItems/",
 ];
 
@@ -75,12 +75,12 @@ export const localReferenceComponents = {
   "#/components/schemas/": "components/schemas",
   "#/components/responses/": "components/responses",
   "#/components/parameters/": "components/parameters",
-  // "#/components/examples/": "components/examples",
+  "#/components/examples/": "components/examples",
   "#/components/requestBodies/": "components/requestBodies",
   "#/components/headers/": "components/headers",
   "#/components/securitySchemes/": "components/securitySchemes",
-  // "#/components/links/": "components/links",
-  // "#/components/callbacks/": "components/callbacks",
+  "#/components/links/": "components/links",
+  "#/components/callbacks/": "components/callbacks",
   "#/components/pathItems/": "components/pathItems",
 } as const;
 

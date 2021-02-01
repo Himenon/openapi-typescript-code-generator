@@ -16,6 +16,10 @@ export const isObjectSchema = (schema: Types.OpenApi.Schema): schema is Types.Ob
   return schema.type === "object";
 };
 
+export const isHasNoMembersObject = (schema: Types.OpenApi.Schema): boolean => {
+  return Object.keys(schema).length === 0;
+};
+
 export const isArraySchema = (schema: Types.OpenApi.Schema): schema is Types.ArraySchema => {
   return schema.type === "array";
 };

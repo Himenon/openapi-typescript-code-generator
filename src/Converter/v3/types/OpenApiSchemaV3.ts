@@ -1,4 +1,6 @@
-import type { JSONSchema7, JSONSchema7Type as JSONSchemaType, JSONSchema7TypeName as JSONSchemaTypeName } from "json-schema";
+import type { JSONSchema7, JSONSchema7TypeName, JSONSchema7Type as JSONSchemaType } from "json-schema";
+
+export type JSONSchemaTypeName = JSONSchema7TypeName;
 
 export interface JSONSchema extends JSONSchema7 {
   nullable?: boolean;
@@ -6,11 +8,7 @@ export interface JSONSchema extends JSONSchema7 {
 
 export type JSONSchemaDefinition = JSONSchema | boolean; // JSONSchema7Definition
 
-export { JSONSchemaType, JSONSchemaTypeName };
-
-export type MapLike<K extends string, T> = {
-  [key in K]: T;
-};
+export { JSONSchemaType };
 
 /**
  * @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#serverVariableObject
@@ -27,7 +25,7 @@ export interface ServerVariable {
 export interface Server {
   url: string;
   description?: string;
-  variables?: MapLike<string, ServerVariable>;
+  variables?: Record<string, ServerVariable>;
 }
 
 /**
@@ -92,9 +90,9 @@ export interface Parameter {
   allowReserved?: boolean;
   schema?: Schema;
   example?: any;
-  examples?: MapLike<string, Example | Reference>;
+  examples?: Record<string, Example | Reference>;
 
-  content?: MapLike<string, MediaType>;
+  content?: Record<string, MediaType>;
 }
 
 /**
@@ -107,7 +105,7 @@ export type Header = Omit<Parameter, "name" | "in">;
  */
 export interface Encoding {
   contentType?: string;
-  headers?: MapLike<string, Header | Reference>;
+  headers?: Record<string, Header | Reference>;
   style?: string;
   explode?: boolean;
   allowReserved?: boolean;
@@ -119,8 +117,8 @@ export interface Encoding {
 export interface MediaType {
   schema?: Schema;
   example?: any;
-  examples?: MapLike<string, Example | Reference>;
-  encoding?: MapLike<string, Encoding>;
+  examples?: Record<string, Example | Reference>;
+  encoding?: Record<string, Encoding>;
 }
 
 /**
@@ -128,7 +126,7 @@ export interface MediaType {
  */
 export interface RequestBody {
   description?: string;
-  content: MapLike<string, MediaType>;
+  content: Record<string, MediaType>;
   required: boolean; // default: false
 }
 
@@ -137,9 +135,9 @@ export interface RequestBody {
  */
 export interface Response {
   description: string;
-  headers?: MapLike<string, Header | Reference>;
-  content?: MapLike<string, MediaType>;
-  links?: MapLike<string, Link | Reference>;
+  headers?: Record<string, Header | Reference>;
+  content?: Record<string, MediaType>;
+  links?: Record<string, Link | Reference>;
 }
 
 /**
@@ -164,7 +162,7 @@ export interface OauthFlow {
   authorizationUrl: string;
   tokenUrl: string;
   refreshUrl?: string;
-  scopes: MapLike<string, string>;
+  scopes: Record<string, string>;
 }
 
 /**
@@ -203,7 +201,7 @@ export interface SecurityRequirement {
  */
 export interface Discriminator {
   propertyName: string;
-  mapping: MapLike<string, string>;
+  mapping: Record<string, string>;
 }
 
 /**
@@ -233,8 +231,8 @@ export interface Schema extends JSONSchema {
 export interface Link {
   operationRef?: string;
   operationId?: string;
-  parameters?: MapLike<string, any | string>;
-  requestBody?: MapLike<string, any | string>;
+  parameters?: Record<string, any | string>;
+  requestBody?: Record<string, any | string>;
   description: string;
   server?: Server;
 }
@@ -251,7 +249,7 @@ export interface Operation {
   parameters?: [Parameter | Reference];
   requestBody?: RequestBody | Reference;
   responses?: Responses;
-  callbacks?: MapLike<string, Callback | Reference>;
+  callbacks?: Record<string, Callback | Reference>;
   deprecated?: boolean;
   security?: SecurityRequirement[];
   servers?: Server[];
@@ -300,16 +298,16 @@ export interface Paths {
  * @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#componentsObject
  */
 export interface Components {
-  schemas?: MapLike<string, Schema | Reference>;
-  responses?: MapLike<string, Response | Reference>;
-  parameters?: MapLike<string, Parameter | Reference>;
-  examples?: MapLike<string, Example | Reference>;
-  requestBodies?: MapLike<string, RequestBody | Reference>;
-  headers?: MapLike<string, Header | Reference>;
-  securitySchemes?: MapLike<string, SecuritySchema | Reference>;
-  links?: MapLike<string, Link | Reference>;
-  callbacks?: MapLike<string, Callback>;
-  pathItems?: MapLike<string, PathItem>;
+  schemas?: Record<string, Schema | Reference>;
+  responses?: Record<string, Response | Reference>;
+  parameters?: Record<string, Parameter | Reference>;
+  examples?: Record<string, Example | Reference>;
+  requestBodies?: Record<string, RequestBody | Reference>;
+  headers?: Record<string, Header | Reference>;
+  securitySchemes?: Record<string, SecuritySchema | Reference>;
+  links?: Record<string, Link | Reference>;
+  callbacks?: Record<string, Callback>;
+  pathItems?: Record<string, PathItem>;
 }
 
 /**
@@ -329,7 +327,7 @@ export interface Document {
   info: Info;
   servers?: Server[];
   paths?: Paths;
-  webhooks?: MapLike<string, PathItem | Reference>;
+  webhooks?: Record<string, PathItem | Reference>;
   components?: Components;
   security?: SecurityRequirement;
   tags?: Tag[];

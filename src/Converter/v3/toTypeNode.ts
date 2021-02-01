@@ -2,10 +2,12 @@ import ts from "typescript";
 
 import { Factory } from "../../CodeGenerator";
 import { UnsetTypeError } from "../../Exception";
-import { UnSupportError, UnknownError } from "../../Exception";
+import { UnSupportError } from "../../Exception";
 import * as Logger from "../../Logger";
 import * as Reference from "./components/Reference";
+import * as ConverterContext from "./ConverterContext";
 import * as Guard from "./Guard";
+import * as InferredType from "./InferredType";
 import { OpenApi } from "./types";
 import { ObjectSchemaWithAdditionalProperties } from "./types";
 
@@ -26,6 +28,7 @@ export type Convert = (
   factory: Factory.Type,
   schema: OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition,
   setReference: Context,
+  convertContext: ConverterContext.Types,
   option?: Option,
 ) => ts.TypeNode;
 
@@ -40,9 +43,10 @@ export const generateMultiTypeNode = (
   schemas: OpenApi.JSONSchema[],
   setReference: Context,
   convert: Convert,
+  convertContext: ConverterContext.Types,
   multiType: "oneOf" | "allOf" | "anyOf",
 ): ts.TypeNode => {
-  const typeNodes = schemas.map(schema => convert(entryPoint, currentPoint, factory, schema, setReference));
+  const typeNodes = schemas.map(schema => convert(entryPoint, currentPoint, factory, schema, setReference, convertContext));
   if (multiType === "oneOf") {
     return factory.UnionTypeNode.create({
       typeNodes,
@@ -77,6 +81,7 @@ export const convert: Convert = (
   factory: Factory.Type,
   schema: OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition,
   context: Context,
+  converterContext: ConverterContext.Types,
   option?: Option,
 ): ts.TypeNode => {
   if (typeof schema === "boolean") {
@@ -91,7 +96,8 @@ export const convert: Convert = (
     if (reference.type === "local") {
       // Type Aliasを作成 (or すでにある場合は作成しない)
       context.setReferenceHandler(currentPoint, reference);
-      return factory.TypeReferenceNode.create({ name: context.resolveReferencePath(currentPoint, reference.path).maybeResolvedName });
+      const { maybeResolvedName } = context.resolveReferencePath(currentPoint, reference.path);
+      return factory.TypeReferenceNode.create({ name: converterContext.escapeDeclarationText(maybeResolvedName) });
     }
     // サポートしているディレクトリに対して存在する場合
     if (reference.componentName) {
@@ -101,21 +107,39 @@ export const convert: Convert = (
       return factory.TypeReferenceNode.create({ name: context.resolveReferencePath(currentPoint, reference.path).name });
     }
     // サポートしていないディレクトリに存在する場合、直接Interface、もしくはTypeAliasを作成
-    return convert(entryPoint, reference.referencePoint, factory, reference.data, context, { parent: schema });
+    return convert(entryPoint, reference.referencePoint, factory, reference.data, context, converterContext, { parent: schema });
   }
 
   if (Guard.isOneOfSchema(schema)) {
-    return generateMultiTypeNode(entryPoint, currentPoint, factory, schema.oneOf, context, convert, "oneOf");
+    return generateMultiTypeNode(entryPoint, currentPoint, factory, schema.oneOf, context, convert, converterContext, "oneOf");
   }
   if (Guard.isAllOfSchema(schema)) {
-    return generateMultiTypeNode(entryPoint, currentPoint, factory, schema.allOf, context, convert, "allOf");
+    return generateMultiTypeNode(entryPoint, currentPoint, factory, schema.allOf, context, convert, converterContext, "allOf");
   }
   if (Guard.isAnyOfSchema(schema)) {
-    return generateMultiTypeNode(entryPoint, currentPoint, factory, schema.anyOf, context, convert, "anyOf");
+    return generateMultiTypeNode(entryPoint, currentPoint, factory, schema.anyOf, context, convert, converterContext, "anyOf");
+  }
+
+  if (Guard.isHasNoMembersObject(schema)) {
+    return factory.TypeNode.create({
+      type: "object",
+      value: [],
+    });
   }
 
   // schema.type
   if (!schema.type) {
+    const inferredSchema = InferredType.getInferredType(schema);
+    if (inferredSchema) {
+      return convert(entryPoint, currentPoint, factory, inferredSchema, context, converterContext, { parent: schema });
+    }
+    // typeを指定せずに、nullableのみを指定している場合に type object変換する
+    if (typeof schema.nullable === "boolean") {
+      const typeNode = factory.TypeNode.create({
+        type: "any",
+      });
+      return nullable(factory, typeNode, schema.nullable);
+    }
     if (option && option.parent) {
       Logger.info("Parent Schema:");
       Logger.info(JSON.stringify(option.parent));
@@ -173,7 +197,7 @@ export const convert: Convert = (
       const typeNode = factory.TypeNode.create({
         type: schema.type,
         value: schema.items
-          ? convert(entryPoint, currentPoint, factory, schema.items, context, { parent: schema })
+          ? convert(entryPoint, currentPoint, factory, schema.items, context, converterContext, { parent: schema })
           : factory.TypeNode.create({
               type: "undefined",
             }),
@@ -191,8 +215,8 @@ export const convert: Convert = (
       }
       const value: ts.PropertySignature[] = Object.entries(schema.properties || {}).map(([name, jsonSchema]) => {
         return factory.PropertySignature.create({
-          name,
-          type: convert(entryPoint, currentPoint, factory, jsonSchema, context, { parent: schema.properties }),
+          name: converterContext.escapePropertySignatureName(name),
+          type: convert(entryPoint, currentPoint, factory, jsonSchema, context, converterContext, { parent: schema.properties }),
           optional: !required.includes(name),
           comment: typeof jsonSchema !== "boolean" ? jsonSchema.description : undefined,
         });
@@ -200,7 +224,9 @@ export const convert: Convert = (
       if (schema.additionalProperties) {
         const additionalProperties = factory.IndexSignatureDeclaration.create({
           name: "key",
-          type: convert(entryPoint, currentPoint, factory, schema.additionalProperties, context, { parent: schema.properties }),
+          type: convert(entryPoint, currentPoint, factory, schema.additionalProperties, context, converterContext, {
+            parent: schema.properties,
+          }),
         });
         return factory.TypeNode.create({
           type: schema.type,
@@ -214,7 +240,10 @@ export const convert: Convert = (
       return nullable(factory, typeNode, !!schema.nullable);
     }
     default:
-      throw new UnknownError("what is this? \n" + JSON.stringify(schema, null, 2));
+      return factory.TypeNode.create({
+        type: "any",
+      });
+    // throw new UnknownError("what is this? \n" + JSON.stringify(schema, null, 2));
   }
 };
 
@@ -224,6 +253,7 @@ export const convertAdditionalProperties = (
   factory: Factory.Type,
   schema: ObjectSchemaWithAdditionalProperties,
   setReference: Context,
+  convertContext: ConverterContext.Types,
 ): ts.IndexSignatureDeclaration => {
   // // https://swagger.io/docs/specification/data-models/dictionaries/#free-form
   if (schema.additionalProperties === true) {
@@ -234,7 +264,7 @@ export const convertAdditionalProperties = (
   }
   const additionalProperties = factory.IndexSignatureDeclaration.create({
     name: "key",
-    type: convert(entryPoint, currentPoint, factory, schema.additionalProperties, setReference, { parent: schema.properties }),
+    type: convert(entryPoint, currentPoint, factory, schema.additionalProperties, setReference, convertContext, { parent: schema.properties }),
   });
   return additionalProperties;
 };

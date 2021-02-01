@@ -1,5 +1,6 @@
 import { Factory } from "../../../CodeGenerator";
 import { UndefinedComponent } from "../../../Exception";
+import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as Name from "../Name";
 import { Store } from "../store";
@@ -14,8 +15,9 @@ export const generateNamespace = (
   currentPoint: string,
   store: Store.Type,
   factory: Factory.Type,
-  headers: OpenApi.MapLike<string, OpenApi.Header | OpenApi.Reference>,
+  headers: Record<string, OpenApi.Header | OpenApi.Reference>,
   context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
 ): void => {
   store.addComponent("headers", {
     kind: "namespace",
@@ -30,13 +32,23 @@ export const generateNamespace = (
           throw new UndefinedComponent(`Reference "${header.$ref}" did not found in ${reference.path} by ${reference.name}`);
         }
       } else if (reference.type === "remote") {
-        Schema.addSchema(entryPoint, currentPoint, store, factory, reference.path, reference.name, reference.data.schema, context);
+        Schema.addSchema(
+          entryPoint,
+          currentPoint,
+          store,
+          factory,
+          reference.path,
+          reference.name,
+          reference.data.schema,
+          context,
+          converterContext,
+        );
       }
     } else {
       store.addStatement(`components/headers/${name}`, {
         kind: "typeAlias",
-        name: name,
-        value: Header.generateTypeNode(entryPoint, currentPoint, factory, name, header, context),
+        name: converterContext.escapeDeclarationText(name),
+        value: Header.generateTypeNode(entryPoint, currentPoint, factory, name, header, context, converterContext),
       });
     }
   });

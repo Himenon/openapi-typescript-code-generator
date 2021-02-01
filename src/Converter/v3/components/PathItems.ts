@@ -1,5 +1,6 @@
 import { Factory } from "../../../CodeGenerator";
 import { FeatureDevelopmentError, UnSupportError } from "../../../Exception";
+import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as Name from "../Name";
 import { Store } from "../store";
@@ -14,8 +15,9 @@ export const generateNamespace = (
   currentPoint: string,
   store: Store.Type,
   factory: Factory.Type,
-  pathItems: OpenApi.MapLike<string, OpenApi.PathItem | OpenApi.Reference>,
+  pathItems: Record<string, OpenApi.PathItem | OpenApi.Reference>,
   context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
 ): void => {
   const basePath = "components/pathItems";
 
@@ -34,12 +36,22 @@ export const generateNamespace = (
         if (key !== reference.name) {
           throw new UnSupportError(`can't use difference pathItem key name. "${key}" !== "${reference.name}"`);
         }
-        PathItem.generateNamespace(entryPoint, reference.referencePoint, store, factory, basePath, reference.name, reference.data, context);
+        PathItem.generateNamespace(
+          entryPoint,
+          reference.referencePoint,
+          store,
+          factory,
+          basePath,
+          reference.name,
+          reference.data,
+          context,
+          converterContext,
+        );
       } else {
         throw new FeatureDevelopmentError("存在しないReferenceを参照する場合は全部生成する");
       }
     } else {
-      PathItem.generateNamespace(entryPoint, currentPoint, store, factory, basePath, key, pathItem, context);
+      PathItem.generateNamespace(entryPoint, currentPoint, store, factory, basePath, key, pathItem, context, converterContext);
     }
   });
 };

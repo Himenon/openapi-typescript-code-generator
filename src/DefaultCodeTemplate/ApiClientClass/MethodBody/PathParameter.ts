@@ -51,7 +51,8 @@ export const generateUrlTemplateExpression = (
     });
     return replacedText === text ? undefined : replacedText;
   };
-  const requestUrlTicks = requestUri.split("/");
+
+  const requestUrlTicks: string[] = Utils.multiSplitStringToArray(requestUri, Object.keys(patternMap));
   requestUrlTicks.forEach((requestUriTick, index) => {
     if (requestUri === "") {
       temporaryStringList.push("");
@@ -59,12 +60,11 @@ export const generateUrlTemplateExpression = (
     }
     const replacedText = replaceText(requestUriTick);
     if (replacedText) {
-      temporaryStringList.push(""); // ${a.b.c} は先頭に`/`をつけないため
       if (temporaryStringList.length > 0) {
         const value = temporaryStringList.join("/");
         urlTemplate.push({
           type: "string",
-          value: value.startsWith("/") ? value : "/" + value,
+          value: value,
         });
         temporaryStringList = [];
       }

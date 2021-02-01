@@ -12,7 +12,7 @@ export const generateNamespace = (
   currentPoint: string,
   store: Store.Type,
   factory: Factory.Type,
-  requestBodies: OpenApi.MapLike<string, OpenApi.SecuritySchema | OpenApi.Reference>,
+  requestBodies: Record<string, OpenApi.SecuritySchema | OpenApi.Reference>,
 ): void => {
   store.addComponent("securitySchemes", {
     kind: "namespace",

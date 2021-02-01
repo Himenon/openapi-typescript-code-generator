@@ -1,7 +1,6 @@
 import ts from "typescript";
 
-import { Factory } from "../../CodeGenerator";
-import * as Name from "./Name";
+import * as ConverterContext from "./ConverterContext";
 import { Store } from "./store";
 import { CodeGeneratorParams, OpenApi, PickedParameter } from "./types";
 
@@ -52,24 +51,31 @@ const hasQueryParameters = (parameters?: OpenApi.Parameter[]): boolean => {
   return parameters.filter(parameter => parameter.in === "query").length > 0;
 };
 
-const generateCodeGeneratorParamsList = (store: Store.Type): CodeGeneratorParams[] => {
+const generateCodeGeneratorParamsList = (store: Store.Type, converterContext: ConverterContext.Types): CodeGeneratorParams[] => {
   const operationState = store.getNoReferenceOperationState();
   const params: CodeGeneratorParams[] = [];
   Object.entries(operationState).forEach(([operationId, item]) => {
-    const responseSuccessNames = extractSuccessStatusCode(item.responses).map(statusCode => Name.responseName(operationId, statusCode));
+    const responseSuccessNames = extractSuccessStatusCode(item.responses).map(statusCode =>
+      converterContext.generateResponseName(operationId, statusCode),
+    );
     const requestContentTypeList = item.requestBody ? getRequestContentTypeList(item.requestBody) : [];
     const responseSuccessContentTypes = getSuccessResponseContentTypeList(item.responses);
     const hasOver2RequestContentTypes = requestContentTypeList.length > 1;
     const hasOver2SuccessNames = responseSuccessNames.length > 1;
+
     const formatParams: CodeGeneratorParams = {
       operationId: operationId,
       rawRequestUri: item.requestUri,
       httpMethod: item.httpMethod,
-      argumentParamsTypeDeclaration: Name.argumentParamsTypeDeclaration(operationId),
+      argumentParamsTypeDeclaration: converterContext.generateArgumentParamsTypeDeclaration(operationId),
       // function
-      functionName: operationId,
+      functionName: converterContext.generateFunctionName(operationId),
       comment: item.comment,
       deprecated: item.deprecated,
+      requestContentTypeName: converterContext.generateRequestContentTypeName(operationId),
+      responseContentTypeName: converterContext.generateResponseContentTypeName(operationId),
+      parameterName: converterContext.generateParameterName(operationId),
+      requestBodyName: converterContext.generateRequestBodyName(operationId),
       //
       hasRequestBody: !!item.requestBody,
       hasParameter: item.parameters ? item.parameters.length > 0 : false,
@@ -99,7 +105,12 @@ const generateCodeGeneratorParamsList = (store: Store.Type): CodeGeneratorParams
 
 export type MakeApiClientFunction = (context: ts.TransformationContext, codeGeneratorParamsList: CodeGeneratorParams[]) => ts.Statement[];
 
-export const generateApiClientCode = (store: Store.Type, context: ts.TransformationContext, makeApiClient: MakeApiClientFunction): void => {
-  const codeGeneratorParamsList = generateCodeGeneratorParamsList(store);
+export const generateApiClientCode = (
+  store: Store.Type,
+  context: ts.TransformationContext,
+  converterContext: ConverterContext.Types,
+  makeApiClient: MakeApiClientFunction,
+): void => {
+  const codeGeneratorParamsList = generateCodeGeneratorParamsList(store, converterContext);
   store.addAdditionalStatement(makeApiClient(context, codeGeneratorParamsList));
 };

@@ -1,0 +1,39 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: api.test.domain
+  description: Library test schema
+  license:
+    name: MIT
+
+servers:
+  - url: "http://dev.api.test.domain/"
+    description: Development Environment
+  - url: "https://api.test.domain/"
+    description: Production Environment
+
+tags:
+  - name: test
+
+components:
+  schemas:
+    InferArrayEmptyItems:
+      type: array
+      items: {}
+    InferArrayType:
+      items:
+        type: string
+    InferObjectItem:
+      required:
+        - description
+    InferObjectHasAnyProp:
+      properties:
+        filed:
+    InferObject:
+      properties:
+        filed:
+          type: string
+    InferStringEnum:
+      enum: [a, b, c]
+    InferAnyNullable:
+      nullable: true

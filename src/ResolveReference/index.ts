@@ -18,7 +18,19 @@ const isArray = (value: any): value is any[] => {
 };
 
 const isRemoteReference = (obj: any): boolean => {
-  return isObject(obj) && typeof obj.$ref === "string" && !obj.$ref.startsWith("#") && !obj.$ref.startsWith("http");
+  if (!isObject(obj)) {
+    return false;
+  }
+  if (typeof obj.$ref !== "string") {
+    return false;
+  }
+  if (obj.$ref.startsWith("#")) {
+    return false;
+  }
+  if (obj.$ref.startsWith("http://") || obj.$ref.startsWith("https://")) {
+    return true;
+  }
+  return true;
 };
 
 const isLocalReference = (obj: any): boolean => {
@@ -64,12 +76,18 @@ const resolveLocalReference = (entryPoint: string, currentPoint: string, obj: an
   // console.log(parentKey);
   if (Guard.isReference(obj)) {
     if (isRemoteReference(obj)) {
+      if (obj.$ref.startsWith("http")) {
+        console.warn(`Feature support: ${obj.$ref}`);
+        return {};
+      }
       throw new DevelopmentError("まずはremote referenceを解決してください\n" + JSON.stringify(obj, null, 2));
     }
     if (isLocalReference(obj)) {
       const ref = Reference.generateLocalReference(obj);
       if (!ref) {
-        throw new DevelopmentError(`なにかが間違っている\n${JSON.stringify(ref, null, 2)}`);
+        throw new DevelopmentError(
+          `This is an implementation error. Please report any reproducible information below.\nhttps://github.com/Himenon/openapi-typescript-code-generator/issues/new/choose\n`,
+        );
       }
       return DotProp.get(rootSchema, ref.path.replace(/\//g, "."));
     }

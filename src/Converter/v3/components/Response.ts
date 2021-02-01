@@ -1,6 +1,7 @@
 import * as path from "path";
 
 import { Factory } from "../../../CodeGenerator";
+import * as ConverterContext from "../ConverterContext";
 import * as Name from "../Name";
 import { Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
@@ -17,6 +18,7 @@ export const generateNamespace = (
   name: string,
   response: OpenApi.Response,
   context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
 ): void => {
   const basePath = `${parentPath}/${name}`;
   store.addStatement(basePath, {
@@ -29,7 +31,15 @@ export const generateNamespace = (
     store.addStatement(`${basePath}/Header`, {
       kind: "interface",
       name: Name.ComponentChild.Header,
-      value: Header.generateInterface(entryPoint, currentPoint, factory, Name.ComponentChild.Header, response.headers, context),
+      value: Header.generateInterface(
+        entryPoint,
+        currentPoint,
+        factory,
+        Name.ComponentChild.Header,
+        response.headers,
+        context,
+        converterContext,
+      ),
     });
   }
 
@@ -37,7 +47,15 @@ export const generateNamespace = (
     store.addStatement(`${basePath}/Content`, {
       kind: "interface",
       name: Name.ComponentChild.Content,
-      value: MediaType.generateInterface(entryPoint, currentPoint, factory, Name.ComponentChild.Content, response.content, context),
+      value: MediaType.generateInterface(
+        entryPoint,
+        currentPoint,
+        factory,
+        Name.ComponentChild.Content,
+        response.content,
+        context,
+        converterContext,
+      ),
     });
   }
 };
@@ -51,6 +69,7 @@ export const generateReferenceNamespace = (
   nameWithStatusCode: string,
   responseReference: { name: string; path: string },
   context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
 ): void => {
   const basePath = `${parentPath}/${nameWithStatusCode}`;
   const referenceNamespaceName = context.resolveReferencePath(currentPoint, responseReference.path).name;
@@ -75,7 +94,7 @@ export const generateReferenceNamespace = (
           name: aliasName,
           value: factory.TypeAliasDeclaration.create({
             export: true,
-            name: statement.name,
+            name: converterContext.escapeDeclarationText(statement.name),
             type: factory.TypeReferenceNode.create({
               name: aliasName,
             }),
