@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.2.0"></a>
+# 0.2.0 (2021-02-01)
+
+
+### Features
+
+* Support build github-rest-api-description ([#16](https://github.com/Himenon/openapi-typescript-code-generator/issues/16)) ([0323f9f](https://github.com/Himenon/openapi-typescript-code-generator/commit/0323f9f)), closes [#12](https://github.com/Himenon/openapi-typescript-code-generator/issues/12) [#13](https://github.com/Himenon/openapi-typescript-code-generator/issues/13) [#14](https://github.com/Himenon/openapi-typescript-code-generator/issues/14) [#15](https://github.com/Himenon/openapi-typescript-code-generator/issues/15)
+
+
+
+
+
 <a name="0.1.7"></a>
 ## 0.1.7 (2021-01-17)
 
