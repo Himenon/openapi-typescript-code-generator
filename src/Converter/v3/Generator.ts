@@ -103,14 +103,17 @@ const generateCodeGeneratorParamsList = (store: Store.Type, converterContext: Co
   return params;
 };
 
-export type MakeApiClientFunction = (context: ts.TransformationContext, codeGeneratorParamsList: CodeGeneratorParams[]) => ts.Statement[];
+export type RewriteCodeAfterTypeDeclaration = (
+  context: ts.TransformationContext,
+  codeGeneratorParamsList: CodeGeneratorParams[],
+) => ts.Statement[];
 
 export const generateApiClientCode = (
   store: Store.Type,
   context: ts.TransformationContext,
   converterContext: ConverterContext.Types,
-  makeApiClient: MakeApiClientFunction,
+  rewriteCodeAfterTypeDeclaration: RewriteCodeAfterTypeDeclaration,
 ): void => {
   const codeGeneratorParamsList = generateCodeGeneratorParamsList(store, converterContext);
-  store.addAdditionalStatement(makeApiClient(context, codeGeneratorParamsList));
+  store.addAdditionalStatement(rewriteCodeAfterTypeDeclaration(context, codeGeneratorParamsList));
 };

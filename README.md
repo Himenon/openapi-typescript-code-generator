@@ -20,6 +20,8 @@ yarn add -D @himenon/openapi-typescript-code-generator
 ### DEMO
 
 - [DEMO](./example/README.md)
+- [DEMO: github/rest-api-client code generate](https://github.com/Himenon/github-rest-api-client/tree/master/source)
+  - https://github.com/github/rest-api-description
 
 ### Basic usage
 
@@ -41,7 +43,7 @@ main();
 
 ### Create the original API Client template.
 
-We have an entry point in `option.makeApiClient` to generate non-typed code.
+We have an entry point in `option.rewriteCodeAfterTypeDeclaration` to generate non-typed code.
 The first argument can be TypeScript's `TransformationContext`, and the second argument contains the information of the type definition generated before this.
 By using [ts-ast-viewer](https://ts-ast-viewer.com), code extension by AST can facilitate code extension.
 
@@ -56,7 +58,7 @@ const main = () => {
   const params: CodeGenerator.Params = {
     entryPoint: "your/openapi/spec.yml", // support .yml, .yaml, .json
     option: {
-      makeApiClient: (context: ts.TransformationContext, codeGeneratorParamsList: CodeGenerator.Converter.v3.CodeGeneratorParams[]): ts.Statement[] => {
+      rewriteCodeAfterTypeDeclaration: (context: ts.TransformationContext, codeGeneratorParamsList: CodeGenerator.Converter.v3.CodeGeneratorParams[]): ts.Statement[] => {
         const factory = context.factory; // https://ts-ast-viewer.com/ is very very very useful !
         return []; // generate no api client
       },

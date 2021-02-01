@@ -6,6 +6,13 @@ import { CodeGeneratorParams } from "../../Converter/v3";
 const httpMethodList: string[] = ["GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH", "TRACE"];
 
 const createSuccessResponseTypeAlias = (typeName: string, factory: Factory.Type, successResponseNames: string[]) => {
+  if (successResponseNames.length === 0) {
+    return factory.TypeAliasDeclaration.create({
+      export: true,
+      name: typeName,
+      type: ts.factory.createToken(ts.SyntaxKind.VoidKeyword),
+    });
+  }
   return factory.TypeAliasDeclaration.create({
     export: true,
     name: typeName,
