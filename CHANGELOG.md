@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.3.0"></a>
+# 0.3.0 (2021-02-01)
+
+
+### Features
+
+* update codegen api and types ([#17](https://github.com/Himenon/openapi-typescript-code-generator/issues/17)) ([1c6e748](https://github.com/Himenon/openapi-typescript-code-generator/commit/1c6e748))
+
+
+
+
+
 <a name="0.2.0"></a>
 # 0.2.0 (2021-02-01)
 
