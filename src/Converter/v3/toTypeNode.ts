@@ -140,6 +140,13 @@ export const convert: Convert = (
     if (schema.properties) {
       return convert(entryPoint, currentPoint, factory, { ...schema, type: "object" }, context, converterContext, { parent: schema });
     }
+    // typeを指定せずに、nullableのみを指定している場合に type object変換する
+    if (typeof schema.nullable === "boolean") {
+      const typeNode = factory.TypeNode.create({
+        type: "any",
+      });
+      return nullable(factory, typeNode, schema.nullable);
+    }
     // type: object, propertiesを指定せずに、requiredのみを指定している場合に type object変換する
     if (schema.required) {
       const properties = schema.required.reduce((s, name) => {
