@@ -7,6 +7,7 @@ import * as Logger from "../../Logger";
 import * as Reference from "./components/Reference";
 import * as ConverterContext from "./ConverterContext";
 import * as Guard from "./Guard";
+import * as InferredType from "./InferredType";
 import { OpenApi } from "./types";
 import { ObjectSchemaWithAdditionalProperties } from "./types";
 
@@ -128,17 +129,9 @@ export const convert: Convert = (
 
   // schema.type
   if (!schema.type) {
-    // type: arrayを指定せずに、itemsのみを指定している場合に type array変換する
-    if (schema.items) {
-      return convert(entryPoint, currentPoint, factory, { ...schema, type: "array" }, context, converterContext, { parent: schema });
-    }
-    // type: string/numberを指定せずに、enumのみを指定している場合に type array変換する
-    if (schema.enum) {
-      return convert(entryPoint, currentPoint, factory, { ...schema, type: "string" }, context, converterContext, { parent: schema });
-    }
-    // type: objectを指定せずに、propertiesのみを指定している場合に type object変換する
-    if (schema.properties) {
-      return convert(entryPoint, currentPoint, factory, { ...schema, type: "object" }, context, converterContext, { parent: schema });
+    const inferredSchema = InferredType.getInferredType(schema);
+    if (inferredSchema) {
+      return convert(entryPoint, currentPoint, factory, inferredSchema, context, converterContext, { parent: schema });
     }
     // typeを指定せずに、nullableのみを指定している場合に type object変換する
     if (typeof schema.nullable === "boolean") {
@@ -146,15 +139,6 @@ export const convert: Convert = (
         type: "any",
       });
       return nullable(factory, typeNode, schema.nullable);
-    }
-    // type: object, propertiesを指定せずに、requiredのみを指定している場合に type object変換する
-    if (schema.required) {
-      const properties = schema.required.reduce((s, name) => {
-        return { ...s, [name]: { type: "any" } };
-      }, {});
-      return convert(entryPoint, currentPoint, factory, { ...schema, type: "object", properties }, context, converterContext, {
-        parent: schema,
-      });
     }
     if (option && option.parent) {
       Logger.info("Parent Schema:");

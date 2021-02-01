@@ -2,12 +2,29 @@ import { Factory } from "../../../CodeGenerator";
 import { UnSupportError } from "../../../Exception";
 import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
+import * as InferredType from "../InferredType";
 import * as Name from "../Name";
 import { Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
 import { OpenApi } from "../types";
 import * as Reference from "./Reference";
 import * as Schema from "./Schema";
+
+const createNullableTypeNode = (factory: Factory.Type, schema: OpenApi.Schema) => {
+  if (!schema.type && typeof schema.nullable === "boolean") {
+    const typeNode = factory.TypeNode.create({
+      type: "any",
+    });
+    return factory.UnionTypeNode.create({
+      typeNodes: [
+        typeNode,
+        factory.TypeNode.create({
+          type: "null",
+        }),
+      ],
+    });
+  }
+};
 
 export const generateNamespace = (
   entryPoint: string,
@@ -24,8 +41,9 @@ export const generateNamespace = (
     name: Name.Components.Schemas,
     comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#schemaObject`,
   });
-  Object.entries(schemas).forEach(([name, schema]) => {
-    if (Guard.isReference(schema)) {
+  Object.entries(schemas).forEach(([name, targetSchema]) => {
+    if (Guard.isReference(targetSchema)) {
+      const schema = targetSchema;
       const reference = Reference.generate<OpenApi.Schema>(entryPoint, currentPoint, schema);
       if (reference.type === "local") {
         const { maybeResolvedName } = context.resolveReferencePath(currentPoint, reference.path);
@@ -68,6 +86,14 @@ export const generateNamespace = (
           }),
         }),
       });
+    }
+    const schema = InferredType.getInferredType(targetSchema);
+    if (!schema) {
+      const typeNode = createNullableTypeNode(factory, targetSchema);
+      if (!typeNode) {
+        throw new UnSupportError("schema.type not specified \n" + JSON.stringify(targetSchema));
+      }
+      return typeNode;
     }
     const path = `${basePath}/${name}`;
     if (Guard.isAllOfSchema(schema)) {

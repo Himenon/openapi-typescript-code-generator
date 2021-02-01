@@ -22,6 +22,15 @@ export const generatePropertySignatures = (
   }
   const required: string[] = schema.required || [];
   return Object.entries(schema.properties).map(([propertyName, property]) => {
+    if (!property) {
+      return factory.PropertySignature.create({
+        name: convertContext.escapePropertySignatureName(propertyName),
+        optional: !required.includes(propertyName),
+        type: factory.TypeNode.create({
+          type: "any",
+        }),
+      });
+    }
     return factory.PropertySignature.create({
       name: convertContext.escapePropertySignatureName(propertyName),
       optional: !required.includes(propertyName),
