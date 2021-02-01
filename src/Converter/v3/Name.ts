@@ -6,10 +6,10 @@ export const requestContentType = (operationId: string): string => `RequestConte
 export const responseContentType = (operationId: string): string => `ResponseContentType$${operationId}`;
 
 export const isAvailableVariableName = (text: string): boolean => {
-  return /^[A-Za-z_\s]+$/.test(text);
+  return /^[A-Za-z_0-9\s]+$/.test(text);
 };
 
-export const escapeText = (text: string) => {
+export const escapeText = (text: string): string => {
   if (isAvailableVariableName(text)) {
     return text;
   }

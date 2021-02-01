@@ -18,7 +18,19 @@ const isArray = (value: any): value is any[] => {
 };
 
 const isRemoteReference = (obj: any): boolean => {
-  return isObject(obj) && typeof obj.$ref === "string" && !obj.$ref.startsWith("#") && obj.$ref.startsWith("http");
+  if (!isObject(obj)) {
+    return false;
+  }
+  if (typeof obj.$ref !== "string") {
+    return false;
+  }
+  if (obj.$ref.startsWith("#")) {
+    return false;
+  }
+  if (obj.$ref.startsWith("http://") || obj.$ref.startsWith("https://")) {
+    return true;
+  }
+  return true;
 };
 
 const isLocalReference = (obj: any): boolean => {
