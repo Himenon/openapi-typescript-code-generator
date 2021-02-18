@@ -17,7 +17,6 @@ export const generateNamespace = (
   store.addComponent("securitySchemes", {
     kind: "namespace",
     name: Name.Components.SecuritySchemas,
-    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#securitySchemeObject`,
   });
   Object.entries(requestBodies).forEach(([name, requestBody]) => {
     if (Guard.isReference(requestBody)) {

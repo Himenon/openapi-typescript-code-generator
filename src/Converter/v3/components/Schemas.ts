@@ -39,7 +39,6 @@ export const generateNamespace = (
   store.addComponent("schemas", {
     kind: "namespace",
     name: Name.Components.Schemas,
-    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#schemaObject`,
   });
   Object.entries(schemas).forEach(([name, targetSchema]) => {
     if (Guard.isReference(targetSchema)) {

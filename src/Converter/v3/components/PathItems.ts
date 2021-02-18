@@ -24,7 +24,6 @@ export const generateNamespace = (
   store.addComponent("pathItems", {
     kind: "namespace",
     name: Name.Components.PathItems,
-    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#componentsObject`,
   });
 
   Object.entries(pathItems).forEach(([key, pathItem]) => {

@@ -84,7 +84,6 @@ export const generateInterface = (
   return factory.InterfaceDeclaration.create({
     export: true,
     name: converterContext.escapeDeclarationText(name),
-    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject`,
     members: generatePropertySignatures(entryPoint, currentPoint, factory, headers, context, converterContext),
   });
 };

@@ -23,7 +23,6 @@ export const generateNamespace = (
   store.addComponent("requestBodies", {
     kind: "namespace",
     name: Name.Components.RequestBodies,
-    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#componentsObject`,
   });
 
   Object.entries(requestBodies).forEach(([name, requestBody]) => {
