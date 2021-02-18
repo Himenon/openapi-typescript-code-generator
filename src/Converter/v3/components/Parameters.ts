@@ -23,7 +23,6 @@ export const generateNamespace = (
   store.addComponent("parameters", {
     kind: "namespace",
     name: Name.Components.Parameters,
-    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#parameterObject`,
   });
 
   Object.entries(parameters).forEach(([name, parameter]) => {
@@ -81,7 +80,6 @@ export const generateNamespaceWithList = (
   store.addComponent("parameters", {
     kind: "namespace",
     name: Name.Components.Parameters,
-    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#parameterObject`,
   });
 
   parameters.forEach(parameter => {

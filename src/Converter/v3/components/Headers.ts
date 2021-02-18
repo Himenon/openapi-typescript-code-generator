@@ -22,7 +22,6 @@ export const generateNamespace = (
   store.addComponent("headers", {
     kind: "namespace",
     name: Name.Components.Headers,
-    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#componentsObject`,
   });
   Object.entries(headers).forEach(([name, header]) => {
     if (Guard.isReference(header)) {

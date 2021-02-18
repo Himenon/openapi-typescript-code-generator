@@ -27,7 +27,6 @@ export const generateNamespace = (
   store.addComponent("responses", {
     kind: "namespace",
     name: Name.Components.Responses,
-    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#responsesObject`,
   });
   Object.entries(responses).forEach(([name, response]) => {
     if (Guard.isReference(response)) {
@@ -69,7 +68,6 @@ export const generateNamespaceWithStatusCode = (
   store.addStatement(basePath, {
     kind: "namespace",
     name: Name.ComponentChild.Response,
-    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#responsesObject`,
   });
 
   Object.entries(responses).forEach(([statusCode, response]) => {

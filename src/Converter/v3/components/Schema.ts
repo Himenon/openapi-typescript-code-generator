@@ -26,6 +26,7 @@ export const generatePropertySignatures = (
       return factory.PropertySignature.create({
         name: convertContext.escapePropertySignatureName(propertyName),
         optional: !required.includes(propertyName),
+        comment: schema.description,
         type: factory.TypeNode.create({
           type: "any",
         }),

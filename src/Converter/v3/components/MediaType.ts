@@ -18,6 +18,7 @@ export const generatePropertySignature = (
     name: converterContext.escapePropertySignatureName(protocol),
     optional: false,
     type: ToTypeNode.convert(entryPoint, currentPoint, factory, schema, context, converterContext),
+    comment: schema.description,
   });
 };
 
@@ -50,6 +51,5 @@ export const generateInterface = (
     export: true,
     name,
     members: generatePropertySignatures(entryPoint, currentPoint, factory, content, context, converterContext),
-    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject`,
   });
 };

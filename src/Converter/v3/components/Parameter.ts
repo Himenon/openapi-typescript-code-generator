@@ -53,6 +53,7 @@ export const generatePropertySignature = (
       return factory.PropertySignature.create({
         name: converterContext.escapePropertySignatureName(localRef.name),
         optional: false,
+        comment: localRef.description,
         type: factory.TypeReferenceNode.create({
           name: context.resolveReferencePath(currentPoint, reference.path).name,
         }),
@@ -62,6 +63,7 @@ export const generatePropertySignature = (
     return factory.PropertySignature.create({
       name: converterContext.escapePropertySignatureName(reference.data.name),
       optional: isPathProperty ? false : !reference.data.required,
+      comment: reference.data.description,
       type: ToTypeNode.convert(
         entryPoint,
         reference.referencePoint,
@@ -77,6 +79,7 @@ export const generatePropertySignature = (
     name: converterContext.escapePropertySignatureName(parameter.name),
     optional: isPathProperty ? false : !parameter.required,
     type: ToTypeNode.convert(entryPoint, currentPoint, factory, parameter.schema || { type: "null" }, context, converterContext),
+    comment: parameter.description,
   });
 };
 
@@ -107,7 +110,6 @@ export const generateInterface = (
   return factory.InterfaceDeclaration.create({
     export: true,
     name,
-    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject`,
     members: generatePropertySignatures(entryPoint, currentPoint, store, factory, parameters, context, converterContext),
   });
 };
@@ -128,7 +130,6 @@ export const generateAliasInterface = (
   return factory.InterfaceDeclaration.create({
     export: true,
     name: converterContext.escapeDeclarationText(name),
-    comment: `@see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject`,
     members: generatePropertySignatures(entryPoint, currentPoint, store, factory, parameters, context, converterContext),
   });
 };

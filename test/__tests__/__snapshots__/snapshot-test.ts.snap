@@ -10,7 +10,6 @@ exports[`Generate Code Snapshot Test api.test.domain 1`] = `
 // 
 
 
-/** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#schemaObject */
 export namespace Schemas {
     /** String Literal */
     export type StringType = string;
@@ -128,7 +127,6 @@ export namespace Schemas {
         children: Child[];
     }
 }
-/** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#componentsObject */
 export namespace Headers {
     export type StringHeader = string;
     export type A = number;
@@ -137,7 +135,6 @@ export namespace Headers {
     }
     export type ReferenceOfHeaderToSchema = Schemas.DirectRef.ForHeader;
 }
-/** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#responsesObject */
 export namespace Responses {
     /**
      * Status Code 100
@@ -151,35 +148,31 @@ export namespace Responses {
     export namespace SwitchingProtocol { }
     /** Type Reference - string */
     export namespace LocalReferenceStringDateTimeType {
-        /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
         export interface Content {
             \\"application/json\\": Schemas.StringDateTimeType;
         }
     }
     /** Local Reference - object */
     export namespace LocalReferenceObjectType {
-        /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
         export interface Content {
             \\"application/json\\": Schemas.ObjectHasPropertiesType;
         }
     }
     /** Response -> Schema */
     export namespace ReferenceOfResponseToSchema {
-        /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
         export interface Content {
             \\"application/json\\": Schemas.DirectRef.ForResponse;
         }
     }
     /** response A definition */
     export namespace ResponseA {
-        /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject */
         export interface Header {
             HeaderA: Headers.A;
             HeaderB: string;
         }
-        /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
         export interface Content {
             \\"application/json\\": {
+                /** responseA description */
                 name?: \\"responseA\\";
             };
         }
@@ -187,7 +180,6 @@ export namespace Responses {
     export namespace Level1 {
         /** response B definition */
         export namespace ResponseB {
-            /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
             export interface Content {
                 \\"application/json\\": {
                     name?: \\"responseB\\";
@@ -197,7 +189,6 @@ export namespace Responses {
         export namespace Level2 {
             /** response C definition */
             export namespace ResponseC {
-                /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
                 export interface Content {
                     \\"application/json\\": {
                         name?: \\"responseC\\";
@@ -209,21 +200,19 @@ export namespace Responses {
     export namespace ForPathItems {
         /** response A definition */
         export namespace FullRemoteReference {
-            /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject */
             export interface Header {
                 HeaderA: Headers.A;
                 HeaderB: string;
             }
-            /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
             export interface Content {
                 \\"application/json\\": {
+                    /** responseA description */
                     name?: \\"responseA\\";
                 };
             }
         }
     }
 }
-/** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#parameterObject */
 export namespace Parameters {
     /** parameters.StringQueryParams */
     export type StringQueryParams = string;
@@ -250,32 +239,27 @@ export namespace Parameters {
         };
     };
 }
-/** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#componentsObject */
 export namespace RequestBodies {
     /** Request body string type */
     export namespace StringType {
-        /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#requestBodyObject */
         export interface Content {
             \\"application/json\\": string;
         }
     }
     /** Request body Local reference string type */
     export namespace LocalReferenceStringType {
-        /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#requestBodyObject */
         export interface Content {
             \\"application/json\\": Schemas.StringHasEnumType;
         }
     }
     /** requestBodies -> schemas */
     export namespace ReferenceOfRequestBodyToSchema {
-        /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#requestBodyObject */
         export interface Content {
             \\"application/json\\": Schemas.DirectRef.ForRequestBody;
         }
     }
     /** Remote Request body A */
     export namespace RequestBodyA {
-        /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#requestBodyObject */
         export interface Content {
             \\"application/json\\": {
                 body?: string;
@@ -285,7 +269,6 @@ export namespace RequestBodies {
     export namespace Level1 {
         /** Remote Request body B */
         export namespace RequestBodyB {
-            /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#requestBodyObject */
             export interface Content {
                 \\"application/json\\": {
                     body?: string;
@@ -295,7 +278,6 @@ export namespace RequestBodies {
         export namespace Level2 {
             /** Remote Request body C */
             export namespace RequestBodyC {
-                /** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#requestBodyObject */
                 export interface Content {
                     \\"application/json\\": {
                         body?: string;
@@ -305,35 +287,32 @@ export namespace RequestBodies {
         }
     }
 }
-/** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject */
 export interface Parameter$getIncludeLocalReference {
+    /** parameters.StringQueryParams */
     StringQuery: string;
 }
-/** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
 export interface Response$getIncludeLocalReference$Status$200 {
     \\"application/json\\": {
         meta: string;
     };
 }
-/** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject */
 export interface Parameter$getIncludeRemoteReference {
+    /** remote reference parameter */
     IncludeRemoteReference: number;
 }
-/** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#requestBodyObject */
 export interface RequestBody$getIncludeRemoteReference {
     \\"application/json\\": string;
 }
-/** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#headerObject */
 export interface Parameter$getFullRemoteReference {
+    /** Full Remote Reference */
     FullRemoteReferenceQuery: Schemas.FullRemoteReference.ForParameters;
 }
-/** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
 export interface Response$getFullRemoteReference$Status$200 {
     \\"application/json\\": {
+        /** responseA description */
         name?: \\"responseA\\";
     };
 }
-/** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#mediaTypeObject */
 export interface Response$getReferenceItems$Status$200 {
     \\"application/json\\": {
         books?: Schemas.Item[];
@@ -422,7 +401,6 @@ exports[`Generate Code Snapshot Test infer.domain 1`] = `
 // 
 
 
-/** @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#schemaObject */
 export namespace Schemas {
     export type InferArrayEmptyItems = {}[];
     export type InferArrayType = string[];

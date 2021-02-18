@@ -14,3 +14,4 @@ content:
         name:
           type: string
           enum: [responseA]
+          description: responseA description
