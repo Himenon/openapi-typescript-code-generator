@@ -14,7 +14,7 @@ const extractPickedParameter = (parameter: OpenApi.Parameter): PickedParameter =
   };
 };
 
-const extractSuccessStatusCode = (responses: { [statusCode: string]: OpenApi.Response }): string[] => {
+const extractResponseNamesByStatusCode = (type: "success" | "error", responses: { [statusCode: string]: OpenApi.Response }): string[] => {
   const statusCodeList: string[] = [];
   Object.entries(responses || {}).forEach(([statusCodeLike, response]) => {
     // ContentTypeの定義が存在しない場合はstatusCodeを読み取らない
@@ -23,8 +23,14 @@ const extractSuccessStatusCode = (responses: { [statusCode: string]: OpenApi.Res
     }
     if (typeof statusCodeLike === "string") {
       const statusCodeNumberValue = parseInt(statusCodeLike, 10);
-      if (200 <= statusCodeNumberValue && statusCodeNumberValue < 300) {
-        statusCodeList.push(statusCodeNumberValue.toString());
+      if (type === "success") {
+        if (200 <= statusCodeNumberValue && statusCodeNumberValue < 300) {
+          statusCodeList.push(statusCodeNumberValue.toString());
+        }
+      } else if (type === "error") {
+        if (400 <= statusCodeNumberValue && statusCodeNumberValue < 600) {
+          statusCodeList.push(statusCodeNumberValue.toString());
+        }
       }
     }
   });
@@ -37,7 +43,7 @@ const getRequestContentTypeList = (requestBody: OpenApi.RequestBody): string[] =
 
 const getSuccessResponseContentTypeList = (responses: { [statusCode: string]: OpenApi.Response }): string[] => {
   let contentTypeList: string[] = [];
-  extractSuccessStatusCode(responses).forEach(statusCode => {
+  extractResponseNamesByStatusCode("success", responses).forEach(statusCode => {
     const response = responses[statusCode];
     contentTypeList = contentTypeList.concat(Object.keys(response.content || {}));
   });
@@ -55,7 +61,10 @@ const generateCodeGeneratorParamsList = (store: Store.Type, converterContext: Co
   const operationState = store.getNoReferenceOperationState();
   const params: CodeGeneratorParams[] = [];
   Object.entries(operationState).forEach(([operationId, item]) => {
-    const responseSuccessNames = extractSuccessStatusCode(item.responses).map(statusCode =>
+    const responseSuccessNames = extractResponseNamesByStatusCode("success", item.responses).map(statusCode =>
+      converterContext.generateResponseName(operationId, statusCode),
+    );
+    const responseErrorNames = extractResponseNamesByStatusCode("error", item.responses).map(statusCode =>
       converterContext.generateResponseName(operationId, statusCode),
     );
     const requestContentTypeList = item.requestBody ? getRequestContentTypeList(item.requestBody) : [];
@@ -65,6 +74,7 @@ const generateCodeGeneratorParamsList = (store: Store.Type, converterContext: Co
 
     const formatParams: CodeGeneratorParams = {
       operationId: operationId,
+      escapedOperationId: converterContext.escapeOperationIdText(operationId),
       rawRequestUri: item.requestUri,
       httpMethod: item.httpMethod,
       argumentParamsTypeDeclaration: converterContext.generateArgumentParamsTypeDeclaration(operationId),
@@ -88,6 +98,7 @@ const generateCodeGeneratorParamsList = (store: Store.Type, converterContext: Co
       responseSuccessNames: responseSuccessNames,
       responseFirstSuccessName: responseSuccessNames.length === 1 ? responseSuccessNames[0] : undefined,
       has2OrMoreSuccessNames: hasOver2SuccessNames,
+      responseErrorNames: responseErrorNames,
       // Response Success Content Type
       successResponseContentTypes: responseSuccessContentTypes,
       successResponseFirstContentType: responseSuccessContentTypes.length === 1 ? responseSuccessContentTypes[0] : undefined,

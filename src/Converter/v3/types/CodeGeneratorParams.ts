@@ -4,6 +4,7 @@ export type PickedParameter = Pick<OpenApi.Parameter, "name" | "in" | "required"
 
 export interface CodeGeneratorParams {
   operationId: string;
+  escapedOperationId: string;
   httpMethod: string; // get, post, put, delete ...etc
   rawRequestUri: string;
   functionName: string;
@@ -19,6 +20,8 @@ export interface CodeGeneratorParams {
   requestContentTypes: string[];
   requestFirstContentType: string | undefined; // requestContentTypes.length === 1 only
   has2OrMoreRequestContentTypes: boolean; // requestContentTypes.length > 1
+  // Response Error Response Name
+  responseErrorNames: string[];
   // Response Success Name
   responseSuccessNames: string[]; // `Response$${operationId}$Status$${statusCode}`[]
   responseFirstSuccessName: string | undefined; // responseSuccessNames.length === 1 only

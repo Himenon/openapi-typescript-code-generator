@@ -5,6 +5,27 @@ import { CodeGeneratorParams } from "../../Converter/v3";
 
 const httpMethodList: string[] = ["GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH", "TRACE"];
 
+const createErrorResponsesTypeAlias = (typeName: string, factory: Factory.Type, errorResponseNames: string[]) => {
+  if (errorResponseNames.length === 0) {
+    return factory.TypeAliasDeclaration.create({
+      export: true,
+      name: typeName,
+      type: ts.factory.createToken(ts.SyntaxKind.VoidKeyword),
+    });
+  }
+  return factory.TypeAliasDeclaration.create({
+    export: true,
+    name: typeName,
+    type: factory.UnionTypeNode.create({
+      typeNodes: errorResponseNames.map(name => {
+        return factory.TypeReferenceNode.create({
+          name,
+        });
+      }),
+    }),
+  });
+};
+
 const createSuccessResponseTypeAlias = (typeName: string, factory: Factory.Type, successResponseNames: string[]) => {
   if (successResponseNames.length === 0) {
     return factory.TypeAliasDeclaration.create({
@@ -134,6 +155,10 @@ export const create = (factory: Factory.Type, list: CodeGeneratorParams[]): ts.S
 
   const successResponseNames = list.map(item => item.responseSuccessNames).flat();
 
+  const errorResponseTypes = list.map(item => {
+    return createErrorResponsesTypeAlias(`ErrorResponses$${item.escapedOperationId}`, factory, item.responseErrorNames);
+  });
+
   const functionType = factory.FunctionTypeNode.create({
     typeParameters: [
       factory.TypeParameterDeclaration.create({
@@ -165,6 +190,7 @@ export const create = (factory: Factory.Type, list: CodeGeneratorParams[]): ts.S
     createObjectLikeInterface(factory),
     ...createQueryParamsDeclarations(factory),
     createSuccessResponseTypeAlias("SuccessResponses", factory, successResponseNames),
+    ...errorResponseTypes,
     factory.InterfaceDeclaration.create({
       export: true,
       name: "ApiClient",
