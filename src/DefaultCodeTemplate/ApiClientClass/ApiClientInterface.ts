@@ -155,8 +155,12 @@ export const create = (factory: Factory.Type, list: CodeGeneratorParams[]): ts.S
 
   const successResponseNames = list.map(item => item.responseSuccessNames).flat();
 
-  const errorResponseTypes = list.map(item => {
-    return createErrorResponsesTypeAlias(`ErrorResponses$${item.escapedOperationId}`, factory, item.responseErrorNames);
+  const errorResponseNamespace = factory.Namespace.create({
+    export: true,
+    name: "ErrorResponse",
+    statements: list.map(item => {
+      return createErrorResponsesTypeAlias(`${item.escapedOperationId}`, factory, item.responseErrorNames);
+    }),
   });
 
   const functionType = factory.FunctionTypeNode.create({
@@ -190,7 +194,7 @@ export const create = (factory: Factory.Type, list: CodeGeneratorParams[]): ts.S
     createObjectLikeInterface(factory),
     ...createQueryParamsDeclarations(factory),
     createSuccessResponseTypeAlias("SuccessResponses", factory, successResponseNames),
-    ...errorResponseTypes,
+    errorResponseNamespace,
     factory.InterfaceDeclaration.create({
       export: true,
       name: "ApiClient",
