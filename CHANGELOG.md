@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.4.0"></a>
+# 0.4.0 (2021-02-18)
+
+
+### Features
+
+* **comment:** Use the defined comment ([#19](https://github.com/Himenon/openapi-typescript-code-generator/issues/19)) ([9e90e7b](https://github.com/Himenon/openapi-typescript-code-generator/commit/9e90e7b))
+
+
+
+
+
 <a name="0.3.0"></a>
 # 0.3.0 (2021-02-01)
 
