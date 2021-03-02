@@ -57,10 +57,17 @@ const hasQueryParameters = (parameters?: OpenApi.Parameter[]): boolean => {
   return parameters.filter(parameter => parameter.in === "query").length > 0;
 };
 
-const generateCodeGeneratorParamsList = (store: Store.Type, converterContext: ConverterContext.Types): CodeGeneratorParams[] => {
+const generateCodeGeneratorParamsList = (
+  store: Store.Type,
+  converterContext: ConverterContext.Types,
+  allowOperationIds: string[] | undefined,
+): CodeGeneratorParams[] => {
   const operationState = store.getNoReferenceOperationState();
   const params: CodeGeneratorParams[] = [];
   Object.entries(operationState).forEach(([operationId, item]) => {
+    if (allowOperationIds && !allowOperationIds.includes(operationId)) {
+      return;
+    }
     const responseSuccessNames = extractResponseNamesByStatusCode("success", item.responses).map(statusCode =>
       converterContext.generateResponseName(operationId, statusCode),
     );
@@ -124,7 +131,8 @@ export const generateApiClientCode = (
   context: ts.TransformationContext,
   converterContext: ConverterContext.Types,
   rewriteCodeAfterTypeDeclaration: RewriteCodeAfterTypeDeclaration,
+  allowOperationIds: string[] | undefined,
 ): void => {
-  const codeGeneratorParamsList = generateCodeGeneratorParamsList(store, converterContext);
+  const codeGeneratorParamsList = generateCodeGeneratorParamsList(store, converterContext, allowOperationIds);
   store.addAdditionalStatement(rewriteCodeAfterTypeDeclaration(context, codeGeneratorParamsList));
 };
