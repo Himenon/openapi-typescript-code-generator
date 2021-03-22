@@ -345,6 +345,12 @@ export interface QueryParameters {
     [key: string]: QueryParameter;
 }
 export type SuccessResponses = Response$getIncludeLocalReference$Status$200 | Response$getFullRemoteReference$Status$200 | Response$getReferenceItems$Status$200;
+export namespace ErrorResponse {
+    export type getIncludeLocalReference = void;
+    export type getIncludeRemoteReference = void;
+    export type getFullRemoteReference = void;
+    export type getReferenceItems = void;
+}
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(httpMethod: HttpMethod, url: string, headers: ObjectLike | any, requestBody: ObjectLike | any, queryParameters: QueryParameters | undefined, options?: RequestOption) => Promise<T>;
 }

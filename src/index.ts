@@ -17,11 +17,20 @@ export interface Params {
   /** default: true */
   enableValidate?: boolean;
   log?: {
-    validator?: Validator.v3.LogOption;
+    validator?: {
+      /**
+       * default: undefined (all logs)
+       * Number of lines displayed in the latest log
+       */
+      displayLogLines?: number;
+    };
+  };
+  filter?: {
+    allowOperationIds?: string[];
   };
 }
 
-export const generateTypeScriptCode = ({ entryPoint, option, enableValidate = true, log }: Params): string => {
+export const generateTypeScriptCode = ({ entryPoint, option, enableValidate = true, log, filter = {} }: Params): string => {
   const schema = fileSystem.loadJsonOrYaml(entryPoint);
   const resolvedReferenceDocument = ResolveReference.resolve(entryPoint, entryPoint, JSON.parse(JSON.stringify(schema)));
 
@@ -30,8 +39,14 @@ export const generateTypeScriptCode = ({ entryPoint, option, enableValidate = tr
   }
 
   const convertOption: Converter.v3.Option = option
-    ? { rewriteCodeAfterTypeDeclaration: option.rewriteCodeAfterTypeDeclaration || DefaultCodeTemplate.rewriteCodeAfterTypeDeclaration }
-    : { rewriteCodeAfterTypeDeclaration: DefaultCodeTemplate.rewriteCodeAfterTypeDeclaration };
+    ? {
+        rewriteCodeAfterTypeDeclaration: option.rewriteCodeAfterTypeDeclaration || DefaultCodeTemplate.rewriteCodeAfterTypeDeclaration,
+        allowOperationIds: filter.allowOperationIds,
+      }
+    : {
+        rewriteCodeAfterTypeDeclaration: DefaultCodeTemplate.rewriteCodeAfterTypeDeclaration,
+        allowOperationIds: filter.allowOperationIds,
+      };
   const { createFunction, generateLeadingComment } = Converter.v3.create(entryPoint, schema, resolvedReferenceDocument, convertOption);
   return [generateLeadingComment(), TypeScriptCodeGenerator.generate(createFunction)].join(EOL + EOL + EOL);
 };
