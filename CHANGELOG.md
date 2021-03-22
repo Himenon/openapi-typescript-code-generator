@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.5.0"></a>
+# 0.5.0 (2021-03-22)
+
+
+### Features
+
+* **codegen:** add error response type name list and add allowOperationIds ([#20](https://github.com/Himenon/openapi-typescript-code-generator/issues/20)) ([924c4a1](https://github.com/Himenon/openapi-typescript-code-generator/commit/924c4a1))
+
+
+
+
+
 <a name="0.4.0"></a>
 # 0.4.0 (2021-02-18)
 
