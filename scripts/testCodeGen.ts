@@ -18,9 +18,31 @@ const gen = (name: string, enableValidate = true): void => {
   console.log(`Generate Code : test/code/${name}.ts`);
 };
 
+const genSyncMode = (name: string, enableValidate = true): void => {
+  const params: CodeGenerator.Params = {
+    entryPoint: `test/${name}/index.yml`,
+    enableValidate,
+    option: {
+      codeGenerator: {
+        sync: true,
+      },
+    },
+    log: {
+      validator: {
+        displayLogLines: 1,
+      },
+    },
+  };
+  fs.mkdirSync("test/code", { recursive: true });
+  const code = CodeGenerator.generateTypeScriptCode(params);
+  fs.writeFileSync(`test/code/sync-${name}.ts`, code, { encoding: "utf-8" });
+  console.log(`Generate Code : test/code/sync-${name}.ts`);
+};
+
 const main = () => {
   gen("api.test.domain");
   gen("infer.domain", false);
+  genSyncMode("api.test.domain");
 };
 
 main();

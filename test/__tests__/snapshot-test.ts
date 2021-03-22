@@ -13,6 +13,11 @@ describe("Generate Code Snapshot Test", () => {
     const text = generateCode.replace(pattern, replacedText);
     expect(text).toMatchSnapshot();
   });
+  test("async-api.test.domain", () => {
+    const generateCode = fs.readFileSync(path.join(__dirname, "../code//sync-api.test.domain.ts"), { encoding: "utf-8" });
+    const text = generateCode.replace(pattern, replacedText);
+    expect(text).toMatchSnapshot();
+  });
   test("infer.domain", () => {
     const generateCode = fs.readFileSync(path.join(__dirname, "../code/infer.domain.ts"), { encoding: "utf-8" });
     const text = generateCode.replace(pattern, replacedText);
