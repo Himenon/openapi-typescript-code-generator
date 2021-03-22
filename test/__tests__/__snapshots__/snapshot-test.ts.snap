@@ -318,6 +318,20 @@ export interface Response$getReferenceItems$Status$200 {
         books?: Schemas.Item[];
     };
 }
+export type ResponseContentType$getIncludeLocalReference = keyof Response$getIncludeLocalReference$Status$200;
+export interface Params$getIncludeLocalReference {
+    parameter: Parameter$getIncludeLocalReference;
+}
+export type RequestContentType$getIncludeRemoteReference = keyof RequestBody$getIncludeRemoteReference;
+export interface Params$getIncludeRemoteReference {
+    parameter: Parameter$getIncludeRemoteReference;
+    requestBody: RequestBody$getIncludeRemoteReference[\\"application/json\\"];
+}
+export type ResponseContentType$getFullRemoteReference = keyof Response$getFullRemoteReference$Status$200;
+export interface Params$getFullRemoteReference {
+    parameter: Parameter$getFullRemoteReference;
+}
+export type ResponseContentType$getReferenceItems = keyof Response$getReferenceItems$Status$200;
 export type HttpMethod = \\"GET\\" | \\"PUT\\" | \\"POST\\" | \\"DELETE\\" | \\"OPTIONS\\" | \\"HEAD\\" | \\"PATCH\\" | \\"TRACE\\";
 export interface ObjectLike {
     [key: string]: any;
@@ -330,13 +344,55 @@ export interface QueryParameter {
 export interface QueryParameters {
     [key: string]: QueryParameter;
 }
-export type SuccessResponses = void;
-export namespace ErrorResponse { }
+export type SuccessResponses = Response$getIncludeLocalReference$Status$200 | Response$getFullRemoteReference$Status$200 | Response$getReferenceItems$Status$200;
+export namespace ErrorResponse {
+    export type getIncludeLocalReference = void;
+    export type getIncludeRemoteReference = void;
+    export type getFullRemoteReference = void;
+    export type getReferenceItems = void;
+}
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(httpMethod: HttpMethod, url: string, headers: ObjectLike | any, requestBody: ObjectLike | any, queryParameters: QueryParameters | undefined, options?: RequestOption) => Promise<T>;
 }
 export class Client<RequestOption> {
     constructor(private apiClient: ApiClient<RequestOption>, private baseUrl: string) { }
+    public async getIncludeLocalReference(params: Params$getIncludeLocalReference, option?: RequestOption): Promise<Response$getIncludeLocalReference$Status$200[\\"application/json\\"]> {
+        const url = this.baseUrl + \`/get/IncludeLocalReference\`;
+        const headers = {
+            Accept: \\"application/json\\"
+        };
+        const queryParameters: QueryParameters = {
+            StringQuery: { value: params.parameter.StringQuery, explode: false }
+        };
+        return this.apiClient.request(\\"GET\\", url, headers, undefined, queryParameters, option);
+    }
+    public async getIncludeRemoteReference(params: Params$getIncludeRemoteReference, option?: RequestOption): Promise<void> {
+        const url = this.baseUrl + \`/get/IncludeRemoteReference\`;
+        const headers = {
+            \\"Content-Type\\": \\"application/json\\"
+        };
+        const queryParameters: QueryParameters = {
+            IncludeRemoteReference: { value: params.parameter.IncludeRemoteReference, explode: false }
+        };
+        return this.apiClient.request(\\"GET\\", url, headers, params.requestBody, queryParameters, option);
+    }
+    public async getFullRemoteReference(params: Params$getFullRemoteReference, option?: RequestOption): Promise<Response$getFullRemoteReference$Status$200[\\"application/json\\"]> {
+        const url = this.baseUrl + \`/FullRemoteReference\`;
+        const headers = {
+            Accept: \\"application/json\\"
+        };
+        const queryParameters: QueryParameters = {
+            FullRemoteReferenceQuery: { value: params.parameter.FullRemoteReferenceQuery, explode: false }
+        };
+        return this.apiClient.request(\\"GET\\", url, headers, undefined, queryParameters, option);
+    }
+    public async getReferenceItems(option?: RequestOption): Promise<Response$getReferenceItems$Status$200[\\"application/json\\"]> {
+        const url = this.baseUrl + \`/get/reference/items\`;
+        const headers = {
+            Accept: \\"application/json\\"
+        };
+        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
+    }
 }
 "
 `;

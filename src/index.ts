@@ -41,11 +41,11 @@ export const generateTypeScriptCode = ({ entryPoint, option, enableValidate = tr
   const convertOption: Converter.v3.Option = option
     ? {
         rewriteCodeAfterTypeDeclaration: option.rewriteCodeAfterTypeDeclaration || DefaultCodeTemplate.rewriteCodeAfterTypeDeclaration,
-        allowOperationIds: filter.allowOperationIds || [],
+        allowOperationIds: filter.allowOperationIds,
       }
     : {
         rewriteCodeAfterTypeDeclaration: DefaultCodeTemplate.rewriteCodeAfterTypeDeclaration,
-        allowOperationIds: filter.allowOperationIds || [],
+        allowOperationIds: filter.allowOperationIds,
       };
   const { createFunction, generateLeadingComment } = Converter.v3.create(entryPoint, schema, resolvedReferenceDocument, convertOption);
   return [generateLeadingComment(), TypeScriptCodeGenerator.generate(createFunction)].join(EOL + EOL + EOL);
