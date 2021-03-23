@@ -1,6 +1,7 @@
 import ts from "typescript";
 
 import * as TypeScriptCodeGenerator from "../../CodeGenerator";
+import * as CodeGenerator from "./CodeGenerator";
 import * as Comment from "./Comment";
 import * as Headers from "./components/Headers";
 import * as Parameters from "./components/Parameters";
@@ -9,26 +10,32 @@ import * as RequestBodies from "./components/RequestBodies";
 import * as Responses from "./components/Responses";
 import * as Schemas from "./components/Schemas";
 import * as ConvertContext from "./ConverterContext";
-import * as Generator from "./Generator";
 import * as Name from "./Name";
 import * as Paths from "./paths";
 import { Store } from "./store";
 import * as TypeNodeContext from "./TypeNodeContext";
 import { CodeGeneratorParams, OpenApi, PickedParameter } from "./types";
 
-export { OpenApi, Generator, CodeGeneratorParams, PickedParameter, Name };
+export { OpenApi, CodeGenerator, CodeGeneratorParams, PickedParameter, Name };
 
 export interface Type {
   generateLeadingComment: () => string;
   createFunction: TypeScriptCodeGenerator.CreateFunction;
+  codeGeneratorOption: CodeGenerator.Option;
 }
 
 export interface Option {
   /**
    * It is possible to rewrite the implementation after the type declaration.
    */
-  rewriteCodeAfterTypeDeclaration: Generator.RewriteCodeAfterTypeDeclaration;
-
+  rewriteCodeAfterTypeDeclaration: CodeGenerator.RewriteCodeAfterTypeDeclaration;
+  /**
+   *
+   */
+  codeGeneratorOption: CodeGenerator.Option;
+  /**
+   * List of operationId to be used
+   */
   allowOperationIds?: string[];
 }
 
@@ -99,7 +106,14 @@ export const create = (entryPoint: string, rootSchema: OpenApi.Document, noRefer
     }
     if (rootSchema.paths) {
       Paths.generateStatements(entryPoint, currentPoint, store, factory, rootSchema.paths, toTypeNodeContext, converterContext);
-      Generator.generateApiClientCode(store, context, converterContext, option.rewriteCodeAfterTypeDeclaration, option.allowOperationIds);
+      CodeGenerator.generateApiClientCode(
+        store,
+        context,
+        converterContext,
+        option.rewriteCodeAfterTypeDeclaration,
+        option.allowOperationIds,
+        option.codeGeneratorOption,
+      );
     }
     return store.getRootStatements();
   };
@@ -107,5 +121,6 @@ export const create = (entryPoint: string, rootSchema: OpenApi.Document, noRefer
   return {
     createFunction,
     generateLeadingComment: () => Comment.generateLeading(rootSchema),
+    codeGeneratorOption: option.codeGeneratorOption,
   };
 };

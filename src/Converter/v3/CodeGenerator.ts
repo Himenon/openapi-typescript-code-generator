@@ -121,9 +121,14 @@ const generateCodeGeneratorParamsList = (
   return params;
 };
 
+export interface Option {
+  sync: boolean;
+}
+
 export type RewriteCodeAfterTypeDeclaration = (
   context: ts.TransformationContext,
   codeGeneratorParamsList: CodeGeneratorParams[],
+  codeGenerateOption: Option,
 ) => ts.Statement[];
 
 export const generateApiClientCode = (
@@ -132,7 +137,8 @@ export const generateApiClientCode = (
   converterContext: ConverterContext.Types,
   rewriteCodeAfterTypeDeclaration: RewriteCodeAfterTypeDeclaration,
   allowOperationIds: string[] | undefined,
+  option: Option,
 ): void => {
   const codeGeneratorParamsList = generateCodeGeneratorParamsList(store, converterContext, allowOperationIds);
-  store.addAdditionalStatement(rewriteCodeAfterTypeDeclaration(context, codeGeneratorParamsList));
+  store.addAdditionalStatement(rewriteCodeAfterTypeDeclaration(context, codeGeneratorParamsList, option));
 };

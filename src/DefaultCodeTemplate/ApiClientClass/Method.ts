@@ -1,7 +1,7 @@
 import ts from "typescript";
 
 import { Factory } from "../../CodeGenerator";
-import { CodeGeneratorParams } from "../../Converter/v3";
+import type { CodeGenerator, CodeGeneratorParams } from "../../Converter/v3";
 import * as MethodBody from "./MethodBody";
 
 export { MethodBody };
@@ -32,7 +32,12 @@ const generateParams = (factory: Factory.Type, params: CodeGeneratorParams) => {
   });
 };
 
-const generateResponseReturnType = (factory: Factory.Type, successResponseNameList: string[], successResponseContentTypeList: string[]) => {
+const generateResponseReturnType = (
+  factory: Factory.Type,
+  successResponseNameList: string[],
+  successResponseContentTypeList: string[],
+  option: CodeGenerator.Option,
+) => {
   let objectType: ts.TypeNode = factory.TypeNode.create({
     type: "void",
   });
@@ -48,6 +53,9 @@ const generateResponseReturnType = (factory: Factory.Type, successResponseNameLi
 
   // レスポンスが存在しないので Promise<void>
   if (successResponseNameList.length === 0) {
+    if (option.sync) {
+      return objectType;
+    }
     return factory.TypeReferenceNode.create({
       name: "Promise",
       typeArguments: [objectType],
@@ -61,6 +69,13 @@ const generateResponseReturnType = (factory: Factory.Type, successResponseNameLi
   if (isOnlyOneResponseContentType) {
     indexType = factory.TypeReferenceNode.create({
       name: `"${successResponseContentTypeList[0]}"`,
+    });
+  }
+
+  if (option.sync) {
+    return factory.IndexedAccessTypeNode.create({
+      objectType,
+      indexType,
     });
   }
 
@@ -106,7 +121,7 @@ const methodTypeParameters = (factory: Factory.Type, params: CodeGeneratorParams
  *
  * }
  */
-export const create = (factory: Factory.Type, params: CodeGeneratorParams): ts.MethodDeclaration => {
+export const create = (factory: Factory.Type, params: CodeGeneratorParams, option: CodeGenerator.Option): ts.MethodDeclaration => {
   const typeParameters: ts.TypeParameterDeclaration[] = methodTypeParameters(factory, params);
   const methodArguments: ts.ParameterDeclaration[] = [];
   const hasParamsArguments =
@@ -116,7 +131,7 @@ export const create = (factory: Factory.Type, params: CodeGeneratorParams): ts.M
     methodArguments.push(generateParams(factory, params));
   }
 
-  const returnType: ts.TypeNode = generateResponseReturnType(factory, params.responseSuccessNames, params.successResponseContentTypes);
+  const returnType: ts.TypeNode = generateResponseReturnType(factory, params.responseSuccessNames, params.successResponseContentTypes, option);
 
   methodArguments.push(
     factory.ParameterDeclaration.create({
@@ -131,7 +146,7 @@ export const create = (factory: Factory.Type, params: CodeGeneratorParams): ts.M
 
   return factory.MethodDeclaration.create({
     name: params.functionName,
-    async: true,
+    async: !option.sync,
     parameters: methodArguments,
     comment: params.comment,
     deprecated: params.deprecated,

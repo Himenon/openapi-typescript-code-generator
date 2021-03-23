@@ -12,7 +12,11 @@ export { Converter };
 export interface Params {
   entryPoint: string;
   option?: {
-    rewriteCodeAfterTypeDeclaration?: Converter.v3.Generator.RewriteCodeAfterTypeDeclaration;
+    rewriteCodeAfterTypeDeclaration?: Converter.v3.CodeGenerator.RewriteCodeAfterTypeDeclaration;
+    codeGenerator?: {
+      /** default false */
+      sync?: boolean;
+    };
   };
   /** default: true */
   enableValidate?: boolean;
@@ -30,6 +34,25 @@ export interface Params {
   };
 }
 
+const generateConvertOption = (filter: Params["filter"] = {}, option?: Params["option"]): Converter.v3.Option => {
+  if (option) {
+    return {
+      rewriteCodeAfterTypeDeclaration: option.rewriteCodeAfterTypeDeclaration || DefaultCodeTemplate.rewriteCodeAfterTypeDeclaration,
+      allowOperationIds: filter.allowOperationIds,
+      codeGeneratorOption: {
+        sync: option.codeGenerator ? !!option.codeGenerator.sync : false,
+      },
+    };
+  }
+  return {
+    rewriteCodeAfterTypeDeclaration: DefaultCodeTemplate.rewriteCodeAfterTypeDeclaration,
+    allowOperationIds: filter.allowOperationIds,
+    codeGeneratorOption: {
+      sync: false,
+    },
+  };
+};
+
 export const generateTypeScriptCode = ({ entryPoint, option, enableValidate = true, log, filter = {} }: Params): string => {
   const schema = fileSystem.loadJsonOrYaml(entryPoint);
   const resolvedReferenceDocument = ResolveReference.resolve(entryPoint, entryPoint, JSON.parse(JSON.stringify(schema)));
@@ -38,15 +61,7 @@ export const generateTypeScriptCode = ({ entryPoint, option, enableValidate = tr
     Validator.v3.validate(resolvedReferenceDocument, log && log.validator);
   }
 
-  const convertOption: Converter.v3.Option = option
-    ? {
-        rewriteCodeAfterTypeDeclaration: option.rewriteCodeAfterTypeDeclaration || DefaultCodeTemplate.rewriteCodeAfterTypeDeclaration,
-        allowOperationIds: filter.allowOperationIds,
-      }
-    : {
-        rewriteCodeAfterTypeDeclaration: DefaultCodeTemplate.rewriteCodeAfterTypeDeclaration,
-        allowOperationIds: filter.allowOperationIds,
-      };
+  const convertOption = generateConvertOption(filter, option);
   const { createFunction, generateLeadingComment } = Converter.v3.create(entryPoint, schema, resolvedReferenceDocument, convertOption);
   return [generateLeadingComment(), TypeScriptCodeGenerator.generate(createFunction)].join(EOL + EOL + EOL);
 };

@@ -1,7 +1,7 @@
 import ts from "typescript";
 
 import { Factory } from "../../CodeGenerator";
-import { CodeGeneratorParams } from "../../Converter/v3";
+import type { CodeGenerator, CodeGeneratorParams } from "../../Converter/v3";
 
 const httpMethodList: string[] = ["GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH", "TRACE"];
 
@@ -104,7 +104,7 @@ const createObjectLikeInterface = (factory: Factory.Type) => {
   });
 };
 
-export const create = (factory: Factory.Type, list: CodeGeneratorParams[]): ts.Statement[] => {
+export const create = (factory: Factory.Type, list: CodeGeneratorParams[], option: CodeGenerator.Option): ts.Statement[] => {
   const objectLikeOrAnyType = factory.UnionTypeNode.create({
     typeNodes: [
       factory.TypeReferenceNode.create({
@@ -163,6 +163,19 @@ export const create = (factory: Factory.Type, list: CodeGeneratorParams[]): ts.S
     }),
   });
 
+  const returnType = option.sync
+    ? factory.TypeReferenceNode.create({
+        name: "T",
+      })
+    : factory.TypeReferenceNode.create({
+        name: "Promise",
+        typeArguments: [
+          factory.TypeReferenceNode.create({
+            name: "T",
+          }),
+        ],
+      });
+
   const functionType = factory.FunctionTypeNode.create({
     typeParameters: [
       factory.TypeParameterDeclaration.create({
@@ -173,14 +186,7 @@ export const create = (factory: Factory.Type, list: CodeGeneratorParams[]): ts.S
       }),
     ],
     parameters: [httpMethod, url, headers, requestBody, queryParameters, options],
-    type: factory.TypeReferenceNode.create({
-      name: "Promise",
-      typeArguments: [
-        factory.TypeReferenceNode.create({
-          name: "T",
-        }),
-      ],
-    }),
+    type: returnType,
   });
 
   const requestFunction = factory.PropertySignature.create({
