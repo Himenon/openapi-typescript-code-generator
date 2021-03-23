@@ -146,7 +146,7 @@ export const create = (factory: Factory.Type, params: CodeGeneratorParams, optio
 
   return factory.MethodDeclaration.create({
     name: params.functionName,
-    async: false,
+    async: !option.sync,
     parameters: methodArguments,
     comment: params.comment,
     deprecated: params.deprecated,

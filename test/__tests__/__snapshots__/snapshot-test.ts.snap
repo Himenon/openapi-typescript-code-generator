@@ -356,7 +356,7 @@ export interface ApiClient<RequestOption> {
 }
 export class Client<RequestOption> {
     constructor(private apiClient: ApiClient<RequestOption>, private baseUrl: string) { }
-    public getIncludeLocalReference(params: Params$getIncludeLocalReference, option?: RequestOption): Promise<Response$getIncludeLocalReference$Status$200[\\"application/json\\"]> {
+    public async getIncludeLocalReference(params: Params$getIncludeLocalReference, option?: RequestOption): Promise<Response$getIncludeLocalReference$Status$200[\\"application/json\\"]> {
         const url = this.baseUrl + \`/get/IncludeLocalReference\`;
         const headers = {
             Accept: \\"application/json\\"
@@ -366,7 +366,7 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request(\\"GET\\", url, headers, undefined, queryParameters, option);
     }
-    public getIncludeRemoteReference(params: Params$getIncludeRemoteReference, option?: RequestOption): Promise<void> {
+    public async getIncludeRemoteReference(params: Params$getIncludeRemoteReference, option?: RequestOption): Promise<void> {
         const url = this.baseUrl + \`/get/IncludeRemoteReference\`;
         const headers = {
             \\"Content-Type\\": \\"application/json\\"
@@ -376,7 +376,7 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request(\\"GET\\", url, headers, params.requestBody, queryParameters, option);
     }
-    public getFullRemoteReference(params: Params$getFullRemoteReference, option?: RequestOption): Promise<Response$getFullRemoteReference$Status$200[\\"application/json\\"]> {
+    public async getFullRemoteReference(params: Params$getFullRemoteReference, option?: RequestOption): Promise<Response$getFullRemoteReference$Status$200[\\"application/json\\"]> {
         const url = this.baseUrl + \`/FullRemoteReference\`;
         const headers = {
             Accept: \\"application/json\\"
@@ -386,7 +386,7 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request(\\"GET\\", url, headers, undefined, queryParameters, option);
     }
-    public getReferenceItems(option?: RequestOption): Promise<Response$getReferenceItems$Status$200[\\"application/json\\"]> {
+    public async getReferenceItems(option?: RequestOption): Promise<Response$getReferenceItems$Status$200[\\"application/json\\"]> {
         const url = this.baseUrl + \`/get/reference/items\`;
         const headers = {
             Accept: \\"application/json\\"
