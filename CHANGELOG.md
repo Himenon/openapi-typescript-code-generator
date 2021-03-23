@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.6.0"></a>
+# 0.6.0 (2021-03-23)
+
+
+### Features
+
+* Support sync API Client generation ([#22](https://github.com/Himenon/openapi-typescript-code-generator/issues/22)) ([4bbde34](https://github.com/Himenon/openapi-typescript-code-generator/commit/4bbde34))
+
+
+
+
+
 <a name="0.5.0"></a>
 # 0.5.0 (2021-03-22)
 
