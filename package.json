@@ -46,7 +46,7 @@
     "release:github:registry": "yarn publish --registry https://npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}",
     "release:npm:registry": "yarn publish",
     "test": "run-s test:depcruise test:jest test:code:gen test:snapshot",
-    "test:code:gen": "yarn ts ./scripts/testCodeGen.ts",
+    "test:code:gen": "yarn ts ./scripts/testCodeGen.ts && yarn ts ./scripts/testCustomCodeGen.ts",
     "test:depcruise": "depcruise --validate .dependency-cruiser.js src",
     "test:eslint": "eslint \"src/**/*.{ts,tsx}\"",
     "test:jest": "jest -c ./jest.config.js",

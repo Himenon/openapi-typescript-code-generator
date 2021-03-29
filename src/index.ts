@@ -1,5 +1,7 @@
 import { EOL } from "os";
 
+import ts from "typescript";
+
 import * as TypeScriptCodeGenerator from "./CodeGenerator";
 import * as Converter from "./Converter";
 import * as DefaultCodeTemplate from "./DefaultCodeTemplate";
@@ -9,10 +11,20 @@ import * as Validator from "./Validator";
 
 export { Converter };
 
+export type CodeGeneratorParams = Converter.v3.CodeGenerator.CodeGeneratorParams;
+
+export type CodeGeneratorOption = Converter.v3.CodeGenerator.Option;
+
+export type RewriteCodeAfterTypeDeclaration = (
+  context: ts.TransformationContext,
+  codeGeneratorParamsList: CodeGeneratorParams[],
+  codeGenerateOption: CodeGeneratorOption,
+) => ts.Statement[] | string;
+
 export interface Params {
   entryPoint: string;
   option?: {
-    rewriteCodeAfterTypeDeclaration?: Converter.v3.CodeGenerator.RewriteCodeAfterTypeDeclaration;
+    rewriteCodeAfterTypeDeclaration?: RewriteCodeAfterTypeDeclaration;
     codeGenerator?: {
       /** default false */
       sync?: boolean;

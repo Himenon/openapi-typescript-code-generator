@@ -129,7 +129,14 @@ export type RewriteCodeAfterTypeDeclaration = (
   context: ts.TransformationContext,
   codeGeneratorParamsList: CodeGeneratorParams[],
   codeGenerateOption: Option,
-) => ts.Statement[];
+) => ts.Statement[] | string;
+
+export { CodeGeneratorParams };
+
+const stringToStatement = (code: string): ts.Statement[] => {
+  const source = ts.createSourceFile("", code, ts.ScriptTarget.ESNext, false, ts.ScriptKind.TS);
+  return Array.from(source.statements);
+};
 
 export const generateApiClientCode = (
   store: Store.Type,
@@ -140,5 +147,10 @@ export const generateApiClientCode = (
   option: Option,
 ): void => {
   const codeGeneratorParamsList = generateCodeGeneratorParamsList(store, converterContext, allowOperationIds);
-  store.addAdditionalStatement(rewriteCodeAfterTypeDeclaration(context, codeGeneratorParamsList, option));
+  const rewriteCode = rewriteCodeAfterTypeDeclaration(context, codeGeneratorParamsList, option);
+  if (typeof rewriteCode === "string") {
+    store.addAdditionalStatement(stringToStatement(rewriteCode));
+  } else {
+    store.addAdditionalStatement(rewriteCode);
+  }
 };

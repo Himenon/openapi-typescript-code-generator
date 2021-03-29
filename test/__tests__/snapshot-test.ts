@@ -23,4 +23,9 @@ describe("Generate Code Snapshot Test", () => {
     const text = generateCode.replace(pattern, replacedText);
     expect(text).toMatchSnapshot();
   });
+  test("custom-aai.test.domain", () => {
+    const generateCode = fs.readFileSync(path.join(__dirname, "../code/custom-api.test.domain.ts"), { encoding: "utf-8" });
+    const text = generateCode.replace(pattern, replacedText);
+    expect(text).toMatchSnapshot();
+  })
 });
