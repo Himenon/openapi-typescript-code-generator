@@ -77,7 +77,7 @@ export const generateReferenceNamespace = (
     kind: "namespace",
     name: nameWithStatusCode,
   });
-  const headerNamespace = store.getStatement(path.join(responseReference.path, "Header"), "namespace");
+  const headerNamespace = store.getStatement(path.posix.join(responseReference.path, "Header"), "namespace");
   if (headerNamespace) {
     store.addStatement(`${basePath}/Header`, {
       kind: "namespace",

@@ -16,8 +16,8 @@ export interface ReferencePathSet {
 const generatePath = (entryPoint: string, currentPoint: string, referencePath: string): ReferencePathSet => {
   const ext = Path.extname(currentPoint); // .yml
   const from = Path.relative(Path.dirname(entryPoint), currentPoint).replace(ext, ""); // components/schemas/A/B
-  const base = Path.dirname(from);
-  const result = Path.relative(base, referencePath); // remoteの場合? localの場合 referencePath.split("/")
+  const base = Path.dirname(from).replace(Path.sep, "/");
+  const result = Path.posix.relative(base, referencePath); // remoteの場合? localの場合 referencePath.split("/")
   const pathArray = result.split("/");
   return {
     pathArray,
@@ -29,7 +29,7 @@ const calculateReferencePath = (store: Store.Type, base: string, pathArray: stri
   let names: string[] = [];
   let unresolvedPaths: string[] = [];
   pathArray.reduce((previous, lastPath, index) => {
-    const current = Path.join(previous, lastPath);
+    const current = Path.posix.join(previous, lastPath);
     // ディレクトリが深い場合は相対パスが`..`を繰り返す可能性があり、
     // その場合はすでに登録されたnamesを削除する
     if (lastPath === ".." && names.length > 0) {

@@ -1,4 +1,4 @@
-import { relative } from "path";
+import * as Path from "path";
 
 import { Tree } from "@himenon/path-oriented-data-structure";
 import Dot from "dot-prop";
@@ -87,11 +87,11 @@ export const create = (factory: Factory.Type, rootDocument: OpenApi.Document): T
       if (!path.startsWith("components")) {
         throw new UnSupportError(`componentsから始まっていません。path=${path}`);
       }
-      const targetPath = relative("components", path);
+      const targetPath = Path.posix.relative("components", path);
       operator.set(targetPath, Structure.createInstance(statement));
     },
     getStatement: <T extends Structure.DataStructure.Kind>(path: string, kind: T): Structure.DataStructure.GetChild<T> | undefined => {
-      const targetPath = relative("components", path);
+      const targetPath = Path.posix.relative("components", path);
       return getChildByPaths(targetPath, kind);
     },
     getRootStatements,

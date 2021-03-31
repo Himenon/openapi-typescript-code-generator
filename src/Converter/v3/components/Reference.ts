@@ -100,7 +100,7 @@ export const generateLocalReference = (reference: OpenApi.Reference): LocalRefer
     return;
   }
   const name = reference.$ref.split(localReferencePattern)[1];
-  const localPath = path.join(localReferenceComponents[localReferencePattern], name);
+  const localPath = path.posix.join(localReferenceComponents[localReferencePattern], name);
   if (!localPath.startsWith("components")) {
     throw new DevelopmentError(`localPath is not start "components":\n${localPath}`);
   }
@@ -138,7 +138,7 @@ export const generate = <T>(entryPoint: string, currentPoint: string, reference:
 
   const relativePathFromEntryPoint = path.relative(path.dirname(entryPoint), referencePoint); // components/hoge/fuga.yml
   const ext = path.extname(relativePathFromEntryPoint); // .yml
-  const pathArray: string[] = relativePathFromEntryPoint.replace(ext, "").split("/"); // ["components", "hoge", "fuga"]
+  const pathArray: string[] = relativePathFromEntryPoint.replace(ext, "").split(path.sep); // ["components", "hoge", "fuga"]
   const targetPath: string = pathArray.join("/"); // components/hoge/fuga
   const schemaName = pathArray[pathArray.length - 1]; // fuga
   const componentName = pathArray[0] === "components" ? pathArray[1] : "";
