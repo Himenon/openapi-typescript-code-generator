@@ -13,9 +13,9 @@ export const copyPackageSet = async (): Promise<void> => {
   const libDir = "lib";
   const publishPackageJson = path.join(libDir, "package.json");
   pkg.private = undefined;
-  pkg.main = path.relative(libDir, pkg.main);
-  pkg.module = path.relative(libDir, pkg.module);
-  pkg.types = path.relative(libDir, pkg.types);
+  pkg.main = path.posix.relative(libDir, pkg.main);
+  pkg.module = path.posix.relative(libDir, pkg.module);
+  pkg.types = path.posix.relative(libDir, pkg.types);
   pkg.directories = undefined;
   pkg.files = undefined;
   fs.writeFileSync(publishPackageJson, JSON.stringify(pkg, null, 2), {

@@ -41,7 +41,7 @@ export const generateNamespace = (
           reference.referencePoint,
           store,
           factory,
-          path.dirname(reference.path), // referencePoint basename === namespace name
+          path.posix.dirname(reference.path), // referencePoint basename === namespace name
           reference.name,
           reference.data,
           context,
@@ -94,7 +94,7 @@ export const generateNamespaceWithStatusCode = (
           reference.referencePoint,
           store,
           factory,
-          path.dirname(reference.path), // referencePoint basename === namespace name
+          path.posix.dirname(reference.path), // referencePoint basename === namespace name
           reference.name,
           reference.data,
           context,
@@ -157,7 +157,7 @@ export const generateInterfacesWithStatusCode = (
           reference.referencePoint,
           store,
           factory,
-          path.dirname(reference.path), // referencePoint basename === namespace name
+          path.posix.dirname(reference.path), // referencePoint basename === namespace name
           reference.name,
           reference.data,
           context,
