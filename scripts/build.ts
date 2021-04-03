@@ -1,6 +1,7 @@
 import "./clean";
 
 import { copyPackageSet } from "./tools/copyPackageSet";
+import { generateExportsField } from "./tools/dualPackageSupport";
 import { shell } from "./tools/shell";
 
 const main = async () => {
@@ -10,7 +11,17 @@ const main = async () => {
     shell("yarn tsc -p tsconfig.esm.json"),
   ]);
   await shell("cherry-pick --cwd ./lib --input-dir ../src --types-dir ./\\$types --cjs-dir ./\\$cjs --esm-dir ./\\$esm");
-  await copyPackageSet();
+
+  const exportsFiled = generateExportsField("./src", {
+    directory: {
+      node: "./$cjs",
+      require: "./$esm",
+      import: "./$esm",
+      default: "./$cjs",
+    },
+  });
+
+  await copyPackageSet(exportsFiled);
 };
 
 main().catch(error => {
