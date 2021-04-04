@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import { posix as path } from "path";
 
-export type SupportModuleType = "node" | "require" | "import" | "default";
+export type SupportModuleType = "browser" | "node" | "require" | "import" | "default";
 
 export type SupportModule = {
   // eslint-disable-next-line no-unused-vars
@@ -36,7 +36,7 @@ const isSupportModuleType = (text: string | undefined): text is SupportModuleTyp
   if (!text) {
     return false;
   }
-  return ["node", "require", "import", "default"].includes(text);
+  return ["node", "browser", "require", "import", "default"].includes(text);
 };
 
 const trimExtension = (p: string): string => {

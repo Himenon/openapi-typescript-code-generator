@@ -14,9 +14,10 @@ const main = async () => {
 
   const exportsFiled = generateExportsField("./src", {
     directory: {
-      node: "./$cjs",
-      require: "./$esm",
       import: "./$esm",
+      // require: "./$cjs", // OFFにするとwebpack 5でesmを読んでくれる
+      node: "./$cjs",
+      browser: "./$esm",
       default: "./$cjs",
     },
   });
