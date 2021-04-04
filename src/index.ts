@@ -6,8 +6,9 @@ import { fileSystem } from "./FileSystem";
 import * as ResolveReference from "./ResolveReference";
 import type { OpenApiTsCodeGen } from "./types";
 import * as Validator from "./Validator";
+import * as DefaultCodeTemplate from "./DefaultCodeTemplate";
 
-export { Transformer, OpenApiTsCodeGen };
+export { Transformer, OpenApiTsCodeGen, DefaultCodeTemplate };
 
 export const make = (config: OpenApiTsCodeGen.Configuration): OpenApiTsCodeGen.Output => {
   const schema = fileSystem.loadJsonOrYaml(config.entryPoint);
@@ -21,9 +22,12 @@ export const make = (config: OpenApiTsCodeGen.Configuration): OpenApiTsCodeGen.O
     }
   }
 
+  const templateName = config.typeDefinitionGenerator?.additional?.template;
+
   const { createFunction, generateLeadingComment } = Transformer.create(config.entryPoint, schema, resolvedReferenceDocument, {
     allowOperationIds: config.openApiSchemaParser?.allowOperationIds,
     codeGeneratorOption: config.typeDefinitionGenerator?.additional?.option || {},
+    generateCodeAfterGeneratedTypeDefinition: templateName ? config.codeGenerator?.templates?.[templateName] : undefined
   });
 
   return {

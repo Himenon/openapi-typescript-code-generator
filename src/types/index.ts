@@ -66,7 +66,7 @@ export namespace CodeGenerator {
 
 export namespace TypeDefinitionGenerator {
   export interface Configuration {
-    additional: CodeGenerator.OutputConfiguration;
+    additional?: CodeGenerator.OutputConfiguration;
   }
 }
 

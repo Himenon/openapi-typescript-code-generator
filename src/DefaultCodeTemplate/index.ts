@@ -6,7 +6,7 @@ import type { CodeGeneratorParams } from "../types/extractSchema";
 import * as ApiClientArgument from "./ApiClientArgument";
 import * as ApiClientClass from "./ApiClientClass";
 
-export const rewriteCodeAfterTypeDeclaration: CodeGenerator.GenerateFunction = (
+export const makeApiClient: CodeGenerator.GenerateFunction = (
   context: ts.TransformationContext,
   codeGeneratorParamsList: CodeGeneratorParams[],
   option: CodeGenerator.Option,

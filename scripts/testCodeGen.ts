@@ -5,6 +5,16 @@ import * as CodeGenerator from "../lib";
 const gen = (name: string, enableValidate = true): void => {
   const params: CodeGenerator.OpenApiTsCodeGen.Configuration = {
     entryPoint: `test/${name}/index.yml`,
+    codeGenerator: {
+      templates: {
+        Default: CodeGenerator.DefaultCodeTemplate.makeApiClient,
+      },
+    },
+    typeDefinitionGenerator: {
+      additional: {
+        template: "Default",
+      },
+    },
     validator: {
       openapiSchema: enableValidate,
       logger: {
@@ -21,13 +31,18 @@ const gen = (name: string, enableValidate = true): void => {
 const genSyncMode = (name: string, enableValidate = true): void => {
   const params: CodeGenerator.OpenApiTsCodeGen.Configuration = {
     entryPoint: `test/${name}/index.yml`,
+    codeGenerator: {
+      templates: {
+        Default: CodeGenerator.DefaultCodeTemplate.makeApiClient,
+      },
+    },
     typeDefinitionGenerator: {
       additional: {
-        template: "",
+        template: "Default",
         option: {
           sync: true,
         },
-      }
+      },
     },
     validator: {
       openapiSchema: enableValidate,
