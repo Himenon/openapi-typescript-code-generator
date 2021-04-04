@@ -4,12 +4,12 @@ import * as TsGenerator from "./CodeGenerator";
 import * as Transformer from "./Converter";
 import { fileSystem } from "./FileSystem";
 import * as ResolveReference from "./ResolveReference";
-import type * as Types from "./types";
+import type { OpenApiTsCodeGen } from "./types";
 import * as Validator from "./Validator";
 
-export { Transformer };
+export { Transformer, OpenApiTsCodeGen };
 
-export const make = (config: Types.TypeScriptCodeGenerator.Configuration): Types.TypeScriptCodeGenerator.Output => {
+export const make = (config: OpenApiTsCodeGen.Configuration): OpenApiTsCodeGen.Output => {
   const schema = fileSystem.loadJsonOrYaml(config.entryPoint);
   const resolvedReferenceDocument = ResolveReference.resolve(config.entryPoint, config.entryPoint, JSON.parse(JSON.stringify(schema)));
 
@@ -23,7 +23,7 @@ export const make = (config: Types.TypeScriptCodeGenerator.Configuration): Types
 
   const { createFunction, generateLeadingComment } = Transformer.create(config.entryPoint, schema, resolvedReferenceDocument, {
     allowOperationIds: config.openApiSchemaParser?.allowOperationIds,
-    codeGeneratorOption: config.codeGenerator?.option || {},
+    codeGeneratorOption: config.typeDefinitionGenerator?.additional?.option || {},
   });
 
   return {

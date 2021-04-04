@@ -43,6 +43,10 @@ export namespace CodeGenerator {
      */
     template: string;
     /**
+     * Code generatorOption
+     */
+    option?: Option;
+    /**
      *
      */
     transform?: (params: IntermediateCode) => IntermediateCode[];
@@ -50,27 +54,23 @@ export namespace CodeGenerator {
 
   export interface Configuration {
     /**
-     * Code generatorOption
-     */
-    option: Option;
-    /**
      * Output files
      */
-    outputs: OutputConfiguration[];
+    outputs?: Record<string, OutputConfiguration>;
     /**
      * Register template
      */
-    templates: Record<string, GenerateFunction>;
+    templates?: Record<string, GenerateFunction>;
   }
 }
 
 export namespace TypeDefinitionGenerator {
   export interface Configuration {
-    generateCodeAfterGeneratedTypeDefinition: CodeGenerator.OutputConfiguration;
+    additional: CodeGenerator.OutputConfiguration;
   }
 }
 
-export namespace TypeScriptCodeGenerator {
+export namespace OpenApiTsCodeGen {
   export interface Configuration {
     entryPoint: string;
     typeDefinitionGenerator?: TypeDefinitionGenerator.Configuration;
