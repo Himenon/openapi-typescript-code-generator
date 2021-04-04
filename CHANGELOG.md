@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.7.1"></a>
+## 0.7.1 (2021-04-04)
+
+
+### Chores
+
+* **deps:** update library version ([#28](https://github.com/Himenon/openapi-typescript-code-generator/issues/28)) ([f19603b](https://github.com/Himenon/openapi-typescript-code-generator/commit/f19603b))
+
+
+
+
+
 <a name="0.7.0"></a>
 # 0.7.0 (2021-04-04)
 
