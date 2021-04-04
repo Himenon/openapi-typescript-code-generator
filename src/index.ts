@@ -12,7 +12,7 @@ export { Converter };
 export interface Params {
   entryPoint: string;
   option?: {
-    rewriteCodeAfterTypeDeclaration?: Converter.v3.CodeGenerator.RewriteCodeAfterTypeDeclaration;
+    rewriteCodeAfterTypeDeclaration?: Converter.CodeGenerator.RewriteCodeAfterTypeDeclaration;
     codeGenerator?: {
       /** default false */
       sync?: boolean;
@@ -34,7 +34,7 @@ export interface Params {
   };
 }
 
-const generateConvertOption = (filter: Params["filter"] = {}, option?: Params["option"]): Converter.v3.Option => {
+const generateConvertOption = (filter: Params["filter"] = {}, option?: Params["option"]): Converter.Option => {
   if (option) {
     return {
       rewriteCodeAfterTypeDeclaration: option.rewriteCodeAfterTypeDeclaration || DefaultCodeTemplate.rewriteCodeAfterTypeDeclaration,
@@ -58,10 +58,10 @@ export const generateTypeScriptCode = ({ entryPoint, option, enableValidate = tr
   const resolvedReferenceDocument = ResolveReference.resolve(entryPoint, entryPoint, JSON.parse(JSON.stringify(schema)));
 
   if (enableValidate) {
-    Validator.v3.validate(resolvedReferenceDocument, log && log.validator);
+    Validator.validate(resolvedReferenceDocument, log && log.validator);
   }
 
   const convertOption = generateConvertOption(filter, option);
-  const { createFunction, generateLeadingComment } = Converter.v3.create(entryPoint, schema, resolvedReferenceDocument, convertOption);
+  const { createFunction, generateLeadingComment } = Converter.create(entryPoint, schema, resolvedReferenceDocument, convertOption);
   return [generateLeadingComment(), TypeScriptCodeGenerator.generate(createFunction)].join(EOL + EOL + EOL);
 };

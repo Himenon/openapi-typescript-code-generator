@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import { Factory } from "../../../CodeGenerator";
+import { Factory } from "../../CodeGenerator";
 import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import { Store } from "../store";

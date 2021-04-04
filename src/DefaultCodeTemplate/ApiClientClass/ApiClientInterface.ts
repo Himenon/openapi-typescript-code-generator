@@ -1,7 +1,7 @@
 import ts from "typescript";
 
 import { Factory } from "../../CodeGenerator";
-import type { CodeGenerator, CodeGeneratorParams } from "../../Converter/v3";
+import type { CodeGenerator, CodeGeneratorParams } from "../../Converter";
 
 const httpMethodList: string[] = ["GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH", "TRACE"];
 

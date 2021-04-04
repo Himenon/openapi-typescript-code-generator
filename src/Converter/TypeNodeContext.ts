@@ -2,8 +2,8 @@ import * as Path from "path";
 
 import ts from "typescript";
 
-import * as TypeScriptCodeGenerator from "../../CodeGenerator";
-import { DevelopmentError } from "../../Exception";
+import * as TypeScriptCodeGenerator from "../CodeGenerator";
+import { DevelopmentError } from "../Exception";
 import * as ConverterContext from "./ConverterContext";
 import { Store } from "./store";
 import * as ToTypeNode from "./toTypeNode";

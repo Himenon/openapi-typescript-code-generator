@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import { Factory } from "../../../CodeGenerator";
+import { Factory } from "../../CodeGenerator";
 import * as ConverterContext from "../ConverterContext";
 import { Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
