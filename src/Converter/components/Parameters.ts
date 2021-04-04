@@ -1,5 +1,5 @@
-import { Factory } from "../../../CodeGenerator";
-import { UnSupportError } from "../../../Exception";
+import { Factory } from "../../CodeGenerator";
+import { UnSupportError } from "../../Exception";
 import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as Name from "../Name";

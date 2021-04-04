@@ -1,7 +1,7 @@
 import ts from "typescript";
 
-import { Factory } from "../../../CodeGenerator";
-import { FeatureDevelopmentError } from "../../../Exception";
+import { Factory } from "../../CodeGenerator";
+import { FeatureDevelopmentError } from "../../Exception";
 import * as ConvertContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import { Store } from "../store";

@@ -5,10 +5,10 @@ import type * as Converter from "../Converter";
 import * as ApiClientArgument from "./ApiClientArgument";
 import * as ApiClientClass from "./ApiClientClass";
 
-export const rewriteCodeAfterTypeDeclaration: Converter.v3.CodeGenerator.RewriteCodeAfterTypeDeclaration = (
+export const rewriteCodeAfterTypeDeclaration: Converter.CodeGenerator.RewriteCodeAfterTypeDeclaration = (
   context: ts.TransformationContext,
-  codeGeneratorParamsList: Converter.v3.CodeGeneratorParams[],
-  option: Converter.v3.CodeGenerator.Option,
+  codeGeneratorParamsList: Converter.CodeGeneratorParams[],
+  option: Converter.CodeGenerator.Option,
 ): ts.Statement[] => {
   const statements: ts.Statement[] = [];
   const factory = TypeScriptCodeGenerator.Factory.create(context);

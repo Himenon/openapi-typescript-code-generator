@@ -1,8 +1,8 @@
 import * as path from "path";
 
-import { DevelopmentError, FeatureDevelopmentError, NotFoundFileError } from "../../../Exception";
-import { fileSystem } from "../../../FileSystem";
-import * as Logger from "../../../Logger";
+import { DevelopmentError, FeatureDevelopmentError, NotFoundFileError } from "../../Exception";
+import { fileSystem } from "../../FileSystem";
+import * as Logger from "../../Logger";
 import * as Guard from "../Guard";
 import { Def } from "../store";
 import { OpenApi } from "../types";

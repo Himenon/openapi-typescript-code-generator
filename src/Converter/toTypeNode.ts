@@ -1,9 +1,9 @@
 import ts from "typescript";
 
-import { Factory } from "../../CodeGenerator";
-import { UnsetTypeError } from "../../Exception";
-import { UnSupportError } from "../../Exception";
-import * as Logger from "../../Logger";
+import { Factory } from "../CodeGenerator";
+import { UnsetTypeError } from "../Exception";
+import { UnSupportError } from "../Exception";
+import * as Logger from "../Logger";
 import * as Reference from "./components/Reference";
 import * as ConverterContext from "./ConverterContext";
 import * as Guard from "./Guard";

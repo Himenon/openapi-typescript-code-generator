@@ -2,8 +2,8 @@ import * as path from "path";
 
 import ts from "typescript";
 
-import { Factory } from "../../../CodeGenerator";
-import { UndefinedComponent } from "../../../Exception";
+import { Factory } from "../../CodeGenerator";
+import { UndefinedComponent } from "../../Exception";
 import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as Name from "../Name";

@@ -3,7 +3,7 @@ import { EOL } from "os";
 import ts from "typescript";
 
 import { Factory } from "../../../../CodeGenerator";
-import { PickedParameter } from "../../../../Converter/v3";
+import { PickedParameter } from "../../../../Converter";
 import * as Utils from "../../../utils";
 import * as PathParameter from "../PathParameter";
 
