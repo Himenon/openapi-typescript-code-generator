@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.7.2"></a>
+## 0.7.2 (2021-04-04)
+
+
+### Code Refactoring
+
+* remove v3 directory ([#29](https://github.com/Himenon/openapi-typescript-code-generator/issues/29)) ([4d1eee4](https://github.com/Himenon/openapi-typescript-code-generator/commit/4d1eee4))
+
+
+
+
+
 <a name="0.7.1"></a>
 ## 0.7.1 (2021-04-04)
 
