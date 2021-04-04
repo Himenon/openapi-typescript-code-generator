@@ -28,6 +28,7 @@
   "sideEffects": false,
   "main": "lib/$cjs/index.js",
   "module": "lib/$esm/index.js",
+  "browser": "lib/$esm/index.js",
   "types": "lib/$types/index.d.ts",
   "directories": {
     "lib": "lib"

@@ -43,6 +43,6 @@ export const validate = (openapiDoc: OpenApi.Document, option?: LogOption): void
   validate(openapiDoc);
   if (validate.errors) {
     showLogs(validate.errors, option);
-    process.exit(1);
+    throw new Error("Validation Error");
   }
 };
