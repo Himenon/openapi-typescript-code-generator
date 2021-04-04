@@ -2,7 +2,8 @@ import ts from "typescript";
 
 import * as ConverterContext from "./ConverterContext";
 import { Store } from "./store";
-import { CodeGeneratorParams, OpenApi, PickedParameter } from "./types";
+import type { CodeGeneratorParams, OpenApi, PickedParameter } from "./types";
+import type { CodeGenerator } from "../types";
 
 const extractPickedParameter = (parameter: OpenApi.Parameter): PickedParameter => {
   return {
@@ -57,7 +58,7 @@ const hasQueryParameters = (parameters?: OpenApi.Parameter[]): boolean => {
   return parameters.filter(parameter => parameter.in === "query").length > 0;
 };
 
-const generateCodeGeneratorParamsList = (
+export const generateCodeGeneratorParamsList = (
   store: Store.Type,
   converterContext: ConverterContext.Types,
   allowOperationIds: string[] | undefined,
@@ -119,26 +120,4 @@ const generateCodeGeneratorParamsList = (
   });
 
   return params;
-};
-
-export interface Option {
-  sync: boolean;
-}
-
-export type RewriteCodeAfterTypeDeclaration = (
-  context: ts.TransformationContext,
-  codeGeneratorParamsList: CodeGeneratorParams[],
-  codeGenerateOption: Option,
-) => ts.Statement[];
-
-export const generateApiClientCode = (
-  store: Store.Type,
-  context: ts.TransformationContext,
-  converterContext: ConverterContext.Types,
-  rewriteCodeAfterTypeDeclaration: RewriteCodeAfterTypeDeclaration,
-  allowOperationIds: string[] | undefined,
-  option: Option,
-): void => {
-  const codeGeneratorParamsList = generateCodeGeneratorParamsList(store, converterContext, allowOperationIds);
-  store.addAdditionalStatement(rewriteCodeAfterTypeDeclaration(context, codeGeneratorParamsList, option));
 };

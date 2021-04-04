@@ -4,6 +4,8 @@ import { DevelopmentError } from "../Exception";
 import * as Factory from "./factory";
 import { CreateFunction, traverse } from "./traverse";
 
+export * as Utils from "./utils";
+
 export { CreateFunction, Factory };
 
 export type TransformerFactory<T extends ts.Node> = ts.TransformerFactory<T>;

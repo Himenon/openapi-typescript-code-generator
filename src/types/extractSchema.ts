@@ -1,4 +1,4 @@
-import * as OpenApi from "./OpenApiSchemaV3";
+import type * as OpenApi from "./OpenApi";
 
 export type PickedParameter = Pick<OpenApi.Parameter, "name" | "in" | "required" | "style" | "explode">;
 
