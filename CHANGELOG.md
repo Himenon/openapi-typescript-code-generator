@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.7.0"></a>
+# 0.7.0 (2021-04-04)
+
+
+### Features
+
+* support dual package ([#27](https://github.com/Himenon/openapi-typescript-code-generator/issues/27)) ([1cb8507](https://github.com/Himenon/openapi-typescript-code-generator/commit/1cb8507))
+
+
+
+
+
 <a name="0.6.2"></a>
 ## 0.6.2 (2021-04-01)
 
