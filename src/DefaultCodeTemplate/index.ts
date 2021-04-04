@@ -1,14 +1,15 @@
 import ts from "typescript";
 
 import * as TypeScriptCodeGenerator from "../CodeGenerator";
-import type * as Converter from "../Converter";
+import type { CodeGenerator } from "../types";
+import type { CodeGeneratorParams } from "../types/extractSchema";
 import * as ApiClientArgument from "./ApiClientArgument";
 import * as ApiClientClass from "./ApiClientClass";
 
-export const rewriteCodeAfterTypeDeclaration: Converter.CodeGenerator.RewriteCodeAfterTypeDeclaration = (
+export const rewriteCodeAfterTypeDeclaration: CodeGenerator.GenerateFunction = (
   context: ts.TransformationContext,
-  codeGeneratorParamsList: Converter.CodeGeneratorParams[],
-  option: Converter.CodeGenerator.Option,
+  codeGeneratorParamsList: CodeGeneratorParams[],
+  option: CodeGenerator.Option,
 ): ts.Statement[] => {
   const statements: ts.Statement[] = [];
   const factory = TypeScriptCodeGenerator.Factory.create(context);

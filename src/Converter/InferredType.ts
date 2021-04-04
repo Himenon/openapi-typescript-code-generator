@@ -1,6 +1,6 @@
-import * as Types from "./types";
+import type { OpenApi } from "./types";
 
-export const getInferredType = (schema: Types.OpenApi.Schema): Types.OpenApi.Schema | undefined => {
+export const getInferredType = (schema: OpenApi.Schema): OpenApi.Schema | undefined => {
   if (schema.type || schema.oneOf || schema.allOf || schema.anyOf) {
     return schema;
   }

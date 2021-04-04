@@ -1,7 +1,8 @@
 import ts from "typescript";
 
 import { Factory } from "../../CodeGenerator";
-import type { CodeGenerator, CodeGeneratorParams } from "../../Converter";
+import type { CodeGenerator } from "../../types";
+import type { CodeGeneratorParams } from "../../types/extractSchema";
 import * as MethodBody from "./MethodBody";
 
 export { MethodBody };

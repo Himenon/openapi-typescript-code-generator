@@ -1,6 +1,7 @@
 import ts from "typescript";
 
 import * as TypeScriptCodeGenerator from "../CodeGenerator";
+import { CodeGenerator as CodeGenerator2 } from "../types";
 import * as CodeGenerator from "./CodeGenerator";
 import * as Comment from "./Comment";
 import * as Headers from "./components/Headers";
@@ -21,22 +22,18 @@ export { OpenApi, CodeGenerator, CodeGeneratorParams, PickedParameter, Name };
 export interface Type {
   generateLeadingComment: () => string;
   createFunction: TypeScriptCodeGenerator.CreateFunction;
-  codeGeneratorOption: CodeGenerator.Option;
+  codeGeneratorOption: CodeGenerator2.Option;
 }
 
 export interface Option {
   /**
-   * It is possible to rewrite the implementation after the type declaration.
-   */
-  rewriteCodeAfterTypeDeclaration: CodeGenerator.RewriteCodeAfterTypeDeclaration;
-  /**
-   *
-   */
-  codeGeneratorOption: CodeGenerator.Option;
-  /**
    * List of operationId to be used
    */
   allowOperationIds?: string[];
+
+  generateCodeAfterGeneratedTypeDefinition?: CodeGenerator2.GenerateFunction;
+
+  codeGeneratorOption: CodeGenerator2.Option;
 }
 
 export const create = (entryPoint: string, rootSchema: OpenApi.Document, noReferenceOpenApiSchema: OpenApi.Document, option: Option): Type => {
@@ -47,6 +44,7 @@ export const create = (entryPoint: string, rootSchema: OpenApi.Document, noRefer
     const factory = TypeScriptCodeGenerator.Factory.create(context);
     const store = Store.create(factory, noReferenceOpenApiSchema);
     const toTypeNodeContext = TypeNodeContext.create(entryPoint, store, factory, converterContext);
+    let extraStatements: ts.Statement[] = [];
 
     if (rootSchema.components) {
       if (rootSchema.components.schemas) {
@@ -106,16 +104,12 @@ export const create = (entryPoint: string, rootSchema: OpenApi.Document, noRefer
     }
     if (rootSchema.paths) {
       Paths.generateStatements(entryPoint, currentPoint, store, factory, rootSchema.paths, toTypeNodeContext, converterContext);
-      CodeGenerator.generateApiClientCode(
-        store,
-        context,
-        converterContext,
-        option.rewriteCodeAfterTypeDeclaration,
-        option.allowOperationIds,
-        option.codeGeneratorOption,
-      );
+
+      const codeGeneratorParamsList = CodeGenerator.generateCodeGeneratorParamsList(store, converterContext, option.allowOperationIds);
+      const extraStatements2 = option.generateCodeAfterGeneratedTypeDefinition?.(context, codeGeneratorParamsList, option.codeGeneratorOption) || [];
+      extraStatements = extraStatements.concat(TypeScriptCodeGenerator.Utils.convertIntermediateCodes(extraStatements2));
     }
-    return store.getRootStatements();
+    return store.getRootStatements().concat(extraStatements);
   };
 
   return {
