@@ -9,25 +9,17 @@ import * as RequestBodies from "./components/RequestBodies";
 import * as Responses from "./components/Responses";
 import * as Schemas from "./components/Schemas";
 import * as ConvertContext from "./ConverterContext";
-import * as Name from "./Name";
 import * as Paths from "./paths";
 import { Store } from "./store";
 import * as TypeNodeContext from "./TypeNodeContext";
 
 export { generateLeading } from "./Comment";
 
-export { OpenApi, CodeGenerator2 as CodeGenerator, Name };
-
 export interface Option {
   /**
    * List of operationId to be used
    */
   allowOperationIds?: string[];
-}
-
-export interface Result {
-  typeDefinitionStatements: ts.Statement[];
-  params: CodeGenerator.Params;
 }
 
 export class Parser {
