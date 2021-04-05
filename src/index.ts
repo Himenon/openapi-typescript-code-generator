@@ -1,13 +1,13 @@
 import { EOL } from "os";
 
-import * as TsGenerator from "./CodeGenerator";
-import { OpenApi, Parser, generateLeading } from "./Converter";
+import * as TsGenerator from "./internal/CodeGenerator";
+import { OpenApi, Parser, generateLeading } from "./internal/Converter";
 import * as DefaultCodeTemplate from "./DefaultCodeTemplate";
-import { fileSystem } from "./FileSystem";
-import * as ResolveReference from "./ResolveReference";
+import { fileSystem } from "./internal/FileSystem";
+import * as ResolveReference from "./internal/ResolveReference";
 import type { OpenApiTsCodeGen } from "./types";
 import * as Types from "./types";
-import * as Validator from "./Validator";
+import * as Validator from "./internal/Validator";
 
 export { Parser, OpenApiTsCodeGen, DefaultCodeTemplate };
 

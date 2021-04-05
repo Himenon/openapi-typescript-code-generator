@@ -1,6 +1,6 @@
-export * as TypeScriptCodeGenerator from "./CodeGenerator";
-export * as Converter from "./Converter";
+export * as TypeScriptCodeGenerator from "./internal/CodeGenerator";
+export * as Converter from "./internal/Converter";
 export * as DefaultCodeTemplate from "./DefaultCodeTemplate";
-export { fileSystem } from "./FileSystem";
-export * as ResolveReference from "./ResolveReference";
-export * as Validator from "./Validator";
+export { fileSystem } from "./internal/FileSystem";
+export * as ResolveReference from "./internal/ResolveReference";
+export * as Validator from "./internal/Validator";

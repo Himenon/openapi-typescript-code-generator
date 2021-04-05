@@ -6,7 +6,7 @@ import * as Ajv from "ajv";
 
 import type { OpenApi } from "../Converter/types";
 import openapiSchema from "./openapi.json";
-import type { Validator } from "../types";
+import type { Validator } from "../../types";
 
 const showLogs = (logs: any[], logger?: Validator.Logger) => {
   if (logger && logger.displayLogLines && logger.displayLogLines > 0) {

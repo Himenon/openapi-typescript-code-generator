@@ -1,1 +1,1 @@
-export * as Factory from "./CodeGenerator/factory";
+export * as Factory from "./internal/CodeGenerator/factory";

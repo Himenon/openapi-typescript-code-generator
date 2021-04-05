@@ -1,5 +1,5 @@
-import { CodeGeneratorParams, PickedParameter } from "../../types/extractSchema";
-import * as OpenApi from "../../types/OpenApi";
+import { CodeGeneratorParams, PickedParameter } from "../../../types/extractSchema";
+import * as OpenApi from "../../../types/OpenApi";
 
 export { OpenApi, CodeGeneratorParams, PickedParameter };
 

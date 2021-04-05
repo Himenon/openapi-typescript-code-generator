@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import type { CodeGenerator } from "../types";
+import type { CodeGenerator } from "../../types";
 
 export const stringToStatements = (code: string): ts.Statement[] => {
   const source = ts.createSourceFile("", code, ts.ScriptTarget.ESNext, false, ts.ScriptKind.TS);

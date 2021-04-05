@@ -3,7 +3,7 @@ import ts from "typescript";
 import * as ConverterContext from "./ConverterContext";
 import { Store } from "./store";
 import type { CodeGeneratorParams, OpenApi, PickedParameter } from "./types";
-import type { CodeGenerator } from "../types";
+import type { CodeGenerator } from "../../types";
 
 const extractPickedParameter = (parameter: OpenApi.Parameter): PickedParameter => {
   return {
