@@ -11,10 +11,9 @@ export interface Type {
   loadJsonOrYaml: (entryPoint: string) => any;
 }
 
-const create = (): Type => {
-  const FRAGMENT = "#/";
-
-  const loadJsonOrYaml = (filename: string): any => {
+export class FileSystem {
+  private static FRAGMENT = "#/";
+  private static internalLoadJsonOrYaml (filename: string): any {
     const ext = path.extname(filename);
     const data = fs.readFileSync(filename, { encoding: "utf-8" });
     switch (ext) {
@@ -27,20 +26,18 @@ const create = (): Type => {
         throw new UnSupportError(`Not support file: ${filename}`);
     }
   };
-  return {
-    existSync: (entryPoint: string): boolean => {
-      return !!(fs.existsSync(entryPoint) && fs.statSync(entryPoint).isFile());
-    },
-    loadJsonOrYaml: (entryPoint: string): any => {
-      const hasFragment: boolean = new RegExp(FRAGMENT).test(entryPoint);
-      if (hasFragment) {
-        const [filename, fragment] = entryPoint.split(FRAGMENT);
-        const data = loadJsonOrYaml(filename);
-        return Dot.get(data, fragment.replace(/\//g, "."));
-      }
-      return loadJsonOrYaml(entryPoint);
-    },
-  };
-};
 
-export const fileSystem = create();
+  public static existSync(entryPoint: string): boolean {
+    return !!(fs.existsSync(entryPoint) && fs.statSync(entryPoint).isFile());
+  }
+
+  public static loadJsonOrYaml(entryPoint: string): any {
+    const hasFragment: boolean = new RegExp(this.FRAGMENT).test(entryPoint);
+    if (hasFragment) {
+      const [filename, fragment] = entryPoint.split(this.FRAGMENT);
+      const data = this.internalLoadJsonOrYaml(filename);
+      return Dot.get(data, fragment.replace(/\//g, "."));
+    }
+    return this.internalLoadJsonOrYaml(entryPoint);
+  };
+}

@@ -1,6 +1,6 @@
 import { EOL } from "os";
 
-import { Converter, ResolveReference, TsGenerator, Validator, fileSystem } from "./api";
+import { Converter, ResolveReference, TsGenerator, Validator, FileSystem } from "./api";
 import * as Types from "./types";
 
 export interface GeneratorTemplate<T> {
@@ -13,7 +13,7 @@ export class CodeGenerator {
   private resolvedReferenceDocument: Types.OpenApi.Document;
   private parser: Converter.Parser;
   constructor(private readonly entryPoint: string) {
-    this.rootSchema = fileSystem.loadJsonOrYaml(entryPoint);
+    this.rootSchema = FileSystem.loadJsonOrYaml(entryPoint);
     this.resolvedReferenceDocument = ResolveReference.resolve(entryPoint, entryPoint, JSON.parse(JSON.stringify(this.rootSchema)));
     this.parser = this.createParser();
   }

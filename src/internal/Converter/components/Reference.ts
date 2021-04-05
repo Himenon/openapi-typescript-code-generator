@@ -2,7 +2,7 @@ import * as path from "path";
 
 import type { OpenApi } from "../../../types";
 import { DevelopmentError, FeatureDevelopmentError, NotFoundFileError } from "../../Exception";
-import { fileSystem } from "../../FileSystem";
+import { FileSystem } from "../../FileSystem";
 import * as Logger from "../../Logger";
 import * as Guard from "../Guard";
 import { Def } from "../store";
@@ -130,7 +130,7 @@ export const generate = <T>(entryPoint: string, currentPoint: string, reference:
 
   const referencePoint = generateReferencePoint(currentPoint, reference);
 
-  if (!fileSystem.existSync(referencePoint)) {
+  if (!FileSystem.existSync(referencePoint)) {
     Logger.showFilePosition(entryPoint, currentPoint, referencePoint);
     Logger.error(JSON.stringify(reference, null, 2));
     throw new NotFoundFileError(`Not found reference point from current point. \n Path: ${referencePoint}`);
@@ -142,7 +142,7 @@ export const generate = <T>(entryPoint: string, currentPoint: string, reference:
   const targetPath: string = pathArray.join("/"); // components/hoge/fuga
   const schemaName = pathArray[pathArray.length - 1]; // fuga
   const componentName = pathArray[0] === "components" ? pathArray[1] : "";
-  const data = fileSystem.loadJsonOrYaml(referencePoint);
+  const data = FileSystem.loadJsonOrYaml(referencePoint);
 
   if (Guard.isReference(data)) {
     return generate<T>(entryPoint, referencePoint, data);
@@ -171,12 +171,12 @@ export const resolveRemoteReference = (
     return { referencePoint: currentPoint, data: reference };
   }
   const referencePoint = generateReferencePoint(currentPoint, reference);
-  if (!fileSystem.existSync(referencePoint)) {
+  if (!FileSystem.existSync(referencePoint)) {
     Logger.showFilePosition(entryPoint, currentPoint, referencePoint);
     Logger.error(JSON.stringify(reference, null, 2));
     throw new NotFoundFileError(`Not found reference point from current point. \n Path: ${referencePoint}`);
   }
-  const data = fileSystem.loadJsonOrYaml(referencePoint);
+  const data = FileSystem.loadJsonOrYaml(referencePoint);
   if (Guard.isReference(data)) {
     return resolveRemoteReference(entryPoint, referencePoint, data);
   }
@@ -191,7 +191,7 @@ export const resolveLocalReference = (entryPoint: string, currentPoint: string, 
     return reference;
   }
   const referencePoint = generateReferencePoint(currentPoint, reference);
-  const data = fileSystem.loadJsonOrYaml(referencePoint);
+  const data = FileSystem.loadJsonOrYaml(referencePoint);
   if (Guard.isReference(data)) {
     return resolveRemoteReference(entryPoint, referencePoint, data);
   }
