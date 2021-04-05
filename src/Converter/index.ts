@@ -13,6 +13,7 @@ import * as Paths from "./paths";
 import { Store } from "./store";
 import * as TypeNodeContext from "./TypeNodeContext";
 import { CodeGeneratorParams, OpenApi, PickedParameter } from "./types";
+
 export { generateLeading } from "./Comment";
 
 export { OpenApi, CodeGenerator, CodeGeneratorParams, PickedParameter, Name };
@@ -44,13 +45,10 @@ export class Parser {
     this.convertContext = ConvertContext.create();
     this.factory = TypeScriptCodeGenerator.Factory.create();
     this.store = Store.create(this.factory, noReferenceOpenApiSchema);
+    this.initialize();
   }
 
-  public getCodeGeneratorParamsArray(): CodeGeneratorParams[] {
-    return CodeGenerator.generateCodeGeneratorParamsList(this.store, this.convertContext, this.option.allowOperationIds);
-  }
-
-  public getTypeDefinitionStatements(): ts.Statement[] {
+  private initialize(): void {
     const toTypeNodeContext = TypeNodeContext.create(this.entryPoint, this.store, this.factory, this.convertContext);
     const rootSchema = this.rootSchema;
     if (rootSchema.components) {
@@ -136,6 +134,13 @@ export class Parser {
         this.convertContext,
       );
     }
+  }
+
+  public getCodeGeneratorParamsArray(): CodeGeneratorParams[] {
+    return CodeGenerator.generateCodeGeneratorParamsArray(this.store, this.convertContext, this.option.allowOperationIds);
+  }
+
+  public getTypeDefinitionStatements(): ts.Statement[] {
     return this.store.getRootStatements();
   }
 }

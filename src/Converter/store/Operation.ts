@@ -22,11 +22,9 @@ export interface State {
 }
 
 export const create = (rootSchema: OpenApi.Document): State => {
-  if (!rootSchema.paths) {
-    throw new DevelopmentError("pathsの存在しないところで利用しないでください");
-  }
+  const paths = rootSchema.paths || {};
   const state: State = {};
-  Object.entries(rootSchema.paths).forEach(([requestUri, pathItem]) => {
+  Object.entries(paths).forEach(([requestUri, pathItem]) => {
     httpMethodList.forEach(httpMethod => {
       const operation = pathItem[httpMethod];
       if (!operation) {
