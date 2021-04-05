@@ -1,15 +1,7 @@
 import { EOL } from "os";
 
-import * as TsGenerator from "./CodeGenerator";
-import { OpenApi, Parser, generateLeading } from "./Converter";
-import * as DefaultCodeTemplate from "./DefaultCodeTemplate";
-import { fileSystem } from "./FileSystem";
-import * as ResolveReference from "./ResolveReference";
-import type { OpenApiTsCodeGen } from "./types";
-import * as Types from "./types";
-import * as Validator from "./Validator";
-
-export { Parser, OpenApiTsCodeGen, DefaultCodeTemplate };
+import { OpenApiTools, ResolveReference, TsGenerator, Validator, FileSystem } from "./api";
+import type * as Types from "./types";
 
 export interface GeneratorTemplate<T> {
   generator: Types.CodeGenerator.GenerateFunction<T>;
@@ -17,17 +9,17 @@ export interface GeneratorTemplate<T> {
 }
 
 export class CodeGenerator {
-  private rootSchema: OpenApi.Document;
-  private resolvedReferenceDocument: OpenApi.Document;
-  private parser: Parser;
+  private rootSchema: Types.OpenApi.Document;
+  private resolvedReferenceDocument: Types.OpenApi.Document;
+  private parser: OpenApiTools.Parser;
   constructor(private readonly entryPoint: string) {
-    this.rootSchema = fileSystem.loadJsonOrYaml(entryPoint);
+    this.rootSchema = FileSystem.loadJsonOrYaml(entryPoint);
     this.resolvedReferenceDocument = ResolveReference.resolve(entryPoint, entryPoint, JSON.parse(JSON.stringify(this.rootSchema)));
     this.parser = this.createParser();
   }
 
-  private createParser(allowOperationIds?: string[]): Parser {
-    return new Parser(this.entryPoint, this.rootSchema, this.resolvedReferenceDocument, {
+  private createParser(allowOperationIds?: string[]): OpenApiTools.Parser {
+    return new OpenApiTools.Parser(this.entryPoint, this.rootSchema, this.resolvedReferenceDocument, {
       allowOperationIds: allowOperationIds,
     });
   }
@@ -50,12 +42,12 @@ export class CodeGenerator {
       }
       return statements;
     };
-    return [generateLeading(this.resolvedReferenceDocument), TsGenerator.generate(create)].join(EOL + EOL + EOL);
+    return [OpenApiTools.Comment.generateLeading(this.resolvedReferenceDocument), TsGenerator.generate(create)].join(EOL + EOL + EOL);
   }
 
   public generateCode<T>(generatorTemplate: GeneratorTemplate<T>): string {
     const payload = this.parser.getCodeGeneratorParamsArray();
     const create = () => TsGenerator.Utils.convertIntermediateCodes(generatorTemplate?.generator(payload, generatorTemplate.option));
-    return [generateLeading(this.resolvedReferenceDocument), TsGenerator.generate(create)].join(EOL + EOL + EOL);
+    return [OpenApiTools.Comment.generateLeading(this.resolvedReferenceDocument), TsGenerator.generate(create)].join(EOL + EOL + EOL);
   }
 }

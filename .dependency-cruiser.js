@@ -1,29 +1,25 @@
 module.exports = {
   extends: "dependency-cruiser/configs/recommended-strict",
-  /*
-       the 'dependency-cruiser/configs/recommended-strict' preset
-       contains these rules:
-       no-circular            - flags all circular dependencies
-       no-orphans             - flags orphan modules (except typescript .d.ts files)
-       no-deprecated-core     - flags dependencies on deprecated node 'core' modules
-       no-deprecated-npm      - flags dependencies on deprecated npm modules
-       no-non-package-json    - flags (npm) dependencies that don't occur in package.json
-       not-to-unresolvable    - flags dependencies that can't be resolved
-       no-duplicate-dep-types - flags dependencies that occur more than once in package.json
-
-       If you need to, you can override these rules. E.g. to ignore the
-       no-duplicate-dep-types rule, you can set its severity to "ignore" by
-       adding this to the 'forbidden' section:
-       {
-            name: 'no-duplicate-dep-types',
-            severity: 'ignore'
-       }
-
-       Also, by default, the preset does not follow any external modules (things in
-       node_modules or in yarn's plug'n'play magic). If you want to have that
-       differently, just override it the options.doNotFollow key.
-     */
   forbidden: [
+    {
+      name: "no-circular",
+      severity: "error",
+      comment: "Found a circular reference, please fix it.",
+      from: {},
+      to: {
+        circular: true,
+      },
+    },
+    {
+      name: "Invalid Code Template Dependency",
+      severity: "error",
+      from: {
+        path: "^src/code-templates",
+      },
+      to: {
+        path: "^src/internal",
+      },
+    },
     {
       name: "not-to-test",
       comment:
@@ -101,80 +97,12 @@ module.exports = {
     },
   ],
   options: {
-    /* conditions specifying which files not to follow further when encountered:
-           - path: a regular expression to match
-           - dependencyTypes: see https://github.com/sverweij/dependency-cruiser/blob/develop/doc/rules-reference.md#dependencytypes
-             for a complete list
-        */
     doNotFollow: {
-      // path: 'node_modules',
       dependencyTypes: ["npm", "npm-dev", "npm-optional", "npm-peer", "npm-bundled", "npm-no-pkg"],
     },
-
-    /* conditions specifying which dependencies to exclude 
-           - path: a regular expression to match
-           - dynamic: a boolean indicating whether to ignore dynamic (true) or static (false) dependencies.
-                    leave out if you want to exclude neither (recommended!)
-        */
-    // , exclude : {
-    //   path: ''
-    //   , dynamic: true
-    // }
-
-    /* pattern specifying which files to include (regular expression) 
-           dependency-cruiser will skip everything not matching this pattern
-        */
-    // , includeOnly : ''
-
-    /* list of module systems to cruise */
-    // , moduleSystems: ['amd', 'cjs', 'es6', 'tsd']
-
-    /* prefix for links in html and svg output (e.g. https://github.com/you/yourrepo/blob/develop/) */
-    // , prefix: ''
-
-    /* if true detect dependencies that only exist before typescript-to-javascript compilation */
     tsPreCompilationDeps: true,
-
-    /* if true combines the package.jsons found from the module up to the base
-           folder the cruise is initiated from. Useful for how (some) mono-repos
-           manage dependencies & dependency definitions.
-         */
-    // , combinedDependencies: false
-
-    /* if true leave symlinks untouched, otherwise use the realpath */
-    // , preserveSymlinks: false
-
-    /* Typescript project file ('tsconfig.json') to use for
-           (1) compilation and
-           (2) resolution (e.g. with the paths property)
-
-           The (optional) fileName attribute specifies which file to take (relative to
-           dependency-cruiser's current working directory). When not provided
-           defaults to './tsconfig.json'.
-         */
     tsConfig: {
       fileName: "./tsconfig.json",
     },
-
-    /* Webpack configuration to use to get resolve options from.
-
-          The (optional) fileName attribute specifies which file to take (relative to dependency-cruiser's
-          current working directory. When not provided defaults to './webpack.conf.js'.
-
-          The (optional) `env` and `args` attributes contain the parameters to be passed if
-          your webpack config is a function and takes them (see webpack documentation
-          for details)
-         */
-    // , webpackConfig: {
-    //    fileName: './webpack.conf.js'
-    //    , env: {}
-    //    , args: {}
-    // }
-
-    /* How to resolve external modules - use "yarn-pnp" if you're using yarn's Plug'n'Play.
-           otherwise leave it out (or set to the default, which is 'node_modules')
-        */
-    // , externalModuleResolutionStrategy: 'node_modules'
   },
 };
-// generated: dependency-cruiser@5.3.2 on 2019-11-21T01:41:12.817Z
