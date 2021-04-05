@@ -3,7 +3,7 @@ import * as path from "path";
 import ts from "typescript";
 
 import type { OpenApi } from "../../../types";
-import { Factory } from "../../CodeGenerator";
+import { Factory } from "../../TsGenerator";
 import { UndefinedComponent } from "../../Exception";
 import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";

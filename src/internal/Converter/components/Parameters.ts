@@ -1,5 +1,5 @@
 import type { OpenApi } from "../../../types";
-import { Factory } from "../../CodeGenerator";
+import { Factory } from "../../TsGenerator";
 import { UnSupportError } from "../../Exception";
 import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";

@@ -1,12 +1,12 @@
 import ts from "typescript";
 
-import type { Factory } from "../../api";
+import type { TsGenerator } from "../../api";
 import type { CodeGenerator } from "../../types";
 
 /**
  * export type RequestContentType${operationId} = keyof RequestBody${operationId};
  */
-export const createRequestContentTypeReference = (factory: Factory.Type, params: CodeGenerator.Params) => {
+export const createRequestContentTypeReference = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params) => {
   return factory.TypeAliasDeclaration.create({
     export: true,
     name: params.requestContentTypeName,
@@ -22,7 +22,7 @@ export const createRequestContentTypeReference = (factory: Factory.Type, params:
  * export type ResponseContentType${operationId} = keyof Response${operationId}$Status$200;
  * export type ResponseContentType${operationId} = keyof Response${operationId}$Status$200 | keyof Response${operationId}$Status$203;
  */
-export const createResponseContentTypeReference = (factory: Factory.Type, params: CodeGenerator.Params) => {
+export const createResponseContentTypeReference = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params) => {
   if (params.has2OrMoreSuccessResponseContentTypes) {
     return factory.TypeAliasDeclaration.create({
       export: true,
@@ -51,7 +51,7 @@ export const createResponseContentTypeReference = (factory: Factory.Type, params
   });
 };
 
-const createHeaders = (factory: Factory.Type, params: CodeGenerator.Params) => {
+const createHeaders = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params) => {
   const members = [];
 
   if (params.has2OrMoreRequestContentTypes) {
@@ -88,7 +88,7 @@ const createHeaders = (factory: Factory.Type, params: CodeGenerator.Params) => {
  *   requestBody: {requestBodyName}[T];
  * }
  */
-export const create = (factory: Factory.Type, params: CodeGenerator.Params): ts.InterfaceDeclaration | undefined => {
+export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params): ts.InterfaceDeclaration | undefined => {
   const typeParameters: ts.TypeParameterDeclaration[] = [];
   const members: ts.TypeElement[] = [];
   if (params.hasRequestBody && params.has2OrMoreRequestContentTypes) {

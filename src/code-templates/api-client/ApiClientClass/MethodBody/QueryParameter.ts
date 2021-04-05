@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import type { Factory } from "../../../../api";
+import type { TsGenerator } from "../../../../api";
 import * as Utils from "../../../../utils";
 import * as UtilsExtra from "../../utils";
 
@@ -18,7 +18,7 @@ export interface Params {
   };
 }
 
-export const create = (factory: Factory.Type, params: Params): ts.VariableStatement => {
+export const create = (factory: TsGenerator.Factory.Type, params: Params): ts.VariableStatement => {
   const properties: ts.PropertyAssignment[] = Object.entries(params.object).reduce<ts.PropertyAssignment[]>((previous, [key, item]) => {
     const childProperties: ts.PropertyAssignment[] = [
       factory.PropertyAssignment.create({

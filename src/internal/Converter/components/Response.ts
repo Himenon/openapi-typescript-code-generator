@@ -1,7 +1,7 @@
 import * as path from "path";
 
 import type { OpenApi } from "../../../types";
-import { Factory } from "../../CodeGenerator";
+import { Factory } from "../../TsGenerator";
 import * as ConverterContext from "../ConverterContext";
 import * as Name from "../Name";
 import { Store } from "../store";

@@ -1,11 +1,11 @@
 import ts from "typescript";
 
-import type { Factory } from "../../../api";
+import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
 
 const httpMethodList: string[] = ["GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH", "TRACE"];
 
-const createErrorResponsesTypeAlias = (typeName: string, factory: Factory.Type, errorResponseNames: string[]) => {
+const createErrorResponsesTypeAlias = (typeName: string, factory: TsGenerator.Factory.Type, errorResponseNames: string[]) => {
   if (errorResponseNames.length === 0) {
     return factory.TypeAliasDeclaration.create({
       export: true,
@@ -26,7 +26,7 @@ const createErrorResponsesTypeAlias = (typeName: string, factory: Factory.Type, 
   });
 };
 
-const createSuccessResponseTypeAlias = (typeName: string, factory: Factory.Type, successResponseNames: string[]) => {
+const createSuccessResponseTypeAlias = (typeName: string, factory: TsGenerator.Factory.Type, successResponseNames: string[]) => {
   if (successResponseNames.length === 0) {
     return factory.TypeAliasDeclaration.create({
       export: true,
@@ -47,7 +47,7 @@ const createSuccessResponseTypeAlias = (typeName: string, factory: Factory.Type,
   });
 };
 
-const createHttpMethod = (factory: Factory.Type) => {
+const createHttpMethod = (factory: TsGenerator.Factory.Type) => {
   return factory.TypeAliasDeclaration.create({
     export: true,
     name: "HttpMethod",
@@ -55,7 +55,7 @@ const createHttpMethod = (factory: Factory.Type) => {
   });
 };
 
-const createQueryParamsDeclarations = (factory: Factory.Type) => {
+const createQueryParamsDeclarations = (factory: TsGenerator.Factory.Type) => {
   const queryParameterDeclaration = factory.InterfaceDeclaration.create({
     export: true,
     name: "QueryParameter",
@@ -91,7 +91,7 @@ const createQueryParamsDeclarations = (factory: Factory.Type) => {
   return [queryParameterDeclaration, queryParametersDeclaration];
 };
 
-const createObjectLikeInterface = (factory: Factory.Type) => {
+const createObjectLikeInterface = (factory: TsGenerator.Factory.Type) => {
   return factory.InterfaceDeclaration.create({
     export: true,
     name: "ObjectLike",
@@ -104,7 +104,7 @@ const createObjectLikeInterface = (factory: Factory.Type) => {
   });
 };
 
-export const create = (factory: Factory.Type, list: CodeGenerator.Params[], option: { sync?: boolean }): ts.Statement[] => {
+export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Params[], option: { sync?: boolean }): ts.Statement[] => {
   const objectLikeOrAnyType = factory.UnionTypeNode.create({
     typeNodes: [
       factory.TypeReferenceNode.create({

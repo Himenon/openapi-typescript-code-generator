@@ -1,7 +1,7 @@
 import ts from "typescript";
 
 import type { CodeGenerator, OpenApi } from "../../types";
-import * as TypeScriptCodeGenerator from "../CodeGenerator";
+import * as TypeScriptCodeGenerator from "../TsGenerator";
 import * as CodeGenerator2 from "./CodeGenerator";
 import * as Headers from "./components/Headers";
 import * as Parameters from "./components/Parameters";

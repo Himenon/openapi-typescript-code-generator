@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import type { Factory } from "../../../../api";
+import type { TsGenerator } from "../../../../api";
 import * as Utils from "../../utils";
 
 export interface Params {
@@ -8,7 +8,7 @@ export interface Params {
   object: Utils.LiteralExpressionObject;
 }
 
-export const create = (factory: Factory.Type, params: Params): ts.VariableStatement => {
+export const create = (factory: TsGenerator.Factory.Type, params: Params): ts.VariableStatement => {
   return factory.VariableStatement.create({
     declarationList: factory.VariableDeclarationList.create({
       flag: "const",

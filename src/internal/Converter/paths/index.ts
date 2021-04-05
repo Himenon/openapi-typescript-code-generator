@@ -1,7 +1,7 @@
 import ts from "typescript";
 
 import type { OpenApi } from "../../../types";
-import { Factory } from "../../CodeGenerator";
+import { Factory } from "../../TsGenerator";
 import * as PathItem from "../components/PathItem";
 import * as Reference from "../components/Reference";
 import * as ConverterContext from "../ConverterContext";

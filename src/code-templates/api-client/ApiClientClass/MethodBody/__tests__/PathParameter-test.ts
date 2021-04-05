@@ -2,7 +2,7 @@ import { EOL } from "os";
 
 import ts from "typescript";
 
-import { Factory } from "../../../../../api";
+import { TsGenerator } from "../../../../../api";
 import type { CodeGenerator } from "../../../../../types";
 import * as Utils from "../../../utils";
 import * as PathParameter from "../PathParameter";
@@ -35,7 +35,7 @@ const getText = (expression: ts.Expression) => {
 };
 
 describe("PathParameter Test", () => {
-  const factory = Factory.create();
+  const factory = TsGenerator.Factory.create();
   const generate = (url: string, pathParameter: CodeGenerator.PickedParameter[]): string => {
     const urlTemplates = PathParameter.generateUrlTemplateExpression(factory, url, pathParameter);
     const expression = Utils.generateTemplateExpression(factory, urlTemplates);

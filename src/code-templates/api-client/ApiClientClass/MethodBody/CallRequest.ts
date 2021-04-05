@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import type { Factory } from "../../../../api";
+import type { TsGenerator } from "../../../../api";
 import type { CodeGenerator } from "../../../../types";
 import * as Utils from "../../utils";
 
@@ -12,7 +12,7 @@ export interface Params {
 /**
  * this.apiClient.request("GET", url, requestBody, headers, queryParameters);
  */
-export const create = (factory: Factory.Type, params: CodeGenerator.Params): ts.CallExpression => {
+export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params): ts.CallExpression => {
   const expression = Utils.generateVariableIdentifier(factory, "this.apiClient.request");
   const argumentsArray = [
     factory.StringLiteral.create({ text: params.httpMethod.toUpperCase() }),

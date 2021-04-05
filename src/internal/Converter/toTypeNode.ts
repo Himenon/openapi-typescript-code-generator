@@ -1,7 +1,7 @@
 import ts from "typescript";
 
 import type { OpenApi } from "../../types";
-import { Factory } from "../CodeGenerator";
+import { Factory } from "../TsGenerator";
 import { UnsetTypeError } from "../Exception";
 import { UnSupportError } from "../Exception";
 import * as Logger from "../Logger";

@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import type { Factory } from "../../api";
+import type { TsGenerator } from "../../api";
 import * as Utils from "../../utils";
 
 export interface StringItem {
@@ -18,7 +18,7 @@ export type Item = StringItem | ExpressionItem;
 export type Params$TemplateExpression = Item[];
 
 const getTemplateSpan = (
-  factory: Factory.Type,
+  factory: TsGenerator.Factory.Type,
   currentIndex: number,
   nextIndex: number,
   lastIndex: number,
@@ -102,7 +102,7 @@ const getTemplateSpan = (
  * `${a}b${c}`
  * ``
  */
-export const generateTemplateExpression = (factory: Factory.Type, list: Params$TemplateExpression): ts.Expression => {
+export const generateTemplateExpression = (factory: TsGenerator.Factory.Type, list: Params$TemplateExpression): ts.Expression => {
   if (list.length === 0) {
     return factory.NoSubstitutionTemplateLiteral.create({
       text: "",
@@ -141,7 +141,7 @@ export const generateTemplateExpression = (factory: Factory.Type, list: Params$T
 };
 
 export const generateVariableIdentifier = (
-  factory: Factory.Type,
+  factory: TsGenerator.Factory.Type,
   name: string,
 ): ts.Identifier | ts.PropertyAccessExpression | ts.ElementAccessExpression => {
   if (name.startsWith("/")) {
@@ -178,7 +178,7 @@ export interface LiteralExpressionObject {
 }
 
 export const generateObjectLiteralExpression = (
-  factory: Factory.Type,
+  factory: TsGenerator.Factory.Type,
   obj: LiteralExpressionObject,
   extraProperties: ts.PropertyAssignment[] = [],
 ): ts.ObjectLiteralExpression => {
