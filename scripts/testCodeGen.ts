@@ -9,7 +9,7 @@ const gen = (name: string, enableValidate = true): void => {
   const code = codeGenerator.generateTypeDefinition<DefaultCodeTemplate.Option>({
     generator: DefaultCodeTemplate.makeApiClient,
     option: {
-      sync: true,
+      sync: false,
     },
   });
   fs.writeFileSync(`test/code/${name}.ts`, code, { encoding: "utf-8" });
