@@ -5,7 +5,6 @@ import { generateExportsField } from "./tools/dualPackageSupport";
 import { shell } from "./tools/shell";
 import { cherryPick } from "./tools/cherry-pick";
 import * as fs from "fs";
-import { posix as path } from "path";
 
 
 const main = async () => {

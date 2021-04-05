@@ -33,7 +33,7 @@ const isFile = (path: string) =>
     .catch(() => false);
 
 const withDefaults = ({ cwd = ".", ...options }: Option, additionalDefaults: { cjsDir?: string; esmDir?: string } = {}): Option => ({
-  cwd: path.resolve(process.cwd(), cwd),
+  cwd: path.join(process.cwd(), cwd),
   ...additionalDefaults,
   ...options,
 });
@@ -92,11 +92,7 @@ export const cherryPick = async (inputOptions: Option) => {
     esmDir: "es",
   });
 
-  console.log(options);
-
   const files = await findFiles(options);
-
-  console.log({ files });
 
   await Promise.all(
     files.map(async file => {
