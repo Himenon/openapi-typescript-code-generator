@@ -15,7 +15,7 @@ const main = async () => {
     shell("yarn tsc -p tsconfig.esm.json"),
   ]);
 
-  await cherryPick({ inputDir: "../src", cwd: path.join(__dirname, "../lib"), typesDir: "./$types", cjsDir: "./$cjs", esmDir: "./$esm" });
+  await cherryPick({ inputDir: "../src", cwd: "./lib", typesDir: "./$types", cjsDir: "./$cjs", esmDir: "./$esm" });
 
   const outputList = fs.readdirSync("./lib");
 
