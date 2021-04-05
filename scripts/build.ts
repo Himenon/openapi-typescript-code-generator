@@ -3,9 +3,10 @@ import "./clean";
 import { copyPackageSet } from "./tools/copyPackageSet";
 import { generateExportsField } from "./tools/dualPackageSupport";
 import { shell } from "./tools/shell";
+import { cherryPick } from "./tools/cherry-pick";
 import * as fs from "fs";
+import { posix as path } from "path";
 
-const { default: cherryPick } = require("cherry-pick");
 
 const main = async () => {
   await Promise.all([
@@ -14,8 +15,7 @@ const main = async () => {
     shell("yarn tsc -p tsconfig.esm.json"),
   ]);
 
-  await cherryPick({ inputDir: "../src", cwd: "./lib", typesDir: "./$types", cjsDir: "./$cjs", esmDir: "./$esm" });
-
+  await cherryPick({ inputDir: "../src", cwd: path.join(__dirname, "../lib"), typesDir: "./$types", cjsDir: "./$cjs", esmDir: "./$esm" });
 
   const outputList = fs.readdirSync("./lib");
 
