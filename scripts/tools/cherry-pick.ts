@@ -2,10 +2,10 @@ import * as fs from "fs";
 import { posix as path } from "path";
 import { promisify } from "util";
 
-const readPkgUp = require("read-pkg-up");
+import readPkgUp from "read-pkg-up";
+import * as rimraf from "rimraf";
 
 const mkDir = promisify(fs.mkdir);
-const rimraf = promisify(require("rimraf"));
 const stat = promisify(fs.stat);
 const writeFile = promisify(fs.writeFile);
 
@@ -17,7 +17,6 @@ export interface Option {
   esmDir: string;
   typesDir?: string;
 }
-
 
 interface ProxyPackage {
   name: string;
@@ -58,7 +57,7 @@ const getPkgName = async (options: Option) => {
   if (!result) {
     throw new Error("Could not determine package name. No `name` option was passed and no package.json was found relative to: " + options.cwd);
   }
-  const pkgName = result.pkg.name;
+  const pkgName = result.packageJson.name;
   pkgCache.set(options, pkgName);
   return pkgName;
 };
@@ -98,8 +97,6 @@ export const cherryPick = async (inputOptions: Option) => {
     files.map(async file => {
       const proxyDir = path.join(options.cwd, file);
       await mkDir(proxyDir).catch(noop);
-
-      console.log(`Generate: ${proxyDir}/package.json`);
       await writeFile(`${proxyDir}/package.json`, await fileProxy(options, file));
     }),
   );
@@ -110,6 +107,7 @@ export const cherryPick = async (inputOptions: Option) => {
 export const clean = async (inputOptions: Option) => {
   const options = withDefaults(inputOptions);
   const files = await findFiles(options);
-  await Promise.all(files.map(async file => rimraf(path.join(options.cwd, file))));
+
+  await Promise.all(files.map(async file => rimraf.sync(path.join(options.cwd, file))));
   return files;
 };

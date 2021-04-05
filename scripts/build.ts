@@ -18,9 +18,6 @@ const main = async () => {
 
   const outputList = fs.readdirSync("./lib");
 
-  console.log("Output list");
-  console.log(outputList);
-
   const exportsFiled = generateExportsField("./src", {
     directory: {
       import: "./$esm",
