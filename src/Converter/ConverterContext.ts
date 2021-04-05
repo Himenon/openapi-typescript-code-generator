@@ -1,4 +1,4 @@
-import * as Name from "./Name";
+import * as Utils from "../utils";
 /**
  * ユーザーが利用できる各種変換オプション
  */
@@ -44,7 +44,7 @@ export const create = (): Types => {
     return word;
   };
   const convertString = (text: string): string => {
-    if (Name.isAvailableVariableName(text)) {
+    if (Utils.isAvailableVariableName(text)) {
       return text;
     }
     return text.replace(/-/g, "$").replace(/\//g, "$");
@@ -57,28 +57,28 @@ export const create = (): Types => {
       return convertReservedWord(convertString(text));
     },
     escapePropertySignatureName: (text: string) => {
-      return Name.escapeText(text);
+      return Utils.escapeText(text);
     },
     escapeTypeReferenceNodeName: (text: string) => {
       return convertString(text);
     },
     generateResponseName: (operationId: string, statusCode: string): string => {
-      return Name.responseName(convertString(operationId), statusCode);
+      return Utils.responseName(convertString(operationId), statusCode);
     },
     generateArgumentParamsTypeDeclaration: (operationId: string) => {
-      return Name.argumentParamsTypeDeclaration(convertString(operationId));
+      return Utils.argumentParamsTypeDeclaration(convertString(operationId));
     },
     generateRequestContentTypeName: (operationId: string) => {
-      return Name.requestContentType(convertString(operationId));
+      return Utils.requestContentType(convertString(operationId));
     },
     generateResponseContentTypeName: (operationId: string) => {
-      return Name.responseContentType(convertString(operationId));
+      return Utils.responseContentType(convertString(operationId));
     },
     generateParameterName: (operationId: string) => {
-      return Name.parameterName(convertString(operationId));
+      return Utils.parameterName(convertString(operationId));
     },
     generateRequestBodyName: (operationId: string) => {
-      return Name.requestBodyName(convertString(operationId));
+      return Utils.requestBodyName(convertString(operationId));
     },
     generateFunctionName: (operationId: string) => {
       return convertString(operationId);

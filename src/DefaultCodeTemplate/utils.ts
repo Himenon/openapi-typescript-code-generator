@@ -1,8 +1,7 @@
 import ts from "typescript";
 
-import { Factory } from "../CodeGenerator";
-import { Name } from "../Converter";
-import { DevelopmentError } from "../Exception";
+import type { Factory } from "../factory";
+import * as Utils from "../utils";
 
 export interface StringItem {
   type: "string";
@@ -131,7 +130,7 @@ export const generateTemplateExpression = (factory: Factory.Type, list: Params$T
     const currentItem = spanList[currentIndex];
     const nextItem = spanList[nextIndex];
     if (currentItem.type === "string") {
-      throw new DevelopmentError("Logic Error");
+      throw new Error("Logic Error");
     }
     templateSpans = templateSpans.concat(getTemplateSpan(factory, currentIndex, nextIndex, lastIndex, currentItem, nextItem));
   }
@@ -161,7 +160,7 @@ export const generateVariableIdentifier = (
   });
 
   return rest.reduce<ts.PropertyAccessExpression | ts.ElementAccessExpression>((previous, current: string) => {
-    if (Name.isAvailableVariableName(current)) {
+    if (Utils.isAvailableVariableName(current)) {
       return factory.PropertyAccessExpression.create({
         expression: previous,
         name: current,
@@ -187,7 +186,7 @@ export const generateObjectLiteralExpression = (
     const initializer =
       item.type === "variable" ? generateVariableIdentifier(factory, item.value) : factory.StringLiteral.create({ text: item.value });
     return factory.PropertyAssignment.create({
-      name: Name.escapeText(key),
+      name: Utils.escapeText(key),
       initializer,
     });
   });

@@ -2,8 +2,8 @@ import { EOL } from "os";
 
 import ts from "typescript";
 
-import { Factory } from "../../../../CodeGenerator";
-import { PickedParameter } from "../../../../Converter";
+import { Factory } from "../../../../factory";
+import type { PickedParameter } from "../../../../types/extractSchema";
 import * as Utils from "../../../utils";
 import * as PathParameter from "../PathParameter";
 

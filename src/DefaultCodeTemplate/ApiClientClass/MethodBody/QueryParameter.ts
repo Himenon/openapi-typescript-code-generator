@@ -1,8 +1,8 @@
 import ts from "typescript";
 
-import { Factory } from "../../../CodeGenerator";
-import { Name } from "../../../Converter";
-import * as Utils from "../../utils";
+import type { Factory } from "../../../factory";
+import * as Utils from "../../../utils";
+import * as UtilsExtra from "../../utils";
 
 export interface Item {
   type: "string" | "variable";
@@ -24,7 +24,7 @@ export const create = (factory: Factory.Type, params: Params): ts.VariableStatem
       factory.PropertyAssignment.create({
         name: "value",
         initializer:
-          item.type === "variable" ? Utils.generateVariableIdentifier(factory, item.value) : factory.StringLiteral.create({ text: item.value }),
+          item.type === "variable" ? UtilsExtra.generateVariableIdentifier(factory, item.value) : factory.StringLiteral.create({ text: item.value }),
       }),
     ];
     if (item.style) {
@@ -45,7 +45,7 @@ export const create = (factory: Factory.Type, params: Params): ts.VariableStatem
       properties: childProperties,
     });
     const childObject = factory.PropertyAssignment.create({
-      name: Name.escapeText(key),
+      name: Utils.escapeText(key),
       initializer: childObjectInitializer,
     });
     return previous.concat(childObject);

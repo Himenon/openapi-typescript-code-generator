@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import { Factory } from "../../CodeGenerator";
+import type { Factory } from "../../factory";
 
 /**
  * export class Client<ApiClient> {

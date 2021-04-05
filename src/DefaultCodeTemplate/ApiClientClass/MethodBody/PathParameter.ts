@@ -1,7 +1,7 @@
 import ts from "typescript";
 
-import { Factory } from "../../../CodeGenerator";
-import { PickedParameter } from "../../../Converter";
+import type { Factory } from "../../../factory";
+import type { PickedParameter } from "../../../types/extractSchema";
 import * as Utils from "../../utils";
 
 export const isPathParameter = (params: any): params is PickedParameter => {

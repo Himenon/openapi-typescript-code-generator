@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import * as TypeScriptCodeGenerator from "../CodeGenerator";
+import { Factory } from "../factory";
 import type { CodeGenerator } from "../types";
 import type { CodeGeneratorParams } from "../types/extractSchema";
 import * as ApiClientArgument from "./ApiClientArgument";
@@ -15,7 +15,7 @@ export const makeApiClient: CodeGenerator.GenerateFunction<Option> = (
   option?: Option,
 ): ts.Statement[] => {
   const statements: ts.Statement[] = [];
-  const factory = TypeScriptCodeGenerator.Factory.create();
+  const factory = Factory.create();
   codeGeneratorParamsList.forEach(codeGeneratorParams => {
     if (codeGeneratorParams.hasRequestBody) {
       statements.push(ApiClientArgument.createRequestContentTypeReference(factory, codeGeneratorParams));

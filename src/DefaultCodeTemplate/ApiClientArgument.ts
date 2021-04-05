@@ -1,7 +1,7 @@
 import ts from "typescript";
 
-import { Factory } from "../CodeGenerator";
-import { CodeGeneratorParams } from "../Converter";
+import type { Factory } from "../factory";
+import type { CodeGeneratorParams } from "../types/extractSchema";
 
 /**
  * export type RequestContentType${operationId} = keyof RequestBody${operationId};
