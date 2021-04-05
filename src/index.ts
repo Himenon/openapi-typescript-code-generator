@@ -1,13 +1,7 @@
 import { EOL } from "os";
 
-import * as TsGenerator from "./internal/CodeGenerator";
-import { OpenApi, Parser, generateLeading } from "./internal/Converter";
-import { fileSystem } from "./internal/FileSystem";
-import * as ResolveReference from "./internal/ResolveReference";
-import * as Validator from "./internal/Validator";
+import { Converter, ResolveReference, TsGenerator, Validator, fileSystem } from "./api";
 import * as Types from "./types";
-
-export { Parser };
 
 export interface GeneratorTemplate<T> {
   generator: Types.CodeGenerator.GenerateFunction<T>;
@@ -15,17 +9,17 @@ export interface GeneratorTemplate<T> {
 }
 
 export class CodeGenerator {
-  private rootSchema: OpenApi.Document;
-  private resolvedReferenceDocument: OpenApi.Document;
-  private parser: Parser;
+  private rootSchema: Types.OpenApi.Document;
+  private resolvedReferenceDocument: Types.OpenApi.Document;
+  private parser: Converter.Parser;
   constructor(private readonly entryPoint: string) {
     this.rootSchema = fileSystem.loadJsonOrYaml(entryPoint);
     this.resolvedReferenceDocument = ResolveReference.resolve(entryPoint, entryPoint, JSON.parse(JSON.stringify(this.rootSchema)));
     this.parser = this.createParser();
   }
 
-  private createParser(allowOperationIds?: string[]): Parser {
-    return new Parser(this.entryPoint, this.rootSchema, this.resolvedReferenceDocument, {
+  private createParser(allowOperationIds?: string[]): Converter.Parser {
+    return new Converter.Parser(this.entryPoint, this.rootSchema, this.resolvedReferenceDocument, {
       allowOperationIds: allowOperationIds,
     });
   }
@@ -48,12 +42,12 @@ export class CodeGenerator {
       }
       return statements;
     };
-    return [generateLeading(this.resolvedReferenceDocument), TsGenerator.generate(create)].join(EOL + EOL + EOL);
+    return [Converter.generateLeading(this.resolvedReferenceDocument), TsGenerator.generate(create)].join(EOL + EOL + EOL);
   }
 
   public generateCode<T>(generatorTemplate: GeneratorTemplate<T>): string {
     const payload = this.parser.getCodeGeneratorParamsArray();
     const create = () => TsGenerator.Utils.convertIntermediateCodes(generatorTemplate?.generator(payload, generatorTemplate.option));
-    return [generateLeading(this.resolvedReferenceDocument), TsGenerator.generate(create)].join(EOL + EOL + EOL);
+    return [Converter.generateLeading(this.resolvedReferenceDocument), TsGenerator.generate(create)].join(EOL + EOL + EOL);
   }
 }

@@ -14,10 +14,10 @@ module.exports = {
       name: "Invalid Code Template Dependency",
       severity: "error",
       from: {
-        path: "^src/DefaultCodeTemplate",
+        path: "^src/code-templates",
       },
       to: {
-        path: "^src/CodeGenerator|^src/Converter|^src/Logger|^src/Exception|^src/ResolveReference|^src/Validator",
+        path: "^src/internal",
       },
     },
     {
