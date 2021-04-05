@@ -15,7 +15,9 @@ export interface Factory {
   create: (params: Params$Create) => ts.TypeOperatorNode;
 }
 
-export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (params: Params$Create): ts.TypeOperatorNode => {
+export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (
+  params: Params$Create,
+): ts.TypeOperatorNode => {
   const node = factory.createTypeOperatorNode(syntaxKinds[params.syntaxKind], params.type);
   return node;
 };

@@ -1,8 +1,10 @@
+import type ts from "typescript";
+
 import type * as OpenApi from "./OpenApi";
 
 export type PickedParameter = Pick<OpenApi.Parameter, "name" | "in" | "required" | "style" | "explode">;
 
-export interface CodeGeneratorParams {
+export interface Params {
   operationId: string;
   escapedOperationId: string;
   httpMethod: string; // get, post, put, delete ...etc
@@ -34,4 +36,18 @@ export interface CodeGeneratorParams {
   // Arguments
   hasParameter: boolean;
   hasRequestBody: boolean;
+}
+
+/**
+ * Used to further transform the code created by the specified Generator Template.
+ */
+export type IntermediateCode = string | ts.Statement;
+
+export type GenerateFunction<Option = {}> = (payload: Params[], option?: Option) => IntermediateCode[];
+
+export interface OutputConfiguration {
+  /**
+   *
+   */
+  transform?: (params: IntermediateCode) => IntermediateCode[];
 }

@@ -1,9 +1,9 @@
+import type { OpenApi } from "../../../types";
 import { Factory } from "../../CodeGenerator";
 import { UndefinedComponent } from "../../Exception";
 import * as Guard from "../Guard";
 import * as Name from "../Name";
 import { Store } from "../store";
-import { OpenApi } from "../types";
 import * as Reference from "./Reference";
 import * as SecuritySchema from "./SecuritySchema";
 

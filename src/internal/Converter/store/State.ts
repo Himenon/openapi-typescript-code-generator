@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import { OpenApi } from "../types";
+import type { OpenApi } from "../../../types";
 
 export interface OperationState {
   requestUri: string;

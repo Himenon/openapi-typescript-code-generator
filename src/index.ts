@@ -1,15 +1,14 @@
 import { EOL } from "os";
 
+import * as DefaultCodeTemplate from "./DefaultCodeTemplate";
 import * as TsGenerator from "./internal/CodeGenerator";
 import { OpenApi, Parser, generateLeading } from "./internal/Converter";
-import * as DefaultCodeTemplate from "./DefaultCodeTemplate";
 import { fileSystem } from "./internal/FileSystem";
 import * as ResolveReference from "./internal/ResolveReference";
-import type { OpenApiTsCodeGen } from "./types";
-import * as Types from "./types";
 import * as Validator from "./internal/Validator";
+import * as Types from "./types";
 
-export { Parser, OpenApiTsCodeGen, DefaultCodeTemplate };
+export { Parser, DefaultCodeTemplate };
 
 export interface GeneratorTemplate<T> {
   generator: Types.CodeGenerator.GenerateFunction<T>;

@@ -2,7 +2,6 @@ import ts from "typescript";
 
 import { Factory } from "../factory";
 import type { CodeGenerator } from "../types";
-import type { CodeGeneratorParams } from "../types/extractSchema";
 import * as ApiClientArgument from "./ApiClientArgument";
 import * as ApiClientClass from "./ApiClientClass";
 
@@ -11,7 +10,7 @@ export interface Option {
 }
 
 export const makeApiClient: CodeGenerator.GenerateFunction<Option> = (
-  codeGeneratorParamsList: CodeGeneratorParams[],
+  codeGeneratorParamsList: CodeGenerator.Params[],
   option?: Option,
 ): ts.Statement[] => {
   const statements: ts.Statement[] = [];

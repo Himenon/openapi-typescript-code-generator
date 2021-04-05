@@ -24,7 +24,9 @@ export const create = (factory: Factory.Type, params: Params): ts.VariableStatem
       factory.PropertyAssignment.create({
         name: "value",
         initializer:
-          item.type === "variable" ? UtilsExtra.generateVariableIdentifier(factory, item.value) : factory.StringLiteral.create({ text: item.value }),
+          item.type === "variable"
+            ? UtilsExtra.generateVariableIdentifier(factory, item.value)
+            : factory.StringLiteral.create({ text: item.value }),
       }),
     ];
     if (item.style) {

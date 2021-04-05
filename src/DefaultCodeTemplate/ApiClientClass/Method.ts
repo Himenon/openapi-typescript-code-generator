@@ -1,12 +1,12 @@
 import ts from "typescript";
 
 import type { Factory } from "../../factory";
-import type { CodeGeneratorParams } from "../../types/extractSchema";
+import type { CodeGenerator } from "../../types";
 import * as MethodBody from "./MethodBody";
 
 export { MethodBody };
 
-const generateParams = (factory: Factory.Type, params: CodeGeneratorParams) => {
+const generateParams = (factory: Factory.Type, params: CodeGenerator.Params) => {
   const typeArguments: ts.TypeNode[] = [];
   if (params.has2OrMoreRequestContentTypes) {
     typeArguments.push(
@@ -90,7 +90,7 @@ const generateResponseReturnType = (
   });
 };
 
-const methodTypeParameters = (factory: Factory.Type, params: CodeGeneratorParams): ts.TypeParameterDeclaration[] => {
+const methodTypeParameters = (factory: Factory.Type, params: CodeGenerator.Params): ts.TypeParameterDeclaration[] => {
   const typeParameters: ts.TypeParameterDeclaration[] = [];
   if (params.has2OrMoreRequestContentTypes) {
     typeParameters.push(
@@ -121,7 +121,7 @@ const methodTypeParameters = (factory: Factory.Type, params: CodeGeneratorParams
  *
  * }
  */
-export const create = (factory: Factory.Type, params: CodeGeneratorParams, option: { sync?: boolean }): ts.MethodDeclaration => {
+export const create = (factory: Factory.Type, params: CodeGenerator.Params, option: { sync?: boolean }): ts.MethodDeclaration => {
   const typeParameters: ts.TypeParameterDeclaration[] = methodTypeParameters(factory, params);
   const methodArguments: ts.ParameterDeclaration[] = [];
   const hasParamsArguments =

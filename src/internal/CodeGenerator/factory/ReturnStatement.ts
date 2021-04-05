@@ -8,7 +8,9 @@ export interface Factory {
   create: (params: Params$Create) => ts.ReturnStatement;
 }
 
-export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (params: Params$Create): ts.ReturnStatement => {
+export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (
+  params: Params$Create,
+): ts.ReturnStatement => {
   const node = factory.createReturnStatement(params.expression);
   return node;
 };

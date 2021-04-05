@@ -1,11 +1,10 @@
 import ts from "typescript";
 
+import type { CodeGenerator, OpenApi } from "../../types";
 import * as ConverterContext from "./ConverterContext";
 import { Store } from "./store";
-import type { CodeGeneratorParams, OpenApi, PickedParameter } from "./types";
-import type { CodeGenerator } from "../../types";
 
-const extractPickedParameter = (parameter: OpenApi.Parameter): PickedParameter => {
+const extractPickedParameter = (parameter: OpenApi.Parameter): CodeGenerator.PickedParameter => {
   return {
     name: parameter.name,
     in: parameter.in,
@@ -62,9 +61,9 @@ export const generateCodeGeneratorParamsArray = (
   store: Store.Type,
   converterContext: ConverterContext.Types,
   allowOperationIds: string[] | undefined,
-): CodeGeneratorParams[] => {
+): CodeGenerator.Params[] => {
   const operationState = store.getNoReferenceOperationState();
-  const params: CodeGeneratorParams[] = [];
+  const params: CodeGenerator.Params[] = [];
   Object.entries(operationState).forEach(([operationId, item]) => {
     if (allowOperationIds && !allowOperationIds.includes(operationId)) {
       return;
@@ -80,7 +79,7 @@ export const generateCodeGeneratorParamsArray = (
     const hasOver2RequestContentTypes = requestContentTypeList.length > 1;
     const hasOver2SuccessNames = responseSuccessNames.length > 1;
 
-    const formatParams: CodeGeneratorParams = {
+    const formatParams: CodeGenerator.Params = {
       operationId: operationId,
       escapedOperationId: converterContext.escapeOperationIdText(operationId),
       rawRequestUri: item.requestUri,

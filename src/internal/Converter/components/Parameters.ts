@@ -1,3 +1,4 @@
+import type { OpenApi } from "../../../types";
 import { Factory } from "../../CodeGenerator";
 import { UnSupportError } from "../../Exception";
 import * as ConverterContext from "../ConverterContext";
@@ -5,7 +6,6 @@ import * as Guard from "../Guard";
 import * as Name from "../Name";
 import { Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
-import { OpenApi } from "../types";
 import * as Paramter from "./Parameter";
 import * as Reference from "./Reference";
 import * as Schema from "./Schema";

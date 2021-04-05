@@ -45,7 +45,9 @@ export const findStatement = (context: Pick<ts.TransformationContext, "factory">
   return statement;
 };
 
-export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (params: Params$Create): ts.ModuleDeclaration => {
+export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (
+  params: Params$Create,
+): ts.ModuleDeclaration => {
   const node = factory.createModuleDeclaration(
     undefined,
     params.export && [factory.createModifier(ts.SyntaxKind.ExportKeyword)],
@@ -82,7 +84,9 @@ export const createMultiple = (context: Pick<ts.TransformationContext, "factory"
   }, child);
 };
 
-export const update = (context: Pick<ts.TransformationContext, "factory">): Factory["update"] => (params: Params$Update): ts.ModuleDeclaration => {
+export const update = (context: Pick<ts.TransformationContext, "factory">): Factory["update"] => (
+  params: Params$Update,
+): ts.ModuleDeclaration => {
   const { factory } = context;
   const { node, statements } = params;
   if (node.body && ts.isModuleBlock(node.body)) {
@@ -92,7 +96,9 @@ export const update = (context: Pick<ts.TransformationContext, "factory">): Fact
   return factory.updateModuleDeclaration(node, node.decorators, node.modifiers, node.name, node.body);
 };
 
-export const addStatements = (context: Pick<ts.TransformationContext, "factory">): Factory["addStatements"] => (params: Params$Update): ts.ModuleDeclaration => {
+export const addStatements = (context: Pick<ts.TransformationContext, "factory">): Factory["addStatements"] => (
+  params: Params$Update,
+): ts.ModuleDeclaration => {
   const { factory } = context;
   const { node, statements } = params;
   if (node.body && ts.isModuleBlock(node.body)) {

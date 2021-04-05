@@ -9,7 +9,9 @@ export interface Factory {
   create: (params: Params$Create) => ts.IndexedAccessTypeNode;
 }
 
-export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (params: Params$Create): ts.IndexedAccessTypeNode => {
+export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (
+  params: Params$Create,
+): ts.IndexedAccessTypeNode => {
   const node = factory.createIndexedAccessTypeNode(params.objectType, params.indexType);
   return node;
 };

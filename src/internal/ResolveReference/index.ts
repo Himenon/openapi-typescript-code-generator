@@ -1,8 +1,8 @@
 import DotProp from "dot-prop";
 
+import type { OpenApi } from "../../types";
 import * as Reference from "../Converter/components/Reference";
 import * as Guard from "../Converter/Guard";
-import type { OpenApi } from "../Converter/types";
 import { DevelopmentError } from "../Exception";
 
 export { OpenApi };

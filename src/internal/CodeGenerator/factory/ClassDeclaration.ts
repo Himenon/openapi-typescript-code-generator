@@ -11,7 +11,9 @@ export interface Factory {
   create: (params: Params$Create) => ts.ClassDeclaration;
 }
 
-export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (params: Params$Create): ts.ClassDeclaration => {
+export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (
+  params: Params$Create,
+): ts.ClassDeclaration => {
   const node = factory.createClassDeclaration(
     undefined,
     params.export && [factory.createModifier(ts.SyntaxKind.ExportKeyword)],

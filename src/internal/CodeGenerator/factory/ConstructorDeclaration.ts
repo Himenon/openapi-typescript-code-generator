@@ -9,7 +9,9 @@ export interface Factory {
   create: (params: Params$Create) => ts.ConstructorDeclaration;
 }
 
-export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (params: Params$Create): ts.ConstructorDeclaration => {
+export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (
+  params: Params$Create,
+): ts.ConstructorDeclaration => {
   const node = factory.createConstructorDeclaration(undefined, undefined, params.parameters || [], params.body);
   return node;
 };

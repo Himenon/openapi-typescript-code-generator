@@ -1,6 +1,6 @@
 import { EOL } from "os";
 
-import { OpenApi } from "../types";
+import type { OpenApi } from "../../../types";
 
 export const addComment = (comment?: string, externalDocs?: OpenApi.ExternalDocumentation): string | undefined => {
   if (!externalDocs) {

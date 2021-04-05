@@ -8,7 +8,9 @@ export interface Factory {
   create: (params: Params$Create) => ts.TypeLiteralNode;
 }
 
-export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (params: Params$Create): ts.TypeLiteralNode => {
+export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (
+  params: Params$Create,
+): ts.TypeLiteralNode => {
   const node = factory.createTypeLiteralNode(params.members);
   return node;
 };

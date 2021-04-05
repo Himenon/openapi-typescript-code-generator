@@ -1,12 +1,13 @@
 import ts from "typescript";
 
+import type { OpenApi } from "../../../types";
 import { Factory } from "../../CodeGenerator";
 import { FeatureDevelopmentError } from "../../Exception";
 import * as ConvertContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import { Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
-import { ArraySchema, ObjectSchema, OpenApi, PrimitiveSchema } from "../types";
+import type { ArraySchema, ObjectSchema, PrimitiveSchema } from "../types";
 import * as ExternalDocumentation from "./ExternalDocumentation";
 
 export const generatePropertySignatures = (

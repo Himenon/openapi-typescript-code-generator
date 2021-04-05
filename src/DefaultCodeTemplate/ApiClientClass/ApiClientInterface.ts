@@ -1,7 +1,7 @@
 import ts from "typescript";
 
 import type { Factory } from "../../factory";
-import type { CodeGeneratorParams } from "../../types/extractSchema";
+import type { CodeGenerator } from "../../types";
 
 const httpMethodList: string[] = ["GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH", "TRACE"];
 
@@ -104,7 +104,7 @@ const createObjectLikeInterface = (factory: Factory.Type) => {
   });
 };
 
-export const create = (factory: Factory.Type, list: CodeGeneratorParams[], option: { sync?: boolean }): ts.Statement[] => {
+export const create = (factory: Factory.Type, list: CodeGenerator.Params[], option: { sync?: boolean }): ts.Statement[] => {
   const objectLikeOrAnyType = factory.UnionTypeNode.create({
     typeNodes: [
       factory.TypeReferenceNode.create({

@@ -1,7 +1,4 @@
-import { CodeGeneratorParams, PickedParameter } from "../../../types/extractSchema";
-import * as OpenApi from "../../../types/OpenApi";
-
-export { OpenApi, CodeGeneratorParams, PickedParameter };
+import type { OpenApi } from "../../../types";
 
 export interface UnSupportSchema extends Omit<OpenApi.Schema, "type"> {
   type: OpenApi.JSONSchemaTypeName[];

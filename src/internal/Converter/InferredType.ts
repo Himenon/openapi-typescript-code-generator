@@ -1,4 +1,4 @@
-import type { OpenApi } from "./types";
+import type { OpenApi } from "../../types";
 
 export const getInferredType = (schema: OpenApi.Schema): OpenApi.Schema | undefined => {
   if (schema.type || schema.oneOf || schema.allOf || schema.anyOf) {

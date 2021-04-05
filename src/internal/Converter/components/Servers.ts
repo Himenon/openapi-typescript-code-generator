@@ -1,6 +1,6 @@
 import { EOL } from "os";
 
-import { OpenApi } from "../types";
+import type { OpenApi } from "../../../types";
 import * as Server from "./Server";
 
 export const addComment = (comments: (string | undefined)[], servers: OpenApi.Server[] = []): string | undefined => {

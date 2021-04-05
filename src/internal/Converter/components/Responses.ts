@@ -2,6 +2,7 @@ import * as path from "path";
 
 import ts from "typescript";
 
+import type { OpenApi } from "../../../types";
 import { Factory } from "../../CodeGenerator";
 import { UndefinedComponent } from "../../Exception";
 import * as ConverterContext from "../ConverterContext";
@@ -9,7 +10,6 @@ import * as Guard from "../Guard";
 import * as Name from "../Name";
 import { Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
-import { OpenApi } from "../types";
 import * as MediaType from "./MediaType";
 import * as Reference from "./Reference";
 import * as Response from "./Response";

@@ -1,7 +1,7 @@
 import ts from "typescript";
 
 import type { Factory } from "../../../factory";
-import type { CodeGeneratorParams } from "../../../types/extractSchema";
+import type { CodeGenerator } from "../../../types";
 import * as Utils from "../../utils";
 import * as CallRequest from "./CallRequest";
 import * as HeaderParameter from "./HeaderParameter";
@@ -12,7 +12,7 @@ export interface Params$GenerateUrl {
   urlTemplate: Utils.Params$TemplateExpression;
 }
 
-export const create = (factory: Factory.Type, params: CodeGeneratorParams): ts.Statement[] => {
+export const create = (factory: Factory.Type, params: CodeGenerator.Params): ts.Statement[] => {
   const statements: ts.Statement[] = [];
   const { pickedParameters } = params;
 

@@ -9,7 +9,9 @@ export interface Factory {
   create: (params: Params) => ts.NoSubstitutionTemplateLiteral;
 }
 
-export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (params: Params): ts.NoSubstitutionTemplateLiteral => {
+export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (
+  params: Params,
+): ts.NoSubstitutionTemplateLiteral => {
   const node = factory.createNoSubstitutionTemplateLiteral(params.text, params.rawText);
   return node;
 };

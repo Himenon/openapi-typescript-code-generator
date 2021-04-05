@@ -1,7 +1,8 @@
 import ts from "typescript";
 
+import type { CodeGenerator, OpenApi } from "../../types";
 import * as TypeScriptCodeGenerator from "../CodeGenerator";
-import * as CodeGenerator from "./CodeGenerator";
+import * as CodeGenerator2 from "./CodeGenerator";
 import * as Headers from "./components/Headers";
 import * as Parameters from "./components/Parameters";
 import * as RequestBodies from "./components/RequestBodies";
@@ -12,11 +13,10 @@ import * as Name from "./Name";
 import * as Paths from "./paths";
 import { Store } from "./store";
 import * as TypeNodeContext from "./TypeNodeContext";
-import { CodeGeneratorParams, OpenApi, PickedParameter } from "./types";
 
 export { generateLeading } from "./Comment";
 
-export { OpenApi, CodeGenerator, CodeGeneratorParams, PickedParameter, Name };
+export { OpenApi, CodeGenerator2 as CodeGenerator, Name };
 
 export interface Option {
   /**
@@ -27,7 +27,7 @@ export interface Option {
 
 export interface Result {
   typeDefinitionStatements: ts.Statement[];
-  params: CodeGeneratorParams;
+  params: CodeGenerator.Params;
 }
 
 export class Parser {
@@ -136,8 +136,8 @@ export class Parser {
     }
   }
 
-  public getCodeGeneratorParamsArray(): CodeGeneratorParams[] {
-    return CodeGenerator.generateCodeGeneratorParamsArray(this.store, this.convertContext, this.option.allowOperationIds);
+  public getCodeGeneratorParamsArray(): CodeGenerator.Params[] {
+    return CodeGenerator2.generateCodeGeneratorParamsArray(this.store, this.convertContext, this.option.allowOperationIds);
   }
 
   public getTypeDefinitionStatements(): ts.Statement[] {

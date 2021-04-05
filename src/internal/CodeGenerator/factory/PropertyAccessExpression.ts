@@ -15,7 +15,9 @@ export interface Factory {
   create: (params: Params$Create) => ts.PropertyAccessExpression;
 }
 
-export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (params: Params$Create): ts.PropertyAccessExpression => {
+export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (
+  params: Params$Create,
+): ts.PropertyAccessExpression => {
   let expression: ts.Expression = typeof params.expression === "string" ? factory.createIdentifier(params.expression) : params.expression;
   const expressionMap = generateExpression(factory);
   if (typeof params.expression === "string" && params.expression in expressionMap) {

@@ -10,7 +10,9 @@ export interface Factory {
   create: (params: Params$Create) => ts.CallExpression;
 }
 
-export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (params: Params$Create): ts.CallExpression => {
+export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (
+  params: Params$Create,
+): ts.CallExpression => {
   const node = factory.createCallExpression(params.expression, params.typeArguments, params.argumentsArray);
   return node;
 };

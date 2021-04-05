@@ -1,10 +1,10 @@
 import ts from "typescript";
 
 import type { Factory } from "../../../factory";
-import type { PickedParameter } from "../../../types/extractSchema";
+import type { CodeGenerator } from "../../../types";
 import * as Utils from "../../utils";
 
-export const isPathParameter = (params: any): params is PickedParameter => {
+export const isPathParameter = (params: any): params is CodeGenerator.PickedParameter => {
   return params.in === "path";
 };
 
@@ -35,7 +35,7 @@ const generateUrlVariableStatement = (factory: Factory.Type, urlTemplate: Utils.
 export const generateUrlTemplateExpression = (
   factory: Factory.Type,
   requestUri: string,
-  pathParameters: PickedParameter[],
+  pathParameters: CodeGenerator.PickedParameter[],
 ): Utils.Params$TemplateExpression => {
   const patternMap = pathParameters.reduce<{ [key: string]: string }>((previous, item) => {
     return { ...previous, [`{${item.name}}`]: item.name };
@@ -93,7 +93,7 @@ export const generateUrlTemplateExpression = (
   return urlTemplate;
 };
 
-export const create = (factory: Factory.Type, requestUri: string, pathParameters: PickedParameter[]): ts.VariableStatement => {
+export const create = (factory: Factory.Type, requestUri: string, pathParameters: CodeGenerator.PickedParameter[]): ts.VariableStatement => {
   if (pathParameters.length > 0) {
     const urlTemplate = generateUrlTemplateExpression(factory, requestUri, pathParameters);
     return generateUrlVariableStatement(factory, urlTemplate);

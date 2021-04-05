@@ -1,5 +1,6 @@
 import ts from "typescript";
 
+import type { OpenApi } from "../../types";
 import { Factory } from "../CodeGenerator";
 import { UnsetTypeError } from "../Exception";
 import { UnSupportError } from "../Exception";
@@ -8,7 +9,6 @@ import * as Reference from "./components/Reference";
 import * as ConverterContext from "./ConverterContext";
 import * as Guard from "./Guard";
 import * as InferredType from "./InferredType";
-import { OpenApi } from "./types";
 import { ObjectSchemaWithAdditionalProperties } from "./types";
 
 export interface ResolveReferencePath {

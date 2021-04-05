@@ -1,5 +1,6 @@
 import ts from "typescript";
 
+import type { OpenApi } from "../../../types";
 import { Factory } from "../../CodeGenerator";
 import * as PathItem from "../components/PathItem";
 import * as Reference from "../components/Reference";
@@ -7,7 +8,6 @@ import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import { Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
-import { OpenApi } from "../types";
 
 export const generateStatements = (
   entryPoint: string,

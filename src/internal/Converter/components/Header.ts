@@ -1,10 +1,10 @@
 import ts from "typescript";
 
+import type { OpenApi } from "../../../types";
 import { Factory } from "../../CodeGenerator";
 import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as ToTypeNode from "../toTypeNode";
-import { OpenApi } from "../types";
 import * as Reference from "./Reference";
 
 export const generateTypeNode = (

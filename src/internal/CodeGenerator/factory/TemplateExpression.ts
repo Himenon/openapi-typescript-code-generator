@@ -9,7 +9,9 @@ export interface Factory {
   create: (params: Params) => ts.TemplateExpression;
 }
 
-export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (params: Params): ts.TemplateExpression => {
+export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (
+  params: Params,
+): ts.TemplateExpression => {
   const node = factory.createTemplateExpression(params.head, params.templateSpans);
   return node;
 };

@@ -1,7 +1,7 @@
 import ts from "typescript";
 
 import type { Factory } from "../../factory";
-import type { CodeGeneratorParams } from "../../types/extractSchema";
+import type { CodeGenerator } from "../../types";
 import * as ApiClientInterface from "./ApiClientInterface";
 import * as Class from "./Class";
 import * as Constructor from "./Constructor";
@@ -9,7 +9,7 @@ import * as Method from "./Method";
 
 export { Method };
 
-export const create = (factory: Factory.Type, list: CodeGeneratorParams[], option: { sync?: boolean }): ts.Statement[] => {
+export const create = (factory: Factory.Type, list: CodeGenerator.Params[], option: { sync?: boolean }): ts.Statement[] => {
   const methodList = list.map(params => {
     return Method.create(factory, params, option);
   });

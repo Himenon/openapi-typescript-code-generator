@@ -18,7 +18,9 @@ export interface Factory {
   create: (params: Params$Create) => ts.MethodDeclaration;
 }
 
-export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (params: Params$Create): ts.MethodDeclaration => {
+export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (
+  params: Params$Create,
+): ts.MethodDeclaration => {
   const modifiers: ts.Modifier[] = [];
   if (params.private) {
     modifiers.push(factory.createModifier(ts.SyntaxKind.PrivateKeyword));

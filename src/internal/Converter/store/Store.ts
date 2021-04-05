@@ -4,9 +4,9 @@ import { Tree } from "@himenon/path-oriented-data-structure";
 import Dot from "dot-prop";
 import ts from "typescript";
 
+import type { OpenApi } from "../../../types";
 import { Factory } from "../../CodeGenerator";
 import { UnSupportError } from "../../Exception";
-import { OpenApi } from "../types";
 import * as Def from "./Definition";
 import * as Operation from "./Operation";
 import * as State from "./State";

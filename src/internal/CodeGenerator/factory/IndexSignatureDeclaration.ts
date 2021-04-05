@@ -9,7 +9,9 @@ export interface Factory {
   create: (params: Params$Create) => ts.IndexSignatureDeclaration;
 }
 
-export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (params: Params$Create): ts.IndexSignatureDeclaration => {
+export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (
+  params: Params$Create,
+): ts.IndexSignatureDeclaration => {
   const node = factory.createIndexSignature(
     undefined,
     undefined,

@@ -1,7 +1,6 @@
 import { EOL } from "os";
 
-import { DevelopmentError } from "../../Exception";
-import { OpenApi } from "../types";
+import type { OpenApi } from "../../../types";
 
 const httpMethodList = ["get", "put", "post", "delete", "options", "head", "patch", "trace"] as const;
 
