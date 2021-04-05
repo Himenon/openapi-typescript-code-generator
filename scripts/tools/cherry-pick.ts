@@ -3,7 +3,6 @@ import { posix as path } from "path";
 import { promisify } from "util";
 
 const readPkgUp = require("read-pkg-up");
-import glob from "tiny-glob";
 
 const mkDir = promisify(fs.mkdir);
 const rimraf = promisify(require("rimraf"));
@@ -42,7 +41,7 @@ const withDefaults = ({ cwd = ".", ...options }: Option, additionalDefaults: { c
 const noop = () => {};
 
 const findFiles = async ({ cwd, inputDir }: { cwd: string; inputDir: string }) => {
-  const filePaths = await glob(path.join(inputDir, "!(index).{js,jsx,ts,tsx}"), { cwd });
+  const filePaths = fs.readdirSync(path.join(cwd, inputDir)).filter(p => p.match(/\.(js|jsx|ts|tsx)/));
   return filePaths.filter(f => !f.endsWith(".d.ts")).map(filePath => path.basename(filePath).replace(/\.(js|ts)x?$/, ""));
 };
 
