@@ -1,59 +1,31 @@
 import * as fs from "fs";
 
-import * as CodeGenerator from "../lib";
+import { CodeGenerator, DefaultCodeTemplate } from "../lib";
 
 const gen = (name: string, enableValidate = true): void => {
-  const params: CodeGenerator.OpenApiTsCodeGen.Configuration = {
-    entryPoint: `test/${name}/index.yml`,
-    codeGenerator: {
-      templates: {
-        Default: CodeGenerator.DefaultCodeTemplate.makeApiClient,
-      },
-    },
-    typeDefinitionGenerator: {
-      additional: {
-        template: "Default",
-      },
-    },
-    validator: {
-      openapiSchema: enableValidate,
-      logger: {
-        displayLogLines: 1,
-      },
-    },
-  };
   fs.mkdirSync("test/code", { recursive: true });
-  const output = CodeGenerator.make(params);
-  fs.writeFileSync(`test/code/${name}.ts`, output.typeDefinition.value, { encoding: "utf-8" });
+  const codeGenerator = new CodeGenerator(`test/${name}/index.yml`);
+  // codeGenerator.validate();
+  const code = codeGenerator.generateTypeDefinition<DefaultCodeTemplate.Option>({
+    generator: DefaultCodeTemplate.makeApiClient,
+    option: {
+      sync: true,
+    },
+  });
+  fs.writeFileSync(`test/code/${name}.ts`, code, { encoding: "utf-8" });
   console.log(`Generate Code : test/code/${name}.ts`);
 };
 
 const genSyncMode = (name: string, enableValidate = true): void => {
-  const params: CodeGenerator.OpenApiTsCodeGen.Configuration = {
-    entryPoint: `test/${name}/index.yml`,
-    codeGenerator: {
-      templates: {
-        Default: CodeGenerator.DefaultCodeTemplate.makeApiClient,
-      },
-    },
-    typeDefinitionGenerator: {
-      additional: {
-        template: "Default",
-        option: {
-          sync: true,
-        },
-      },
-    },
-    validator: {
-      openapiSchema: enableValidate,
-      logger: {
-        displayLogLines: 1,
-      },
-    },
-  };
+  const codeGenerator = new CodeGenerator(`test/${name}/index.yml`);
   fs.mkdirSync("test/code", { recursive: true });
-  const code = CodeGenerator.make(params);
-  fs.writeFileSync(`test/code/sync-${name}.ts`, code.typeDefinition.value, { encoding: "utf-8" });
+  const code = codeGenerator.generateTypeDefinition<DefaultCodeTemplate.Option>({
+    generator: DefaultCodeTemplate.makeApiClient,
+    option: {
+      sync: true,
+    },
+  });
+  fs.writeFileSync(`test/code/sync-${name}.ts`, code, { encoding: "utf-8" });
   console.log(`Generate Code : test/code/sync-${name}.ts`);
 };
 

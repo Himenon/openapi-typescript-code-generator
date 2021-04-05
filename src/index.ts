@@ -1,39 +1,61 @@
 import { EOL } from "os";
 
 import * as TsGenerator from "./CodeGenerator";
-import * as Transformer from "./Converter";
+import { OpenApi, Parser, generateLeading } from "./Converter";
+import * as DefaultCodeTemplate from "./DefaultCodeTemplate";
 import { fileSystem } from "./FileSystem";
 import * as ResolveReference from "./ResolveReference";
 import type { OpenApiTsCodeGen } from "./types";
+import * as Types from "./types";
 import * as Validator from "./Validator";
-import * as DefaultCodeTemplate from "./DefaultCodeTemplate";
 
-export { Transformer, OpenApiTsCodeGen, DefaultCodeTemplate };
+export { Parser, OpenApiTsCodeGen, DefaultCodeTemplate };
 
-export const make = (config: OpenApiTsCodeGen.Configuration): OpenApiTsCodeGen.Output => {
-  const schema = fileSystem.loadJsonOrYaml(config.entryPoint);
-  const resolvedReferenceDocument = ResolveReference.resolve(config.entryPoint, config.entryPoint, JSON.parse(JSON.stringify(schema)));
+export interface GeneratorTemplate<T> {
+  generator: Types.CodeGenerator.GenerateFunction<T>;
+  option?: T;
+}
 
-  if (!config.validator) {
-    Validator.validate(resolvedReferenceDocument);
-  } else {
-    if (config.validator.openapiSchema) {
-      Validator.validate(resolvedReferenceDocument, config.validator.logger);
+export class CodeGenerator {
+  private rootSchema: OpenApi.Document;
+  private resolvedReferenceDocument: OpenApi.Document;
+  private parser: Parser;
+  constructor(private readonly entryPoint: string) {
+    this.rootSchema = fileSystem.loadJsonOrYaml(entryPoint);
+    this.resolvedReferenceDocument = ResolveReference.resolve(entryPoint, entryPoint, JSON.parse(JSON.stringify(this.rootSchema)));
+    this.parser = this.createParser();
+  }
+
+  private createParser(allowOperationIds?: string[]): Parser {
+    return new Parser(this.entryPoint, this.rootSchema, this.resolvedReferenceDocument, {
+      allowOperationIds: allowOperationIds,
+    });
+  }
+
+  public validate(config?: Types.Validator.Configuration) {
+    if (!config) {
+      Validator.validate(this.resolvedReferenceDocument);
+    } else {
+      Validator.validate(this.resolvedReferenceDocument, config.logger);
     }
   }
 
-  const templateName = config.typeDefinitionGenerator?.additional?.template;
+  public generateTypeDefinition<T = {}>(generatorTemplate?: GeneratorTemplate<T>): string {
+    const create = () => {
+      const statements = this.parser.getTypeDefinitionStatements();
+      if (generatorTemplate) {
+        const payload = this.parser.getCodeGeneratorParamsArray();
+        const extraStatements = TsGenerator.Utils.convertIntermediateCodes(generatorTemplate.generator(payload, generatorTemplate.option));
+        return statements.concat(extraStatements);
+      }
+      return statements;
+    };
+    return [generateLeading(this.resolvedReferenceDocument), TsGenerator.generate(create)].join(EOL + EOL + EOL);
+  }
 
-  const { createFunction, generateLeadingComment } = Transformer.create(config.entryPoint, schema, resolvedReferenceDocument, {
-    allowOperationIds: config.openApiSchemaParser?.allowOperationIds,
-    codeGeneratorOption: config.typeDefinitionGenerator?.additional?.option || {},
-    generateCodeAfterGeneratedTypeDefinition: templateName ? config.codeGenerator?.templates?.[templateName] : undefined
-  });
-
-  return {
-    typeDefinition: {
-      value: [generateLeadingComment(), TsGenerator.generate(createFunction)].join(EOL + EOL + EOL),
-    },
-    additionalCodes: {},
-  };
-};
+  public generateCode<T>(generatorTemplate: GeneratorTemplate<T>): string {
+    const payload = this.parser.getCodeGeneratorParamsArray();
+    const create = () => TsGenerator.Utils.convertIntermediateCodes(generatorTemplate?.generator(payload, generatorTemplate.option));
+    return [generateLeading(this.resolvedReferenceDocument), TsGenerator.generate(create)].join(EOL + EOL + EOL);
+  }
+}

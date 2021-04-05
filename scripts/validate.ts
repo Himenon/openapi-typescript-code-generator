@@ -15,6 +15,6 @@ const validator = new OpenAPISchemaValidator({
   },
 });
 
-const message = validator.validate(yaml.safeLoad(data) as any);
+const message = validator.validate(yaml.load(data) as any);
 
 fs.writeFileSync(path.join(__dirname, "../debug/validate.json"), JSON.stringify(message, null, 2), { encoding: "utf-8" });

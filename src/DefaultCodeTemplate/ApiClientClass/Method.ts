@@ -37,7 +37,7 @@ const generateResponseReturnType = (
   factory: Factory.Type,
   successResponseNameList: string[],
   successResponseContentTypeList: string[],
-  option: CodeGenerator.Option,
+  option: { sync?: boolean },
 ) => {
   let objectType: ts.TypeNode = factory.TypeNode.create({
     type: "void",
@@ -122,7 +122,7 @@ const methodTypeParameters = (factory: Factory.Type, params: CodeGeneratorParams
  *
  * }
  */
-export const create = (factory: Factory.Type, params: CodeGeneratorParams, option: CodeGenerator.Option): ts.MethodDeclaration => {
+export const create = (factory: Factory.Type, params: CodeGeneratorParams, option: { sync?: boolean }): ts.MethodDeclaration => {
   const typeParameters: ts.TypeParameterDeclaration[] = methodTypeParameters(factory, params);
   const methodArguments: ts.ParameterDeclaration[] = [];
   const hasParamsArguments =

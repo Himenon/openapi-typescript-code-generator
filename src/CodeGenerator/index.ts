@@ -21,7 +21,7 @@ export const generate = (createFunction: CreateFunction): string => {
   const result = ts.transform(source, transformers);
   result.dispose();
   if (result.transformed.length > 1) {
-    throw new DevelopmentError("1個以上あるよ");
+    throw new DevelopmentError("Invalid length");
   }
   return convertAstToTypeScriptCode(result.transformed[0]);
 };

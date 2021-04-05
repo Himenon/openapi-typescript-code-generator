@@ -105,7 +105,7 @@ const createObjectLikeInterface = (factory: Factory.Type) => {
   });
 };
 
-export const create = (factory: Factory.Type, list: CodeGeneratorParams[], option: CodeGenerator.Option): ts.Statement[] => {
+export const create = (factory: Factory.Type, list: CodeGeneratorParams[], option: { sync?: boolean }): ts.Statement[] => {
   const objectLikeOrAnyType = factory.UnionTypeNode.create({
     typeNodes: [
       factory.TypeReferenceNode.create({
