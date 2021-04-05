@@ -1,12 +1,11 @@
 import * as fs from "fs";
 
-import * as Templates from "../lib/templates";
 import { CodeGenerator } from "../lib";
+import * as Templates from "../lib/templates";
 
 const gen = (name: string, enableValidate = true): void => {
   fs.mkdirSync("test/code", { recursive: true });
   const codeGenerator = new CodeGenerator(`test/${name}/index.yml`);
-  // codeGenerator.validate();
   const code = codeGenerator.generateTypeDefinition<Templates.ApiClient.Option>({
     generator: Templates.ApiClient.generator,
     option: {
