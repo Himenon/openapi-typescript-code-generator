@@ -1,5 +1,3 @@
-import ts from "typescript";
-
 import type { CodeGenerator, OpenApi } from "../../types";
 import * as ConverterContext from "./ConverterContext";
 import { Store } from "./store";

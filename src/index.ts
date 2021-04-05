@@ -1,7 +1,7 @@
 import { EOL } from "os";
 
 import { OpenApiTools, ResolveReference, TsGenerator, Validator, FileSystem } from "./api";
-import * as Types from "./types";
+import type * as Types from "./types";
 
 export interface GeneratorTemplate<T> {
   generator: Types.CodeGenerator.GenerateFunction<T>;
@@ -42,12 +42,12 @@ export class CodeGenerator {
       }
       return statements;
     };
-    return [OpenApiTools.generateLeading(this.resolvedReferenceDocument), TsGenerator.generate(create)].join(EOL + EOL + EOL);
+    return [OpenApiTools.Comment.generateLeading(this.resolvedReferenceDocument), TsGenerator.generate(create)].join(EOL + EOL + EOL);
   }
 
   public generateCode<T>(generatorTemplate: GeneratorTemplate<T>): string {
     const payload = this.parser.getCodeGeneratorParamsArray();
     const create = () => TsGenerator.Utils.convertIntermediateCodes(generatorTemplate?.generator(payload, generatorTemplate.option));
-    return [OpenApiTools.generateLeading(this.resolvedReferenceDocument), TsGenerator.generate(create)].join(EOL + EOL + EOL);
+    return [OpenApiTools.Comment.generateLeading(this.resolvedReferenceDocument), TsGenerator.generate(create)].join(EOL + EOL + EOL);
   }
 }
