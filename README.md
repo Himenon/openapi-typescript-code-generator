@@ -58,7 +58,7 @@ const main = () => {
   const params: CodeGenerator.Params = {
     entryPoint: "your/openapi/spec.yml", // support .yml, .yaml, .json
     option: {
-      rewriteCodeAfterTypeDeclaration: (context: ts.TransformationContext, codeGeneratorParamsList: CodeGenerator.Converter.v3.CodeGeneratorParams[]): ts.Statement[] => {
+      rewriteCodeAfterTypeDeclaration: (context: Pick<ts.TransformationContext, "factory">, codeGeneratorParamsList: CodeGenerator.Converter.v3.CodeGeneratorParams[]): ts.Statement[] => {
         const factory = context.factory; // https://ts-ast-viewer.com/ is very very very useful !
         return []; // generate no api client
       },

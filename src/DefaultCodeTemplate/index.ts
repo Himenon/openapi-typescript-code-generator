@@ -6,13 +6,16 @@ import type { CodeGeneratorParams } from "../types/extractSchema";
 import * as ApiClientArgument from "./ApiClientArgument";
 import * as ApiClientClass from "./ApiClientClass";
 
-export const makeApiClient: CodeGenerator.GenerateFunction = (
-  context: ts.TransformationContext,
+export interface Option {
+  sync?: boolean;
+}
+
+export const makeApiClient: CodeGenerator.GenerateFunction<Option> = (
   codeGeneratorParamsList: CodeGeneratorParams[],
-  option: CodeGenerator.Option,
+  option?: Option,
 ): ts.Statement[] => {
   const statements: ts.Statement[] = [];
-  const factory = TypeScriptCodeGenerator.Factory.create(context);
+  const factory = TypeScriptCodeGenerator.Factory.create();
   codeGeneratorParamsList.forEach(codeGeneratorParams => {
     if (codeGeneratorParams.hasRequestBody) {
       statements.push(ApiClientArgument.createRequestContentTypeReference(factory, codeGeneratorParams));
@@ -25,7 +28,7 @@ export const makeApiClient: CodeGenerator.GenerateFunction = (
       statements.push(typeDeclaration);
     }
   });
-  ApiClientClass.create(factory, codeGeneratorParamsList, option).forEach(newStatement => {
+  ApiClientClass.create(factory, codeGeneratorParamsList, option || {}).forEach(newStatement => {
     statements.push(newStatement);
   });
   return statements;

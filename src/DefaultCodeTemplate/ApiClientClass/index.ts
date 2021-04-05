@@ -10,7 +10,7 @@ import * as Method from "./Method";
 
 export { Method };
 
-export const create = (factory: Factory.Type, list: CodeGeneratorParams[], option: CodeGenerator.Option): ts.Statement[] => {
+export const create = (factory: Factory.Type, list: CodeGeneratorParams[], option: { sync?: boolean }): ts.Statement[] => {
   const methodList = list.map(params => {
     return Method.create(factory, params, option);
   });

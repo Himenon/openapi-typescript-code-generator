@@ -818,5 +818,25 @@ export namespace Schemas {
     }
     export type InferStringEnum = \\"a\\" | \\"b\\" | \\"c\\";
 }
+export type HttpMethod = \\"GET\\" | \\"PUT\\" | \\"POST\\" | \\"DELETE\\" | \\"OPTIONS\\" | \\"HEAD\\" | \\"PATCH\\" | \\"TRACE\\";
+export interface ObjectLike {
+    [key: string]: any;
+}
+export interface QueryParameter {
+    value: any;
+    style?: \\"form\\" | \\"spaceDelimited\\" | \\"pipeDelimited\\" | \\"deepObject\\";
+    explode: boolean;
+}
+export interface QueryParameters {
+    [key: string]: QueryParameter;
+}
+export type SuccessResponses = void;
+export namespace ErrorResponse { }
+export interface ApiClient<RequestOption> {
+    request: <T = SuccessResponses>(httpMethod: HttpMethod, url: string, headers: ObjectLike | any, requestBody: ObjectLike | any, queryParameters: QueryParameters | undefined, options?: RequestOption) => Promise<T>;
+}
+export class Client<RequestOption> {
+    constructor(private apiClient: ApiClient<RequestOption>, private baseUrl: string) { }
+}
 "
 `;

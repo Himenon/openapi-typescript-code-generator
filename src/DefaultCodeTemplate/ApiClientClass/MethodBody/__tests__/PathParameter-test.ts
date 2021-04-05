@@ -7,7 +7,7 @@ import { PickedParameter } from "../../../../Converter";
 import * as Utils from "../../../utils";
 import * as PathParameter from "../PathParameter";
 
-const traverse = (expression: ts.Expression) => <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
+const traverse = (expression: ts.Expression) => <T extends ts.Node>(context: Pick<ts.TransformationContext, "factory">) => (rootNode: T) => {
   const visit = (node: ts.Node): ts.Node => {
     if (!ts.isSourceFile(node)) {
       return node;
@@ -35,7 +35,7 @@ const getText = (expression: ts.Expression) => {
 };
 
 describe("PathParameter Test", () => {
-  const factory = Factory.create({ factory: ts.factory } as ts.TransformationContext);
+  const factory = Factory.create();
   const generate = (url: string, pathParameter: PickedParameter[]): string => {
     const urlTemplates = PathParameter.generateUrlTemplateExpression(factory, url, pathParameter);
     const expression = Utils.generateTemplateExpression(factory, urlTemplates);

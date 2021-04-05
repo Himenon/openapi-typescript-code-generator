@@ -11,7 +11,7 @@ export interface Factory {
   create: (params: Params) => ts.LiteralTypeNode;
 }
 
-export const create = ({ factory }: ts.TransformationContext): Factory["create"] => (params: Params): ts.LiteralTypeNode => {
+export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (params: Params): ts.LiteralTypeNode => {
   const createNode = () => {
     if (typeof params.value === "string") {
       const literal = ts.setEmitFlags(factory.createStringLiteral(params.value), ts.EmitFlags.NoAsciiEscaping);
@@ -31,7 +31,7 @@ export const create = ({ factory }: ts.TransformationContext): Factory["create"]
   return node;
 };
 
-export const make = (context: ts.TransformationContext): Factory => {
+export const make = (context: Pick<ts.TransformationContext, "factory">): Factory => {
   return {
     create: create(context),
   };

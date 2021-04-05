@@ -70,7 +70,7 @@ export interface Factory {
   create: (params: Params$Create) => ts.TypeNode;
 }
 
-export const create = (context: ts.TransformationContext): Factory["create"] => (params: Params$Create): ts.TypeNode => {
+export const create = (context: Pick<ts.TransformationContext, "factory">): Factory["create"] => (params: Params$Create): ts.TypeNode => {
   const { factory } = context;
   const literalTypeNode = LiteralTypeNode.create(context);
   const unionTypeNode = UnionTypeNode.create(context);
@@ -115,7 +115,7 @@ export const create = (context: ts.TransformationContext): Factory["create"] => 
   return node;
 };
 
-export const make = (context: ts.TransformationContext): Factory => {
+export const make = (context: Pick<ts.TransformationContext, "factory">): Factory => {
   return {
     create: create(context),
   };

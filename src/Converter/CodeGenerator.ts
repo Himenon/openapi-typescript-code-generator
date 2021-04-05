@@ -58,7 +58,7 @@ const hasQueryParameters = (parameters?: OpenApi.Parameter[]): boolean => {
   return parameters.filter(parameter => parameter.in === "query").length > 0;
 };
 
-export const generateCodeGeneratorParamsList = (
+export const generateCodeGeneratorParamsArray = (
   store: Store.Type,
   converterContext: ConverterContext.Types,
   allowOperationIds: string[] | undefined,

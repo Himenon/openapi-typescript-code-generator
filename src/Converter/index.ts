@@ -1,12 +1,9 @@
 import ts from "typescript";
 
 import * as TypeScriptCodeGenerator from "../CodeGenerator";
-import { CodeGenerator as CodeGenerator2 } from "../types";
 import * as CodeGenerator from "./CodeGenerator";
-import * as Comment from "./Comment";
 import * as Headers from "./components/Headers";
 import * as Parameters from "./components/Parameters";
-// import * as PathItems from "./components/PathItems";
 import * as RequestBodies from "./components/RequestBodies";
 import * as Responses from "./components/Responses";
 import * as Schemas from "./components/Schemas";
@@ -17,104 +14,133 @@ import { Store } from "./store";
 import * as TypeNodeContext from "./TypeNodeContext";
 import { CodeGeneratorParams, OpenApi, PickedParameter } from "./types";
 
-export { OpenApi, CodeGenerator, CodeGeneratorParams, PickedParameter, Name };
+export { generateLeading } from "./Comment";
 
-export interface Type {
-  generateLeadingComment: () => string;
-  createFunction: TypeScriptCodeGenerator.CreateFunction;
-  codeGeneratorOption: CodeGenerator2.Option;
-}
+export { OpenApi, CodeGenerator, CodeGeneratorParams, PickedParameter, Name };
 
 export interface Option {
   /**
    * List of operationId to be used
    */
   allowOperationIds?: string[];
-
-  generateCodeAfterGeneratedTypeDefinition?: CodeGenerator2.GenerateFunction;
-
-  codeGeneratorOption: CodeGenerator2.Option;
 }
 
-export const create = (entryPoint: string, rootSchema: OpenApi.Document, noReferenceOpenApiSchema: OpenApi.Document, option: Option): Type => {
-  const currentPoint = entryPoint;
-  const converterContext = ConvertContext.create();
+export interface Result {
+  typeDefinitionStatements: ts.Statement[];
+  params: CodeGeneratorParams;
+}
 
-  const createFunction = (context: ts.TransformationContext): ts.Statement[] => {
-    const factory = TypeScriptCodeGenerator.Factory.create(context);
-    const store = Store.create(factory, noReferenceOpenApiSchema);
-    const toTypeNodeContext = TypeNodeContext.create(entryPoint, store, factory, converterContext);
-    let extraStatements: ts.Statement[] = [];
+export class Parser {
+  private currentPoint: string;
+  private convertContext: ConvertContext.Types;
+  private store: Store.Type;
+  private factory: TypeScriptCodeGenerator.Factory.Type;
+  constructor(
+    private entryPoint: string,
+    private rootSchema: OpenApi.Document,
+    noReferenceOpenApiSchema: OpenApi.Document,
+    private option: Option,
+  ) {
+    this.currentPoint = entryPoint;
+    this.convertContext = ConvertContext.create();
+    this.factory = TypeScriptCodeGenerator.Factory.create();
+    this.store = Store.create(this.factory, noReferenceOpenApiSchema);
+    this.initialize();
+  }
 
+  private initialize(): void {
+    const toTypeNodeContext = TypeNodeContext.create(this.entryPoint, this.store, this.factory, this.convertContext);
+    const rootSchema = this.rootSchema;
     if (rootSchema.components) {
       if (rootSchema.components.schemas) {
-        Schemas.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.schemas, toTypeNodeContext, converterContext);
+        Schemas.generateNamespace(
+          this.entryPoint,
+          this.currentPoint,
+          this.store,
+          this.factory,
+          rootSchema.components.schemas,
+          toTypeNodeContext,
+          this.convertContext,
+        );
       }
       if (rootSchema.components.headers) {
-        Headers.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.headers, toTypeNodeContext, converterContext);
+        Headers.generateNamespace(
+          this.entryPoint,
+          this.currentPoint,
+          this.store,
+          this.factory,
+          rootSchema.components.headers,
+          toTypeNodeContext,
+          this.convertContext,
+        );
       }
       if (rootSchema.components.responses) {
         Responses.generateNamespace(
-          entryPoint,
-          currentPoint,
-          store,
-          factory,
+          this.entryPoint,
+          this.currentPoint,
+          this.store,
+          this.factory,
           rootSchema.components.responses,
           toTypeNodeContext,
-          converterContext,
+          this.convertContext,
         );
       }
       if (rootSchema.components.parameters) {
         Parameters.generateNamespace(
-          entryPoint,
-          currentPoint,
-          store,
-          factory,
+          this.entryPoint,
+          this.currentPoint,
+          this.store,
+          this.factory,
           rootSchema.components.parameters,
           toTypeNodeContext,
-          converterContext,
+          this.convertContext,
         );
       }
       if (rootSchema.components.requestBodies) {
         RequestBodies.generateNamespace(
-          entryPoint,
-          currentPoint,
-          store,
-          factory,
+          this.entryPoint,
+          this.currentPoint,
+          this.store,
+          this.factory,
           rootSchema.components.requestBodies,
           toTypeNodeContext,
-          converterContext,
+          this.convertContext,
         );
       }
       // if (rootSchema.components.securitySchemes) {
-      //   SecuritySchemas.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.securitySchemes);
+      //   SecuritySchemas.generateNamespace(this.entryPoint, currentPoint, store, factory, rootSchema.components.securitySchemes);
       // }
       // if (rootSchema.components.pathItems) {
-      //   PathItems.generateNamespace(entryPoint, currentPoint, store, factory, rootSchema.components.pathItems, toTypeNodeContext);
+      //   PathItems.generateNamespace(this.entryPoint, currentPoint, store, factory, rootSchema.components.pathItems, toTypeNodeContext);
       // }
       // TODO Feature Development
       // if (rootSchema.components.links) {
-      //   statements.push(Links.generateNamespace(entryPoint, currentPoint, factory, rootSchema.components.links));
+      //   statements.push(Links.generateNamespace(this.entryPoint, currentPoint, factory, rootSchema.components.links));
       // }
 
       // TODO Feature Development
       // if (rootSchema.components.callbacks) {
-      //   statements.push(Callbacks.generateNamespace(entryPoint, currentPoint, factory, rootSchema.components.callbacks));
+      //   statements.push(Callbacks.generateNamespace(this.entryPoint, currentPoint, factory, rootSchema.components.callbacks));
       // }
     }
     if (rootSchema.paths) {
-      Paths.generateStatements(entryPoint, currentPoint, store, factory, rootSchema.paths, toTypeNodeContext, converterContext);
-
-      const codeGeneratorParamsList = CodeGenerator.generateCodeGeneratorParamsList(store, converterContext, option.allowOperationIds);
-      const extraStatements2 = option.generateCodeAfterGeneratedTypeDefinition?.(context, codeGeneratorParamsList, option.codeGeneratorOption) || [];
-      extraStatements = extraStatements.concat(TypeScriptCodeGenerator.Utils.convertIntermediateCodes(extraStatements2));
+      Paths.generateStatements(
+        this.entryPoint,
+        this.currentPoint,
+        this.store,
+        this.factory,
+        rootSchema.paths,
+        toTypeNodeContext,
+        this.convertContext,
+      );
     }
-    return store.getRootStatements().concat(extraStatements);
-  };
+  }
 
-  return {
-    createFunction,
-    generateLeadingComment: () => Comment.generateLeading(rootSchema),
-    codeGeneratorOption: option.codeGeneratorOption,
-  };
-};
+  public getCodeGeneratorParamsArray(): CodeGeneratorParams[] {
+    return CodeGenerator.generateCodeGeneratorParamsArray(this.store, this.convertContext, this.option.allowOperationIds);
+  }
+
+  public getTypeDefinitionStatements(): ts.Statement[] {
+    return this.store.getRootStatements();
+  }
+}

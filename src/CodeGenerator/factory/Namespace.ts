@@ -33,7 +33,7 @@ export interface Factory {
 }
 
 // eslint-disable-next-line no-unused-vars
-export const findStatement = (context: ts.TransformationContext): Factory["findNamespace"] => (
+export const findStatement = (context: Pick<ts.TransformationContext, "factory">): Factory["findNamespace"] => (
   params: Params$FindStatement,
 ): ts.Statement | undefined => {
   let statement: ts.Statement | undefined;
@@ -45,7 +45,7 @@ export const findStatement = (context: ts.TransformationContext): Factory["findN
   return statement;
 };
 
-export const create = ({ factory }: ts.TransformationContext): Factory["create"] => (params: Params$Create): ts.ModuleDeclaration => {
+export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (params: Params$Create): ts.ModuleDeclaration => {
   const node = factory.createModuleDeclaration(
     undefined,
     params.export && [factory.createModifier(ts.SyntaxKind.ExportKeyword)],
@@ -60,7 +60,7 @@ export const create = ({ factory }: ts.TransformationContext): Factory["create"]
   return node;
 };
 
-export const createMultiple = (context: ts.TransformationContext): Factory["createMultiple"] => (
+export const createMultiple = (context: Pick<ts.TransformationContext, "factory">): Factory["createMultiple"] => (
   params: Params$CreateMulti,
 ): ts.ModuleDeclaration => {
   const names = params.names.reverse();
@@ -82,7 +82,7 @@ export const createMultiple = (context: ts.TransformationContext): Factory["crea
   }, child);
 };
 
-export const update = (context: ts.TransformationContext): Factory["update"] => (params: Params$Update): ts.ModuleDeclaration => {
+export const update = (context: Pick<ts.TransformationContext, "factory">): Factory["update"] => (params: Params$Update): ts.ModuleDeclaration => {
   const { factory } = context;
   const { node, statements } = params;
   if (node.body && ts.isModuleBlock(node.body)) {
@@ -92,7 +92,7 @@ export const update = (context: ts.TransformationContext): Factory["update"] => 
   return factory.updateModuleDeclaration(node, node.decorators, node.modifiers, node.name, node.body);
 };
 
-export const addStatements = (context: ts.TransformationContext): Factory["addStatements"] => (params: Params$Update): ts.ModuleDeclaration => {
+export const addStatements = (context: Pick<ts.TransformationContext, "factory">): Factory["addStatements"] => (params: Params$Update): ts.ModuleDeclaration => {
   const { factory } = context;
   const { node, statements } = params;
   if (node.body && ts.isModuleBlock(node.body)) {
@@ -102,7 +102,7 @@ export const addStatements = (context: ts.TransformationContext): Factory["addSt
   return factory.updateModuleDeclaration(node, node.decorators, node.modifiers, node.name, node.body);
 };
 
-export const make = (context: ts.TransformationContext): Factory => {
+export const make = (context: Pick<ts.TransformationContext, "factory">): Factory => {
   return {
     findNamespace: findStatement(context),
     create: create(context),

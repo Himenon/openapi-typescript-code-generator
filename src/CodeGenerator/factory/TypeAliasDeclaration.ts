@@ -14,7 +14,7 @@ export interface Factory {
   create: (params: Params$Create) => ts.TypeAliasDeclaration;
 }
 
-export const create = ({ factory }: ts.TransformationContext): Factory["create"] => (params: Params$Create): ts.TypeAliasDeclaration => {
+export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (params: Params$Create): ts.TypeAliasDeclaration => {
   const node = factory.createTypeAliasDeclaration(
     undefined,
     params.export && [factory.createModifier(ts.SyntaxKind.ExportKeyword)],
@@ -29,7 +29,7 @@ export const create = ({ factory }: ts.TransformationContext): Factory["create"]
   return node;
 };
 
-export const make = (context: ts.TransformationContext): Factory => {
+export const make = (context: Pick<ts.TransformationContext, "factory">): Factory => {
   return {
     create: create(context),
   };
