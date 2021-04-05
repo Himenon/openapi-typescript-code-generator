@@ -1,7 +1,7 @@
 import ts from "typescript";
 
-import type { Factory } from "../../../factory";
-import type { CodeGenerator } from "../../../types";
+import type { Factory } from "../../../../factory";
+import type { CodeGenerator } from "../../../../types";
 import * as Utils from "../../utils";
 
 export const isPathParameter = (params: any): params is CodeGenerator.PickedParameter => {

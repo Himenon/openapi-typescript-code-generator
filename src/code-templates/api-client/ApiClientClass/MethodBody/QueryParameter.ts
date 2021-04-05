@@ -1,7 +1,7 @@
 import ts from "typescript";
 
-import type { Factory } from "../../../factory";
-import * as Utils from "../../../utils";
+import type { Factory } from "../../../../factory";
+import * as Utils from "../../../../utils";
 import * as UtilsExtra from "../../utils";
 
 export interface Item {

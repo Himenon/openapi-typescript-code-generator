@@ -1,7 +1,7 @@
 import ts from "typescript";
 
-import type { Factory } from "../../factory";
-import type { CodeGenerator } from "../../types";
+import type { Factory } from "../../../factory";
+import type { CodeGenerator } from "../../../types";
 import * as ApiClientInterface from "./ApiClientInterface";
 import * as Class from "./Class";
 import * as Constructor from "./Constructor";

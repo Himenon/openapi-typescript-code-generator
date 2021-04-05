@@ -2,8 +2,8 @@ import { EOL } from "os";
 
 import ts from "typescript";
 
-import { Factory } from "../../../../factory";
-import type { CodeGenerator } from "../../../../types";
+import { Factory } from "../../../../../factory";
+import type { CodeGenerator } from "../../../../../types";
 import * as Utils from "../../../utils";
 import * as PathParameter from "../PathParameter";
 

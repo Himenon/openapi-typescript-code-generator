@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import type { Factory } from "../../factory";
+import type { Factory } from "../../../factory";
 
 /**
  * export class Client<ApiClient> {

@@ -1,13 +1,14 @@
 import * as fs from "fs";
 
-import { CodeGenerator, DefaultCodeTemplate } from "../lib";
+import * as Templates from "../lib/templates";
+import { CodeGenerator } from "../lib";
 
 const gen = (name: string, enableValidate = true): void => {
   fs.mkdirSync("test/code", { recursive: true });
   const codeGenerator = new CodeGenerator(`test/${name}/index.yml`);
   // codeGenerator.validate();
-  const code = codeGenerator.generateTypeDefinition<DefaultCodeTemplate.Option>({
-    generator: DefaultCodeTemplate.makeApiClient,
+  const code = codeGenerator.generateTypeDefinition<Templates.ApiClient.Option>({
+    generator: Templates.ApiClient.generator,
     option: {
       sync: false,
     },
@@ -29,8 +30,8 @@ const genSyncMode = (name: string, enableValidate = true): void => {
       logger: { displayLogLines: 1 },
     });
   }
-  const code = codeGenerator.generateTypeDefinition<DefaultCodeTemplate.Option>({
-    generator: DefaultCodeTemplate.makeApiClient,
+  const code = codeGenerator.generateTypeDefinition<Templates.ApiClient.Option>({
+    generator: Templates.ApiClient.generator,
     option: {
       sync: true,
     },
