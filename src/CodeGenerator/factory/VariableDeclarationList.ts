@@ -13,12 +13,12 @@ export interface Factory {
   create: (params: Params) => ts.VariableDeclarationList;
 }
 
-export const create = ({ factory }: ts.TransformationContext): Factory["create"] => (params: Params): ts.VariableDeclarationList => {
+export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (params: Params): ts.VariableDeclarationList => {
   const node = factory.createVariableDeclarationList(params.declarations, flags[params.flag]);
   return node;
 };
 
-export const make = (context: ts.TransformationContext): Factory => {
+export const make = (context: Pick<ts.TransformationContext, "factory">): Factory => {
   return {
     create: create(context),
   };

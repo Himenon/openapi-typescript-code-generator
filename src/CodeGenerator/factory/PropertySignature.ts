@@ -13,7 +13,7 @@ export interface Factory {
   create: (params: Params) => ts.PropertySignature;
 }
 
-export const create = ({ factory }: ts.TransformationContext): Factory["create"] => (params: Params): ts.PropertySignature => {
+export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (params: Params): ts.PropertySignature => {
   const node = factory.createPropertySignature(
     undefined,
     params.name,
@@ -27,7 +27,7 @@ export const create = ({ factory }: ts.TransformationContext): Factory["create"]
   return node;
 };
 
-export const make = (context: ts.TransformationContext): Factory => {
+export const make = (context: Pick<ts.TransformationContext, "factory">): Factory => {
   return {
     create: create(context),
   };

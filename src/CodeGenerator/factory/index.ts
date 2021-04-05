@@ -80,7 +80,10 @@ export interface Type {
   TypeLiteralNode: TypeLiteralNode.Factory;
 }
 
-export const create = (context: ts.TransformationContext): Type => {
+export const create = (): Type => {
+  const context: Pick<ts.TransformationContext, "factory"> = {
+    factory: ts.factory,
+  };
   return {
     Block: Block.make(context),
     ClassDeclaration: ClassDeclaration.make(context),

@@ -9,12 +9,12 @@ export interface Factory {
   create: (params: Params$Create) => ts.Block;
 }
 
-export const create = ({ factory }: ts.TransformationContext): Factory["create"] => (params: Params$Create): ts.Block => {
+export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (params: Params$Create): ts.Block => {
   const node = factory.createBlock(params.statements, params.multiLine);
   return node;
 };
 
-export const make = (context: ts.TransformationContext): Factory => {
+export const make = (context: Pick<ts.TransformationContext, "factory">): Factory => {
   return {
     create: create(context),
   };

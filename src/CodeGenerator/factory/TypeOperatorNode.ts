@@ -15,12 +15,12 @@ export interface Factory {
   create: (params: Params$Create) => ts.TypeOperatorNode;
 }
 
-export const create = ({ factory }: ts.TransformationContext): Factory["create"] => (params: Params$Create): ts.TypeOperatorNode => {
+export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (params: Params$Create): ts.TypeOperatorNode => {
   const node = factory.createTypeOperatorNode(syntaxKinds[params.syntaxKind], params.type);
   return node;
 };
 
-export const make = (context: ts.TransformationContext): Factory => {
+export const make = (context: Pick<ts.TransformationContext, "factory">): Factory => {
   return {
     create: create(context),
   };

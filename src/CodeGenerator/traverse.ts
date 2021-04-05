@@ -1,8 +1,8 @@
 import ts from "typescript";
 
-export type CreateFunction = (context: ts.TransformationContext) => ts.Statement[];
+export type CreateFunction = (context: Pick<ts.TransformationContext, "factory">) => ts.Statement[];
 
-export const traverse = (create: CreateFunction) => <T extends ts.Node>(context: ts.TransformationContext) => (rootNode: T) => {
+export const traverse = (create: CreateFunction) => <T extends ts.Node>(context: Pick<ts.TransformationContext, "factory">) => (rootNode: T) => {
   const visit = (node: ts.Node): ts.Node => {
     if (!ts.isSourceFile(node)) {
       return node;
