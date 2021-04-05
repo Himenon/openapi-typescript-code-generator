@@ -12,6 +12,11 @@ const gen = (name: string, enableValidate = true): void => {
       sync: false,
     },
   });
+  if (enableValidate) {
+    codeGenerator.validate({
+      logger: { displayLogLines: 1 },
+    });
+  }
   fs.writeFileSync(`test/code/${name}.ts`, code, { encoding: "utf-8" });
   console.log(`Generate Code : test/code/${name}.ts`);
 };
@@ -19,6 +24,11 @@ const gen = (name: string, enableValidate = true): void => {
 const genSyncMode = (name: string, enableValidate = true): void => {
   const codeGenerator = new CodeGenerator(`test/${name}/index.yml`);
   fs.mkdirSync("test/code", { recursive: true });
+  if (enableValidate) {
+    codeGenerator.validate({
+      logger: { displayLogLines: 1 },
+    });
+  }
   const code = codeGenerator.generateTypeDefinition<DefaultCodeTemplate.Option>({
     generator: DefaultCodeTemplate.makeApiClient,
     option: {
