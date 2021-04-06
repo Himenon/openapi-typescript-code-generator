@@ -5,8 +5,8 @@ import Dot from "dot-prop";
 import ts from "typescript";
 
 import type { OpenApi } from "../../../types";
-import { Factory } from "../../TsGenerator";
 import { UnSupportError } from "../../Exception";
+import { Factory } from "../../TsGenerator";
 import * as Def from "./Definition";
 import * as Operation from "./Operation";
 import * as State from "./State";
@@ -25,6 +25,7 @@ export interface Type {
   hasStatement: (path: string, types: Structure.DataStructure.Kind[]) => boolean;
   addAdditionalStatement: (statements: ts.Statement[]) => void;
   getRootStatements: () => ts.Statement[];
+  getAdditionalStatements: () => ts.Statement[];
   updateOperationState: (httpMethod: string, requestUri: string, operationId: string, state: Partial<State.OperationState>) => void;
   getNoReferenceOperationState: () => Operation.State;
   getPathItem: (localPath: string) => OpenApi.PathItem;
@@ -75,7 +76,11 @@ export const create = (factory: Factory.Type, rootDocument: OpenApi.Document): T
       }
       return statements;
     }, []);
-    return statements.concat(state.additionalStatements);
+    return statements;
+  };
+
+  const getAdditionalStatements = (): ts.Statement[] => {
+    return state.additionalStatements;
   };
 
   return {
@@ -95,6 +100,7 @@ export const create = (factory: Factory.Type, rootDocument: OpenApi.Document): T
       return getChildByPaths(targetPath, kind);
     },
     getRootStatements,
+    getAdditionalStatements,
     addComponent: (componentName: Def.ComponentName, statement: Structure.ComponentParams): void => {
       operator.set(`${componentName}`, Structure.createInstance(statement));
     },
