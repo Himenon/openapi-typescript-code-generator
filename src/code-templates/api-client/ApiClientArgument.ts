@@ -6,14 +6,14 @@ import type { CodeGenerator } from "../../types";
 /**
  * export type RequestContentType${operationId} = keyof RequestBody${operationId};
  */
-export const createRequestContentTypeReference = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params) => {
+export const createRequestContentTypeReference = (factory: TsGenerator.Factory.Type, { convertedParams }: CodeGenerator.Params) => {
   return factory.TypeAliasDeclaration.create({
     export: true,
-    name: params.requestContentTypeName,
+    name: convertedParams.requestContentTypeName,
     type: factory.TypeOperatorNode.create({
       syntaxKind: "keyof",
       type: factory.TypeReferenceNode.create({
-        name: params.requestBodyName,
+        name: convertedParams.requestBodyName,
       }),
     }),
   });
@@ -22,13 +22,13 @@ export const createRequestContentTypeReference = (factory: TsGenerator.Factory.T
  * export type ResponseContentType${operationId} = keyof Response${operationId}$Status$200;
  * export type ResponseContentType${operationId} = keyof Response${operationId}$Status$200 | keyof Response${operationId}$Status$203;
  */
-export const createResponseContentTypeReference = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params) => {
-  if (params.has2OrMoreSuccessResponseContentTypes) {
+export const createResponseContentTypeReference = (factory: TsGenerator.Factory.Type, { convertedParams }: CodeGenerator.Params) => {
+  if (convertedParams.has2OrMoreSuccessResponseContentTypes) {
     return factory.TypeAliasDeclaration.create({
       export: true,
-      name: params.responseContentTypeName,
+      name: convertedParams.responseContentTypeName,
       type: factory.UnionTypeNode.create({
-        typeNodes: params.responseSuccessNames.map(item => {
+        typeNodes: convertedParams.responseSuccessNames.map(item => {
           return factory.TypeOperatorNode.create({
             syntaxKind: "keyof",
             type: factory.TypeReferenceNode.create({
@@ -41,20 +41,20 @@ export const createResponseContentTypeReference = (factory: TsGenerator.Factory.
   }
   return factory.TypeAliasDeclaration.create({
     export: true,
-    name: params.responseContentTypeName,
+    name: convertedParams.responseContentTypeName,
     type: factory.TypeOperatorNode.create({
       syntaxKind: "keyof",
       type: factory.TypeReferenceNode.create({
-        name: params.responseSuccessNames[0],
+        name: convertedParams.responseSuccessNames[0],
       }),
     }),
   });
 };
 
-const createHeaders = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params) => {
+const createHeaders = (factory: TsGenerator.Factory.Type, { convertedParams }: CodeGenerator.Params) => {
   const members = [];
 
-  if (params.has2OrMoreRequestContentTypes) {
+  if (convertedParams.has2OrMoreRequestContentTypes) {
     members.push(
       factory.PropertySignature.create({
         name: `"Content-Type"`,
@@ -64,7 +64,7 @@ const createHeaders = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
     );
   }
 
-  if (params.has2OrMoreSuccessResponseContentTypes) {
+  if (convertedParams.has2OrMoreSuccessResponseContentTypes) {
     members.push(
       factory.PropertySignature.create({
         name: `Accept`,
@@ -89,25 +89,26 @@ const createHeaders = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
  * }
  */
 export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params): ts.InterfaceDeclaration | undefined => {
+  const { convertedParams } = params;
   const typeParameters: ts.TypeParameterDeclaration[] = [];
   const members: ts.TypeElement[] = [];
-  if (params.hasRequestBody && params.has2OrMoreRequestContentTypes) {
+  if (convertedParams.hasRequestBody && convertedParams.has2OrMoreRequestContentTypes) {
     typeParameters.push(
       factory.TypeParameterDeclaration.create({
         name: "T",
         constraint: factory.TypeReferenceNode.create({
-          name: params.requestContentTypeName,
+          name: convertedParams.requestContentTypeName,
         }),
       }),
     );
   }
 
-  if (params.has2OrMoreSuccessResponseContentTypes) {
+  if (convertedParams.has2OrMoreSuccessResponseContentTypes) {
     typeParameters.push(
       factory.TypeParameterDeclaration.create({
         name: "U",
         constraint: factory.TypeReferenceNode.create({
-          name: params.responseContentTypeName,
+          name: convertedParams.responseContentTypeName,
         }),
       }),
     );
@@ -123,27 +124,27 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
     members.push(extraHeader);
   }
 
-  if (params.hasParameter) {
+  if (convertedParams.hasParameter) {
     const parameter = factory.PropertySignature.create({
       name: "parameter",
       optional: false,
       type: factory.TypeReferenceNode.create({
-        name: params.parameterName,
+        name: convertedParams.parameterName,
       }),
     });
     members.push(parameter);
   }
 
-  if (params.hasRequestBody) {
+  if (convertedParams.hasRequestBody) {
     const requestBody = factory.PropertySignature.create({
       name: "requestBody",
       optional: false,
       type: factory.IndexedAccessTypeNode.create({
         objectType: factory.TypeReferenceNode.create({
-          name: params.requestBodyName,
+          name: convertedParams.requestBodyName,
         }),
         indexType: factory.TypeReferenceNode.create({
-          name: params.requestFirstContentType ? `"${params.requestFirstContentType}"` : "T",
+          name: convertedParams.requestFirstContentType ? `"${convertedParams.requestFirstContentType}"` : "T",
         }),
       }),
     });
@@ -156,7 +157,7 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
 
   return factory.InterfaceDeclaration.create({
     export: true,
-    name: params.argumentParamsTypeDeclaration,
+    name: convertedParams.argumentParamsTypeDeclaration,
     members,
     typeParameters,
   });

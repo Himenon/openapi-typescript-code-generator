@@ -1,11 +1,11 @@
 import { EOL } from "os";
 
-import type { Experimental, OpenApi } from "../../../types";
+import type { CodeGenerator, OpenApi } from "../../../types";
 
 const httpMethodList = ["get", "put", "post", "delete", "options", "head", "patch", "trace"] as const;
 
 export interface State {
-  [operationId: string]: Experimental.OpenApiOperation;
+  [operationId: string]: CodeGenerator.OpenApiOperation;
 }
 
 export const create = (rootSchema: OpenApi.Document): State => {
@@ -27,7 +27,7 @@ export const create = (rootSchema: OpenApi.Document): State => {
         deprecated: !!operation.deprecated,
         requestBody: operation.requestBody as OpenApi.RequestBody,
         parameters: operation.parameters as OpenApi.Parameter[],
-        responses: operation.responses as Experimental.Responses,
+        responses: operation.responses as CodeGenerator.OpenApiResponses,
       };
     });
   });

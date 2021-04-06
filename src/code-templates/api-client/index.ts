@@ -15,10 +15,11 @@ export const generator: CodeGenerator.GenerateFunction<Option> = (
   const statements: ts.Statement[] = [];
   const factory = TsGenerator.Factory.create();
   codeGeneratorParamsList.forEach(codeGeneratorParams => {
-    if (codeGeneratorParams.hasRequestBody) {
+    const { convertedParams } = codeGeneratorParams;
+    if (convertedParams.hasRequestBody) {
       statements.push(ApiClientArgument.createRequestContentTypeReference(factory, codeGeneratorParams));
     }
-    if (codeGeneratorParams.responseSuccessNames.length > 0) {
+    if (convertedParams.responseSuccessNames.length > 0) {
       statements.push(ApiClientArgument.createResponseContentTypeReference(factory, codeGeneratorParams));
     }
     const typeDeclaration = ApiClientArgument.create(factory, codeGeneratorParams);

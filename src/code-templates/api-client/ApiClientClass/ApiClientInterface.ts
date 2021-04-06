@@ -154,13 +154,13 @@ export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Pa
     }),
   });
 
-  const successResponseNames = list.map(item => item.responseSuccessNames).flat();
+  const successResponseNames = list.map(item => item.convertedParams.responseSuccessNames).flat();
 
   const errorResponseNamespace = factory.Namespace.create({
     export: true,
     name: "ErrorResponse",
     statements: list.map(item => {
-      return createErrorResponsesTypeAlias(`${item.escapedOperationId}`, factory, item.responseErrorNames);
+      return createErrorResponsesTypeAlias(`${item.convertedParams.escapedOperationId}`, factory, item.convertedParams.responseErrorNames);
     }),
   });
 

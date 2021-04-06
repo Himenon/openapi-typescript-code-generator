@@ -4,42 +4,40 @@ exports[`Parameter api.test.domain 1`] = `
 "[
   {
     \\"operationId\\": \\"getIncludeLocalReference\\",
-    \\"escapedOperationId\\": \\"getIncludeLocalReference\\",
-    \\"rawRequestUri\\": \\"/get/IncludeLocalReference\\",
-    \\"httpMethod\\": \\"get\\",
-    \\"argumentParamsTypeDeclaration\\": \\"Params$getIncludeLocalReference\\",
-    \\"functionName\\": \\"getIncludeLocalReference\\",
-    \\"comment\\": \\"\\",
-    \\"deprecated\\": false,
-    \\"requestContentTypeName\\": \\"RequestContentType$getIncludeLocalReference\\",
-    \\"responseContentTypeName\\": \\"ResponseContentType$getIncludeLocalReference\\",
-    \\"parameterName\\": \\"Parameter$getIncludeLocalReference\\",
-    \\"requestBodyName\\": \\"RequestBody$getIncludeLocalReference\\",
-    \\"hasRequestBody\\": false,
-    \\"hasParameter\\": true,
-    \\"pickedParameters\\": [
-      {
-        \\"name\\": \\"StringQuery\\",
-        \\"in\\": \\"query\\",
-        \\"required\\": true
-      }
-    ],
-    \\"requestContentTypes\\": [],
-    \\"has2OrMoreRequestContentTypes\\": false,
-    \\"responseSuccessNames\\": [
-      \\"Response$getIncludeLocalReference$Status$200\\"
-    ],
-    \\"responseFirstSuccessName\\": \\"Response$getIncludeLocalReference$Status$200\\",
-    \\"has2OrMoreSuccessNames\\": false,
-    \\"responseErrorNames\\": [],
-    \\"successResponseContentTypes\\": [
-      \\"application/json\\"
-    ],
-    \\"successResponseFirstContentType\\": \\"application/json\\",
-    \\"has2OrMoreSuccessResponseContentTypes\\": false,
-    \\"hasAdditionalHeaders\\": false,
-    \\"hasQueryParameters\\": true,
-    \\"experimentalOpenApiOperation\\": {
+    \\"convertedParams\\": {
+      \\"escapedOperationId\\": \\"getIncludeLocalReference\\",
+      \\"argumentParamsTypeDeclaration\\": \\"Params$getIncludeLocalReference\\",
+      \\"functionName\\": \\"getIncludeLocalReference\\",
+      \\"requestContentTypeName\\": \\"RequestContentType$getIncludeLocalReference\\",
+      \\"responseContentTypeName\\": \\"ResponseContentType$getIncludeLocalReference\\",
+      \\"parameterName\\": \\"Parameter$getIncludeLocalReference\\",
+      \\"requestBodyName\\": \\"RequestBody$getIncludeLocalReference\\",
+      \\"hasRequestBody\\": false,
+      \\"hasParameter\\": true,
+      \\"pickedParameters\\": [
+        {
+          \\"name\\": \\"StringQuery\\",
+          \\"in\\": \\"query\\",
+          \\"required\\": true
+        }
+      ],
+      \\"requestContentTypes\\": [],
+      \\"responseSuccessNames\\": [
+        \\"Response$getIncludeLocalReference$Status$200\\"
+      ],
+      \\"responseFirstSuccessName\\": \\"Response$getIncludeLocalReference$Status$200\\",
+      \\"has2OrMoreSuccessNames\\": false,
+      \\"responseErrorNames\\": [],
+      \\"has2OrMoreRequestContentTypes\\": false,
+      \\"successResponseContentTypes\\": [
+        \\"application/json\\"
+      ],
+      \\"successResponseFirstContentType\\": \\"application/json\\",
+      \\"has2OrMoreSuccessResponseContentTypes\\": false,
+      \\"hasAdditionalHeaders\\": false,
+      \\"hasQueryParameters\\": true
+    },
+    \\"operationParams\\": {
       \\"httpMethod\\": \\"get\\",
       \\"requestUri\\": \\"/get/IncludeLocalReference\\",
       \\"comment\\": \\"\\",
@@ -79,39 +77,37 @@ exports[`Parameter api.test.domain 1`] = `
   },
   {
     \\"operationId\\": \\"getIncludeRemoteReference\\",
-    \\"escapedOperationId\\": \\"getIncludeRemoteReference\\",
-    \\"rawRequestUri\\": \\"/get/IncludeRemoteReference\\",
-    \\"httpMethod\\": \\"get\\",
-    \\"argumentParamsTypeDeclaration\\": \\"Params$getIncludeRemoteReference\\",
-    \\"functionName\\": \\"getIncludeRemoteReference\\",
-    \\"comment\\": \\"\\",
-    \\"deprecated\\": false,
-    \\"requestContentTypeName\\": \\"RequestContentType$getIncludeRemoteReference\\",
-    \\"responseContentTypeName\\": \\"ResponseContentType$getIncludeRemoteReference\\",
-    \\"parameterName\\": \\"Parameter$getIncludeRemoteReference\\",
-    \\"requestBodyName\\": \\"RequestBody$getIncludeRemoteReference\\",
-    \\"hasRequestBody\\": true,
-    \\"hasParameter\\": true,
-    \\"pickedParameters\\": [
-      {
-        \\"name\\": \\"IncludeRemoteReference\\",
-        \\"in\\": \\"query\\",
-        \\"required\\": true
-      }
-    ],
-    \\"requestContentTypes\\": [
-      \\"application/json\\"
-    ],
-    \\"requestFirstContentType\\": \\"application/json\\",
-    \\"has2OrMoreRequestContentTypes\\": false,
-    \\"responseSuccessNames\\": [],
-    \\"has2OrMoreSuccessNames\\": false,
-    \\"responseErrorNames\\": [],
-    \\"successResponseContentTypes\\": [],
-    \\"has2OrMoreSuccessResponseContentTypes\\": false,
-    \\"hasAdditionalHeaders\\": false,
-    \\"hasQueryParameters\\": true,
-    \\"experimentalOpenApiOperation\\": {
+    \\"convertedParams\\": {
+      \\"escapedOperationId\\": \\"getIncludeRemoteReference\\",
+      \\"argumentParamsTypeDeclaration\\": \\"Params$getIncludeRemoteReference\\",
+      \\"functionName\\": \\"getIncludeRemoteReference\\",
+      \\"requestContentTypeName\\": \\"RequestContentType$getIncludeRemoteReference\\",
+      \\"responseContentTypeName\\": \\"ResponseContentType$getIncludeRemoteReference\\",
+      \\"parameterName\\": \\"Parameter$getIncludeRemoteReference\\",
+      \\"requestBodyName\\": \\"RequestBody$getIncludeRemoteReference\\",
+      \\"hasRequestBody\\": true,
+      \\"hasParameter\\": true,
+      \\"pickedParameters\\": [
+        {
+          \\"name\\": \\"IncludeRemoteReference\\",
+          \\"in\\": \\"query\\",
+          \\"required\\": true
+        }
+      ],
+      \\"requestContentTypes\\": [
+        \\"application/json\\"
+      ],
+      \\"requestFirstContentType\\": \\"application/json\\",
+      \\"responseSuccessNames\\": [],
+      \\"has2OrMoreSuccessNames\\": false,
+      \\"responseErrorNames\\": [],
+      \\"has2OrMoreRequestContentTypes\\": false,
+      \\"successResponseContentTypes\\": [],
+      \\"has2OrMoreSuccessResponseContentTypes\\": false,
+      \\"hasAdditionalHeaders\\": false,
+      \\"hasQueryParameters\\": true
+    },
+    \\"operationParams\\": {
       \\"httpMethod\\": \\"get\\",
       \\"requestUri\\": \\"/get/IncludeRemoteReference\\",
       \\"comment\\": \\"\\",
@@ -146,42 +142,40 @@ exports[`Parameter api.test.domain 1`] = `
   },
   {
     \\"operationId\\": \\"getFullRemoteReference\\",
-    \\"escapedOperationId\\": \\"getFullRemoteReference\\",
-    \\"rawRequestUri\\": \\"/FullRemoteReference\\",
-    \\"httpMethod\\": \\"get\\",
-    \\"argumentParamsTypeDeclaration\\": \\"Params$getFullRemoteReference\\",
-    \\"functionName\\": \\"getFullRemoteReference\\",
-    \\"comment\\": \\"\\",
-    \\"deprecated\\": false,
-    \\"requestContentTypeName\\": \\"RequestContentType$getFullRemoteReference\\",
-    \\"responseContentTypeName\\": \\"ResponseContentType$getFullRemoteReference\\",
-    \\"parameterName\\": \\"Parameter$getFullRemoteReference\\",
-    \\"requestBodyName\\": \\"RequestBody$getFullRemoteReference\\",
-    \\"hasRequestBody\\": false,
-    \\"hasParameter\\": true,
-    \\"pickedParameters\\": [
-      {
-        \\"name\\": \\"FullRemoteReferenceQuery\\",
-        \\"in\\": \\"query\\",
-        \\"required\\": true
-      }
-    ],
-    \\"requestContentTypes\\": [],
-    \\"has2OrMoreRequestContentTypes\\": false,
-    \\"responseSuccessNames\\": [
-      \\"Response$getFullRemoteReference$Status$200\\"
-    ],
-    \\"responseFirstSuccessName\\": \\"Response$getFullRemoteReference$Status$200\\",
-    \\"has2OrMoreSuccessNames\\": false,
-    \\"responseErrorNames\\": [],
-    \\"successResponseContentTypes\\": [
-      \\"application/json\\"
-    ],
-    \\"successResponseFirstContentType\\": \\"application/json\\",
-    \\"has2OrMoreSuccessResponseContentTypes\\": false,
-    \\"hasAdditionalHeaders\\": false,
-    \\"hasQueryParameters\\": true,
-    \\"experimentalOpenApiOperation\\": {
+    \\"convertedParams\\": {
+      \\"escapedOperationId\\": \\"getFullRemoteReference\\",
+      \\"argumentParamsTypeDeclaration\\": \\"Params$getFullRemoteReference\\",
+      \\"functionName\\": \\"getFullRemoteReference\\",
+      \\"requestContentTypeName\\": \\"RequestContentType$getFullRemoteReference\\",
+      \\"responseContentTypeName\\": \\"ResponseContentType$getFullRemoteReference\\",
+      \\"parameterName\\": \\"Parameter$getFullRemoteReference\\",
+      \\"requestBodyName\\": \\"RequestBody$getFullRemoteReference\\",
+      \\"hasRequestBody\\": false,
+      \\"hasParameter\\": true,
+      \\"pickedParameters\\": [
+        {
+          \\"name\\": \\"FullRemoteReferenceQuery\\",
+          \\"in\\": \\"query\\",
+          \\"required\\": true
+        }
+      ],
+      \\"requestContentTypes\\": [],
+      \\"responseSuccessNames\\": [
+        \\"Response$getFullRemoteReference$Status$200\\"
+      ],
+      \\"responseFirstSuccessName\\": \\"Response$getFullRemoteReference$Status$200\\",
+      \\"has2OrMoreSuccessNames\\": false,
+      \\"responseErrorNames\\": [],
+      \\"has2OrMoreRequestContentTypes\\": false,
+      \\"successResponseContentTypes\\": [
+        \\"application/json\\"
+      ],
+      \\"successResponseFirstContentType\\": \\"application/json\\",
+      \\"has2OrMoreSuccessResponseContentTypes\\": false,
+      \\"hasAdditionalHeaders\\": false,
+      \\"hasQueryParameters\\": true
+    },
+    \\"operationParams\\": {
       \\"httpMethod\\": \\"get\\",
       \\"requestUri\\": \\"/FullRemoteReference\\",
       \\"comment\\": \\"\\",
@@ -237,36 +231,34 @@ exports[`Parameter api.test.domain 1`] = `
   },
   {
     \\"operationId\\": \\"getReferenceItems\\",
-    \\"escapedOperationId\\": \\"getReferenceItems\\",
-    \\"rawRequestUri\\": \\"/get/reference/items\\",
-    \\"httpMethod\\": \\"get\\",
-    \\"argumentParamsTypeDeclaration\\": \\"Params$getReferenceItems\\",
-    \\"functionName\\": \\"getReferenceItems\\",
-    \\"comment\\": \\"\\",
-    \\"deprecated\\": false,
-    \\"requestContentTypeName\\": \\"RequestContentType$getReferenceItems\\",
-    \\"responseContentTypeName\\": \\"ResponseContentType$getReferenceItems\\",
-    \\"parameterName\\": \\"Parameter$getReferenceItems\\",
-    \\"requestBodyName\\": \\"RequestBody$getReferenceItems\\",
-    \\"hasRequestBody\\": false,
-    \\"hasParameter\\": false,
-    \\"pickedParameters\\": [],
-    \\"requestContentTypes\\": [],
-    \\"has2OrMoreRequestContentTypes\\": false,
-    \\"responseSuccessNames\\": [
-      \\"Response$getReferenceItems$Status$200\\"
-    ],
-    \\"responseFirstSuccessName\\": \\"Response$getReferenceItems$Status$200\\",
-    \\"has2OrMoreSuccessNames\\": false,
-    \\"responseErrorNames\\": [],
-    \\"successResponseContentTypes\\": [
-      \\"application/json\\"
-    ],
-    \\"successResponseFirstContentType\\": \\"application/json\\",
-    \\"has2OrMoreSuccessResponseContentTypes\\": false,
-    \\"hasAdditionalHeaders\\": false,
-    \\"hasQueryParameters\\": false,
-    \\"experimentalOpenApiOperation\\": {
+    \\"convertedParams\\": {
+      \\"escapedOperationId\\": \\"getReferenceItems\\",
+      \\"argumentParamsTypeDeclaration\\": \\"Params$getReferenceItems\\",
+      \\"functionName\\": \\"getReferenceItems\\",
+      \\"requestContentTypeName\\": \\"RequestContentType$getReferenceItems\\",
+      \\"responseContentTypeName\\": \\"ResponseContentType$getReferenceItems\\",
+      \\"parameterName\\": \\"Parameter$getReferenceItems\\",
+      \\"requestBodyName\\": \\"RequestBody$getReferenceItems\\",
+      \\"hasRequestBody\\": false,
+      \\"hasParameter\\": false,
+      \\"pickedParameters\\": [],
+      \\"requestContentTypes\\": [],
+      \\"responseSuccessNames\\": [
+        \\"Response$getReferenceItems$Status$200\\"
+      ],
+      \\"responseFirstSuccessName\\": \\"Response$getReferenceItems$Status$200\\",
+      \\"has2OrMoreSuccessNames\\": false,
+      \\"responseErrorNames\\": [],
+      \\"has2OrMoreRequestContentTypes\\": false,
+      \\"successResponseContentTypes\\": [
+        \\"application/json\\"
+      ],
+      \\"successResponseFirstContentType\\": \\"application/json\\",
+      \\"has2OrMoreSuccessResponseContentTypes\\": false,
+      \\"hasAdditionalHeaders\\": false,
+      \\"hasQueryParameters\\": false
+    },
+    \\"operationParams\\": {
       \\"httpMethod\\": \\"get\\",
       \\"requestUri\\": \\"/get/reference/items\\",
       \\"comment\\": \\"\\",

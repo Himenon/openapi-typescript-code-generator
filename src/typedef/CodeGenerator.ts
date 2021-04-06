@@ -1,24 +1,32 @@
 import type ts from "typescript";
 
 import type * as OpenApi from "./OpenApi";
-import type * as Experimental from "./Experimental";
 
 export type PickedParameter = Pick<OpenApi.Parameter, "name" | "in" | "required" | "style" | "explode">;
 
-export interface Params {
-  operationId: string;
-  escapedOperationId: string;
-  httpMethod: string; // get, post, put, delete ...etc
-  rawRequestUri: string;
-  functionName: string;
+export interface OpenApiResponses {
+  [statusCode: string]: OpenApi.Response;
+}
+
+export interface OpenApiOperation {
+  httpMethod: string;
+  requestUri: string;
   comment: string | undefined;
   deprecated: boolean;
-  argumentParamsTypeDeclaration: string; // Params${operationId}[]
-  requestContentTypeName: string; // RequestContentType$${operationId}
-  responseContentTypeName: string; // ResponseContentType$${operationId}
-  parameterName: string; // `Parameter$${operationId}`
-  requestBodyName: string; // `RequestBody$${operationId}`
+  requestBody?: OpenApi.RequestBody;
+  parameters?: OpenApi.Parameter[];
+  responses: OpenApiResponses;
+}
+
+export interface ConvertedParams {
+  escapedOperationId: string;
+  argumentParamsTypeDeclaration: string;
+  functionName: string;
+  requestContentTypeName: string;
+  responseContentTypeName: string;
+  parameterName: string;
   pickedParameters: PickedParameter[];
+  requestBodyName: string; // `RequestBody$${operationId}`
   // Request Content Types
   requestContentTypes: string[];
   requestFirstContentType: string | undefined; // requestContentTypes.length === 1 only
@@ -37,11 +45,12 @@ export interface Params {
   // Arguments
   hasParameter: boolean;
   hasRequestBody: boolean;
-  /**
-   * If you are using this API, please give us feedback.
-   * @see https://github.com/Himenon/openapi-typescript-code-generator/issues/36
-   */
-  experimentalOpenApiOperation: Experimental.OpenApiOperation;
+}
+
+export interface Params {
+  operationId: string;
+  convertedParams: ConvertedParams;
+  operationParams: OpenApiOperation;
 }
 
 /**
@@ -56,4 +65,9 @@ export interface OutputConfiguration {
    *
    */
   transform?: (params: IntermediateCode) => IntermediateCode[];
+}
+
+export interface CustomGenerator<T> {
+  generator: GenerateFunction<T>;
+  option?: T;
 }
