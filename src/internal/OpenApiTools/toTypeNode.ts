@@ -1,10 +1,10 @@
 import ts from "typescript";
 
 import type { OpenApi } from "../../types";
-import { Factory } from "../TsGenerator";
 import { UnsetTypeError } from "../Exception";
 import { UnSupportError } from "../Exception";
 import * as Logger from "../Logger";
+import { Factory } from "../TsGenerator";
 import * as Reference from "./components/Reference";
 import * as ConverterContext from "./ConverterContext";
 import * as Guard from "./Guard";

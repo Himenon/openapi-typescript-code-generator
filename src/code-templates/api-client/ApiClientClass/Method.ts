@@ -1,7 +1,10 @@
+import { EOL } from "os";
+
 import ts from "typescript";
 
 import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
+import type { Option } from "../types";
 import * as MethodBody from "./MethodBody";
 
 export { MethodBody };
@@ -36,7 +39,7 @@ const generateResponseReturnType = (
   factory: TsGenerator.Factory.Type,
   successResponseNameList: string[],
   successResponseContentTypeList: string[],
-  option: { sync?: boolean },
+  option: Option,
 ) => {
   let objectType: ts.TypeNode = factory.TypeNode.create({
     type: "void",
@@ -121,7 +124,7 @@ const methodTypeParameters = (factory: TsGenerator.Factory.Type, params: CodeGen
  *
  * }
  */
-export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params, option: { sync?: boolean }): ts.MethodDeclaration => {
+export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params, option: Option): ts.MethodDeclaration => {
   const typeParameters: ts.TypeParameterDeclaration[] = methodTypeParameters(factory, params);
   const methodArguments: ts.ParameterDeclaration[] = [];
   const hasParamsArguments =
@@ -148,7 +151,9 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
     name: params.functionName,
     async: !option.sync,
     parameters: methodArguments,
-    comment: params.comment,
+    comment: option.additionalMethodComment
+      ? [params.comment, `operationId: ${params.operationId}`, `Request URI: ${params.rawRequestUri}`].filter(t => !!t).join(EOL)
+      : params.comment,
     deprecated: params.deprecated,
     type: returnType,
     typeParameters: typeParameters,

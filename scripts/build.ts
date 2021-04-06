@@ -1,9 +1,9 @@
 import "./clean";
 
+import { cherryPick } from "./tools/cherry-pick";
 import { copyPackageSet } from "./tools/copyPackageSet";
 import { generateExportsField } from "./tools/dualPackageSupport";
 import { shell } from "./tools/shell";
-import { cherryPick } from "./tools/cherry-pick";
 
 const main = async () => {
   await Promise.all([

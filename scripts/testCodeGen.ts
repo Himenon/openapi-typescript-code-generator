@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import { posix as path } from "path";
 
-import { CodeGenerator, GeneratorTemplate } from "../lib";
+import { CodeGenerator, CustomCodeGenerator } from "../lib";
 import * as Templates from "../lib/templates";
 
 const writeText = (filename: string, text: string): void => {
@@ -34,7 +34,7 @@ const generateTemplateCodeOnly = (
     });
   }
 
-  const apiClientGeneratorTemplate: GeneratorTemplate<Templates.ApiClient.Option> = {
+  const apiClientGeneratorTemplate: CustomCodeGenerator<Templates.ApiClient.Option> = {
     generator: Templates.ApiClient.generator,
     option: option,
   };
@@ -58,11 +58,7 @@ const generateTypedefWithTemplateCode = (
   }
 
   const code = codeGenerator.generateTypeDefinition([
-    {
-      generator: () => {
-        return codeGenerator.getAdditionalTypeStatements();
-      },
-    },
+    codeGenerator.getAdditionalTypeDefinitionCustomCodeGenerator(),
     {
       generator: Templates.ApiClient.generator,
       option: option,
@@ -75,9 +71,9 @@ const generateTypedefWithTemplateCode = (
 const generateSplitCode = (inputFilename: string, outputDir: string) => {
   const codeGenerator = new CodeGenerator(inputFilename);
 
-  const apiClientGeneratorTemplate: GeneratorTemplate<Templates.ApiClient.Option> = {
+  const apiClientGeneratorTemplate: CustomCodeGenerator<Templates.ApiClient.Option> = {
     generator: Templates.ApiClient.generator,
-    option: { sync: false },
+    option: { sync: false, additionalMethodComment: true },
   };
 
   const typeDefCode = codeGenerator.generateTypeDefinition();
@@ -87,16 +83,17 @@ const generateSplitCode = (inputFilename: string, outputDir: string) => {
         return [`import { Schemas } from "./types";`];
       },
     },
-    {
-      generator: () => {
-        return codeGenerator.getAdditionalTypeStatements();
-      },
-    },
+    codeGenerator.getAdditionalTypeDefinitionCustomCodeGenerator(),
     apiClientGeneratorTemplate,
   ]);
 
   writeText(path.join(outputDir, "types.ts"), typeDefCode);
   writeText(path.join(outputDir, "apiClient.ts"), apiClientCode);
+};
+
+const generateParameter = (inputFilename: string, outputFilename: string) => {
+  const codeGenerator = new CodeGenerator(inputFilename);
+  writeText(outputFilename, JSON.stringify(codeGenerator.getCodeGeneratorParamsArray(), null, 2));
 };
 
 const main = () => {
@@ -116,6 +113,9 @@ const main = () => {
   generateTypedefWithTemplateCode("test/infer.domain/index.yml", "test/code/typedef-with-template/infer.domain.ts", false, { sync: false });
 
   generateSplitCode("test/api.test.domain/index.yml", "test/code/split");
+
+  generateParameter("test/api.test.domain/index.yml", "test/code/parameter/api.test.domain.json");
+  generateParameter("test/infer.domain/index.yml", "test/code/parameter/infer.domain.json");
 };
 
 main();

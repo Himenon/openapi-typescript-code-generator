@@ -1,11 +1,9 @@
 import { EOL } from "os";
 
-import ts from "typescript";
-
 import * as Api from "./api";
 import type * as Types from "./types";
 
-export interface GeneratorTemplate<T> {
+export interface CustomCodeGenerator<T> {
   generator: Types.CodeGenerator.GenerateFunction<T>;
   option?: T;
 }
@@ -43,7 +41,7 @@ export class CodeGenerator {
    * @param generatorTemplate Template for when you want to change the code following a type definition
    * @returns String of generated code
    */
-  public generateTypeDefinition(generatorTemplates?: GeneratorTemplate<any>[]): string {
+  public generateTypeDefinition(generatorTemplates?: CustomCodeGenerator<any>[]): string {
     const create = () => {
       const statements = this.parser.getOpenApiTypeDefinitionStatements();
       generatorTemplates?.forEach(generatorTemplate => {
@@ -62,7 +60,7 @@ export class CodeGenerator {
    * @param generatorTemplate
    * @returns String of generated code
    */
-  public generateCode(generatorTemplates: GeneratorTemplate<any>[]): string {
+  public generateCode(generatorTemplates: CustomCodeGenerator<any>[]): string {
     const payload = this.parser.getCodeGeneratorParamsArray();
     const create = () => {
       return generatorTemplates
@@ -81,7 +79,14 @@ export class CodeGenerator {
     return this.parser.getCodeGeneratorParamsArray();
   }
 
-  public getAdditionalTypeStatements(): ts.Statement[] {
-    return this.parser.getAdditionalTypeStatements();
+  /**
+   * Provides types for parameters for Templates.ApiClient.
+   *
+   * This API will be moved to Templates in the future.
+   */
+  public getAdditionalTypeDefinitionCustomCodeGenerator(): CustomCodeGenerator<undefined> {
+    return {
+      generator: () => this.parser.getAdditionalTypeStatements(),
+    };
   }
 }
