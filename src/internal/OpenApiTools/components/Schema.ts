@@ -1,8 +1,8 @@
 import ts from "typescript";
 
 import type { OpenApi } from "../../../types";
-import { Factory } from "../../TsGenerator";
 import { FeatureDevelopmentError } from "../../Exception";
+import { Factory } from "../../TsGenerator";
 import * as ConvertContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import { Store } from "../store";

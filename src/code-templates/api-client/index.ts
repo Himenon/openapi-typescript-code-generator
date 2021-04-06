@@ -4,10 +4,9 @@ import { TsGenerator } from "../../api";
 import type { CodeGenerator } from "../../types";
 import * as ApiClientArgument from "./ApiClientArgument";
 import * as ApiClientClass from "./ApiClientClass";
+import type { Option } from "./types";
 
-export interface Option {
-  sync?: boolean;
-}
+export { Option };
 
 export const generator: CodeGenerator.GenerateFunction<Option> = (
   codeGeneratorParamsList: CodeGenerator.Params[],

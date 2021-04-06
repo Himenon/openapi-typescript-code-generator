@@ -11,7 +11,10 @@ export const isPathParameter = (params: any): params is CodeGenerator.PickedPara
 /**
  * const url = this.baseUrl + `[head]${params.parameter.[parameterName]}`;
  */
-const generateUrlVariableStatement = (factory: TsGenerator.Factory.Type, urlTemplate: Utils.Params$TemplateExpression): ts.VariableStatement => {
+const generateUrlVariableStatement = (
+  factory: TsGenerator.Factory.Type,
+  urlTemplate: Utils.Params$TemplateExpression,
+): ts.VariableStatement => {
   return factory.VariableStatement.create({
     declarationList: factory.VariableDeclarationList.create({
       declarations: [
@@ -93,7 +96,11 @@ export const generateUrlTemplateExpression = (
   return urlTemplate;
 };
 
-export const create = (factory: TsGenerator.Factory.Type, requestUri: string, pathParameters: CodeGenerator.PickedParameter[]): ts.VariableStatement => {
+export const create = (
+  factory: TsGenerator.Factory.Type,
+  requestUri: string,
+  pathParameters: CodeGenerator.PickedParameter[],
+): ts.VariableStatement => {
   if (pathParameters.length > 0) {
     const urlTemplate = generateUrlTemplateExpression(factory, requestUri, pathParameters);
     return generateUrlVariableStatement(factory, urlTemplate);

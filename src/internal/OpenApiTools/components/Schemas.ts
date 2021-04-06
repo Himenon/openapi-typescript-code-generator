@@ -1,6 +1,6 @@
 import type { OpenApi } from "../../../types";
-import { Factory } from "../../TsGenerator";
 import { UnSupportError } from "../../Exception";
+import { Factory } from "../../TsGenerator";
 import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as InferredType from "../InferredType";

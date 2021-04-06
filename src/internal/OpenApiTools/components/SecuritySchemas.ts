@@ -1,6 +1,6 @@
 import type { OpenApi } from "../../../types";
-import { Factory } from "../../TsGenerator";
 import { UndefinedComponent } from "../../Exception";
+import { Factory } from "../../TsGenerator";
 import * as Guard from "../Guard";
 import * as Name from "../Name";
 import { Store } from "../store";

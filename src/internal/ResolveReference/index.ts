@@ -1,9 +1,9 @@
 import DotProp from "dot-prop";
 
 import type { OpenApi } from "../../types";
+import { DevelopmentError } from "../Exception";
 import * as Reference from "../OpenApiTools/components/Reference";
 import * as Guard from "../OpenApiTools/Guard";
-import { DevelopmentError } from "../Exception";
 
 export { OpenApi };
 

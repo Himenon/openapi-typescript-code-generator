@@ -3,8 +3,8 @@ import * as path from "path";
 import ts from "typescript";
 
 import type { OpenApi } from "../../../types";
-import { Factory } from "../../TsGenerator";
 import { UndefinedComponent } from "../../Exception";
+import { Factory } from "../../TsGenerator";
 import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as Name from "../Name";

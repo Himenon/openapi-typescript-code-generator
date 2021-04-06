@@ -13,7 +13,7 @@ export interface Type {
 
 export class FileSystem {
   private static FRAGMENT = "#/";
-  private static internalLoadJsonOrYaml (filename: string): any {
+  private static internalLoadJsonOrYaml(filename: string): any {
     const ext = path.extname(filename);
     const data = fs.readFileSync(filename, { encoding: "utf-8" });
     switch (ext) {
@@ -25,7 +25,7 @@ export class FileSystem {
       default:
         throw new UnSupportError(`Not support file: ${filename}`);
     }
-  };
+  }
 
   public static existSync(entryPoint: string): boolean {
     return !!(fs.existsSync(entryPoint) && fs.statSync(entryPoint).isFile());
@@ -39,5 +39,5 @@ export class FileSystem {
       return Dot.get(data, fragment.replace(/\//g, "."));
     }
     return this.internalLoadJsonOrYaml(entryPoint);
-  };
+  }
 }
