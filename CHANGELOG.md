@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.8.0"></a>
+# [0.8.0](https://github.com/Himenon/openapi-typescript-code-generator/compare/@himenon/openapi-typescript-code-generator@0.7.2...@himenon/openapi-typescript-code-generator@0.8.0) (2021-04-06)
+
+
+### Bug Fixes
+
+* code dependency ([#32](https://github.com/Himenon/openapi-typescript-code-generator/issues/32)) ([1992416](https://github.com/Himenon/openapi-typescript-code-generator/commit/1992416))
+
+
+### Code Refactoring
+
+* update test code generator ([#33](https://github.com/Himenon/openapi-typescript-code-generator/issues/33)) ([631af46](https://github.com/Himenon/openapi-typescript-code-generator/commit/631af46))
+
+
+### Documentation
+
+* update readme ([#37](https://github.com/Himenon/openapi-typescript-code-generator/issues/37)) ([ad3ec06](https://github.com/Himenon/openapi-typescript-code-generator/commit/ad3ec06))
+
+
+### Features
+
+* Add Code template feature ([#30](https://github.com/Himenon/openapi-typescript-code-generator/issues/30)) ([881625c](https://github.com/Himenon/openapi-typescript-code-generator/commit/881625c))
+* classify code generator ([#31](https://github.com/Himenon/openapi-typescript-code-generator/issues/31)) ([09f8509](https://github.com/Himenon/openapi-typescript-code-generator/commit/09f8509))
+* provide a convenient experimental API for code extension ([#35](https://github.com/Himenon/openapi-typescript-code-generator/issues/35)) ([5ce24d3](https://github.com/Himenon/openapi-typescript-code-generator/commit/5ce24d3))
+* split type definition ([#34](https://github.com/Himenon/openapi-typescript-code-generator/issues/34)) ([1c8dc40](https://github.com/Himenon/openapi-typescript-code-generator/commit/1c8dc40))
+
+
+
+
+
 <a name="0.7.2"></a>
 
 ## 0.7.2 (2021-04-04)
