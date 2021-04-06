@@ -4,8 +4,6 @@ import { copyPackageSet } from "./tools/copyPackageSet";
 import { generateExportsField } from "./tools/dualPackageSupport";
 import { shell } from "./tools/shell";
 import { cherryPick } from "./tools/cherry-pick";
-import * as fs from "fs";
-
 
 const main = async () => {
   await Promise.all([
@@ -15,8 +13,6 @@ const main = async () => {
   ]);
 
   await cherryPick({ inputDir: "../src", cwd: "./lib", typesDir: "./$types", cjsDir: "./$cjs", esmDir: "./$esm" });
-
-  const outputList = fs.readdirSync("./lib");
 
   const exportsFiled = generateExportsField("./src", {
     directory: {
