@@ -5,6 +5,6 @@ export interface Logger {
    */
   displayLogLines?: number;
 }
-export interface Configuration {
+export interface Option {
   logger?: Logger;
 }
