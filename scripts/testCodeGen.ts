@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import { posix as path } from "path";
 
-import { CodeGenerator, GeneratorTemplate } from "../lib";
+import { CodeGenerator, CustomCodeGenerator } from "../lib";
 import * as Templates from "../lib/templates";
 
 const writeText = (filename: string, text: string): void => {
@@ -34,7 +34,7 @@ const generateTemplateCodeOnly = (
     });
   }
 
-  const apiClientGeneratorTemplate: GeneratorTemplate<Templates.ApiClient.Option> = {
+  const apiClientGeneratorTemplate: CustomCodeGenerator<Templates.ApiClient.Option> = {
     generator: Templates.ApiClient.generator,
     option: option,
   };
@@ -58,11 +58,7 @@ const generateTypedefWithTemplateCode = (
   }
 
   const code = codeGenerator.generateTypeDefinition([
-    {
-      generator: () => {
-        return codeGenerator.getAdditionalTypeStatements();
-      },
-    },
+    codeGenerator.getAdditionalTypeDefinitionCustomCodeGenerator(),
     {
       generator: Templates.ApiClient.generator,
       option: option,
@@ -75,7 +71,7 @@ const generateTypedefWithTemplateCode = (
 const generateSplitCode = (inputFilename: string, outputDir: string) => {
   const codeGenerator = new CodeGenerator(inputFilename);
 
-  const apiClientGeneratorTemplate: GeneratorTemplate<Templates.ApiClient.Option> = {
+  const apiClientGeneratorTemplate: CustomCodeGenerator<Templates.ApiClient.Option> = {
     generator: Templates.ApiClient.generator,
     option: { sync: false },
   };
@@ -87,11 +83,7 @@ const generateSplitCode = (inputFilename: string, outputDir: string) => {
         return [`import { Schemas } from "./types";`];
       },
     },
-    {
-      generator: () => {
-        return codeGenerator.getAdditionalTypeStatements();
-      },
-    },
+    codeGenerator.getAdditionalTypeDefinitionCustomCodeGenerator(),
     apiClientGeneratorTemplate,
   ]);
 
