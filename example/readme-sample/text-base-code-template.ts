@@ -14,4 +14,4 @@ const generator: Types.CodeGenerator.GenerateFunction<Option> = (payload: Types.
 const customGenerator: Types.CodeGenerator.CustomGenerator<Option> = {
   generator: generator,
   option: {},
-}
+};

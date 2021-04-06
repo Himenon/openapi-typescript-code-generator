@@ -1,8 +1,8 @@
 # @himenon/openapi-typescript-code-generator
 
-このライブラリは OpenAPI v3.0.x 系に準拠した仕様書から TypeScriptの型定義と抽出したパラメーターを提供します。
+このライブラリは OpenAPI v3.0.x 系に準拠した仕様書から TypeScript の型定義と抽出したパラメーターを提供します。
 コードの生成には TypeScript AST を利用し、正確に TypeScript のコードへ変換します。
-OpenAPIから抽出したパラメーターは自由に使うことができるため、API ClientやServer Side用のコード、ロードバランサーの設定ファイルなどの自動生成に役立てることができます。
+OpenAPI から抽出したパラメーターは自由に使うことができるため、API Client や Server Side 用のコード、ロードバランサーの設定ファイルなどの自動生成に役立てることができます。
 
 ## Playground
 
@@ -38,7 +38,7 @@ const main = () => {
 main();
 ```
 
-### API Clientを含むコードを生成する
+### API Client を含むコードを生成する
 
 ```ts
 import * as fs from "fs";
@@ -66,7 +66,7 @@ const main = () => {
 main();
 ```
 
-### 型定義ファイルとAPI Clientの実装を分割する
+### 型定義ファイルと API Client の実装を分割する
 
 ```ts
 import * as fs from "fs";
@@ -101,7 +101,7 @@ const main = () => {
 main();
 ```
 
-## Code Templateを作成する
+## Code Template を作成する
 
 この節で示す例は以下に示す方法で利用できます
 
@@ -149,9 +149,9 @@ const customGenerator: Types.CodeGenerator.CustomGenerator<Option> = {
 }
 ```
 
-### OpenAPI Schemaから抽出した情報を利用した定義をする
+### OpenAPI Schema から抽出した情報を利用した定義をする
 
-独自定義のコードジェネレーターは、OpenAPI Schemaから抽出したパラメーターを受け取ることができます。
+独自定義のコードジェネレーターは、OpenAPI Schema から抽出したパラメーターを受け取ることができます。
 利用可能なパラメーターは型定義を参照してください。
 
 ```ts
@@ -172,10 +172,10 @@ const customGenerator: Types.CodeGenerator.CustomGenerator<Option> = {
 }
 ```
 
-### TypeScript ASTによるコードテンプレートを定義する
+### TypeScript AST によるコードテンプレートを定義する
 
-TypeScript ASTのAPIを利用したコードの拡張が可能です。
-直接TypeScriptのASTのAPIを利用したり、本ライブラリが提供するTypeScript ASTのラッパーAPIを利用できます。
+TypeScript AST の API を利用したコードの拡張が可能です。
+直接 TypeScript の AST の API を利用したり、本ライブラリが提供する TypeScript AST のラッパー API を利用できます。
 
 ```ts
 import * as Types from "@himenon/openapi-typescript-code-generator/types";
@@ -212,28 +212,28 @@ import { CodeGenerator } from "@himenon/openapi-typescript-code-generator";
 
 #### validateOpenApiSchema
 
-入力されたOpenAPI Schemaのバリデーションを実行します。
+入力された OpenAPI Schema のバリデーションを実行します。
 
 #### generateTypeDefinition
 
-OpenAPI SchemaをTypeScriptの型定義に変換したコードを生成します。
+OpenAPI Schema を TypeScript の型定義に変換したコードを生成します。
 
 #### generateCode
 
-独自のコードジェネレーターを複数指定することができ、ジェネレーターはOpenAPI Schemaから抽出したパラメーターを利用できます。
+独自のコードジェネレーターを複数指定することができ、ジェネレーターは OpenAPI Schema から抽出したパラメーターを利用できます。
 内部で`string`または`ts.Statement`の配列を文字列として変換を行います。
 
 たとえばファイルの分割の単位でジェネレーターを作成するとジェネレーターの再利用性が高まります。
 
 #### getCodeGeneratorParamsArray
 
-OpenAPI Schemaから抽出したパラメーターを取得できます。
+OpenAPI Schema から抽出したパラメーターを取得できます。
 
 #### getAdditionalTypeDefinitionCustomCodeGenerator
 
 `Templates.ApiClient`向けの型定義ファイルです。`generateTypeDefinition`に含めていない理由は、用途によってこの関数が生成する型定義を利用しない可能性があるためです。
 
-※ 将来的に`Templates`のAPIに移動する予定です。
+※ 将来的に`Templates`の API に移動する予定です。
 
 ### TsGenerator
 
@@ -241,7 +241,7 @@ OpenAPI Schemaから抽出したパラメーターを取得できます。
 import { TsGenerator } from "@himenon/openapi-typescript-code-generator/api";
 ```
 
-内部で利用しているTypeScript ASTのラッパーAPIです。
+内部で利用している TypeScript AST のラッパー API です。
 告知なく変更する可能性があります。
 
 ### OpenApiTools
@@ -252,9 +252,9 @@ import { OpenApiTools } from "@himenon/openapi-typescript-code-generator/api";
 
 #### Parser
 
-* `OpenApiTools.Parser`
+- `OpenApiTools.Parser`
 
-OpenAPI SchemaをパースするためのAPIです。
+OpenAPI Schema をパースするための API です。
 告知なく変更する可能性があります。
 
 ## 制限

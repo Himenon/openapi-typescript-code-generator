@@ -19,8 +19,12 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
     factory.StringLiteral.create({ text: params.operationParams.httpMethod.toUpperCase() }),
     factory.Identifier.create({ name: "url" }),
     factory.Identifier.create({ name: "headers" }),
-    convertedParams.hasRequestBody ? Utils.generateVariableIdentifier(factory, "params.requestBody") : factory.Identifier.create({ name: "undefined" }),
-    convertedParams.hasQueryParameters ? factory.Identifier.create({ name: "queryParameters" }) : factory.Identifier.create({ name: "undefined" }),
+    convertedParams.hasRequestBody
+      ? Utils.generateVariableIdentifier(factory, "params.requestBody")
+      : factory.Identifier.create({ name: "undefined" }),
+    convertedParams.hasQueryParameters
+      ? factory.Identifier.create({ name: "queryParameters" })
+      : factory.Identifier.create({ name: "undefined" }),
     factory.Identifier.create({ name: "option" }),
   ];
 

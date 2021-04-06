@@ -179,7 +179,6 @@ const customGenerator: Types.CodeGenerator.CustomGenerator<Option> = {
 You can extend your code using the API of TypeScript AST.
 You can directly use the API of TypeScript AST or use the wrapper API of TypeScript AST provided by this library.
 
-
 ```ts
 import * as Types from "@himenon/openapi-typescript-code-generator/types";
 import { TsGenerator } from "@himenon/openapi-typescript-code-generator/api";
@@ -255,7 +254,7 @@ import { OpenApiTools } from "@himenon/openapi-typescript-code-generator/api";
 
 #### Parser
 
-* `OpenApiTools.Parser`
+- `OpenApiTools.Parser`
 
 This is the API for parsing OpenAPI Schema.
 It is subject to change without notice.
