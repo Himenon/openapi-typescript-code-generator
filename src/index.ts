@@ -1,5 +1,7 @@
 import { EOL } from "os";
 
+import ts from "typescript";
+
 import * as Api from "./api";
 import type * as Types from "./types";
 
@@ -41,14 +43,14 @@ export class CodeGenerator {
    * @param generatorTemplate Template for when you want to change the code following a type definition
    * @returns String of generated code
    */
-  public generateTypeDefinition<T = {}>(generatorTemplate?: GeneratorTemplate<T>): string {
+  public generateTypeDefinition(generatorTemplates?: GeneratorTemplate<any>[]): string {
     const create = () => {
-      const statements = this.parser.getTypeDefinitionStatements();
-      if (generatorTemplate) {
+      const statements = this.parser.getOpenApiTypeDefinitionStatements();
+      generatorTemplates?.forEach(generatorTemplate => {
         const payload = this.parser.getCodeGeneratorParamsArray();
         const extraStatements = Api.TsGenerator.Utils.convertIntermediateCodes(generatorTemplate.generator(payload, generatorTemplate.option));
-        return statements.concat(extraStatements);
-      }
+        statements.push(...extraStatements);
+      });
       return statements;
     };
     return [Api.OpenApiTools.Comment.generateLeading(this.resolvedReferenceDocument), Api.TsGenerator.generate(create)].join(EOL + EOL + EOL);
@@ -57,12 +59,18 @@ export class CodeGenerator {
   /**
    * Generate code using a template
    *
-   * @param generatorTemplate 
+   * @param generatorTemplate
    * @returns String of generated code
    */
-  public generateCode<T>(generatorTemplate: GeneratorTemplate<T>): string {
+  public generateCode(generatorTemplates: GeneratorTemplate<any>[]): string {
     const payload = this.parser.getCodeGeneratorParamsArray();
-    const create = () => Api.TsGenerator.Utils.convertIntermediateCodes(generatorTemplate?.generator(payload, generatorTemplate.option));
+    const create = () => {
+      return generatorTemplates
+        .map(generatorTemplate => {
+          return Api.TsGenerator.Utils.convertIntermediateCodes(generatorTemplate?.generator(payload, generatorTemplate.option));
+        })
+        .flat();
+    };
     return [Api.OpenApiTools.Comment.generateLeading(this.resolvedReferenceDocument), Api.TsGenerator.generate(create)].join(EOL + EOL + EOL);
   }
 
@@ -71,5 +79,9 @@ export class CodeGenerator {
    */
   public getCodeGeneratorParamsArray(): Types.CodeGenerator.Params[] {
     return this.parser.getCodeGeneratorParamsArray();
+  }
+
+  public getAdditionalTypeStatements(): ts.Statement[] {
+    return this.parser.getAdditionalTypeStatements();
   }
 }

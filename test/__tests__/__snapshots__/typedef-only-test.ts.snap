@@ -287,37 +287,6 @@ export namespace RequestBodies {
         }
     }
 }
-export interface Parameter$getIncludeLocalReference {
-    /** parameters.StringQueryParams */
-    StringQuery: string;
-}
-export interface Response$getIncludeLocalReference$Status$200 {
-    \\"application/json\\": {
-        meta: string;
-    };
-}
-export interface Parameter$getIncludeRemoteReference {
-    /** remote reference parameter */
-    IncludeRemoteReference: number;
-}
-export interface RequestBody$getIncludeRemoteReference {
-    \\"application/json\\": string;
-}
-export interface Parameter$getFullRemoteReference {
-    /** Full Remote Reference */
-    FullRemoteReferenceQuery: Schemas.FullRemoteReference.ForParameters;
-}
-export interface Response$getFullRemoteReference$Status$200 {
-    \\"application/json\\": {
-        /** responseA description */
-        name?: \\"responseA\\";
-    };
-}
-export interface Response$getReferenceItems$Status$200 {
-    \\"application/json\\": {
-        books?: Schemas.Item[];
-    };
-}
 "
 `;
 

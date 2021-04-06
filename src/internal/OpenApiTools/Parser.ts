@@ -130,7 +130,11 @@ export class Parser {
     return Extractor.generateCodeGeneratorParamsArray(this.store, this.convertContext, this.option.allowOperationIds);
   }
 
-  public getTypeDefinitionStatements(): ts.Statement[] {
+  public getOpenApiTypeDefinitionStatements(): ts.Statement[] {
     return this.store.getRootStatements();
+  }
+
+  public getAdditionalTypeStatements(): ts.Statement[] {
+    return this.store.getAdditionalStatements();
   }
 }
