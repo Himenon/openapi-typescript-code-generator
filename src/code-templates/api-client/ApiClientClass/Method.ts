@@ -9,16 +9,16 @@ import * as MethodBody from "./MethodBody";
 
 export { MethodBody };
 
-const generateParams = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params) => {
+const generateParams = (factory: TsGenerator.Factory.Type, { convertedParams }: CodeGenerator.Params) => {
   const typeArguments: ts.TypeNode[] = [];
-  if (params.has2OrMoreRequestContentTypes) {
+  if (convertedParams.has2OrMoreRequestContentTypes) {
     typeArguments.push(
       factory.TypeReferenceNode.create({
         name: "RequestContentType",
       }),
     );
   }
-  if (params.has2OrMoreSuccessResponseContentTypes) {
+  if (convertedParams.has2OrMoreSuccessResponseContentTypes) {
     typeArguments.push(
       factory.TypeReferenceNode.create({
         name: "ResponseContentType",
@@ -29,7 +29,7 @@ const generateParams = (factory: TsGenerator.Factory.Type, params: CodeGenerator
     name: "params",
     modifiers: undefined,
     type: factory.TypeReferenceNode.create({
-      name: params.argumentParamsTypeDeclaration,
+      name: convertedParams.argumentParamsTypeDeclaration,
       typeArguments,
     }),
   });
@@ -93,24 +93,24 @@ const generateResponseReturnType = (
   });
 };
 
-const methodTypeParameters = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params): ts.TypeParameterDeclaration[] => {
+const methodTypeParameters = (factory: TsGenerator.Factory.Type, { convertedParams }: CodeGenerator.Params): ts.TypeParameterDeclaration[] => {
   const typeParameters: ts.TypeParameterDeclaration[] = [];
-  if (params.has2OrMoreRequestContentTypes) {
+  if (convertedParams.has2OrMoreRequestContentTypes) {
     typeParameters.push(
       factory.TypeParameterDeclaration.create({
         name: "RequestContentType",
         constraint: factory.TypeReferenceNode.create({
-          name: params.requestContentTypeName,
+          name: convertedParams.requestContentTypeName,
         }),
       }),
     );
   }
-  if (params.has2OrMoreSuccessResponseContentTypes) {
+  if (convertedParams.has2OrMoreSuccessResponseContentTypes) {
     typeParameters.push(
       factory.TypeParameterDeclaration.create({
         name: "ResponseContentType",
         constraint: factory.TypeReferenceNode.create({
-          name: params.responseContentTypeName,
+          name: convertedParams.responseContentTypeName,
         }),
       }),
     );
@@ -125,16 +125,25 @@ const methodTypeParameters = (factory: TsGenerator.Factory.Type, params: CodeGen
  * }
  */
 export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params, option: Option): ts.MethodDeclaration => {
+  const { convertedParams } = params;
   const typeParameters: ts.TypeParameterDeclaration[] = methodTypeParameters(factory, params);
   const methodArguments: ts.ParameterDeclaration[] = [];
   const hasParamsArguments =
-    params.hasParameter || params.hasRequestBody || params.has2OrMoreSuccessResponseContentTypes || params.has2OrMoreRequestContentTypes;
+    convertedParams.hasParameter ||
+    convertedParams.hasRequestBody ||
+    convertedParams.has2OrMoreSuccessResponseContentTypes ||
+    convertedParams.has2OrMoreRequestContentTypes;
 
   if (hasParamsArguments) {
     methodArguments.push(generateParams(factory, params));
   }
 
-  const returnType: ts.TypeNode = generateResponseReturnType(factory, params.responseSuccessNames, params.successResponseContentTypes, option);
+  const returnType: ts.TypeNode = generateResponseReturnType(
+    factory,
+    convertedParams.responseSuccessNames,
+    convertedParams.successResponseContentTypes,
+    option,
+  );
 
   methodArguments.push(
     factory.ParameterDeclaration.create({
@@ -148,13 +157,15 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
   );
 
   return factory.MethodDeclaration.create({
-    name: params.functionName,
+    name: convertedParams.functionName,
     async: !option.sync,
     parameters: methodArguments,
     comment: option.additionalMethodComment
-      ? [params.comment, `operationId: ${params.operationId}`, `Request URI: ${params.rawRequestUri}`].filter(t => !!t).join(EOL)
-      : params.comment,
-    deprecated: params.deprecated,
+      ? [params.operationParams.comment, `operationId: ${params.operationId}`, `Request URI: ${params.operationParams.requestUri}`]
+          .filter(t => !!t)
+          .join(EOL)
+      : params.operationParams.comment,
+    deprecated: params.operationParams.deprecated,
     type: returnType,
     typeParameters: typeParameters,
     body: factory.Block.create({

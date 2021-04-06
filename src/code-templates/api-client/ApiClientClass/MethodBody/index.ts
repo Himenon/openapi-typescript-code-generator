@@ -14,33 +14,34 @@ export interface Params$GenerateUrl {
 
 export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params): ts.Statement[] => {
   const statements: ts.Statement[] = [];
-  const { pickedParameters } = params;
+  const { convertedParams } = params;
+  const { pickedParameters } = convertedParams;
 
   // Generate Path Parameter
   const pathParameters = pickedParameters.filter(PathParameter.isPathParameter);
-  statements.push(PathParameter.create(factory, params.rawRequestUri, pathParameters));
+  statements.push(PathParameter.create(factory, params.operationParams.requestUri, pathParameters));
 
   const initialHeaderObject: Utils.LiteralExpressionObject = {};
-  if (params.has2OrMoreRequestContentTypes) {
+  if (convertedParams.has2OrMoreRequestContentTypes) {
     initialHeaderObject["Content-Type"] = {
       type: "variable",
       value: `params.headers.Content-Type`,
     };
-  } else if (params.requestFirstContentType) {
+  } else if (convertedParams.requestFirstContentType) {
     initialHeaderObject["Content-Type"] = {
       type: "string",
-      value: params.requestFirstContentType,
+      value: convertedParams.requestFirstContentType,
     };
   }
-  if (params.has2OrMoreSuccessResponseContentTypes) {
+  if (convertedParams.has2OrMoreSuccessResponseContentTypes) {
     initialHeaderObject["Accept"] = {
       type: "variable",
       value: `params.headers.Accept`,
     };
-  } else if (params.successResponseFirstContentType) {
+  } else if (convertedParams.successResponseFirstContentType) {
     initialHeaderObject["Accept"] = {
       type: "string",
-      value: params.successResponseFirstContentType,
+      value: convertedParams.successResponseFirstContentType,
     };
   }
 
@@ -57,7 +58,7 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
   );
 
   // Generate Query Parameter
-  if (params.hasQueryParameters) {
+  if (convertedParams.hasQueryParameters) {
     const queryParameter = pickedParameters.filter(item => item.in === "query");
     const queryObject = Object.values(queryParameter).reduce<{ [key: string]: QueryParameter.Item }>((previous, current) => {
       return {
