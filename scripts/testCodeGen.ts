@@ -73,7 +73,7 @@ const generateSplitCode = (inputFilename: string, outputDir: string) => {
 
   const apiClientGeneratorTemplate: CustomCodeGenerator<Templates.ApiClient.Option> = {
     generator: Templates.ApiClient.generator,
-    option: { sync: false },
+    option: { sync: false, additionalMethodComment: true },
   };
 
   const typeDefCode = codeGenerator.generateTypeDefinition();
