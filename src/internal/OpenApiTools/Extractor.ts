@@ -1,4 +1,4 @@
-import type { CodeGenerator, OpenApi, Experimental } from "../../types";
+import type { CodeGenerator, OpenApi } from "../../types";
 import * as ConverterContext from "./ConverterContext";
 import { Store } from "./store";
 

@@ -1,7 +1,8 @@
 import * as fs from "fs";
 import { posix as path } from "path";
 
-import { CodeGenerator, CustomCodeGenerator } from "../lib";
+import { CodeGenerator } from "../lib";
+import type * as Types from "../lib/types";
 import * as Templates from "../lib/templates";
 
 const writeText = (filename: string, text: string): void => {
@@ -34,7 +35,7 @@ const generateTemplateCodeOnly = (
     });
   }
 
-  const apiClientGeneratorTemplate: CustomCodeGenerator<Templates.ApiClient.Option> = {
+  const apiClientGeneratorTemplate: Types.CodeGenerator.CustomGenerator<Templates.ApiClient.Option> = {
     generator: Templates.ApiClient.generator,
     option: option,
   };
@@ -71,7 +72,7 @@ const generateTypedefWithTemplateCode = (
 const generateSplitCode = (inputFilename: string, outputDir: string) => {
   const codeGenerator = new CodeGenerator(inputFilename);
 
-  const apiClientGeneratorTemplate: CustomCodeGenerator<Templates.ApiClient.Option> = {
+  const apiClientGeneratorTemplate: Types.CodeGenerator.CustomGenerator<Templates.ApiClient.Option> = {
     generator: Templates.ApiClient.generator,
     option: { sync: false, additionalMethodComment: true },
   };

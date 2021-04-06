@@ -3,11 +3,6 @@ import { EOL } from "os";
 import * as Api from "./api";
 import type * as Types from "./types";
 
-export interface CustomCodeGenerator<T> {
-  generator: Types.CodeGenerator.GenerateFunction<T>;
-  option?: T;
-}
-
 export class CodeGenerator {
   private rootSchema: Types.OpenApi.Document;
   private resolvedReferenceDocument: Types.OpenApi.Document;
@@ -41,7 +36,7 @@ export class CodeGenerator {
    * @param generatorTemplate Template for when you want to change the code following a type definition
    * @returns String of generated code
    */
-  public generateTypeDefinition(generatorTemplates?: CustomCodeGenerator<any>[]): string {
+  public generateTypeDefinition(generatorTemplates?: Types.CodeGenerator.CustomGenerator<any>[]): string {
     const create = () => {
       const statements = this.parser.getOpenApiTypeDefinitionStatements();
       generatorTemplates?.forEach(generatorTemplate => {
@@ -60,7 +55,7 @@ export class CodeGenerator {
    * @param generatorTemplate
    * @returns String of generated code
    */
-  public generateCode(generatorTemplates: CustomCodeGenerator<any>[]): string {
+  public generateCode(generatorTemplates: Types.CodeGenerator.CustomGenerator<any>[]): string {
     const payload = this.parser.getCodeGeneratorParamsArray();
     const create = () => {
       return generatorTemplates
@@ -84,7 +79,7 @@ export class CodeGenerator {
    *
    * This API will be moved to Templates in the future.
    */
-  public getAdditionalTypeDefinitionCustomCodeGenerator(): CustomCodeGenerator<undefined> {
+  public getAdditionalTypeDefinitionCustomCodeGenerator(): Types.CodeGenerator.CustomGenerator<undefined> {
     return {
       generator: () => this.parser.getAdditionalTypeStatements(),
     };

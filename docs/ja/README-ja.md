@@ -1,75 +1,265 @@
 # @himenon/openapi-typescript-code-generator
 
-このパッケージは OpenAPI v3 系に準拠した API 仕様書から TypeScript の型定義と API Client を生成します。
+このライブラリは OpenAPI v3.0.x 系に準拠した仕様書から TypeScriptの型定義と抽出したパラメーターを提供します。
 コードの生成には TypeScript AST を利用し、正確に TypeScript のコードへ変換します。
-`allOf`、`oneOf`を`intersection` type、`union` type に変換することはもちろん、Reference 先のディレクトリ構造を`namespace`へ変換し、
-ディレクトリの階層構造をそのまま型定義の階層構造へ変換します。
+OpenAPIから抽出したパラメーターは自由に使うことができるため、API ClientやServer Side用のコード、ロードバランサーの設定ファイルなどの自動生成に役立てることができます。
 
-## 使い方
+## Playground
 
 - [Playground](https://himenon.github.io/openapi-typescript-code-generator-playground/index.html)
 
-### インストール
+## DEMO
+
+- [DEMO](./example/README.md)
+- [DEMO: github/rest-api-client code generate](https://github.com/Himenon/github-rest-api-client/tree/master/source)
+  - https://github.com/github/rest-api-description
+
+## インストール
 
 ```bash
 yarn add -D @himenon/openapi-typescript-code-generator
 ```
 
-### デモ
+## 使い方
 
-- [DEMO](../../example/README.md)
-
-### 基本的な使い方
+### 型定義のみのコードを生成する
 
 ```ts
 import * as fs from "fs";
 
-import * as CodeGenerator from "@himenon/openapi-typescript-code-generator";
+import { CodeGenerator } from "@himenon/openapi-typescript-code-generator";
 
 const main = () => {
-  const params: CodeGenerator.Params = {
-    entryPoint: "your/openapi/spec.yml", // support .yml, .yaml, .json
-  };
-  const code = CodeGenerator.generateTypeScriptCode(params);
+  const codeGenerator = new CodeGenerator("your/openapi/spec.yml");
+  const code = codeGenerator.generateTypeDefinition();
   fs.writeFileSync("client.ts", code, { encoding: "utf-8" });
 };
 
 main();
 ```
 
-### オリジナルの API Client テンプレートを作成する
-
-`option.rewriteCodeAfterTypeDeclaration`に型定義以外のコードを生成するためのエントリーポイントを用意しています。
-第 1 引数は TypeScript の`TransformationContext`が利用でき、第 2 引数はこれ以前に生成した型定義の情報が含まれます。
-[ts-ast-viewer](https://ts-ast-viewer.com)を利用することにより AST によるコード拡張がコード拡張を円滑にでます。
+### API Clientを含むコードを生成する
 
 ```ts
 import * as fs from "fs";
 
-import ts from "typescript";
-
-import * as CodeGenerator from "../lib";
+import { CodeGenerator } from "@himenon/openapi-typescript-code-generator";
+import * as Templates from "@himenon/openapi-typescript-code-generator/templates";
+import type * as Types from "@himenon/openapi-typescript-code-generator/types";
 
 const main = () => {
-  const params: CodeGenerator.Params = {
-    entryPoint: "your/openapi/spec.yml", // support .yml, .yaml, .json
-    option: {
-      rewriteCodeAfterTypeDeclaration: (context: Pick<ts.TransformationContext, "factory">, codeGeneratorParamsList: CodeGenerator.Converter.v3.CodeGeneratorParams[]): ts.Statement[] => {
-        const factory = context.factory; // https://ts-ast-viewer.com/ is very very very useful !
-        return []; // generate no api client
+  const codeGenerator = new CodeGenerator("your/openapi/spec.yml");
+
+  const apiClientGeneratorTemplate: Types.CodeGenerator.CustomGenerator<Templates.ApiClient.Option> = {
+    generator: Templates.ApiClient.generator,
+    option: {},
+  };
+
+  const code = codeGenerator.generateTypeDefinition([
+    codeGenerator.getAdditionalTypeDefinitionCustomCodeGenerator(),
+    apiClientGeneratorTemplate,
+  ]);
+
+  fs.writeFileSync("client.ts", code, { encoding: "utf-8" });
+};
+
+main();
+```
+
+### 型定義ファイルとAPI Clientの実装を分割する
+
+```ts
+import * as fs from "fs";
+
+import { CodeGenerator } from "@himenon/openapi-typescript-code-generator";
+import * as Templates from "@himenon/openapi-typescript-code-generator/templates";
+import type * as Types from "@himenon/openapi-typescript-code-generator/types";
+
+const main = () => {
+  const codeGenerator = new CodeGenerator("your/openapi/spec.yml");
+
+  const apiClientGeneratorTemplate: Types.CodeGenerator.CustomGenerator<Templates.ApiClient.Option> = {
+    generator: Templates.ApiClient.generator,
+    option: {},
+  };
+
+  const typeDefCode = codeGenerator.generateTypeDefinition();
+  const apiClientCode = codeGenerator.generateCode([
+    {
+      generator: () => {
+        return [`import { Schemas } from "./types";`];
       },
     },
-  };
-  const code = CodeGenerator.generateTypeScriptCode(params);
-  fs.writeFileSync("client.ts", code, { encoding: "utf-8" });
+    codeGenerator.getAdditionalTypeDefinitionCustomCodeGenerator(),
+    apiClientGeneratorTemplate,
+  ]);
+
+  fs.writeFileSync("types.ts", typeDefCode, { encoding: "utf-8" });
+  fs.writeFileSync("apiClient.ts", apiClientCode, { encoding: "utf-8" });
 };
 
 main();
 ```
 
-### 制限
+## Code Templateを作成する
 
-#### Remote Reference のディレクトリ制限
+この節で示す例は以下に示す方法で利用できます
+
+```ts
+import * as fs from "fs";
+
+import { CodeGenerator } from "@himenon/openapi-typescript-code-generator";
+import type * as Types from "@himenon/openapi-typescript-code-generator/types";
+
+/** ここにCode Templateの定義を記述してください  */
+const customGenerator: Types.CodeGenerator.CustomGenerator<{}> = {
+  /** .... */
+}
+
+const codeGenerator = new CodeGenerator("your/openapi/spec.yml");
+
+const code = codeGenerator.generateCode([
+  customGenerator,
+]);
+
+fs.writeFileSync("output/file/name", code, { encoding: "utf-8" });
+```
+
+### テキストベースのコードテンプレートを定義する
+
+独自定義のコードジェネレーターは`string`の配列を返すことができます。
+
+```ts
+import * as Types from "@himenon/openapi-typescript-code-generator/types";
+
+interface Option {
+  showLog?: boolean;
+}
+
+const generator: Types.CodeGenerator.GenerateFunction<Option> = (payload: Types.CodeGenerator.Params[], option): string[] => {
+  if (option && option.showLog) {
+    console.log("show log message");
+  }
+  return ["Hello world"];
+};
+
+const customGenerator: Types.CodeGenerator.CustomGenerator<Option> = {
+  generator: generator,
+  option: {},
+}
+```
+
+### OpenAPI Schemaから抽出した情報を利用した定義をする
+
+独自定義のコードジェネレーターは、OpenAPI Schemaから抽出したパラメーターを受け取ることができます。
+利用可能なパラメーターは型定義を参照してください。
+
+```ts
+import * as Types from "@himenon/openapi-typescript-code-generator/types";
+
+interface Option {
+}
+
+const generator: Types.CodeGenerator.GenerateFunction<Option> = (payload: Types.CodeGenerator.Params[], option): string[] => {
+  return payload.map((params) => {
+    return `function ${params.operationId}() { console.log("${params.comment}") }`;
+  })
+};
+
+const customGenerator: Types.CodeGenerator.CustomGenerator<Option> = {
+  generator: generator,
+  option: {},
+}
+```
+
+### TypeScript ASTによるコードテンプレートを定義する
+
+TypeScript ASTのAPIを利用したコードの拡張が可能です。
+直接TypeScriptのASTのAPIを利用したり、本ライブラリが提供するTypeScript ASTのラッパーAPIを利用できます。
+
+```ts
+import * as Types from "@himenon/openapi-typescript-code-generator/types";
+import { TsGenerator } from "@himenon/openapi-typescript-code-generator/api";
+
+interface Option {
+}
+
+const factory = TsGenerator.Factory.create();
+
+const generator: Types.CodeGenerator.GenerateFunction<Option> = (payload: Types.CodeGenerator.Params[], option): Types.CodeGenerator.IntermediateCode[] => {
+  return payload.map((params) => {
+    return factory.InterfaceDeclaration.create({
+      export: true,
+      name: params.functionName,
+      members: [],
+    })
+  })
+};
+
+const customGenerator: Types.CodeGenerator.CustomGenerator<Option> = {
+  generator: generator,
+  option: {},
+}
+```
+
+## API
+
+### CodeGenerator
+
+```ts
+import { CodeGenerator } from "@himenon/openapi-typescript-code-generator";
+```
+
+#### validateOpenApiSchema
+
+入力されたOpenAPI Schemaのバリデーションを実行します。
+
+#### generateTypeDefinition
+
+OpenAPI SchemaをTypeScriptの型定義に変換したコードを生成します。
+
+#### generateCode
+
+独自のコードジェネレーターを複数指定することができ、ジェネレーターはOpenAPI Schemaから抽出したパラメーターを利用できます。
+内部で`string`または`ts.Statement`の配列を文字列として変換を行います。
+
+たとえばファイルの分割の単位でジェネレーターを作成するとジェネレーターの再利用性が高まります。
+
+#### getCodeGeneratorParamsArray
+
+OpenAPI Schemaから抽出したパラメーターを取得できます。
+
+#### getAdditionalTypeDefinitionCustomCodeGenerator
+
+`Templates.ApiClient`向けの型定義ファイルです。`generateTypeDefinition`に含めていない理由は、用途によってこの関数が生成する型定義を利用しない可能性があるためです。
+
+※ 将来的に`Templates`のAPIに移動する予定です。
+
+### TsGenerator
+
+```ts
+import { TsGenerator } from "@himenon/openapi-typescript-code-generator/api";
+```
+
+内部で利用しているTypeScript ASTのラッパーAPIです。
+告知なく変更する可能性があります。
+
+### OpenApiTools
+
+```ts
+import { OpenApiTools } from "@himenon/openapi-typescript-code-generator/api";
+```
+
+#### Parser
+
+* `OpenApiTools.Parser`
+
+OpenAPI SchemaをパースするためのAPIです。
+告知なく変更する可能性があります。
+
+## 制限
+
+### Remote Reference のディレクトリ制限
 
 サポートしているディレクトリ構造に制限があります。
 ディレクトリ構造を TypeScript の Namespace へ変換するとき、実装を簡素化するために`$ref`を利用した Remote Reference は以下のディレクトリ構造にのみ定義してください。
@@ -87,7 +277,7 @@ components/
   paths/
 ```
 
-#### Remote Reference の HTTP 通信制限
+### Remote Reference の HTTP 通信制限
 
 `$ref: http://....`は現在サポートしていません。将来的にサポートしたいと考えています。
 
@@ -99,7 +289,7 @@ API 仕様書から TypeScript のコードへ変換するとき、参照関係�
 また、本リポジトリの基本的な設計コンセプトは以下にあるとおりです。これらに沿わない変更を行いたい場合はフォークして拡張してください。
 設計コンセプトに沿う変更内容でしたらぜひ Pull Request か Issue を投稿してください！
 
-### 設計コンセプト
+## 設計コンセプト
 
 - 型定義ファーストであること
 - 型定義に実体が含まれないこと（型定義部分を`.js`に変換したとき、ファイルサイズが 0 になること）
@@ -109,7 +299,7 @@ API 仕様書から TypeScript のコードへ変換するとき、参照関係�
 - OpenAPI の仕様に準拠すること
 - 1 ファイル化することにより、ポータビリティを保つこと
 
-### 開発方法
+## 開発方法
 
 ```bash
 git clone https://github.com/Himenon/openapi-typescript-code-generator.git

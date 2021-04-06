@@ -57,3 +57,8 @@ export interface OutputConfiguration {
    */
   transform?: (params: IntermediateCode) => IntermediateCode[];
 }
+
+export interface CustomGenerator<T> {
+  generator: GenerateFunction<T>;
+  option?: T;
+}
