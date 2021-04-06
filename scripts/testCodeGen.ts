@@ -115,7 +115,6 @@ const main = () => {
   });
   generateTypedefWithTemplateCode("test/infer.domain/index.yml", "test/code/typedef-with-template/infer.domain.ts", false, { sync: false });
 
-
   generateSplitCode("test/api.test.domain/index.yml", "test/code/split");
 };
 
