@@ -1,13 +1,21 @@
 import * as fs from "fs";
 
-import * as CodeGenerator from "../lib"; // = @himenon/openapi-typescript-code-generator
+import { CodeGenerator } from "../lib"; // = @himenon/openapi-typescript-code-generator
+import * as Templates from "../lib/templates"; // = @himenon/openapi-typescript-code-generator/templates
+import * as Types from "../lib/types"; // = @himenon/openapi-typescript-code-generator/types
 
 const main = () => {
-  const params: CodeGenerator.Params = {
-    entryPoint: "./spec/openapi.yml",
-    enableValidate: true,
+  const codeGenerator = new CodeGenerator("./spec/openapi.yml");
+  codeGenerator.validateOpenApiSchema({ logger: { displayLogLines: 1 } });
+  const apiClientGeneratorTemplate: Types.CodeGenerator.CustomGenerator<Templates.ApiClient.Option> = {
+    generator: Templates.ApiClient.generator,
+    option: {},
   };
-  const code = CodeGenerator.generateTypeScriptCode(params);
+
+  const code = codeGenerator.generateTypeDefinition([
+    codeGenerator.getAdditionalTypeDefinitionCustomCodeGenerator(),
+    apiClientGeneratorTemplate,
+  ]);
   fs.writeFileSync("client.ts", code, { encoding: "utf-8" });
 };
 

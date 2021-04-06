@@ -1,5 +1,6 @@
 import "./clean";
 
+import { cherryPick } from "./tools/cherry-pick";
 import { copyPackageSet } from "./tools/copyPackageSet";
 import { generateExportsField } from "./tools/dualPackageSupport";
 import { shell } from "./tools/shell";
@@ -10,7 +11,8 @@ const main = async () => {
     shell("yarn tsc -p tsconfig.cjs.json"),
     shell("yarn tsc -p tsconfig.esm.json"),
   ]);
-  await shell("cherry-pick --cwd ./lib --input-dir ../src --types-dir ./\\$types --cjs-dir ./\\$cjs --esm-dir ./\\$esm");
+
+  await cherryPick({ inputDir: "../src", cwd: "./lib", typesDir: "./$types", cjsDir: "./$cjs", esmDir: "./$esm" });
 
   const exportsFiled = generateExportsField("./src", {
     directory: {

@@ -1,67 +1,87 @@
 import { EOL } from "os";
 
-import * as TypeScriptCodeGenerator from "./CodeGenerator";
-import * as Converter from "./Converter";
-import * as DefaultCodeTemplate from "./DefaultCodeTemplate";
-import { fileSystem } from "./FileSystem";
-import * as ResolveReference from "./ResolveReference";
-import * as Validator from "./Validator";
+import * as Api from "./api";
+import type * as Types from "./types";
 
-export { Converter };
+export class CodeGenerator {
+  private rootSchema: Types.OpenApi.Document;
+  private resolvedReferenceDocument: Types.OpenApi.Document;
+  private parser: Api.OpenApiTools.Parser;
+  constructor(private readonly entryPoint: string) {
+    this.rootSchema = Api.FileSystem.loadJsonOrYaml(entryPoint);
+    this.resolvedReferenceDocument = Api.ResolveReference.resolve(entryPoint, entryPoint, JSON.parse(JSON.stringify(this.rootSchema)));
+    this.parser = this.createParser();
+  }
 
-export interface Params {
-  entryPoint: string;
-  option?: {
-    rewriteCodeAfterTypeDeclaration?: Converter.CodeGenerator.RewriteCodeAfterTypeDeclaration;
-    codeGenerator?: {
-      /** default false */
-      sync?: boolean;
+  private createParser(allowOperationIds?: string[]): Api.OpenApiTools.Parser {
+    return new Api.OpenApiTools.Parser(this.entryPoint, this.rootSchema, this.resolvedReferenceDocument, {
+      allowOperationIds: allowOperationIds,
+    });
+  }
+
+  /**
+   * Validate the OpenAPI Schema
+   */
+  public validateOpenApiSchema(option?: Types.Validator.Option) {
+    if (!option) {
+      Api.Validator.validate(this.resolvedReferenceDocument);
+    } else {
+      Api.Validator.validate(this.resolvedReferenceDocument, option.logger);
+    }
+  }
+
+  /**
+   * Provides TypeScript typedefs generated from OpenAPI Schema.
+   *
+   * @param generatorTemplate Template for when you want to change the code following a type definition
+   * @returns String of generated code
+   */
+  public generateTypeDefinition(generatorTemplates?: Types.CodeGenerator.CustomGenerator<any>[]): string {
+    const create = () => {
+      const statements = this.parser.getOpenApiTypeDefinitionStatements();
+      generatorTemplates?.forEach(generatorTemplate => {
+        const payload = this.parser.getCodeGeneratorParamsArray();
+        const extraStatements = Api.TsGenerator.Utils.convertIntermediateCodes(generatorTemplate.generator(payload, generatorTemplate.option));
+        statements.push(...extraStatements);
+      });
+      return statements;
     };
-  };
-  /** default: true */
-  enableValidate?: boolean;
-  log?: {
-    validator?: {
-      /**
-       * default: undefined (all logs)
-       * Number of lines displayed in the latest log
-       */
-      displayLogLines?: number;
-    };
-  };
-  filter?: {
-    allowOperationIds?: string[];
-  };
-}
+    return [Api.OpenApiTools.Comment.generateLeading(this.resolvedReferenceDocument), Api.TsGenerator.generate(create)].join(EOL + EOL + EOL);
+  }
 
-const generateConvertOption = (filter: Params["filter"] = {}, option?: Params["option"]): Converter.Option => {
-  if (option) {
+  /**
+   * Generate code using a template
+   *
+   * @param generatorTemplate
+   * @returns String of generated code
+   */
+  public generateCode(generatorTemplates: Types.CodeGenerator.CustomGenerator<any>[]): string {
+    const payload = this.parser.getCodeGeneratorParamsArray();
+    const create = () => {
+      return generatorTemplates
+        .map(generatorTemplate => {
+          return Api.TsGenerator.Utils.convertIntermediateCodes(generatorTemplate?.generator(payload, generatorTemplate.option));
+        })
+        .flat();
+    };
+    return [Api.OpenApiTools.Comment.generateLeading(this.resolvedReferenceDocument), Api.TsGenerator.generate(create)].join(EOL + EOL + EOL);
+  }
+
+  /**
+   * Provides parameters extracted from OpenApi Schema
+   */
+  public getCodeGeneratorParamsArray(): Types.CodeGenerator.Params[] {
+    return this.parser.getCodeGeneratorParamsArray();
+  }
+
+  /**
+   * Provides types for parameters for Templates.ApiClient.
+   *
+   * This API will be moved to Templates in the future.
+   */
+  public getAdditionalTypeDefinitionCustomCodeGenerator(): Types.CodeGenerator.CustomGenerator<undefined> {
     return {
-      rewriteCodeAfterTypeDeclaration: option.rewriteCodeAfterTypeDeclaration || DefaultCodeTemplate.rewriteCodeAfterTypeDeclaration,
-      allowOperationIds: filter.allowOperationIds,
-      codeGeneratorOption: {
-        sync: option.codeGenerator ? !!option.codeGenerator.sync : false,
-      },
+      generator: () => this.parser.getAdditionalTypeStatements(),
     };
   }
-  return {
-    rewriteCodeAfterTypeDeclaration: DefaultCodeTemplate.rewriteCodeAfterTypeDeclaration,
-    allowOperationIds: filter.allowOperationIds,
-    codeGeneratorOption: {
-      sync: false,
-    },
-  };
-};
-
-export const generateTypeScriptCode = ({ entryPoint, option, enableValidate = true, log, filter = {} }: Params): string => {
-  const schema = fileSystem.loadJsonOrYaml(entryPoint);
-  const resolvedReferenceDocument = ResolveReference.resolve(entryPoint, entryPoint, JSON.parse(JSON.stringify(schema)));
-
-  if (enableValidate) {
-    Validator.validate(resolvedReferenceDocument, log && log.validator);
-  }
-
-  const convertOption = generateConvertOption(filter, option);
-  const { createFunction, generateLeadingComment } = Converter.create(entryPoint, schema, resolvedReferenceDocument, convertOption);
-  return [generateLeadingComment(), TypeScriptCodeGenerator.generate(createFunction)].join(EOL + EOL + EOL);
-};
+}

@@ -10,7 +10,7 @@
     "ts": "ts-node -P tsconfig.json"
   },
   "dependencies": {
-    "@himenon/openapi-parameter-formatter": "0.2.1",
+    "@himenon/openapi-parameter-formatter": "0.7.2",
     "axios": "0.21.1",
     "superagent": "6.1.0"
   },
