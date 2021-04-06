@@ -1,4 +1,4 @@
-import type { CodeGenerator, OpenApi } from "../../types";
+import type { CodeGenerator, OpenApi, Experimental } from "../../types";
 import * as ConverterContext from "./ConverterContext";
 import { Store } from "./store";
 
@@ -111,7 +111,8 @@ export const generateCodeGeneratorParamsArray = (
       //
       hasAdditionalHeaders: hasOver2RequestContentTypes || hasOver2SuccessNames,
       hasQueryParameters: hasQueryParameters(item.parameters),
-      // Response Success Name
+      
+      experimentalOpenApiOperation: item,
     };
     params.push(formatParams);
   });

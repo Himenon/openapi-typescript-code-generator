@@ -1,6 +1,7 @@
 import type ts from "typescript";
 
 import type * as OpenApi from "./OpenApi";
+import type * as Experimental from "./Experimental";
 
 export type PickedParameter = Pick<OpenApi.Parameter, "name" | "in" | "required" | "style" | "explode">;
 
@@ -36,6 +37,11 @@ export interface Params {
   // Arguments
   hasParameter: boolean;
   hasRequestBody: boolean;
+  /**
+   * If you are using this API, please give us feedback.
+   * @see https://github.com/Himenon/openapi-typescript-code-generator/issues/36
+   */
+  experimentalOpenApiOperation: Experimental.OpenApiOperation;
 }
 
 /**
