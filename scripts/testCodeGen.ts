@@ -91,6 +91,11 @@ const generateSplitCode = (inputFilename: string, outputDir: string) => {
   writeText(path.join(outputDir, "apiClient.ts"), apiClientCode);
 };
 
+const generateParameter = (inputFilename: string, outputFilename: string) => {
+  const codeGenerator = new CodeGenerator(inputFilename);
+  writeText(outputFilename, JSON.stringify(codeGenerator.getCodeGeneratorParamsArray(), null, 2));
+};
+
 const main = () => {
   generateTypedefCodeOnly("test/api.test.domain/index.yml", "test/code/typedef-only/api.test.domain.ts", true);
   generateTypedefCodeOnly("test/infer.domain/index.yml", "test/code/typedef-only/infer.domain.ts", false);
@@ -108,6 +113,9 @@ const main = () => {
   generateTypedefWithTemplateCode("test/infer.domain/index.yml", "test/code/typedef-with-template/infer.domain.ts", false, { sync: false });
 
   generateSplitCode("test/api.test.domain/index.yml", "test/code/split");
+
+  generateParameter("test/api.test.domain/index.yml", "test/code/parameter/api.test.domain.json");
+  generateParameter("test/infer.domain/index.yml", "test/code/parameter/infer.domain.json");
 };
 
 main();
