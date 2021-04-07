@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.8.1"></a>
+## 0.8.1 (2021-04-07)
+
+
+### Documentation
+
+* fix ([#39](https://github.com/Himenon/openapi-typescript-code-generator/issues/39)) ([fae0db8](https://github.com/Himenon/openapi-typescript-code-generator/commit/fae0db8))
+
+
+
+
+
 <a name="0.8.0"></a>
 # [0.8.0](https://github.com/Himenon/openapi-typescript-code-generator/compare/@himenon/openapi-typescript-code-generator@0.7.2...@himenon/openapi-typescript-code-generator@0.8.0) (2021-04-06)
 
