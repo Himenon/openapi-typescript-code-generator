@@ -3,14 +3,18 @@ import { EOL } from "os";
 import * as Api from "./api";
 import type * as Types from "./types";
 
+export interface Option {
+  allowOperationIds?: string[];
+}
+
 export class CodeGenerator {
   private rootSchema: Types.OpenApi.Document;
   private resolvedReferenceDocument: Types.OpenApi.Document;
   private parser: Api.OpenApiTools.Parser;
-  constructor(private readonly entryPoint: string) {
+  constructor(private readonly entryPoint: string, option?: Option) {
     this.rootSchema = Api.FileSystem.loadJsonOrYaml(entryPoint);
     this.resolvedReferenceDocument = Api.ResolveReference.resolve(entryPoint, entryPoint, JSON.parse(JSON.stringify(this.rootSchema)));
-    this.parser = this.createParser();
+    this.parser = this.createParser(option?.allowOperationIds);
   }
 
   private createParser(allowOperationIds?: string[]): Api.OpenApiTools.Parser {
