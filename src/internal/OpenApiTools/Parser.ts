@@ -13,13 +13,6 @@ import * as Paths from "./paths";
 import { Store } from "./store";
 import * as TypeNodeContext from "./TypeNodeContext";
 
-export interface Option {
-  /**
-   * List of operationId to be used
-   */
-  allowOperationIds?: string[];
-}
-
 export class Parser {
   private currentPoint: string;
   private convertContext: ConvertContext.Types;
@@ -29,7 +22,6 @@ export class Parser {
     private entryPoint: string,
     private rootSchema: OpenApi.Document,
     noReferenceOpenApiSchema: OpenApi.Document,
-    private option: Option,
   ) {
     this.currentPoint = entryPoint;
     this.convertContext = ConvertContext.create();
@@ -126,8 +118,8 @@ export class Parser {
     }
   }
 
-  public getCodeGeneratorParamsArray(): CodeGenerator.Params[] {
-    return Extractor.generateCodeGeneratorParamsArray(this.store, this.convertContext, this.option.allowOperationIds);
+  public getCodeGeneratorParamsArray(allowOperationIds?: string[]): CodeGenerator.Params[] {
+    return Extractor.generateCodeGeneratorParamsArray(this.store, this.convertContext, allowOperationIds);
   }
 
   public getOpenApiTypeDefinitionStatements(): ts.Statement[] {

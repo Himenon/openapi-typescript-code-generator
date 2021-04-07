@@ -14,13 +14,11 @@ export class CodeGenerator {
   constructor(private readonly entryPoint: string, option?: Option) {
     this.rootSchema = Api.FileSystem.loadJsonOrYaml(entryPoint);
     this.resolvedReferenceDocument = Api.ResolveReference.resolve(entryPoint, entryPoint, JSON.parse(JSON.stringify(this.rootSchema)));
-    this.parser = this.createParser(option?.allowOperationIds);
+    this.parser = this.createParser();
   }
 
-  private createParser(allowOperationIds?: string[]): Api.OpenApiTools.Parser {
-    return new Api.OpenApiTools.Parser(this.entryPoint, this.rootSchema, this.resolvedReferenceDocument, {
-      allowOperationIds: allowOperationIds,
-    });
+  private createParser(): Api.OpenApiTools.Parser {
+    return new Api.OpenApiTools.Parser(this.entryPoint, this.rootSchema, this.resolvedReferenceDocument);
   }
 
   /**
@@ -40,11 +38,11 @@ export class CodeGenerator {
    * @param generatorTemplate Template for when you want to change the code following a type definition
    * @returns String of generated code
    */
-  public generateTypeDefinition(generatorTemplates?: Types.CodeGenerator.CustomGenerator<any>[]): string {
+  public generateTypeDefinition(generatorTemplates?: Types.CodeGenerator.CustomGenerator<any>[], allowOperationIds?: string[]): string {
     const create = () => {
       const statements = this.parser.getOpenApiTypeDefinitionStatements();
       generatorTemplates?.forEach(generatorTemplate => {
-        const payload = this.parser.getCodeGeneratorParamsArray();
+        const payload = this.parser.getCodeGeneratorParamsArray(allowOperationIds);
         const extraStatements = Api.TsGenerator.Utils.convertIntermediateCodes(generatorTemplate.generator(payload, generatorTemplate.option));
         statements.push(...extraStatements);
       });
@@ -59,8 +57,8 @@ export class CodeGenerator {
    * @param generatorTemplate
    * @returns String of generated code
    */
-  public generateCode(generatorTemplates: Types.CodeGenerator.CustomGenerator<any>[]): string {
-    const payload = this.parser.getCodeGeneratorParamsArray();
+  public generateCode(generatorTemplates: Types.CodeGenerator.CustomGenerator<any>[], allowOperationIds?: string[]): string {
+    const payload = this.parser.getCodeGeneratorParamsArray(allowOperationIds);
     const create = () => {
       return generatorTemplates
         .map(generatorTemplate => {
@@ -74,8 +72,8 @@ export class CodeGenerator {
   /**
    * Provides parameters extracted from OpenApi Schema
    */
-  public getCodeGeneratorParamsArray(): Types.CodeGenerator.Params[] {
-    return this.parser.getCodeGeneratorParamsArray();
+  public getCodeGeneratorParamsArray(allowOperationIds?: string[]): Types.CodeGenerator.Params[] {
+    return this.parser.getCodeGeneratorParamsArray(allowOperationIds);
   }
 
   /**
