@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.8.2"></a>
+## 0.8.2 (2021-04-07)
+
+
+### Bug Fixes
+
+* bring back the allowOperationIds option ([#40](https://github.com/Himenon/openapi-typescript-code-generator/issues/40)) ([cbccec3](https://github.com/Himenon/openapi-typescript-code-generator/commit/cbccec3))
+
+
+
+
+
 <a name="0.8.1"></a>
 ## 0.8.1 (2021-04-07)
 
