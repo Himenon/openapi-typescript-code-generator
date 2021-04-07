@@ -6,7 +6,7 @@ This library provides TypeScript type definitions and extracted parameters from 
 TypeScript AST is used to generate the code, which is accurately converted to TypeScript code.
 Since the parameters extracted from OpenAPI can be used freely, it can be used for automatic generation of API Client and Server Side code, load balancer configuration files, etc.
 
-## Usage
+## Playground
 
 - [Playground](https://himenon.github.io/openapi-typescript-code-generator-playground/index.html)
 

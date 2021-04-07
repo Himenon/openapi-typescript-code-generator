@@ -10,7 +10,7 @@ OpenAPI から抽出したパラメーターは自由に使うことができる
 
 ## DEMO
 
-- [DEMO](./example/README.md)
+- [DEMO](../example/README.md)
 - [DEMO: github/rest-api-client code generate](https://github.com/Himenon/github-rest-api-client/tree/master/source)
   - https://github.com/github/rest-api-description
 
