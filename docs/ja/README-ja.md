@@ -10,7 +10,7 @@ OpenAPI から抽出したパラメーターは自由に使うことができる
 
 ## DEMO
 
-- [DEMO](../example/README.md)
+- [Short DEMO](https://github.com/Himenon/openapi-typescript-code-generator-demo-project)
 - [DEMO: github/rest-api-client code generate](https://github.com/Himenon/github-rest-api-client/tree/master/source)
   - https://github.com/github/rest-api-description
 
@@ -21,6 +21,8 @@ yarn add -D @himenon/openapi-typescript-code-generator
 ```
 
 ## 使い方
+
+ここで記されている例は[DEMO用のリポジトリ](https://github.com/Himenon/openapi-typescript-code-generator-demo-project)をクローンして動作確認することができます。
 
 ### 型定義のみのコードを生成する
 
@@ -87,7 +89,7 @@ const main = () => {
   const apiClientCode = codeGenerator.generateCode([
     {
       generator: () => {
-        return [`import { Schemas } from "./types";`];
+        return [`import { Schemas, Responses } from "./types";`];
       },
     },
     codeGenerator.getAdditionalTypeDefinitionCustomCodeGenerator(),

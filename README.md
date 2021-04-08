@@ -18,11 +18,13 @@ yarn add -D @himenon/openapi-typescript-code-generator
 
 ## DEMO
 
-- [DEMO](./example/README.md)
+- [Short DEMO](https://github.com/Himenon/openapi-typescript-code-generator-demo-project)
 - [DEMO: github/rest-api-client code generate](https://github.com/Himenon/github-rest-api-client/tree/master/source)
   - https://github.com/github/rest-api-description
 
 ## Usage
+
+The example shown here can be cloned from the [DEMO repository](https://github.com/Himenon/openapi-typescript-code-generator-demo-project) to see how it works.
 
 ### Generate typedef-only code
 
@@ -89,7 +91,7 @@ const main = () => {
   const apiClientCode = codeGenerator.generateCode([
     {
       generator: () => {
-        return [`import { Schemas } from "./types";`];
+        return [`import { Schemas, Responses } from "./types";`];
       },
     },
     codeGenerator.getAdditionalTypeDefinitionCustomCodeGenerator(),
