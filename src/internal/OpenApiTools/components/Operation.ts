@@ -8,7 +8,7 @@ import { Factory } from "../../TsGenerator";
 import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as Name from "../Name";
-import { Store } from "../store";
+import type { Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
 import * as ExternalDocumentation from "./ExternalDocumentation";
 import * as Parameter from "./Parameter";
@@ -35,7 +35,7 @@ const generateComment = (operation: OpenApi.Operation): string => {
 export const generateNamespace = (
   entryPoint: string,
   currentPoint: string,
-  store: Store.Type,
+  store: Store,
   factory: Factory.Type,
   parentPath: string,
   name: string,
@@ -131,7 +131,7 @@ export const generateNamespace = (
 export const generateStatements = (
   entryPoint: string,
   currentPoint: string,
-  store: Store.Type,
+  store: Store,
   factory: Factory.Type,
   requestUri: string,
   httpMethod: string, // PUT POST PATCH

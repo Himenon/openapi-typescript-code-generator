@@ -3,7 +3,7 @@ import ts from "typescript";
 import type { OpenApi } from "../../../types";
 import { Factory } from "../../TsGenerator";
 import * as ConverterContext from "../ConverterContext";
-import { Store } from "../store";
+import type { Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
 import * as Operation from "./Operation";
 import * as Parameters from "./Parameters";
@@ -12,7 +12,7 @@ import * as Servers from "./Servers";
 export const generateNamespace = (
   entryPoint: string,
   currentPoint: string,
-  store: Store.Type,
+  store: Store,
   factory: Factory.Type,
   parentPath: string,
   name: string,
@@ -60,7 +60,7 @@ export const generateNamespace = (
 export const generateStatements = (
   entryPoint: string,
   currentPoint: string,
-  store: Store.Type,
+  store: Store,
   factory: Factory.Type,
   requestUri: string,
   pathItem: OpenApi.PathItem,

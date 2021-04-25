@@ -16,7 +16,7 @@ import * as TypeNodeContext from "./TypeNodeContext";
 export class Parser {
   private currentPoint: string;
   private convertContext: ConvertContext.Types;
-  private store: Store.Type;
+  private store: Store;
   private factory: TypeScriptCodeGenerator.Factory.Type;
   constructor(
     private entryPoint: string,
@@ -26,7 +26,7 @@ export class Parser {
     this.currentPoint = entryPoint;
     this.convertContext = ConvertContext.create();
     this.factory = TypeScriptCodeGenerator.Factory.create();
-    this.store = Store.create(this.factory, noReferenceOpenApiSchema);
+    this.store = new Store(this.factory, noReferenceOpenApiSchema);
     this.initialize();
   }
 

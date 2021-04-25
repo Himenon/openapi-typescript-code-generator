@@ -43,3 +43,7 @@ export const create = () => {
     getChildByPaths: DataStructure.createGetChildByPaths(operator),
   };
 };
+
+export type OperatorType = Operator<NamespaceTree.Kind>;
+
+export type GetChildByPaths = DataStructure.GetChildByPaths;
