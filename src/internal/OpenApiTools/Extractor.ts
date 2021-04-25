@@ -1,6 +1,6 @@
 import type { CodeGenerator, OpenApi } from "../../types";
 import * as ConverterContext from "./ConverterContext";
-import { Store } from "./store";
+import type { Store } from "./store";
 
 const extractPickedParameter = (parameter: OpenApi.Parameter): CodeGenerator.PickedParameter => {
   return {
@@ -56,7 +56,7 @@ const hasQueryParameters = (parameters?: OpenApi.Parameter[]): boolean => {
 };
 
 export const generateCodeGeneratorParamsArray = (
-  store: Store.Type,
+  store: Store,
   converterContext: ConverterContext.Types,
   allowOperationIds: string[] | undefined,
 ): CodeGenerator.Params[] => {

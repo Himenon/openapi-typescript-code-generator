@@ -5,7 +5,7 @@ import { FeatureDevelopmentError } from "../../Exception";
 import { Factory } from "../../TsGenerator";
 import * as ConvertContext from "../ConverterContext";
 import * as Guard from "../Guard";
-import { Store } from "../store";
+import type { Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
 import type { ArraySchema, ObjectSchema, PrimitiveSchema } from "../types";
 import * as ExternalDocumentation from "./ExternalDocumentation";
@@ -159,7 +159,7 @@ export const generateMultiTypeAlias = (
 export const addSchema = (
   entryPoint: string,
   currentPoint: string,
-  store: Store.Type,
+  store: Store,
   factory: Factory.Type,
   targetPoint: string,
   declarationName: string,

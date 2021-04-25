@@ -5,7 +5,7 @@ import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as InferredType from "../InferredType";
 import * as Name from "../Name";
-import { Store } from "../store";
+import type { Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
 import * as Reference from "./Reference";
 import * as Schema from "./Schema";
@@ -29,7 +29,7 @@ const createNullableTypeNode = (factory: Factory.Type, schema: OpenApi.Schema) =
 export const generateNamespace = (
   entryPoint: string,
   currentPoint: string,
-  store: Store.Type,
+  store: Store,
   factory: Factory.Type,
   schemas: Record<string, OpenApi.Schema | OpenApi.Reference>,
   context: ToTypeNode.Context,
