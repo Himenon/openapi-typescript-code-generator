@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.9.2"></a>
+## 0.9.2 (2021-04-25)
+
+
+### Code Refactoring
+
+* classified the store ([#44](https://github.com/Himenon/openapi-typescript-code-generator/issues/44)) ([e6c1a85](https://github.com/Himenon/openapi-typescript-code-generator/commit/e6c1a85))
+
+
+
+
+
 <a name="0.9.1"></a>
 ## 0.9.1 (2021-04-08)
 
