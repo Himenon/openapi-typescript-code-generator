@@ -8,8 +8,8 @@ import { Factory } from "../../TsGenerator";
 import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as Name from "../Name";
-import type { Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
+import type * as Walker from "../Walker";
 import * as MediaType from "./MediaType";
 import * as Reference from "./Reference";
 import * as Response from "./Response";
@@ -17,7 +17,7 @@ import * as Response from "./Response";
 export const generateNamespace = (
   entryPoint: string,
   currentPoint: string,
-  store: Store,
+  store: Walker.Store,
   factory: Factory.Type,
   responses: Record<string, OpenApi.Response | OpenApi.Reference>,
   context: ToTypeNode.Context,
@@ -57,7 +57,7 @@ export const generateNamespace = (
 export const generateNamespaceWithStatusCode = (
   entryPoint: string,
   currentPoint: string,
-  store: Store,
+  store: Walker.Store,
   factory: Factory.Type,
   parentPath: string,
   responses: OpenApi.Responses,
@@ -122,7 +122,7 @@ export const generateNamespaceWithStatusCode = (
 export const generateInterfacesWithStatusCode = (
   entryPoint: string,
   currentPoint: string,
-  store: Store,
+  store: Walker.Store,
   factory: Factory.Type,
   operationId: string,
   responses: OpenApi.Responses,

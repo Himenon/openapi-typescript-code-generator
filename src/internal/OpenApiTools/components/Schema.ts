@@ -5,9 +5,9 @@ import { FeatureDevelopmentError } from "../../Exception";
 import { Factory } from "../../TsGenerator";
 import * as ConvertContext from "../ConverterContext";
 import * as Guard from "../Guard";
-import type { Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
 import type { ArraySchema, ObjectSchema, PrimitiveSchema } from "../types";
+import type * as Walker from "../Walker";
 import * as ExternalDocumentation from "./ExternalDocumentation";
 
 export const generatePropertySignatures = (
@@ -159,7 +159,7 @@ export const generateMultiTypeAlias = (
 export const addSchema = (
   entryPoint: string,
   currentPoint: string,
-  store: Store,
+  store: Walker.Store,
   factory: Factory.Type,
   targetPoint: string,
   declarationName: string,

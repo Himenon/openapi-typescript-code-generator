@@ -6,13 +6,13 @@ import * as PathItem from "../components/PathItem";
 import * as Reference from "../components/Reference";
 import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
-import type { Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
+import type * as Walker from "../Walker";
 
 export const generateStatements = (
   entryPoint: string,
   currentPoint: string,
-  store: Store,
+  store: Walker.Store,
   factory: Factory.Type,
   paths: OpenApi.Paths,
   context: ToTypeNode.Context,

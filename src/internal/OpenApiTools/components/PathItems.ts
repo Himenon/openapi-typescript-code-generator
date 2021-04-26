@@ -4,8 +4,8 @@ import { Factory } from "../../TsGenerator";
 import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as Name from "../Name";
-import type { Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
+import type * as Walker from "../Walker";
 import * as PathItem from "./PathItem";
 import * as Reference from "./Reference";
 
@@ -13,7 +13,7 @@ import * as Reference from "./Reference";
 export const generateNamespace = (
   entryPoint: string,
   currentPoint: string,
-  store: Store,
+  store: Walker.Store,
   factory: Factory.Type,
   pathItems: Record<string, OpenApi.PathItem | OpenApi.Reference>,
   context: ToTypeNode.Context,
