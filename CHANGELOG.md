@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.9.3"></a>
+## 0.9.3 (2021-04-26)
+
+
+### Code Refactoring
+
+* Naming the walker ([#45](https://github.com/Himenon/openapi-typescript-code-generator/issues/45)) ([e4ed97e](https://github.com/Himenon/openapi-typescript-code-generator/commit/e4ed97e))
+
+
+
+
+
 <a name="0.9.2"></a>
 
 ## 0.9.2 (2021-04-25)
