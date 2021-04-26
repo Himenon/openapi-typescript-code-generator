@@ -11,18 +11,18 @@ import * as ConvertContext from "./ConverterContext";
 import * as Extractor from "./Extractor";
 import * as Paths from "./paths";
 import * as TypeNodeContext from "./TypeNodeContext";
-import { Store } from "./Walker";
+import * as Walker from "./Walker";
 
 export class Parser {
   private currentPoint: string;
   private convertContext: ConvertContext.Types;
-  private store: Store;
+  private store: Walker.Store;
   private factory: TypeScriptCodeGenerator.Factory.Type;
   constructor(private entryPoint: string, private rootSchema: OpenApi.Document, noReferenceOpenApiSchema: OpenApi.Document) {
     this.currentPoint = entryPoint;
     this.convertContext = ConvertContext.create();
     this.factory = TypeScriptCodeGenerator.Factory.create();
-    this.store = new Store(this.factory, noReferenceOpenApiSchema);
+    this.store = new Walker.Store(this.factory, noReferenceOpenApiSchema);
     this.initialize();
   }
 

@@ -21,6 +21,16 @@ module.exports = {
       },
     },
     {
+      name: "Don't rely on typescript from Walker",
+      severity: "error",
+      from: {
+        path: "^src/internal/OpenApiTools/Walker",
+      },
+      to: {
+        path: "typescript",
+      },
+    },
+    {
       name: "not-to-test",
       comment:
         "This module depends on code within a folder that should only contain tests. As tests don't " +
