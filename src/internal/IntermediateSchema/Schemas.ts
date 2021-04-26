@@ -10,68 +10,106 @@ export type Kind =
   | "void"
   | "union"
   | "intersection"
+  | "reference"
   | "array"
+  | "PropertySignature"
+  | "IndexSignature"
   | "object";
 
-export interface BaseSchema {
+export interface BaseSchemaTypes {
   kind: Kind;
 }
 
-export interface StringSchema extends BaseSchema {
+export interface StringSchema extends BaseSchemaTypes {
   kind: "string";
   enum?: string[];
 }
 
-export interface IntegerSchema extends BaseSchema {
+export interface IntegerSchema extends BaseSchemaTypes {
   kind: "integer";
   enum?: number[];
 }
 
-export interface NumberSchema extends BaseSchema {
+export interface NumberSchema extends BaseSchemaTypes {
   kind: "number";
   enum?: number[];
 }
 
-export interface BooleanSchema extends BaseSchema {
+export interface BooleanSchema extends BaseSchemaTypes {
   kind: "boolean";
 }
 
-export interface UndefinedSchema extends BaseSchema {
+export interface UndefinedSchema extends BaseSchemaTypes {
   kind: "undefined";
 }
 
-export interface NullSchema extends BaseSchema {
+export interface NullSchema extends BaseSchemaTypes {
   kind: "null";
 }
 
-export interface NeverSchema extends BaseSchema {
+export interface NeverSchema extends BaseSchemaTypes {
   kind: "never";
 }
 
-export interface AnySchema extends BaseSchema {
+export interface AnySchema extends BaseSchemaTypes {
   kind: "any";
 }
 
-export interface VoidSchema extends BaseSchema {
+export interface VoidSchema extends BaseSchemaTypes {
   kind: "void";
 }
 
-export interface UnionSchema extends BaseSchema {
+export interface UnionSchema extends BaseSchemaTypes {
   kind: "union";
-  value: BaseSchema[];
+  schemaTypes: BaseSchemaTypes[];
 }
 
-export interface IntersectionSchema extends BaseSchema {
+export interface IntersectionSchema extends BaseSchemaTypes {
   kind: "intersection";
-  value: BaseSchema[];
+  schemaTypes: BaseSchemaTypes[];
 }
 
-export interface ArrayParams {
-  type: "array";
-  value: BaseSchema;
+export interface IndexSignatureSchema extends BaseSchemaTypes {
+  kind: "IndexSignature";
+  name: string;
+  schemaType: BaseSchemaTypes;
 }
 
-export interface ObjectParams {
-  type: "object";
-  value: BaseSchema[];
+export interface ReferenceSchema extends BaseSchemaTypes {
+  kind: "reference";
+  name: string;
 }
+
+export interface ArrayParams extends BaseSchemaTypes {
+  kind: "array";
+  schemaType: BaseSchemaTypes;
+}
+
+export interface PropertySignatureParams extends BaseSchemaTypes {
+  kind: "PropertySignature";
+  name: string;
+  optional: boolean;
+  comment?: string;
+  schemaType: BaseSchemaTypes;
+}
+
+export interface ObjectParams extends BaseSchemaTypes {
+  kind: "object";
+  properties: (PropertySignatureParams | IndexSignatureSchema)[];
+}
+
+export type SchemaType =
+  | StringSchema
+  | IntegerSchema
+  | NumberSchema
+  | BooleanSchema
+  | UndefinedSchema
+  | NullSchema
+  | NeverSchema
+  | AnySchema
+  | VoidSchema
+  | UnionSchema
+  | IntersectionSchema
+  | ReferenceSchema
+  | ArrayParams
+  | ObjectParams;

@@ -21,10 +21,10 @@ module.exports = {
       },
     },
     {
-      name: "Don't rely on typescript from Walker",
+      name: "Don't dependent on typescript from Walker",
       severity: "error",
       from: {
-        path: "^src/internal/OpenApiTools/Walker",
+        path: "^src/internal/OpenApiTools",
       },
       to: {
         path: "typescript",
