@@ -3,8 +3,8 @@ import * as ts from "typescript";
 import type { OpenApi } from "../../../types";
 import { Factory } from "../../TsGenerator";
 import * as ConverterContext from "../ConverterContext";
-import type { Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
+import type * as Walker from "../Walker";
 import * as MediaType from "./MediaType";
 
 export const generateInterface = (
@@ -34,7 +34,7 @@ export const generateInterface = (
 export const generateNamespace = (
   entryPoint: string,
   currentPoint: string,
-  store: Store,
+  store: Walker.Store,
   factory: Factory.Type,
   parentName: string,
   name: string,

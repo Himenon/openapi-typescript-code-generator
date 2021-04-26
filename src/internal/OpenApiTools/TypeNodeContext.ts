@@ -5,8 +5,8 @@ import ts from "typescript";
 import { DevelopmentError } from "../Exception";
 import * as TypeScriptCodeGenerator from "../TsGenerator";
 import * as ConverterContext from "./ConverterContext";
-import type { Store } from "./store";
 import * as ToTypeNode from "./toTypeNode";
+import type * as Walker from "./Walker";
 
 export interface ReferencePathSet {
   pathArray: string[];
@@ -25,7 +25,7 @@ const generatePath = (entryPoint: string, currentPoint: string, referencePath: s
   };
 };
 
-const calculateReferencePath = (store: Store, base: string, pathArray: string[]): ToTypeNode.ResolveReferencePath => {
+const calculateReferencePath = (store: Walker.Store, base: string, pathArray: string[]): ToTypeNode.ResolveReferencePath => {
   let names: string[] = [];
   let unresolvedPaths: string[] = [];
   pathArray.reduce((previous, lastPath, index) => {
@@ -75,7 +75,7 @@ const calculateReferencePath = (store: Store, base: string, pathArray: string[])
 
 export const create = (
   entryPoint: string,
-  store: Store,
+  store: Walker.Store,
   factory: TypeScriptCodeGenerator.Factory.Type,
   converterContext: ConverterContext.Types,
 ): ToTypeNode.Context => {

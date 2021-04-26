@@ -4,8 +4,8 @@ import type { OpenApi } from "../../../types";
 import { Factory } from "../../TsGenerator";
 import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
-import type { Store } from "../store";
 import * as ToTypeNode from "../toTypeNode";
+import type * as Walker from "../Walker";
 import * as Reference from "./Reference";
 
 export const generateTypeNode = (
@@ -39,7 +39,7 @@ export const generateTypeAlias = (
 export const generatePropertySignature = (
   entryPoint: string,
   currentPoint: string,
-  store: Store,
+  store: Walker.Store,
   factory: Factory.Type,
   parameter: OpenApi.Parameter | OpenApi.Reference,
   context: ToTypeNode.Context,
@@ -86,7 +86,7 @@ export const generatePropertySignature = (
 export const generatePropertySignatures = (
   entryPoint: string,
   currentPoint: string,
-  store: Store,
+  store: Walker.Store,
   factory: Factory.Type,
   parameters: (OpenApi.Parameter | OpenApi.Reference)[],
   context: ToTypeNode.Context,
@@ -100,7 +100,7 @@ export const generatePropertySignatures = (
 export const generateInterface = (
   entryPoint: string,
   currentPoint: string,
-  store: Store,
+  store: Walker.Store,
   factory: Factory.Type,
   name: string,
   parameters: [OpenApi.Parameter | OpenApi.Reference],
@@ -120,7 +120,7 @@ export const generateInterface = (
 export const generateAliasInterface = (
   entryPoint: string,
   currentPoint: string,
-  store: Store,
+  store: Walker.Store,
   factory: Factory.Type,
   name: string,
   parameters: (OpenApi.Parameter | OpenApi.Reference)[],

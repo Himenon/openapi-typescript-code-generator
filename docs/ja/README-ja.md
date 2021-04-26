@@ -22,7 +22,7 @@ yarn add -D @himenon/openapi-typescript-code-generator
 
 ## 使い方
 
-ここで記されている例は[DEMO用のリポジトリ](https://github.com/Himenon/openapi-typescript-code-generator-demo-project)をクローンして動作確認することができます。
+ここで記されている例は[DEMO 用のリポジトリ](https://github.com/Himenon/openapi-typescript-code-generator-demo-project)をクローンして動作確認することができます。
 
 ### 型定義のみのコードを生成する
 
