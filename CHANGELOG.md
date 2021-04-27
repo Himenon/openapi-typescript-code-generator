@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.9.6"></a>
+## 0.9.6 (2021-04-27)
+
+
+### Documentation
+
+* update playground url ([#50](https://github.com/Himenon/openapi-typescript-code-generator/issues/50)) ([b5cea25](https://github.com/Himenon/openapi-typescript-code-generator/commit/b5cea25))
+
+
+
+
+
 <a name="0.9.5"></a>
 ## 0.9.5 (2021-04-27)
 
