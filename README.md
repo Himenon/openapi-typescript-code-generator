@@ -8,7 +8,7 @@ Since the parameters extracted from OpenAPI can be used freely, it can be used f
 
 ## Playground
 
-- [Playground](https://openapi-typescript-playground.netlify.app)
+- [Playground](https://openapi-typescript-code-generator-playground.netlify.app)
 
 ## Installation
 
