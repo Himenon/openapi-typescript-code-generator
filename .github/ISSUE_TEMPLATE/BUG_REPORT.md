@@ -16,7 +16,7 @@ labels: "Status: Unconfirmed"
 <!--
   Write the minimum OpenAPI JSON or YAML Schema needed to reproduce the bug.
   If you can reproduce it with the following Playground, please post the URL too.
-  https://openapi-typescript-playground.netlify.app
+  https://openapi-typescript-code-generator-playground.netlify.app
 -->
 
 ## The current behavior
