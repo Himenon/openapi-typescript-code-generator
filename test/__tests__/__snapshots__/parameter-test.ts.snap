@@ -414,6 +414,80 @@ exports[`Parameter api.test.domain 1`] = `
         }
       }
     }
+  },
+  {
+    \\"operationId\\": \\"deleteBook\\",
+    \\"convertedParams\\": {
+      \\"escapedOperationId\\": \\"deleteBook\\",
+      \\"argumentParamsTypeDeclaration\\": \\"Params$deleteBook\\",
+      \\"functionName\\": \\"deleteBook\\",
+      \\"requestContentTypeName\\": \\"RequestContentType$deleteBook\\",
+      \\"responseContentTypeName\\": \\"ResponseContentType$deleteBook\\",
+      \\"parameterName\\": \\"Parameter$deleteBook\\",
+      \\"requestBodyName\\": \\"RequestBody$deleteBook\\",
+      \\"hasRequestBody\\": false,
+      \\"hasParameter\\": true,
+      \\"pickedParameters\\": [
+        {
+          \\"name\\": \\"id\\",
+          \\"in\\": \\"path\\",
+          \\"required\\": true
+        }
+      ],
+      \\"requestContentTypes\\": [],
+      \\"responseSuccessNames\\": [
+        \\"Response$deleteBook$Status$200\\"
+      ],
+      \\"responseFirstSuccessName\\": \\"Response$deleteBook$Status$200\\",
+      \\"has2OrMoreSuccessNames\\": false,
+      \\"responseErrorNames\\": [],
+      \\"has2OrMoreRequestContentTypes\\": false,
+      \\"successResponseContentTypes\\": [
+        \\"application/json\\"
+      ],
+      \\"successResponseFirstContentType\\": \\"application/json\\",
+      \\"has2OrMoreSuccessResponseContentTypes\\": false,
+      \\"hasAdditionalHeaders\\": false,
+      \\"hasQueryParameters\\": false
+    },
+    \\"operationParams\\": {
+      \\"httpMethod\\": \\"delete\\",
+      \\"requestUri\\": \\"/get/books/{id}\\",
+      \\"comment\\": \\"\\",
+      \\"deprecated\\": false,
+      \\"parameters\\": [
+        {
+          \\"name\\": \\"id\\",
+          \\"in\\": \\"path\\",
+          \\"required\\": true,
+          \\"description\\": \\"Number Book ID\\",
+          \\"schema\\": {
+            \\"type\\": \\"number\\",
+            \\"format\\": \\"uuid\\"
+          }
+        }
+      ],
+      \\"responses\\": {
+        \\"200\\": {
+          \\"description\\": \\"get books\\",
+          \\"content\\": {
+            \\"application/json\\": {
+              \\"schema\\": {
+                \\"type\\": \\"object\\",
+                \\"properties\\": {
+                  \\"status\\": {
+                    \\"type\\": \\"string\\",
+                    \\"enum\\": [
+                      \\"ok\\"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 ]"
 `;

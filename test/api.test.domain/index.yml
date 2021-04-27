@@ -398,3 +398,24 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ObjectHasPropertiesType"
+    delete:
+      operationId: deleteBook
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Number Book ID
+          schema:
+            type: number
+            format: uuid
+      responses:
+        200:
+          description: "get books"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [ok]
