@@ -90,7 +90,7 @@ export interface PropertySignatureParams extends BaseSchemaTypes {
   name: string;
   optional: boolean;
   comment?: string;
-  schemaType: BaseSchemaTypes;
+  schemaType: SchemaType;
 }
 
 export interface ObjectParams extends BaseSchemaTypes {

@@ -1,7 +1,7 @@
 import type { OpenApi } from "../../types";
 import { UnsetTypeError } from "../Exception";
 import { UnSupportError } from "../Exception";
-import type * as Intermediate from "../IntermediateSchema/Schemas";
+import type * as Intermediate from "../IntermediateSchema";
 import * as Logger from "../Logger";
 import { Factory } from "../TsGenerator";
 import * as Reference from "./components/Reference";
