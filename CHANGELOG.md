@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.9.4"></a>
+## 0.9.4 (2021-04-27)
+
+
+### Bug Fixes
+
+* pathItem's parameters field support ([#48](https://github.com/Himenon/openapi-typescript-code-generator/issues/48)) ([fcc3f38](https://github.com/Himenon/openapi-typescript-code-generator/commit/fcc3f38))
+
+
+
+
+
 <a name="0.9.3"></a>
 ## 0.9.3 (2021-04-26)
 
