@@ -103,7 +103,7 @@ export const generateInterface = (
   store: Walker.Store,
   factory: Factory.Type,
   name: string,
-  parameters: [OpenApi.Parameter | OpenApi.Reference],
+  parameters: (OpenApi.Parameter | OpenApi.Reference)[],
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
 ): ts.InterfaceDeclaration => {

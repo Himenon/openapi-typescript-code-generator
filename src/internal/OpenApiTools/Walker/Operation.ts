@@ -20,13 +20,14 @@ export const create = (rootSchema: OpenApi.Document): State => {
       if (!operation.operationId) {
         return;
       }
+      const parameters = [...pathItem.parameters || [], ...operation.parameters || []];
       state[operation.operationId] = {
         httpMethod,
         requestUri,
         comment: [operation.summary, operation.description].filter(Boolean).join(EOL),
         deprecated: !!operation.deprecated,
         requestBody: operation.requestBody as OpenApi.RequestBody,
-        parameters: operation.parameters as OpenApi.Parameter[],
+        parameters: parameters as OpenApi.Parameter[],
         responses: operation.responses as CodeGenerator.OpenApiResponses,
       };
     });

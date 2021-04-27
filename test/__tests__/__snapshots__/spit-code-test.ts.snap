@@ -42,6 +42,13 @@ export interface Response$getReferenceItems$Status$200 {
         books?: Schemas.Item[];
     };
 }
+export interface Parameter$getBookById {
+    /** Book ID */
+    id: string;
+}
+export interface Response$getBookById$Status$200 {
+    \\"application/json\\": Schemas.ObjectHasPropertiesType;
+}
 export type ResponseContentType$getIncludeLocalReference = keyof Response$getIncludeLocalReference$Status$200;
 export interface Params$getIncludeLocalReference {
     parameter: Parameter$getIncludeLocalReference;
@@ -56,6 +63,10 @@ export interface Params$getFullRemoteReference {
     parameter: Parameter$getFullRemoteReference;
 }
 export type ResponseContentType$getReferenceItems = keyof Response$getReferenceItems$Status$200;
+export type ResponseContentType$getBookById = keyof Response$getBookById$Status$200;
+export interface Params$getBookById {
+    parameter: Parameter$getBookById;
+}
 export type HttpMethod = \\"GET\\" | \\"PUT\\" | \\"POST\\" | \\"DELETE\\" | \\"OPTIONS\\" | \\"HEAD\\" | \\"PATCH\\" | \\"TRACE\\";
 export interface ObjectLike {
     [key: string]: any;
@@ -68,12 +79,13 @@ export interface QueryParameter {
 export interface QueryParameters {
     [key: string]: QueryParameter;
 }
-export type SuccessResponses = Response$getIncludeLocalReference$Status$200 | Response$getFullRemoteReference$Status$200 | Response$getReferenceItems$Status$200;
+export type SuccessResponses = Response$getIncludeLocalReference$Status$200 | Response$getFullRemoteReference$Status$200 | Response$getReferenceItems$Status$200 | Response$getBookById$Status$200;
 export namespace ErrorResponse {
     export type getIncludeLocalReference = void;
     export type getIncludeRemoteReference = void;
     export type getFullRemoteReference = void;
     export type getReferenceItems = void;
+    export type getBookById = void;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(httpMethod: HttpMethod, url: string, headers: ObjectLike | any, requestBody: ObjectLike | any, queryParameters: QueryParameters | undefined, options?: RequestOption) => Promise<T>;
@@ -128,6 +140,17 @@ export class Client<RequestOption> {
      */
     public async getReferenceItems(option?: RequestOption): Promise<Response$getReferenceItems$Status$200[\\"application/json\\"]> {
         const url = this.baseUrl + \`/get/reference/items\`;
+        const headers = {
+            Accept: \\"application/json\\"
+        };
+        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
+    }
+    /**
+     * operationId: getBookById
+     * Request URI: /get/books/{id}
+     */
+    public async getBookById(params: Params$getBookById, option?: RequestOption): Promise<Response$getBookById$Status$200[\\"application/json\\"]> {
+        const url = this.baseUrl + \`/get/books/\${params.parameter.id}\`;
         const headers = {
             Accept: \\"application/json\\"
         };

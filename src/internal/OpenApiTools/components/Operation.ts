@@ -31,7 +31,6 @@ const generateComment = (operation: OpenApi.Operation): string => {
   return comments.join(EOL);
 };
 
-// 使わない可能性あり
 export const generateNamespace = (
   entryPoint: string,
   currentPoint: string,
@@ -40,6 +39,7 @@ export const generateNamespace = (
   parentPath: string,
   name: string,
   operation: OpenApi.Operation,
+  pathItemParameters: OpenApi.PathItem["parameters"],
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
 ): void => {
@@ -55,7 +55,9 @@ export const generateNamespace = (
     deprecated: operation.deprecated,
   });
 
-  if (operation.parameters) {
+  const parameters = [...pathItemParameters || [], ...operation.parameters || []];
+
+  if (parameters.length > 0) {
     const parameterName = "Parameter";
     store.addStatement(`${basePath}/Parameter`, {
       kind: "interface",
@@ -66,7 +68,7 @@ export const generateNamespace = (
         store,
         factory,
         parameterName,
-        operation.parameters,
+        parameters,
         context,
         converterContext,
       ),
@@ -136,6 +138,7 @@ export const generateStatements = (
   requestUri: string,
   httpMethod: string, // PUT POST PATCH
   operation: OpenApi.Operation,
+  pathItemParameters: OpenApi.PathItem["parameters"],
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
 ): ts.Statement[] => {
@@ -145,7 +148,8 @@ export const generateStatements = (
     throw new Error("not setting operationId\n" + JSON.stringify(operation));
   }
   store.updateOperationState(httpMethod, requestUri, operationId, {});
-  if (operation.parameters) {
+  const parameters = [...pathItemParameters || [], ...operation.parameters || []];
+  if (parameters.length > 0) {
     const parameterName = converterContext.generateParameterName(operationId);
     statements.push(
       Parameter.generateAliasInterface(
@@ -154,7 +158,7 @@ export const generateStatements = (
         store,
         factory,
         parameterName,
-        operation.parameters,
+        parameters,
         context,
         converterContext,
       ),
