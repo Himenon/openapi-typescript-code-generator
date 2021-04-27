@@ -36,7 +36,7 @@ export const generateTypeAlias = (
   });
 };
 
-export const generatePropertySignature = (
+export const generatePropertySignatureObject = (
   entryPoint: string,
   currentPoint: string,
   store: Walker.Store,
@@ -44,24 +44,30 @@ export const generatePropertySignature = (
   parameter: OpenApi.Parameter | OpenApi.Reference,
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
-): ts.PropertySignature => {
+): { name: string; typeElement: ts.PropertySignature } => {
   if (Guard.isReference(parameter)) {
     const reference = Reference.generate<OpenApi.Parameter>(entryPoint, currentPoint, parameter);
     if (reference.type === "local") {
       context.setReferenceHandler(currentPoint, reference);
       const localRef = store.getParameter(reference.path);
-      return factory.PropertySignature.create({
-        name: converterContext.escapePropertySignatureName(localRef.name),
+      const name = converterContext.escapePropertySignatureName(localRef.name);
+      const typeElement = factory.PropertySignature.create({
+        name: name,
         optional: false,
         comment: localRef.description,
         type: factory.TypeReferenceNode.create({
           name: context.resolveReferencePath(currentPoint, reference.path).name,
         }),
       });
+      return {
+        name,
+        typeElement: typeElement,
+      };
     }
     const isPathProperty = reference.data.in === "path";
-    return factory.PropertySignature.create({
-      name: converterContext.escapePropertySignatureName(reference.data.name),
+    const name = converterContext.escapePropertySignatureName(reference.data.name);
+    const typeElement = factory.PropertySignature.create({
+      name: name,
       optional: isPathProperty ? false : !reference.data.required,
       comment: reference.data.description,
       type: ToTypeNode.convert(
@@ -73,14 +79,23 @@ export const generatePropertySignature = (
         converterContext,
       ),
     });
+    return {
+      name,
+      typeElement: typeElement,
+    };
   }
   const isPathProperty = parameter.in === "path";
-  return factory.PropertySignature.create({
-    name: converterContext.escapePropertySignatureName(parameter.name),
+  const name = converterContext.escapePropertySignatureName(parameter.name);
+  const typeElement = factory.PropertySignature.create({
+    name: name,
     optional: isPathProperty ? false : !parameter.required,
     type: ToTypeNode.convert(entryPoint, currentPoint, factory, parameter.schema || { type: "null" }, context, converterContext),
     comment: parameter.description,
   });
+  return {
+    name,
+    typeElement: typeElement,
+  };
 };
 
 export const generatePropertySignatures = (
@@ -92,9 +107,11 @@ export const generatePropertySignatures = (
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
 ): ts.PropertySignature[] => {
-  return parameters.map(parameter => {
-    return generatePropertySignature(entryPoint, currentPoint, store, factory, parameter, context, converterContext);
-  });
+  const typeElementMap = parameters.reduce<Record<string, ts.PropertySignature>>((all, parameter) => {
+    const { name, typeElement } = generatePropertySignatureObject(entryPoint, currentPoint, store, factory, parameter, context, converterContext);
+    return { ...all, [name]: typeElement };
+  }, {});
+  return Object.values(typeElementMap);
 };
 
 export const generateInterface = (
@@ -103,7 +120,7 @@ export const generateInterface = (
   store: Walker.Store,
   factory: Factory.Type,
   name: string,
-  parameters: [OpenApi.Parameter | OpenApi.Reference],
+  parameters: (OpenApi.Parameter | OpenApi.Reference)[],
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
 ): ts.InterfaceDeclaration => {
