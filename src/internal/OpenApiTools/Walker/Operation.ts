@@ -8,6 +8,15 @@ export interface State {
   [operationId: string]: CodeGenerator.OpenApiOperation;
 }
 
+type UniqueParameterMap = Record<string, OpenApi.Parameter>;
+
+const uniqParameters = (rawParameters: OpenApi.Parameter[]): OpenApi.Parameter[] => {
+  const parameterMap = rawParameters.reduce<UniqueParameterMap>((all, parameter) => {
+    return { ...all, [`${parameter.in}:${parameter.name}`]: parameter };
+  }, {});
+  return Object.values(parameterMap);
+};
+
 export const create = (rootSchema: OpenApi.Document): State => {
   const paths = rootSchema.paths || {};
   const state: State = {};
@@ -20,13 +29,15 @@ export const create = (rootSchema: OpenApi.Document): State => {
       if (!operation.operationId) {
         return;
       }
+      const parameters = [...(pathItem.parameters || []), ...(operation.parameters || [])] as OpenApi.Parameter[];
+
       state[operation.operationId] = {
         httpMethod,
         requestUri,
         comment: [operation.summary, operation.description].filter(Boolean).join(EOL),
         deprecated: !!operation.deprecated,
         requestBody: operation.requestBody as OpenApi.RequestBody,
-        parameters: operation.parameters as OpenApi.Parameter[],
+        parameters: uniqParameters(parameters),
         responses: operation.responses as CodeGenerator.OpenApiResponses,
       };
     });

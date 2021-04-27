@@ -246,7 +246,7 @@ export interface Operation {
   description?: string;
   externalDocs?: ExternalDocumentation;
   operationId?: string;
-  parameters?: [Parameter | Reference];
+  parameters?: (Parameter | Reference)[];
   requestBody?: RequestBody | Reference;
   responses?: Responses;
   callbacks?: Record<string, Callback | Reference>;
