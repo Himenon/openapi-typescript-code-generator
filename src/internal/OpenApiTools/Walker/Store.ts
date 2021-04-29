@@ -11,6 +11,7 @@ import * as Def from "./Definition";
 import * as Operation from "./Operation";
 import * as State from "./State";
 import * as Structure from "./structure";
+import * as ADS from "../../AbstractDataStructure"
 
 class Store {
   private state: State.Type;
@@ -69,6 +70,9 @@ class Store {
   public hasStatement(path: string, types: Structure.DataStructure.Kind[]): boolean {
     const alreadyRegistered = types.some(type => !!this.operator.getChildByPaths(path, type));
     return alreadyRegistered;
+  }
+  public addAbstractDataStruct(abstractDataStruct: ADS.Type): void {
+
   }
   /**
    * @params path: "components/headers/hoge"
