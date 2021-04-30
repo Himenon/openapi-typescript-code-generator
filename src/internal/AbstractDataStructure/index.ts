@@ -16,6 +16,7 @@ export type Kind =
   | "IndexSignature"
   | "object"
   | "interface"
+  | "typedef"
   | "alias";
 
 export interface BaseStruct {
@@ -109,6 +110,12 @@ export interface InterfaceDeclarationStruct extends BaseStruct {
   comment?: string;
 }
 
+export interface TypeDefinitionStruct extends BaseStruct {
+  kind: "typedef";
+  name: string;
+  schemaType: Type;
+}
+
 export interface ObjectStruct extends BaseStruct {
   kind: "object";
   properties: (PropertySignatureStruct | IndexSignatureStruct)[];
@@ -129,4 +136,6 @@ export type Type =
   | ReferenceStruct
   | ArrayStruct
   | ObjectStruct
-  | InterfaceDeclarationStruct;
+  | InterfaceDeclarationStruct
+  | AliasStruct
+  | TypeDefinitionStruct;
