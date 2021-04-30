@@ -1,51 +1,22 @@
 import type { OpenApi } from "../../types";
-import { UnsetTypeError } from "../Exception";
-import { UnSupportError } from "../Exception";
-import type * as Intermediate from "../AbstractDataStructure";
+import type * as ADS from "../AbstractDataStructure";
+import { UnSupportError, UnsetTypeError } from "../Exception";
 import * as Logger from "../Logger";
-import { Factory } from "../TsGenerator";
-import * as Reference from "./components/Reference";
-import * as ConverterContext from "./ConverterContext";
+import * as Reference from "./components2/Reference";
+
 import * as Guard from "./Guard";
 import * as InferredType from "./InferredType";
 import { ObjectSchemaWithAdditionalProperties } from "./types";
+import { Payload, Convert, Option } from "./types/tmp";
 
-export interface ResolveReferencePath {
-  name: string;
-  maybeResolvedName: string;
-  unresolvedPaths: string[];
-}
-
-export interface Context {
-  setReferenceHandler: (currentPoint: string, reference: Reference.Type<OpenApi.Schema | OpenApi.JSONSchemaDefinition>) => void;
-  resolveReferencePath: (currentPoint: string, referencePath: string) => ResolveReferencePath;
-}
-
-export type Convert = (
-  entryPoint: string,
-  currentPoint: string,
-  factory: Factory.Type,
-  schema: OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition,
-  setReference: Context,
-  convertContext: ConverterContext.Types,
-  option?: Option,
-) => Intermediate.Struct;
-
-export interface Option {
-  parent?: any;
-}
 
 export const generateMultiTypeNode = (
-  entryPoint: string,
-  currentPoint: string,
-  factory: Factory.Type,
+  payload: Payload,
   schemas: OpenApi.JSONSchema[],
-  setReference: Context,
   convert: Convert,
-  convertContext: ConverterContext.Types,
   multiType: "oneOf" | "allOf" | "anyOf",
-): Intermediate.Struct => {
-  const value = schemas.map(schema => convert(entryPoint, currentPoint, factory, schema, setReference, convertContext));
+): ADS.Struct => {
+  const value = schemas.map(schema => convert(payload, schema));
   if (multiType === "oneOf") {
     return {
       kind: "union",
@@ -64,7 +35,7 @@ export const generateMultiTypeNode = (
   };
 };
 
-const nullable = (factory: Factory.Type, schemaType: Intermediate.Struct, nullable: boolean): Intermediate.Struct => {
+const nullable = (schemaType: ADS.Struct, nullable: boolean): ADS.Struct => {
   if (nullable) {
     return {
       kind: "union",
@@ -80,14 +51,11 @@ const nullable = (factory: Factory.Type, schemaType: Intermediate.Struct, nullab
 };
 
 export const convert: Convert = (
-  entryPoint: string,
-  currentPoint: string,
-  factory: Factory.Type,
+  payload: Payload,
   schema: OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition,
-  context: Context,
-  converterContext: ConverterContext.Types,
   option?: Option,
-): Intermediate.Struct => {
+): ADS.Struct => {
+  const { context, currentPoint, converterContext } = payload;
   if (typeof schema === "boolean") {
     // https://swagger.io/docs/specification/data-models/dictionaries/#free-form
     return {
@@ -96,7 +64,7 @@ export const convert: Convert = (
     };
   }
   if (Guard.isReference(schema)) {
-    const reference = Reference.generate<OpenApi.Schema | OpenApi.JSONSchemaDefinition>(entryPoint, currentPoint, schema);
+    const reference = Reference.generate<OpenApi.Schema | OpenApi.JSONSchemaDefinition>(payload, schema);
     if (reference.type === "local") {
       // Type Aliasを作成 (or すでにある場合は作成しない)
       context.setReferenceHandler(currentPoint, reference);
@@ -117,17 +85,17 @@ export const convert: Convert = (
       };
     }
     // サポートしていないディレクトリに存在する場合、直接Interface、もしくはTypeAliasを作成
-    return convert(entryPoint, reference.referencePoint, factory, reference.data, context, converterContext, { parent: schema });
+    return convert({ ...payload, currentPoint: reference.referencePoint }, reference.data, { parent: schema });
   }
 
   if (Guard.isOneOfSchema(schema)) {
-    return generateMultiTypeNode(entryPoint, currentPoint, factory, schema.oneOf, context, convert, converterContext, "oneOf");
+    return generateMultiTypeNode(payload, schema.oneOf, convert, "oneOf");
   }
   if (Guard.isAllOfSchema(schema)) {
-    return generateMultiTypeNode(entryPoint, currentPoint, factory, schema.allOf, context, convert, converterContext, "allOf");
+    return generateMultiTypeNode(payload, schema.allOf, convert, "allOf");
   }
   if (Guard.isAnyOfSchema(schema)) {
-    return generateMultiTypeNode(entryPoint, currentPoint, factory, schema.anyOf, context, convert, converterContext, "anyOf");
+    return generateMultiTypeNode(payload, schema.anyOf, convert, "anyOf");
   }
 
   if (Guard.isHasNoMembersObject(schema)) {
@@ -141,22 +109,22 @@ export const convert: Convert = (
   if (!schema.type) {
     const inferredSchema = InferredType.getInferredType(schema);
     if (inferredSchema) {
-      return convert(entryPoint, currentPoint, factory, inferredSchema, context, converterContext, { parent: schema });
+      return convert(payload, inferredSchema, { parent: schema });
     }
     // typeを指定せずに、nullableのみを指定している場合に type object変換する
     if (typeof schema.nullable === "boolean") {
-      return nullable(factory, { kind: "any" }, schema.nullable);
+      return nullable({ kind: "any" }, schema.nullable);
     }
     if (option && option.parent) {
       Logger.info("Parent Schema:");
       Logger.info(JSON.stringify(option.parent));
     }
-    Logger.showFilePosition(entryPoint, currentPoint);
+    // Logger.showFilePosition(entryPoint, currentPoint);
     throw new UnsetTypeError("Please set 'type' or '$ref' property \n" + JSON.stringify(schema));
   }
   switch (schema.type) {
     case "boolean": {
-      return nullable(factory, { kind: "boolean" }, !!schema.nullable);
+      return nullable({ kind: "boolean" }, !!schema.nullable);
     }
     case "null": {
       return {
@@ -166,7 +134,7 @@ export const convert: Convert = (
     case "integer":
     case "number": {
       const items = schema.enum;
-      let typeNode: Intermediate.Struct;
+      let typeNode: ADS.Struct;
       if (items && Guard.isNumberArray(items)) {
         typeNode = {
           kind: "number",
@@ -177,11 +145,11 @@ export const convert: Convert = (
           kind: "number",
         };
       }
-      return nullable(factory, typeNode, !!schema.nullable);
+      return nullable(typeNode, !!schema.nullable);
     }
     case "string": {
       const items = schema.enum;
-      let typeNode: Intermediate.Struct;
+      let typeNode: ADS.Struct;
       if (items && Guard.isStringArray(items)) {
         typeNode = {
           kind: "string",
@@ -192,21 +160,21 @@ export const convert: Convert = (
           kind: "string",
         };
       }
-      return nullable(factory, typeNode, !!schema.nullable);
+      return nullable(typeNode, !!schema.nullable);
     }
     case "array": {
       if (Array.isArray(schema.items) || typeof schema.items === "boolean") {
         throw new UnSupportError(`schema.items = ${JSON.stringify(schema.items)}`);
       }
-      const typeNode: Intermediate.Struct = {
+      const typeNode: ADS.Struct = {
         kind: "array",
         struct: schema.items
-          ? convert(entryPoint, currentPoint, factory, schema.items, context, converterContext, { parent: schema })
+          ? convert(payload, schema.items, { parent: schema })
           : {
               kind: "undefined",
             },
       };
-      return nullable(factory, typeNode, !!schema.nullable);
+      return nullable(typeNode, !!schema.nullable);
     }
     case "object": {
       const required: string[] = schema.required || [];
@@ -217,20 +185,20 @@ export const convert: Convert = (
           properties: [],
         };
       }
-      const value: Intermediate.PropertySignatureStruct[] = Object.entries(schema.properties || {}).map(([name, jsonSchema]) => {
+      const value: ADS.PropertySignatureStruct[] = Object.entries(schema.properties || {}).map(([name, jsonSchema]) => {
         return {
           kind: "PropertySignature",
           name: converterContext.escapePropertySignatureName(name),
-          struct: convert(entryPoint, currentPoint, factory, jsonSchema, context, converterContext, { parent: schema.properties }),
+          struct: convert(payload, jsonSchema, { parent: schema.properties }),
           optional: !required.includes(name),
           comment: typeof jsonSchema !== "boolean" ? jsonSchema.description : undefined,
         };
       });
       if (schema.additionalProperties) {
-        const additionalProperties: Intermediate.IndexSignatureStruct = {
+        const additionalProperties: ADS.IndexSignatureStruct = {
           kind: "IndexSignature",
           name: "key",
-          struct: convert(entryPoint, currentPoint, factory, schema.additionalProperties, context, converterContext, {
+          struct: convert(payload, schema.additionalProperties, {
             parent: schema.properties,
           }),
         };
@@ -239,11 +207,11 @@ export const convert: Convert = (
           properties: [...value, additionalProperties],
         };
       }
-      const typeNode: Intermediate.Struct = {
+      const typeNode: ADS.Struct = {
         kind: "object",
         properties: value,
       };
-      return nullable(factory, typeNode, !!schema.nullable);
+      return nullable(typeNode, !!schema.nullable);
     }
     default:
       return {
@@ -253,25 +221,19 @@ export const convert: Convert = (
   }
 };
 
-export const convertAdditionalProperties = (
-  entryPoint: string,
-  currentPoint: string,
-  factory: Factory.Type,
-  schema: ObjectSchemaWithAdditionalProperties,
-  setReference: Context,
-  convertContext: ConverterContext.Types,
-): Intermediate.IndexSignatureStruct => {
+export const convertAdditionalProperties = (payload: Payload, schema: ObjectSchemaWithAdditionalProperties): ADS.IndexSignatureStruct => {
   // // https://swagger.io/docs/specification/data-models/dictionaries/#free-form
   if (schema.additionalProperties === true) {
-    factory.TypeNode.create({
-      type: schema.type,
-      value: [],
-    });
+    // TODO バグってそう
+    // factory.TypeNode.create({
+    //   type: schema.type,
+    //   value: [],
+    // });
   }
-  const additionalProperties: Intermediate.IndexSignatureStruct = {
+  const additionalProperties: ADS.IndexSignatureStruct = {
     kind: "IndexSignature",
     name: "key",
-    struct: convert(entryPoint, currentPoint, factory, schema.additionalProperties, setReference, convertContext, {
+    struct: convert(payload, schema.additionalProperties, {
       parent: schema.properties,
     }),
   };

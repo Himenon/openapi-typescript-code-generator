@@ -1,42 +1,10 @@
 import * as Utils from "../../utils";
-/**
- * ユーザーが利用できる各種変換オプション
- */
-// export interface Options {
-
-// }
-
-export interface Types {
-  /**
-   * operationIdに対するescape
-   */
-  escapeOperationIdText: (operationId: string) => string;
-  /**
-   * interface/namespace/typeAliasのnameをescapeする
-   * import/exportなどの予約語も裁く
-   */
-  escapeDeclarationText: (text: string) => string;
-  /**
-   * 非破壊: PropertySignatureのname用のescape
-   */
-  escapePropertySignatureName: (text: string) => string;
-  /**
-   * 破壊: TypeReferenceのname用のescape
-   */
-  escapeTypeReferenceNodeName: (text: string) => string;
-  generateResponseName: (operationId: string, statusCode: string) => string;
-  generateArgumentParamsTypeDeclaration: (operationId: string) => string;
-  generateRequestContentTypeName: (operationId: string) => string;
-  generateResponseContentTypeName: (operationId: string) => string;
-  generateParameterName: (operationId: string) => string;
-  generateRequestBodyName: (operationId: string) => string;
-  generateFunctionName: (operationId: string) => string;
-}
+import type { ConverterContext } from "./types/context";
 
 /**
  * ユーザーが利用できる各種変換オプション
  */
-export const create = (): Types => {
+export const create = (): ConverterContext => {
   const convertReservedWord = (word: string): string => {
     if (["import", "export"].includes(word)) {
       return word + "_";
