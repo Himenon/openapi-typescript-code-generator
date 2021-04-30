@@ -19,109 +19,105 @@ export type Kind =
   | "typedef"
   | "alias";
 
-export interface BaseStruct {
-  kind: Kind;
-}
-
-export interface StringStruct extends BaseStruct {
+export interface StringStruct {
   kind: "string";
   enum?: string[];
 }
 
-export interface IntegerStruct extends BaseStruct {
+export interface IntegerStruct {
   kind: "integer";
   enum?: number[];
 }
 
-export interface NumberStruct extends BaseStruct {
+export interface NumberStruct {
   kind: "number";
   enum?: number[];
 }
 
-export interface BooleanStruct extends BaseStruct {
+export interface BooleanStruct {
   kind: "boolean";
 }
 
-export interface UndefinedStruct extends BaseStruct {
+export interface UndefinedStruct {
   kind: "undefined";
 }
 
-export interface NullStruct extends BaseStruct {
+export interface NullStruct {
   kind: "null";
 }
 
-export interface NeverStruct extends BaseStruct {
+export interface NeverStruct {
   kind: "never";
 }
 
-export interface AnyStruct extends BaseStruct {
+export interface AnyStruct {
   kind: "any";
 }
 
-export interface VoidStruct extends BaseStruct {
+export interface VoidStruct {
   kind: "void";
 }
 
-export interface UnionStruct extends BaseStruct {
+export interface UnionStruct {
   kind: "union";
-  schemaTypes: BaseStruct[];
+  structs: Struct[];
 }
 
-export interface IntersectionStruct extends BaseStruct {
+export interface IntersectionStruct {
   kind: "intersection";
-  schemaTypes: BaseStruct[];
+  structs: Struct[];
 }
 
-export interface IndexSignatureStruct extends BaseStruct {
+export interface IndexSignatureStruct {
   kind: "IndexSignature";
   name: string;
-  schemaType: BaseStruct;
+  struct: Struct;
 }
 
-export interface ReferenceStruct extends BaseStruct {
+export interface ReferenceStruct {
   kind: "reference";
   name: string;
 }
 
-export interface ArrayStruct extends BaseStruct {
+export interface ArrayStruct {
   kind: "array";
-  schemaType: BaseStruct;
+  struct: Struct;
 }
 
-export interface AliasStruct extends BaseStruct {
+export interface AliasStruct {
   kind: "alias";
   name: string;
   comment?: string;
-  schema: Type;
+  schema: Struct;
 }
 
-export interface PropertySignatureStruct extends BaseStruct {
+export interface PropertySignatureStruct {
   kind: "PropertySignature";
   name: string;
   optional: boolean;
   comment?: string;
-  schemaType: Type;
+  struct: Struct;
 }
 
-export interface InterfaceDeclarationStruct extends BaseStruct {
+export interface InterfaceDeclarationStruct {
   kind: "interface";
   name: string;
   members: (IndexSignatureStruct | PropertySignatureStruct)[];
   comment?: string;
 }
 
-export interface TypeDefinitionStruct extends BaseStruct {
+export interface TypeDefinitionStruct {
   kind: "typedef";
   name: string;
-  schemaType: Type;
+  struct: Struct;
 }
 
-export interface ObjectStruct extends BaseStruct {
+export interface ObjectStruct {
   kind: "object";
   properties: (PropertySignatureStruct | IndexSignatureStruct)[];
 }
 
-export type Type =
+export type Struct =
   | StringStruct
   | IntegerStruct
   | NumberStruct

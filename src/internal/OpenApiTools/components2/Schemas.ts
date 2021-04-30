@@ -49,7 +49,7 @@ export const generateNamespace = (
         store.addAbstractDataStruct(`${basePath}/${name}`, {
           kind: "typedef",
           name: convertContext.escapeDeclarationText(name),
-          schemaType: {
+          struct: {
             kind: "alias",
             name: convertContext.escapeDeclarationText(name),
             schema: {
@@ -77,7 +77,7 @@ export const generateNamespace = (
       return store.addAbstractDataStruct(`${basePath}/${name}`, {
         kind: "typedef",
         name: convertContext.escapeDeclarationText(name),
-        schemaType: {
+        struct: {
           kind: "alias",
           name: convertContext.escapeDeclarationText(name),
           comment: reference.data.description,
@@ -101,49 +101,49 @@ export const generateNamespace = (
       return store.addAbstractDataStruct(path, {
         kind: "typedef",
         name: convertContext.escapeDeclarationText(name),
-        schemaType: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.allOf, context, "allOf", convertContext),
+        struct: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.allOf, context, "allOf", convertContext),
       });
     }
     if (Guard.isOneOfSchema(schema)) {
       return store.addAbstractDataStruct(path, {
         kind: "typedef",
         name: convertContext.escapeDeclarationText(name),
-        schemaType: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.oneOf, context, "oneOf", convertContext),
+        struct: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.oneOf, context, "oneOf", convertContext),
       });
     }
     if (Guard.isAnyOfSchema(schema)) {
       return store.addAbstractDataStruct(path, {
         kind: "typedef",
         name: convertContext.escapeDeclarationText(name),
-        schemaType: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.anyOf, context, "anyOf", convertContext),
+        struct: Schema.generateMultiTypeAlias(entryPoint, currentPoint, factory, name, schema.anyOf, context, "anyOf", convertContext),
       });
     }
     if (Guard.isArraySchema(schema)) {
       return store.addAbstractDataStruct(path, {
         kind: "typedef",
         name: convertContext.escapeDeclarationText(name),
-        schemaType: Schema.generateArrayTypeAlias(entryPoint, currentPoint, factory, name, schema, context, convertContext),
+        struct: Schema.generateArrayTypeAlias(entryPoint, currentPoint, factory, name, schema, context, convertContext),
       });
     }
     if (Guard.isObjectSchema(schema)) {
       return store.addAbstractDataStruct(path, {
         kind: "typedef",
         name: convertContext.escapeDeclarationText(name),
-        schemaType: Schema.generateInterface(entryPoint, currentPoint, factory, name, schema, context, convertContext),
+        struct: Schema.generateInterface(entryPoint, currentPoint, factory, name, schema, context, convertContext),
       });
     }
     if (Guard.isObjectSchema(schema)) {
       return store.addAbstractDataStruct(path, {
         kind: "typedef",
         name: convertContext.escapeDeclarationText(name),
-        schemaType: Schema.generateInterface(entryPoint, currentPoint, factory, name, schema, context, convertContext),
+        struct: Schema.generateInterface(entryPoint, currentPoint, factory, name, schema, context, convertContext),
       });
     }
     if (Guard.isPrimitiveSchema(schema)) {
       return store.addAbstractDataStruct(path, {
         kind: "typedef",
         name,
-        schemaType: Schema.generateTypeAlias(entryPoint, currentPoint, factory, name, schema, convertContext),
+        struct: Schema.generateTypeAlias(entryPoint, currentPoint, factory, name, schema, convertContext),
       });
     }
     throw new UnSupportError("schema.type = Array[] not supported. " + JSON.stringify(schema));

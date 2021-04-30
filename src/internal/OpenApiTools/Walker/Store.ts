@@ -71,7 +71,7 @@ class Store {
     const alreadyRegistered = types.some(type => !!this.operator.getChildByPaths(path, type));
     return alreadyRegistered;
   }
-  public addAbstractDataStruct(path: string, abstractDataStruct: ADS.Type): void {
+  public addAbstractDataStruct(path: string, abstractDataStruct: ADS.Struct): void {
 
   }
   /**

@@ -29,7 +29,7 @@ export type Convert = (
   setReference: Context,
   convertContext: ConverterContext.Types,
   option?: Option,
-) => Intermediate.Type;
+) => Intermediate.Struct;
 
 export interface Option {
   parent?: any;
@@ -44,18 +44,18 @@ export const generateMultiTypeNode = (
   convert: Convert,
   convertContext: ConverterContext.Types,
   multiType: "oneOf" | "allOf" | "anyOf",
-): Intermediate.Type => {
+): Intermediate.Struct => {
   const value = schemas.map(schema => convert(entryPoint, currentPoint, factory, schema, setReference, convertContext));
   if (multiType === "oneOf") {
     return {
       kind: "union",
-      schemaTypes: value,
+      structs: value,
     };
   }
   if (multiType === "allOf") {
     return {
       kind: "intersection",
-      schemaTypes: value,
+      structs: value,
     };
   }
   // TODO Feature Development: Calculate intersection types
@@ -64,11 +64,11 @@ export const generateMultiTypeNode = (
   };
 };
 
-const nullable = (factory: Factory.Type, schemaType: Intermediate.Type, nullable: boolean): Intermediate.Type => {
+const nullable = (factory: Factory.Type, schemaType: Intermediate.Struct, nullable: boolean): Intermediate.Struct => {
   if (nullable) {
     return {
       kind: "union",
-      schemaTypes: [
+      structs: [
         schemaType,
         {
           kind: "null",
@@ -87,7 +87,7 @@ export const convert: Convert = (
   context: Context,
   converterContext: ConverterContext.Types,
   option?: Option,
-): Intermediate.Type => {
+): Intermediate.Struct => {
   if (typeof schema === "boolean") {
     // https://swagger.io/docs/specification/data-models/dictionaries/#free-form
     return {
@@ -166,7 +166,7 @@ export const convert: Convert = (
     case "integer":
     case "number": {
       const items = schema.enum;
-      let typeNode: Intermediate.Type;
+      let typeNode: Intermediate.Struct;
       if (items && Guard.isNumberArray(items)) {
         typeNode = {
           kind: "number",
@@ -181,7 +181,7 @@ export const convert: Convert = (
     }
     case "string": {
       const items = schema.enum;
-      let typeNode: Intermediate.Type;
+      let typeNode: Intermediate.Struct;
       if (items && Guard.isStringArray(items)) {
         typeNode = {
           kind: "string",
@@ -198,9 +198,9 @@ export const convert: Convert = (
       if (Array.isArray(schema.items) || typeof schema.items === "boolean") {
         throw new UnSupportError(`schema.items = ${JSON.stringify(schema.items)}`);
       }
-      const typeNode: Intermediate.Type = {
+      const typeNode: Intermediate.Struct = {
         kind: "array",
-        schemaType: schema.items
+        struct: schema.items
           ? convert(entryPoint, currentPoint, factory, schema.items, context, converterContext, { parent: schema })
           : {
               kind: "undefined",
@@ -221,7 +221,7 @@ export const convert: Convert = (
         return {
           kind: "PropertySignature",
           name: converterContext.escapePropertySignatureName(name),
-          schemaType: convert(entryPoint, currentPoint, factory, jsonSchema, context, converterContext, { parent: schema.properties }),
+          struct: convert(entryPoint, currentPoint, factory, jsonSchema, context, converterContext, { parent: schema.properties }),
           optional: !required.includes(name),
           comment: typeof jsonSchema !== "boolean" ? jsonSchema.description : undefined,
         };
@@ -230,7 +230,7 @@ export const convert: Convert = (
         const additionalProperties: Intermediate.IndexSignatureStruct = {
           kind: "IndexSignature",
           name: "key",
-          schemaType: convert(entryPoint, currentPoint, factory, schema.additionalProperties, context, converterContext, {
+          struct: convert(entryPoint, currentPoint, factory, schema.additionalProperties, context, converterContext, {
             parent: schema.properties,
           }),
         };
@@ -239,7 +239,7 @@ export const convert: Convert = (
           properties: [...value, additionalProperties],
         };
       }
-      const typeNode: Intermediate.Type = {
+      const typeNode: Intermediate.Struct = {
         kind: "object",
         properties: value,
       };
@@ -271,7 +271,7 @@ export const convertAdditionalProperties = (
   const additionalProperties: Intermediate.IndexSignatureStruct = {
     kind: "IndexSignature",
     name: "key",
-    schemaType: convert(entryPoint, currentPoint, factory, schema.additionalProperties, setReference, convertContext, {
+    struct: convert(entryPoint, currentPoint, factory, schema.additionalProperties, setReference, convertContext, {
       parent: schema.properties,
     }),
   };
