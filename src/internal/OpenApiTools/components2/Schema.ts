@@ -7,7 +7,6 @@ import * as Guard from "../Guard";
 import * as ToAbstractDataStructure from "../toAbstractDataStructure";
 import type { ArraySchema, ObjectSchema, PrimitiveSchema } from "../types";
 import type * as Walker from "../Walker";
-import * as ExternalDocumentation from "./ExternalDocumentation";
 
 export const generatePropertySignatures = (
   entryPoint: string,
@@ -70,7 +69,7 @@ export const generateInterface = (
   return {
     kind: "interface",
     name: convertContext.escapeDeclarationText(name),
-    comment: ExternalDocumentation.addComment(schema.description, schema.externalDocs),
+    // comment: ExternalDocumentation.addComment(schema.description, schema.externalDocs),
     members,
   };
 };
