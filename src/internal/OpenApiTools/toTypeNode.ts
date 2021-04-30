@@ -6,7 +6,7 @@ import { UnSupportError } from "../Exception";
 import * as Logger from "../Logger";
 import { Factory } from "../TsGenerator";
 import * as Reference from "./components/Reference";
-import * as ConverterContext from "./ConverterContext";
+import { ConverterContext } from "./types/context";
 import * as Guard from "./Guard";
 import * as InferredType from "./InferredType";
 import { ObjectSchemaWithAdditionalProperties } from "./types";
@@ -28,7 +28,7 @@ export type Convert = (
   factory: Factory.Type,
   schema: OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition,
   setReference: Context,
-  convertContext: ConverterContext.Types,
+  convertContext: ConverterContext,
   option?: Option,
 ) => ts.TypeNode;
 
@@ -43,7 +43,7 @@ export const generateMultiTypeNode = (
   schemas: OpenApi.JSONSchema[],
   setReference: Context,
   convert: Convert,
-  convertContext: ConverterContext.Types,
+  convertContext: ConverterContext,
   multiType: "oneOf" | "allOf" | "anyOf",
 ): ts.TypeNode => {
   const typeNodes = schemas.map(schema => convert(entryPoint, currentPoint, factory, schema, setReference, convertContext));
@@ -81,7 +81,7 @@ export const convert: Convert = (
   factory: Factory.Type,
   schema: OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition,
   context: Context,
-  converterContext: ConverterContext.Types,
+  converterContext: ConverterContext,
   option?: Option,
 ): ts.TypeNode => {
   if (typeof schema === "boolean") {
@@ -253,7 +253,7 @@ export const convertAdditionalProperties = (
   factory: Factory.Type,
   schema: ObjectSchemaWithAdditionalProperties,
   setReference: Context,
-  convertContext: ConverterContext.Types,
+  convertContext: ConverterContext,
 ): ts.IndexSignatureDeclaration => {
   // // https://swagger.io/docs/specification/data-models/dictionaries/#free-form
   if (schema.additionalProperties === true) {

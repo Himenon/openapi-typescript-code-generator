@@ -64,7 +64,7 @@ export const convert: Convert = (
     };
   }
   if (Guard.isReference(schema)) {
-    const reference = Reference.generate<OpenApi.Schema | OpenApi.JSONSchemaDefinition>(payload, schema);
+    const reference = Reference.generate<OpenApi.Schema | OpenApi.JSONSchemaDefinition>(payload.entryPoint, payload.currentPoint, schema);
     if (reference.type === "local") {
       // Type Aliasを作成 (or すでにある場合は作成しない)
       context.setReferenceHandler(currentPoint, reference);

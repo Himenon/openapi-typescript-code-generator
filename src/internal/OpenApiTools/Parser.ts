@@ -7,27 +7,29 @@ import * as Parameters from "./components/Parameters";
 import * as RequestBodies from "./components/RequestBodies";
 import * as Responses from "./components/Responses";
 import * as Schemas from "./components/Schemas";
+import * as Schemas2 from "./components2/Schemas";
 import * as ConvertContext from "./ConverterContext";
 import * as Extractor from "./Extractor";
 import * as Paths from "./paths";
+import * as StructContext from "./StructContext";
 import * as TypeNodeContext from "./TypeNodeContext";
 import * as Walker from "./Walker";
 
 export class Parser {
   private currentPoint: string;
-  private convertContext: ConvertContext.Types;
+  private converterContext = ConvertContext.create();
   private store: Walker.Store;
   private factory: TypeScriptCodeGenerator.Factory.Type;
   constructor(private entryPoint: string, private rootSchema: OpenApi.Document, noReferenceOpenApiSchema: OpenApi.Document) {
     this.currentPoint = entryPoint;
-    this.convertContext = ConvertContext.create();
     this.factory = TypeScriptCodeGenerator.Factory.create();
     this.store = new Walker.Store(this.factory, noReferenceOpenApiSchema);
     this.initialize();
   }
 
   private initialize(): void {
-    const toTypeNodeContext = TypeNodeContext.create(this.entryPoint, this.store, this.factory, this.convertContext);
+    const toTypeNodeContext = TypeNodeContext.create(this.entryPoint, this.store, this.factory, this.converterContext);
+    const structContext = StructContext.create(this.entryPoint, this.store, this.factory, this.converterContext);
     const rootSchema = this.rootSchema;
     if (rootSchema.components) {
       if (rootSchema.components.schemas) {
@@ -38,7 +40,17 @@ export class Parser {
           this.factory,
           rootSchema.components.schemas,
           toTypeNodeContext,
-          this.convertContext,
+          this.converterContext,
+        );
+        Schemas2.generateNamespace(
+          {
+            entryPoint: this.entryPoint,
+            currentPoint: this.currentPoint,
+            context: structContext,
+            converterContext: this.converterContext,
+          },
+          this.store,
+          rootSchema.components.schemas,
         );
       }
       if (rootSchema.components.headers) {
@@ -49,7 +61,7 @@ export class Parser {
           this.factory,
           rootSchema.components.headers,
           toTypeNodeContext,
-          this.convertContext,
+          this.converterContext,
         );
       }
       if (rootSchema.components.responses) {
@@ -60,7 +72,7 @@ export class Parser {
           this.factory,
           rootSchema.components.responses,
           toTypeNodeContext,
-          this.convertContext,
+          this.converterContext,
         );
       }
       if (rootSchema.components.parameters) {
@@ -71,7 +83,7 @@ export class Parser {
           this.factory,
           rootSchema.components.parameters,
           toTypeNodeContext,
-          this.convertContext,
+          this.converterContext,
         );
       }
       if (rootSchema.components.requestBodies) {
@@ -82,7 +94,7 @@ export class Parser {
           this.factory,
           rootSchema.components.requestBodies,
           toTypeNodeContext,
-          this.convertContext,
+          this.converterContext,
         );
       }
       // if (rootSchema.components.securitySchemes) {
@@ -109,13 +121,13 @@ export class Parser {
         this.factory,
         rootSchema.paths,
         toTypeNodeContext,
-        this.convertContext,
+        this.converterContext,
       );
     }
   }
 
   public getCodeGeneratorParamsArray(allowOperationIds?: string[]): CodeGenerator.Params[] {
-    return Extractor.generateCodeGeneratorParamsArray(this.store, this.convertContext, allowOperationIds);
+    return Extractor.generateCodeGeneratorParamsArray(this.store, this.converterContext, allowOperationIds);
   }
 
   public getOpenApiTypeDefinitionStatements(): ts.Statement[] {

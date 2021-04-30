@@ -1,11 +1,9 @@
 import type { OpenApi } from "../../../types";
 import * as ADS from "../../AbstractDataStructure";
 import { UnSupportError } from "../../Exception";
-import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as InferredType from "../InferredType";
 import * as Name from "../Name";
-import * as ToAbstractDataStructure from "../toAbstractDataStructure";
 import type { Payload } from "../types/tmp";
 import type * as Walker from "../Walker";
 import * as Reference from "./Reference";
