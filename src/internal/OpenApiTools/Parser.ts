@@ -124,6 +124,7 @@ export class Parser {
         this.converterContext,
       );
     }
+    this.store.debugAbstractDataStruct();
   }
 
   public getCodeGeneratorParamsArray(allowOperationIds?: string[]): CodeGenerator.Params[] {

@@ -1,6 +1,8 @@
 import * as Utils from "../../utils";
 import type { ConverterContext } from "./types/context";
 
+export type Types = ConverterContext;
+
 /**
  * ユーザーが利用できる各種変換オプション
  */
