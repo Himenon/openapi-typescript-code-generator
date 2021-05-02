@@ -25,7 +25,7 @@ const createNullableTypeNode = (schema: OpenApi.Schema): ADS.UnionStruct | undef
   }
 };
 
-export const generateNamespace = (payload: Payload, store: Walker.Store, schemas: Record<string, OpenApi.Schema | OpenApi.Reference>): void => {
+export const createTypeDefSet = (payload: Payload, store: Walker.Store, schemas: Record<string, OpenApi.Schema | OpenApi.Reference>): void => {
   const basePath = "components/schemas";
   store.createDirectory("schemas", {
     kind: "directory",

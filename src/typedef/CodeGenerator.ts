@@ -1,6 +1,7 @@
 import type ts from "typescript";
 
 import type * as OpenApi from "./OpenApi";
+import type * as ParsedSchema from "./ParsedSchema";
 
 export type PickedParameter = Pick<OpenApi.Parameter, "name" | "in" | "required" | "style" | "explode">;
 
@@ -58,6 +59,8 @@ export interface Params {
  */
 export type IntermediateCode = string | ts.Statement;
 
+export type AdvancedGenerateFunction<Option = {}> = (accessor: ParsedSchema.Accessor, option?: Option) => IntermediateCode[];
+
 export type GenerateFunction<Option = {}> = (payload: Params[], option?: Option) => IntermediateCode[];
 
 export interface OutputConfiguration {
@@ -67,7 +70,16 @@ export interface OutputConfiguration {
   transform?: (params: IntermediateCode) => IntermediateCode[];
 }
 
-export interface CustomGenerator<T> {
+export interface AdvancedCustomGenerator<T> {
+  kind: "advanced";
+  generator: AdvancedGenerateFunction<T>;
+  option?: T;
+}
+
+export interface BasicCustomGenerator<T> {
+  kind?: "basic";
   generator: GenerateFunction<T>;
   option?: T;
 }
+
+export type CustomGenerator<T> = BasicCustomGenerator<T> | AdvancedCustomGenerator<T>;

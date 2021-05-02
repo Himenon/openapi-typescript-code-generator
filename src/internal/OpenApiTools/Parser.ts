@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import type { CodeGenerator, OpenApi } from "../../types";
+import type { CodeGenerator, OpenApi, ParsedSchema } from "../../types";
 import * as TypeScriptCodeGenerator from "../TsGenerator";
 import * as Headers from "./components/Headers";
 import * as Parameters from "./components/Parameters";
@@ -45,7 +45,7 @@ export class Parser {
           toTypeNodeContext,
           this.converterContext,
         );
-        Schemas2.generateNamespace(
+        Schemas2.createTypeDefSet(
           {
             entryPoint: this.entryPoint,
             currentPoint: this.currentPoint,
@@ -127,7 +127,14 @@ export class Parser {
         this.converterContext,
       );
     }
-    this.store.debugAbstractDataStruct();
+    this.store2.debugAbstractDataStruct();
+  }
+
+  /**
+   * 抽象化されたAccessor
+   */
+  public get accessor(): ParsedSchema.Accessor {
+    return this.store2.accessor;
   }
 
   public getCodeGeneratorParamsArray(allowOperationIds?: string[]): CodeGenerator.Params[] {
@@ -135,7 +142,7 @@ export class Parser {
   }
 
   /**
-   * 
+   *
    * @returns 依存を排除する
    */
   public getOpenApiTypeDefinitionStatements(): ts.Statement[] {

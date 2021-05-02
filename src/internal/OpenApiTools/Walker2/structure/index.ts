@@ -30,7 +30,7 @@ export const createInstance = (componentProperty: ComponentProperty): Instance =
 };
 
 export const create = () => {
-  const operator = new Operator<Directory.Kind>("directory");
+  const operator = new Operator(Directory.Kind);
   return {
     operator,
     getChildByPaths: DataStructure.createGetChildByPaths(operator),

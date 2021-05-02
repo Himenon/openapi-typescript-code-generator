@@ -2,6 +2,15 @@ import ts from "typescript";
 
 import type { OpenApi } from "../../../types";
 
+export type {
+  OperatorType,
+  GetChildByPaths,
+  Instance,
+  ComponentProperty,
+  DirectoryTreeProperty,
+  AbstractDataStructureNodeProperty,
+} from "./structure";
+
 export interface OperationState {
   requestUri: string;
   httpMethod: string;

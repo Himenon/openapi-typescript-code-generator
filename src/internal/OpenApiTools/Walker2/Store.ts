@@ -1,11 +1,13 @@
 import * as fs from "fs";
 import * as Path from "path";
 
-import type { OpenApi } from "../../../types";
+import type { OpenApi, ParsedSchema } from "../../../types";
 import * as ADS from "../../AbstractDataStructure";
 import * as Def from "./Definition";
 import * as State from "./State";
 import * as Structure from "./structure";
+
+export { Structure };
 
 class Store {
   private state: State.Type;
@@ -32,6 +34,12 @@ class Store {
     console.log("output");
     fs.writeFileSync("debug/hierarchy.json", JSON.stringify(data, null, 2), { encoding: "utf-8" });
     fs.writeFileSync("debug/paths.json", JSON.stringify(this.operator.getNodePaths("typedef"), null, 2), { encoding: "utf-8" });
+  }
+  public get accessor(): ParsedSchema.Accessor {
+    return {
+      operator: this.operator,
+      getChildByPaths: this.getChildByPaths,
+    };
   }
 }
 

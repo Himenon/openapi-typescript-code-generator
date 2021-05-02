@@ -1,13 +1,8 @@
 import type * as PathOrientedDataStructure from "@himenon/path-oriented-data-structure";
 
-import * as AbstractDataStructure from "../internal/AbstractDataStructure";
+import type * as Walker from "../internal/OpenApiTools/Walker2";
 
-export type T = PathOrientedDataStructure.Operator<"typedef">;
-
-export interface TypeDefNode extends PathOrientedDataStructure.Node<"typedef"> {
-  value: AbstractDataStructure.Struct;
+export interface Accessor {
+  operator: PathOrientedDataStructure.Operator<Walker.Structure.Directory.Kind>;
+  getChildByPaths: Walker.Structure.GetChildByPaths;
 }
-
-export type Kind = "typedef";
-
-export type GetChild<T extends Kind> = T extends "typedef" ? TypeDefNode : never;

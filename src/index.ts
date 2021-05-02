@@ -42,9 +42,19 @@ export class CodeGenerator {
     const create = () => {
       const statements = this.parser.getOpenApiTypeDefinitionStatements();
       generatorTemplates?.forEach(generatorTemplate => {
-        const payload = this.parser.getCodeGeneratorParamsArray(allowOperationIds);
-        const extraStatements = Api.TsGenerator.Utils.convertIntermediateCodes(generatorTemplate.generator(payload, generatorTemplate.option));
-        statements.push(...extraStatements);
+        if (generatorTemplate.kind === "advanced") {
+          const extraStatements = Api.TsGenerator.Utils.convertIntermediateCodes(
+            generatorTemplate.generator(this.parser.accessor, generatorTemplate.option),
+          );
+          statements.push(...extraStatements);
+        } else {
+          const payload = this.parser.getCodeGeneratorParamsArray(allowOperationIds);
+          generatorTemplate.generator;
+          const extraStatements = Api.TsGenerator.Utils.convertIntermediateCodes(
+            generatorTemplate.generator(payload, generatorTemplate.option),
+          );
+          statements.push(...extraStatements);
+        }
       });
       return statements;
     };
@@ -62,6 +72,9 @@ export class CodeGenerator {
     const create = () => {
       return generatorTemplates
         .map(generatorTemplate => {
+          if (generatorTemplate.kind === "advanced") {
+            return Api.TsGenerator.Utils.convertIntermediateCodes(generatorTemplate?.generator(this.parser.accessor, generatorTemplate.option));
+          }
           return Api.TsGenerator.Utils.convertIntermediateCodes(generatorTemplate?.generator(payload, generatorTemplate.option));
         })
         .flat();
