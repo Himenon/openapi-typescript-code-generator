@@ -1,4 +1,3 @@
-import * as fs from "fs";
 import * as Path from "path";
 
 import { Tree } from "@himenon/path-oriented-data-structure";
@@ -6,25 +5,21 @@ import Dot from "dot-prop";
 import ts from "typescript";
 
 import type { OpenApi } from "../../../types";
-import * as ADS from "../../AbstractDataStructure";
 import { UnSupportError } from "../../Exception";
 import { Factory } from "../../TsGenerator";
 import * as Def from "./Definition";
 import * as Operation from "./Operation";
 import * as State from "./State";
 import * as Structure from "./structure";
-import * as AdsStructure from "./structure/AbstractDataStructure";
 
 class Store {
   private state: State.Type;
   private operator: Structure.OperatorType;
-  private adsOperator: AdsStructure.OperatorType;
   private getChildByPaths: Structure.GetChildByPaths;
   constructor(private factory: Factory.Type, rootDocument: OpenApi.Document) {
     this.state = State.createDefaultState(rootDocument);
     const { operator, getChildByPaths } = Structure.create();
     this.operator = operator;
-    this.adsOperator = AdsStructure.create().operator;
     this.getChildByPaths = getChildByPaths;
   }
 
@@ -74,16 +69,6 @@ class Store {
   public hasStatement(path: string, types: Structure.DataStructure.Kind[]): boolean {
     const alreadyRegistered = types.some(type => !!this.operator.getChildByPaths(path, type));
     return alreadyRegistered;
-  }
-  public addAbstractDataStruct(path: string, abstractDataStruct: ADS.Struct): void {
-    const targetPath = Path.posix.relative("components", path);
-    this.adsOperator.set(targetPath, new AdsStructure.TypeDefItem({ name: path, value: abstractDataStruct }));
-  }
-  public debugAbstractDataStruct() {
-    const data = this.adsOperator.getHierarchy();
-    console.log("output");
-    fs.writeFileSync("debug/hierarchy.json", JSON.stringify(data, null, 2), { encoding: "utf-8" });
-    fs.writeFileSync("debug/paths.json", JSON.stringify(this.adsOperator.getNodePaths("typedef"), null, 2), { encoding: "utf-8" });
   }
   /**
    * @params path: "components/headers/hoge"

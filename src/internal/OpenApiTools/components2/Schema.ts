@@ -5,7 +5,7 @@ import * as Guard from "../Guard";
 import * as ToAbstractDataStructure from "../toAbstractDataStructure";
 import type { ArraySchema, ObjectSchema, PrimitiveSchema } from "../types";
 import type { Payload } from "../types/tmp";
-import type * as Walker from "../Walker";
+import type * as Walker from "../Walker2";
 
 export const generatePropertySignatures = (payload: Payload, schema: ObjectSchema): ADS.PropertySignatureStruct[] => {
   const { converterContext } = payload;

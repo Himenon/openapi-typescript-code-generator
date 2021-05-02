@@ -14,16 +14,19 @@ import * as Paths from "./paths";
 import * as StructContext from "./StructContext";
 import * as TypeNodeContext from "./TypeNodeContext";
 import * as Walker from "./Walker";
+import * as Walker2 from "./Walker2";
 
 export class Parser {
   private currentPoint: string;
   private converterContext = ConvertContext.create();
   private store: Walker.Store;
+  private store2: Walker2.Store;
   private factory: TypeScriptCodeGenerator.Factory.Type;
   constructor(private entryPoint: string, private rootSchema: OpenApi.Document, noReferenceOpenApiSchema: OpenApi.Document) {
     this.currentPoint = entryPoint;
     this.factory = TypeScriptCodeGenerator.Factory.create();
     this.store = new Walker.Store(this.factory, noReferenceOpenApiSchema);
+    this.store2 = new Walker2.Store(noReferenceOpenApiSchema);
     this.initialize();
   }
 
@@ -49,7 +52,7 @@ export class Parser {
             context: structContext,
             converterContext: this.converterContext,
           },
-          this.store,
+          this.store2,
           rootSchema.components.schemas,
         );
       }
@@ -131,6 +134,10 @@ export class Parser {
     return Extractor.generateCodeGeneratorParamsArray(this.store, this.converterContext, allowOperationIds);
   }
 
+  /**
+   * 
+   * @returns 依存を排除する
+   */
   public getOpenApiTypeDefinitionStatements(): ts.Statement[] {
     return this.store.getRootStatements();
   }

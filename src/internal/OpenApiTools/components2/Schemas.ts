@@ -5,7 +5,7 @@ import * as Guard from "../Guard";
 import * as InferredType from "../InferredType";
 import * as Name from "../Name";
 import type { Payload } from "../types/tmp";
-import type * as Walker from "../Walker";
+import type * as Walker from "../Walker2";
 import * as Reference from "./Reference";
 import * as Schema from "./Schema";
 
@@ -27,10 +27,10 @@ const createNullableTypeNode = (schema: OpenApi.Schema): ADS.UnionStruct | undef
 
 export const generateNamespace = (payload: Payload, store: Walker.Store, schemas: Record<string, OpenApi.Schema | OpenApi.Reference>): void => {
   const basePath = "components/schemas";
-  // store.addComponent("schemas", {
-  //   kind: "namespace",
-  //   name: Name.Components.Schemas,
-  // });
+  store.createDirectory("schemas", {
+    kind: "directory",
+    name: Name.Components.Schemas,
+  });
   Object.entries(schemas).forEach(([name, targetSchema]) => {
     if (Guard.isReference(targetSchema)) {
       const schema = targetSchema;
@@ -52,7 +52,7 @@ export const generateNamespace = (payload: Payload, store: Walker.Store, schemas
         return;
       }
       Schema.addSchema({ ...payload, currentPoint: reference.referencePoint }, store, reference.path, reference.name, reference.data);
-      if (store.hasStatement(`${basePath}/${name}`, ["interface", "typeAlias"])) {
+      if (store.existTypeDef(`${basePath}/${name}`)) {
         return;
       }
       return store.addAbstractDataStruct(`${basePath}/${name}`, {
