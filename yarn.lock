@@ -553,10 +553,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@himenon/path-oriented-data-structure@0.1.3":
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/@himenon/path-oriented-data-structure/-/path-oriented-data-structure-0.1.3.tgz#a9298afd0097e2f5e466a2f86318c887e82570ed"
-  integrity sha512-1QaIv/cFdpg5GkpG6pQgrYgDouRO7dzz3djiSKLgd2+GjqMG0TsVvUaAxtIo7Y6Hqdk/pL7u7U+cYf80ww9tcw==
+"@himenon/path-oriented-data-structure@0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@himenon/path-oriented-data-structure/-/path-oriented-data-structure-0.2.1.tgz#abf7df54dd1436942c7851881dd55e2a78d87747"
+  integrity sha512-TbrbcmJW/E60xA5GPZAf9pBDDUYGbOFL83D/ovDvGxt1s3UkUPbeTced6FbwanCtWM/ZpEHQuX32Z7a7Q25rRg==
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.0.0"

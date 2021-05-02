@@ -82,7 +82,8 @@ class Store {
   public debugAbstractDataStruct() {
     const data = this.adsOperator.getHierarchy();
     console.log("output");
-    fs.writeFileSync("debug.json", JSON.stringify(data, null, 2), { encoding: "utf-8" });
+    fs.writeFileSync("debug/hierarchy.json", JSON.stringify(data, null, 2), { encoding: "utf-8" });
+    fs.writeFileSync("debug/paths.json", JSON.stringify(this.adsOperator.getNodePaths("typedef"), null, 2), { encoding: "utf-8" });
   }
   /**
    * @params path: "components/headers/hoge"

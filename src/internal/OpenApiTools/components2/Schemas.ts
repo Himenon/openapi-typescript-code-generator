@@ -27,10 +27,10 @@ const createNullableTypeNode = (schema: OpenApi.Schema): ADS.UnionStruct | undef
 
 export const generateNamespace = (payload: Payload, store: Walker.Store, schemas: Record<string, OpenApi.Schema | OpenApi.Reference>): void => {
   const basePath = "components/schemas";
-  store.addComponent("schemas", {
-    kind: "namespace",
-    name: Name.Components.Schemas,
-  });
+  // store.addComponent("schemas", {
+  //   kind: "namespace",
+  //   name: Name.Components.Schemas,
+  // });
   Object.entries(schemas).forEach(([name, targetSchema]) => {
     if (Guard.isReference(targetSchema)) {
       const schema = targetSchema;
