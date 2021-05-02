@@ -40,6 +40,7 @@
   "scripts": {
     "build": "yarn ts ./scripts/build.ts",
     "clean": "yarn ts ./scripts/clean.ts",
+    "generate:test:code": "yarn build && yarn test:code:gen",
     "format:code": "prettier \"**/*.{js,jsx,ts,tsx,json,yml,yaml,md,html}\" --write",
     "format:code:eslint": "eslint \"**/*.{ts,tsx}\" --fix",
     "format:yarn:lock": "yarn-deduplicate yarn.lock --strategy highest",

@@ -97,8 +97,22 @@ const generateParameter = (inputFilename: string, outputFilename: string) => {
   writeText(outputFilename, JSON.stringify(codeGenerator.getCodeGeneratorParamsArray(), null, 2));
 };
 
+const generateAdvancedTestCode = (inputFilename: string, outputDir: string) => {
+  const codeGenerator = new CodeGenerator(inputFilename);
+
+  const typeDefCode = codeGenerator.generateCode([
+    {
+      kind: "advanced",
+      generator: Templates.TypeDef.generator
+    },
+  ]);
+
+  writeText(path.join(outputDir, "types.ts"), typeDefCode);
+}
+
 const main = () => {
-  generateTypedefCodeOnly("test/api.test.domain/index.yml", "test/code/typedef-only/api.test.domain.ts", true);
+  // generateTypedefCodeOnly("test/api.test.domain/index.yml", "test/code/typedef-only/api.test.domain.ts", true);
+  generateAdvancedTestCode("test/api.test.domain/index.yml", "test/code/advanced/api.test.domain.ts");
   // generateTypedefCodeOnly("test/infer.domain/index.yml", "test/code/typedef-only/infer.domain.ts", false);
 
   // generateTemplateCodeOnly("test/api.test.domain/index.yml", "test/code/template-only/api.test.domain.ts", true, { sync: false });
