@@ -76,7 +76,7 @@ export interface IndexSignatureStruct {
 
 export interface ReferenceStruct {
   kind: "reference";
-  name: string;
+  referencePath: string;
 }
 
 export interface ArrayStruct {
@@ -84,11 +84,19 @@ export interface ArrayStruct {
   struct: Struct;
 }
 
-export interface AliasStruct {
-  kind: "alias";
+/**
+ * @example type Hoge = string;
+ */
+export interface TypeAliasStruct {
+  kind: "typeAlias";
   name: string;
   comment?: string;
-  schema: Struct;
+  struct: Struct;
+}
+
+export interface TypeLiteralStruct {
+  kind: "typeLiteral";
+  struct: Struct;
 }
 
 export interface PropertySignatureStruct {
@@ -106,6 +114,9 @@ export interface InterfaceDeclarationStruct {
   comment?: string;
 }
 
+/**
+ * namespace or interface
+ */
 export interface TypeDefinitionStruct {
   kind: "typedef";
   name: string;
@@ -133,5 +144,6 @@ export type Struct =
   | ArrayStruct
   | ObjectStruct
   | InterfaceDeclarationStruct
-  | AliasStruct
-  | TypeDefinitionStruct;
+  | TypeAliasStruct
+  | TypeDefinitionStruct
+  | TypeLiteralStruct;

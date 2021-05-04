@@ -36,16 +36,15 @@ export const createTypeDefSet = (payload: Payload, store: Walker.Store, schemas:
       const schema = targetSchema;
       const reference = Reference.generate<OpenApi.Schema>(payload.entryPoint, payload.currentPoint, schema);
       if (reference.type === "local") {
-        const { maybeResolvedName } = payload.context.resolveReferencePath(payload.currentPoint, reference.path);
         store.addAbstractDataStruct(`${basePath}/${name}`, {
-          kind: "typedef",
+          kind: "typeAlias",
           name: payload.converterContext.escapeDeclarationText(name),
           struct: {
-            kind: "alias",
+            kind: "typeAlias",
             name: payload.converterContext.escapeDeclarationText(name),
-            schema: {
+            struct: {
               kind: "reference",
-              name: payload.converterContext.escapeDeclarationText(maybeResolvedName),
+              referencePath: reference.path,
             },
           },
         });
@@ -56,17 +55,15 @@ export const createTypeDefSet = (payload: Payload, store: Walker.Store, schemas:
         return;
       }
       return store.addAbstractDataStruct(`${basePath}/${name}`, {
-        kind: "typedef",
+        kind: "typeAlias",
         name: payload.converterContext.escapeDeclarationText(name),
         struct: {
-          kind: "alias",
+          kind: "typeAlias",
           name: payload.converterContext.escapeDeclarationText(name),
           comment: reference.data.description,
-          schema: {
+          struct: {
             kind: "reference",
-            name: payload.converterContext.escapeDeclarationText(
-              payload.context.resolveReferencePath(payload.currentPoint, reference.path).name,
-            ),
+            referencePath: reference.path,
           },
         },
       });
@@ -82,51 +79,51 @@ export const createTypeDefSet = (payload: Payload, store: Walker.Store, schemas:
     const path = `${basePath}/${name}`;
     if (Guard.isAllOfSchema(schema)) {
       return store.addAbstractDataStruct(path, {
-        kind: "typedef",
+        kind: "typeAlias",
         name: payload.converterContext.escapeDeclarationText(name),
         struct: Schema.generateMultiTypeAlias(payload, name, schema.allOf, "allOf"),
       });
     }
     if (Guard.isOneOfSchema(schema)) {
       return store.addAbstractDataStruct(path, {
-        kind: "typedef",
+        kind: "typeAlias",
         name: payload.converterContext.escapeDeclarationText(name),
         struct: Schema.generateMultiTypeAlias(payload, name, schema.oneOf, "oneOf"),
       });
     }
     if (Guard.isAnyOfSchema(schema)) {
       return store.addAbstractDataStruct(path, {
-        kind: "typedef",
+        kind: "typeAlias",
         name: payload.converterContext.escapeDeclarationText(name),
         struct: Schema.generateMultiTypeAlias(payload, name, schema.anyOf, "anyOf"),
       });
     }
     if (Guard.isArraySchema(schema)) {
       return store.addAbstractDataStruct(path, {
-        kind: "typedef",
+        kind: "typeAlias",
         name: payload.converterContext.escapeDeclarationText(name),
         struct: Schema.generateArrayTypeAlias(payload, name, schema),
       });
     }
     if (Guard.isObjectSchema(schema)) {
       return store.addAbstractDataStruct(path, {
-        kind: "typedef",
+        kind: "typeAlias",
         name: payload.converterContext.escapeDeclarationText(name),
         struct: Schema.generateInterface(payload, name, schema),
       });
     }
     if (Guard.isObjectSchema(schema)) {
       return store.addAbstractDataStruct(path, {
-        kind: "typedef",
+        kind: "typeAlias",
         name: payload.converterContext.escapeDeclarationText(name),
         struct: Schema.generateInterface(payload, name, schema),
       });
     }
     if (Guard.isPrimitiveSchema(schema)) {
       return store.addAbstractDataStruct(path, {
-        kind: "typedef",
+        kind: "typeAlias",
         name,
-        struct: Schema.generateTypeAlias(payload, name, schema),
+        struct: Schema.generateTypeLiteral(payload, name, schema),
       });
     }
     throw new UnSupportError("schema.type = Array[] not supported. " + JSON.stringify(schema));

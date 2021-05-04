@@ -15,7 +15,7 @@ export const generateMultiTypeNode = (
   schemas: OpenApi.JSONSchema[],
   convert: Convert,
   multiType: "oneOf" | "allOf" | "anyOf",
-): ADS.Struct => {
+): ADS.UnionStruct | ADS.IntersectionStruct | ADS.NeverStruct => {
   const value = schemas.map(schema => convert(payload, schema));
   if (multiType === "oneOf") {
     return {
@@ -68,10 +68,9 @@ export const convert: Convert = (
     if (reference.type === "local") {
       // Type Aliasを作成 (or すでにある場合は作成しない)
       context.setReferenceHandler(currentPoint, reference);
-      const { maybeResolvedName } = context.resolveReferencePath(currentPoint, reference.path);
       return {
         kind: "reference",
-        name: converterContext.escapeDeclarationText(maybeResolvedName),
+        referencePath: reference.path,
       };
     }
     // サポートしているディレクトリに対して存在する場合
@@ -81,7 +80,7 @@ export const convert: Convert = (
       // Aliasを貼る
       return {
         kind: "reference",
-        name: context.resolveReferencePath(currentPoint, reference.path).name,
+        referencePath: reference.path,
       };
     }
     // サポートしていないディレクトリに存在する場合、直接Interface、もしくはTypeAliasを作成

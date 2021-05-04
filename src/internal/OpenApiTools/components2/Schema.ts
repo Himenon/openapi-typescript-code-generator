@@ -60,16 +60,14 @@ export const generateInterface = (payload: Payload, name: string, schema: Object
   };
 };
 
-export const generateArrayTypeAlias = (payload: Payload, name: string, schema: ArraySchema): ADS.AliasStruct => {
+export const generateArrayTypeAlias = (payload: Payload, name: string, schema: ArraySchema): ADS.ArrayStruct => {
   return {
-    kind: "alias",
-    name: payload.converterContext.escapeDeclarationText(name),
-    comment: schema.description,
-    schema: ToAbstractDataStructure.convert(payload, schema),
+    kind: "array",
+    struct: ToAbstractDataStructure.convert(payload, schema),
   };
 };
 
-export const generateTypeAlias = (payload: Payload, name: string, schema: PrimitiveSchema): ADS.AliasStruct => {
+export const generateTypeLiteral = (payload: Payload, name: string, schema: PrimitiveSchema): ADS.TypeLiteralStruct => {
   let type: ADS.Struct;
   if (schema.enum) {
     if (Guard.isNumberArray(schema.enum) && (schema.type === "number" || schema.type === "integer")) {
@@ -93,10 +91,8 @@ export const generateTypeAlias = (payload: Payload, name: string, schema: Primit
     };
   }
   return {
-    kind: "alias",
-    name: payload.converterContext.escapeDeclarationText(name),
-    comment: schema.description,
-    schema: type,
+    kind: "typeLiteral",
+    struct: type,
   };
 };
 
@@ -105,13 +101,8 @@ export const generateMultiTypeAlias = (
   name: string,
   schemas: OpenApi.Schema[],
   multiType: "oneOf" | "allOf" | "anyOf",
-): ADS.AliasStruct => {
-  const schema = ToAbstractDataStructure.generateMultiTypeNode(payload, schemas, ToAbstractDataStructure.convert, multiType);
-  return {
-    kind: "alias",
-    name: payload.converterContext.escapeDeclarationText(name),
-    schema: schema,
-  };
+): ADS.UnionStruct | ADS.IntersectionStruct | ADS.NeverStruct => {
+  return ToAbstractDataStructure.generateMultiTypeNode(payload, schemas, ToAbstractDataStructure.convert, multiType);
 };
 
 export const addSchema = (
@@ -146,7 +137,7 @@ export const addSchema = (
     store.addAbstractDataStruct(targetPoint, {
       kind: "typedef",
       name: payload.converterContext.escapeDeclarationText(declarationName),
-      struct: generateArrayTypeAlias(payload, declarationName, schema),
+      struct: generateArrayTypeAlias( payload, declarationName, schema),
     });
   } else if (Guard.isObjectSchema(schema)) {
     store.addAbstractDataStruct(targetPoint, {
@@ -158,7 +149,7 @@ export const addSchema = (
     store.addAbstractDataStruct(targetPoint, {
       kind: "typedef",
       name: payload.converterContext.escapeDeclarationText(declarationName),
-      struct: generateTypeAlias(payload, declarationName, schema),
+      struct: generateTypeLiteral(payload, declarationName, schema),
     });
   }
 };
