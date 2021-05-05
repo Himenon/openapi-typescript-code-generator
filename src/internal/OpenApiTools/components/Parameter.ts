@@ -50,10 +50,11 @@ export const generatePropertySignatureObject = (
     if (reference.type === "local") {
       context.setReferenceHandler(currentPoint, reference);
       const localRef = store.getParameter(reference.path);
+      const isPathProperty = localRef.in === "path";
       const name = converterContext.escapePropertySignatureName(localRef.name);
       const typeElement = factory.PropertySignature.create({
         name: name,
-        optional: false,
+        optional: isPathProperty ? false : !localRef.required,
         comment: localRef.description,
         type: factory.TypeReferenceNode.create({
           name: context.resolveReferencePath(currentPoint, reference.path).name,
@@ -108,7 +109,15 @@ export const generatePropertySignatures = (
   converterContext: ConverterContext.Types,
 ): ts.PropertySignature[] => {
   const typeElementMap = parameters.reduce<Record<string, ts.PropertySignature>>((all, parameter) => {
-    const { name, typeElement } = generatePropertySignatureObject(entryPoint, currentPoint, store, factory, parameter, context, converterContext);
+    const { name, typeElement } = generatePropertySignatureObject(
+      entryPoint,
+      currentPoint,
+      store,
+      factory,
+      parameter,
+      context,
+      converterContext,
+    );
     return { ...all, [name]: typeElement };
   }, {});
   return Object.values(typeElementMap);
