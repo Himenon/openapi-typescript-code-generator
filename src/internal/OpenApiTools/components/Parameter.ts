@@ -108,7 +108,15 @@ export const generatePropertySignatures = (
   converterContext: ConverterContext.Types,
 ): ts.PropertySignature[] => {
   const typeElementMap = parameters.reduce<Record<string, ts.PropertySignature>>((all, parameter) => {
-    const { name, typeElement } = generatePropertySignatureObject(entryPoint, currentPoint, store, factory, parameter, context, converterContext);
+    const { name, typeElement } = generatePropertySignatureObject(
+      entryPoint,
+      currentPoint,
+      store,
+      factory,
+      parameter,
+      context,
+      converterContext,
+    );
     return { ...all, [name]: typeElement };
   }, {});
   return Object.values(typeElementMap);
