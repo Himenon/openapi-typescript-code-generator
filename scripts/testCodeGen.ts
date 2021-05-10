@@ -1,13 +1,24 @@
 import * as fs from "fs";
 import { posix as path } from "path";
 
+import prettier from "prettier";
+
 import { CodeGenerator } from "../lib";
 import * as Templates from "../lib/templates";
 import type * as Types from "../lib/types";
 
+const prettierConfig = require("../.prettierrc.json");
+
+const codeFormat = (code: string): string => {
+  return prettier.format(code, {
+    ...prettierConfig,
+    parser: "babel",
+  });
+};
+
 const writeText = (filename: string, text: string): void => {
   fs.mkdirSync(path.dirname(filename), { recursive: true });
-  fs.writeFileSync(filename, text, { encoding: "utf-8" });
+  fs.writeFileSync(filename, codeFormat(text), { encoding: "utf-8" });
   console.log(`Generate Code : ${filename}`);
 };
 
@@ -103,12 +114,11 @@ const generateAdvancedTestCode = (inputFilename: string, outputDir: string) => {
   const typeDefCode = codeGenerator.generateCode([
     {
       kind: "advanced",
-      generator: Templates.TypeDef.generator
+      generator: Templates.TypeDef.generator,
     },
   ]);
-
   writeText(path.join(outputDir, "types.ts"), typeDefCode);
-}
+};
 
 const main = () => {
   // generateTypedefCodeOnly("test/api.test.domain/index.yml", "test/code/typedef-only/api.test.domain.ts", true);
