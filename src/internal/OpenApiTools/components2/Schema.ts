@@ -1,5 +1,5 @@
 import type { OpenApi } from "../../../types";
-import * as ADS from "../../AbstractDataStructure";
+import type { AbstractStruct } from "../../../types";
 import { FeatureDevelopmentError } from "../../Exception";
 import * as Guard from "../Guard";
 import * as ToAbstractDataStructure from "../toAbstractDataStructure";
@@ -7,13 +7,13 @@ import type { ArraySchema, ObjectSchema, PrimitiveSchema } from "../types";
 import type { Payload } from "../types/tmp";
 import type * as Walker from "../Walker2";
 
-export const generatePropertySignatures = (payload: Payload, schema: ObjectSchema): ADS.PropertySignatureStruct[] => {
+export const generatePropertySignatures = (payload: Payload, schema: ObjectSchema): AbstractStruct.PropertySignatureStruct[] => {
   const { converterContext } = payload;
   if (!schema.properties) {
     return [];
   }
   const required: string[] = schema.required || [];
-  return Object.entries(schema.properties).map<ADS.PropertySignatureStruct>(([propertyName, property]) => {
+  return Object.entries(schema.properties).map<AbstractStruct.PropertySignatureStruct>(([propertyName, property]) => {
     if (!property) {
       return {
         kind: "PropertySignature",
@@ -35,12 +35,12 @@ export const generatePropertySignatures = (payload: Payload, schema: ObjectSchem
   });
 };
 
-export const generateInterface = (payload: Payload, name: string, schema: ObjectSchema): ADS.InterfaceDeclarationStruct => {
+export const generateInterface = (payload: Payload, name: string, schema: ObjectSchema): AbstractStruct.InterfaceDeclarationStruct => {
   const { converterContext } = payload;
   if (schema.type !== "object") {
     throw new FeatureDevelopmentError("Please use generateTypeAlias");
   }
-  let members: (ADS.IndexSignatureStruct | ADS.PropertySignatureStruct)[] = [];
+  let members: (AbstractStruct.IndexSignatureStruct | AbstractStruct.PropertySignatureStruct)[] = [];
   const propertySignatures = generatePropertySignatures(payload, schema);
   if (Guard.isObjectSchemaWithAdditionalProperties(schema)) {
     const additionalProperties = ToAbstractDataStructure.convertAdditionalProperties(payload, schema);
@@ -60,15 +60,15 @@ export const generateInterface = (payload: Payload, name: string, schema: Object
   };
 };
 
-export const generateArrayTypeAlias = (payload: Payload, name: string, schema: ArraySchema): ADS.ArrayStruct => {
+export const generateArrayTypeAlias = (payload: Payload, name: string, schema: ArraySchema): AbstractStruct.ArrayStruct => {
   return {
     kind: "array",
     struct: ToAbstractDataStructure.convert(payload, schema),
   };
 };
 
-export const generateTypeLiteral = (payload: Payload, name: string, schema: PrimitiveSchema): ADS.TypeLiteralStruct => {
-  let type: ADS.Struct;
+export const generateTypeLiteral = (payload: Payload, name: string, schema: PrimitiveSchema): AbstractStruct.TypeLiteralStruct => {
+  let type: AbstractStruct.Struct;
   if (schema.enum) {
     if (Guard.isNumberArray(schema.enum) && (schema.type === "number" || schema.type === "integer")) {
       type = {
@@ -101,7 +101,7 @@ export const generateMultiTypeAlias = (
   name: string,
   schemas: OpenApi.Schema[],
   multiType: "oneOf" | "allOf" | "anyOf",
-): ADS.UnionStruct | ADS.IntersectionStruct | ADS.NeverStruct => {
+): AbstractStruct.UnionStruct | AbstractStruct.IntersectionStruct | AbstractStruct.NeverStruct => {
   return ToAbstractDataStructure.generateMultiTypeNode(payload, schemas, ToAbstractDataStructure.convert, multiType);
 };
 

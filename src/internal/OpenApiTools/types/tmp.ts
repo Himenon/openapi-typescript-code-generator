@@ -1,5 +1,5 @@
 import type { OpenApi } from "../../../types";
-import type * as ADS from "../../AbstractDataStructure";
+import type { AbstractStruct } from "../../../types";
 import * as Reference from "../components2/Reference";
 import { ConverterContext } from "./context";
 
@@ -17,7 +17,7 @@ export type Convert = (
   payload: Payload,
   schema: OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition,
   option?: Option,
-) => ADS.Struct;
+) => AbstractStruct.Struct;
 
 export interface Context {
   setReferenceHandler: (currentPoint: string, reference: Reference.Type<OpenApi.Schema | OpenApi.JSONSchemaDefinition>) => void;

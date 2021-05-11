@@ -1,3 +1,5 @@
+import type * as OpenApi from "./OpenApi";
+
 export type Kind =
   | "string"
   | "integer"
@@ -76,7 +78,9 @@ export interface IndexSignatureStruct {
 
 export interface ReferenceStruct {
   kind: "reference";
+  referenceType: "local" | "remote";
   referencePath: string;
+  resolvedPath: string;
 }
 
 export interface ArrayStruct {
@@ -125,6 +129,8 @@ export interface TypeDefinitionStruct {
 
 export interface ObjectStruct {
   kind: "object";
+  raw: OpenApi.Schema | OpenApi.JSONSchema;
+  additionalProperties?: boolean | IndexSignatureStruct;
   properties: (PropertySignatureStruct | IndexSignatureStruct)[];
 }
 

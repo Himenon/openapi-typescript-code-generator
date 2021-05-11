@@ -1,8 +1,7 @@
 import * as fs from "fs";
 import * as Path from "path";
 
-import type { OpenApi, ParsedSchema } from "../../../types";
-import * as ADS from "../../AbstractDataStructure";
+import type { OpenApi, ParsedSchema, AbstractStruct } from "../../../types";
 import * as Def from "./Definition";
 import * as State from "./State";
 import * as Structure from "./structure";
@@ -19,7 +18,7 @@ class Store {
     this.operator = operator;
     this.getChildByPaths = getChildByPaths;
   }
-  public addAbstractDataStruct(path: string, abstractDataStruct: ADS.Struct): void {
+  public addAbstractDataStruct(path: string, abstractDataStruct: AbstractStruct.Struct): void {
     const targetPath = Path.posix.relative("components", path);
     this.operator.set(targetPath, new Structure.AbstractDataStructure.Item({ name: path, value: abstractDataStruct }));
   }

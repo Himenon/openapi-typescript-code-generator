@@ -1,5 +1,5 @@
 import type { OpenApi } from "../../../types";
-import * as ADS from "../../AbstractDataStructure";
+import type { AbstractStruct } from "../../../types";
 import { UnSupportError } from "../../Exception";
 import * as Guard from "../Guard";
 import * as InferredType from "../InferredType";
@@ -9,7 +9,7 @@ import type * as Walker from "../Walker2";
 import * as Reference from "./Reference";
 import * as Schema from "./Schema";
 
-const createNullableTypeNode = (schema: OpenApi.Schema): ADS.UnionStruct | undefined => {
+const createNullableTypeNode = (schema: OpenApi.Schema): AbstractStruct.UnionStruct | undefined => {
   if (!schema.type && typeof schema.nullable === "boolean") {
     return {
       kind: "union",
@@ -44,7 +44,9 @@ export const createTypeDefSet = (payload: Payload, store: Walker.Store, schemas:
             name: payload.converterContext.escapeDeclarationText(name),
             struct: {
               kind: "reference",
+              referenceType: "local",
               referencePath: reference.path,
+              resolvedPath: payload.currentPoint,
             },
           },
         });
@@ -63,7 +65,9 @@ export const createTypeDefSet = (payload: Payload, store: Walker.Store, schemas:
           comment: reference.data.description,
           struct: {
             kind: "reference",
+            referenceType: "remote",
             referencePath: reference.path,
+            resolvedPath: payload.currentPoint,
           },
         },
       });

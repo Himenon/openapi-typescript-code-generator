@@ -1,21 +1,19 @@
 import type { OpenApi } from "../../types";
-import type * as ADS from "../AbstractDataStructure";
+import type { AbstractStruct } from "../../types";
 import { UnSupportError, UnsetTypeError } from "../Exception";
 import * as Logger from "../Logger";
 import * as Reference from "./components2/Reference";
-
 import * as Guard from "./Guard";
 import * as InferredType from "./InferredType";
 import { ObjectSchemaWithAdditionalProperties } from "./types";
-import { Payload, Convert, Option } from "./types/tmp";
-
+import { Convert, Option, Payload } from "./types/tmp";
 
 export const generateMultiTypeNode = (
   payload: Payload,
   schemas: OpenApi.JSONSchema[],
   convert: Convert,
   multiType: "oneOf" | "allOf" | "anyOf",
-): ADS.UnionStruct | ADS.IntersectionStruct | ADS.NeverStruct => {
+): AbstractStruct.UnionStruct | AbstractStruct.IntersectionStruct | AbstractStruct.NeverStruct => {
   const value = schemas.map(schema => convert(payload, schema));
   if (multiType === "oneOf") {
     return {
@@ -35,7 +33,7 @@ export const generateMultiTypeNode = (
   };
 };
 
-const nullable = (schemaType: ADS.Struct, nullable: boolean): ADS.Struct => {
+const nullable = (schemaType: AbstractStruct.Struct, nullable: boolean): AbstractStruct.Struct => {
   if (nullable) {
     return {
       kind: "union",
@@ -54,7 +52,7 @@ export const convert: Convert = (
   payload: Payload,
   schema: OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition,
   option?: Option,
-): ADS.Struct => {
+): AbstractStruct.Struct => {
   const { context, currentPoint, converterContext } = payload;
   if (typeof schema === "boolean") {
     // https://swagger.io/docs/specification/data-models/dictionaries/#free-form
@@ -70,7 +68,9 @@ export const convert: Convert = (
       context.setReferenceHandler(currentPoint, reference);
       return {
         kind: "reference",
+        referenceType: "local",
         referencePath: reference.path,
+        resolvedPath: payload.currentPoint,
       };
     }
     // サポートしているディレクトリに対して存在する場合
@@ -80,7 +80,9 @@ export const convert: Convert = (
       // Aliasを貼る
       return {
         kind: "reference",
+        referenceType: "remote",
         referencePath: reference.path,
+        resolvedPath: payload.currentPoint,
       };
     }
     // サポートしていないディレクトリに存在する場合、直接Interface、もしくはTypeAliasを作成
@@ -133,7 +135,7 @@ export const convert: Convert = (
     case "integer":
     case "number": {
       const items = schema.enum;
-      let typeNode: ADS.Struct;
+      let typeNode: AbstractStruct.Struct;
       if (items && Guard.isNumberArray(items)) {
         typeNode = {
           kind: "number",
@@ -148,7 +150,7 @@ export const convert: Convert = (
     }
     case "string": {
       const items = schema.enum;
-      let typeNode: ADS.Struct;
+      let typeNode: AbstractStruct.Struct;
       if (items && Guard.isStringArray(items)) {
         typeNode = {
           kind: "string",
@@ -165,7 +167,7 @@ export const convert: Convert = (
       if (Array.isArray(schema.items) || typeof schema.items === "boolean") {
         throw new UnSupportError(`schema.items = ${JSON.stringify(schema.items)}`);
       }
-      const typeNode: ADS.Struct = {
+      const typeNode: AbstractStruct.Struct = {
         kind: "array",
         struct: schema.items
           ? convert(payload, schema.items, { parent: schema })
@@ -184,7 +186,7 @@ export const convert: Convert = (
           properties: [],
         };
       }
-      const value: ADS.PropertySignatureStruct[] = Object.entries(schema.properties || {}).map(([name, jsonSchema]) => {
+      const value: AbstractStruct.PropertySignatureStruct[] = Object.entries(schema.properties || {}).map(([name, jsonSchema]) => {
         return {
           kind: "PropertySignature",
           name: converterContext.escapePropertySignatureName(name),
@@ -194,7 +196,7 @@ export const convert: Convert = (
         };
       });
       if (schema.additionalProperties) {
-        const additionalProperties: ADS.IndexSignatureStruct = {
+        const additionalProperties: AbstractStruct.IndexSignatureStruct = {
           kind: "IndexSignature",
           name: "key",
           struct: convert(payload, schema.additionalProperties, {
@@ -206,7 +208,7 @@ export const convert: Convert = (
           properties: [...value, additionalProperties],
         };
       }
-      const typeNode: ADS.Struct = {
+      const typeNode: AbstractStruct.Struct = {
         kind: "object",
         properties: value,
       };
@@ -220,7 +222,10 @@ export const convert: Convert = (
   }
 };
 
-export const convertAdditionalProperties = (payload: Payload, schema: ObjectSchemaWithAdditionalProperties): ADS.IndexSignatureStruct => {
+export const convertAdditionalProperties = (
+  payload: Payload,
+  schema: ObjectSchemaWithAdditionalProperties,
+): AbstractStruct.IndexSignatureStruct => {
   // // https://swagger.io/docs/specification/data-models/dictionaries/#free-form
   if (schema.additionalProperties === true) {
     // TODO バグってそう
@@ -229,7 +234,7 @@ export const convertAdditionalProperties = (payload: Payload, schema: ObjectSche
     //   value: [],
     // });
   }
-  const additionalProperties: ADS.IndexSignatureStruct = {
+  const additionalProperties: AbstractStruct.IndexSignatureStruct = {
     kind: "IndexSignature",
     name: "key",
     struct: convert(payload, schema.additionalProperties, {
