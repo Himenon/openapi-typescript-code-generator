@@ -7,11 +7,11 @@ export const Kind: Kind = "abstract-data";
 
 export interface Property {
   name: string;
-  value: AbstractStruct.Struct;
+  value: AbstractStruct.SchemaLocation;
 }
 
 export class Item extends BaseNode<Kind> {
-  public value: AbstractStruct.Struct;
+  public value: AbstractStruct.SchemaLocation;
   constructor(property: Property) {
     super("abstract-data", property.name);
     this.value = property.value;

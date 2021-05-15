@@ -2,7 +2,7 @@ import type ts from "typescript";
 
 import { TsGenerator } from "../../api";
 import type { AbstractStruct, CodeGenerator } from "../../types";
-import { convertStructToTypeNode } from "./StructToTypeNode";
+import { convert } from "./StructToTypeNode";
 
 const factory = TsGenerator.Factory.create();
 
@@ -11,7 +11,7 @@ const generateTypeAlias = (struct: AbstractStruct.TypeAliasStruct): ts.Statement
   return factory.TypeAliasDeclaration.create({
     export: true,
     name: struct.name,
-    type: convertStructToTypeNode(childStruct),
+    type: convert(childStruct),
   });
 };
 
@@ -24,7 +24,7 @@ const generateInterface = (struct: AbstractStruct.InterfaceDeclarationStruct): t
   });
 };
 
-const createCode = (struct: AbstractStruct.Struct): CodeGenerator.IntermediateCode => {
+const createCode = (struct: AbstractStruct.SchemaLocation): CodeGenerator.IntermediateCode => {
   switch (struct.kind) {
     case "interface":
       return generateInterface(struct);

@@ -18,14 +18,14 @@ class Store {
     this.operator = operator;
     this.getChildByPaths = getChildByPaths;
   }
-  public addAbstractDataStruct(path: string, abstractDataStruct: AbstractStruct.Struct): void {
+  public determineSchemaLocation(path: string, abstractDataStruct: AbstractStruct.SchemaLocation): void {
     const targetPath = Path.posix.relative("components", path);
     this.operator.set(targetPath, new Structure.AbstractDataStructure.Item({ name: path, value: abstractDataStruct }));
   }
   public createDirectory(componentName: Def.ComponentName, componentProperty: Structure.DirectoryTreeProperty): void {
     this.operator.set(`${componentName}`, Structure.createInstance(componentProperty));
   }
-  public existTypeDef(path: string): boolean {
+  public isPossession(path: string): boolean {
     return !!this.operator.getChildByPaths(path, Structure.AbstractDataStructure.Kind);
   }
   public debugAbstractDataStruct() {

@@ -33,7 +33,7 @@ export const generateMultiTypeNode = (
   };
 };
 
-const nullable = (schemaType: AbstractStruct.Struct, nullable: boolean): AbstractStruct.Struct => {
+const nullable = (schemaType: AbstractStruct.SchemaLocation, nullable: boolean): AbstractStruct.SchemaLocation => {
   if (nullable) {
     return {
       kind: "union",
@@ -52,7 +52,7 @@ export const convert: Convert = (
   payload: Payload,
   schema: OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition,
   option?: Option,
-): AbstractStruct.Struct => {
+): AbstractStruct.SchemaLocation => {
   const { context, currentPoint, converterContext } = payload;
   if (typeof schema === "boolean") {
     // https://swagger.io/docs/specification/data-models/dictionaries/#free-form
@@ -135,7 +135,7 @@ export const convert: Convert = (
     case "integer":
     case "number": {
       const items = schema.enum;
-      let typeNode: AbstractStruct.Struct;
+      let typeNode: AbstractStruct.SchemaLocation;
       if (items && Guard.isNumberArray(items)) {
         typeNode = {
           kind: "number",
@@ -150,7 +150,7 @@ export const convert: Convert = (
     }
     case "string": {
       const items = schema.enum;
-      let typeNode: AbstractStruct.Struct;
+      let typeNode: AbstractStruct.SchemaLocation;
       if (items && Guard.isStringArray(items)) {
         typeNode = {
           kind: "string",
@@ -167,7 +167,7 @@ export const convert: Convert = (
       if (Array.isArray(schema.items) || typeof schema.items === "boolean") {
         throw new UnSupportError(`schema.items = ${JSON.stringify(schema.items)}`);
       }
-      const typeNode: AbstractStruct.Struct = {
+      const typeNode: AbstractStruct.SchemaLocation = {
         kind: "array",
         struct: schema.items
           ? convert(payload, schema.items, { parent: schema })
@@ -208,7 +208,7 @@ export const convert: Convert = (
           properties: [...value, additionalProperties],
         };
       }
-      const typeNode: AbstractStruct.Struct = {
+      const typeNode: AbstractStruct.SchemaLocation = {
         kind: "object",
         properties: value,
       };

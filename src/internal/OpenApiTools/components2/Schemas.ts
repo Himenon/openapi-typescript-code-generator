@@ -7,23 +7,6 @@ import * as Name from "../Name";
 import type { Payload } from "../types/tmp";
 import type * as Walker from "../Walker2";
 import * as Reference from "./Reference";
-import * as Schema from "./Schema";
-
-const createNullableTypeNode = (schema: OpenApi.Schema): AbstractStruct.UnionStruct | undefined => {
-  if (!schema.type && typeof schema.nullable === "boolean") {
-    return {
-      kind: "union",
-      structs: [
-        {
-          kind: "any",
-        },
-        {
-          kind: "null",
-        },
-      ],
-    };
-  }
-};
 
 export const createTypeDefSet = (payload: Payload, store: Walker.Store, schemas: Record<string, OpenApi.Schema | OpenApi.Reference>): void => {
   const basePath = "components/schemas";
@@ -36,41 +19,28 @@ export const createTypeDefSet = (payload: Payload, store: Walker.Store, schemas:
       const schema = targetSchema;
       const reference = Reference.generate<OpenApi.Schema>(payload.entryPoint, payload.currentPoint, schema);
       if (reference.type === "local") {
-        store.addAbstractDataStruct(`${basePath}/${name}`, {
-          kind: "typeAlias",
-          name: payload.converterContext.escapeDeclarationText(name),
-          struct: {
-            kind: "typeAlias",
-            name: payload.converterContext.escapeDeclarationText(name),
-            struct: {
-              kind: "reference",
-              referenceType: "local",
-              referencePath: reference.path,
-              resolvedPath: payload.currentPoint,
-            },
-          },
+        store.determineSchemaLocation(`${basePath}/${name}`, {
+          kind: "reference",
+          referenceType: "local",
+          resolvedPath: `${basePath}/${name}`,
+          schema: schema,
         });
         return;
       }
-      Schema.addSchema({ ...payload, currentPoint: reference.referencePoint }, store, reference.path, reference.name, reference.data);
-      if (store.existTypeDef(`${basePath}/${name}`)) {
+      store.determineSchemaLocation(reference.path, {
+        kind: "common",
+        schema,
+      });
+      if (store.isPossession(`${basePath}/${name}`)) {
         return;
       }
-      return store.addAbstractDataStruct(`${basePath}/${name}`, {
-        kind: "typeAlias",
-        name: payload.converterContext.escapeDeclarationText(name),
-        struct: {
-          kind: "typeAlias",
-          name: payload.converterContext.escapeDeclarationText(name),
-          comment: reference.data.description,
-          struct: {
-            kind: "reference",
-            referenceType: "remote",
-            referencePath: reference.path,
-            resolvedPath: payload.currentPoint,
-          },
-        },
+      store.determineSchemaLocation(`${basePath}/${name}`, {
+        kind: "reference",
+        referenceType: "remote",
+        schema: reference.data,
+        resolvedPath: `${basePath}/${name}`,
       });
+      return;
     }
     const schema = InferredType.getInferredType(targetSchema);
     if (!schema) {
@@ -81,55 +51,11 @@ export const createTypeDefSet = (payload: Payload, store: Walker.Store, schemas:
       return typeNode;
     }
     const path = `${basePath}/${name}`;
-    if (Guard.isAllOfSchema(schema)) {
-      return store.addAbstractDataStruct(path, {
-        kind: "typeAlias",
-        name: payload.converterContext.escapeDeclarationText(name),
-        struct: Schema.generateMultiTypeAlias(payload, name, schema.allOf, "allOf"),
-      });
-    }
-    if (Guard.isOneOfSchema(schema)) {
-      return store.addAbstractDataStruct(path, {
-        kind: "typeAlias",
-        name: payload.converterContext.escapeDeclarationText(name),
-        struct: Schema.generateMultiTypeAlias(payload, name, schema.oneOf, "oneOf"),
-      });
-    }
-    if (Guard.isAnyOfSchema(schema)) {
-      return store.addAbstractDataStruct(path, {
-        kind: "typeAlias",
-        name: payload.converterContext.escapeDeclarationText(name),
-        struct: Schema.generateMultiTypeAlias(payload, name, schema.anyOf, "anyOf"),
-      });
-    }
-    if (Guard.isArraySchema(schema)) {
-      return store.addAbstractDataStruct(path, {
-        kind: "typeAlias",
-        name: payload.converterContext.escapeDeclarationText(name),
-        struct: Schema.generateArrayTypeAlias(payload, name, schema),
-      });
-    }
-    if (Guard.isObjectSchema(schema)) {
-      return store.addAbstractDataStruct(path, {
-        kind: "typeAlias",
-        name: payload.converterContext.escapeDeclarationText(name),
-        struct: Schema.generateInterface(payload, name, schema),
-      });
-    }
-    if (Guard.isObjectSchema(schema)) {
-      return store.addAbstractDataStruct(path, {
-        kind: "typeAlias",
-        name: payload.converterContext.escapeDeclarationText(name),
-        struct: Schema.generateInterface(payload, name, schema),
-      });
-    }
-    if (Guard.isPrimitiveSchema(schema)) {
-      return store.addAbstractDataStruct(path, {
-        kind: "typeAlias",
-        name,
-        struct: Schema.generateTypeLiteral(payload, name, schema),
-      });
-    }
+
+    store.determineSchemaLocation(path, {
+      kind: "common",
+      schema,
+    });
     throw new UnSupportError("schema.type = Array[] not supported. " + JSON.stringify(schema));
   });
 };

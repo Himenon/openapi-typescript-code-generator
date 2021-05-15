@@ -17,7 +17,7 @@ export type Convert = (
   payload: Payload,
   schema: OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition,
   option?: Option,
-) => AbstractStruct.Struct;
+) => AbstractStruct.SchemaLocation;
 
 export interface Context {
   setReferenceHandler: (currentPoint: string, reference: Reference.Type<OpenApi.Schema | OpenApi.JSONSchemaDefinition>) => void;
