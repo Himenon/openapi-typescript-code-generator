@@ -6,10 +6,19 @@ export interface ReferenceSchemaLocation {
   resolvedPath: string;
   schema: OpenApi.Schema | OpenApi.JSONSchema | OpenApi.Reference;
 }
-
-export interface CommonSchemaLocation {
+/**
+ * 
+ * Schemas:
+ *   Hoge:             // name
+ *     type: object    // schema
+ *     properties:
+ *       key1:
+ *         type: string
+ */
+export interface NamedSchemaLocation {
   kind: "common";
+  name: string;
   schema: OpenApi.Schema | OpenApi.JSONSchema | boolean;
 }
 
-export type SchemaLocation = CommonSchemaLocation | ReferenceSchemaLocation;
+export type SchemaLocation = NamedSchemaLocation | ReferenceSchemaLocation;

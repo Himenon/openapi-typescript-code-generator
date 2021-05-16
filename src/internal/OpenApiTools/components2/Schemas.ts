@@ -31,6 +31,7 @@ export const determineSchemaLocation = (
       }
       store.determineSchemaLocation(reference.path, {
         kind: "common",
+        name: name,
         schema: schema,
       });
       if (store.isPossession(`${basePath}/${name}`)) {
@@ -49,6 +50,7 @@ export const determineSchemaLocation = (
       const path = `${basePath}/${name}`;
       store.determineSchemaLocation(path, {
         kind: "common",
+        name: name,
         schema: schema,
       });
     }
