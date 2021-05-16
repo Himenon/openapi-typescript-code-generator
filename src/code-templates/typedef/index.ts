@@ -1,39 +1,27 @@
 import ts from "typescript";
 
 import { TsGenerator } from "../../api";
-import type { CodeGenerator } from "../../types";
+import type { AbstractStruct, CodeGenerator } from "../../types";
 import { JsonSchemaToTypeDefinition } from "../../utils";
+import * as Components from "./components";
 
 export interface Option {}
 
 export const generator: CodeGenerator.AdvancedGenerateFunction<Option> = (payload, option?: Option): CodeGenerator.IntermediateCode[] => {
   const { accessor, entryPoint } = payload;
-  const paths = accessor.operator.getNodePaths("OpenApiSchema");
-  const statements: ts.TypeNode[] = [];
-  paths.map(currentPoint => {
+  const schemaPaths = accessor.operator.getNodePaths("OpenApiSchema");
+
+  // TODO 短くする
+  const schemaLocations: AbstractStruct.SchemaLocation[] = [];
+  schemaPaths.map(currentPoint => {
     const item = accessor.getChildByPaths(currentPoint, "OpenApiSchema");
     if (!item) {
       return;
     }
-    const locatedData = item.value;
-    if (locatedData.kind === "common") {
-      locatedData.kind
-      const typeNode = JsonSchemaToTypeDefinition.convert({
-        entryPoint: entryPoint,
-        currentPoint: currentPoint,
-        schema: locatedData.schema,
-      });
-      statements.push(typeNode);
-    } else {
-      locatedData.resolvedPath;
+    if (item.value.kind === "common") {
+      schemaLocations.push(item.value);
     }
   });
 
-  return [
-    TsGenerator.factory.Namespace.create({
-      export: true,
-      name: "Schemas",
-      statements,
-    }),
-  ];
+  return [Components.Schemas.Convert.generateNamespace(schemaLocations)];
 };

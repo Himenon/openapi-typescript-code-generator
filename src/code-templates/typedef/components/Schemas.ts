@@ -1,5 +1,8 @@
-import { OpenApi } from "../../../types";
-import { JsonSchemaToTypeDefinition } from "../../../utils";
+import type ts from "typescript";
+
+import { TsGenerator } from "../../../api";
+import { AbstractStruct, OpenApi } from "../../../types";
+import * as Schema from "./Schema";
 
 export interface Payload {
   entryPoint: string;
@@ -8,7 +11,18 @@ export interface Payload {
 }
 
 export class Convert {
-  public static generateNameSpace() {
-
+  public static generateNamespace(schemaLocations: AbstractStruct.SchemaLocation[]): ts.Statement {
+    const statements: ts.Statement[] = schemaLocations.map(schemaLocation => {
+      if (schemaLocation.kind === "common") {
+        return Schema.Convert.generateStatement(schemaLocation.name, schemaLocation.schema);
+      } else {
+        return Schema.Convert.generateStatement("TODO", schemaLocation.schema);
+      }
+    });
+    return TsGenerator.factory.Namespace.create({
+      export: true,
+      name: "Schemas",
+      statements: statements,
+    });
   }
 }

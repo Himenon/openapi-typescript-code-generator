@@ -6,8 +6,6 @@ import type { OpenApi } from "../types";
 const factory = TsGenerator.Factory.create();
 
 export interface Payload {
-  entryPoint: string;
-  currentPoint: string;
   schema: OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition;
 }
 
