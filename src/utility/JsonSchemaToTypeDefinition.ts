@@ -8,7 +8,7 @@ const factory = TsGenerator.factory;
 
 export class Convert {
   public static generateMultiTypeNode(schemas: OpenApi.JSONSchema[], multiType: "oneOf" | "allOf" | "anyOf"): ts.TypeNode {
-    const typeNodes = schemas.map(schema => this.generateTypeNode(schema));
+    const typeNodes = schemas.map(schema => this.getTypeNode(schema));
     if (multiType === "oneOf") {
       return factory.UnionTypeNode.create({
         typeNodes,
@@ -23,7 +23,7 @@ export class Convert {
     return factory.TypeNode.create({ type: "never" });
   }
 
-  public static generateTypeNode(schema: OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition): ts.TypeNode {
+  public static getTypeNode(schema: OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition): ts.TypeNode {
     if (typeof schema === "boolean") {
       // https://swagger.io/docs/specification/data-models/dictionaries/#free-form
       return factory.TypeNode.create({
@@ -31,7 +31,6 @@ export class Convert {
         value: [],
       });
     }
-
     if (OpenApiType.Guard.isReference(schema)) {
       return factory.TypeNode.create({
         type: "any",
@@ -53,16 +52,18 @@ export class Convert {
         value: [],
       });
     }
-    return this.generateTypeNode2(schema);
+    return this.convertTypeNodeBySchemaType(schema);
   }
 
-  public static generateTypeNode2(schema: OpenApi.Schema | OpenApi.JSONSchema) {
+  /**
+   * schema.typeを利用してTypeNodeへ変換する
+   */
+  private static convertTypeNodeBySchemaType(schema: OpenApi.Schema | OpenApi.JSONSchema) {
     switch (schema.type) {
       case "boolean": {
         const typeNode = factory.TypeNode.create({
           type: "boolean",
         });
-
         return this.nullable(typeNode, !!schema.nullable);
       }
       case "null": {
@@ -108,7 +109,7 @@ export class Convert {
         const typeNode = factory.TypeNode.create({
           type: schema.type,
           value: schema.items
-            ? this.generateTypeNode(schema.items)
+            ? this.getTypeNode(schema.items)
             : factory.TypeNode.create({
                 type: "undefined",
               }),
@@ -127,7 +128,7 @@ export class Convert {
         const value: ts.PropertySignature[] = Object.entries(schema.properties || {}).map(([name, jsonSchema]) => {
           return factory.PropertySignature.create({
             name: name + "TODO",
-            type: this.generateTypeNode(jsonSchema),
+            type: this.getTypeNode(jsonSchema),
             optional: !required.includes(name),
             comment: typeof jsonSchema !== "boolean" ? jsonSchema.description : undefined,
           });
@@ -135,7 +136,7 @@ export class Convert {
         if (schema.additionalProperties) {
           const additionalProperties = factory.IndexSignatureDeclaration.create({
             name: "key",
-            type: this.generateTypeNode(schema.additionalProperties),
+            type: this.getTypeNode(schema.additionalProperties),
           });
           return factory.TypeNode.create({
             type: schema.type,
@@ -156,7 +157,7 @@ export class Convert {
     });
   }
 
-  public static nullable = (typeNode: ts.TypeNode, nullable: boolean): ts.TypeNode => {
+  private static nullable = (typeNode: ts.TypeNode, nullable: boolean): ts.TypeNode => {
     if (nullable) {
       return factory.UnionTypeNode.create({
         typeNodes: [
