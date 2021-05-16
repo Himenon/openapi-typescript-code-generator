@@ -15,9 +15,7 @@ export class Convert {
     return TsGenerator.factory.TypeAliasDeclaration.create({
       export: true,
       name: name,
-      type: JsonSchemaToTypeDefinition.convert({
-        schema,
-      }),
+      type: JsonSchemaToTypeDefinition.Convert.generateTypeNode(schema),
     });
   }
 }

@@ -1,5 +1,6 @@
 export * from "./ConvertContext";
 export * from "./NamedContext";
+export * as OpenApiType from "./OpenApiType";
 
 export * as JsonSchemaToTypeDefinition from "./JsonSchemaToTypeDefinition";
 
