@@ -6,8 +6,8 @@ import { OpenApiType } from "../utils";
 
 const factory = TsGenerator.factory;
 
-export class Convert {
-  public static generateMultiTypeNode(schemas: OpenApi.JSONSchema[], multiType: "oneOf" | "allOf" | "anyOf"): ts.TypeNode {
+export class Converter {
+  public generateMultiTypeNode(schemas: OpenApi.JSONSchema[], multiType: "oneOf" | "allOf" | "anyOf"): ts.TypeNode {
     const typeNodes = schemas.map(schema => this.getTypeNode(schema));
     if (multiType === "oneOf") {
       return factory.UnionTypeNode.create({
@@ -23,7 +23,7 @@ export class Convert {
     return factory.TypeNode.create({ type: "never" });
   }
 
-  public static getTypeNode(schema: OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition): ts.TypeNode {
+  public getTypeNode(schema: OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition): ts.TypeNode {
     if (typeof schema === "boolean") {
       // https://swagger.io/docs/specification/data-models/dictionaries/#free-form
       return factory.TypeNode.create({
@@ -55,10 +55,14 @@ export class Convert {
     return this.convertTypeNodeBySchemaType(schema);
   }
 
+  // private convertTypeNodeByReference(schema: OpenApi.Reference): ts.TypeNode {
+  //   const reference = Reference.generate<OpenApi.Schema | OpenApi.JSONSchemaDefinition>(entryPoint, currentPoint, schema);
+  // }
+
   /**
    * schema.typeを利用してTypeNodeへ変換する
    */
-  private static convertTypeNodeBySchemaType(schema: OpenApi.Schema | OpenApi.JSONSchema) {
+  private convertTypeNodeBySchemaType(schema: OpenApi.Schema | OpenApi.JSONSchema): ts.TypeNode {
     switch (schema.type) {
       case "boolean": {
         const typeNode = factory.TypeNode.create({
@@ -157,7 +161,7 @@ export class Convert {
     });
   }
 
-  private static nullable = (typeNode: ts.TypeNode, nullable: boolean): ts.TypeNode => {
+  private nullable = (typeNode: ts.TypeNode, nullable: boolean): ts.TypeNode => {
     if (nullable) {
       return factory.UnionTypeNode.create({
         typeNodes: [

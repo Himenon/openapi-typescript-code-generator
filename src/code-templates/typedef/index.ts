@@ -1,9 +1,8 @@
 import ts from "typescript";
 
-import { TsGenerator } from "../../api";
 import type { AbstractStruct, CodeGenerator } from "../../types";
-import { JsonSchemaToTypeDefinition } from "../../utils";
 import * as Components from "./components";
+import { ConvertToolkit } from "./components/ConvertToolKit";
 
 export interface Option {}
 
@@ -22,6 +21,9 @@ export const generator: CodeGenerator.AdvancedGenerateFunction<Option> = (payloa
       schemaLocations.push(item.value);
     }
   });
+  const converter = {
+    schemas: new Components.Schemas.Convert(ConvertToolkit),
+  };
 
-  return [Components.Schemas.Convert.generateNamespace(schemaLocations)];
+  return [converter.schemas.generateNamespace(schemaLocations)];
 };

@@ -2,6 +2,7 @@ import type ts from "typescript";
 
 import { TsGenerator } from "../../../api";
 import { AbstractStruct, OpenApi } from "../../../types";
+import type { ConvertToolkit } from "./ConvertToolKit";
 import * as Schema from "./Schema";
 
 export interface Payload {
@@ -11,12 +12,14 @@ export interface Payload {
 }
 
 export class Convert {
-  public static generateNamespace(schemaLocations: AbstractStruct.SchemaLocation[]): ts.Statement {
+  private readonly schema = new Schema.Convert(this.toolkit);
+  constructor(private readonly toolkit: ConvertToolkit) {}
+  public generateNamespace(schemaLocations: AbstractStruct.SchemaLocation[]): ts.Statement {
     const statements: ts.Statement[] = schemaLocations.map(schemaLocation => {
       if (schemaLocation.kind === "common") {
-        return Schema.Convert.generateStatement(schemaLocation.name, schemaLocation.schema);
+        return this.schema.generateStatement(schemaLocation.name, schemaLocation.schema);
       } else {
-        return Schema.Convert.generateStatement("TODO", schemaLocation.schema);
+        return this.schema.generateStatement("TODO", schemaLocation.schema);
       }
     });
     return TsGenerator.factory.Namespace.create({

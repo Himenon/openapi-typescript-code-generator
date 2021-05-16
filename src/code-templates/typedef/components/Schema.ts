@@ -2,7 +2,7 @@ import ts from "typescript";
 
 import { TsGenerator } from "../../../api";
 import { OpenApi } from "../../../types";
-import { JsonSchemaToTypeDefinition } from "../../../utils";
+import type { ConvertToolkit } from "./ConvertToolKit";
 
 export interface Payload {
   entryPoint: string;
@@ -11,11 +11,12 @@ export interface Payload {
 }
 
 export class Convert {
-  public static generateStatement(name: string, schema: OpenApi.Schema | OpenApi.Reference | boolean): ts.Statement {
+  constructor(private readonly toolkit: ConvertToolkit) {}
+  public generateStatement(name: string, schema: OpenApi.Schema | OpenApi.Reference | boolean): ts.Statement {
     return TsGenerator.factory.TypeAliasDeclaration.create({
       export: true,
       name: name,
-      type: JsonSchemaToTypeDefinition.Convert.getTypeNode(schema),
+      type: this.toolkit.getTypeNode(schema),
     });
   }
 }
