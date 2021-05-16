@@ -2,21 +2,15 @@ import ts from "typescript";
 
 import { TsGenerator } from "../../../api";
 import { OpenApi } from "../../../types";
-import type { ConvertToolkit } from "./ConvertToolKit";
-
-export interface Payload {
-  entryPoint: string;
-  currentPoint: string;
-  schemas: Record<string, OpenApi.Schema | OpenApi.Reference>;
-}
+import type { InitializeParams } from "./types";
 
 export class Convert {
-  constructor(private readonly toolkit: ConvertToolkit) {}
+  constructor(private readonly params: InitializeParams) {}
   public generateStatement(name: string, schema: OpenApi.Schema | OpenApi.Reference | boolean): ts.Statement {
     return TsGenerator.factory.TypeAliasDeclaration.create({
       export: true,
       name: name,
-      type: this.toolkit.getTypeNode(schema),
+      type: this.params.toolkit.generateTypeNode(schema),
     });
   }
 }

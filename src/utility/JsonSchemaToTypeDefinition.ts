@@ -8,7 +8,7 @@ const factory = TsGenerator.factory;
 
 export class Converter {
   public generateMultiTypeNode(schemas: OpenApi.JSONSchema[], multiType: "oneOf" | "allOf" | "anyOf"): ts.TypeNode {
-    const typeNodes = schemas.map(schema => this.getTypeNode(schema));
+    const typeNodes = schemas.map(schema => this.generateTypeNode(schema));
     if (multiType === "oneOf") {
       return factory.UnionTypeNode.create({
         typeNodes,
@@ -23,7 +23,7 @@ export class Converter {
     return factory.TypeNode.create({ type: "never" });
   }
 
-  public getTypeNode(schema: OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition): ts.TypeNode {
+  public generateTypeNode(schema: OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition): ts.TypeNode {
     if (typeof schema === "boolean") {
       // https://swagger.io/docs/specification/data-models/dictionaries/#free-form
       return factory.TypeNode.create({
@@ -113,7 +113,7 @@ export class Converter {
         const typeNode = factory.TypeNode.create({
           type: schema.type,
           value: schema.items
-            ? this.getTypeNode(schema.items)
+            ? this.generateTypeNode(schema.items)
             : factory.TypeNode.create({
                 type: "undefined",
               }),
@@ -132,7 +132,7 @@ export class Converter {
         const value: ts.PropertySignature[] = Object.entries(schema.properties || {}).map(([name, jsonSchema]) => {
           return factory.PropertySignature.create({
             name: name + "TODO",
-            type: this.getTypeNode(jsonSchema),
+            type: this.generateTypeNode(jsonSchema),
             optional: !required.includes(name),
             comment: typeof jsonSchema !== "boolean" ? jsonSchema.description : undefined,
           });
@@ -140,7 +140,7 @@ export class Converter {
         if (schema.additionalProperties) {
           const additionalProperties = factory.IndexSignatureDeclaration.create({
             name: "key",
-            type: this.getTypeNode(schema.additionalProperties),
+            type: this.generateTypeNode(schema.additionalProperties),
           });
           return factory.TypeNode.create({
             type: schema.type,

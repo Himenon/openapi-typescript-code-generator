@@ -2,8 +2,8 @@ import type ts from "typescript";
 
 import { TsGenerator } from "../../../api";
 import { AbstractStruct, OpenApi } from "../../../types";
-import type { ConvertToolkit } from "./ConvertToolKit";
 import * as Schema from "./Schema";
+import type { InitializeParams } from "./types";
 
 export interface Payload {
   entryPoint: string;
@@ -12,8 +12,8 @@ export interface Payload {
 }
 
 export class Convert {
-  private readonly schema = new Schema.Convert(this.toolkit);
-  constructor(private readonly toolkit: ConvertToolkit) {}
+  private readonly schema = new Schema.Convert(this.params);
+  constructor(private readonly params: InitializeParams) {}
   public generateNamespace(schemaLocations: AbstractStruct.SchemaLocation[]): ts.Statement {
     const statements: ts.Statement[] = schemaLocations.map(schemaLocation => {
       if (schemaLocation.kind === "common") {

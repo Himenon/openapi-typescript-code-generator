@@ -1,5 +1,14 @@
+import ts from "typescript";
+
+import type { OpenApi } from "../../../types";
 import { JsonSchemaToTypeDefinition } from "../../../utils";
 
-export const ConvertToolkit = new JsonSchemaToTypeDefinition.Converter();
+export interface ConvertToolkit {
+  generateTypeNode: (schema: OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition) => ts.TypeNode;
+}
 
-export type ConvertToolkit = JsonSchemaToTypeDefinition.Converter;
+const converter = new JsonSchemaToTypeDefinition.Converter();
+
+export const ConvertToolkit: ConvertToolkit = {
+  generateTypeNode: converter.generateTypeNode.bind(converter),
+};
