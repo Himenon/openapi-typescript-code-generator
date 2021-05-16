@@ -12,6 +12,8 @@ export interface Payload {
 export class Convert {
   constructor(private readonly params: InitializeParams) {}
   public generateTypeNode(schema: OpenApi.Reference): ts.TypeNode {
+
+    this.params.accessor.getChildByPaths("", "OpenApiSchema");
     return this.params.toolkit.generateTypeNode(schema);
   }
 }

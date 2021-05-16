@@ -22,11 +22,16 @@ export class Parser {
   private store: Walker.Store;
   private store2: Walker2.Store;
   private factory: TypeScriptCodeGenerator.Factory.Type;
+  private schemaLocator: Schemas2.Locator;
   constructor(private entryPoint: string, private rootSchema: OpenApi.Document, noReferenceOpenApiSchema: OpenApi.Document) {
     this.currentPoint = entryPoint;
     this.factory = TypeScriptCodeGenerator.Factory.create();
     this.store = new Walker.Store(this.factory, noReferenceOpenApiSchema);
     this.store2 = new Walker2.Store(noReferenceOpenApiSchema);
+    this.schemaLocator = new Schemas2.Locator({
+      entryPoint,
+      store: this.store2,
+    });
     this.initialize();
   }
 
@@ -45,16 +50,7 @@ export class Parser {
           toTypeNodeContext,
           this.converterContext,
         );
-        Schemas2.determineSchemaLocation(
-          {
-            entryPoint: this.entryPoint,
-            currentPoint: this.currentPoint,
-            context: structContext,
-            converterContext: this.converterContext,
-          },
-          this.store2,
-          rootSchema.components.schemas,
-        );
+        this.schemaLocator.determine(rootSchema.components.schemas);
       }
       if (rootSchema.components.headers) {
         Headers.generateNamespace(

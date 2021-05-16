@@ -2,57 +2,72 @@ import type { OpenApi } from "../../../types";
 import * as Guard from "../Guard";
 import * as InferredType from "../InferredType";
 import * as Name from "../Name";
-import type { Payload } from "../types/tmp";
-import type * as Walker from "../Walker2";
 import * as Reference from "./Reference";
+import type { InitializeParams } from "./types";
 
-export const determineSchemaLocation = (
-  payload: Payload,
-  store: Walker.Store,
-  schemas: Record<string, OpenApi.Schema | OpenApi.Reference>,
-): void => {
-  const basePath = "components/schemas";
-  store.createDirectory("schemas", {
-    kind: "directory",
-    name: Name.Components.Schemas,
-  });
-  Object.entries(schemas).forEach(([name, targetSchema]) => {
-    if (Guard.isReference(targetSchema)) {
-      const schema = targetSchema;
-      const reference = Reference.generate<OpenApi.Schema>(payload.entryPoint, payload.currentPoint, schema);
-      if (reference.type === "local") {
-        store.determineSchemaLocation(`${basePath}/${name}`, {
-          kind: "reference",
-          referenceType: "local",
-          resolvedPath: `${basePath}/${name}`,
-          schema: schema,
-        });
-        return;
+export class Locator {
+  private basePath = "components/schemas";
+  public reference: Reference.Locator = new Reference.Locator(this.params);
+  constructor(private readonly params: InitializeParams) {
+    this.params.store.createDirectory("schemas", {
+      kind: "directory",
+      name: Name.Components.Schemas,
+    });
+  }
+
+  public determine(schemas: Record<string, OpenApi.Schema | OpenApi.Reference>) {
+    Object.entries(schemas).forEach(([name, schema]) => {
+      if (Guard.isReference(schema)) {
+        this.determineByReference("", name, schema);
+      } else {
+        this.determineByCommon("", name, schema);
       }
-      store.determineSchemaLocation(reference.path, {
-        kind: "common",
-        name: name,
-        schema: schema,
-      });
-      if (store.isPossession(`${basePath}/${name}`)) {
-        return;
-      }
-      store.determineSchemaLocation(`${basePath}/${name}`, {
-        kind: "reference",
-        referenceType: "remote",
-        schema: reference.data,
-        resolvedPath: `${basePath}/${name}`,
-      });
-      return;
-    }
-    const schema = InferredType.getInferredType(targetSchema);
+    });
+  }
+
+  private determineByCommon(currentPoint: string, name: string, inputSchema: OpenApi.Schema) {
+    const schema = InferredType.getInferredType(inputSchema);
     if (schema) {
-      const path = `${basePath}/${name}`;
-      store.determineSchemaLocation(path, {
+      const path = `${this.basePath}/${name}`;
+      this.params.store.determineSchemaLocation(path, {
         kind: "common",
         name: name,
         schema: schema,
       });
     }
-  });
-};
+  }
+
+  private determineByReference(currentPoint: string, name: string, schema: OpenApi.Schema) {
+    // const reference = this.reference.determine<OpenApi.Schema>(this.params.entryPoint, currentPoint, schema);
+    // if (reference.type === "local") {
+    //   this.params.store.determineSchemaLocation(`${this.basePath}/${name}`, {
+    //     kind: "reference",
+    //     referenceType: "local",
+    //     resolvedPath: `${this.basePath}/${name}`,
+    //     schema: schema,
+    //   });
+    //   return;
+    // } else if (reference.type === "remote") {
+    //   this.params.store.determineSchemaLocation(reference.path, {
+    //     kind: "common",
+    //     name: name,
+    //     schema: schema,
+    //   });
+    //   this.params.store.determineSchemaLocation(reference.path, {
+    //     kind: "common",
+    //     name: name,
+    //     schema: schema,
+    //   });
+    //   if (this.params.store.isPossession(`${this.basePath}/${name}`)) {
+    //     return;
+    //   }
+    //   this.params.store.determineSchemaLocation(`${this.basePath}/${name}`, {
+    //     kind: "reference",
+    //     referenceType: "remote",
+    //     schema: reference.data,
+    //     resolvedPath: `${this.basePath}/${name}`,
+    //   });
+    //   return;
+    // }
+  }
+}
