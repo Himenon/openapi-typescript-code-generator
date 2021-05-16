@@ -38,7 +38,7 @@ export class Locator {
   }
 
   private determineByReference(currentPoint: string, name: string, schema: OpenApi.Schema) {
-    // const reference = this.reference.determine<OpenApi.Schema>(this.params.entryPoint, currentPoint, schema);
+    const reference = this.reference.search<OpenApi.Schema>(this.params.entryPoint, currentPoint, schema);
     // if (reference.type === "local") {
     //   this.params.store.determineSchemaLocation(`${this.basePath}/${name}`, {
     //     kind: "reference",
