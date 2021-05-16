@@ -44,7 +44,7 @@ export class CodeGenerator {
       generatorTemplates?.forEach(generatorTemplate => {
         if (generatorTemplate.kind === "advanced") {
           const extraStatements = Api.TsGenerator.Utils.convertIntermediateCodes(
-            generatorTemplate.generator(this.parser.accessor, generatorTemplate.option),
+            generatorTemplate.generator({ accessor: this.parser.accessor, entryPoint: this.entryPoint }, generatorTemplate.option),
           );
           statements.push(...extraStatements);
         } else {
@@ -73,7 +73,9 @@ export class CodeGenerator {
       return generatorTemplates
         .map(generatorTemplate => {
           if (generatorTemplate.kind === "advanced") {
-            return Api.TsGenerator.Utils.convertIntermediateCodes(generatorTemplate?.generator(this.parser.accessor, generatorTemplate.option));
+            return Api.TsGenerator.Utils.convertIntermediateCodes(
+              generatorTemplate?.generator({ accessor: this.parser.accessor, entryPoint: this.entryPoint }, generatorTemplate.option),
+            );
           }
           return Api.TsGenerator.Utils.convertIntermediateCodes(generatorTemplate?.generator(payload, generatorTemplate.option));
         })

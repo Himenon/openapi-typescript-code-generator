@@ -1,6 +1,8 @@
 export * from "./ConvertContext";
 export * from "./NamedContext";
 
+export * as JsonSchemaToTypeDefinition from "./JsonSchemaToTypeDefinition";
+
 export const parameterName = (operationId: string): string => `Parameter$${operationId}`;
 export const requestBodyName = (operationId: string): string => `RequestBody$${operationId}`;
 export const argumentParamsTypeDeclaration = (operationId: string): string => `Params$${operationId}`;

@@ -59,7 +59,12 @@ export interface Params {
  */
 export type IntermediateCode = string | ts.Statement;
 
-export type AdvancedGenerateFunction<Option = {}> = (accessor: ParsedSchema.Accessor, option?: Option) => IntermediateCode[];
+export interface GeneratorPayload {
+  accessor: ParsedSchema.Accessor;
+  entryPoint: string;
+}
+
+export type AdvancedGenerateFunction<Option = {}> = (payload: GeneratorPayload, option?: Option) => IntermediateCode[];
 
 export type GenerateFunction<Option = {}> = (payload: Params[], option?: Option) => IntermediateCode[];
 

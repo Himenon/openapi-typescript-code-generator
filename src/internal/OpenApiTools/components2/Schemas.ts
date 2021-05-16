@@ -1,5 +1,4 @@
 import type { OpenApi } from "../../../types";
-import { UnSupportError } from "../../Exception";
 import * as Guard from "../Guard";
 import * as InferredType from "../InferredType";
 import * as Name from "../Name";
@@ -32,7 +31,7 @@ export const determineSchemaLocation = (
       }
       store.determineSchemaLocation(reference.path, {
         kind: "common",
-        schema,
+        schema: schema,
       });
       if (store.isPossession(`${basePath}/${name}`)) {
         return;
