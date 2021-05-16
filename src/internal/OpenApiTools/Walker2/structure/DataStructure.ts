@@ -1,14 +1,14 @@
 import type { Operator } from "@himenon/path-oriented-data-structure";
 
-import * as AbstractDataStructure from "./AbstractDataStructure";
+import * as OpenApiSchema from "./OpenApiSchema";
 import * as Directory from "./Directory";
 
-export { AbstractDataStructure, Directory };
+export { OpenApiSchema as AbstractDataStructure, Directory };
 
-export type Kind = AbstractDataStructure.Kind | Directory.Kind;
+export type Kind = OpenApiSchema.Kind | Directory.Kind;
 
-export type GetChild<T extends Kind> = T extends AbstractDataStructure.Kind
-  ? AbstractDataStructure.Item
+export type GetChild<T extends Kind> = T extends OpenApiSchema.Kind
+  ? OpenApiSchema.Item
   : T extends Directory.Kind
   ? Directory.Item
   : never;

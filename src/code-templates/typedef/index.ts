@@ -6,5 +6,6 @@ export const generator: CodeGenerator.AdvancedGenerateFunction<Option> = (
   accessor: ParsedSchema.Accessor,
   option?: Option,
 ): CodeGenerator.IntermediateCode[] => {
-  return [];
+  const paths = accessor.operator.getNodePaths("OpenApiSchema");
+  return paths;
 };

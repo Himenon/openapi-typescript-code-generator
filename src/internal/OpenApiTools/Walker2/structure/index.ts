@@ -1,13 +1,13 @@
 import { Operator } from "@himenon/path-oriented-data-structure";
 
-import * as AbstractDataStructure from "./AbstractDataStructure";
+import * as OpenApiSchema from "./OpenApiSchema";
 import * as DataStructure from "./DataStructure";
 import * as Directory from "./Directory";
 
-export { DataStructure, AbstractDataStructure, Directory };
+export { DataStructure, OpenApiSchema, Directory };
 
-export interface AbstractDataStructureNodeProperty extends AbstractDataStructure.Property {
-  kind: AbstractDataStructure.Kind;
+export interface AbstractDataStructureNodeProperty extends OpenApiSchema.Property {
+  kind: OpenApiSchema.Kind;
 }
 
 export interface DirectoryTreeProperty extends Directory.Property {
@@ -16,11 +16,11 @@ export interface DirectoryTreeProperty extends Directory.Property {
 
 export type ComponentProperty = AbstractDataStructureNodeProperty | DirectoryTreeProperty;
 
-export type Instance = AbstractDataStructure.Item | Directory.Item;
+export type Instance = OpenApiSchema.Item | Directory.Item;
 
 export const createInstance = (componentProperty: ComponentProperty): Instance => {
-  if (componentProperty.kind === "abstract-data") {
-    return new AbstractDataStructure.Item(componentProperty);
+  if (componentProperty.kind === "OpenApiSchema") {
+    return new OpenApiSchema.Item(componentProperty);
   }
   if (componentProperty.kind === "directory") {
     return new Directory.Item(componentProperty);

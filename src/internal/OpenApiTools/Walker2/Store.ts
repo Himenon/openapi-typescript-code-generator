@@ -20,19 +20,19 @@ class Store {
   }
   public determineSchemaLocation(path: string, abstractDataStruct: AbstractStruct.SchemaLocation): void {
     const targetPath = Path.posix.relative("components", path);
-    this.operator.set(targetPath, new Structure.AbstractDataStructure.Item({ name: path, value: abstractDataStruct }));
+    this.operator.set(targetPath, new Structure.OpenApiSchema.Item({ name: path, value: abstractDataStruct }));
   }
   public createDirectory(componentName: Def.ComponentName, componentProperty: Structure.DirectoryTreeProperty): void {
     this.operator.set(`${componentName}`, Structure.createInstance(componentProperty));
   }
   public isPossession(path: string): boolean {
-    return !!this.operator.getChildByPaths(path, Structure.AbstractDataStructure.Kind);
+    return !!this.operator.getChildByPaths(path, Structure.OpenApiSchema.Kind);
   }
   public debugAbstractDataStruct() {
     const data = this.operator.getHierarchy();
-    console.log("output");
+    console.log("output debug/hierarchy.json");
     fs.writeFileSync("debug/hierarchy.json", JSON.stringify(data, null, 2), { encoding: "utf-8" });
-    fs.writeFileSync("debug/paths.json", JSON.stringify(this.operator.getNodePaths("typedef"), null, 2), { encoding: "utf-8" });
+    fs.writeFileSync("debug/paths.json", JSON.stringify(this.operator.getNodePaths("OpenApiSchema"), null, 2), { encoding: "utf-8" });
   }
   public get accessor(): ParsedSchema.Accessor {
     return {
