@@ -10,10 +10,16 @@ import type * as Types from "../lib/types";
 const prettierConfig = require("../.prettierrc.json");
 
 const codeFormat = (code: string): string => {
-  return prettier.format(code, {
-    ...prettierConfig,
-    parser: "babel",
-  });
+  try {
+    return prettier.format(code, {
+      ...prettierConfig,
+      parser: "babel",
+    });
+  } catch (error) {
+    console.log("Failed code format");
+    return code;
+  }
+   
 };
 
 const writeText = (filename: string, text: string): void => {
