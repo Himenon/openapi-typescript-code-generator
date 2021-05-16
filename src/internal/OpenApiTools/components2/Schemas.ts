@@ -1,5 +1,4 @@
 import type { OpenApi } from "../../../types";
-import type { AbstractStruct } from "../../../types";
 import { UnSupportError } from "../../Exception";
 import * as Guard from "../Guard";
 import * as InferredType from "../InferredType";
@@ -8,7 +7,11 @@ import type { Payload } from "../types/tmp";
 import type * as Walker from "../Walker2";
 import * as Reference from "./Reference";
 
-export const createTypeDefSet = (payload: Payload, store: Walker.Store, schemas: Record<string, OpenApi.Schema | OpenApi.Reference>): void => {
+export const determineSchemaLocation = (
+  payload: Payload,
+  store: Walker.Store,
+  schemas: Record<string, OpenApi.Schema | OpenApi.Reference>,
+): void => {
   const basePath = "components/schemas";
   store.createDirectory("schemas", {
     kind: "directory",
@@ -43,19 +46,12 @@ export const createTypeDefSet = (payload: Payload, store: Walker.Store, schemas:
       return;
     }
     const schema = InferredType.getInferredType(targetSchema);
-    if (!schema) {
-      const typeNode = createNullableTypeNode(targetSchema);
-      if (!typeNode) {
-        throw new UnSupportError("schema.type not specified \n" + JSON.stringify(targetSchema));
-      }
-      return typeNode;
+    if (schema) {
+      const path = `${basePath}/${name}`;
+      store.determineSchemaLocation(path, {
+        kind: "common",
+        schema: schema,
+      });
     }
-    const path = `${basePath}/${name}`;
-
-    store.determineSchemaLocation(path, {
-      kind: "common",
-      schema,
-    });
-    throw new UnSupportError("schema.type = Array[] not supported. " + JSON.stringify(schema));
   });
 };

@@ -45,7 +45,7 @@ export class Parser {
           toTypeNodeContext,
           this.converterContext,
         );
-        Schemas2.createTypeDefSet(
+        Schemas2.determineSchemaLocation(
           {
             entryPoint: this.entryPoint,
             currentPoint: this.currentPoint,

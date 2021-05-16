@@ -1,5 +1,3 @@
-export * as Guard from "./Guard";
-
 export * from "./ConvertContext";
 export * from "./NamedContext";
 

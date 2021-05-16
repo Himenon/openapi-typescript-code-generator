@@ -9,7 +9,7 @@ export interface ReferenceSchemaLocation {
 
 export interface CommonSchemaLocation {
   kind: "common";
-  schema: OpenApi.Schema | OpenApi.JSONSchema;
+  schema: OpenApi.Schema | OpenApi.JSONSchema | boolean;
 }
 
 export type SchemaLocation = CommonSchemaLocation | ReferenceSchemaLocation;

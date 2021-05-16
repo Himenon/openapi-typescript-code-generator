@@ -39,31 +39,6 @@ export class ConvertContext {
         names = names.slice(0, names.length - 1);
       }
       const isFinalPath = index === pathArray.length - 1;
-      if (isFinalPath) {
-        const statement = this.accessor.getStatement(current, "interface");
-        const statement2 = this.accessor.getStatement(current, "typeAlias");
-        const statement3 = this.accessor.getStatement(current, "namespace");
-        if (statement) {
-          names.push(statement.name);
-          return current;
-        } else if (statement2) {
-          names.push(statement2.name);
-          return current;
-        } else if (statement3) {
-          names.push(statement3.name);
-          return current;
-        } else {
-          unresolvedPaths.push(lastPath);
-        }
-      } else {
-        const statement = this.accessor.getStatement(current, "namespace");
-        if (statement) {
-          unresolvedPaths = unresolvedPaths.slice(0, unresolvedPaths.length - 1);
-          names.push(statement.name);
-        } else {
-          unresolvedPaths.push(lastPath);
-        }
-      }
       return current;
     }, base);
     if (names.length === 0) {
