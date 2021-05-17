@@ -50,7 +50,7 @@ export class Parser {
           toTypeNodeContext,
           this.converterContext,
         );
-        this.schemaLocator.determine(rootSchema.components.schemas);
+        this.schemaLocator.determine(this.currentPoint, rootSchema.components.schemas);
       }
       if (rootSchema.components.headers) {
         Headers.generateNamespace(

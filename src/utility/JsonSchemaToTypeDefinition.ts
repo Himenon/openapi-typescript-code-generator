@@ -131,10 +131,11 @@ export class Converter {
         }
         const value: ts.PropertySignature[] = Object.entries(schema.properties || {}).map(([name, jsonSchema]) => {
           return factory.PropertySignature.create({
-            name: name + "TODO",
+            // TODO nameの正規化
+            name: name,
             type: this.generateTypeNode(jsonSchema),
             optional: !required.includes(name),
-            comment: typeof jsonSchema !== "boolean" ? jsonSchema.description : undefined,
+            comment: (typeof jsonSchema !== "boolean" ? jsonSchema.description : undefined),
           });
         });
         if (schema.additionalProperties) {

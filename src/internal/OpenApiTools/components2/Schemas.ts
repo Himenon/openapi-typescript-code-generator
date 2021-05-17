@@ -15,12 +15,12 @@ export class Locator {
     });
   }
 
-  public determine(schemas: Record<string, OpenApi.Schema | OpenApi.Reference>) {
+  public determine(currentPoint: string, schemas: Record<string, OpenApi.Schema | OpenApi.Reference>) {
     Object.entries(schemas).forEach(([name, schema]) => {
       if (Guard.isReference(schema)) {
-        this.determineByReference("", name, schema);
+        this.determineByReference(currentPoint, name, schema);
       } else {
-        this.determineByCommon("", name, schema);
+        this.determineByCommon(currentPoint, name, schema);
       }
     });
   }
@@ -37,37 +37,45 @@ export class Locator {
     }
   }
 
-  private determineByReference(currentPoint: string, name: string, schema: OpenApi.Schema) {
-    const reference = this.reference.search<OpenApi.Schema>(this.params.entryPoint, currentPoint, schema);
-    // if (reference.type === "local") {
-    //   this.params.store.determineSchemaLocation(`${this.basePath}/${name}`, {
-    //     kind: "reference",
-    //     referenceType: "local",
-    //     resolvedPath: `${this.basePath}/${name}`,
-    //     schema: schema,
-    //   });
-    //   return;
-    // } else if (reference.type === "remote") {
-    //   this.params.store.determineSchemaLocation(reference.path, {
-    //     kind: "common",
-    //     name: name,
-    //     schema: schema,
-    //   });
-    //   this.params.store.determineSchemaLocation(reference.path, {
-    //     kind: "common",
-    //     name: name,
-    //     schema: schema,
-    //   });
-    //   if (this.params.store.isPossession(`${this.basePath}/${name}`)) {
-    //     return;
-    //   }
-    //   this.params.store.determineSchemaLocation(`${this.basePath}/${name}`, {
-    //     kind: "reference",
-    //     referenceType: "remote",
-    //     schema: reference.data,
-    //     resolvedPath: `${this.basePath}/${name}`,
-    //   });
-    //   return;
-    // }
+  private determineByReference(currentPoint: string, name: string, schema: OpenApi.Reference) {
+    const reference = this.reference.search(currentPoint, schema);
+    console.log({
+      currentPoint,
+      schema,
+      reference,
+    })
+    if (reference.type === "local") {
+      this.params.store.determineSchemaLocation(`${this.basePath}/${name}`, {
+        kind: "reference",
+        referenceType: "local",
+        resolvedPath: `${this.basePath}/${name}`,
+        schema: schema,
+      });
+      return;
+    } else if (reference.type === "remote") {
+      this.params.store.determineSchemaLocation(reference.path, {
+        kind: "common",
+        name: name,
+        schema: schema,
+      });
+      this.params.store.determineSchemaLocation(reference.path, {
+        kind: "common",
+        name: name,
+        schema: schema,
+      });
+      if (this.params.store.isPossession(`${this.basePath}/${name}`)) {
+        return;
+      }
+      this.params.store.determineSchemaLocation(`${this.basePath}/${name}`, {
+        kind: "reference",
+        referenceType: "remote",
+        schema: {
+          type: "string",
+          description: "TODO Resolve Remote reference",
+        },
+        resolvedPath: `${this.basePath}/${name}`,
+      });
+      return;
+    }
   }
 }
