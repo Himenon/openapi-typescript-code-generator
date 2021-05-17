@@ -6,11 +6,6 @@ import * as yaml from "js-yaml";
 
 import { UnSupportError } from "../Exception";
 
-export interface Type {
-  existSync: (entrypoint: string) => boolean;
-  loadJsonOrYaml: (entryPoint: string) => any;
-}
-
 export class FileSystem {
   private static FRAGMENT = "#/";
   private static internalLoadJsonOrYaml(filename: string): any {
