@@ -19,7 +19,6 @@ const codeFormat = (code: string): string => {
     console.log("Failed code format");
     return code;
   }
-   
 };
 
 const writeText = (filename: string, text: string): void => {
@@ -114,8 +113,10 @@ const generateParameter = (inputFilename: string, outputFilename: string) => {
   writeText(outputFilename, JSON.stringify(codeGenerator.getCodeGeneratorParamsArray(), null, 2));
 };
 
-const generateAdvancedTestCode = (inputFilename: string, outputDir: string) => {
+const generateAdvancedTestCode = async (inputFilename: string, outputDir: string): Promise<void> => {
   const codeGenerator = new CodeGenerator(inputFilename);
+
+  await codeGenerator.init();
 
   const typeDefCode = codeGenerator.generateCode([
     {
@@ -126,9 +127,9 @@ const generateAdvancedTestCode = (inputFilename: string, outputDir: string) => {
   writeText(path.join(outputDir, "types.ts"), typeDefCode);
 };
 
-const main = () => {
+const main = async () => {
   // generateTypedefCodeOnly("test/api.test.domain/index.yml", "test/code/typedef-only/api.test.domain.ts", true);
-  generateAdvancedTestCode("test/api.test.domain/index.yml", "test/code/advanced/api.test.domain.ts");
+  await generateAdvancedTestCode("test/api.test.domain/index.yml", "test/code/advanced/api.test.domain.ts");
   // generateTypedefCodeOnly("test/infer.domain/index.yml", "test/code/typedef-only/infer.domain.ts", false);
 
   // generateTemplateCodeOnly("test/api.test.domain/index.yml", "test/code/template-only/api.test.domain.ts", true, { sync: false });
@@ -149,4 +150,7 @@ const main = () => {
   // generateParameter("test/infer.domain/index.yml", "test/code/parameter/infer.domain.json");
 };
 
-main();
+main().catch(error => {
+  console.error(error);
+  process.exit(1);
+});

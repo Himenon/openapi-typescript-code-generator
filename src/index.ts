@@ -10,11 +10,19 @@ export interface Option {
 export class CodeGenerator {
   private rootSchema: Types.OpenApi.Document;
   private resolvedReferenceDocument: Types.OpenApi.Document;
+  private referenceResolver: Api.Reference.Resolver;
   private parser: Api.OpenApiTools.Parser;
   constructor(private readonly entryPoint: string, option?: Option) {
     this.rootSchema = Api.FileSystem.loadJsonOrYaml(entryPoint);
     this.resolvedReferenceDocument = Api.ResolveReference.resolve(entryPoint, entryPoint, JSON.parse(JSON.stringify(this.rootSchema)));
     this.parser = this.createParser();
+    this.referenceResolver = new Api.Reference.Resolver(this.entryPoint, {
+      loadJsonOrYaml: Api.FileSystem.loadJsonOrYaml.bind(Api.FileSystem),
+    });
+  }
+
+  public async init(): Promise<void> {
+    await this.referenceResolver.init();
   }
 
   private createParser(): Api.OpenApiTools.Parser {

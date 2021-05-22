@@ -106,3 +106,15 @@ export const generateReferencePoint = (currentPoint: string, ref: string): strin
   const referencePoint = path.join(basedir, ref);
   return referencePoint;
 };
+
+
+
+export const normalizeLocalReferencePoint = (referencePoint: string): string => {
+  return path.relative("#", referencePoint);
+};
+
+export const normalizeRemoteReferencePoint = (entryPoint: string, referencePoint: string): string => {
+  return path.relative(path.dirname(entryPoint), referencePoint);
+};
+
+
