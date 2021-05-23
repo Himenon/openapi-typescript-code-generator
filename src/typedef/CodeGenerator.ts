@@ -2,6 +2,7 @@ import type ts from "typescript";
 
 import type * as OpenApi from "./OpenApi";
 import type * as ParsedSchema from "./ParsedSchema";
+import type { Resolver } from "../reference-resolver";
 
 export type PickedParameter = Pick<OpenApi.Parameter, "name" | "in" | "required" | "style" | "explode">;
 
@@ -61,6 +62,7 @@ export type IntermediateCode = string | ts.Statement;
 
 export interface GeneratorPayload {
   accessor: ParsedSchema.Accessor;
+  resolver: Resolver;
   entryPoint: string;
 }
 

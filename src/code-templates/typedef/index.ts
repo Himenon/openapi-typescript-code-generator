@@ -10,20 +10,23 @@ export const generator: CodeGenerator.AdvancedGenerateFunction<Option> = (payloa
   const schemaPaths = accessor.operator.getNodePaths("OpenApiSchema");
 
   // TODO 短くする
-  const schemaLocations: AbstractStruct.SchemaLocation[] = [];
+  const schemaLocations: { [currentPath: string]: AbstractStruct.SchemaLocation } = {};
   schemaPaths.map(currentPoint => {
     const item = accessor.getChildByPaths(currentPoint, "OpenApiSchema");
     if (!item) {
       return;
     }
     if (item.value.kind === "common") {
-      schemaLocations.push(item.value);
+      schemaLocations[currentPoint] = item.value;
+    } else if (item.value.kind === "reference") {
+      schemaLocations[currentPoint] = item.value;
     }
   });
   const initializeParams: InitializeParams = {
     accessor: payload.accessor,
     entryPoint: payload.entryPoint,
     toolkit: ConvertToolkit,
+    resolver: payload.resolver,
   };
   const converter = {
     schemas: new Components.Schemas.Convert(initializeParams),

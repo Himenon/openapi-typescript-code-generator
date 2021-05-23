@@ -14,12 +14,19 @@ export interface Payload {
 export class Convert {
   private readonly schema = new Schema.Convert(this.params);
   constructor(private readonly params: InitializeParams) {}
-  public generateNamespace(schemaLocations: AbstractStruct.SchemaLocation[]): ts.Statement {
-    const statements: ts.Statement[] = schemaLocations.map(schemaLocation => {
+  public generateNamespace(schemaLocations: { [currentPoint: string]: AbstractStruct.SchemaLocation }): ts.Statement {
+    const statements: ts.Statement[] = Object.entries(schemaLocations).map(([currentPoint, schemaLocation]) => {
       if (schemaLocation.kind === "common") {
         return this.schema.generateStatement(schemaLocation.name, schemaLocation.schema);
       } else {
-        return this.schema.generateStatement("TODO", schemaLocation.schema);
+        // if (schemaLocation.referenceType === "remote") {
+          const ref = schemaLocation.schema.$ref;
+          const resolvedSchema = this.params.resolver.getSchema(currentPoint, ref);
+          return this.schema.generateStatement("TODO", resolvedSchema);
+        // } else {
+
+        // }
+
       }
     });
     return TsGenerator.factory.Namespace.create({

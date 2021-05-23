@@ -1,10 +1,13 @@
 import type * as OpenApi from "./OpenApi";
 
-export interface ReferenceSchemaLocation {
-  kind: "reference";
-  referenceType: "local" | "remote";
-  resolvedPath: string;
-  schema: OpenApi.Schema | OpenApi.JSONSchema | OpenApi.Reference;
+export interface LocalReferenceSchemaLocation {
+  kind: "local-reference";
+  schema: OpenApi.Reference;
+}
+
+export interface RemoteReferenceSchema {
+  kind: "remote-reference";
+  schema: OpenApi.Reference;
 }
 /**
  * 
@@ -21,4 +24,4 @@ export interface NamedSchemaLocation {
   schema: OpenApi.Schema | OpenApi.JSONSchema | boolean;
 }
 
-export type SchemaLocation = NamedSchemaLocation | ReferenceSchemaLocation;
+export type SchemaLocation = NamedSchemaLocation | LocalReferenceSchemaLocation | RemoteReferenceSchema;

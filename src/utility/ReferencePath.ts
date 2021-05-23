@@ -107,14 +107,14 @@ export const generateReferencePoint = (currentPoint: string, ref: string): strin
   return referencePoint;
 };
 
-
-
 export const normalizeLocalReferencePoint = (referencePoint: string): string => {
   return path.relative("#", referencePoint);
 };
 
-export const normalizeRemoteReferencePoint = (entryPoint: string, referencePoint: string): string => {
-  return path.relative(path.dirname(entryPoint), referencePoint);
+export const normalizeRemoteReferencePoint = (currentPoint: string, referencePoint: string): string => {
+  console.log({
+    currentPoint,
+    referencePoint
+  }) 
+  return path.join(path.dirname(currentPoint), referencePoint);
 };
-
-

@@ -1,4 +1,5 @@
 import type { OpenApi } from "../../../types";
+import { ReferencePath } from "../../../utils";
 import * as Guard from "../Guard";
 import * as InferredType from "../InferredType";
 import * as Name from "../Name";
@@ -39,37 +40,19 @@ export class Locator {
 
   private determineByReference(currentPoint: string, name: string, schema: OpenApi.Reference) {
     const reference = this.reference.search(currentPoint, schema);
-
     if (reference.type === "local") {
       this.params.store.determineSchemaLocation(`${this.basePath}/${name}`, {
-        kind: "reference",
-        referenceType: "local",
-        resolvedPath: `${this.basePath}/${name}`,
+        kind: "local-reference",
         schema: schema,
       });
       return;
     } else if (reference.type === "remote") {
-      this.params.store.determineSchemaLocation(reference.path, {
-        kind: "common",
-        name: name,
-        schema: schema,
-      });
-      this.params.store.determineSchemaLocation(reference.path, {
-        kind: "common",
-        name: name,
-        schema: schema,
-      });
       if (this.params.store.isPossession(`${this.basePath}/${name}`)) {
         return;
       }
-      this.params.store.determineSchemaLocation(`${this.basePath}/${name}`, {
-        kind: "reference",
-        referenceType: "remote",
-        schema: {
-          type: "string",
-          description: "TODO Resolve Remote reference",
-        },
-        resolvedPath: `${this.basePath}/${name}`,
+      this.params.store.determineSchemaLocation(reference.path, {
+        kind: "remote-reference",
+        schema: schema,
       });
       return;
     }

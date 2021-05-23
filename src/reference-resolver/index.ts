@@ -27,7 +27,7 @@ export class Resolver {
       return;
     }
     await this.resolveValue(this.entryPoint, this.document, "OpenApiSchema");
-    fs.writeFileSync("debug/reference.json", JSON.stringify(this.resolvedReference, null, 2), { encoding: "utf-8" });
+    fs.writeFileSync("debug/resolved-reference-schema.json", JSON.stringify(this.resolvedReference, null, 2), { encoding: "utf-8" });
   }
 
   private isLocalReference($ref: string): boolean {
@@ -79,13 +79,17 @@ export class Resolver {
     }
   }
 
-  public getSchema(entryPoint: string, currentPoint: string, $ref: string) {
-    const referencePoint = ReferencePath.generateReferencePoint(currentPoint, $ref);
+  public getSchema(currentPoint: string, $ref: string) {
+    console.log({
+      currentPoint,
+      $ref,
+      isLocalReference: this.isLocalReference($ref)
+    })
     if (this.isLocalReference($ref)) {
-      const searchPoint = ReferencePath.normalizeLocalReferencePoint(referencePoint);
+      const searchPoint = ReferencePath.normalizeLocalReferencePoint($ref);
       return this.resolvedReference[searchPoint];
     } else {
-      const searchPoint = ReferencePath.normalizeRemoteReferencePoint(entryPoint, referencePoint);
+      const searchPoint = ReferencePath.normalizeRemoteReferencePoint(currentPoint, $ref);
       return this.resolvedReference[searchPoint];
     }
   }
