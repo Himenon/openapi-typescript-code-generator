@@ -44,6 +44,7 @@ export class Locator {
       this.params.store.determineSchemaLocation(`${this.basePath}/${name}`, {
         kind: "local-reference",
         schema: schema,
+        currentPoint,
       });
       return;
     } else if (reference.type === "remote") {
@@ -53,6 +54,7 @@ export class Locator {
       this.params.store.determineSchemaLocation(reference.path, {
         kind: "remote-reference",
         schema: schema,
+        currentPoint,
       });
       return;
     }

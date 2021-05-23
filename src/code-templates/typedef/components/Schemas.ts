@@ -15,18 +15,16 @@ export class Convert {
   private readonly schema = new Schema.Convert(this.params);
   constructor(private readonly params: InitializeParams) {}
   public generateNamespace(schemaLocations: { [currentPoint: string]: AbstractStruct.SchemaLocation }): ts.Statement {
-    const statements: ts.Statement[] = Object.entries(schemaLocations).map(([currentPoint, schemaLocation]) => {
+    const statements: ts.Statement[] = Object.values(schemaLocations).map((schemaLocation) => {
       if (schemaLocation.kind === "common") {
         return this.schema.generateStatement(schemaLocation.name, schemaLocation.schema);
       } else {
-        // if (schemaLocation.referenceType === "remote") {
-          const ref = schemaLocation.schema.$ref;
-          const resolvedSchema = this.params.resolver.getSchema(currentPoint, ref);
-          return this.schema.generateStatement("TODO", resolvedSchema);
-        // } else {
-
-        // }
-
+        const ref = schemaLocation.schema.$ref;
+        const resolvedSchema = this.params.resolver.getSchema(schemaLocation.currentPoint, ref);
+        if (!resolvedSchema) {
+          throw new Error(resolvedSchema);
+        }
+        return this.schema.generateStatement("名前を決める関数を入れる", resolvedSchema);
       }
     });
     return TsGenerator.factory.Namespace.create({

@@ -18,7 +18,7 @@ export const generator: CodeGenerator.AdvancedGenerateFunction<Option> = (payloa
     }
     if (item.value.kind === "common") {
       schemaLocations[currentPoint] = item.value;
-    } else if (item.value.kind === "reference") {
+    } else if (item.value.kind === "remote-reference") {
       schemaLocations[currentPoint] = item.value;
     }
   });

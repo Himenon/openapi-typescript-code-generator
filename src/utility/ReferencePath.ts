@@ -112,9 +112,5 @@ export const normalizeLocalReferencePoint = (referencePoint: string): string => 
 };
 
 export const normalizeRemoteReferencePoint = (currentPoint: string, referencePoint: string): string => {
-  console.log({
-    currentPoint,
-    referencePoint
-  }) 
   return path.join(path.dirname(currentPoint), referencePoint);
 };
