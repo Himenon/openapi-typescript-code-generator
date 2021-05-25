@@ -128,7 +128,7 @@ const generateAdvancedTestCode = async (inputFilename: string, outputDir: string
 };
 
 const main = async () => {
-  // generateTypedefCodeOnly("test/api.test.domain/index.yml", "test/code/typedef-only/api.test.domain.ts", true);
+  generateTypedefCodeOnly("test/api.test.domain/index.yml", "test/code/typedef-only/api.test.domain.ts", true);
   await generateAdvancedTestCode("test/api.test.domain/index.yml", "test/code/advanced/api.test.domain.ts");
   // generateTypedefCodeOnly("test/infer.domain/index.yml", "test/code/typedef-only/infer.domain.ts", false);
 

@@ -81,7 +81,15 @@ export const create = (
 ): ToTypeNode.Context => {
   const resolveReferencePath: ToTypeNode.Context["resolveReferencePath"] = (currentPoint, referencePath) => {
     const { pathArray, base } = generatePath(entryPoint, currentPoint, referencePath);
-    return calculateReferencePath(store, base, pathArray);
+    const r = calculateReferencePath(store, base, pathArray);
+
+    console.log({
+      currentPoint,
+      referencePoint: referencePath,
+      expectResult: r.name,
+      expectResult2: r.maybeResolvedName,
+    })
+    return r;
   };
   const setReferenceHandler: ToTypeNode.Context["setReferenceHandler"] = (currentPoint, reference) => {
     if (store.hasStatement(reference.path, ["interface", "typeAlias"])) {
