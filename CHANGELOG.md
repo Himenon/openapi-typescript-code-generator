@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.9.9"></a>
+## 0.9.9 (2021-08-11)
+
+
+### Chores
+
+* Trim the trailing slash of the baseUrl with constructor ([#56](https://github.com/Himenon/openapi-typescript-code-generator/issues/56)) ([4d62643](https://github.com/Himenon/openapi-typescript-code-generator/commit/4d62643))
+
+
+
+
+
 <a name="0.9.8"></a>
 ## 0.9.8 (2021-08-11)
 
