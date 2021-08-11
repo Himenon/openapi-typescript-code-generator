@@ -6,6 +6,7 @@ import * as CallExpression from "./CallExpression";
 import * as ClassDeclaration from "./ClassDeclaration";
 import * as ConstructorDeclaration from "./ConstructorDeclaration";
 import * as ElementAccessExpression from "./ElementAccessExpression";
+import * as ExpressionStatement from "./ExpressionStatement";
 import * as FunctionTypeNode from "./FunctionTypeNode";
 import * as Identifier from "./Identifier";
 import * as IndexedAccessTypeNode from "./IndexedAccessTypeNode";
@@ -21,6 +22,7 @@ import * as ParameterDeclaration from "./ParameterDeclaration";
 import * as PropertyAccessExpression from "./PropertyAccessExpression";
 import * as PropertyAssignment from "./PropertyAssignment";
 import * as PropertySignature from "./PropertySignature";
+import * as PropertyDeclaration from "./PropertyDeclaration";
 import * as RegularExpressionLiteral from "./RegularExpressionLiteral";
 import * as ReturnStatement from "./ReturnStatement";
 import * as StringLiteral from "./StringLiteral";
@@ -50,6 +52,7 @@ export interface Type {
   TypeOperatorNode: TypeOperatorNode.Factory;
   Namespace: Namespace.Factory;
   PropertySignature: PropertySignature.Factory;
+  PropertyDeclaration: PropertyDeclaration.Factory;
   RegularExpressionLiteral: RegularExpressionLiteral.Factory;
   TypeAliasDeclaration: TypeAliasDeclaration.Factory;
   TypeNode: TypeNode.Factory;
@@ -76,6 +79,7 @@ export interface Type {
   PropertyAssignment: PropertyAssignment.Factory;
   ObjectLiteralExpression: ObjectLiteralExpression.Factory;
   ElementAccessExpression: ElementAccessExpression.Factory;
+  ExpressionStatement: ExpressionStatement.Factory;
   CallExpression: CallExpression.Factory;
   StringLiteral: StringLiteral.Factory;
   FunctionTypeNode: FunctionTypeNode.Factory;
@@ -94,6 +98,7 @@ export const create = (): Type => {
     IndexedAccessTypeNode: IndexedAccessTypeNode.make(context),
     Namespace: Namespace.make(context),
     PropertySignature: PropertySignature.make(context),
+    PropertyDeclaration: PropertyDeclaration.make(context),
     TypeAliasDeclaration: TypeAliasDeclaration.make(context),
     TypeNode: TypeNode.make(context),
     LiteralTypeNode: LiteralTypeNode.make(context),
@@ -122,6 +127,7 @@ export const create = (): Type => {
     PropertyAssignment: PropertyAssignment.make(context),
     ObjectLiteralExpression: ObjectLiteralExpression.make(context),
     ElementAccessExpression: ElementAccessExpression.make(context),
+    ExpressionStatement: ExpressionStatement.make(context),
     CallExpression: CallExpression.make(context),
     StringLiteral: StringLiteral.make(context),
     FunctionTypeNode: FunctionTypeNode.make(context),

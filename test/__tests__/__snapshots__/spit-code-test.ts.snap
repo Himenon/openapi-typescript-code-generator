@@ -105,13 +105,14 @@ export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(httpMethod: HttpMethod, url: string, headers: ObjectLike | any, requestBody: ObjectLike | any, queryParameters: QueryParameters | undefined, options?: RequestOption) => Promise<T>;
 }
 export class Client<RequestOption> {
-    constructor(private apiClient: ApiClient<RequestOption>, private baseUrl: string) { }
+    private baseUrl: string;
+    constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) { this.baseUrl = baseUrl.replace(/\\\\/$/, \\"\\"); }
     /**
      * operationId: getIncludeLocalReference
      * Request URI: /get/IncludeLocalReference
      */
     public async getIncludeLocalReference(params: Params$getIncludeLocalReference, option?: RequestOption): Promise<Response$getIncludeLocalReference$Status$200[\\"application/json\\"]> {
-        const url = this.baseUrl.replace(/\\\\/$/, \\"\\") + \`/get/IncludeLocalReference\`;
+        const url = this.baseUrl + \`/get/IncludeLocalReference\`;
         const headers = {
             Accept: \\"application/json\\"
         };
@@ -125,7 +126,7 @@ export class Client<RequestOption> {
      * Request URI: /get/IncludeRemoteReference
      */
     public async getIncludeRemoteReference(params: Params$getIncludeRemoteReference, option?: RequestOption): Promise<void> {
-        const url = this.baseUrl.replace(/\\\\/$/, \\"\\") + \`/get/IncludeRemoteReference\`;
+        const url = this.baseUrl + \`/get/IncludeRemoteReference\`;
         const headers = {
             \\"Content-Type\\": \\"application/json\\"
         };
@@ -139,7 +140,7 @@ export class Client<RequestOption> {
      * Request URI: /FullRemoteReference
      */
     public async getFullRemoteReference(params: Params$getFullRemoteReference, option?: RequestOption): Promise<Response$getFullRemoteReference$Status$200[\\"application/json\\"]> {
-        const url = this.baseUrl.replace(/\\\\/$/, \\"\\") + \`/FullRemoteReference\`;
+        const url = this.baseUrl + \`/FullRemoteReference\`;
         const headers = {
             Accept: \\"application/json\\"
         };
@@ -153,7 +154,7 @@ export class Client<RequestOption> {
      * Request URI: /get/reference/items
      */
     public async getReferenceItems(option?: RequestOption): Promise<Response$getReferenceItems$Status$200[\\"application/json\\"]> {
-        const url = this.baseUrl.replace(/\\\\/$/, \\"\\") + \`/get/reference/items\`;
+        const url = this.baseUrl + \`/get/reference/items\`;
         const headers = {
             Accept: \\"application/json\\"
         };
@@ -164,7 +165,7 @@ export class Client<RequestOption> {
      * Request URI: /get/books/{id}
      */
     public async getBookById(params: Params$getBookById, option?: RequestOption): Promise<Response$getBookById$Status$200[\\"application/json\\"]> {
-        const url = this.baseUrl.replace(/\\\\/$/, \\"\\") + \`/get/books/\${params.parameter.id}\`;
+        const url = this.baseUrl + \`/get/books/\${params.parameter.id}\`;
         const headers = {
             Accept: \\"application/json\\"
         };
@@ -175,7 +176,7 @@ export class Client<RequestOption> {
      * Request URI: /get/books/{id}
      */
     public async deleteBook(params: Params$deleteBook, option?: RequestOption): Promise<Response$deleteBook$Status$200[\\"application/json\\"]> {
-        const url = this.baseUrl.replace(/\\\\/$/, \\"\\") + \`/get/books/\${params.parameter.id}\`;
+        const url = this.baseUrl + \`/get/books/\${params.parameter.id}\`;
         const headers = {
             Accept: \\"application/json\\"
         };

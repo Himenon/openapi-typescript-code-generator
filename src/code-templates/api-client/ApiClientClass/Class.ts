@@ -11,7 +11,13 @@ export const create = (factory: TsGenerator.Factory.Type, members: ts.ClassEleme
   return factory.ClassDeclaration.create({
     name: "Client",
     export: true,
-    members,
+    members: [
+      factory.PropertyDeclaration.create({
+        modifiers: [ts.factory.createModifier(ts.SyntaxKind.PrivateKeyword)],
+        name: "baseUrl",
+        type: ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
+      })
+      ,...members],
     typeParameterDeclaration: [
       factory.TypeParameterDeclaration.create({
         name: "RequestOption",
