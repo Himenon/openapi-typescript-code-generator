@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.9.8"></a>
+## 0.9.8 (2021-08-11)
+
+
+### Bug Fixes
+
+* Trim the trailing slash of baesUrl ([#55](https://github.com/Himenon/openapi-typescript-code-generator/issues/55)) ([73801c3](https://github.com/Himenon/openapi-typescript-code-generator/commit/73801c3))
+
+
+
+
+
 <a name="0.9.7"></a>
 ## 0.9.7 (2021-05-05)
 
