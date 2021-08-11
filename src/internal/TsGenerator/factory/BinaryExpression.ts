@@ -2,6 +2,7 @@ import ts from "typescript";
 
 const operators = {
   "+": ts.SyntaxKind.PlusToken,
+  "=": ts.SyntaxKind.EqualsToken,
 } as const;
 
 export interface Params {

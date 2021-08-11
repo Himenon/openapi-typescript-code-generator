@@ -19,16 +19,33 @@ export const create = (factory: TsGenerator.Factory.Type): ts.ConstructorDeclara
     }),
   });
   const parameter2 = factory.ParameterDeclaration.create({
-    modifiers: "private",
     name: "baseUrl",
     type: factory.TypeNode.create({
       type: "string",
     }),
   });
+
   return factory.ConstructorDeclaration.create({
     parameters: [parameter1, parameter2],
     body: factory.Block.create({
-      statements: [],
+      statements: [
+        factory.ExpressionStatement.create({
+          expression: factory.BinaryExpression.create({
+            left: factory.PropertyAccessExpression.create({
+              expression: "this",
+              name: "baseUrl",
+            }),
+            operator: "=",
+            right: factory.CallExpression.create({
+              expression: factory.PropertyAccessExpression.create({
+                expression: "baseUrl",
+                name: "replace",
+              }),
+              argumentsArray: [factory.RegularExpressionLiteral.create({ text: "/\\/$/" }), factory.StringLiteral.create({ text: "" })],
+            }),
+          }),
+        }),
+      ],
       multiLine: false,
     }),
   });

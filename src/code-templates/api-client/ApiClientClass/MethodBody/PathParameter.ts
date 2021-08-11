@@ -21,15 +21,9 @@ const generateUrlVariableStatement = (
         factory.VariableDeclaration.create({
           name: "url",
           initializer: factory.BinaryExpression.create({
-            left: factory.CallExpression.create({
-              expression: factory.PropertyAccessExpression.create({
-                expression: factory.PropertyAccessExpression.create({
-                  name: "baseUrl",
-                  expression: "this",
-                }),
-                name: "replace",
-              }),
-              argumentsArray: [factory.RegularExpressionLiteral.create({ text: "/\\\/$/" }), factory.StringLiteral.create({ text: "" })],
+            left: factory.PropertyAccessExpression.create({
+              name: "baseUrl",
+              expression: "this",
             }),
             operator: "+",
             right: Utils.generateTemplateExpression(factory, urlTemplate),
