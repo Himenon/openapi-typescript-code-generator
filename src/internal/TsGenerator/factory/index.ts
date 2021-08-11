@@ -21,6 +21,7 @@ import * as ParameterDeclaration from "./ParameterDeclaration";
 import * as PropertyAccessExpression from "./PropertyAccessExpression";
 import * as PropertyAssignment from "./PropertyAssignment";
 import * as PropertySignature from "./PropertySignature";
+import * as RegularExpressionLiteral from "./RegularExpressionLiteral";
 import * as ReturnStatement from "./ReturnStatement";
 import * as StringLiteral from "./StringLiteral";
 import * as TemplateExpression from "./TemplateExpression";
@@ -49,6 +50,7 @@ export interface Type {
   TypeOperatorNode: TypeOperatorNode.Factory;
   Namespace: Namespace.Factory;
   PropertySignature: PropertySignature.Factory;
+  RegularExpressionLiteral: RegularExpressionLiteral.Factory;
   TypeAliasDeclaration: TypeAliasDeclaration.Factory;
   TypeNode: TypeNode.Factory;
   LiteralTypeNode: LiteralTypeNode.Factory;
@@ -109,6 +111,7 @@ export const create = (): Type => {
     VariableStatement: VariableStatement.make(context),
     BinaryExpression: BinaryExpression.make(context),
     PropertyAccessExpression: PropertyAccessExpression.make(context),
+    RegularExpressionLiteral: RegularExpressionLiteral.make(context),
     NoSubstitutionTemplateLiteral: NoSubstitutionTemplateLiteral.make(context),
     TemplateSpan: TemplateSpan.make(context),
     TemplateExpression: TemplateExpression.make(context),
