@@ -58,6 +58,7 @@ export const create = (): Types => {
       return convertString(operationId);
     },
     escapeDeclarationText: (text: string) => {
+      // console.log(`escapeDeclarationText: ${text}` + `-> ${convertReservedWord(convertString(text).replace(/\./g, "$"))}`.padStart(100, " "));
       return convertReservedWord(convertString(text).replace(/\./g, "$"));
     },
     escapeReferenceDeclarationText: (text: string) => {

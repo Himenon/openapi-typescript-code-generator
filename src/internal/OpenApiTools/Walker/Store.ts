@@ -1,6 +1,5 @@
 import * as Path from "path";
 
-import * as fs from "fs";
 import { Tree } from "@himenon/path-oriented-data-structure";
 import Dot from "dot-prop";
 import ts from "typescript";
@@ -51,8 +50,8 @@ class Store {
     });
   }
   public getRootStatements(): ts.Statement[] {
-    // Debug Point
-    fs.writeFileSync("debug/tree.json", JSON.stringify(this.operator.getHierarchy(), null, 2), { encoding: "utf-8" });
+    // Debug Point: 抽象的なデータ構造全体を把握するために出力すると良い
+    // fs.writeFileSync("debug/tree.json", JSON.stringify(this.operator.getHierarchy(), null, 2), { encoding: "utf-8" });
     const statements = Def.componentNames.reduce<ts.Statement[]>((statements, componentName) => {
       const treeOfNamespace = this.getChildByPaths(componentName, "namespace");
       if (treeOfNamespace) {

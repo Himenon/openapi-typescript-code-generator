@@ -53,7 +53,7 @@ export const generateNamespace = (
             export: true,
             name: convertContext.escapeDeclarationText(name),
             type: factory.TypeReferenceNode.create({
-              name: convertContext.escapeDeclarationText(maybeResolvedName),
+              name: convertContext.escapeReferenceDeclarationText(maybeResolvedName),
             }),
           }),
         });
@@ -81,7 +81,7 @@ export const generateNamespace = (
           name: convertContext.escapeDeclarationText(name),
           comment: reference.data.description,
           type: factory.TypeReferenceNode.create({
-            name: convertContext.escapeDeclarationText(context.resolveReferencePath(currentPoint, reference.path).name),
+            name: convertContext.escapeReferenceDeclarationText(context.resolveReferencePath(currentPoint, reference.path).name),
           }),
         }),
       });
