@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.9.10"></a>
+## 0.9.10 (2021-08-13)
+
+
+### Bug Fixes
+
+* schema added support for cases where schemas name contains '.' ([#57](https://github.com/Himenon/openapi-typescript-code-generator/issues/57)) ([7502673](https://github.com/Himenon/openapi-typescript-code-generator/commit/7502673))
+
+
+
+
+
 <a name="0.9.9"></a>
 ## 0.9.9 (2021-08-11)
 
