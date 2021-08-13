@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.9.11"></a>
+## 0.9.11 (2021-08-13)
+
+
+### Bug Fixes
+
+* Fixed the logic for deleting duplicate TypeAlias. ([#58](https://github.com/Himenon/openapi-typescript-code-generator/issues/58)) ([7d48202](https://github.com/Himenon/openapi-typescript-code-generator/commit/7d48202))
+
+
+
+
+
 <a name="0.9.10"></a>
 ## 0.9.10 (2021-08-13)
 
