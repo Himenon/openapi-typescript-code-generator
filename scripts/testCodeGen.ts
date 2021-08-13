@@ -105,6 +105,7 @@ const main = () => {
   generateTemplateCodeOnly("test/api.test.domain/index.yml", "test/code/template-only/sync-api.test.domain.ts", true, { sync: true });
   generateTemplateCodeOnly("test/infer.domain/index.yml", "test/code/template-only/infer.domain.ts", false, { sync: true });
 
+  generateTypedefWithTemplateCode("test/api.v2.domain/index.yml", "test/code/typedef-with-template/api.v2.domain.ts", false, { sync: false });
   generateTypedefWithTemplateCode("test/api.test.domain/index.yml", "test/code/typedef-with-template/api.test.domain.ts", true, {
     sync: false,
   });
