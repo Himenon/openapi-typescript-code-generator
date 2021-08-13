@@ -113,6 +113,10 @@ const main = () => {
   });
   generateTypedefWithTemplateCode("test/infer.domain/index.yml", "test/code/typedef-with-template/infer.domain.ts", false, { sync: false });
 
+  generateTypedefWithTemplateCode("test/argo-rollout/index.json", "test/code/typedef-with-template/argo-rollout.ts", false, {
+    sync: false,
+  });
+
   generateSplitCode("test/api.test.domain/index.yml", "test/code/split");
 
   generateParameter("test/api.test.domain/index.yml", "test/code/parameter/api.test.domain.json");

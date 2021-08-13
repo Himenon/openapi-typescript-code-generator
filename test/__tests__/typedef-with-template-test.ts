@@ -19,4 +19,9 @@ describe("Typedef with template", () => {
     const text = Utils.replaceVersionInfo(generateCode);
     expect(text).toMatchSnapshot();
   });
+  test("argo-rollout", () => {
+    const generateCode = fs.readFileSync(path.join(__dirname, "../code/typedef-with-template/argo-rollout.ts"), { encoding: "utf-8" });
+    const text = Utils.replaceVersionInfo(generateCode);
+    expect(text).toMatchSnapshot();
+  });
 });

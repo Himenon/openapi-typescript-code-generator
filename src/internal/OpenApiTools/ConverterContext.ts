@@ -17,6 +17,10 @@ export interface Types {
    */
   escapeDeclarationText: (text: string) => string;
   /**
+   * Schemas.A.B.Cに対するEscape
+   */
+  escapeReferenceDeclarationText: (text: string) => string;
+  /**
    * 非破壊: PropertySignatureのname用のescape
    */
   escapePropertySignatureName: (text: string) => string;
@@ -54,6 +58,11 @@ export const create = (): Types => {
       return convertString(operationId);
     },
     escapeDeclarationText: (text: string) => {
+      // console.log(`escapeDeclarationText: ${text}` + `-> ${convertReservedWord(convertString(text).replace(/\./g, "$"))}`.padStart(100, " "));
+      return convertReservedWord(convertString(text).replace(/\./g, "$"));
+    },
+    escapeReferenceDeclarationText: (text: string) => {
+      // console.log(`escapeDeclarationText3: ${text}` + `-> ${convertReservedWord(convertString(text))}`.padStart(100, " "));
       return convertReservedWord(convertString(text));
     },
     escapePropertySignatureName: (text: string) => {

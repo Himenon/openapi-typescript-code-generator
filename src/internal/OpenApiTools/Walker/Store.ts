@@ -50,7 +50,8 @@ class Store {
     });
   }
   public getRootStatements(): ts.Statement[] {
-    // fs.writeFileSync("debug/tree.json", JSON.stringify(operator.getHierarchy(), null, 2), { encoding: "utf-8" });
+    // Debug Point: 抽象的なデータ構造全体を把握するために出力すると良い
+    // fs.writeFileSync("debug/tree.json", JSON.stringify(this.operator.getHierarchy(), null, 2), { encoding: "utf-8" });
     const statements = Def.componentNames.reduce<ts.Statement[]>((statements, componentName) => {
       const treeOfNamespace = this.getChildByPaths(componentName, "namespace");
       if (treeOfNamespace) {
@@ -78,6 +79,14 @@ class Store {
       throw new UnSupportError(`componentsから始まっていません。path=${path}`);
     }
     const targetPath = Path.posix.relative("components", path);
+    // すでにinterfaceとして登録がある場合はスキップ
+    if (this.hasStatement(targetPath, ["interface"])) {
+      return;
+    }
+    // もしTypeAlias同じスコープに登録されている場合、既存のTypeAliasを削除する
+    if (this.hasStatement(targetPath, ["typeAlias"])) {
+      this.operator.remove(targetPath, "typeAlias");
+    }
     this.operator.set(targetPath, Structure.createInstance(statement));
   }
   public getStatement<T extends Structure.DataStructure.Kind>(path: string, kind: T): Structure.DataStructure.GetChild<T> | undefined {
