@@ -25,7 +25,7 @@ const generatePath = (entryPoint: string, currentPoint: string, referencePath: s
   };
 };
 
-const calculateReferencePath = (store: Walker.Store, base: string, pathArray: string[]): ToTypeNode.ResolveReferencePath => {
+const calculateReferencePath = (store: Walker.Store, base: string, pathArray: string[], converterContext: ConverterContext.Types,): ToTypeNode.ResolveReferencePath => {
   let names: string[] = [];
   let unresolvedPaths: string[] = [];
   pathArray.reduce((previous, lastPath, index) => {
@@ -67,8 +67,8 @@ const calculateReferencePath = (store: Walker.Store, base: string, pathArray: st
     throw new DevelopmentError("Local Reference Error \n" + JSON.stringify({ pathArray, names, base }, null, 2));
   }
   return {
-    name: names.join("."),
-    maybeResolvedName: names.concat(unresolvedPaths).join("."),
+    name: names.map(converterContext.escapeDeclarationText).join("."),
+    maybeResolvedName: names.concat(unresolvedPaths).map(converterContext.escapeDeclarationText).join("."),
     unresolvedPaths,
   };
 };
@@ -81,7 +81,7 @@ export const create = (
 ): ToTypeNode.Context => {
   const resolveReferencePath: ToTypeNode.Context["resolveReferencePath"] = (currentPoint, referencePath) => {
     const { pathArray, base } = generatePath(entryPoint, currentPoint, referencePath);
-    return calculateReferencePath(store, base, pathArray);
+    return calculateReferencePath(store, base, pathArray, converterContext);
   };
   const setReferenceHandler: ToTypeNode.Context["setReferenceHandler"] = (currentPoint, reference) => {
     if (store.hasStatement(reference.path, ["interface", "typeAlias"])) {

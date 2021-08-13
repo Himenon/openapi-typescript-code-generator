@@ -98,29 +98,29 @@ const generateParameter = (inputFilename: string, outputFilename: string) => {
 };
 
 const main = () => {
-  generateTypedefCodeOnly("test/api.test.domain/index.yml", "test/code/typedef-only/api.test.domain.ts", true);
-  generateTypedefCodeOnly("test/infer.domain/index.yml", "test/code/typedef-only/infer.domain.ts", false);
+  // generateTypedefCodeOnly("test/api.test.domain/index.yml", "test/code/typedef-only/api.test.domain.ts", true);
+  // generateTypedefCodeOnly("test/infer.domain/index.yml", "test/code/typedef-only/infer.domain.ts", false);
 
-  generateTemplateCodeOnly("test/api.test.domain/index.yml", "test/code/template-only/api.test.domain.ts", true, { sync: false });
-  generateTemplateCodeOnly("test/api.test.domain/index.yml", "test/code/template-only/sync-api.test.domain.ts", true, { sync: true });
-  generateTemplateCodeOnly("test/infer.domain/index.yml", "test/code/template-only/infer.domain.ts", false, { sync: true });
+  // generateTemplateCodeOnly("test/api.test.domain/index.yml", "test/code/template-only/api.test.domain.ts", true, { sync: false });
+  // generateTemplateCodeOnly("test/api.test.domain/index.yml", "test/code/template-only/sync-api.test.domain.ts", true, { sync: true });
+  // generateTemplateCodeOnly("test/infer.domain/index.yml", "test/code/template-only/infer.domain.ts", false, { sync: true });
 
-  generateTypedefWithTemplateCode("test/api.test.domain/index.yml", "test/code/typedef-with-template/api.test.domain.ts", true, {
-    sync: false,
-  });
-  generateTypedefWithTemplateCode("test/api.test.domain/index.yml", "test/code/typedef-with-template/sync-api.test.domain.ts", true, {
-    sync: true,
-  });
-  generateTypedefWithTemplateCode("test/infer.domain/index.yml", "test/code/typedef-with-template/infer.domain.ts", false, { sync: false });
+  // generateTypedefWithTemplateCode("test/api.test.domain/index.yml", "test/code/typedef-with-template/api.test.domain.ts", true, {
+  //   sync: false,
+  // });
+  // generateTypedefWithTemplateCode("test/api.test.domain/index.yml", "test/code/typedef-with-template/sync-api.test.domain.ts", true, {
+  //   sync: true,
+  // });
+  // generateTypedefWithTemplateCode("test/infer.domain/index.yml", "test/code/typedef-with-template/infer.domain.ts", false, { sync: false });
 
   generateTypedefWithTemplateCode("test/argo-rollout/index.json", "test/code/typedef-with-template/argo-rollout.ts", false, {
     sync: false,
   });
 
-  generateSplitCode("test/api.test.domain/index.yml", "test/code/split");
+  // generateSplitCode("test/api.test.domain/index.yml", "test/code/split");
 
-  generateParameter("test/api.test.domain/index.yml", "test/code/parameter/api.test.domain.json");
-  generateParameter("test/infer.domain/index.yml", "test/code/parameter/infer.domain.json");
+  // generateParameter("test/api.test.domain/index.yml", "test/code/parameter/api.test.domain.json");
+  // generateParameter("test/infer.domain/index.yml", "test/code/parameter/infer.domain.json");
 };
 
 main();
