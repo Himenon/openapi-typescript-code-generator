@@ -83,8 +83,8 @@ class Store {
     if (this.hasStatement(targetPath, ["interface"])) {
       return;
     }
-    // もしTypeAlias同じスコープに登録されている場合、既存のTypeAliasを削除する
-    if (this.hasStatement(targetPath, ["typeAlias"])) {
+    // もしTypeAliasが同じスコープに登録されているかつ、interfaceが新しく追加しようとしている場合、既存のstatementを削除する
+    if (this.hasStatement(targetPath, ["typeAlias"]) && statement.kind === "interface") {
       this.operator.remove(targetPath, "typeAlias");
     }
     this.operator.set(targetPath, Structure.createInstance(statement));
