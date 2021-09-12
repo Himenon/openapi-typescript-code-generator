@@ -118,10 +118,16 @@ const main = () => {
     sync: false,
   });
 
+  generateTypedefWithTemplateCode("test/ref.access/index.yml", "test/code/typedef-with-template/ref-access.ts", false, {
+    sync: false,
+  });
+
   generateSplitCode("test/api.test.domain/index.yml", "test/code/split");
 
   generateParameter("test/api.test.domain/index.yml", "test/code/parameter/api.test.domain.json");
   generateParameter("test/infer.domain/index.yml", "test/code/parameter/infer.domain.json");
+
+
 };
 
 main();
