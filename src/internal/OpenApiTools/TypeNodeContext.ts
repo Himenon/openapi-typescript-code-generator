@@ -2,6 +2,7 @@ import * as Path from "path";
 
 import ts from "typescript";
 
+import type { OpenApi } from "../../types";
 import { DevelopmentError } from "../Exception";
 import * as TypeScriptCodeGenerator from "../TsGenerator";
 import * as ConverterContext from "./ConverterContext";
@@ -66,15 +67,19 @@ const calculateReferencePath = (store: Walker.Store, base: string, pathArray: st
   if (names.length === 0) {
     throw new DevelopmentError("Local Reference Error \n" + JSON.stringify({ pathArray, names, base }, null, 2));
   }
+  const maybeResolvedNameFragments = names.concat(unresolvedPaths).map(converterContext.escapeDeclarationText);
   return {
     name: names.map(converterContext.escapeDeclarationText).join("."),
-    maybeResolvedName: names.concat(unresolvedPaths).map(converterContext.escapeDeclarationText).join("."),
+    maybeResolvedName: maybeResolvedNameFragments.join("."),
     unresolvedPaths,
+    depth: maybeResolvedNameFragments.length,
+    pathArray,
   };
 };
 
 export const create = (
   entryPoint: string,
+  rootSchema: OpenApi.Document,
   store: Walker.Store,
   factory: TypeScriptCodeGenerator.Factory.Type,
   converterContext: ConverterContext.Types,
@@ -94,6 +99,7 @@ export const create = (
         factory,
         reference.data,
         {
+          rootSchema,
           setReferenceHandler,
           resolveReferencePath,
         },
@@ -119,6 +125,7 @@ export const create = (
             factory,
             reference.data,
             {
+              rootSchema,
               setReferenceHandler,
               resolveReferencePath,
             },
@@ -149,5 +156,5 @@ export const create = (
       }
     }
   };
-  return { setReferenceHandler: setReferenceHandler, resolveReferencePath: resolveReferencePath };
+  return { rootSchema, setReferenceHandler: setReferenceHandler, resolveReferencePath: resolveReferencePath };
 };

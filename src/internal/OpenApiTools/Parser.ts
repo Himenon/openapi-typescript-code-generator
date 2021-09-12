@@ -18,7 +18,7 @@ export class Parser {
   private convertContext: ConvertContext.Types;
   private store: Store;
   private factory: TypeScriptCodeGenerator.Factory.Type;
-  constructor(private entryPoint: string, private rootSchema: OpenApi.Document, noReferenceOpenApiSchema: OpenApi.Document) {
+  constructor(private entryPoint: string, private readonly rootSchema: OpenApi.Document, noReferenceOpenApiSchema: OpenApi.Document) {
     this.currentPoint = entryPoint;
     this.convertContext = ConvertContext.create();
     this.factory = TypeScriptCodeGenerator.Factory.create();
@@ -27,7 +27,7 @@ export class Parser {
   }
 
   private initialize(): void {
-    const toTypeNodeContext = TypeNodeContext.create(this.entryPoint, this.store, this.factory, this.convertContext);
+    const toTypeNodeContext = TypeNodeContext.create(this.entryPoint, this.rootSchema, this.store, this.factory, this.convertContext);
     const rootSchema = this.rootSchema;
     if (rootSchema.components) {
       if (rootSchema.components.schemas) {

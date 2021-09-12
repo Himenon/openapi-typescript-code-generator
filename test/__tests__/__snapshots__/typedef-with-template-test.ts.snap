@@ -3007,9 +3007,18 @@ export namespace Schemas {
             name?: any;
             address?: string;
         };
+        metadata: {
+            description: string;
+        };
     }
-    export type Author = Schemas.Book.properties.author;
-    export type Publisher = Schemas.Book.properties.publisher;
+    export type Author = {
+        name?: string;
+        age?: string;
+    };
+    export type Publisher = {
+        name?: any;
+        address?: string;
+    };
 }
 export interface Parameter$getBook {
     /** Book ID */
@@ -3018,12 +3027,22 @@ export interface Parameter$getBook {
 export interface Response$getBook$Status$200 {
     \\"application/json\\": Schemas.Book;
 }
+export interface Parameter$getDescription {
+    /** Book ID */
+    id: string;
+}
+export interface Response$getDescription$Status$200 {
+    \\"application/json\\": string;
+}
 export interface Parameter$getAuthor {
     /** Author Id */
     id: string;
 }
 export interface Response$getAuthor$Status$200 {
-    \\"application/json\\": Schemas.Book.properties.author;
+    \\"application/json\\": {
+        name?: string;
+        age?: string;
+    };
 }
 export interface Parameter$getPublisher {
     /** Publisher ID */
@@ -3035,6 +3054,10 @@ export interface Response$getPublisher$Status$200 {
 export type ResponseContentType$getBook = keyof Response$getBook$Status$200;
 export interface Params$getBook {
     parameter: Parameter$getBook;
+}
+export type ResponseContentType$getDescription = keyof Response$getDescription$Status$200;
+export interface Params$getDescription {
+    parameter: Parameter$getDescription;
 }
 export type ResponseContentType$getAuthor = keyof Response$getAuthor$Status$200;
 export interface Params$getAuthor {
@@ -3056,9 +3079,10 @@ export interface QueryParameter {
 export interface QueryParameters {
     [key: string]: QueryParameter;
 }
-export type SuccessResponses = Response$getBook$Status$200 | Response$getAuthor$Status$200 | Response$getPublisher$Status$200;
+export type SuccessResponses = Response$getBook$Status$200 | Response$getDescription$Status$200 | Response$getAuthor$Status$200 | Response$getPublisher$Status$200;
 export namespace ErrorResponse {
     export type getBook = void;
+    export type getDescription = void;
     export type getAuthor = void;
     export type getPublisher = void;
 }
@@ -3070,6 +3094,13 @@ export class Client<RequestOption> {
     constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) { this.baseUrl = baseUrl.replace(/\\\\/$/, \\"\\"); }
     public async getBook(params: Params$getBook, option?: RequestOption): Promise<Response$getBook$Status$200[\\"application/json\\"]> {
         const url = this.baseUrl + \`/get/book/\${params.parameter.id}\`;
+        const headers = {
+            Accept: \\"application/json\\"
+        };
+        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
+    }
+    public async getDescription(params: Params$getDescription, option?: RequestOption): Promise<Response$getDescription$Status$200[\\"application/json\\"]> {
+        const url = this.baseUrl + \`/get/book/\${params.parameter.id}/description\`;
         const headers = {
             Accept: \\"application/json\\"
         };

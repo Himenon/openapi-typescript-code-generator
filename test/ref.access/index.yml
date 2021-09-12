@@ -1,15 +1,15 @@
 openapi: 3.1.0
 info:
   version: 1.0.0
-  title: api.test.domain
+  title: ref.access
   description: Library test schema
   license:
     name: MIT
 
 servers:
-  - url: "http://dev.api.test.domain/"
+  - url: "http://dev.ref.access/"
     description: Development Environment
-  - url: "https://api.test.domain/"
+  - url: "https://ref.access/"
     description: Production Environment
 
 tags:
@@ -19,6 +19,8 @@ components:
   schemas:
     Book:
       type: object
+      required:
+        - metadata
       properties:
         author:
           type: object
@@ -33,6 +35,13 @@ components:
             name:
               type: String
             address:
+              type: string
+        metadata:
+          type: object
+          required:
+            - description
+          properties:
+            description:
               type: string
     Author:
       $ref: "#/components/schemas/Book/properties/author"
@@ -58,6 +67,25 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Book"
+  /get/book/{id}/description:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: Book ID
+        schema:
+          type: string
+          format: uuid
+    get:
+      operationId: getDescription
+      responses:
+        200:
+          description: Get Book Description
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book/properties/metadata/properties/description"
+
   /get/author/{id}:
     parameters:
       - name: id

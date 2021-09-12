@@ -1,3 +1,4 @@
+import DotProp from "dot-prop";
 import ts from "typescript";
 
 import type { OpenApi } from "../../types";
@@ -15,9 +16,16 @@ export interface ResolveReferencePath {
   name: string;
   maybeResolvedName: string;
   unresolvedPaths: string[];
+  /**
+   * @example components.a.b.c.dの場合 ["a", "b", "c", "d"].length = 4
+   **/
+  depth: number;
+  /** 入力$refを分解したモノ（#は除く） */
+  pathArray: string[];
 }
 
 export interface Context {
+  readonly rootSchema: OpenApi.Document;
   setReferenceHandler: (currentPoint: string, reference: Reference.Type<OpenApi.Schema | OpenApi.JSONSchemaDefinition>) => void;
   resolveReferencePath: (currentPoint: string, referencePath: string) => ResolveReferencePath;
 }
@@ -96,8 +104,13 @@ export const convert: Convert = (
     if (reference.type === "local") {
       // Type Aliasを作成 (or すでにある場合は作成しない)
       context.setReferenceHandler(currentPoint, reference);
-      const { maybeResolvedName } = context.resolveReferencePath(currentPoint, reference.path);
-      return factory.TypeReferenceNode.create({ name: converterContext.escapeReferenceDeclarationText(maybeResolvedName) });
+      const { maybeResolvedName, depth, pathArray } = context.resolveReferencePath(currentPoint, reference.path);
+      if (depth === 2) {
+        return factory.TypeReferenceNode.create({ name: converterContext.escapeReferenceDeclarationText(maybeResolvedName) });
+      } else {
+        const resolveSchema = DotProp.get(context.rootSchema, pathArray.join(".")) as any;
+        return convert(entryPoint, currentPoint, factory, resolveSchema, context, converterContext, { parent: schema });
+      }
     }
     // サポートしているディレクトリに対して存在する場合
     if (reference.componentName) {
