@@ -1,0 +1,124 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: ref.access
+  description: Library test schema
+  license:
+    name: MIT
+
+servers:
+  - url: "http://dev.ref.access/"
+    description: Development Environment
+  - url: "https://ref.access/"
+    description: Production Environment
+
+tags:
+  - name: test
+
+components:
+  schemas:
+    Book:
+      type: object
+      required:
+        - metadata
+      properties:
+        author:
+          type: object
+          properties:
+            name:
+              type: string
+            age:
+              type: string
+        publisher:
+          type: object
+          properties:
+            name:
+              type: String
+            address:
+              type: string
+        metadata:
+          type: object
+          required:
+            - description
+          properties:
+            description:
+              type: string
+    Author:
+      $ref: "#/components/schemas/Book/properties/author"
+    Publisher:
+      $ref: "#/components/schemas/Book/properties/publisher"
+
+paths:
+  /get/book/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: Book ID
+        schema:
+          type: string
+          format: uuid
+    get:
+      operationId: getBook
+      responses:
+        200:
+          description: Get Books
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+  /get/book/{id}/description:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: Book ID
+        schema:
+          type: string
+          format: uuid
+    get:
+      operationId: getDescription
+      responses:
+        200:
+          description: Get Book Description
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book/properties/metadata/properties/description"
+
+  /get/author/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: Author Id
+        schema:
+          type: string
+          format: uuid
+    get:
+      operationId: getAuthor
+      responses:
+        200:
+          description: Get Author
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book/properties/author"
+  /get/publisher/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: Publisher ID
+        schema:
+          type: string
+          format: uuid
+    get:
+      operationId: getPublisher
+      responses:
+        200:
+          description: Get Publisher
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Publisher"

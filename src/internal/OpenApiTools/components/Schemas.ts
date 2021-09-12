@@ -1,3 +1,5 @@
+import DotProp from "dot-prop";
+
 import type { OpenApi } from "../../../types";
 import { UnSupportError } from "../../Exception";
 import { Factory } from "../../TsGenerator";
@@ -45,16 +47,27 @@ export const generateNamespace = (
       const schema = targetSchema;
       const reference = Reference.generate<OpenApi.Schema>(entryPoint, currentPoint, schema);
       if (reference.type === "local") {
-        const { maybeResolvedName } = context.resolveReferencePath(currentPoint, reference.path);
+        const { maybeResolvedName, depth, pathArray } = context.resolveReferencePath(currentPoint, reference.path);
+        // console.log({
+        //   depth,
+        //   pathArray,
+        // });
+        const createTypeNode = () => {
+          if (depth === 2) {
+            return factory.TypeReferenceNode.create({
+              name: convertContext.escapeReferenceDeclarationText(maybeResolvedName),
+            });
+          }
+          const schema = DotProp.get(context.rootSchema, pathArray.join(".")) as any;
+          return ToTypeNode.convert(entryPoint, currentPoint, factory, schema, context, convertContext, { parent: schema });
+        };
         store.addStatement(`${basePath}/${name}`, {
           kind: "typeAlias",
           name: convertContext.escapeDeclarationText(name),
           value: factory.TypeAliasDeclaration.create({
             export: true,
             name: convertContext.escapeDeclarationText(name),
-            type: factory.TypeReferenceNode.create({
-              name: convertContext.escapeReferenceDeclarationText(maybeResolvedName),
-            }),
+            type: createTypeNode(),
           }),
         });
         return;
