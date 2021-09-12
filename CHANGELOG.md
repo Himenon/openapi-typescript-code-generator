@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.10.0"></a>
+# 0.10.0 (2021-09-12)
+
+
+### Features
+
+* support property access via reference object ([#59](https://github.com/Himenon/openapi-typescript-code-generator/issues/59)) ([bd70d56](https://github.com/Himenon/openapi-typescript-code-generator/commit/bd70d56))
+
+
+
+
+
 <a name="0.9.11"></a>
 ## 0.9.11 (2021-08-13)
 
