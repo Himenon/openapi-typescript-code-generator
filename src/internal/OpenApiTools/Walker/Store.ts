@@ -76,23 +76,12 @@ class Store {
    * @params path: "components/headers/hoge"
    */
   public addStatement(path: string, statement: Structure.ComponentParams, options?: { override?: boolean }): void {
-    // if (path.includes("io.k8s.apimachinery.pkg.util.intstr.IntOrString")) {
-    //   console.log({ path, statement });
-    //   throw new Error("でた")
-    // }
-    if (path.match(/schemas\/io\.k8s\.apimachinery\.pkg\.util\.intstr\.IntOrString$/)) {
-      const hasInterface = this.hasStatement(path, ["interface"]);
-      const hasTypeAlias = this.hasStatement(path, ["typeAlias"]);
-      console.log(`local value: kind=${statement.kind} reference.name = ${statement.name}, hasInterface=${hasInterface}, hasTypeAlias=${hasTypeAlias}`);
-      console.log("");
-    }
-  
     if (!path.startsWith("components")) {
       throw new UnSupportError(`componentsから始まっていません。path=${path}`);
     }
     const targetPath = Path.posix.relative("components", path);
-    // すでにinterfaceとして登録がある場合はスキップ
-    if (this.hasStatement(targetPath, ["interface"])) {
+    // すでにinterfaceまたはNAMESPACEとして登録がある場合はスキップ
+    if (this.hasStatement(targetPath, ["interface", "namespace"])) {
       return;
     }
     // もしTypeAliasが同じスコープに登録されているかつ、interfaceが新しく追加しようとしている場合、既存のstatementを削除する

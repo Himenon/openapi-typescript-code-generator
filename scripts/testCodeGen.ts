@@ -81,7 +81,7 @@ const generateSplitCode = (inputFilename: string, outputDir: string) => {
   const apiClientCode = codeGenerator.generateCode([
     {
       generator: () => {
-        return [`import { Schemas } from "./types";`];
+        return [`import { Schemas, RequestBodies } from "./types";`];
       },
     },
     codeGenerator.getAdditionalTypeDefinitionCustomCodeGenerator(),
