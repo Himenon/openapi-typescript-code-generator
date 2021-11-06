@@ -75,7 +75,7 @@ class Store {
   /**
    * @params path: "components/headers/hoge"
    */
-  public addStatement(path: string, statement: Structure.ComponentParams, override?: boolean): void {
+  public addStatement(path: string, statement: Structure.ComponentParams, options?: { override?: boolean }): void {
     // if (path.includes("io.k8s.apimachinery.pkg.util.intstr.IntOrString")) {
     //   console.log({ path, statement });
     //   throw new Error("でた")
@@ -84,7 +84,6 @@ class Store {
       const hasInterface = this.hasStatement(path, ["interface"]);
       const hasTypeAlias = this.hasStatement(path, ["typeAlias"]);
       console.log(`local value: kind=${statement.kind} reference.name = ${statement.name}, hasInterface=${hasInterface}, hasTypeAlias=${hasTypeAlias}`);
-      console.log(JSON.stringify(statement));
       console.log("");
     }
   
@@ -97,7 +96,7 @@ class Store {
       return;
     }
     // もしTypeAliasが同じスコープに登録されているかつ、interfaceが新しく追加しようとしている場合、既存のstatementを削除する
-    if (!!override || (this.hasStatement(targetPath, ["typeAlias"]) && statement.kind === "interface")) {
+    if (!!options?.override || (this.hasStatement(targetPath, ["typeAlias"]) && statement.kind === "interface")) {
       this.operator.remove(targetPath, "typeAlias");
     }
     this.operator.set(targetPath, Structure.createInstance(statement));
