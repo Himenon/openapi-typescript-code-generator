@@ -48,10 +48,6 @@ export const generateNamespace = (
       const reference = Reference.generate<OpenApi.Schema>(entryPoint, currentPoint, schema);
       if (reference.type === "local") {
         const { maybeResolvedName, depth, pathArray } = context.resolveReferencePath(currentPoint, reference.path);
-        // console.log({
-        //   depth,
-        //   pathArray,
-        // });
         const createTypeNode = () => {
           if (depth === 2) {
             return factory.TypeReferenceNode.create({
@@ -61,7 +57,7 @@ export const generateNamespace = (
           const schema = DotProp.get(context.rootSchema, pathArray.join(".")) as any;
           return ToTypeNode.convert(entryPoint, currentPoint, factory, schema, context, convertContext, { parent: schema });
         };
-        store.addStatement(`${basePath}/${name}`, {
+        return store.addStatement(`${basePath}/${name}`, {
           kind: "typeAlias",
           name: convertContext.escapeDeclarationText(name),
           value: factory.TypeAliasDeclaration.create({
@@ -70,7 +66,6 @@ export const generateNamespace = (
             type: createTypeNode(),
           }),
         });
-        return;
       }
       Schema.addSchema(
         entryPoint,
@@ -100,14 +95,30 @@ export const generateNamespace = (
       });
     }
     const schema = InferredType.getInferredType(targetSchema);
-    if (!schema) {
-      const typeNode = createNullableTypeNode(factory, targetSchema);
-      if (!typeNode) {
-        throw new UnSupportError("schema.type not specified \n" + JSON.stringify(targetSchema));
-      }
-      return typeNode;
-    }
     const path = `${basePath}/${name}`;
+    if (!schema) {
+      // ここは修正対象
+      // return store.addStatement(path, {
+      //   kind: "typeAlias",
+      //   name: convertContext.escapeDeclarationText(name),
+      //   value: Schema.generateTypeAlias(entryPoint, currentPoint, factory, name, { type: "null" }, convertContext),
+      // });
+      const typeNode = createNullableTypeNode(factory, targetSchema);
+      // if (!typeNode) {
+        // console.error(`Error[${name}]: ${JSON.stringify(targetSchema)}`);
+        // return factory.TypeNode.create({
+        //   type: "any",
+        // });
+        // throw new UnSupportError("schema.type not specified \n" + JSON.stringify(targetSchema));
+      // }
+      // TODO warnは出す
+      // console.warn(`Warning[${name}]: ${JSON.stringify(targetSchema)}`);
+      return store.addStatement(path, {
+        kind: "typeAlias",
+        name: convertContext.escapeDeclarationText(name),
+        value: Schema.generateTypeAlias(entryPoint, currentPoint, factory, name, { type: "any" }, convertContext),
+      });
+    }
     if (Guard.isAllOfSchema(schema)) {
       return store.addStatement(path, {
         kind: "typeAlias",
@@ -151,11 +162,14 @@ export const generateNamespace = (
       });
     }
     if (Guard.isPrimitiveSchema(schema)) {
+      if (path.match(/schemas\/io\.k8s\.apimachinery\.pkg\.util\.intstr\.IntOrString$/)) {
+        console.log(`きたよー: ${JSON.stringify(schema)}`);
+      }
       return store.addStatement(path, {
         kind: "typeAlias",
         name,
         value: Schema.generateTypeAlias(entryPoint, currentPoint, factory, name, schema, convertContext),
-      });
+      }, true);
     }
     throw new UnSupportError("schema.type = Array[] not supported. " + JSON.stringify(schema));
   });

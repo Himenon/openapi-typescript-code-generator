@@ -175,7 +175,7 @@ export const generateStatements = (
             export: true,
             name: converterContext.generateRequestBodyName(operationId),
             type: factory.TypeReferenceNode.create({
-              name: context.resolveReferencePath(currentPoint, `${reference.path}`) + "." + Name.ComponentChild.Content, // TODO Contextから作成？
+              name: context.resolveReferencePath(currentPoint, `${reference.path}`).name + "." + Name.ComponentChild.Content, // TODO Contextから作成？
             }),
           }),
         );

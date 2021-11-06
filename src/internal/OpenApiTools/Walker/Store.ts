@@ -3,6 +3,7 @@ import * as Path from "path";
 import { Tree } from "@himenon/path-oriented-data-structure";
 import Dot from "dot-prop";
 import ts from "typescript";
+import * as fs from "fs";
 
 import type { OpenApi } from "../../../types";
 import { UnSupportError } from "../../Exception";
@@ -51,7 +52,7 @@ class Store {
   }
   public getRootStatements(): ts.Statement[] {
     // Debug Point: 抽象的なデータ構造全体を把握するために出力すると良い
-    // fs.writeFileSync("debug/tree.json", JSON.stringify(this.operator.getHierarchy(), null, 2), { encoding: "utf-8" });
+    fs.writeFileSync("debug/tree.json", JSON.stringify(this.operator.getHierarchy(), null, 2), { encoding: "utf-8" });
     const statements = Def.componentNames.reduce<ts.Statement[]>((statements, componentName) => {
       const treeOfNamespace = this.getChildByPaths(componentName, "namespace");
       if (treeOfNamespace) {
@@ -74,7 +75,19 @@ class Store {
   /**
    * @params path: "components/headers/hoge"
    */
-  public addStatement(path: string, statement: Structure.ComponentParams): void {
+  public addStatement(path: string, statement: Structure.ComponentParams, override?: boolean): void {
+    // if (path.includes("io.k8s.apimachinery.pkg.util.intstr.IntOrString")) {
+    //   console.log({ path, statement });
+    //   throw new Error("でた")
+    // }
+    if (path.match(/schemas\/io\.k8s\.apimachinery\.pkg\.util\.intstr\.IntOrString$/)) {
+      const hasInterface = this.hasStatement(path, ["interface"]);
+      const hasTypeAlias = this.hasStatement(path, ["typeAlias"]);
+      console.log(`local value: kind=${statement.kind} reference.name = ${statement.name}, hasInterface=${hasInterface}, hasTypeAlias=${hasTypeAlias}`);
+      console.log(JSON.stringify(statement));
+      console.log("");
+    }
+  
     if (!path.startsWith("components")) {
       throw new UnSupportError(`componentsから始まっていません。path=${path}`);
     }
@@ -84,7 +97,7 @@ class Store {
       return;
     }
     // もしTypeAliasが同じスコープに登録されているかつ、interfaceが新しく追加しようとしている場合、既存のstatementを削除する
-    if (this.hasStatement(targetPath, ["typeAlias"]) && statement.kind === "interface") {
+    if (!!override || (this.hasStatement(targetPath, ["typeAlias"]) && statement.kind === "interface")) {
       this.operator.remove(targetPath, "typeAlias");
     }
     this.operator.set(targetPath, Structure.createInstance(statement));

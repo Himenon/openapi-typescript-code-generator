@@ -6,7 +6,7 @@ import { Factory } from "../../TsGenerator";
 import * as ConvertContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as ToTypeNode from "../toTypeNode";
-import type { ArraySchema, ObjectSchema, PrimitiveSchema } from "../types";
+import type { ArraySchema, ObjectSchema, PrimitiveSchema, AnySchema } from "../types";
 import type * as Walker from "../Walker";
 import * as ExternalDocumentation from "./ExternalDocumentation";
 
@@ -96,7 +96,7 @@ export const generateTypeAlias = (
   currentPoint: string,
   factory: Factory.Type,
   name: string,
-  schema: PrimitiveSchema,
+  schema: PrimitiveSchema | AnySchema,
   convertContext: ConvertContext.Types,
 ): ts.TypeAliasDeclaration => {
   let type: ts.TypeNode;

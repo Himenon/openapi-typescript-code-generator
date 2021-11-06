@@ -26,7 +26,12 @@ const generatePath = (entryPoint: string, currentPoint: string, referencePath: s
   };
 };
 
-const calculateReferencePath = (store: Walker.Store, base: string, pathArray: string[], converterContext: ConverterContext.Types,): ToTypeNode.ResolveReferencePath => {
+const calculateReferencePath = (
+  store: Walker.Store,
+  base: string,
+  pathArray: string[],
+  converterContext: ConverterContext.Types,
+): ToTypeNode.ResolveReferencePath => {
   let names: string[] = [];
   let unresolvedPaths: string[] = [];
   pathArray.reduce((previous, lastPath, index) => {
@@ -148,6 +153,12 @@ export const create = (
             name: converterContext.escapeTypeReferenceNodeName(maybeResolvedName),
           }),
         });
+        // ここで確認が必要そう？
+        // if (reference.path.match(/components\/schemas\/io\.k8s\.apimachinery\.pkg\.util\.intstr\.IntOrString$/)) {
+        //   const hasInterface = store.hasStatement(reference.path, ["interface"]);
+        //   const hasTypeAlias = store.hasStatement(reference.path, ["typeAlias"]);
+        //   console.log(`local value: reference.name = ${reference.name}, hasInterface=${hasInterface}, hasTypeAlias=${hasTypeAlias}`);
+        // }
         store.addStatement(reference.path, {
           name: reference.name,
           kind: "typeAlias",
