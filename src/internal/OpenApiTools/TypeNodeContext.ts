@@ -159,16 +159,16 @@ export const create = (
         //   const hasTypeAlias = store.hasStatement(reference.path, ["typeAlias"]);
         //   console.log(`local value: reference.name = ${reference.name}, hasInterface=${hasInterface}, hasTypeAlias=${hasTypeAlias}`);
         // }
-        if ("RequestBodies.io$k8s$api$core$v1$Namespace" === maybeResolvedName) {
-          console.log({
-            reference,
-            name1: converterContext.escapeDeclarationText(reference.name),
-            name2: converterContext.escapeTypeReferenceNodeName(maybeResolvedName),
-            hasStatement1: store.hasStatement(reference.path, ["typeAlias"]),
-            hasStatement2: store.hasStatement(reference.path, ["interface"]),
-            hasStatement3: store.hasStatement(reference.path, ["namespace"]),
-          })
-        }
+        // if ("RequestBodies.io$k8s$api$core$v1$Namespace" === maybeResolvedName) {
+        //   console.log({
+        //     reference,
+        //     name1: converterContext.escapeDeclarationText(reference.name),
+        //     name2: converterContext.escapeTypeReferenceNodeName(maybeResolvedName),
+        //     hasStatement1: store.hasStatement(reference.path, ["typeAlias"]),
+        //     hasStatement2: store.hasStatement(reference.path, ["interface"]),
+        //     hasStatement3: store.hasStatement(reference.path, ["namespace"]),
+        //   })
+        // }
         store.addStatement(reference.path, {
           name: reference.name,
           kind: "typeAlias",
