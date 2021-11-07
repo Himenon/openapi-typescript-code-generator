@@ -2962,7 +2962,7 @@ export namespace Schemas {
         filed?: string;
     }
     export type InferStringEnum = \\"a\\" | \\"b\\" | \\"c\\";
-    export type InferAnyNullable = any;
+    export type InferAnyNullable = null;
 }
 export type HttpMethod = \\"GET\\" | \\"PUT\\" | \\"POST\\" | \\"DELETE\\" | \\"OPTIONS\\" | \\"HEAD\\" | \\"PATCH\\" | \\"TRACE\\";
 export interface ObjectLike {

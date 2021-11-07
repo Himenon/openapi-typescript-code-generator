@@ -91,6 +91,38 @@ export const generateArrayTypeAlias = (
   });
 };
 
+const createNullableTypeNodeOrAny = (factory: Factory.Type, schema: OpenApi.Schema) => {
+  const typeNode = factory.TypeNode.create({
+    type: "any",
+  });
+  if (!schema.type && typeof schema.nullable === "boolean") {
+    return factory.TypeNode.create({
+      type: "null",
+    });
+  }
+  return typeNode;
+};
+
+/**
+ * 型定義が特定できなかった場合に利用する
+ */
+export const generateNotInferedTypeAlias = (
+  entryPoint: string,
+  currentPoint: string,
+  factory: Factory.Type,
+  name: string,
+  schema: OpenApi.Schema,
+  convertContext: ConvertContext.Types,
+) => {
+  const typeNode = createNullableTypeNodeOrAny(factory, schema);
+  return factory.TypeAliasDeclaration.create({
+    export: true,
+    name: convertContext.escapeDeclarationText(name),
+    type: typeNode,
+    comment: schema.description,
+  });
+};
+
 export const generateTypeAlias = (
   entryPoint: string,
   currentPoint: string,

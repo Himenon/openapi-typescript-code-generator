@@ -89,7 +89,7 @@ export const generateNamespace = (
         {
           kind: "typeAlias",
           name: convertContext.escapeDeclarationText(name),
-          value: Schema.generateTypeAlias(entryPoint, currentPoint, factory, name, { type: "any" }, convertContext),
+          value: Schema.generateNotInferedTypeAlias(entryPoint, currentPoint, factory, name, targetSchema, convertContext),
         },
         { override: true },
       );
