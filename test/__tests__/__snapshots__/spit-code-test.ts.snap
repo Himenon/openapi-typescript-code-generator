@@ -196,7 +196,7 @@ exports[`Split Code types 1`] = `
 // 
 
 
-export namespace schemas {
+export namespace Schemas {
     /** String Literal */
     export type StringType = string;
     export type StringHasEnumType = \\"a\\" | \\"A\\" | \\"b\\" | \\"B\\" | \\"c\\" | \\"C\\";

@@ -57,12 +57,17 @@ class Store {
       statements,
     });
   }
+  private capitalizeFirstLetter(text: string): string {
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  }
   public getRootStatements(): ts.Statement[] {
     // Debug Point: 抽象的なデータ構造全体を把握するために出力すると良い
     // fs.writeFileSync("debug/tree.json", JSON.stringify(this.operator.getHierarchy(), null, 2), { encoding: "utf-8" });
     const statements = Def.componentNames.reduce<ts.Statement[]>((statements, componentName) => {
       const treeOfNamespace = this.getChildByPaths(componentName, "namespace");
       if (treeOfNamespace) {
+        treeOfNamespace.name = this.capitalizeFirstLetter(treeOfNamespace.name);
+        console.log(`TreeName = ${treeOfNamespace.name}`);
         return statements.concat(this.convertNamespace(treeOfNamespace));
       }
       return statements;

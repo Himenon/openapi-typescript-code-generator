@@ -10,7 +10,7 @@ exports[`Typedef only typedef-api.test.domain 1`] = `
 // 
 
 
-export namespace schemas {
+export namespace Schemas {
     /** String Literal */
     export type StringType = string;
     export type StringHasEnumType = \\"a\\" | \\"A\\" | \\"b\\" | \\"B\\" | \\"c\\" | \\"C\\";
@@ -300,7 +300,7 @@ exports[`Typedef only typedef-infer.domain 1`] = `
 // 
 
 
-export namespace schemas {
+export namespace Schemas {
     export type InferArrayEmptyItems = {}[];
     export type InferArrayType = string[];
     export interface InferObjectItem {

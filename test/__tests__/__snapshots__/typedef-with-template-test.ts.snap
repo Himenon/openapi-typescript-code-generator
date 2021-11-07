@@ -10,7 +10,7 @@ exports[`Typedef with template api.test.domain 1`] = `
 // 
 
 
-export namespace schemas {
+export namespace Schemas {
     /** String Literal */
     export type StringType = string;
     export type StringHasEnumType = \\"a\\" | \\"A\\" | \\"b\\" | \\"B\\" | \\"c\\" | \\"C\\";
@@ -510,7 +510,7 @@ exports[`Typedef with template argo-rollout 1`] = `
 // 
 
 
-export namespace schemas {
+export namespace Schemas {
     export interface github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$ALBTrafficRouting {
         ingress?: string;
         servicePort?: number;
@@ -2511,7 +2511,7 @@ exports[`Typedef with template async-api.test.domain 1`] = `
 // 
 
 
-export namespace schemas {
+export namespace Schemas {
     /** String Literal */
     export type StringType = string;
     export type StringHasEnumType = \\"a\\" | \\"A\\" | \\"b\\" | \\"B\\" | \\"c\\" | \\"C\\";
@@ -2949,7 +2949,7 @@ exports[`Typedef with template infer.domain 1`] = `
 // 
 
 
-export namespace schemas {
+export namespace Schemas {
     export type InferArrayEmptyItems = {}[];
     export type InferArrayType = string[];
     export interface InferObjectItem {
@@ -2998,7 +2998,7 @@ exports[`Typedef with template ref-access 1`] = `
 // 
 
 
-export namespace schemas {
+export namespace Schemas {
     export interface Book {
         author?: {
             name?: string;
