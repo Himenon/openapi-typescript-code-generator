@@ -6,7 +6,7 @@ import { Factory } from "../../TsGenerator";
 import * as ConvertContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as ToTypeNode from "../toTypeNode";
-import type { ArraySchema, ObjectSchema, PrimitiveSchema, AnySchema } from "../types";
+import type { AnySchema, ArraySchema, ObjectSchema, PrimitiveSchema } from "../types";
 import type * as Walker from "../Walker";
 import * as ExternalDocumentation from "./ExternalDocumentation";
 

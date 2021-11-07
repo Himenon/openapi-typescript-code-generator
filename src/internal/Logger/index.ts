@@ -17,4 +17,4 @@ export const error = (message: string): void => {
 
 export const warn = (message: string): void => {
   console.log(message);
-}
+};
