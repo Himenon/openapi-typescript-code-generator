@@ -114,14 +114,13 @@ const main = () => {
   });
   generateTypedefWithTemplateCode("test/infer.domain/index.yml", "test/code/typedef-with-template/infer.domain.ts", false, { sync: false });
 
-  generateTypedefWithTemplateCode("test/argo-rollout/index.json", "test/code/typedef-with-template/argo-rollout.ts", false, {
-    sync: false,
-  });
-
   generateTypedefWithTemplateCode("test/ref.access/index.yml", "test/code/typedef-with-template/ref-access.ts", false, {
     sync: false,
   });
   generateTypedefWithTemplateCode("test/kubernetes/openapi.json", "test/code/kubernetes/client.ts", false, { sync: false });
+  generateTypedefWithTemplateCode("test/argo-rollout/index.json", "test/code/argo-rollout/client.ts", false, {
+    sync: false,
+  });
 
   generateSplitCode("test/api.test.domain/index.yml", "test/code/split");
   generateSplitCode("test/kubernetes/openapi.json", "test/code/kubernetes");
