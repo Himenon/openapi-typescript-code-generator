@@ -3,7 +3,6 @@ import * as Path from "path";
 import { Tree } from "@himenon/path-oriented-data-structure";
 import Dot from "dot-prop";
 import ts from "typescript";
-import * as fs from "fs";
 
 import type { OpenApi } from "../../../types";
 import { UnSupportError } from "../../Exception";
@@ -12,6 +11,14 @@ import * as Def from "./Definition";
 import * as Operation from "./Operation";
 import * as State from "./State";
 import * as Structure from "./structure";
+
+export interface AddStatementOption {
+  /**
+   * pathに対して強制的にSchemaを上書きするフラグ
+   * TypeAliasが先に登録され、Primitiveな型定義が登録されない問題を解決する
+   */
+  override?: boolean;
+}
 
 class Store {
   private state: State.Type;
@@ -52,7 +59,7 @@ class Store {
   }
   public getRootStatements(): ts.Statement[] {
     // Debug Point: 抽象的なデータ構造全体を把握するために出力すると良い
-    fs.writeFileSync("debug/tree.json", JSON.stringify(this.operator.getHierarchy(), null, 2), { encoding: "utf-8" });
+    // fs.writeFileSync("debug/tree.json", JSON.stringify(this.operator.getHierarchy(), null, 2), { encoding: "utf-8" });
     const statements = Def.componentNames.reduce<ts.Statement[]>((statements, componentName) => {
       const treeOfNamespace = this.getChildByPaths(componentName, "namespace");
       if (treeOfNamespace) {
@@ -75,7 +82,7 @@ class Store {
   /**
    * @params path: "components/headers/hoge"
    */
-  public addStatement(path: string, statement: Structure.ComponentParams, options?: { override?: boolean }): void {
+  public addStatement(path: string, statement: Structure.ComponentParams, options?: AddStatementOption): void {
     if (!path.startsWith("components")) {
       throw new UnSupportError(`componentsから始まっていません。path=${path}`);
     }

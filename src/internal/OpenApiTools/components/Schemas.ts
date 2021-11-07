@@ -6,27 +6,12 @@ import { Factory } from "../../TsGenerator";
 import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as InferredType from "../InferredType";
+import * as Logger from "../..//Logger"
 import * as Name from "../Name";
 import * as ToTypeNode from "../toTypeNode";
 import type * as Walker from "../Walker";
 import * as Reference from "./Reference";
 import * as Schema from "./Schema";
-
-const createNullableTypeNode = (factory: Factory.Type, schema: OpenApi.Schema) => {
-  if (!schema.type && typeof schema.nullable === "boolean") {
-    const typeNode = factory.TypeNode.create({
-      type: "any",
-    });
-    return factory.UnionTypeNode.create({
-      typeNodes: [
-        typeNode,
-        factory.TypeNode.create({
-          type: "null",
-        }),
-      ],
-    });
-  }
-};
 
 export const generateNamespace = (
   entryPoint: string,
@@ -97,22 +82,8 @@ export const generateNamespace = (
     const schema = InferredType.getInferredType(targetSchema);
     const path = `${basePath}/${name}`;
     if (!schema) {
-      // ここは修正対象
-      // return store.addStatement(path, {
-      //   kind: "typeAlias",
-      //   name: convertContext.escapeDeclarationText(name),
-      //   value: Schema.generateTypeAlias(entryPoint, currentPoint, factory, name, { type: "null" }, convertContext),
-      // });
-      const typeNode = createNullableTypeNode(factory, targetSchema);
-      // if (!typeNode) {
-        // console.error(`Error[${name}]: ${JSON.stringify(targetSchema)}`);
-        // return factory.TypeNode.create({
-        //   type: "any",
-        // });
-        // throw new UnSupportError("schema.type not specified \n" + JSON.stringify(targetSchema));
-      // }
-      // TODO warnは出す
-      // console.warn(`Warning[${name}]: ${JSON.stringify(targetSchema)}`);
+      // Schemaが特定できないためWarningを出力する
+      Logger.warn(`Warning: Schema could not be identified. Therefore, it is treated as any. ${name}`);  
       return store.addStatement(path, {
         kind: "typeAlias",
         name: convertContext.escapeDeclarationText(name),
