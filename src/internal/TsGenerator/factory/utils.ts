@@ -14,7 +14,11 @@ export const escapeIdentiferText = (text: string): string => {
 };
 
 export const generateComment = (comment: string, deprecated?: boolean): Comment => {
-  const splitComments = deprecated ? ["@deprecated"].concat(comment.split(/\r?\n/)) : comment.split(/\r?\n/);
+  const excapedComment = comment
+    .replace(/\*\//, "\\*\\\\/") // */  -> \*\/
+    .replace(/\/\*/, "/\\\\*") // /*  -> \/\*
+    .replace(/\*\/\*/, "\\*\\/\\*"); // */* -> \*\/\*
+  const splitComments = deprecated ? ["@deprecated"].concat(excapedComment.split(/\r?\n/)) : excapedComment.split(/\r?\n/);
   const comments = splitComments.filter((comment, index) => {
     if (index === splitComments.length - 1 && comment === "") {
       return false;

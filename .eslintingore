@@ -1,2 +1,7 @@
 lib
 debug
+test/code/
+lib/
+test/kubernetes
+test/argo-rollout
+CHANGELOG.md

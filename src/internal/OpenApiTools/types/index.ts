@@ -31,3 +31,7 @@ export interface ArraySchema extends Omit<OpenApi.Schema, "type"> {
 export interface PrimitiveSchema extends Omit<OpenApi.Schema, "type"> {
   type: "string" | "number" | "integer" | "boolean" | "null";
 }
+
+export interface AnySchema extends Omit<OpenApi.Schema, "type"> {
+  type: "any";
+}

@@ -313,6 +313,7 @@ export namespace Schemas {
         filed?: string;
     }
     export type InferStringEnum = \\"a\\" | \\"b\\" | \\"c\\";
+    export type InferAnyNullable = null;
 }
 "
 `;

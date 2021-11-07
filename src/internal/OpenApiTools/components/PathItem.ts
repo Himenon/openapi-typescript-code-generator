@@ -29,28 +29,116 @@ export const generateNamespace = (
     comment: Servers.addComment([topComment, pathItem.description], pathItem.servers),
   });
   if (pathItem.get) {
-    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "GET", pathItem.get, pathItem.parameters, context, converterContext);
+    Operation.generateNamespace(
+      entryPoint,
+      currentPoint,
+      store,
+      factory,
+      basePath,
+      "GET",
+      pathItem.get,
+      pathItem.parameters,
+      context,
+      converterContext,
+    );
   }
   if (pathItem.put) {
-    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "PUT", pathItem.put, pathItem.parameters,context, converterContext);
+    Operation.generateNamespace(
+      entryPoint,
+      currentPoint,
+      store,
+      factory,
+      basePath,
+      "PUT",
+      pathItem.put,
+      pathItem.parameters,
+      context,
+      converterContext,
+    );
   }
   if (pathItem.post) {
-    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "POST", pathItem.post, pathItem.parameters, context, converterContext);
+    Operation.generateNamespace(
+      entryPoint,
+      currentPoint,
+      store,
+      factory,
+      basePath,
+      "POST",
+      pathItem.post,
+      pathItem.parameters,
+      context,
+      converterContext,
+    );
   }
   if (pathItem.delete) {
-    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "DELETE", pathItem.delete, pathItem.parameters, context, converterContext);
+    Operation.generateNamespace(
+      entryPoint,
+      currentPoint,
+      store,
+      factory,
+      basePath,
+      "DELETE",
+      pathItem.delete,
+      pathItem.parameters,
+      context,
+      converterContext,
+    );
   }
   if (pathItem.options) {
-    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "OPTIONS", pathItem.options, pathItem.parameters, context, converterContext);
+    Operation.generateNamespace(
+      entryPoint,
+      currentPoint,
+      store,
+      factory,
+      basePath,
+      "OPTIONS",
+      pathItem.options,
+      pathItem.parameters,
+      context,
+      converterContext,
+    );
   }
   if (pathItem.head) {
-    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "HEAD", pathItem.head, pathItem.parameters, context, converterContext);
+    Operation.generateNamespace(
+      entryPoint,
+      currentPoint,
+      store,
+      factory,
+      basePath,
+      "HEAD",
+      pathItem.head,
+      pathItem.parameters,
+      context,
+      converterContext,
+    );
   }
   if (pathItem.patch) {
-    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "PATCH", pathItem.patch, pathItem.parameters, context, converterContext);
+    Operation.generateNamespace(
+      entryPoint,
+      currentPoint,
+      store,
+      factory,
+      basePath,
+      "PATCH",
+      pathItem.patch,
+      pathItem.parameters,
+      context,
+      converterContext,
+    );
   }
   if (pathItem.trace) {
-    Operation.generateNamespace(entryPoint, currentPoint, store, factory, basePath, "TRACE", pathItem.trace, pathItem.parameters, context, converterContext);
+    Operation.generateNamespace(
+      entryPoint,
+      currentPoint,
+      store,
+      factory,
+      basePath,
+      "TRACE",
+      pathItem.trace,
+      pathItem.parameters,
+      context,
+      converterContext,
+    );
   }
   if (pathItem.parameters) {
     Parameters.generateNamespaceWithList(entryPoint, currentPoint, store, factory, pathItem.parameters, context, converterContext);
@@ -70,22 +158,66 @@ export const generateStatements = (
   const statements: ts.Statement[][] = [];
   if (pathItem.get) {
     statements.push(
-      Operation.generateStatements(entryPoint, currentPoint, store, factory, requestUri, "GET", pathItem.get, pathItem.parameters, context, converterContext),
+      Operation.generateStatements(
+        entryPoint,
+        currentPoint,
+        store,
+        factory,
+        requestUri,
+        "GET",
+        pathItem.get,
+        pathItem.parameters,
+        context,
+        converterContext,
+      ),
     );
   }
   if (pathItem.put) {
     statements.push(
-      Operation.generateStatements(entryPoint, currentPoint, store, factory, requestUri, "PUT", pathItem.put, pathItem.parameters, context, converterContext),
+      Operation.generateStatements(
+        entryPoint,
+        currentPoint,
+        store,
+        factory,
+        requestUri,
+        "PUT",
+        pathItem.put,
+        pathItem.parameters,
+        context,
+        converterContext,
+      ),
     );
   }
   if (pathItem.post) {
     statements.push(
-      Operation.generateStatements(entryPoint, currentPoint, store, factory, requestUri, "POST", pathItem.post, pathItem.parameters, context, converterContext),
+      Operation.generateStatements(
+        entryPoint,
+        currentPoint,
+        store,
+        factory,
+        requestUri,
+        "POST",
+        pathItem.post,
+        pathItem.parameters,
+        context,
+        converterContext,
+      ),
     );
   }
   if (pathItem.delete) {
     statements.push(
-      Operation.generateStatements(entryPoint, currentPoint, store, factory, requestUri, "DELETE", pathItem.delete, pathItem.parameters, context, converterContext),
+      Operation.generateStatements(
+        entryPoint,
+        currentPoint,
+        store,
+        factory,
+        requestUri,
+        "DELETE",
+        pathItem.delete,
+        pathItem.parameters,
+        context,
+        converterContext,
+      ),
     );
   }
   if (pathItem.options) {
@@ -106,17 +238,50 @@ export const generateStatements = (
   }
   if (pathItem.head) {
     statements.push(
-      Operation.generateStatements(entryPoint, currentPoint, store, factory, requestUri, "HEAD", pathItem.head, pathItem.parameters, context, converterContext),
+      Operation.generateStatements(
+        entryPoint,
+        currentPoint,
+        store,
+        factory,
+        requestUri,
+        "HEAD",
+        pathItem.head,
+        pathItem.parameters,
+        context,
+        converterContext,
+      ),
     );
   }
   if (pathItem.patch) {
     statements.push(
-      Operation.generateStatements(entryPoint, currentPoint, store, factory, requestUri, "PATCH", pathItem.patch, pathItem.parameters, context, converterContext),
+      Operation.generateStatements(
+        entryPoint,
+        currentPoint,
+        store,
+        factory,
+        requestUri,
+        "PATCH",
+        pathItem.patch,
+        pathItem.parameters,
+        context,
+        converterContext,
+      ),
     );
   }
   if (pathItem.trace) {
     statements.push(
-      Operation.generateStatements(entryPoint, currentPoint, store, factory, requestUri, "TRACE", pathItem.trace, pathItem.parameters, context, converterContext),
+      Operation.generateStatements(
+        entryPoint,
+        currentPoint,
+        store,
+        factory,
+        requestUri,
+        "TRACE",
+        pathItem.trace,
+        pathItem.parameters,
+        context,
+        converterContext,
+      ),
     );
   }
   // if (pathItem.parameters) {

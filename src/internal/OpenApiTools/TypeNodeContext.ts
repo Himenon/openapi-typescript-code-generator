@@ -26,7 +26,12 @@ const generatePath = (entryPoint: string, currentPoint: string, referencePath: s
   };
 };
 
-const calculateReferencePath = (store: Walker.Store, base: string, pathArray: string[], converterContext: ConverterContext.Types,): ToTypeNode.ResolveReferencePath => {
+const calculateReferencePath = (
+  store: Walker.Store,
+  base: string,
+  pathArray: string[],
+  converterContext: ConverterContext.Types,
+): ToTypeNode.ResolveReferencePath => {
   let names: string[] = [];
   let unresolvedPaths: string[] = [];
   pathArray.reduce((previous, lastPath, index) => {

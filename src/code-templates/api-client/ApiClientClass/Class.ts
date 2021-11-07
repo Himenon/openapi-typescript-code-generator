@@ -16,8 +16,9 @@ export const create = (factory: TsGenerator.Factory.Type, members: ts.ClassEleme
         modifiers: [ts.factory.createModifier(ts.SyntaxKind.PrivateKeyword)],
         name: "baseUrl",
         type: ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
-      })
-      ,...members],
+      }),
+      ...members,
+    ],
     typeParameterDeclaration: [
       factory.TypeParameterDeclaration.create({
         name: "RequestOption",

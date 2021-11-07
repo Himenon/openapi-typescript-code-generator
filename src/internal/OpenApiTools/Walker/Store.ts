@@ -12,6 +12,14 @@ import * as Operation from "./Operation";
 import * as State from "./State";
 import * as Structure from "./structure";
 
+export interface AddStatementOption {
+  /**
+   * pathに対して強制的にSchemaを上書きするフラグ
+   * TypeAliasが先に登録され、Primitiveな型定義が登録されない問題を解決する
+   */
+  override?: boolean;
+}
+
 class Store {
   private state: State.Type;
   private operator: Structure.OperatorType;
@@ -49,12 +57,16 @@ class Store {
       statements,
     });
   }
+  private capitalizeFirstLetter(text: string): string {
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  }
   public getRootStatements(): ts.Statement[] {
     // Debug Point: 抽象的なデータ構造全体を把握するために出力すると良い
     // fs.writeFileSync("debug/tree.json", JSON.stringify(this.operator.getHierarchy(), null, 2), { encoding: "utf-8" });
     const statements = Def.componentNames.reduce<ts.Statement[]>((statements, componentName) => {
       const treeOfNamespace = this.getChildByPaths(componentName, "namespace");
       if (treeOfNamespace) {
+        treeOfNamespace.name = this.capitalizeFirstLetter(treeOfNamespace.name);
         return statements.concat(this.convertNamespace(treeOfNamespace));
       }
       return statements;
@@ -74,23 +86,32 @@ class Store {
   /**
    * @params path: "components/headers/hoge"
    */
-  public addStatement(path: string, statement: Structure.ComponentParams): void {
+  public addStatement(path: string, statement: Structure.ComponentParams, options?: AddStatementOption): void {
     if (!path.startsWith("components")) {
       throw new UnSupportError(`componentsから始まっていません。path=${path}`);
     }
     const targetPath = Path.posix.relative("components", path);
-    // すでにinterfaceとして登録がある場合はスキップ
-    if (this.hasStatement(targetPath, ["interface"])) {
+    // すでにinterfaceまたはNAMESPACEとして登録がある場合はスキップ
+    if (this.hasStatement(targetPath, ["interface", "namespace"])) {
       return;
     }
     // もしTypeAliasが同じスコープに登録されているかつ、interfaceが新しく追加しようとしている場合、既存のstatementを削除する
-    if (this.hasStatement(targetPath, ["typeAlias"]) && statement.kind === "interface") {
+    if (!!options?.override || (this.hasStatement(targetPath, ["typeAlias"]) && statement.kind === "interface")) {
       this.operator.remove(targetPath, "typeAlias");
     }
     this.operator.set(targetPath, Structure.createInstance(statement));
   }
   public getStatement<T extends Structure.DataStructure.Kind>(path: string, kind: T): Structure.DataStructure.GetChild<T> | undefined {
     const targetPath = Path.posix.relative("components", path);
+    // components/schemasの場合
+    if (path.split("/").length === 2 && kind === "namespace") {
+      const child = this.getChildByPaths(targetPath, kind);
+      if (child) {
+        // FIXME Side Effect
+        child.name = this.capitalizeFirstLetter(child.name);
+      }
+      return child;
+    }
     return this.getChildByPaths(targetPath, kind);
   }
   public addComponent(componentName: Def.ComponentName, statement: Structure.ComponentParams): void {

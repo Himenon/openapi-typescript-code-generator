@@ -124,13 +124,25 @@ export const convert: Convert = (
   }
 
   if (Guard.isOneOfSchema(schema)) {
-    return nullable(factory, generateMultiTypeNode(entryPoint, currentPoint, factory, schema.oneOf, context, convert, converterContext, "oneOf"), !!schema.nullable);
+    return nullable(
+      factory,
+      generateMultiTypeNode(entryPoint, currentPoint, factory, schema.oneOf, context, convert, converterContext, "oneOf"),
+      !!schema.nullable,
+    );
   }
   if (Guard.isAllOfSchema(schema)) {
-    return nullable(factory, generateMultiTypeNode(entryPoint, currentPoint, factory, schema.allOf, context, convert, converterContext, "allOf"), !!schema.nullable);
+    return nullable(
+      factory,
+      generateMultiTypeNode(entryPoint, currentPoint, factory, schema.allOf, context, convert, converterContext, "allOf"),
+      !!schema.nullable,
+    );
   }
   if (Guard.isAnyOfSchema(schema)) {
-    return nullable(factory, generateMultiTypeNode(entryPoint, currentPoint, factory, schema.anyOf, context, convert, converterContext, "anyOf"), !!schema.nullable);
+    return nullable(
+      factory,
+      generateMultiTypeNode(entryPoint, currentPoint, factory, schema.anyOf, context, convert, converterContext, "anyOf"),
+      !!schema.nullable,
+    );
   }
 
   if (Guard.isHasNoMembersObject(schema)) {

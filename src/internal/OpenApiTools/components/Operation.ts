@@ -55,23 +55,14 @@ export const generateNamespace = (
     deprecated: operation.deprecated,
   });
 
-  const parameters = [...pathItemParameters || [], ...operation.parameters || []];
+  const parameters = [...(pathItemParameters || []), ...(operation.parameters || [])];
 
   if (parameters.length > 0) {
     const parameterName = "Parameter";
     store.addStatement(`${basePath}/Parameter`, {
       kind: "interface",
       name: parameterName,
-      value: Parameter.generateInterface(
-        entryPoint,
-        currentPoint,
-        store,
-        factory,
-        parameterName,
-        parameters,
-        context,
-        converterContext,
-      ),
+      value: Parameter.generateInterface(entryPoint, currentPoint, store, factory, parameterName, parameters, context, converterContext),
     });
   }
 
@@ -148,20 +139,11 @@ export const generateStatements = (
     throw new Error("not setting operationId\n" + JSON.stringify(operation));
   }
   store.updateOperationState(httpMethod, requestUri, operationId, {});
-  const parameters = [...pathItemParameters || [], ...operation.parameters || []];
+  const parameters = [...(pathItemParameters || []), ...(operation.parameters || [])];
   if (parameters.length > 0) {
     const parameterName = converterContext.generateParameterName(operationId);
     statements.push(
-      Parameter.generateAliasInterface(
-        entryPoint,
-        currentPoint,
-        store,
-        factory,
-        parameterName,
-        parameters,
-        context,
-        converterContext,
-      ),
+      Parameter.generateAliasInterface(entryPoint, currentPoint, store, factory, parameterName, parameters, context, converterContext),
     );
   }
   if (operation.requestBody) {
@@ -175,7 +157,7 @@ export const generateStatements = (
             export: true,
             name: converterContext.generateRequestBodyName(operationId),
             type: factory.TypeReferenceNode.create({
-              name: context.resolveReferencePath(currentPoint, `${reference.path}`) + "." + Name.ComponentChild.Content, // TODO Contextから作成？
+              name: context.resolveReferencePath(currentPoint, `${reference.path}`).name + "." + Name.ComponentChild.Content, // TODO Contextから作成？
             }),
           }),
         );

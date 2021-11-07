@@ -114,11 +114,11 @@ const main = () => {
   });
   generateTypedefWithTemplateCode("test/infer.domain/index.yml", "test/code/typedef-with-template/infer.domain.ts", false, { sync: false });
 
-  generateTypedefWithTemplateCode("test/argo-rollout/index.json", "test/code/typedef-with-template/argo-rollout.ts", false, {
+  generateTypedefWithTemplateCode("test/ref.access/index.yml", "test/code/typedef-with-template/ref-access.ts", false, {
     sync: false,
   });
-
-  generateTypedefWithTemplateCode("test/ref.access/index.yml", "test/code/typedef-with-template/ref-access.ts", false, {
+  generateTypedefWithTemplateCode("test/kubernetes/openapi-v1.18.5.json", "test/code/kubernetes/client-v1.18.5.ts", false, { sync: false });
+  generateTypedefWithTemplateCode("test/argo-rollout/index.json", "test/code/argo-rollout/client.ts", false, {
     sync: false,
   });
 
@@ -126,8 +126,6 @@ const main = () => {
 
   generateParameter("test/api.test.domain/index.yml", "test/code/parameter/api.test.domain.json");
   generateParameter("test/infer.domain/index.yml", "test/code/parameter/infer.domain.json");
-
-
 };
 
 main();

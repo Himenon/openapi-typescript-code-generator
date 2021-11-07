@@ -42,10 +42,11 @@ export const generateNamespace = (
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
 ): void => {
+  const escapeName = converterContext.escapeDeclarationText(name);
   const basePath = `${parentName}/${name}`;
   store.addStatement(basePath, {
     kind: "namespace",
-    name,
+    name: converterContext.escapeDeclarationText(escapeName),
     comment: requestBody.description,
   });
   store.addStatement(`${basePath}/Content`, {
