@@ -67,7 +67,6 @@ class Store {
       const treeOfNamespace = this.getChildByPaths(componentName, "namespace");
       if (treeOfNamespace) {
         treeOfNamespace.name = this.capitalizeFirstLetter(treeOfNamespace.name);
-        console.log(`TreeName = ${treeOfNamespace.name}`);
         return statements.concat(this.convertNamespace(treeOfNamespace));
       }
       return statements;
@@ -104,6 +103,15 @@ class Store {
   }
   public getStatement<T extends Structure.DataStructure.Kind>(path: string, kind: T): Structure.DataStructure.GetChild<T> | undefined {
     const targetPath = Path.posix.relative("components", path);
+    // components/schemasの場合
+    if (path.split("/").length === 2 && kind === "namespace") {
+      const child = this.getChildByPaths(targetPath, kind);
+      if (child) {
+        // FIXME Side Effect
+        child.name = this.capitalizeFirstLetter(child.name);
+      }
+      return child;
+    }
     return this.getChildByPaths(targetPath, kind);
   }
   public addComponent(componentName: Def.ComponentName, statement: Structure.ComponentParams): void {

@@ -49,34 +49,34 @@ export namespace Schemas {
     } & {
         B?: string;
     };
-    export type LocalRefStringType = schemas.StringType;
-    export type LocalRefNumberType = schemas.NumberType;
-    export type LocalRefBooleanType = schemas.BooleanType;
-    export type LocalRefArrayStringType = schemas.BooleanType;
-    export type LocalRefObjectHasPropertiesType = schemas.ObjectHasPropertiesType;
+    export type LocalRefStringType = Schemas.StringType;
+    export type LocalRefNumberType = Schemas.NumberType;
+    export type LocalRefBooleanType = Schemas.BooleanType;
+    export type LocalRefArrayStringType = Schemas.BooleanType;
+    export type LocalRefObjectHasPropertiesType = Schemas.ObjectHasPropertiesType;
     export interface LocalRefObjectProperties {
-        stringType: schemas.StringType;
-        numberType: schemas.NumberType;
-        booleanType: schemas.BooleanType;
-        arrayType: schemas.BooleanType;
-        objectType: schemas.ObjectHasPropertiesType;
+        stringType: Schemas.StringType;
+        numberType: Schemas.NumberType;
+        booleanType: Schemas.BooleanType;
+        arrayType: Schemas.BooleanType;
+        objectType: Schemas.ObjectHasPropertiesType;
     }
-    export type LocalRefOneOfType = schemas.StringType | schemas.NumberType | schemas.ObjectHasPropertiesType | schemas.LocalRefObjectProperties;
-    export type LocalRefAllOfType = schemas.StringType & schemas.NumberType & schemas.ObjectHasPropertiesType & schemas.LocalRefObjectProperties;
-    export type LocalReferenceBeforeResolvedSchema1 = schemas.UnresolvedTarget1;
+    export type LocalRefOneOfType = Schemas.StringType | Schemas.NumberType | Schemas.ObjectHasPropertiesType | Schemas.LocalRefObjectProperties;
+    export type LocalRefAllOfType = Schemas.StringType & Schemas.NumberType & Schemas.ObjectHasPropertiesType & Schemas.LocalRefObjectProperties;
+    export type LocalReferenceBeforeResolvedSchema1 = Schemas.UnresolvedTarget1;
     export type UnresolvedTarget1 = boolean;
-    export type LocalReferenceBeforeResolvedSchema2 = schemas.UnresolvedTarget2;
-    export type UnresolvedTarget2 = schemas.UnresolvedTarget3;
+    export type LocalReferenceBeforeResolvedSchema2 = Schemas.UnresolvedTarget2;
+    export type UnresolvedTarget2 = Schemas.UnresolvedTarget3;
     export type UnresolvedTarget3 = number;
     export interface LocalReferenceBeforeResolvedSchema3 {
-        unresolvedTarget4?: schemas.UnresolvedTarget4;
+        unresolvedTarget4?: Schemas.UnresolvedTarget4;
     }
     export interface UnresolvedTarget4 {
-        unresolvedTarget5?: schemas.UnresolvedTarget5;
+        unresolvedTarget5?: Schemas.UnresolvedTarget5;
     }
     export type UnresolvedTarget5 = string;
     export type RemoteString = string;
-    export type RemoteRefString = schemas.RemoteString;
+    export type RemoteRefString = Schemas.RemoteString;
     export namespace Level1 {
         /** Level 1 */
         export type RemoteBoolean = boolean;
@@ -97,13 +97,13 @@ export namespace Schemas {
         }
     }
     /** Level 1 */
-    export type RemoteRefBoolean = schemas.Level1.RemoteBoolean;
+    export type RemoteRefBoolean = Schemas.Level1.RemoteBoolean;
     /** Level 2 */
-    export type RemoteRefNumber = schemas.Level1.Level2.RemoteNumber;
+    export type RemoteRefNumber = Schemas.Level1.Level2.RemoteNumber;
     /** Level 3 */
-    export type RemoteRefArray = schemas.Level1.Level2.Level3.RemoteArray;
+    export type RemoteRefArray = Schemas.Level1.Level2.Level3.RemoteArray;
     /** Level 4 */
-    export type RemoteRefObject = schemas.Level1.Level2.Level3.Level4.RemoteObject;
+    export type RemoteRefObject = Schemas.Level1.Level2.Level3.Level4.RemoteObject;
     export namespace DirectRef {
         export type ForHeader = string;
         export interface ForResponse {
@@ -133,7 +133,7 @@ export namespace Headers {
     export namespace Level1 {
         export type B = string;
     }
-    export type ReferenceOfHeaderToSchema = schemas.DirectRef.ForHeader;
+    export type ReferenceOfHeaderToSchema = Schemas.DirectRef.ForHeader;
 }
 export namespace Responses {
     /**
@@ -149,19 +149,19 @@ export namespace Responses {
     /** Type Reference - string */
     export namespace LocalReferenceStringDateTimeType {
         export interface Content {
-            \\"application/json\\": schemas.StringDateTimeType;
+            \\"application/json\\": Schemas.StringDateTimeType;
         }
     }
     /** Local Reference - object */
     export namespace LocalReferenceObjectType {
         export interface Content {
-            \\"application/json\\": schemas.ObjectHasPropertiesType;
+            \\"application/json\\": Schemas.ObjectHasPropertiesType;
         }
     }
     /** Response -> Schema */
     export namespace ReferenceOfResponseToSchema {
         export interface Content {
-            \\"application/json\\": schemas.DirectRef.ForResponse;
+            \\"application/json\\": Schemas.DirectRef.ForResponse;
         }
     }
     /** response A definition */
@@ -227,7 +227,7 @@ export namespace Parameters {
     }
     export type RemoteReferenceB = Parameters.level1.B;
     /** parameters -> schemas */
-    export type ReferenceOfParameterToSchema = schemas.DirectRef.ForParameters;
+    export type ReferenceOfParameterToSchema = Schemas.DirectRef.ForParameters;
     /** deepObject */
     export type DeepObjectParameter = {
         [key: string]: {
@@ -249,13 +249,13 @@ export namespace RequestBodies {
     /** Request body Local reference string type */
     export namespace LocalReferenceStringType {
         export interface Content {
-            \\"application/json\\": schemas.StringHasEnumType;
+            \\"application/json\\": Schemas.StringHasEnumType;
         }
     }
     /** requestBodies -> schemas */
     export namespace ReferenceOfRequestBodyToSchema {
         export interface Content {
-            \\"application/json\\": schemas.DirectRef.ForRequestBody;
+            \\"application/json\\": Schemas.DirectRef.ForRequestBody;
         }
     }
     /** Remote Request body A */
@@ -305,7 +305,7 @@ export interface RequestBody$getIncludeRemoteReference {
 }
 export interface Parameter$getFullRemoteReference {
     /** Full Remote Reference */
-    FullRemoteReferenceQuery: schemas.FullRemoteReference.ForParameters;
+    FullRemoteReferenceQuery: Schemas.FullRemoteReference.ForParameters;
 }
 export interface Response$getFullRemoteReference$Status$200 {
     \\"application/json\\": {
@@ -315,7 +315,7 @@ export interface Response$getFullRemoteReference$Status$200 {
 }
 export interface Response$getReferenceItems$Status$200 {
     \\"application/json\\": {
-        books?: schemas.Item[];
+        books?: Schemas.Item[];
     };
 }
 export interface Parameter$getBookById {
@@ -323,7 +323,7 @@ export interface Parameter$getBookById {
     id: string;
 }
 export interface Response$getBookById$Status$200 {
-    \\"application/json\\": schemas.ObjectHasPropertiesType;
+    \\"application/json\\": Schemas.ObjectHasPropertiesType;
 }
 export interface Parameter$deleteBook {
     /** Number Book ID */
@@ -523,26 +523,26 @@ export namespace Schemas {
     export interface github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$AnalysisRunArgument {
         name?: string;
         value?: string;
-        valueFrom?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$ArgumentValueFrom;
+        valueFrom?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$ArgumentValueFrom;
     }
     export interface github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$AnalysisRunStrategy {
         successfulRunHistoryLimit?: number;
         unsuccessfulRunHistoryLimit?: number;
     }
     export interface github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$AntiAffinity {
-        preferredDuringSchedulingIgnoredDuringExecution?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$PreferredDuringSchedulingIgnoredDuringExecution;
-        requiredDuringSchedulingIgnoredDuringExecution?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RequiredDuringSchedulingIgnoredDuringExecution;
+        preferredDuringSchedulingIgnoredDuringExecution?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$PreferredDuringSchedulingIgnoredDuringExecution;
+        requiredDuringSchedulingIgnoredDuringExecution?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RequiredDuringSchedulingIgnoredDuringExecution;
     }
     export interface github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$ArgumentValueFrom {
         podTemplateHashValue?: string;
-        fieldRef?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$FieldRef;
+        fieldRef?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$FieldRef;
     }
     export interface github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$BlueGreenStatus {
         previewSelector?: string;
         activeSelector?: string;
         scaleUpPreviewCheckPoint?: boolean;
-        prePromotionAnalysisRunStatus?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutAnalysisRunStatus;
-        postPromotionAnalysisRunStatus?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutAnalysisRunStatus;
+        prePromotionAnalysisRunStatus?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutAnalysisRunStatus;
+        postPromotionAnalysisRunStatus?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutAnalysisRunStatus;
     }
     export interface github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$BlueGreenStrategy {
         /** Name of the service that the rollout modifies as the active service. */
@@ -551,40 +551,40 @@ export namespace Schemas {
         previewReplicaCount?: number;
         autoPromotionEnabled?: boolean;
         autoPromotionSeconds?: number;
-        maxUnavailable?: schemas.k8s$io$apimachinery$pkg$util$intstr$IntOrString;
+        maxUnavailable?: Schemas.k8s$io$apimachinery$pkg$util$intstr$IntOrString;
         scaleDownDelaySeconds?: number;
         scaleDownDelayRevisionLimit?: number;
-        prePromotionAnalysis?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutAnalysis;
-        antiAffinity?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$AntiAffinity;
-        postPromotionAnalysis?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutAnalysis;
-        previewMetadata?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$PodTemplateMetadata;
-        activeMetadata?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$PodTemplateMetadata;
+        prePromotionAnalysis?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutAnalysis;
+        antiAffinity?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$AntiAffinity;
+        postPromotionAnalysis?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutAnalysis;
+        previewMetadata?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$PodTemplateMetadata;
+        activeMetadata?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$PodTemplateMetadata;
         abortScaleDownDelaySeconds?: number;
     }
     export interface github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$CanaryStatus {
-        currentStepAnalysisRunStatus?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutAnalysisRunStatus;
-        currentBackgroundAnalysisRunStatus?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutAnalysisRunStatus;
+        currentStepAnalysisRunStatus?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutAnalysisRunStatus;
+        currentBackgroundAnalysisRunStatus?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutAnalysisRunStatus;
         currentExperiment?: string;
     }
     /** CanaryStep defines a step of a canary deployment. */
     export interface github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$CanaryStep {
         setWeight?: number;
-        pause?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutPause;
-        experiment?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutExperimentStep;
-        analysis?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutAnalysis;
-        setCanaryScale?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$SetCanaryScale;
+        pause?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutPause;
+        experiment?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutExperimentStep;
+        analysis?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutAnalysis;
+        setCanaryScale?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$SetCanaryScale;
     }
     export interface github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$CanaryStrategy {
         canaryService?: string;
         stableService?: string;
-        steps?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$CanaryStep[];
-        trafficRouting?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutTrafficRouting;
-        maxUnavailable?: schemas.k8s$io$apimachinery$pkg$util$intstr$IntOrString;
-        maxSurge?: schemas.k8s$io$apimachinery$pkg$util$intstr$IntOrString;
-        analysis?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutAnalysisBackground;
-        antiAffinity?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$AntiAffinity;
-        canaryMetadata?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$PodTemplateMetadata;
-        stableMetadata?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$PodTemplateMetadata;
+        steps?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$CanaryStep[];
+        trafficRouting?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutTrafficRouting;
+        maxUnavailable?: Schemas.k8s$io$apimachinery$pkg$util$intstr$IntOrString;
+        maxSurge?: Schemas.k8s$io$apimachinery$pkg$util$intstr$IntOrString;
+        analysis?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutAnalysisBackground;
+        antiAffinity?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$AntiAffinity;
+        canaryMetadata?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$PodTemplateMetadata;
+        stableMetadata?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$PodTemplateMetadata;
         scaleDownDelaySeconds?: number;
         scaleDownDelayRevisionLimit?: number;
         abortScaleDownDelaySeconds?: number;
@@ -598,8 +598,8 @@ export namespace Schemas {
         stableSubsetName?: string;
     }
     export interface github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$IstioTrafficRouting {
-        virtualService?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$IstioVirtualService;
-        destinationRule?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$IstioDestinationRule;
+        virtualService?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$IstioVirtualService;
+        destinationRule?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$IstioDestinationRule;
     }
     export interface github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$IstioVirtualService {
         name?: string;
@@ -619,7 +619,7 @@ export namespace Schemas {
     }
     export interface github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$PauseCondition {
         reason?: string;
-        startTime?: schemas.k8s$io$apimachinery$pkg$apis$meta$v1$Time;
+        startTime?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$Time;
     }
     export interface github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$PodTemplateMetadata {
         labels?: {
@@ -636,16 +636,16 @@ export namespace Schemas {
     export interface github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RequiredDuringSchedulingIgnoredDuringExecution {
     }
     export interface github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$Rollout {
-        metadata?: schemas.k8s$io$apimachinery$pkg$apis$meta$v1$ObjectMeta;
-        spec?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutSpec;
-        status?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutStatus;
+        metadata?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$ObjectMeta;
+        spec?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutSpec;
+        status?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutStatus;
     }
     export interface github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutAnalysis {
-        templates?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutAnalysisTemplate[];
-        args?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$AnalysisRunArgument[];
+        templates?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutAnalysisTemplate[];
+        args?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$AnalysisRunArgument[];
     }
     export interface github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutAnalysisBackground {
-        rolloutAnalysis?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutAnalysis;
+        rolloutAnalysis?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutAnalysis;
         startingStep?: number;
     }
     export interface github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutAnalysisRunStatus {
@@ -663,42 +663,42 @@ export namespace Schemas {
         type?: string;
         /** Phase of the condition, one of True, False, Unknown. */
         status?: string;
-        lastUpdateTime?: schemas.k8s$io$apimachinery$pkg$apis$meta$v1$Time;
-        lastTransitionTime?: schemas.k8s$io$apimachinery$pkg$apis$meta$v1$Time;
+        lastUpdateTime?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$Time;
+        lastTransitionTime?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$Time;
         /** The reason for the condition's last transition. */
         reason?: string;
         /** A human readable message indicating details about the transition. */
         message?: string;
     }
     export interface github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutExperimentStep {
-        templates?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutExperimentTemplate[];
+        templates?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutExperimentTemplate[];
         duration?: string;
-        analyses?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutExperimentStepAnalysisTemplateRef[];
+        analyses?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutExperimentStepAnalysisTemplateRef[];
     }
     export interface github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutExperimentStepAnalysisTemplateRef {
         name?: string;
         templateName?: string;
         clusterScope?: boolean;
-        args?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$AnalysisRunArgument[];
+        args?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$AnalysisRunArgument[];
         requiredForCompletion?: boolean;
     }
     export interface github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutExperimentTemplate {
         name?: string;
         specRef?: string;
         replicas?: number;
-        metadata?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$PodTemplateMetadata;
-        selector?: schemas.k8s$io$apimachinery$pkg$apis$meta$v1$LabelSelector;
+        metadata?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$PodTemplateMetadata;
+        selector?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$LabelSelector;
     }
     export interface github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutPause {
-        duration?: schemas.k8s$io$apimachinery$pkg$util$intstr$IntOrString;
+        duration?: Schemas.k8s$io$apimachinery$pkg$util$intstr$IntOrString;
     }
     export interface github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutSpec {
         replicas?: number;
-        selector?: schemas.k8s$io$apimachinery$pkg$apis$meta$v1$LabelSelector;
-        template?: schemas.k8s$io$api$core$v1$PodTemplateSpec;
-        workloadRef?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$ObjectRef;
+        selector?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$LabelSelector;
+        template?: Schemas.k8s$io$api$core$v1$PodTemplateSpec;
+        workloadRef?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$ObjectRef;
         minReadySeconds?: number;
-        strategy?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutStrategy;
+        strategy?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutStrategy;
         revisionHistoryLimit?: number;
         /** Paused pauses the rollout at its current step. */
         paused?: boolean;
@@ -711,12 +711,12 @@ export namespace Schemas {
          * Defaults to 600s.
          */
         progressDeadlineSeconds?: number;
-        restartAt?: schemas.k8s$io$apimachinery$pkg$apis$meta$v1$Time;
-        analysis?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$AnalysisRunStrategy;
+        restartAt?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$Time;
+        analysis?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$AnalysisRunStrategy;
     }
     export interface github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutStatus {
         abort?: boolean;
-        pauseConditions?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$PauseCondition[];
+        pauseConditions?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$PauseCondition[];
         /**
          * ControllerPause indicates the controller has paused the rollout. It is set to true when
          * the controller adds a pause condition. This field helps to discern the scenario where a
@@ -725,7 +725,7 @@ export namespace Schemas {
          * set to true.
          */
         controllerPause?: boolean;
-        abortedAt?: schemas.k8s$io$apimachinery$pkg$apis$meta$v1$Time;
+        abortedAt?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$Time;
         currentPodHash?: string;
         currentStepHash?: string;
         replicas?: number;
@@ -736,28 +736,28 @@ export namespace Schemas {
         collisionCount?: number;
         observedGeneration?: string;
         workloadObservedGeneration?: string;
-        conditions?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutCondition[];
-        canary?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$CanaryStatus;
-        blueGreen?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$BlueGreenStatus;
+        conditions?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutCondition[];
+        canary?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$CanaryStatus;
+        blueGreen?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$BlueGreenStatus;
         HPAReplicas?: number;
         selector?: string;
         stableRS?: string;
-        restartedAt?: schemas.k8s$io$apimachinery$pkg$apis$meta$v1$Time;
+        restartedAt?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$Time;
         /** PromoteFull indicates if the rollout should perform a full promotion, skipping analysis and pauses. */
         promoteFull?: boolean;
         phase?: string;
         message?: string;
     }
     export interface github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutStrategy {
-        blueGreen?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$BlueGreenStrategy;
-        canary?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$CanaryStrategy;
+        blueGreen?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$BlueGreenStrategy;
+        canary?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$CanaryStrategy;
     }
     export interface github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$RolloutTrafficRouting {
-        istio?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$IstioTrafficRouting;
-        nginx?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$NginxTrafficRouting;
-        alb?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$ALBTrafficRouting;
-        smi?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$SMITrafficRouting;
-        ambassador?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$AmbassadorTrafficRouting;
+        istio?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$IstioTrafficRouting;
+        nginx?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$NginxTrafficRouting;
+        alb?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$ALBTrafficRouting;
+        smi?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$SMITrafficRouting;
+        ambassador?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$AmbassadorTrafficRouting;
     }
     export interface github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$SMITrafficRouting {
         rootService?: string;
@@ -776,14 +776,14 @@ export namespace Schemas {
         error?: string;
         code?: number;
         message?: string;
-        details?: schemas.google$protobuf$Any[];
+        details?: Schemas.google$protobuf$Any[];
     }
     export interface grpc$gateway$runtime$StreamError {
         grpc_code?: number;
         http_code?: number;
         message?: string;
         http_status?: string;
-        details?: schemas.google$protobuf$Any[];
+        details?: Schemas.google$protobuf$Any[];
     }
     /**
      * Represents a Persistent Disk resource in AWS.
@@ -801,9 +801,9 @@ export namespace Schemas {
     }
     /** Affinity is a group of affinity scheduling rules. */
     export interface k8s$io$api$core$v1$Affinity {
-        nodeAffinity?: schemas.k8s$io$api$core$v1$NodeAffinity;
-        podAffinity?: schemas.k8s$io$api$core$v1$PodAffinity;
-        podAntiAffinity?: schemas.k8s$io$api$core$v1$PodAntiAffinity;
+        nodeAffinity?: Schemas.k8s$io$api$core$v1$NodeAffinity;
+        podAffinity?: Schemas.k8s$io$api$core$v1$PodAffinity;
+        podAntiAffinity?: Schemas.k8s$io$api$core$v1$PodAntiAffinity;
     }
     /** AzureDisk represents an Azure Data Disk mount on the host and bind mount to the pod. */
     export interface k8s$io$api$core$v1$AzureDiskVolumeSource {
@@ -831,7 +831,7 @@ export namespace Schemas {
         volumeAttributes?: {
             [key: string]: string;
         };
-        nodePublishSecretRef?: schemas.k8s$io$api$core$v1$LocalObjectReference;
+        nodePublishSecretRef?: Schemas.k8s$io$api$core$v1$LocalObjectReference;
     }
     /** Adds and removes POSIX capabilities from running containers. */
     export interface k8s$io$api$core$v1$Capabilities {
@@ -847,7 +847,7 @@ export namespace Schemas {
         path?: string;
         user?: string;
         secretFile?: string;
-        secretRef?: schemas.k8s$io$api$core$v1$LocalObjectReference;
+        secretRef?: Schemas.k8s$io$api$core$v1$LocalObjectReference;
         readOnly?: boolean;
     }
     /**
@@ -860,7 +860,7 @@ export namespace Schemas {
         volumeID?: string;
         fsType?: string;
         readOnly?: boolean;
-        secretRef?: schemas.k8s$io$api$core$v1$LocalObjectReference;
+        secretRef?: Schemas.k8s$io$api$core$v1$LocalObjectReference;
     }
     /**
      * ConfigMapEnvSource selects a ConfigMap to populate the environment
@@ -870,12 +870,12 @@ export namespace Schemas {
      * key-value pairs as environment variables.
      */
     export interface k8s$io$api$core$v1$ConfigMapEnvSource {
-        localObjectReference?: schemas.k8s$io$api$core$v1$LocalObjectReference;
+        localObjectReference?: Schemas.k8s$io$api$core$v1$LocalObjectReference;
         optional?: boolean;
     }
     /** Selects a key from a ConfigMap. */
     export interface k8s$io$api$core$v1$ConfigMapKeySelector {
-        localObjectReference?: schemas.k8s$io$api$core$v1$LocalObjectReference;
+        localObjectReference?: Schemas.k8s$io$api$core$v1$LocalObjectReference;
         /** The key to select. */
         key?: string;
         optional?: boolean;
@@ -890,8 +890,8 @@ export namespace Schemas {
      * mode.
      */
     export interface k8s$io$api$core$v1$ConfigMapProjection {
-        localObjectReference?: schemas.k8s$io$api$core$v1$LocalObjectReference;
-        items?: schemas.k8s$io$api$core$v1$KeyToPath[];
+        localObjectReference?: Schemas.k8s$io$api$core$v1$LocalObjectReference;
+        items?: Schemas.k8s$io$api$core$v1$KeyToPath[];
         optional?: boolean;
     }
     /**
@@ -903,8 +903,8 @@ export namespace Schemas {
      * ConfigMap volumes support ownership management and SELinux relabeling.
      */
     export interface k8s$io$api$core$v1$ConfigMapVolumeSource {
-        localObjectReference?: schemas.k8s$io$api$core$v1$LocalObjectReference;
-        items?: schemas.k8s$io$api$core$v1$KeyToPath[];
+        localObjectReference?: Schemas.k8s$io$api$core$v1$LocalObjectReference;
+        items?: Schemas.k8s$io$api$core$v1$KeyToPath[];
         defaultMode?: number;
         optional?: boolean;
     }
@@ -920,20 +920,20 @@ export namespace Schemas {
         command?: string[];
         args?: string[];
         workingDir?: string;
-        ports?: schemas.k8s$io$api$core$v1$ContainerPort[];
-        envFrom?: schemas.k8s$io$api$core$v1$EnvFromSource[];
-        env?: schemas.k8s$io$api$core$v1$EnvVar[];
-        resources?: schemas.k8s$io$api$core$v1$ResourceRequirements;
-        volumeMounts?: schemas.k8s$io$api$core$v1$VolumeMount[];
-        volumeDevices?: schemas.k8s$io$api$core$v1$VolumeDevice[];
-        livenessProbe?: schemas.k8s$io$api$core$v1$Probe;
-        readinessProbe?: schemas.k8s$io$api$core$v1$Probe;
-        startupProbe?: schemas.k8s$io$api$core$v1$Probe;
-        lifecycle?: schemas.k8s$io$api$core$v1$Lifecycle;
+        ports?: Schemas.k8s$io$api$core$v1$ContainerPort[];
+        envFrom?: Schemas.k8s$io$api$core$v1$EnvFromSource[];
+        env?: Schemas.k8s$io$api$core$v1$EnvVar[];
+        resources?: Schemas.k8s$io$api$core$v1$ResourceRequirements;
+        volumeMounts?: Schemas.k8s$io$api$core$v1$VolumeMount[];
+        volumeDevices?: Schemas.k8s$io$api$core$v1$VolumeDevice[];
+        livenessProbe?: Schemas.k8s$io$api$core$v1$Probe;
+        readinessProbe?: Schemas.k8s$io$api$core$v1$Probe;
+        startupProbe?: Schemas.k8s$io$api$core$v1$Probe;
+        lifecycle?: Schemas.k8s$io$api$core$v1$Lifecycle;
         terminationMessagePath?: string;
         terminationMessagePolicy?: string;
         imagePullPolicy?: string;
-        securityContext?: schemas.k8s$io$api$core$v1$SecurityContext;
+        securityContext?: Schemas.k8s$io$api$core$v1$SecurityContext;
         stdin?: boolean;
         stdinOnce?: boolean;
         tty?: boolean;
@@ -956,12 +956,12 @@ export namespace Schemas {
      * mode.
      */
     export interface k8s$io$api$core$v1$DownwardAPIProjection {
-        items?: schemas.k8s$io$api$core$v1$DownwardAPIVolumeFile[];
+        items?: Schemas.k8s$io$api$core$v1$DownwardAPIVolumeFile[];
     }
     export interface k8s$io$api$core$v1$DownwardAPIVolumeFile {
         path?: string;
-        fieldRef?: schemas.k8s$io$api$core$v1$ObjectFieldSelector;
-        resourceFieldRef?: schemas.k8s$io$api$core$v1$ResourceFieldSelector;
+        fieldRef?: Schemas.k8s$io$api$core$v1$ObjectFieldSelector;
+        resourceFieldRef?: Schemas.k8s$io$api$core$v1$ResourceFieldSelector;
         mode?: number;
     }
     /**
@@ -969,7 +969,7 @@ export namespace Schemas {
      * Downward API volumes support ownership management and SELinux relabeling.
      */
     export interface k8s$io$api$core$v1$DownwardAPIVolumeSource {
-        items?: schemas.k8s$io$api$core$v1$DownwardAPIVolumeFile[];
+        items?: Schemas.k8s$io$api$core$v1$DownwardAPIVolumeFile[];
         defaultMode?: number;
     }
     /**
@@ -978,26 +978,26 @@ export namespace Schemas {
      */
     export interface k8s$io$api$core$v1$EmptyDirVolumeSource {
         medium?: string;
-        sizeLimit?: schemas.k8s$io$apimachinery$pkg$api$resource$Quantity;
+        sizeLimit?: Schemas.k8s$io$apimachinery$pkg$api$resource$Quantity;
     }
     export interface k8s$io$api$core$v1$EnvFromSource {
         prefix?: string;
-        configMapRef?: schemas.k8s$io$api$core$v1$ConfigMapEnvSource;
-        secretRef?: schemas.k8s$io$api$core$v1$SecretEnvSource;
+        configMapRef?: Schemas.k8s$io$api$core$v1$ConfigMapEnvSource;
+        secretRef?: Schemas.k8s$io$api$core$v1$SecretEnvSource;
     }
     /** EnvVar represents an environment variable present in a Container. */
     export interface k8s$io$api$core$v1$EnvVar {
         /** Name of the environment variable. Must be a C_IDENTIFIER. */
         name?: string;
         value?: string;
-        valueFrom?: schemas.k8s$io$api$core$v1$EnvVarSource;
+        valueFrom?: Schemas.k8s$io$api$core$v1$EnvVarSource;
     }
     /** EnvVarSource represents a source for the value of an EnvVar. */
     export interface k8s$io$api$core$v1$EnvVarSource {
-        fieldRef?: schemas.k8s$io$api$core$v1$ObjectFieldSelector;
-        resourceFieldRef?: schemas.k8s$io$api$core$v1$ResourceFieldSelector;
-        configMapKeyRef?: schemas.k8s$io$api$core$v1$ConfigMapKeySelector;
-        secretKeyRef?: schemas.k8s$io$api$core$v1$SecretKeySelector;
+        fieldRef?: Schemas.k8s$io$api$core$v1$ObjectFieldSelector;
+        resourceFieldRef?: Schemas.k8s$io$api$core$v1$ResourceFieldSelector;
+        configMapKeyRef?: Schemas.k8s$io$api$core$v1$ConfigMapKeySelector;
+        secretKeyRef?: Schemas.k8s$io$api$core$v1$SecretKeySelector;
     }
     /**
      * An EphemeralContainer is a container that may be added temporarily to an existing pod for
@@ -1011,7 +1011,7 @@ export namespace Schemas {
      * This is an alpha feature enabled by the EphemeralContainers feature flag.
      */
     export interface k8s$io$api$core$v1$EphemeralContainer {
-        ephemeralContainerCommon?: schemas.k8s$io$api$core$v1$EphemeralContainerCommon;
+        ephemeralContainerCommon?: Schemas.k8s$io$api$core$v1$EphemeralContainerCommon;
         targetContainerName?: string;
     }
     /**
@@ -1031,27 +1031,27 @@ export namespace Schemas {
         args?: string[];
         workingDir?: string;
         /** Ports are not allowed for ephemeral containers. */
-        ports?: schemas.k8s$io$api$core$v1$ContainerPort[];
-        envFrom?: schemas.k8s$io$api$core$v1$EnvFromSource[];
-        env?: schemas.k8s$io$api$core$v1$EnvVar[];
-        resources?: schemas.k8s$io$api$core$v1$ResourceRequirements;
-        volumeMounts?: schemas.k8s$io$api$core$v1$VolumeMount[];
-        volumeDevices?: schemas.k8s$io$api$core$v1$VolumeDevice[];
-        livenessProbe?: schemas.k8s$io$api$core$v1$Probe;
-        readinessProbe?: schemas.k8s$io$api$core$v1$Probe;
-        startupProbe?: schemas.k8s$io$api$core$v1$Probe;
-        lifecycle?: schemas.k8s$io$api$core$v1$Lifecycle;
+        ports?: Schemas.k8s$io$api$core$v1$ContainerPort[];
+        envFrom?: Schemas.k8s$io$api$core$v1$EnvFromSource[];
+        env?: Schemas.k8s$io$api$core$v1$EnvVar[];
+        resources?: Schemas.k8s$io$api$core$v1$ResourceRequirements;
+        volumeMounts?: Schemas.k8s$io$api$core$v1$VolumeMount[];
+        volumeDevices?: Schemas.k8s$io$api$core$v1$VolumeDevice[];
+        livenessProbe?: Schemas.k8s$io$api$core$v1$Probe;
+        readinessProbe?: Schemas.k8s$io$api$core$v1$Probe;
+        startupProbe?: Schemas.k8s$io$api$core$v1$Probe;
+        lifecycle?: Schemas.k8s$io$api$core$v1$Lifecycle;
         terminationMessagePath?: string;
         terminationMessagePolicy?: string;
         imagePullPolicy?: string;
-        securityContext?: schemas.k8s$io$api$core$v1$SecurityContext;
+        securityContext?: Schemas.k8s$io$api$core$v1$SecurityContext;
         stdin?: boolean;
         stdinOnce?: boolean;
         tty?: boolean;
     }
     /** Represents an ephemeral volume that is handled by a normal storage driver. */
     export interface k8s$io$api$core$v1$EphemeralVolumeSource {
-        volumeClaimTemplate?: schemas.k8s$io$api$core$v1$PersistentVolumeClaimTemplate;
+        volumeClaimTemplate?: Schemas.k8s$io$api$core$v1$PersistentVolumeClaimTemplate;
         readOnly?: boolean;
     }
     /** ExecAction describes a \\"run in container\\" action. */
@@ -1078,7 +1078,7 @@ export namespace Schemas {
         /** Driver is the name of the driver to use for this volume. */
         driver?: string;
         fsType?: string;
-        secretRef?: schemas.k8s$io$api$core$v1$LocalObjectReference;
+        secretRef?: Schemas.k8s$io$api$core$v1$LocalObjectReference;
         readOnly?: boolean;
         options?: {
             [key: string]: string;
@@ -1133,10 +1133,10 @@ export namespace Schemas {
     /** HTTPGetAction describes an action based on HTTP Get requests. */
     export interface k8s$io$api$core$v1$HTTPGetAction {
         path?: string;
-        port?: schemas.k8s$io$apimachinery$pkg$util$intstr$IntOrString;
+        port?: Schemas.k8s$io$apimachinery$pkg$util$intstr$IntOrString;
         host?: string;
         scheme?: string;
-        httpHeaders?: schemas.k8s$io$api$core$v1$HTTPHeader[];
+        httpHeaders?: Schemas.k8s$io$api$core$v1$HTTPHeader[];
     }
     export interface k8s$io$api$core$v1$HTTPHeader {
         name?: string;
@@ -1147,9 +1147,9 @@ export namespace Schemas {
      * TODO: pass structured data to these actions, and document that data here.
      */
     export interface k8s$io$api$core$v1$Handler {
-        exec?: schemas.k8s$io$api$core$v1$ExecAction;
-        httpGet?: schemas.k8s$io$api$core$v1$HTTPGetAction;
-        tcpSocket?: schemas.k8s$io$api$core$v1$TCPSocketAction;
+        exec?: Schemas.k8s$io$api$core$v1$ExecAction;
+        httpGet?: Schemas.k8s$io$api$core$v1$HTTPGetAction;
+        tcpSocket?: Schemas.k8s$io$api$core$v1$TCPSocketAction;
     }
     /**
      * HostAlias holds the mapping between IP and hostnames that will be injected as an entry in the
@@ -1190,7 +1190,7 @@ export namespace Schemas {
         portals?: string[];
         chapAuthDiscovery?: boolean;
         chapAuthSession?: boolean;
-        secretRef?: schemas.k8s$io$api$core$v1$LocalObjectReference;
+        secretRef?: Schemas.k8s$io$api$core$v1$LocalObjectReference;
         initiatorName?: string;
     }
     /** Maps a string key to a path within a volume. */
@@ -1212,8 +1212,8 @@ export namespace Schemas {
      * until the action is complete, unless the container process fails, in which case the handler is aborted.
      */
     export interface k8s$io$api$core$v1$Lifecycle {
-        postStart?: schemas.k8s$io$api$core$v1$Handler;
-        preStop?: schemas.k8s$io$api$core$v1$Handler;
+        postStart?: Schemas.k8s$io$api$core$v1$Handler;
+        preStop?: Schemas.k8s$io$api$core$v1$Handler;
     }
     /**
      * LocalObjectReference contains enough information to let you locate the
@@ -1233,8 +1233,8 @@ export namespace Schemas {
     }
     /** Node affinity is a group of node affinity scheduling rules. */
     export interface k8s$io$api$core$v1$NodeAffinity {
-        requiredDuringSchedulingIgnoredDuringExecution?: schemas.k8s$io$api$core$v1$NodeSelector;
-        preferredDuringSchedulingIgnoredDuringExecution?: schemas.k8s$io$api$core$v1$PreferredSchedulingTerm[];
+        requiredDuringSchedulingIgnoredDuringExecution?: Schemas.k8s$io$api$core$v1$NodeSelector;
+        preferredDuringSchedulingIgnoredDuringExecution?: Schemas.k8s$io$api$core$v1$PreferredSchedulingTerm[];
     }
     /**
      * A node selector represents the union of the results of one or more label queries
@@ -1243,7 +1243,7 @@ export namespace Schemas {
      */
     export interface k8s$io$api$core$v1$NodeSelector {
         /** Required. A list of node selector terms. The terms are ORed. */
-        nodeSelectorTerms?: schemas.k8s$io$api$core$v1$NodeSelectorTerm[];
+        nodeSelectorTerms?: Schemas.k8s$io$api$core$v1$NodeSelectorTerm[];
     }
     /**
      * A node selector requirement is a selector that contains values, a key, and an operator
@@ -1265,8 +1265,8 @@ export namespace Schemas {
      * The TopologySelectorTerm type implements a subset of the NodeSelectorTerm.
      */
     export interface k8s$io$api$core$v1$NodeSelectorTerm {
-        matchExpressions?: schemas.k8s$io$api$core$v1$NodeSelectorRequirement[];
-        matchFields?: schemas.k8s$io$api$core$v1$NodeSelectorRequirement[];
+        matchExpressions?: Schemas.k8s$io$api$core$v1$NodeSelectorRequirement[];
+        matchFields?: Schemas.k8s$io$api$core$v1$NodeSelectorRequirement[];
     }
     /** ObjectFieldSelector selects an APIVersioned field of an object. */
     export interface k8s$io$api$core$v1$ObjectFieldSelector {
@@ -1276,20 +1276,20 @@ export namespace Schemas {
     }
     export interface k8s$io$api$core$v1$PersistentVolumeClaimSpec {
         accessModes?: string[];
-        selector?: schemas.k8s$io$apimachinery$pkg$apis$meta$v1$LabelSelector;
-        resources?: schemas.k8s$io$api$core$v1$ResourceRequirements;
+        selector?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$LabelSelector;
+        resources?: Schemas.k8s$io$api$core$v1$ResourceRequirements;
         volumeName?: string;
         storageClassName?: string;
         volumeMode?: string;
-        dataSource?: schemas.k8s$io$api$core$v1$TypedLocalObjectReference;
+        dataSource?: Schemas.k8s$io$api$core$v1$TypedLocalObjectReference;
     }
     /**
      * PersistentVolumeClaimTemplate is used to produce
      * PersistentVolumeClaim objects as part of an EphemeralVolumeSource.
      */
     export interface k8s$io$api$core$v1$PersistentVolumeClaimTemplate {
-        metadata?: schemas.k8s$io$apimachinery$pkg$apis$meta$v1$ObjectMeta;
-        spec?: schemas.k8s$io$api$core$v1$PersistentVolumeClaimSpec;
+        metadata?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$ObjectMeta;
+        spec?: Schemas.k8s$io$api$core$v1$PersistentVolumeClaimSpec;
     }
     /**
      * PersistentVolumeClaimVolumeSource references the user's PVC in the same namespace.
@@ -1313,11 +1313,11 @@ export namespace Schemas {
     }
     /** Pod affinity is a group of inter pod affinity scheduling rules. */
     export interface k8s$io$api$core$v1$PodAffinity {
-        requiredDuringSchedulingIgnoredDuringExecution?: schemas.k8s$io$api$core$v1$PodAffinityTerm[];
-        preferredDuringSchedulingIgnoredDuringExecution?: schemas.k8s$io$api$core$v1$WeightedPodAffinityTerm[];
+        requiredDuringSchedulingIgnoredDuringExecution?: Schemas.k8s$io$api$core$v1$PodAffinityTerm[];
+        preferredDuringSchedulingIgnoredDuringExecution?: Schemas.k8s$io$api$core$v1$WeightedPodAffinityTerm[];
     }
     export interface k8s$io$api$core$v1$PodAffinityTerm {
-        labelSelector?: schemas.k8s$io$apimachinery$pkg$apis$meta$v1$LabelSelector;
+        labelSelector?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$LabelSelector;
         namespaces?: string[];
         /**
          * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
@@ -1330,8 +1330,8 @@ export namespace Schemas {
     }
     /** Pod anti affinity is a group of inter pod anti affinity scheduling rules. */
     export interface k8s$io$api$core$v1$PodAntiAffinity {
-        requiredDuringSchedulingIgnoredDuringExecution?: schemas.k8s$io$api$core$v1$PodAffinityTerm[];
-        preferredDuringSchedulingIgnoredDuringExecution?: schemas.k8s$io$api$core$v1$WeightedPodAffinityTerm[];
+        requiredDuringSchedulingIgnoredDuringExecution?: Schemas.k8s$io$api$core$v1$PodAffinityTerm[];
+        preferredDuringSchedulingIgnoredDuringExecution?: Schemas.k8s$io$api$core$v1$WeightedPodAffinityTerm[];
     }
     /**
      * PodDNSConfig defines the DNS parameters of a pod in addition to
@@ -1340,7 +1340,7 @@ export namespace Schemas {
     export interface k8s$io$api$core$v1$PodDNSConfig {
         nameservers?: string[];
         searches?: string[];
-        options?: schemas.k8s$io$api$core$v1$PodDNSConfigOption[];
+        options?: Schemas.k8s$io$api$core$v1$PodDNSConfigOption[];
     }
     /** PodDNSConfigOption defines DNS resolver options of a pod. */
     export interface k8s$io$api$core$v1$PodDNSConfigOption {
@@ -1358,8 +1358,8 @@ export namespace Schemas {
      * container.securityContext take precedence over field values of PodSecurityContext.
      */
     export interface k8s$io$api$core$v1$PodSecurityContext {
-        seLinuxOptions?: schemas.k8s$io$api$core$v1$SELinuxOptions;
-        windowsOptions?: schemas.k8s$io$api$core$v1$WindowsSecurityContextOptions;
+        seLinuxOptions?: Schemas.k8s$io$api$core$v1$SELinuxOptions;
+        windowsOptions?: Schemas.k8s$io$api$core$v1$WindowsSecurityContextOptions;
         runAsUser?: string;
         runAsGroup?: string;
         runAsNonRoot?: boolean;
@@ -1373,16 +1373,16 @@ export namespace Schemas {
          * +optional
          */
         fsGroup?: string;
-        sysctls?: schemas.k8s$io$api$core$v1$Sysctl[];
+        sysctls?: Schemas.k8s$io$api$core$v1$Sysctl[];
         fsGroupChangePolicy?: string;
-        seccompProfile?: schemas.k8s$io$api$core$v1$SeccompProfile;
+        seccompProfile?: Schemas.k8s$io$api$core$v1$SeccompProfile;
     }
     /** PodSpec is a description of a pod. */
     export interface k8s$io$api$core$v1$PodSpec {
-        volumes?: schemas.k8s$io$api$core$v1$Volume[];
-        initContainers?: schemas.k8s$io$api$core$v1$Container[];
-        containers?: schemas.k8s$io$api$core$v1$Container[];
-        ephemeralContainers?: schemas.k8s$io$api$core$v1$EphemeralContainer[];
+        volumes?: Schemas.k8s$io$api$core$v1$Volume[];
+        initContainers?: Schemas.k8s$io$api$core$v1$Container[];
+        containers?: Schemas.k8s$io$api$core$v1$Container[];
+        ephemeralContainers?: Schemas.k8s$io$api$core$v1$EphemeralContainer[];
         restartPolicy?: string;
         terminationGracePeriodSeconds?: string;
         activeDeadlineSeconds?: string;
@@ -1398,30 +1398,30 @@ export namespace Schemas {
         hostPID?: boolean;
         hostIPC?: boolean;
         shareProcessNamespace?: boolean;
-        securityContext?: schemas.k8s$io$api$core$v1$PodSecurityContext;
-        imagePullSecrets?: schemas.k8s$io$api$core$v1$LocalObjectReference[];
+        securityContext?: Schemas.k8s$io$api$core$v1$PodSecurityContext;
+        imagePullSecrets?: Schemas.k8s$io$api$core$v1$LocalObjectReference[];
         hostname?: string;
         subdomain?: string;
-        affinity?: schemas.k8s$io$api$core$v1$Affinity;
+        affinity?: Schemas.k8s$io$api$core$v1$Affinity;
         schedulerName?: string;
-        tolerations?: schemas.k8s$io$api$core$v1$Toleration[];
-        hostAliases?: schemas.k8s$io$api$core$v1$HostAlias[];
+        tolerations?: Schemas.k8s$io$api$core$v1$Toleration[];
+        hostAliases?: Schemas.k8s$io$api$core$v1$HostAlias[];
         priorityClassName?: string;
         priority?: number;
-        dnsConfig?: schemas.k8s$io$api$core$v1$PodDNSConfig;
-        readinessGates?: schemas.k8s$io$api$core$v1$PodReadinessGate[];
+        dnsConfig?: Schemas.k8s$io$api$core$v1$PodDNSConfig;
+        readinessGates?: Schemas.k8s$io$api$core$v1$PodReadinessGate[];
         runtimeClassName?: string;
         enableServiceLinks?: boolean;
         preemptionPolicy?: string;
         overhead?: {
-            [key: string]: schemas.k8s$io$apimachinery$pkg$api$resource$Quantity;
+            [key: string]: Schemas.k8s$io$apimachinery$pkg$api$resource$Quantity;
         };
-        topologySpreadConstraints?: schemas.k8s$io$api$core$v1$TopologySpreadConstraint[];
+        topologySpreadConstraints?: Schemas.k8s$io$api$core$v1$TopologySpreadConstraint[];
         setHostnameAsFQDN?: boolean;
     }
     export interface k8s$io$api$core$v1$PodTemplateSpec {
-        metadata?: schemas.k8s$io$apimachinery$pkg$apis$meta$v1$ObjectMeta;
-        spec?: schemas.k8s$io$api$core$v1$PodSpec;
+        metadata?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$ObjectMeta;
+        spec?: Schemas.k8s$io$api$core$v1$PodSpec;
     }
     /** PortworxVolumeSource represents a Portworx volume resource. */
     export interface k8s$io$api$core$v1$PortworxVolumeSource {
@@ -1441,14 +1441,14 @@ export namespace Schemas {
     export interface k8s$io$api$core$v1$PreferredSchedulingTerm {
         /** Weight associated with matching the corresponding nodeSelectorTerm, in the range 1-100. */
         weight?: number;
-        preference?: schemas.k8s$io$api$core$v1$NodeSelectorTerm;
+        preference?: Schemas.k8s$io$api$core$v1$NodeSelectorTerm;
     }
     /**
      * Probe describes a health check to be performed against a container to determine whether it is
      * alive or ready to receive traffic.
      */
     export interface k8s$io$api$core$v1$Probe {
-        handler?: schemas.k8s$io$api$core$v1$Handler;
+        handler?: Schemas.k8s$io$api$core$v1$Handler;
         initialDelaySeconds?: number;
         timeoutSeconds?: number;
         periodSeconds?: number;
@@ -1456,7 +1456,7 @@ export namespace Schemas {
         failureThreshold?: number;
     }
     export interface k8s$io$api$core$v1$ProjectedVolumeSource {
-        sources?: schemas.k8s$io$api$core$v1$VolumeProjection[];
+        sources?: Schemas.k8s$io$api$core$v1$VolumeProjection[];
         defaultMode?: number;
     }
     /**
@@ -1483,21 +1483,21 @@ export namespace Schemas {
         pool?: string;
         user?: string;
         keyring?: string;
-        secretRef?: schemas.k8s$io$api$core$v1$LocalObjectReference;
+        secretRef?: Schemas.k8s$io$api$core$v1$LocalObjectReference;
         readOnly?: boolean;
     }
     export interface k8s$io$api$core$v1$ResourceFieldSelector {
         containerName?: string;
         resource?: string;
-        divisor?: schemas.k8s$io$apimachinery$pkg$api$resource$Quantity;
+        divisor?: Schemas.k8s$io$apimachinery$pkg$api$resource$Quantity;
     }
     /** ResourceRequirements describes the compute resource requirements. */
     export interface k8s$io$api$core$v1$ResourceRequirements {
         limits?: {
-            [key: string]: schemas.k8s$io$apimachinery$pkg$api$resource$Quantity;
+            [key: string]: Schemas.k8s$io$apimachinery$pkg$api$resource$Quantity;
         };
         requests?: {
-            [key: string]: schemas.k8s$io$apimachinery$pkg$api$resource$Quantity;
+            [key: string]: Schemas.k8s$io$apimachinery$pkg$api$resource$Quantity;
         };
     }
     export interface k8s$io$api$core$v1$SELinuxOptions {
@@ -1511,7 +1511,7 @@ export namespace Schemas {
         gateway?: string;
         /** The name of the storage system as configured in ScaleIO. */
         system?: string;
-        secretRef?: schemas.k8s$io$api$core$v1$LocalObjectReference;
+        secretRef?: Schemas.k8s$io$api$core$v1$LocalObjectReference;
         sslEnabled?: boolean;
         protectionDomain?: string;
         storagePool?: string;
@@ -1542,12 +1542,12 @@ export namespace Schemas {
      * key-value pairs as environment variables.
      */
     export interface k8s$io$api$core$v1$SecretEnvSource {
-        localObjectReference?: schemas.k8s$io$api$core$v1$LocalObjectReference;
+        localObjectReference?: Schemas.k8s$io$api$core$v1$LocalObjectReference;
         optional?: boolean;
     }
     /** SecretKeySelector selects a key of a Secret. */
     export interface k8s$io$api$core$v1$SecretKeySelector {
-        localObjectReference?: schemas.k8s$io$api$core$v1$LocalObjectReference;
+        localObjectReference?: Schemas.k8s$io$api$core$v1$LocalObjectReference;
         /** The key of the secret to select from.  Must be a valid secret key. */
         key?: string;
         optional?: boolean;
@@ -1561,8 +1561,8 @@ export namespace Schemas {
      * mode.
      */
     export interface k8s$io$api$core$v1$SecretProjection {
-        localObjectReference?: schemas.k8s$io$api$core$v1$LocalObjectReference;
-        items?: schemas.k8s$io$api$core$v1$KeyToPath[];
+        localObjectReference?: Schemas.k8s$io$api$core$v1$LocalObjectReference;
+        items?: Schemas.k8s$io$api$core$v1$KeyToPath[];
         optional?: boolean;
     }
     /**
@@ -1574,7 +1574,7 @@ export namespace Schemas {
      */
     export interface k8s$io$api$core$v1$SecretVolumeSource {
         secretName?: string;
-        items?: schemas.k8s$io$api$core$v1$KeyToPath[];
+        items?: Schemas.k8s$io$api$core$v1$KeyToPath[];
         defaultMode?: number;
         optional?: boolean;
     }
@@ -1584,17 +1584,17 @@ export namespace Schemas {
      * are set, the values in SecurityContext take precedence.
      */
     export interface k8s$io$api$core$v1$SecurityContext {
-        capabilities?: schemas.k8s$io$api$core$v1$Capabilities;
+        capabilities?: Schemas.k8s$io$api$core$v1$Capabilities;
         privileged?: boolean;
-        seLinuxOptions?: schemas.k8s$io$api$core$v1$SELinuxOptions;
-        windowsOptions?: schemas.k8s$io$api$core$v1$WindowsSecurityContextOptions;
+        seLinuxOptions?: Schemas.k8s$io$api$core$v1$SELinuxOptions;
+        windowsOptions?: Schemas.k8s$io$api$core$v1$WindowsSecurityContextOptions;
         runAsUser?: string;
         runAsGroup?: string;
         runAsNonRoot?: boolean;
         readOnlyRootFilesystem?: boolean;
         allowPrivilegeEscalation?: boolean;
         procMount?: string;
-        seccompProfile?: schemas.k8s$io$api$core$v1$SeccompProfile;
+        seccompProfile?: Schemas.k8s$io$api$core$v1$SeccompProfile;
     }
     /**
      * ServiceAccountTokenProjection represents a projected service account token
@@ -1621,14 +1621,14 @@ export namespace Schemas {
         volumeNamespace?: string;
         fsType?: string;
         readOnly?: boolean;
-        secretRef?: schemas.k8s$io$api$core$v1$LocalObjectReference;
+        secretRef?: Schemas.k8s$io$api$core$v1$LocalObjectReference;
     }
     export interface k8s$io$api$core$v1$Sysctl {
         name?: string;
         value?: string;
     }
     export interface k8s$io$api$core$v1$TCPSocketAction {
-        port?: schemas.k8s$io$apimachinery$pkg$util$intstr$IntOrString;
+        port?: Schemas.k8s$io$apimachinery$pkg$util$intstr$IntOrString;
         host?: string;
     }
     /**
@@ -1696,7 +1696,7 @@ export namespace Schemas {
          * It's a required field.
          */
         whenUnsatisfiable?: string;
-        labelSelector?: schemas.k8s$io$apimachinery$pkg$apis$meta$v1$LabelSelector;
+        labelSelector?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$LabelSelector;
     }
     /**
      * TypedLocalObjectReference contains enough information to let you locate the
@@ -1710,7 +1710,7 @@ export namespace Schemas {
     /** Volume represents a named volume in a pod that may be accessed by any container in the pod. */
     export interface k8s$io$api$core$v1$Volume {
         name?: string;
-        volumeSource?: schemas.k8s$io$api$core$v1$VolumeSource;
+        volumeSource?: Schemas.k8s$io$api$core$v1$VolumeSource;
     }
     /** volumeDevice describes a mapping of a raw block device within a container. */
     export interface k8s$io$api$core$v1$VolumeDevice {
@@ -1733,45 +1733,45 @@ export namespace Schemas {
         subPathExpr?: string;
     }
     export interface k8s$io$api$core$v1$VolumeProjection {
-        secret?: schemas.k8s$io$api$core$v1$SecretProjection;
-        downwardAPI?: schemas.k8s$io$api$core$v1$DownwardAPIProjection;
-        configMap?: schemas.k8s$io$api$core$v1$ConfigMapProjection;
-        serviceAccountToken?: schemas.k8s$io$api$core$v1$ServiceAccountTokenProjection;
+        secret?: Schemas.k8s$io$api$core$v1$SecretProjection;
+        downwardAPI?: Schemas.k8s$io$api$core$v1$DownwardAPIProjection;
+        configMap?: Schemas.k8s$io$api$core$v1$ConfigMapProjection;
+        serviceAccountToken?: Schemas.k8s$io$api$core$v1$ServiceAccountTokenProjection;
     }
     /**
      * Represents the source of a volume to mount.
      * Only one of its members may be specified.
      */
     export interface k8s$io$api$core$v1$VolumeSource {
-        hostPath?: schemas.k8s$io$api$core$v1$HostPathVolumeSource;
-        emptyDir?: schemas.k8s$io$api$core$v1$EmptyDirVolumeSource;
-        gcePersistentDisk?: schemas.k8s$io$api$core$v1$GCEPersistentDiskVolumeSource;
-        awsElasticBlockStore?: schemas.k8s$io$api$core$v1$AWSElasticBlockStoreVolumeSource;
-        gitRepo?: schemas.k8s$io$api$core$v1$GitRepoVolumeSource;
-        secret?: schemas.k8s$io$api$core$v1$SecretVolumeSource;
-        nfs?: schemas.k8s$io$api$core$v1$NFSVolumeSource;
-        iscsi?: schemas.k8s$io$api$core$v1$ISCSIVolumeSource;
-        glusterfs?: schemas.k8s$io$api$core$v1$GlusterfsVolumeSource;
-        persistentVolumeClaim?: schemas.k8s$io$api$core$v1$PersistentVolumeClaimVolumeSource;
-        rbd?: schemas.k8s$io$api$core$v1$RBDVolumeSource;
-        flexVolume?: schemas.k8s$io$api$core$v1$FlexVolumeSource;
-        cinder?: schemas.k8s$io$api$core$v1$CinderVolumeSource;
-        cephfs?: schemas.k8s$io$api$core$v1$CephFSVolumeSource;
-        flocker?: schemas.k8s$io$api$core$v1$FlockerVolumeSource;
-        downwardAPI?: schemas.k8s$io$api$core$v1$DownwardAPIVolumeSource;
-        fc?: schemas.k8s$io$api$core$v1$FCVolumeSource;
-        azureFile?: schemas.k8s$io$api$core$v1$AzureFileVolumeSource;
-        configMap?: schemas.k8s$io$api$core$v1$ConfigMapVolumeSource;
-        vsphereVolume?: schemas.k8s$io$api$core$v1$VsphereVirtualDiskVolumeSource;
-        quobyte?: schemas.k8s$io$api$core$v1$QuobyteVolumeSource;
-        azureDisk?: schemas.k8s$io$api$core$v1$AzureDiskVolumeSource;
-        photonPersistentDisk?: schemas.k8s$io$api$core$v1$PhotonPersistentDiskVolumeSource;
-        projected?: schemas.k8s$io$api$core$v1$ProjectedVolumeSource;
-        portworxVolume?: schemas.k8s$io$api$core$v1$PortworxVolumeSource;
-        scaleIO?: schemas.k8s$io$api$core$v1$ScaleIOVolumeSource;
-        storageos?: schemas.k8s$io$api$core$v1$StorageOSVolumeSource;
-        csi?: schemas.k8s$io$api$core$v1$CSIVolumeSource;
-        ephemeral?: schemas.k8s$io$api$core$v1$EphemeralVolumeSource;
+        hostPath?: Schemas.k8s$io$api$core$v1$HostPathVolumeSource;
+        emptyDir?: Schemas.k8s$io$api$core$v1$EmptyDirVolumeSource;
+        gcePersistentDisk?: Schemas.k8s$io$api$core$v1$GCEPersistentDiskVolumeSource;
+        awsElasticBlockStore?: Schemas.k8s$io$api$core$v1$AWSElasticBlockStoreVolumeSource;
+        gitRepo?: Schemas.k8s$io$api$core$v1$GitRepoVolumeSource;
+        secret?: Schemas.k8s$io$api$core$v1$SecretVolumeSource;
+        nfs?: Schemas.k8s$io$api$core$v1$NFSVolumeSource;
+        iscsi?: Schemas.k8s$io$api$core$v1$ISCSIVolumeSource;
+        glusterfs?: Schemas.k8s$io$api$core$v1$GlusterfsVolumeSource;
+        persistentVolumeClaim?: Schemas.k8s$io$api$core$v1$PersistentVolumeClaimVolumeSource;
+        rbd?: Schemas.k8s$io$api$core$v1$RBDVolumeSource;
+        flexVolume?: Schemas.k8s$io$api$core$v1$FlexVolumeSource;
+        cinder?: Schemas.k8s$io$api$core$v1$CinderVolumeSource;
+        cephfs?: Schemas.k8s$io$api$core$v1$CephFSVolumeSource;
+        flocker?: Schemas.k8s$io$api$core$v1$FlockerVolumeSource;
+        downwardAPI?: Schemas.k8s$io$api$core$v1$DownwardAPIVolumeSource;
+        fc?: Schemas.k8s$io$api$core$v1$FCVolumeSource;
+        azureFile?: Schemas.k8s$io$api$core$v1$AzureFileVolumeSource;
+        configMap?: Schemas.k8s$io$api$core$v1$ConfigMapVolumeSource;
+        vsphereVolume?: Schemas.k8s$io$api$core$v1$VsphereVirtualDiskVolumeSource;
+        quobyte?: Schemas.k8s$io$api$core$v1$QuobyteVolumeSource;
+        azureDisk?: Schemas.k8s$io$api$core$v1$AzureDiskVolumeSource;
+        photonPersistentDisk?: Schemas.k8s$io$api$core$v1$PhotonPersistentDiskVolumeSource;
+        projected?: Schemas.k8s$io$api$core$v1$ProjectedVolumeSource;
+        portworxVolume?: Schemas.k8s$io$api$core$v1$PortworxVolumeSource;
+        scaleIO?: Schemas.k8s$io$api$core$v1$ScaleIOVolumeSource;
+        storageos?: Schemas.k8s$io$api$core$v1$StorageOSVolumeSource;
+        csi?: Schemas.k8s$io$api$core$v1$CSIVolumeSource;
+        ephemeral?: Schemas.k8s$io$api$core$v1$EphemeralVolumeSource;
     }
     /** Represents a vSphere volume resource. */
     export interface k8s$io$api$core$v1$VsphereVirtualDiskVolumeSource {
@@ -1786,7 +1786,7 @@ export namespace Schemas {
          * in the range 1-100.
          */
         weight?: number;
-        podAffinityTerm?: schemas.k8s$io$api$core$v1$PodAffinityTerm;
+        podAffinityTerm?: Schemas.k8s$io$api$core$v1$PodAffinityTerm;
     }
     /** WindowsSecurityContextOptions contain Windows-specific options and credentials. */
     export interface k8s$io$api$core$v1$WindowsSecurityContextOptions {
@@ -1879,7 +1879,7 @@ export namespace Schemas {
         matchLabels?: {
             [key: string]: string;
         };
-        matchExpressions?: schemas.k8s$io$apimachinery$pkg$apis$meta$v1$LabelSelectorRequirement[];
+        matchExpressions?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$LabelSelectorRequirement[];
     }
     /**
      * A label selector requirement is a selector that contains values, a key, and an operator that
@@ -1913,9 +1913,9 @@ export namespace Schemas {
          * set because it cannot be automatically converted.
          */
         apiVersion?: string;
-        time?: schemas.k8s$io$apimachinery$pkg$apis$meta$v1$Time;
+        time?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$Time;
         fieldsType?: string;
-        fieldsV1?: schemas.k8s$io$apimachinery$pkg$apis$meta$v1$FieldsV1;
+        fieldsV1?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$FieldsV1;
     }
     /**
      * ObjectMeta is metadata that all persisted resources must have, which includes all objects
@@ -1991,8 +1991,8 @@ export namespace Schemas {
          */
         resourceVersion?: string;
         generation?: string;
-        creationTimestamp?: schemas.k8s$io$apimachinery$pkg$apis$meta$v1$Time;
-        deletionTimestamp?: schemas.k8s$io$apimachinery$pkg$apis$meta$v1$Time;
+        creationTimestamp?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$Time;
+        deletionTimestamp?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$Time;
         deletionGracePeriodSeconds?: string;
         labels?: {
             [key: string]: string;
@@ -2000,7 +2000,7 @@ export namespace Schemas {
         annotations?: {
             [key: string]: string;
         };
-        ownerReferences?: schemas.k8s$io$apimachinery$pkg$apis$meta$v1$OwnerReference[];
+        ownerReferences?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$OwnerReference[];
         finalizers?: string[];
         clusterName?: string;
         /**
@@ -2014,7 +2014,7 @@ export namespace Schemas {
          *
          * +optional
          */
-        managedFields?: schemas.k8s$io$apimachinery$pkg$apis$meta$v1$ManagedFieldsEntry[];
+        managedFields?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$ManagedFieldsEntry[];
     }
     /**
      * OwnerReference contains enough information to let you identify an owning
@@ -2069,7 +2069,7 @@ export namespace Schemas {
         namespace?: string;
     }
     export interface rollout$AnalysisRunInfo {
-        objectMeta?: schemas.k8s$io$apimachinery$pkg$apis$meta$v1$ObjectMeta;
+        objectMeta?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$ObjectMeta;
         icon?: string;
         revision?: number;
         status?: string;
@@ -2077,23 +2077,23 @@ export namespace Schemas {
         failed?: number;
         inconclusive?: number;
         error?: number;
-        jobs?: schemas.rollout$JobInfo[];
+        jobs?: Schemas.rollout$JobInfo[];
     }
     export interface rollout$ContainerInfo {
         name?: string;
         image?: string;
     }
     export interface rollout$ExperimentInfo {
-        objectMeta?: schemas.k8s$io$apimachinery$pkg$apis$meta$v1$ObjectMeta;
+        objectMeta?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$ObjectMeta;
         icon?: string;
         revision?: number;
         status?: string;
         message?: string;
-        replicaSets?: schemas.rollout$ReplicaSetInfo[];
-        analysisRuns?: schemas.rollout$AnalysisRunInfo[];
+        replicaSets?: Schemas.rollout$ReplicaSetInfo[];
+        analysisRuns?: Schemas.rollout$AnalysisRunInfo[];
     }
     export interface rollout$JobInfo {
-        objectMeta?: schemas.k8s$io$apimachinery$pkg$apis$meta$v1$ObjectMeta;
+        objectMeta?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$ObjectMeta;
         status?: string;
         icon?: string;
     }
@@ -2102,7 +2102,7 @@ export namespace Schemas {
         availableNamespaces?: string[];
     }
     export interface rollout$PodInfo {
-        objectMeta?: schemas.k8s$io$apimachinery$pkg$apis$meta$v1$ObjectMeta;
+        objectMeta?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$ObjectMeta;
         status?: string;
         icon?: string;
         ready?: string;
@@ -2114,7 +2114,7 @@ export namespace Schemas {
         full?: boolean;
     }
     export interface rollout$ReplicaSetInfo {
-        objectMeta?: schemas.k8s$io$apimachinery$pkg$apis$meta$v1$ObjectMeta;
+        objectMeta?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$ObjectMeta;
         status?: string;
         icon?: string;
         revision?: number;
@@ -2127,7 +2127,7 @@ export namespace Schemas {
         template?: string;
         scaleDownDeadline?: string;
         images?: string[];
-        pods?: schemas.rollout$PodInfo[];
+        pods?: Schemas.rollout$PodInfo[];
     }
     export interface rollout$RestartRolloutRequest {
         name?: string;
@@ -2138,7 +2138,7 @@ export namespace Schemas {
         namespace?: string;
     }
     export interface rollout$RolloutInfo {
-        objectMeta?: schemas.k8s$io$apimachinery$pkg$apis$meta$v1$ObjectMeta;
+        objectMeta?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$ObjectMeta;
         status?: string;
         message?: string;
         icon?: string;
@@ -2153,18 +2153,18 @@ export namespace Schemas {
         available?: number;
         restartedAt?: string;
         generation?: string;
-        replicaSets?: schemas.rollout$ReplicaSetInfo[];
-        experiments?: schemas.rollout$ExperimentInfo[];
-        analysisRuns?: schemas.rollout$AnalysisRunInfo[];
-        containers?: schemas.rollout$ContainerInfo[];
-        steps?: schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$CanaryStep[];
+        replicaSets?: Schemas.rollout$ReplicaSetInfo[];
+        experiments?: Schemas.rollout$ExperimentInfo[];
+        analysisRuns?: Schemas.rollout$AnalysisRunInfo[];
+        containers?: Schemas.rollout$ContainerInfo[];
+        steps?: Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$CanaryStep[];
     }
     export interface rollout$RolloutInfoList {
-        rollouts?: schemas.rollout$RolloutInfo[];
+        rollouts?: Schemas.rollout$RolloutInfo[];
     }
     export interface rollout$RolloutWatchEvent {
         type?: string;
-        rolloutInfo?: schemas.rollout$RolloutInfo;
+        rolloutInfo?: Schemas.rollout$RolloutInfo;
     }
     export interface rollout$SetImageRequest {
         rollout?: string;
@@ -2183,54 +2183,54 @@ export namespace Schemas {
     }
 }
 export interface Response$RolloutService_GetNamespace$Status$200 {
-    \\"application/json\\": schemas.rollout$NamespaceInfo;
+    \\"application/json\\": Schemas.rollout$NamespaceInfo;
 }
 export interface Response$RolloutService_GetNamespace$Status$default {
-    \\"application/json\\": schemas.grpc$gateway$runtime$Error;
+    \\"application/json\\": Schemas.grpc$gateway$runtime$Error;
 }
 export interface Parameter$RolloutService_ListRolloutInfos {
     namespace: string;
 }
 export interface Response$RolloutService_ListRolloutInfos$Status$200 {
-    \\"application/json\\": schemas.rollout$RolloutInfoList;
+    \\"application/json\\": Schemas.rollout$RolloutInfoList;
 }
 export interface Response$RolloutService_ListRolloutInfos$Status$default {
-    \\"application/json\\": schemas.grpc$gateway$runtime$Error;
+    \\"application/json\\": Schemas.grpc$gateway$runtime$Error;
 }
 export interface Parameter$RolloutService_WatchRolloutInfos {
     namespace: string;
 }
 export interface Response$RolloutService_WatchRolloutInfos$Status$200 {
     \\"application/json\\": {
-        result?: schemas.rollout$RolloutWatchEvent;
-        error?: schemas.grpc$gateway$runtime$StreamError;
+        result?: Schemas.rollout$RolloutWatchEvent;
+        error?: Schemas.grpc$gateway$runtime$StreamError;
     };
 }
 export interface Response$RolloutService_WatchRolloutInfos$Status$default {
-    \\"application/json\\": schemas.grpc$gateway$runtime$Error;
+    \\"application/json\\": Schemas.grpc$gateway$runtime$Error;
 }
 export interface Parameter$RolloutService_AbortRollout {
     namespace: string;
     name: string;
 }
 export interface RequestBody$RolloutService_AbortRollout {
-    \\"application/json\\": schemas.rollout$AbortRolloutRequest;
+    \\"application/json\\": Schemas.rollout$AbortRolloutRequest;
 }
 export interface Response$RolloutService_AbortRollout$Status$200 {
-    \\"application/json\\": schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$Rollout;
+    \\"application/json\\": Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$Rollout;
 }
 export interface Response$RolloutService_AbortRollout$Status$default {
-    \\"application/json\\": schemas.grpc$gateway$runtime$Error;
+    \\"application/json\\": Schemas.grpc$gateway$runtime$Error;
 }
 export interface Parameter$RolloutService_GetRolloutInfo {
     namespace: string;
     name: string;
 }
 export interface Response$RolloutService_GetRolloutInfo$Status$200 {
-    \\"application/json\\": schemas.rollout$RolloutInfo;
+    \\"application/json\\": Schemas.rollout$RolloutInfo;
 }
 export interface Response$RolloutService_GetRolloutInfo$Status$default {
-    \\"application/json\\": schemas.grpc$gateway$runtime$Error;
+    \\"application/json\\": Schemas.grpc$gateway$runtime$Error;
 }
 export interface Parameter$RolloutService_WatchRolloutInfo {
     namespace: string;
@@ -2238,51 +2238,51 @@ export interface Parameter$RolloutService_WatchRolloutInfo {
 }
 export interface Response$RolloutService_WatchRolloutInfo$Status$200 {
     \\"application/json\\": {
-        result?: schemas.rollout$RolloutInfo;
-        error?: schemas.grpc$gateway$runtime$StreamError;
+        result?: Schemas.rollout$RolloutInfo;
+        error?: Schemas.grpc$gateway$runtime$StreamError;
     };
 }
 export interface Response$RolloutService_WatchRolloutInfo$Status$default {
-    \\"application/json\\": schemas.grpc$gateway$runtime$Error;
+    \\"application/json\\": Schemas.grpc$gateway$runtime$Error;
 }
 export interface Parameter$RolloutService_PromoteRollout {
     namespace: string;
     name: string;
 }
 export interface RequestBody$RolloutService_PromoteRollout {
-    \\"application/json\\": schemas.rollout$PromoteRolloutRequest;
+    \\"application/json\\": Schemas.rollout$PromoteRolloutRequest;
 }
 export interface Response$RolloutService_PromoteRollout$Status$200 {
-    \\"application/json\\": schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$Rollout;
+    \\"application/json\\": Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$Rollout;
 }
 export interface Response$RolloutService_PromoteRollout$Status$default {
-    \\"application/json\\": schemas.grpc$gateway$runtime$Error;
+    \\"application/json\\": Schemas.grpc$gateway$runtime$Error;
 }
 export interface Parameter$RolloutService_RestartRollout {
     namespace: string;
     name: string;
 }
 export interface RequestBody$RolloutService_RestartRollout {
-    \\"application/json\\": schemas.rollout$RestartRolloutRequest;
+    \\"application/json\\": Schemas.rollout$RestartRolloutRequest;
 }
 export interface Response$RolloutService_RestartRollout$Status$200 {
-    \\"application/json\\": schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$Rollout;
+    \\"application/json\\": Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$Rollout;
 }
 export interface Response$RolloutService_RestartRollout$Status$default {
-    \\"application/json\\": schemas.grpc$gateway$runtime$Error;
+    \\"application/json\\": Schemas.grpc$gateway$runtime$Error;
 }
 export interface Parameter$RolloutService_RetryRollout {
     namespace: string;
     name: string;
 }
 export interface RequestBody$RolloutService_RetryRollout {
-    \\"application/json\\": schemas.rollout$RetryRolloutRequest;
+    \\"application/json\\": Schemas.rollout$RetryRolloutRequest;
 }
 export interface Response$RolloutService_RetryRollout$Status$200 {
-    \\"application/json\\": schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$Rollout;
+    \\"application/json\\": Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$Rollout;
 }
 export interface Response$RolloutService_RetryRollout$Status$default {
-    \\"application/json\\": schemas.grpc$gateway$runtime$Error;
+    \\"application/json\\": Schemas.grpc$gateway$runtime$Error;
 }
 export interface Parameter$RolloutService_SetRolloutImage {
     namespace: string;
@@ -2292,13 +2292,13 @@ export interface Parameter$RolloutService_SetRolloutImage {
     tag: string;
 }
 export interface RequestBody$RolloutService_SetRolloutImage {
-    \\"application/json\\": schemas.rollout$SetImageRequest;
+    \\"application/json\\": Schemas.rollout$SetImageRequest;
 }
 export interface Response$RolloutService_SetRolloutImage$Status$200 {
-    \\"application/json\\": schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$Rollout;
+    \\"application/json\\": Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$Rollout;
 }
 export interface Response$RolloutService_SetRolloutImage$Status$default {
-    \\"application/json\\": schemas.grpc$gateway$runtime$Error;
+    \\"application/json\\": Schemas.grpc$gateway$runtime$Error;
 }
 export interface Parameter$RolloutService_UndoRollout {
     namespace: string;
@@ -2306,19 +2306,19 @@ export interface Parameter$RolloutService_UndoRollout {
     revision: string;
 }
 export interface RequestBody$RolloutService_UndoRollout {
-    \\"application/json\\": schemas.rollout$UndoRolloutRequest;
+    \\"application/json\\": Schemas.rollout$UndoRolloutRequest;
 }
 export interface Response$RolloutService_UndoRollout$Status$200 {
-    \\"application/json\\": schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$Rollout;
+    \\"application/json\\": Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$Rollout;
 }
 export interface Response$RolloutService_UndoRollout$Status$default {
-    \\"application/json\\": schemas.grpc$gateway$runtime$Error;
+    \\"application/json\\": Schemas.grpc$gateway$runtime$Error;
 }
 export interface Response$RolloutService_Version$Status$200 {
-    \\"application/json\\": schemas.rollout$VersionInfo;
+    \\"application/json\\": Schemas.rollout$VersionInfo;
 }
 export interface Response$RolloutService_Version$Status$default {
-    \\"application/json\\": schemas.grpc$gateway$runtime$Error;
+    \\"application/json\\": Schemas.grpc$gateway$runtime$Error;
 }
 export type ResponseContentType$RolloutService_GetNamespace = keyof Response$RolloutService_GetNamespace$Status$200;
 export type ResponseContentType$RolloutService_ListRolloutInfos = keyof Response$RolloutService_ListRolloutInfos$Status$200;
@@ -2550,34 +2550,34 @@ export namespace Schemas {
     } & {
         B?: string;
     };
-    export type LocalRefStringType = schemas.StringType;
-    export type LocalRefNumberType = schemas.NumberType;
-    export type LocalRefBooleanType = schemas.BooleanType;
-    export type LocalRefArrayStringType = schemas.BooleanType;
-    export type LocalRefObjectHasPropertiesType = schemas.ObjectHasPropertiesType;
+    export type LocalRefStringType = Schemas.StringType;
+    export type LocalRefNumberType = Schemas.NumberType;
+    export type LocalRefBooleanType = Schemas.BooleanType;
+    export type LocalRefArrayStringType = Schemas.BooleanType;
+    export type LocalRefObjectHasPropertiesType = Schemas.ObjectHasPropertiesType;
     export interface LocalRefObjectProperties {
-        stringType: schemas.StringType;
-        numberType: schemas.NumberType;
-        booleanType: schemas.BooleanType;
-        arrayType: schemas.BooleanType;
-        objectType: schemas.ObjectHasPropertiesType;
+        stringType: Schemas.StringType;
+        numberType: Schemas.NumberType;
+        booleanType: Schemas.BooleanType;
+        arrayType: Schemas.BooleanType;
+        objectType: Schemas.ObjectHasPropertiesType;
     }
-    export type LocalRefOneOfType = schemas.StringType | schemas.NumberType | schemas.ObjectHasPropertiesType | schemas.LocalRefObjectProperties;
-    export type LocalRefAllOfType = schemas.StringType & schemas.NumberType & schemas.ObjectHasPropertiesType & schemas.LocalRefObjectProperties;
-    export type LocalReferenceBeforeResolvedSchema1 = schemas.UnresolvedTarget1;
+    export type LocalRefOneOfType = Schemas.StringType | Schemas.NumberType | Schemas.ObjectHasPropertiesType | Schemas.LocalRefObjectProperties;
+    export type LocalRefAllOfType = Schemas.StringType & Schemas.NumberType & Schemas.ObjectHasPropertiesType & Schemas.LocalRefObjectProperties;
+    export type LocalReferenceBeforeResolvedSchema1 = Schemas.UnresolvedTarget1;
     export type UnresolvedTarget1 = boolean;
-    export type LocalReferenceBeforeResolvedSchema2 = schemas.UnresolvedTarget2;
-    export type UnresolvedTarget2 = schemas.UnresolvedTarget3;
+    export type LocalReferenceBeforeResolvedSchema2 = Schemas.UnresolvedTarget2;
+    export type UnresolvedTarget2 = Schemas.UnresolvedTarget3;
     export type UnresolvedTarget3 = number;
     export interface LocalReferenceBeforeResolvedSchema3 {
-        unresolvedTarget4?: schemas.UnresolvedTarget4;
+        unresolvedTarget4?: Schemas.UnresolvedTarget4;
     }
     export interface UnresolvedTarget4 {
-        unresolvedTarget5?: schemas.UnresolvedTarget5;
+        unresolvedTarget5?: Schemas.UnresolvedTarget5;
     }
     export type UnresolvedTarget5 = string;
     export type RemoteString = string;
-    export type RemoteRefString = schemas.RemoteString;
+    export type RemoteRefString = Schemas.RemoteString;
     export namespace Level1 {
         /** Level 1 */
         export type RemoteBoolean = boolean;
@@ -2598,13 +2598,13 @@ export namespace Schemas {
         }
     }
     /** Level 1 */
-    export type RemoteRefBoolean = schemas.Level1.RemoteBoolean;
+    export type RemoteRefBoolean = Schemas.Level1.RemoteBoolean;
     /** Level 2 */
-    export type RemoteRefNumber = schemas.Level1.Level2.RemoteNumber;
+    export type RemoteRefNumber = Schemas.Level1.Level2.RemoteNumber;
     /** Level 3 */
-    export type RemoteRefArray = schemas.Level1.Level2.Level3.RemoteArray;
+    export type RemoteRefArray = Schemas.Level1.Level2.Level3.RemoteArray;
     /** Level 4 */
-    export type RemoteRefObject = schemas.Level1.Level2.Level3.Level4.RemoteObject;
+    export type RemoteRefObject = Schemas.Level1.Level2.Level3.Level4.RemoteObject;
     export namespace DirectRef {
         export type ForHeader = string;
         export interface ForResponse {
@@ -2634,7 +2634,7 @@ export namespace Headers {
     export namespace Level1 {
         export type B = string;
     }
-    export type ReferenceOfHeaderToSchema = schemas.DirectRef.ForHeader;
+    export type ReferenceOfHeaderToSchema = Schemas.DirectRef.ForHeader;
 }
 export namespace Responses {
     /**
@@ -2650,19 +2650,19 @@ export namespace Responses {
     /** Type Reference - string */
     export namespace LocalReferenceStringDateTimeType {
         export interface Content {
-            \\"application/json\\": schemas.StringDateTimeType;
+            \\"application/json\\": Schemas.StringDateTimeType;
         }
     }
     /** Local Reference - object */
     export namespace LocalReferenceObjectType {
         export interface Content {
-            \\"application/json\\": schemas.ObjectHasPropertiesType;
+            \\"application/json\\": Schemas.ObjectHasPropertiesType;
         }
     }
     /** Response -> Schema */
     export namespace ReferenceOfResponseToSchema {
         export interface Content {
-            \\"application/json\\": schemas.DirectRef.ForResponse;
+            \\"application/json\\": Schemas.DirectRef.ForResponse;
         }
     }
     /** response A definition */
@@ -2728,7 +2728,7 @@ export namespace Parameters {
     }
     export type RemoteReferenceB = Parameters.level1.B;
     /** parameters -> schemas */
-    export type ReferenceOfParameterToSchema = schemas.DirectRef.ForParameters;
+    export type ReferenceOfParameterToSchema = Schemas.DirectRef.ForParameters;
     /** deepObject */
     export type DeepObjectParameter = {
         [key: string]: {
@@ -2750,13 +2750,13 @@ export namespace RequestBodies {
     /** Request body Local reference string type */
     export namespace LocalReferenceStringType {
         export interface Content {
-            \\"application/json\\": schemas.StringHasEnumType;
+            \\"application/json\\": Schemas.StringHasEnumType;
         }
     }
     /** requestBodies -> schemas */
     export namespace ReferenceOfRequestBodyToSchema {
         export interface Content {
-            \\"application/json\\": schemas.DirectRef.ForRequestBody;
+            \\"application/json\\": Schemas.DirectRef.ForRequestBody;
         }
     }
     /** Remote Request body A */
@@ -2806,7 +2806,7 @@ export interface RequestBody$getIncludeRemoteReference {
 }
 export interface Parameter$getFullRemoteReference {
     /** Full Remote Reference */
-    FullRemoteReferenceQuery: schemas.FullRemoteReference.ForParameters;
+    FullRemoteReferenceQuery: Schemas.FullRemoteReference.ForParameters;
 }
 export interface Response$getFullRemoteReference$Status$200 {
     \\"application/json\\": {
@@ -2816,7 +2816,7 @@ export interface Response$getFullRemoteReference$Status$200 {
 }
 export interface Response$getReferenceItems$Status$200 {
     \\"application/json\\": {
-        books?: schemas.Item[];
+        books?: Schemas.Item[];
     };
 }
 export interface Parameter$getBookById {
@@ -2824,7 +2824,7 @@ export interface Parameter$getBookById {
     id: string;
 }
 export interface Response$getBookById$Status$200 {
-    \\"application/json\\": schemas.ObjectHasPropertiesType;
+    \\"application/json\\": Schemas.ObjectHasPropertiesType;
 }
 export interface Parameter$deleteBook {
     /** Number Book ID */
@@ -3026,7 +3026,7 @@ export interface Parameter$getBook {
     id: string;
 }
 export interface Response$getBook$Status$200 {
-    \\"application/json\\": schemas.Book;
+    \\"application/json\\": Schemas.Book;
 }
 export interface Parameter$getDescription {
     /** Book ID */
@@ -3050,7 +3050,7 @@ export interface Parameter$getPublisher {
     id: string;
 }
 export interface Response$getPublisher$Status$200 {
-    \\"application/json\\": schemas.Publisher;
+    \\"application/json\\": Schemas.Publisher;
 }
 export type ResponseContentType$getBook = keyof Response$getBook$Status$200;
 export interface Params$getBook {

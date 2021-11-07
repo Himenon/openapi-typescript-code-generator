@@ -29,7 +29,7 @@ export interface RequestBody$getIncludeRemoteReference {
 }
 export interface Parameter$getFullRemoteReference {
     /** Full Remote Reference */
-    FullRemoteReferenceQuery: schemas.FullRemoteReference.ForParameters;
+    FullRemoteReferenceQuery: Schemas.FullRemoteReference.ForParameters;
 }
 export interface Response$getFullRemoteReference$Status$200 {
     \\"application/json\\": {
@@ -39,7 +39,7 @@ export interface Response$getFullRemoteReference$Status$200 {
 }
 export interface Response$getReferenceItems$Status$200 {
     \\"application/json\\": {
-        books?: schemas.Item[];
+        books?: Schemas.Item[];
     };
 }
 export interface Parameter$getBookById {
@@ -47,7 +47,7 @@ export interface Parameter$getBookById {
     id: string;
 }
 export interface Response$getBookById$Status$200 {
-    \\"application/json\\": schemas.ObjectHasPropertiesType;
+    \\"application/json\\": Schemas.ObjectHasPropertiesType;
 }
 export interface Parameter$deleteBook {
     /** Number Book ID */
@@ -235,34 +235,34 @@ export namespace Schemas {
     } & {
         B?: string;
     };
-    export type LocalRefStringType = schemas.StringType;
-    export type LocalRefNumberType = schemas.NumberType;
-    export type LocalRefBooleanType = schemas.BooleanType;
-    export type LocalRefArrayStringType = schemas.BooleanType;
-    export type LocalRefObjectHasPropertiesType = schemas.ObjectHasPropertiesType;
+    export type LocalRefStringType = Schemas.StringType;
+    export type LocalRefNumberType = Schemas.NumberType;
+    export type LocalRefBooleanType = Schemas.BooleanType;
+    export type LocalRefArrayStringType = Schemas.BooleanType;
+    export type LocalRefObjectHasPropertiesType = Schemas.ObjectHasPropertiesType;
     export interface LocalRefObjectProperties {
-        stringType: schemas.StringType;
-        numberType: schemas.NumberType;
-        booleanType: schemas.BooleanType;
-        arrayType: schemas.BooleanType;
-        objectType: schemas.ObjectHasPropertiesType;
+        stringType: Schemas.StringType;
+        numberType: Schemas.NumberType;
+        booleanType: Schemas.BooleanType;
+        arrayType: Schemas.BooleanType;
+        objectType: Schemas.ObjectHasPropertiesType;
     }
-    export type LocalRefOneOfType = schemas.StringType | schemas.NumberType | schemas.ObjectHasPropertiesType | schemas.LocalRefObjectProperties;
-    export type LocalRefAllOfType = schemas.StringType & schemas.NumberType & schemas.ObjectHasPropertiesType & schemas.LocalRefObjectProperties;
-    export type LocalReferenceBeforeResolvedSchema1 = schemas.UnresolvedTarget1;
+    export type LocalRefOneOfType = Schemas.StringType | Schemas.NumberType | Schemas.ObjectHasPropertiesType | Schemas.LocalRefObjectProperties;
+    export type LocalRefAllOfType = Schemas.StringType & Schemas.NumberType & Schemas.ObjectHasPropertiesType & Schemas.LocalRefObjectProperties;
+    export type LocalReferenceBeforeResolvedSchema1 = Schemas.UnresolvedTarget1;
     export type UnresolvedTarget1 = boolean;
-    export type LocalReferenceBeforeResolvedSchema2 = schemas.UnresolvedTarget2;
-    export type UnresolvedTarget2 = schemas.UnresolvedTarget3;
+    export type LocalReferenceBeforeResolvedSchema2 = Schemas.UnresolvedTarget2;
+    export type UnresolvedTarget2 = Schemas.UnresolvedTarget3;
     export type UnresolvedTarget3 = number;
     export interface LocalReferenceBeforeResolvedSchema3 {
-        unresolvedTarget4?: schemas.UnresolvedTarget4;
+        unresolvedTarget4?: Schemas.UnresolvedTarget4;
     }
     export interface UnresolvedTarget4 {
-        unresolvedTarget5?: schemas.UnresolvedTarget5;
+        unresolvedTarget5?: Schemas.UnresolvedTarget5;
     }
     export type UnresolvedTarget5 = string;
     export type RemoteString = string;
-    export type RemoteRefString = schemas.RemoteString;
+    export type RemoteRefString = Schemas.RemoteString;
     export namespace Level1 {
         /** Level 1 */
         export type RemoteBoolean = boolean;
@@ -283,13 +283,13 @@ export namespace Schemas {
         }
     }
     /** Level 1 */
-    export type RemoteRefBoolean = schemas.Level1.RemoteBoolean;
+    export type RemoteRefBoolean = Schemas.Level1.RemoteBoolean;
     /** Level 2 */
-    export type RemoteRefNumber = schemas.Level1.Level2.RemoteNumber;
+    export type RemoteRefNumber = Schemas.Level1.Level2.RemoteNumber;
     /** Level 3 */
-    export type RemoteRefArray = schemas.Level1.Level2.Level3.RemoteArray;
+    export type RemoteRefArray = Schemas.Level1.Level2.Level3.RemoteArray;
     /** Level 4 */
-    export type RemoteRefObject = schemas.Level1.Level2.Level3.Level4.RemoteObject;
+    export type RemoteRefObject = Schemas.Level1.Level2.Level3.Level4.RemoteObject;
     export namespace DirectRef {
         export type ForHeader = string;
         export interface ForResponse {
@@ -319,7 +319,7 @@ export namespace Headers {
     export namespace Level1 {
         export type B = string;
     }
-    export type ReferenceOfHeaderToSchema = schemas.DirectRef.ForHeader;
+    export type ReferenceOfHeaderToSchema = Schemas.DirectRef.ForHeader;
 }
 export namespace Responses {
     /**
@@ -335,19 +335,19 @@ export namespace Responses {
     /** Type Reference - string */
     export namespace LocalReferenceStringDateTimeType {
         export interface Content {
-            \\"application/json\\": schemas.StringDateTimeType;
+            \\"application/json\\": Schemas.StringDateTimeType;
         }
     }
     /** Local Reference - object */
     export namespace LocalReferenceObjectType {
         export interface Content {
-            \\"application/json\\": schemas.ObjectHasPropertiesType;
+            \\"application/json\\": Schemas.ObjectHasPropertiesType;
         }
     }
     /** Response -> Schema */
     export namespace ReferenceOfResponseToSchema {
         export interface Content {
-            \\"application/json\\": schemas.DirectRef.ForResponse;
+            \\"application/json\\": Schemas.DirectRef.ForResponse;
         }
     }
     /** response A definition */
@@ -413,7 +413,7 @@ export namespace Parameters {
     }
     export type RemoteReferenceB = Parameters.level1.B;
     /** parameters -> schemas */
-    export type ReferenceOfParameterToSchema = schemas.DirectRef.ForParameters;
+    export type ReferenceOfParameterToSchema = Schemas.DirectRef.ForParameters;
     /** deepObject */
     export type DeepObjectParameter = {
         [key: string]: {
@@ -435,13 +435,13 @@ export namespace RequestBodies {
     /** Request body Local reference string type */
     export namespace LocalReferenceStringType {
         export interface Content {
-            \\"application/json\\": schemas.StringHasEnumType;
+            \\"application/json\\": Schemas.StringHasEnumType;
         }
     }
     /** requestBodies -> schemas */
     export namespace ReferenceOfRequestBodyToSchema {
         export interface Content {
-            \\"application/json\\": schemas.DirectRef.ForRequestBody;
+            \\"application/json\\": Schemas.DirectRef.ForRequestBody;
         }
     }
     /** Remote Request body A */
