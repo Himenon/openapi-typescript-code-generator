@@ -10,7 +10,7 @@ exports[`Split Code apiClient 1`] = `
 // 
 
 
-import { Schemas, RequestBodies } from \\"./types\\";
+import { Schemas } from \\"./types\\";
 export interface Parameter$getIncludeLocalReference {
     /** parameters.StringQueryParams */
     StringQuery: string;

@@ -81,7 +81,7 @@ const generateSplitCode = (inputFilename: string, outputDir: string) => {
   const apiClientCode = codeGenerator.generateCode([
     {
       generator: () => {
-        return [`import { Schemas, RequestBodies } from "./types";`];
+        return [`import { Schemas } from "./types";`];
       },
     },
     codeGenerator.getAdditionalTypeDefinitionCustomCodeGenerator(),
@@ -117,13 +117,12 @@ const main = () => {
   generateTypedefWithTemplateCode("test/ref.access/index.yml", "test/code/typedef-with-template/ref-access.ts", false, {
     sync: false,
   });
-  generateTypedefWithTemplateCode("test/kubernetes/openapi.json", "test/code/kubernetes/client.ts", false, { sync: false });
+  generateTypedefWithTemplateCode("test/kubernetes/openapi-v1.18.5.json", "test/code/kubernetes/client-v1.18.5.ts", false, { sync: false });
   generateTypedefWithTemplateCode("test/argo-rollout/index.json", "test/code/argo-rollout/client.ts", false, {
     sync: false,
   });
 
   generateSplitCode("test/api.test.domain/index.yml", "test/code/split");
-  generateSplitCode("test/kubernetes/openapi.json", "test/code/kubernetes");
 
   generateParameter("test/api.test.domain/index.yml", "test/code/parameter/api.test.domain.json");
   generateParameter("test/infer.domain/index.yml", "test/code/parameter/infer.domain.json");
