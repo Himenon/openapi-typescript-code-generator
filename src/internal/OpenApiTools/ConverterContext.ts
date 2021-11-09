@@ -1,16 +1,36 @@
-import * as ts from "typescript";
+import ts from "typescript";
 
 import * as Utils from "../../utils";
 import type { Factory } from "../TsGenerator";
 import type { PrimitiveSchema } from "./types";
 
 export interface FormatConversion {
-  format: string;
-  value: string[];
   /**
-   * Default oneOf
+   * Search parameters for the Schema to be converted
    */
-  multiType?: "allOf" | "oneOf";
+  selector: {
+    /**
+     * DataType format
+     *
+     * @see https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#data-types
+     */
+    format: string;
+  };
+  /**
+   * Output format
+   */
+  output: {
+    /**
+     * The type after conversion. The input string will be output as a typedef.
+     */
+    value: string[];
+    /**
+     * How to handle typedefs when there is more than one.
+     *
+     * Default oneOf
+     */
+    multiType?: "allOf" | "oneOf";
+  };
 }
 
 /**
@@ -53,12 +73,12 @@ export interface Types {
 }
 
 const createFormatSchemaToTypeNode = (factory: Factory.Type, target: FormatConversion): ts.TypeNode => {
-  const typeNodes = target.value.map(value => {
+  const typeNodes = target.output.value.map(value => {
     return factory.TypeReferenceNode.create({
       name: value,
     });
   });
-  if (target.multiType === "allOf") {
+  if (target.output.multiType === "allOf") {
     return factory.IntersectionTypeNode.create({
       typeNodes: typeNodes,
     });
@@ -134,7 +154,7 @@ export const create = (factory: Factory.Type, options?: Options): Types => {
       if (!schema.format) {
         return;
       }
-      const target = formatConversions.find(formatConvertion => formatConvertion.format === schema.format);
+      const target = formatConversions.find(formatConvertion => formatConvertion.selector.format === schema.format);
       if (!target) {
         return;
       }

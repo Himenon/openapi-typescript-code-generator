@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import ts from "typescript";
 
 import type { OpenApi } from "../../../types";
 import { Factory } from "../../TsGenerator";

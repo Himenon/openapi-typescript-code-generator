@@ -102,17 +102,29 @@ export const generateFormatTypeCode = (inputFilename: string, outputFilename: st
     convertOption: {
       formatConversions: [
         {
-          format: "binary",
-          value: ["Blob"],
+          selector: {
+            format: "binary",
+          },
+          output: {
+            value: ["Blob"],
+          },
         },
         {
-          format: "int-or-string",
-          value: ["number", "string"],
+          selector: {
+            format: "int-or-string",
+          },
+          output: {
+            value: ["number", "string"],
+          },
         },
         {
-          format: "custom-type",
-          value: ["CustomType"],
-        }
+          selector: {
+            format: "custom-type",
+          },
+          output: {
+            value: ["CustomType"],
+          },
+        },
       ],
     },
   };
