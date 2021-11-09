@@ -22,15 +22,43 @@ components:
       properties:
         name:
           type: string
-    BinaryFormat:
+    BinaryFormat_String:
       type: string
       format: binary
-    IntOrStringFormat:
+    IntOrStringFormat_String:
       type: string
       format: int-or-string
-    CustomTypeFormat:
+    CustomTypeFormat_String:
       type: string
       format: custom-type
-    DateTimeFormat:
+    DateTimeFormat_String:
       type: string
       format: date-time
+    BinaryFormat_Int:
+      type: integer
+      format: binary
+    IntOrStringFormat_Int:
+      type: integer
+      format: int-or-string
+    CustomTypeFormat_Int:
+      type: integer
+      format: custom-type
+    DateTimeFormat_Int:
+      type: integer
+      format: date-time
+    ObjectPropertyCustomType:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+    Binary:
+      type: string
+      format: binary
+    IntOrString:
+      type: string
+      format: int-or-string
+    AandB:
+      type: string
+      format: A-and-B
+

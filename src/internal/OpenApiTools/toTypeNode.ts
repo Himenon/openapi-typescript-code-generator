@@ -188,10 +188,10 @@ export const convert: Convert = (
     case "number": {
       const items = schema.enum;
       let typeNode: ts.TypeNode;
-      // const formatValues = converterContext.convertFormatSchema(schema);
-      // if (formatValues) {
-      //   return formatSchemaToTypeNode(factory, formatValues);
-      // }
+      const formatTypeNode = converterContext.convertFormatTypeNode(schema);
+      if (formatTypeNode) {
+        return formatTypeNode;
+      }
       if (items && Guard.isNumberArray(items)) {
         typeNode = factory.TypeNode.create({
           type: schema.type,
@@ -206,10 +206,10 @@ export const convert: Convert = (
     }
     case "string": {
       const items = schema.enum;
-      // const formatValues = converterContext.convertFormatSchema(schema);
-      // if (formatValues) {
-      //   return formatSchemaToTypeNode(factory, formatValues);
-      // }
+      const formatTypeNode = converterContext.convertFormatTypeNode(schema);
+      if (formatTypeNode) {
+        return formatTypeNode;
+      }
       let typeNode: ts.TypeNode;
       if (items && Guard.isStringArray(items)) {
         typeNode = factory.TypeNode.create({

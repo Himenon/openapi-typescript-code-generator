@@ -106,7 +106,7 @@ export const generateFormatTypeCode = (inputFilename: string, outputFilename: st
             format: "binary",
           },
           output: {
-            value: ["Blob"],
+            type: ["Blob"],
           },
         },
         {
@@ -114,7 +114,7 @@ export const generateFormatTypeCode = (inputFilename: string, outputFilename: st
             format: "int-or-string",
           },
           output: {
-            value: ["number", "string"],
+            type: ["number", "string"],
           },
         },
         {
@@ -122,7 +122,24 @@ export const generateFormatTypeCode = (inputFilename: string, outputFilename: st
             format: "custom-type",
           },
           output: {
-            value: ["CustomType"],
+            type: ["CustomType"],
+          },
+        },
+        {
+          selector: {
+            format: "date-time",
+          },
+          output: {
+            type: ["Date"],
+          },
+        },
+        {
+          selector: {
+            format: "A-and-B",
+          },
+          output: {
+            type: ["A", "B"],
+            multiType: "allOf",
           },
         },
       ],

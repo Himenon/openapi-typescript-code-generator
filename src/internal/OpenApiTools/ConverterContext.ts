@@ -2,7 +2,6 @@ import ts from "typescript";
 
 import * as Utils from "../../utils";
 import type { Factory } from "../TsGenerator";
-import type { PrimitiveSchema } from "./types";
 
 export interface FormatConversion {
   /**
@@ -23,7 +22,7 @@ export interface FormatConversion {
     /**
      * The type after conversion. The input string will be output as a typedef.
      */
-    value: string[];
+    type: string[];
     /**
      * How to handle typedefs when there is more than one.
      *
@@ -69,11 +68,11 @@ export interface Types {
   generateParameterName: (operationId: string) => string;
   generateRequestBodyName: (operationId: string) => string;
   generateFunctionName: (operationId: string) => string;
-  convertFormatTypeNode: (schema: PrimitiveSchema) => undefined | ts.TypeNode;
+  convertFormatTypeNode: (schema: { format?: string }) => undefined | ts.TypeNode;
 }
 
 const createFormatSchemaToTypeNode = (factory: Factory.Type, target: FormatConversion): ts.TypeNode => {
-  const typeNodes = target.output.value.map(value => {
+  const typeNodes = target.output.type.map(value => {
     return factory.TypeReferenceNode.create({
       name: value,
     });
