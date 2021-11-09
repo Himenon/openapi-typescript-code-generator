@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.12.0"></a>
+# 0.12.0 (2021-11-09)
+
+
+### Features
+
+* Support for schema containing format ([#63](https://github.com/Himenon/openapi-typescript-code-generator/issues/63)) ([24c7bd2](https://github.com/Himenon/openapi-typescript-code-generator/commit/24c7bd2))
+
+
+
+
+
 <a name="0.11.0"></a>
 # 0.11.0 (2021-11-07)
 
