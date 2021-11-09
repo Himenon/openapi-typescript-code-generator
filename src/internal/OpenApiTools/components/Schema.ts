@@ -1,4 +1,4 @@
-import ts from "typescript";
+import ts, { skipPartiallyEmittedExpressions } from "typescript";
 
 import type { OpenApi } from "../../../types";
 import { FeatureDevelopmentError } from "../../Exception";
@@ -132,7 +132,13 @@ export const generateTypeAlias = (
   convertContext: ConvertContext.Types,
 ): ts.TypeAliasDeclaration => {
   let type: ts.TypeNode;
-  if (schema.enum) {
+  let formatTypeNode: ts.TypeNode | undefined;
+  if (schema.format && schema.type !== "any") {
+    formatTypeNode = convertContext.convertFormatTypeNode(schema);
+  }
+  if (formatTypeNode) {
+    type = formatTypeNode;
+  } else if (schema.enum) {
     if (Guard.isNumberArray(schema.enum) && (schema.type === "number" || schema.type === "integer")) {
       type = factory.TypeNode.create({
         type: schema.type,

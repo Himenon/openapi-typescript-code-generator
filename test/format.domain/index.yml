@@ -1,0 +1,64 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: format.domain
+  description: Type Format
+  license:
+    name: MIT
+
+servers:
+  - url: "http://dev.api.test.domain/"
+    description: Development Environment
+  - url: "https://api.test.domain/"
+    description: Production Environment
+
+tags:
+  - name: test
+
+components:
+  schemas:
+    CustomType:
+      type: object
+      properties:
+        name:
+          type: string
+    BinaryFormat_String:
+      type: string
+      format: binary
+    IntOrStringFormat_String:
+      type: string
+      format: int-or-string
+    CustomTypeFormat_String:
+      type: string
+      format: custom-type
+    DateTimeFormat_String:
+      type: string
+      format: date-time
+    BinaryFormat_Int:
+      type: integer
+      format: binary
+    IntOrStringFormat_Int:
+      type: integer
+      format: int-or-string
+    CustomTypeFormat_Int:
+      type: integer
+      format: custom-type
+    DateTimeFormat_Int:
+      type: integer
+      format: date-time
+    ObjectPropertyCustomType:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+    Binary:
+      type: string
+      format: binary
+    IntOrString:
+      type: string
+      format: int-or-string
+    AandB:
+      type: string
+      format: A-and-B
+

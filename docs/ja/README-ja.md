@@ -174,6 +174,72 @@ const customGenerator: Types.CodeGenerator.CustomGenerator<Option> = {
 }
 ```
 
+### 任意の Data Types Format を定義する
+
+以下のような`format`が指定された Data Type を任意の型定義に変換します。
+
+```yaml
+components:
+  schemas:
+    Binary:
+      type: string
+      format: binary
+    IntOrString:
+      type: string
+      format: int-or-string
+    AandB:
+      type: string
+      format: A-and-B
+```
+
+Data Type Formatを任意の型定義に変換するオプションは次のように定義します。
+
+```ts
+import { CodeGenerator, Option } from "@himenon/openapi-typescript-code-generator";
+const option: Option = {
+  convertOption: {
+    formatConversions: [
+      {
+        selector: {
+          format: "binary",
+        },
+        output: {
+          type: ["Blob"],
+        },
+      },
+      {
+        selector: {
+          format: "int-or-string",
+        },
+        output: {
+          type: ["number", "string"],
+        },
+      },
+      {
+        selector: {
+          format: "A-and-B",
+        },
+        output: {
+          type: ["A", "B"],
+          multiType: "allOf",
+        },
+      },
+    ],
+  },
+};
+const codeGenerator = new CodeGenerator(inputFilename, option);
+```
+
+これで生成される型定義は次のようになります。
+
+```ts
+export namespace Schemas {
+    export type Binary = Blob;
+    export type IntOrString = number | string;
+    export type AandB = A & B;
+}
+```
+
 ### TypeScript AST によるコードテンプレートを定義する
 
 TypeScript AST の API を利用したコードの拡張が可能です。

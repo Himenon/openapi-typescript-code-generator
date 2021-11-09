@@ -1,10 +1,43 @@
+import ts from "typescript";
+
 import * as Utils from "../../utils";
+import type { Factory } from "../TsGenerator";
+
+export interface FormatConversion {
+  /**
+   * Search parameters for the Schema to be converted
+   */
+  selector: {
+    /**
+     * DataType format
+     *
+     * @see https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#data-types
+     */
+    format: string;
+  };
+  /**
+   * Output format
+   */
+  output: {
+    /**
+     * The type after conversion. The input string will be output as a typedef.
+     */
+    type: string[];
+    /**
+     * How to handle typedefs when there is more than one.
+     *
+     * Default oneOf
+     */
+    multiType?: "allOf" | "oneOf";
+  };
+}
+
 /**
  * ユーザーが利用できる各種変換オプション
  */
-// export interface Options {
-
-// }
+export interface Options {
+  formatConversions?: FormatConversion[];
+}
 
 export interface Types {
   /**
@@ -35,12 +68,29 @@ export interface Types {
   generateParameterName: (operationId: string) => string;
   generateRequestBodyName: (operationId: string) => string;
   generateFunctionName: (operationId: string) => string;
+  convertFormatTypeNode: (schema: { format?: string }) => undefined | ts.TypeNode;
 }
+
+const createFormatSchemaToTypeNode = (factory: Factory.Type, target: FormatConversion): ts.TypeNode => {
+  const typeNodes = target.output.type.map(value => {
+    return factory.TypeReferenceNode.create({
+      name: value,
+    });
+  });
+  if (target.output.multiType === "allOf") {
+    return factory.IntersectionTypeNode.create({
+      typeNodes: typeNodes,
+    });
+  }
+  return factory.UnionTypeNode.create({
+    typeNodes: typeNodes,
+  });
+};
 
 /**
  * ユーザーが利用できる各種変換オプション
  */
-export const create = (): Types => {
+export const create = (factory: Factory.Type, options?: Options): Types => {
   const convertReservedWord = (word: string): string => {
     if (["import", "export"].includes(word)) {
       return word + "_";
@@ -91,6 +141,23 @@ export const create = (): Types => {
     },
     generateFunctionName: (operationId: string) => {
       return convertString(operationId);
+    },
+    convertFormatTypeNode: schema => {
+      const formatConversions = options?.formatConversions;
+      if (!formatConversions || formatConversions.length === 0) {
+        return;
+      }
+      if (typeof schema === "boolean") {
+        return;
+      }
+      if (!schema.format) {
+        return;
+      }
+      const target = formatConversions.find(formatConvertion => formatConvertion.selector.format === schema.format);
+      if (!target) {
+        return;
+      }
+      return createFormatSchemaToTypeNode(factory, target);
     },
   };
 };
