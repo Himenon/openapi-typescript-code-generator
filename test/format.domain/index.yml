@@ -1,0 +1,31 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: format.domain
+  description: Type Format
+  license:
+    name: MIT
+
+servers:
+  - url: "http://dev.api.test.domain/"
+    description: Development Environment
+  - url: "https://api.test.domain/"
+    description: Production Environment
+
+tags:
+  - name: test
+
+components:
+  schemas:
+    BinaryFormat:
+      type: string
+      format: binary
+    IntOrStringFormat:
+      type: string
+      format: int-or-string
+    ByteFormat:
+      type: string
+      format: byte
+    DateTimeFormat:
+      type: string
+      format: date-time

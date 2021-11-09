@@ -2,9 +2,9 @@ import * as Utils from "../../utils";
 /**
  * ユーザーが利用できる各種変換オプション
  */
-// export interface Options {
+export interface Options {
 
-// }
+}
 
 export interface Types {
   /**
@@ -40,7 +40,7 @@ export interface Types {
 /**
  * ユーザーが利用できる各種変換オプション
  */
-export const create = (): Types => {
+export const create = (options?: Options): Types => {
   const convertReservedWord = (word: string): string => {
     if (["import", "export"].includes(word)) {
       return word + "_";

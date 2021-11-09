@@ -13,14 +13,16 @@ import * as Paths from "./paths";
 import * as TypeNodeContext from "./TypeNodeContext";
 import { Store } from "./Walker";
 
+export { ConvertContext };
+
 export class Parser {
   private currentPoint: string;
   private convertContext: ConvertContext.Types;
   private store: Store;
   private factory: TypeScriptCodeGenerator.Factory.Type;
-  constructor(private entryPoint: string, private readonly rootSchema: OpenApi.Document, noReferenceOpenApiSchema: OpenApi.Document) {
+  constructor(private entryPoint: string, private readonly rootSchema: OpenApi.Document, noReferenceOpenApiSchema: OpenApi.Document, convertOption?: ConvertContext.Options) {
     this.currentPoint = entryPoint;
-    this.convertContext = ConvertContext.create();
+    this.convertContext = ConvertContext.create(convertOption);
     this.factory = TypeScriptCodeGenerator.Factory.create();
     this.store = new Store(this.factory, noReferenceOpenApiSchema);
     this.initialize();

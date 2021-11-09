@@ -5,20 +5,21 @@ import type * as Types from "./types";
 
 export interface Option {
   allowOperationIds?: string[];
+  convertOption: Api.OpenApiTools.ConvertContext.Options;
 }
 
 export class CodeGenerator {
   private rootSchema: Types.OpenApi.Document;
   private resolvedReferenceDocument: Types.OpenApi.Document;
   private parser: Api.OpenApiTools.Parser;
-  constructor(private readonly entryPoint: string, option?: Option) {
+  constructor(private readonly entryPoint: string, private option?: Option) {
     this.rootSchema = Api.FileSystem.loadJsonOrYaml(entryPoint);
     this.resolvedReferenceDocument = Api.ResolveReference.resolve(entryPoint, entryPoint, JSON.parse(JSON.stringify(this.rootSchema)));
     this.parser = this.createParser();
   }
 
   private createParser(): Api.OpenApiTools.Parser {
-    return new Api.OpenApiTools.Parser(this.entryPoint, this.rootSchema, this.resolvedReferenceDocument);
+    return new Api.OpenApiTools.Parser(this.entryPoint, this.rootSchema, this.resolvedReferenceDocument, this.option?.convertOption);
   }
 
   /**

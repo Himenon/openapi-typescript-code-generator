@@ -201,6 +201,7 @@ export const convert: Convert = (
       return nullable(factory, typeNode, !!schema.nullable);
     }
     case "string": {
+      schema.type === ""
       const items = schema.enum;
       let typeNode: ts.TypeNode;
       if (items && Guard.isStringArray(items)) {
