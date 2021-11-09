@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.12.1"></a>
+## 0.12.1 (2021-11-09)
+
+
+### Builds
+
+* **deps:** bump lodash from 4.17.20 to 4.17.21 ([#54](https://github.com/Himenon/openapi-typescript-code-generator/issues/54)) ([6041e5e](https://github.com/Himenon/openapi-typescript-code-generator/commit/6041e5e))
+
+
+
+
+
 <a name="0.12.0"></a>
 # 0.12.0 (2021-11-09)
 
