@@ -17,15 +17,20 @@ tags:
 
 components:
   schemas:
+    CustomType:
+      type: object
+      properties:
+        name:
+          type: string
     BinaryFormat:
       type: string
       format: binary
     IntOrStringFormat:
       type: string
       format: int-or-string
-    ByteFormat:
+    CustomTypeFormat:
       type: string
-      format: byte
+      format: custom-type
     DateTimeFormat:
       type: string
       format: date-time

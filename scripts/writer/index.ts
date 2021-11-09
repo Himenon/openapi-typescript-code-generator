@@ -100,11 +100,19 @@ export const generateParameter = (inputFilename: string, outputFilename: string)
 export const generateFormatTypeCode = (inputFilename: string, outputFilename: string) => {
   const option: CodeGeneratorOption = {
     convertOption: {
-      formatConversionList: [
+      formatConversions: [
         {
           format: "binary",
           value: ["Blob"],
         },
+        {
+          format: "int-or-string",
+          value: ["number", "string"],
+        },
+        {
+          format: "custom-type",
+          value: ["CustomType"],
+        }
       ],
     },
   };
