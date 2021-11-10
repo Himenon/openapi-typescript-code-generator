@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.12.2"></a>
+## 0.12.2 (2021-11-10)
+
+
+### Bug Fixes
+
+* Fixed a bug where properties with '.' as a key were not referenced ([#64](https://github.com/Himenon/openapi-typescript-code-generator/issues/64)) ([d93333c](https://github.com/Himenon/openapi-typescript-code-generator/commit/d93333c))
+
+
+
+
+
 <a name="0.12.1"></a>
 ## 0.12.1 (2021-11-09)
 
