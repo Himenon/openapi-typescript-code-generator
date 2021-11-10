@@ -284,6 +284,7 @@ export const generateStatements = (
       ),
     );
   }
+  // TODO Check usage
   // if (pathItem.parameters) {
   //   Parameters.generateNamespaceWithList(entryPoint, currentPoint, store, factory, pathItem.parameters, context);
   // }

@@ -9,6 +9,8 @@ export { OpenApi };
 
 export type ObjectLike = { [key: string]: any };
 
+const escapeFromJsonCyclic = (obj: any) => JSON.parse(JSON.stringify(obj));
+
 const isObject = (value: any): value is ObjectLike => {
   return !!value && value !== null && !Array.isArray(value) && typeof value === "object";
 };
@@ -89,7 +91,9 @@ const resolveLocalReference = (entryPoint: string, currentPoint: string, obj: an
           `This is an implementation error. Please report any reproducible information below.\nhttps://github.com/Himenon/openapi-typescript-code-generator/issues/new/choose\n`,
         );
       }
-      return DotProp.get(rootSchema, ref.path.replace(/\//g, "."));
+      // "." in the key
+      const escapedPath = ref.path.replace(/\./g, "\\.").replace(/\//g, ".");
+      return escapeFromJsonCyclic(DotProp.get(rootSchema, escapedPath));
     }
     return obj;
   }
