@@ -9,7 +9,12 @@ export { OpenApi };
 
 export type ObjectLike = { [key: string]: any };
 
-const escapeFromJsonCyclic = (obj: any) => JSON.parse(JSON.stringify(obj));
+const escapeFromJsonCyclic = (obj: any) => {
+  if (!obj) {
+    return obj
+  }
+  return JSON.parse(JSON.stringify(obj))
+};
 
 const isObject = (value: any): value is ObjectLike => {
   return !!value && value !== null && !Array.isArray(value) && typeof value === "object";
