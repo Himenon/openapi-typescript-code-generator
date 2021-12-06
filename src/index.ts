@@ -22,7 +22,7 @@ export class CodeGenerator {
       );
     } else {
       this.rootSchema = entryPointOrDocument;
-      this.resolvedReferenceDocument = entryPointOrDocument;
+      this.resolvedReferenceDocument = Api.ResolveReference.resolve(".", ".", JSON.parse(JSON.stringify(this.rootSchema)));
     }
     this.parser = this.createParser();
   }
