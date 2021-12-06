@@ -6,39 +6,30 @@ import * as Templates from "../../src/templates";
 import type * as Types from "../../src/types";
 
 describe("raw-json-generate", () => {
-  test("raw json input", () => {
+  test("the raw json input result and the json file path result are same", () => {
     const generateCode = JSON.parse(fs.readFileSync(path.join(__dirname, "../kubernetes/openapi-v1.18.5.json"), { encoding: "utf-8" }));
 
-    const codeGenerator = new CodeGenerator(generateCode);
+    const codeGenerator1 = new CodeGenerator(generateCode);
+    const codeGenerator2 = new CodeGenerator(path.join(__dirname, "../kubernetes/openapi-v1.18.5.json"));
 
     const apiClientGeneratorTemplate: Types.CodeGenerator.CustomGenerator<Templates.ApiClient.Option> = {
       generator: Templates.ApiClient.generator,
       option: {},
     };
 
-    const code = codeGenerator.generateTypeDefinition([
-      codeGenerator.getAdditionalTypeDefinitionCustomCodeGenerator(),
+    const code1 = codeGenerator1.generateTypeDefinition([
+      codeGenerator1.getAdditionalTypeDefinitionCustomCodeGenerator(),
       apiClientGeneratorTemplate,
     ]);
 
-    expect(code).toMatchSnapshot();
-  });
-  test("json file path", () => {
-    const codeGenerator = new CodeGenerator(path.join(__dirname, "../kubernetes/openapi-v1.18.5.json"));
-
-    const apiClientGeneratorTemplate: Types.CodeGenerator.CustomGenerator<Templates.ApiClient.Option> = {
-      generator: Templates.ApiClient.generator,
-      option: {},
-    };
-
-    const code = codeGenerator.generateTypeDefinition([
-      codeGenerator.getAdditionalTypeDefinitionCustomCodeGenerator(),
+    const code2 = codeGenerator2.generateTypeDefinition([
+      codeGenerator1.getAdditionalTypeDefinitionCustomCodeGenerator(),
       apiClientGeneratorTemplate,
     ]);
 
-    expect(code).toMatchSnapshot();
+    expect(code1).toBe(code2);
   });
-  test("yaml file path", () => {
+  test("yaml file path loadable", () => {
     const codeGenerator = new CodeGenerator(path.join(__dirname, "../api.test.domain/index.yml"));
 
     const apiClientGeneratorTemplate: Types.CodeGenerator.CustomGenerator<Templates.ApiClient.Option> = {
@@ -51,6 +42,6 @@ describe("raw-json-generate", () => {
       apiClientGeneratorTemplate,
     ]);
 
-    expect(code).toMatchSnapshot();
+    expect(code).not.toBeFalsy();
   });
 });
