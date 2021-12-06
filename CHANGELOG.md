@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.13.0"></a>
+# 0.13.0 (2021-12-06)
+
+
+### Features
+
+* CodeGeneratorのentryPointに直接OpenApi.Documentを指定可能にする ([#66](https://github.com/Himenon/openapi-typescript-code-generator/issues/66)) ([53065b2](https://github.com/Himenon/openapi-typescript-code-generator/commit/53065b2))
+
+
+
+
+
 <a name="0.12.2"></a>
 ## 0.12.2 (2021-11-10)
 
