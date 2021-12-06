@@ -192,7 +192,7 @@ components:
       format: A-and-B
 ```
 
-Data Type Formatを任意の型定義に変換するオプションは次のように定義します。
+Data Type Format を任意の型定義に変換するオプションは次のように定義します。
 
 ```ts
 import { CodeGenerator, Option } from "@himenon/openapi-typescript-code-generator";
