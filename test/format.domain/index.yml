@@ -61,4 +61,3 @@ components:
     AandB:
       type: string
       format: A-and-B
-

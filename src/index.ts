@@ -12,14 +12,24 @@ export class CodeGenerator {
   private rootSchema: Types.OpenApi.Document;
   private resolvedReferenceDocument: Types.OpenApi.Document;
   private parser: Api.OpenApiTools.Parser;
-  constructor(private readonly entryPoint: string, private option?: Option) {
-    this.rootSchema = Api.FileSystem.loadJsonOrYaml(entryPoint);
-    this.resolvedReferenceDocument = Api.ResolveReference.resolve(entryPoint, entryPoint, JSON.parse(JSON.stringify(this.rootSchema)));
+  constructor(private readonly entryPointOrDocument: string | Types.OpenApi.Document, private option?: Option) {
+    if (typeof entryPointOrDocument === "string") {
+      this.rootSchema = Api.FileSystem.loadJsonOrYaml(entryPointOrDocument);
+      this.resolvedReferenceDocument = Api.ResolveReference.resolve(
+        entryPointOrDocument,
+        entryPointOrDocument,
+        JSON.parse(JSON.stringify(this.rootSchema)),
+      );
+    } else {
+      this.rootSchema = entryPointOrDocument;
+      this.resolvedReferenceDocument = Api.ResolveReference.resolve(".", ".", JSON.parse(JSON.stringify(this.rootSchema)));
+    }
     this.parser = this.createParser();
   }
 
   private createParser(): Api.OpenApiTools.Parser {
-    return new Api.OpenApiTools.Parser(this.entryPoint, this.rootSchema, this.resolvedReferenceDocument, this.option?.convertOption);
+    const entryPoint = typeof this.entryPointOrDocument === "string" ? this.entryPointOrDocument : ".";
+    return new Api.OpenApiTools.Parser(entryPoint, this.rootSchema, this.resolvedReferenceDocument, this.option?.convertOption);
   }
 
   /**

@@ -20,7 +20,12 @@ export class Parser {
   private convertContext: ConvertContext.Types;
   private store: Store;
   private factory: TypeScriptCodeGenerator.Factory.Type;
-  constructor(private entryPoint: string, private readonly rootSchema: OpenApi.Document, noReferenceOpenApiSchema: OpenApi.Document, convertOption?: ConvertContext.Options) {
+  constructor(
+    private entryPoint: string,
+    private readonly rootSchema: OpenApi.Document,
+    noReferenceOpenApiSchema: OpenApi.Document,
+    convertOption?: ConvertContext.Options,
+  ) {
     this.currentPoint = entryPoint;
     this.factory = TypeScriptCodeGenerator.Factory.create();
     this.convertContext = ConvertContext.create(this.factory, convertOption);
