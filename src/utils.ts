@@ -15,3 +15,17 @@ export const escapeText = (text: string): string => {
   }
   return `"${text}"`;
 };
+
+/** TODO escapeTextにマージする */
+export const escapeText2 = (text: string): { escaped: boolean; text: string } => {
+  if (isAvailableVariableName(text)) {
+    return {
+      escaped: false,
+      text: text,
+    };
+  }
+  return {
+    escaped: true,
+    text: `"${text}"`,
+  };
+};

@@ -380,6 +380,27 @@ paths:
                     type: array
                     items:
                       $ref: "./components/schemas/Item.yml"
+  /get/search/{book.name}:
+    get:
+      operationId: searchBook
+      parameters:
+        - in: path
+          name: book.name
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Search Book Result
+          content:
+            application/json: 
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  bookTitle:
+                    type: string
   /get/books/{id}:
     parameters:
       - name: id
