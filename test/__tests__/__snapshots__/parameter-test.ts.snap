@@ -332,6 +332,10 @@ exports[`Parameter api.test.domain 1`] = `
           \\"name\\": \\"book.name\\",
           \\"in\\": \\"path\\",
           \\"required\\": true
+        },
+        {
+          \\"name\\": \\"from.publishedAt\\",
+          \\"in\\": \\"query\\"
         }
       ],
       \\"requestContentTypes\\": [],
@@ -348,7 +352,7 @@ exports[`Parameter api.test.domain 1`] = `
       \\"successResponseFirstContentType\\": \\"application/json\\",
       \\"has2OrMoreSuccessResponseContentTypes\\": false,
       \\"hasAdditionalHeaders\\": false,
-      \\"hasQueryParameters\\": false
+      \\"hasQueryParameters\\": true
     },
     \\"operationParams\\": {
       \\"httpMethod\\": \\"get\\",
@@ -362,6 +366,14 @@ exports[`Parameter api.test.domain 1`] = `
           \\"required\\": true,
           \\"schema\\": {
             \\"type\\": \\"string\\"
+          }
+        },
+        {
+          \\"in\\": \\"query\\",
+          \\"name\\": \\"from.publishedAt\\",
+          \\"schema\\": {
+            \\"type\\": \\"integer\\",
+            \\"format\\": \\"int32\\"
           }
         }
       ],
