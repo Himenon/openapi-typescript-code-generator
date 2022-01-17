@@ -140,6 +140,46 @@ export const generateTemplateExpression = (factory: TsGenerator.Factory.Type, li
   });
 };
 
+export interface VariableAccessIdentifer {
+  kind: "string";
+  value: string;
+}
+
+export interface ElementAccessExpression {
+  kind: "element-access";
+  value: string;
+}
+
+export type VariableElement = VariableAccessIdentifer | ElementAccessExpression;
+
+export const splitVariableText = (text: string): VariableElement[] => {
+  // ["...."] にマッチする
+  const pattern = '["[a-zA-Z_0-9.]+"]';
+  // 'a.b.c["a"]["b"]'.split(/(\["[a-zA-Z_0-9\.]+"\])/g)
+  const splitTexts = text.split(/(\["[a-zA-Z_0-9\.]+"\])/g); // 区切り文字も含めて分割
+  return splitTexts.reduce<VariableElement[]>((splitList, value) => {
+    if (value === "") {
+      return splitList;
+    }
+    // ["book.name"] にマッチするか
+    if (new RegExp(pattern).test(value)) {
+      // ["book.name"] から book.name を抽出
+      const matchedValue = value.match(/[a-zA-Z_0-9\.]+/);
+      if (matchedValue) {
+        splitList.push({
+          kind: "element-access",
+          value: matchedValue[0],
+        });
+      }
+      return splitList;
+    } else {
+      const dotSplited = value.split(".");
+      const items = dotSplited.map<VariableAccessIdentifer>(childValue => ({ kind: "string", value: childValue }));
+      return splitList.concat(items);
+    }
+  }, []);
+};
+
 export const generateVariableIdentifier = (
   factory: TsGenerator.Factory.Type,
   name: string,
@@ -147,28 +187,31 @@ export const generateVariableIdentifier = (
   if (name.startsWith("/")) {
     throw new Error("can't start '/'. name=" + name);
   }
-  const list = name.split(".");
+  const list = splitVariableText(name);
+  // Object参照していない変数名の場合
   if (list.length === 1) {
     return factory.Identifier.create({
       name: name,
     });
   }
   const [n1, n2, ...rest] = list;
+  // a.b のような単純な変数名の場合
   const first = factory.PropertyAccessExpression.create({
-    expression: n1,
-    name: n2,
+    expression: n1.value,
+    name: n2.value,
   });
 
-  return rest.reduce<ts.PropertyAccessExpression | ts.ElementAccessExpression>((previous, current: string) => {
-    if (Utils.isAvailableVariableName(current)) {
+  return rest.reduce<ts.PropertyAccessExpression | ts.ElementAccessExpression>((previous, current) => {
+    if (current.kind === "string" && Utils.isAvailableVariableName(current.value)) {
       return factory.PropertyAccessExpression.create({
         expression: previous,
-        name: current,
+        name: current.value,
       });
     }
+    // 直接 .value でアクセスできない場合に ["value"] といった形で参照する
     return factory.ElementAccessExpression.create({
       expression: previous,
-      index: current,
+      index: current.value,
     });
   }, first);
 };

@@ -316,6 +316,78 @@ exports[`Parameter api.test.domain 1`] = `
     }
   },
   {
+    \\"operationId\\": \\"searchBook\\",
+    \\"convertedParams\\": {
+      \\"escapedOperationId\\": \\"searchBook\\",
+      \\"argumentParamsTypeDeclaration\\": \\"Params$searchBook\\",
+      \\"functionName\\": \\"searchBook\\",
+      \\"requestContentTypeName\\": \\"RequestContentType$searchBook\\",
+      \\"responseContentTypeName\\": \\"ResponseContentType$searchBook\\",
+      \\"parameterName\\": \\"Parameter$searchBook\\",
+      \\"requestBodyName\\": \\"RequestBody$searchBook\\",
+      \\"hasRequestBody\\": false,
+      \\"hasParameter\\": true,
+      \\"pickedParameters\\": [
+        {
+          \\"name\\": \\"book.name\\",
+          \\"in\\": \\"path\\",
+          \\"required\\": true
+        }
+      ],
+      \\"requestContentTypes\\": [],
+      \\"responseSuccessNames\\": [
+        \\"Response$searchBook$Status$200\\"
+      ],
+      \\"responseFirstSuccessName\\": \\"Response$searchBook$Status$200\\",
+      \\"has2OrMoreSuccessNames\\": false,
+      \\"responseErrorNames\\": [],
+      \\"has2OrMoreRequestContentTypes\\": false,
+      \\"successResponseContentTypes\\": [
+        \\"application/json\\"
+      ],
+      \\"successResponseFirstContentType\\": \\"application/json\\",
+      \\"has2OrMoreSuccessResponseContentTypes\\": false,
+      \\"hasAdditionalHeaders\\": false,
+      \\"hasQueryParameters\\": false
+    },
+    \\"operationParams\\": {
+      \\"httpMethod\\": \\"get\\",
+      \\"requestUri\\": \\"/get/search/{book.name}\\",
+      \\"comment\\": \\"\\",
+      \\"deprecated\\": false,
+      \\"parameters\\": [
+        {
+          \\"in\\": \\"path\\",
+          \\"name\\": \\"book.name\\",
+          \\"required\\": true,
+          \\"schema\\": {
+            \\"type\\": \\"string\\"
+          }
+        }
+      ],
+      \\"responses\\": {
+        \\"200\\": {
+          \\"description\\": \\"Search Book Result\\",
+          \\"content\\": {
+            \\"application/json\\": {
+              \\"schema\\": {
+                \\"type\\": \\"object\\",
+                \\"properties\\": {
+                  \\"id\\": {
+                    \\"type\\": \\"number\\"
+                  },
+                  \\"bookTitle\\": {
+                    \\"type\\": \\"string\\"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
     \\"operationId\\": \\"getBookById\\",
     \\"convertedParams\\": {
       \\"escapedOperationId\\": \\"getBookById\\",

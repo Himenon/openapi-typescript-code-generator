@@ -3,6 +3,7 @@ import ts from "typescript";
 import type { TsGenerator } from "../../../../api";
 import type { CodeGenerator } from "../../../../types";
 import * as Utils from "../../utils";
+import { escapeText2 as escapeText } from "../../../../utils";
 
 export const isPathParameter = (params: any): params is CodeGenerator.PickedParameter => {
   return params.in === "path";
@@ -45,11 +46,14 @@ export const generateUrlTemplateExpression = (
   }, {});
   const urlTemplate: Utils.Params$TemplateExpression = [];
   let temporaryStringList: string[] = [];
+  // TODO generateVariableIdentifierに噛み合わ下げいいように変換する
   const replaceText = (text: string): string | undefined => {
     let replacedText = text;
-    Object.keys(patternMap).forEach(key => {
-      if (new RegExp(key).test(replacedText)) {
-        replacedText = replacedText.replace(new RegExp(key, "g"), `params.parameter.${patternMap[key]}`);
+    Object.keys(patternMap).forEach(pathParameterName => {
+      if (new RegExp(pathParameterName).test(replacedText)) {
+        const { text, escaped } = escapeText(patternMap[pathParameterName]);
+        const variableDeclaraText = escaped ? `params.parameter[${text}]` : `params.parameter.${text}`;
+        replacedText = replacedText.replace(new RegExp(pathParameterName, "g"), variableDeclaraText);
       }
     });
     return replacedText === text ? undefined : replacedText;
