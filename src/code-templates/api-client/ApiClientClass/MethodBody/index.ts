@@ -2,6 +2,7 @@ import ts from "typescript";
 
 import type { TsGenerator } from "../../../../api";
 import type { CodeGenerator } from "../../../../types";
+import { escapeText2 as escapeText } from "../../../../utils";
 import * as Utils from "../../utils";
 import * as CallRequest from "./CallRequest";
 import * as HeaderParameter from "./HeaderParameter";
@@ -61,9 +62,11 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
   if (convertedParams.hasQueryParameters) {
     const queryParameter = pickedParameters.filter(item => item.in === "query");
     const queryObject = Object.values(queryParameter).reduce<{ [key: string]: QueryParameter.Item }>((previous, current) => {
+      const { text, escaped } = escapeText(current.name);
+      const variableDeclaraText = escaped ? `params.parameter[${text}]` : `params.parameter.${text}`;
       return {
         ...previous,
-        [current.name]: { type: "variable", value: `params.parameter.${current.name}`, style: current.style, explode: !!current.explode },
+        [current.name]: { type: "variable", value: variableDeclaraText, style: current.style, explode: !!current.explode },
       };
     }, {});
     statements.push(QueryParameter.create(factory, { variableName: "queryParameters", object: queryObject }));

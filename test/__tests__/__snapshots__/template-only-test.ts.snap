@@ -106,7 +106,10 @@ export class Client<RequestOption> {
         const headers = {
             Accept: \\"application/json\\"
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
+        const queryParameters: QueryParameters = {
+            \\"from.publishedAt\\": { value: params.parameter[\\"from.publishedAt\\"], explode: false }
+        };
+        return this.apiClient.request(\\"GET\\", url, headers, undefined, queryParameters, option);
     }
     public async getBookById(params: Params$getBookById, option?: RequestOption): Promise<Response$getBookById$Status$200[\\"application/json\\"]> {
         const url = this.baseUrl + \`/get/books/\${params.parameter.id}\`;
@@ -232,7 +235,10 @@ export class Client<RequestOption> {
         const headers = {
             Accept: \\"application/json\\"
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
+        const queryParameters: QueryParameters = {
+            \\"from.publishedAt\\": { value: params.parameter[\\"from.publishedAt\\"], explode: false }
+        };
+        return this.apiClient.request(\\"GET\\", url, headers, undefined, queryParameters, option);
     }
     public getBookById(params: Params$getBookById, option?: RequestOption): Response$getBookById$Status$200[\\"application/json\\"] {
         const url = this.baseUrl + \`/get/books/\${params.parameter.id}\`;
