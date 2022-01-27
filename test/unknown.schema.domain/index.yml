@@ -1,0 +1,41 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: api.test.domain
+  description: Library test schema
+  license:
+    name: MIT
+
+servers:
+  - url: "http://dev.unknown.schema.domain/"
+    description: Development Environment
+  - url: "https://unknown.schema.domain/"
+    description: Production Environment
+
+tags:
+  - name: test
+
+components:
+  schemas:
+    Unknown:
+      description: "What is this?"
+
+paths:
+  /get/unknown:
+    get:
+      operationId: getUnknown
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Number Book ID
+          schema:
+            type: number
+            format: uuid
+      responses:
+        200:
+          description: "get books"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Unknown"

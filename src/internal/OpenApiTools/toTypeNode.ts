@@ -169,8 +169,12 @@ export const convert: Convert = (
       Logger.info("Parent Schema:");
       Logger.info(JSON.stringify(option.parent));
     }
-    Logger.showFilePosition(entryPoint, currentPoint);
-    throw new UnsetTypeError("Please set 'type' or '$ref' property \n" + JSON.stringify(schema));
+    const typeNode = factory.TypeNode.create({
+      type: "any",
+    });
+    return typeNode;
+    // Logger.showFilePosition(entryPoint, currentPoint);
+    // throw new UnsetTypeError("Please set 'type' or '$ref' property \n" + JSON.stringify(schema));
   }
   switch (schema.type) {
     case "boolean": {

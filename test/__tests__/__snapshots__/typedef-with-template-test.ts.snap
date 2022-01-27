@@ -313,6 +313,11 @@ export interface Response$getFullRemoteReference$Status$200 {
         name?: \\"responseA\\";
     };
 }
+export interface Response$i$have$dot$Status$200 {
+    \\"application/json\\": {
+        books?: Schemas.Item[];
+    };
+}
 export interface Response$getReferenceItems$Status$200 {
     \\"application/json\\": {
         books?: Schemas.Item[];
@@ -357,6 +362,7 @@ export type ResponseContentType$getFullRemoteReference = keyof Response$getFullR
 export interface Params$getFullRemoteReference {
     parameter: Parameter$getFullRemoteReference;
 }
+export type ResponseContentType$i$have$dot = keyof Response$i$have$dot$Status$200;
 export type ResponseContentType$getReferenceItems = keyof Response$getReferenceItems$Status$200;
 export type ResponseContentType$searchBook = keyof Response$searchBook$Status$200;
 export interface Params$searchBook {
@@ -382,11 +388,12 @@ export interface QueryParameter {
 export interface QueryParameters {
     [key: string]: QueryParameter;
 }
-export type SuccessResponses = Response$getIncludeLocalReference$Status$200 | Response$getFullRemoteReference$Status$200 | Response$getReferenceItems$Status$200 | Response$searchBook$Status$200 | Response$getBookById$Status$200 | Response$deleteBook$Status$200;
+export type SuccessResponses = Response$getIncludeLocalReference$Status$200 | Response$getFullRemoteReference$Status$200 | Response$i$have$dot$Status$200 | Response$getReferenceItems$Status$200 | Response$searchBook$Status$200 | Response$getBookById$Status$200 | Response$deleteBook$Status$200;
 export namespace ErrorResponse {
     export type getIncludeLocalReference = void;
     export type getIncludeRemoteReference = void;
     export type getFullRemoteReference = void;
+    export type i$have$dot = void;
     export type getReferenceItems = void;
     export type searchBook = void;
     export type getBookById = void;
@@ -427,6 +434,13 @@ export class Client<RequestOption> {
             FullRemoteReferenceQuery: { value: params.parameter.FullRemoteReferenceQuery, explode: false }
         };
         return this.apiClient.request(\\"GET\\", url, headers, undefined, queryParameters, option);
+    }
+    public async i$have$dot(option?: RequestOption): Promise<Response$i$have$dot$Status$200[\\"application/json\\"]> {
+        const url = this.baseUrl + \`/i/have/dot\`;
+        const headers = {
+            Accept: \\"application/json\\"
+        };
+        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
     }
     public async getReferenceItems(option?: RequestOption): Promise<Response$getReferenceItems$Status$200[\\"application/json\\"]> {
         const url = this.baseUrl + \`/get/reference/items\`;
@@ -839,6 +853,11 @@ export interface Response$getFullRemoteReference$Status$200 {
         name?: \\"responseA\\";
     };
 }
+export interface Response$i$have$dot$Status$200 {
+    \\"application/json\\": {
+        books?: Schemas.Item[];
+    };
+}
 export interface Response$getReferenceItems$Status$200 {
     \\"application/json\\": {
         books?: Schemas.Item[];
@@ -883,6 +902,7 @@ export type ResponseContentType$getFullRemoteReference = keyof Response$getFullR
 export interface Params$getFullRemoteReference {
     parameter: Parameter$getFullRemoteReference;
 }
+export type ResponseContentType$i$have$dot = keyof Response$i$have$dot$Status$200;
 export type ResponseContentType$getReferenceItems = keyof Response$getReferenceItems$Status$200;
 export type ResponseContentType$searchBook = keyof Response$searchBook$Status$200;
 export interface Params$searchBook {
@@ -908,11 +928,12 @@ export interface QueryParameter {
 export interface QueryParameters {
     [key: string]: QueryParameter;
 }
-export type SuccessResponses = Response$getIncludeLocalReference$Status$200 | Response$getFullRemoteReference$Status$200 | Response$getReferenceItems$Status$200 | Response$searchBook$Status$200 | Response$getBookById$Status$200 | Response$deleteBook$Status$200;
+export type SuccessResponses = Response$getIncludeLocalReference$Status$200 | Response$getFullRemoteReference$Status$200 | Response$i$have$dot$Status$200 | Response$getReferenceItems$Status$200 | Response$searchBook$Status$200 | Response$getBookById$Status$200 | Response$deleteBook$Status$200;
 export namespace ErrorResponse {
     export type getIncludeLocalReference = void;
     export type getIncludeRemoteReference = void;
     export type getFullRemoteReference = void;
+    export type i$have$dot = void;
     export type getReferenceItems = void;
     export type searchBook = void;
     export type getBookById = void;
@@ -953,6 +974,13 @@ export class Client<RequestOption> {
             FullRemoteReferenceQuery: { value: params.parameter.FullRemoteReferenceQuery, explode: false }
         };
         return this.apiClient.request(\\"GET\\", url, headers, undefined, queryParameters, option);
+    }
+    public i$have$dot(option?: RequestOption): Response$i$have$dot$Status$200[\\"application/json\\"] {
+        const url = this.baseUrl + \`/i/have/dot\`;
+        const headers = {
+            Accept: \\"application/json\\"
+        };
+        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
     }
     public getReferenceItems(option?: RequestOption): Response$getReferenceItems$Status$200[\\"application/json\\"] {
         const url = this.baseUrl + \`/get/reference/items\`;

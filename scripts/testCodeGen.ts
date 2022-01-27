@@ -30,6 +30,9 @@ const main = () => {
   Writer.generateTypedefWithTemplateCode("test/argo-rollout/index.json", "test/code/argo-rollout/client.ts", false, {
     sync: false,
   });
+  Writer.generateTypedefWithTemplateCode("test/unknown.schema.domain/index.yml", "test/code/unknown.schema.domain/client.ts", false, {
+    sync: false,
+  });
 
   Writer.generateSplitCode("test/api.test.domain/index.yml", "test/code/split");
 
