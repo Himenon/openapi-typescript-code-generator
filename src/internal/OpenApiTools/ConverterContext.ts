@@ -103,9 +103,12 @@ export const create = (factory: Factory.Type, options?: Options): Types => {
     }
     return text.replace(/-/g, "$").replace(/\//g, "$");
   };
+  const convertOperationId = (text: string): string => {
+    return convertString(text).replace(/\./g, "$");
+  }
   return {
     escapeOperationIdText: (operationId: string): string => {
-      return convertString(operationId);
+      return convertOperationId(operationId);
     },
     escapeDeclarationText: (text: string) => {
       // console.log(`escapeDeclarationText: ${text}` + `-> ${convertReservedWord(convertString(text).replace(/\./g, "$"))}`.padStart(100, " "));
@@ -122,25 +125,25 @@ export const create = (factory: Factory.Type, options?: Options): Types => {
       return convertString(text);
     },
     generateResponseName: (operationId: string, statusCode: string): string => {
-      return Utils.responseName(convertString(operationId), statusCode);
+      return Utils.responseName(convertOperationId(operationId), statusCode);
     },
     generateArgumentParamsTypeDeclaration: (operationId: string) => {
-      return Utils.argumentParamsTypeDeclaration(convertString(operationId));
+      return Utils.argumentParamsTypeDeclaration(convertOperationId(operationId));
     },
     generateRequestContentTypeName: (operationId: string) => {
-      return Utils.requestContentType(convertString(operationId));
+      return Utils.requestContentType(convertOperationId(operationId));
     },
     generateResponseContentTypeName: (operationId: string) => {
-      return Utils.responseContentType(convertString(operationId));
+      return Utils.responseContentType(convertOperationId(operationId));
     },
     generateParameterName: (operationId: string) => {
-      return Utils.parameterName(convertString(operationId));
+      return Utils.parameterName(convertOperationId(operationId));
     },
     generateRequestBodyName: (operationId: string) => {
-      return Utils.requestBodyName(convertString(operationId));
+      return Utils.requestBodyName(convertOperationId(operationId));
     },
     generateFunctionName: (operationId: string) => {
-      return convertString(operationId);
+      return convertOperationId(operationId);
     },
     convertFormatTypeNode: schema => {
       const formatConversions = options?.formatConversions;

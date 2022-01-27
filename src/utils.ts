@@ -9,8 +9,12 @@ export const isAvailableVariableName = (text: string): boolean => {
   return /^[A-Za-z_0-9\s]+$/.test(text);
 };
 
+export const isFirstCharacterIsValidText = (text: string): boolean => {
+  return /^[A-Za-z]+/.test(text);
+}
+
 export const escapeText = (text: string): string => {
-  if (isAvailableVariableName(text)) {
+  if (isAvailableVariableName(text) && isFirstCharacterIsValidText(text)) {
     return text;
   }
   return `"${text}"`;
