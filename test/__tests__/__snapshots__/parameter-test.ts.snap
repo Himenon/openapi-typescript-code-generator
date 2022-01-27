@@ -230,6 +230,92 @@ exports[`Parameter api.test.domain 1`] = `
     }
   },
   {
+    \\"operationId\\": \\"i.have.dot\\",
+    \\"convertedParams\\": {
+      \\"escapedOperationId\\": \\"i$have$dot\\",
+      \\"argumentParamsTypeDeclaration\\": \\"Params$i$have$dot\\",
+      \\"functionName\\": \\"i$have$dot\\",
+      \\"requestContentTypeName\\": \\"RequestContentType$i$have$dot\\",
+      \\"responseContentTypeName\\": \\"ResponseContentType$i$have$dot\\",
+      \\"parameterName\\": \\"Parameter$i$have$dot\\",
+      \\"requestBodyName\\": \\"RequestBody$i$have$dot\\",
+      \\"hasRequestBody\\": false,
+      \\"hasParameter\\": false,
+      \\"pickedParameters\\": [],
+      \\"requestContentTypes\\": [],
+      \\"responseSuccessNames\\": [
+        \\"Response$i$have$dot$Status$200\\"
+      ],
+      \\"responseFirstSuccessName\\": \\"Response$i$have$dot$Status$200\\",
+      \\"has2OrMoreSuccessNames\\": false,
+      \\"responseErrorNames\\": [],
+      \\"has2OrMoreRequestContentTypes\\": false,
+      \\"successResponseContentTypes\\": [
+        \\"application/json\\"
+      ],
+      \\"successResponseFirstContentType\\": \\"application/json\\",
+      \\"has2OrMoreSuccessResponseContentTypes\\": false,
+      \\"hasAdditionalHeaders\\": false,
+      \\"hasQueryParameters\\": false
+    },
+    \\"operationParams\\": {
+      \\"httpMethod\\": \\"get\\",
+      \\"requestUri\\": \\"/i/have/dot\\",
+      \\"comment\\": \\"\\",
+      \\"deprecated\\": false,
+      \\"parameters\\": [],
+      \\"responses\\": {
+        \\"200\\": {
+          \\"description\\": \\"Get Books\\",
+          \\"content\\": {
+            \\"application/json\\": {
+              \\"schema\\": {
+                \\"type\\": \\"object\\",
+                \\"properties\\": {
+                  \\"books\\": {
+                    \\"type\\": \\"array\\",
+                    \\"items\\": {
+                      \\"type\\": \\"object\\",
+                      \\"description\\": \\"Item Model\\",
+                      \\"required\\": [
+                        \\"name\\",
+                        \\"children\\"
+                      ],
+                      \\"properties\\": {
+                        \\"name\\": {
+                          \\"type\\": \\"string\\"
+                        },
+                        \\"children\\": {
+                          \\"type\\": \\"array\\",
+                          \\"items\\": {
+                            \\"type\\": \\"object\\",
+                            \\"required\\": [
+                              \\"id\\",
+                              \\"name\\"
+                            ],
+                            \\"properties\\": {
+                              \\"id\\": {
+                                \\"type\\": \\"string\\"
+                              },
+                              \\"name\\": {
+                                \\"type\\": \\"string\\",
+                                \\"description\\": \\"child name\\"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
     \\"operationId\\": \\"getReferenceItems\\",
     \\"convertedParams\\": {
       \\"escapedOperationId\\": \\"getReferenceItems\\",
