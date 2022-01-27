@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.14.0"></a>
+# 0.14.0 (2022-01-27)
+
+
+### Features
+
+* If the type cannot be estimated, set it to any ([#69](https://github.com/Himenon/openapi-typescript-code-generator/issues/69)) ([b876a7c](https://github.com/Himenon/openapi-typescript-code-generator/commit/b876a7c))
+
+
+
+
+
 <a name="0.13.2"></a>
 ## 0.13.2 (2022-01-17)
 
