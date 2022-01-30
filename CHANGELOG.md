@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.15.0"></a>
+# 0.15.0 (2022-01-30)
+
+
+### Features
+
+* Make the behavior of anyOf equivalent to oneOf ([#70](https://github.com/Himenon/openapi-typescript-code-generator/issues/70)) ([aab686d](https://github.com/Himenon/openapi-typescript-code-generator/commit/aab686d))
+
+
+
+
+
 <a name="0.14.0"></a>
 # 0.14.0 (2022-01-27)
 
