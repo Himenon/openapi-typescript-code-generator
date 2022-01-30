@@ -1,0 +1,71 @@
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: multi-type.test.domain
+  description: Library test schema
+  license:
+    name: MIT
+
+servers:
+  - url: "http://multi-type.test.domain/"
+    description: Development Environment
+
+components:
+  schemas:
+    Pet:
+      type: object
+      required:
+        - pet_type
+      properties:
+        pet_type:
+          type: string
+      discriminator:
+        propertyName: pet_type
+    Dog:
+      allOf:
+        - $ref: "#/components/schemas/Pet"
+        - type: object
+          # all other properties specific to a `Dog`
+          properties:
+            bark:
+              type: boolean
+            breed:
+              type: string
+              enum: [Dingo, Husky, Retriever, Shepherd]
+    Cat:
+      allOf:
+        - $ref: "#/components/schemas/Pet"
+        - type: object
+          properties:
+            hunts:
+              type: boolean
+            age:
+              type: integer
+
+paths:
+  /pets:
+    put:
+      operationId: putAnyOf
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+                - $ref: "#/components/schemas/Cat"
+                - $ref: "#/components/schemas/Dog"
+      responses:
+        "200":
+          description: Updated
+
+    patch:
+      operationId: patchOneOf
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: "#/components/schemas/Cat"
+                - $ref: "#/components/schemas/Dog"
+      responses:
+        "200":
+          description: Updated

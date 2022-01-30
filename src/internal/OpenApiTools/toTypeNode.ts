@@ -2,7 +2,6 @@ import DotProp from "dot-prop";
 import ts from "typescript";
 
 import type { OpenApi } from "../../types";
-import { UnsetTypeError } from "../Exception";
 import { UnSupportError } from "../Exception";
 import * as Logger from "../Logger";
 import { Factory } from "../TsGenerator";
@@ -65,8 +64,12 @@ export const generateMultiTypeNode = (
       typeNodes,
     });
   }
-  // TODO Feature Development: Calculate intersection types
-  return factory.TypeNode.create({ type: "never" });
+  /**
+   * If you see this comment and have an idea for an AnyOf type output, please submit an Issue.
+   */
+  return factory.UnionTypeNode.create({
+    typeNodes,
+  });
 };
 
 const nullable = (factory: Factory.Type, typeNode: ts.TypeNode, nullable: boolean): ts.TypeNode => {

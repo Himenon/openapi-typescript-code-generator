@@ -266,6 +266,7 @@ components:
                 - type: string
                 - type: number
                 - type: boolean
+
   responses:
     Continue:
       description: |
@@ -413,7 +414,7 @@ paths:
         200:
           description: Search Book Result
           content:
-            application/json: 
+            application/json:
               schema:
                 type: object
                 properties:
