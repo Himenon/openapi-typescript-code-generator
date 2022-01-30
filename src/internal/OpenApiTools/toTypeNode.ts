@@ -2,7 +2,6 @@ import DotProp from "dot-prop";
 import ts from "typescript";
 
 import type { OpenApi } from "../../types";
-import { UnsetTypeError } from "../Exception";
 import { UnSupportError } from "../Exception";
 import * as Logger from "../Logger";
 import { Factory } from "../TsGenerator";
