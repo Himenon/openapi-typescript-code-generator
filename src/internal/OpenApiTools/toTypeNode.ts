@@ -66,7 +66,9 @@ export const generateMultiTypeNode = (
     });
   }
   // TODO Feature Development: Calculate intersection types
-  return factory.TypeNode.create({ type: "never" });
+  return factory.UnionTypeNode.create({
+    typeNodes,
+  });
 };
 
 const nullable = (factory: Factory.Type, typeNode: ts.TypeNode, nullable: boolean): ts.TypeNode => {
