@@ -65,7 +65,9 @@ export const generateMultiTypeNode = (
       typeNodes,
     });
   }
-  // TODO Feature Development: Calculate intersection types
+  /**
+   * If you see this comment and have an idea for an AnyOf type output, please submit an Issue.
+   */
   return factory.UnionTypeNode.create({
     typeNodes,
   });

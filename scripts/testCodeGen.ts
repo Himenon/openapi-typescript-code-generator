@@ -35,6 +35,7 @@ const main = () => {
   });
 
   Writer.generateSplitCode("test/api.test.domain/index.yml", "test/code/split");
+  Writer.generateSplitCode("test/multi-type.test.domain/index.yml", "test/code/mulit-type-test.domain");
 
   Writer.generateParameter("test/api.test.domain/index.yml", "test/code/parameter/api.test.domain.json");
   Writer.generateParameter("test/infer.domain/index.yml", "test/code/parameter/infer.domain.json");
