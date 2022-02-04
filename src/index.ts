@@ -8,7 +8,7 @@ export interface Option {
   convertOption: Api.OpenApiTools.ConvertContext.Options;
 }
 
-export class CodeGenerator {
+export default class CodeGenerator {
   private rootSchema: Types.OpenApi.Document;
   private resolvedReferenceDocument: Types.OpenApi.Document;
   private parser: Api.OpenApiTools.Parser;
