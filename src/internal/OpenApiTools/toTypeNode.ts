@@ -169,8 +169,8 @@ export const convert: Convert = (
       return nullable(factory, typeNode, schema.nullable);
     }
     if (option && option.parent) {
-      Logger.info("Parent Schema:");
-      Logger.info(JSON.stringify(option.parent));
+      const message = ["Schema Type is not found and is converted to the type any. The parent Schema is as follows.", "", JSON.stringify(option.parent), ""].join("\n");
+      Logger.info(message);
     }
     const typeNode = factory.TypeNode.create({
       type: "any",
@@ -253,6 +253,7 @@ export const convert: Convert = (
           value: [],
         });
       }
+
       const value: ts.PropertySignature[] = Object.entries(schema.properties || {}).map(([name, jsonSchema]) => {
         return factory.PropertySignature.create({
           name: converterContext.escapePropertySignatureName(name),
@@ -268,6 +269,21 @@ export const convert: Convert = (
             parent: schema.properties,
           }),
         });
+
+        const hasOptionalProperty = Object.keys(schema.properties || {}).some(key => !required.includes(key));
+        if (hasOptionalProperty) {
+          const objectTypeNode = factory.TypeNode.create({
+            type: schema.type,
+            value: value,
+          });
+          const additionalObjectTypeNode = factory.TypeNode.create({
+            type: schema.type,
+            value: [additionalProperties],
+          });
+          return factory.IntersectionTypeNode.create({
+            typeNodes: [objectTypeNode, additionalObjectTypeNode],
+          });
+        }
         return factory.TypeNode.create({
           type: schema.type,
           value: [...value, additionalProperties],

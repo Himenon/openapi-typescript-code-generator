@@ -314,6 +314,14 @@ export namespace Schemas {
     }
     export type InferStringEnum = \\"a\\" | \\"b\\" | \\"c\\";
     export type InferAnyNullable = null;
+    export interface OptionalPropertiesAndAdditionalProperties {
+        body?: {
+            key?: string;
+            description?: string;
+        } & {
+            [key: string]: string;
+        };
+    }
 }
 "
 `;
