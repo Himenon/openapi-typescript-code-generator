@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.16.0"></a>
+# 0.16.0 (2022-03-08)
+
+
+### Features
+
+* Updated behaviour of AdditionalProperties when owning OptionalPropery ([#72](https://github.com/Himenon/openapi-typescript-code-generator/issues/72)) ([91a94d4](https://github.com/Himenon/openapi-typescript-code-generator/commit/91a94d4))
+
+
+
+
+
 <a name="0.15.0"></a>
 # 0.15.0 (2022-01-30)
 
