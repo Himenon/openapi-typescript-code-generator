@@ -1041,6 +1041,11 @@ export namespace Schemas {
     }
     export type InferStringEnum = \\"a\\" | \\"b\\" | \\"c\\";
     export type InferAnyNullable = null;
+    export interface OptionalPropertiesAndAdditionalProperties {
+        key?: string;
+        description?: string;
+        [key: string]: string;
+    }
 }
 export type HttpMethod = \\"GET\\" | \\"PUT\\" | \\"POST\\" | \\"DELETE\\" | \\"OPTIONS\\" | \\"HEAD\\" | \\"PATCH\\" | \\"TRACE\\";
 export interface ObjectLike {

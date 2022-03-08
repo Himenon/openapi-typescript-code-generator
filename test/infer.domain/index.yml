@@ -37,3 +37,12 @@ components:
       enum: [a, b, c]
     InferAnyNullable:
       nullable: true
+    OptionalPropertiesAndAdditionalProperties:
+      type: object
+      properties:
+        key:
+          type: string
+        description:
+          type: string
+      additionalProperties:
+        type: string
