@@ -253,7 +253,13 @@ export const convert: Convert = (
           value: [],
         });
       }
+
+      let hasOptionalProperty = false;
       const value: ts.PropertySignature[] = Object.entries(schema.properties || {}).map(([name, jsonSchema]) => {
+        const isOptional = !required.includes(name);
+        if (!hasOptionalProperty && isOptional) {
+          hasOptionalProperty = true;
+        }
         return factory.PropertySignature.create({
           name: converterContext.escapePropertySignatureName(name),
           type: convert(entryPoint, currentPoint, factory, jsonSchema, context, converterContext, { parent: schema.properties }),
@@ -268,6 +274,19 @@ export const convert: Convert = (
             parent: schema.properties,
           }),
         });
+        if (hasOptionalProperty) {
+          const objectTypeNode = factory.TypeNode.create({
+            type: schema.type,
+            value: value,
+          });
+          const additionalObjectTypeNode = factory.TypeNode.create({
+            type: schema.type,
+            value: [additionalProperties],
+          });
+          return factory.UnionTypeNode.create({
+            typeNodes: [objectTypeNode, additionalObjectTypeNode],
+          });
+        }
         return factory.TypeNode.create({
           type: schema.type,
           value: [...value, additionalProperties],

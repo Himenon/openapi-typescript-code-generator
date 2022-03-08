@@ -40,9 +40,12 @@ components:
     OptionalPropertiesAndAdditionalProperties:
       type: object
       properties:
-        key:
-          type: string
-        description:
-          type: string
-      additionalProperties:
-        type: string
+        body:
+          type: object
+          properties:
+            key:
+              type: string
+            description:
+              type: string
+          additionalProperties:
+            type: string
