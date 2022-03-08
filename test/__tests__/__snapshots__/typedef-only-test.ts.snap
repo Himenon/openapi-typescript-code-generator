@@ -318,7 +318,7 @@ export namespace Schemas {
         body?: {
             key?: string;
             description?: string;
-        } | {
+        } & {
             [key: string]: string;
         };
     }

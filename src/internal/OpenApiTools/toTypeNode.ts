@@ -280,7 +280,7 @@ export const convert: Convert = (
             type: schema.type,
             value: [additionalProperties],
           });
-          return factory.UnionTypeNode.create({
+          return factory.IntersectionTypeNode.create({
             typeNodes: [objectTypeNode, additionalObjectTypeNode],
           });
         }
