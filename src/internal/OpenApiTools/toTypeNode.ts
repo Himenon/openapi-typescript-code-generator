@@ -169,8 +169,8 @@ export const convert: Convert = (
       return nullable(factory, typeNode, schema.nullable);
     }
     if (option && option.parent) {
-      Logger.info("Parent Schema:");
-      Logger.info(JSON.stringify(option.parent));
+      const message = ["Schema Type is not found and is converted to the type any. The parent Schema is as follows.", "", JSON.stringify(option.parent), ""].join("\n");
+      Logger.info(message);
     }
     const typeNode = factory.TypeNode.create({
       type: "any",
