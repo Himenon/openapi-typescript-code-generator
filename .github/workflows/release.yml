@@ -1,55 +1,31 @@
-name: Release Workflow
+name: Version Up
 
 on:
-  release:
-    types: [created]
+  push:
+    branches: [main]
 
 jobs:
-  build:
+  auto-version-up:
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Setup Git Config
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+          git config --global user.email "actions@gihub.com"
+          git config --global user.name "gh-actions"
+      - uses: actions/checkout@v3
         with:
           ref: main
-      - uses: actions/setup-node@v1
+      - uses: pnpm/action-setup@v2.1.0
         with:
-          node-version: "12.x"
-          registry-url: https://npm.pkg.github.com
-          scope: "@Himenon"
-      - run: |
-          yarn install --frozen-lockfile
-          yarn build
-
-  release-github-registry:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
+          version: 6.32.3
+      - uses: actions/setup-node@v2
         with:
-          ref: main
-      - uses: actions/setup-node@v1
-        with:
-          node-version: "12.x"
-          registry-url: https://npm.pkg.github.com
-          scope: "@Himenon"
-      - run: |
-          yarn install --frozen-lockfile
-          yarn build
-          yarn --cwd ./lib release:github:registry
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  release-npm-registry:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: main
-      - uses: actions/setup-node@v1
-        with:
-          node-version: "12.x"
-          registry-url: "https://registry.npmjs.org"
-      - run: yarn install --frozen-lockfile
-      - run: yarn build
-      - run: yarn --cwd ./lib release:npm:registry
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          node-version: "16.x"
+          cache: "pnpm"
+      - run: pnpm i --frozen-lockfile
+      - name: Auto version update
+        run: |
+          pnpm lerna:version:up
