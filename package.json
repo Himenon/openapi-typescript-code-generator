@@ -63,11 +63,6 @@
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
-    }
-  },
   "resolutions": {
     "kind-of": "6.0.3",
     "node-fetch": "2.6.1"
