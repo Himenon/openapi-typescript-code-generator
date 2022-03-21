@@ -7,9 +7,9 @@ import { shell } from "./tools/shell";
 
 const main = async () => {
   await Promise.all([
-    shell("yarn tsc -p tsconfig.esm.json -d --emitDeclarationOnly --outDir ./lib/\\$types"),
-    shell("yarn tsc -p tsconfig.cjs.json"),
-    shell("yarn tsc -p tsconfig.esm.json"),
+    shell("pnpm tsc -p tsconfig.esm.json -d --emitDeclarationOnly --outDir ./lib/\\$types"),
+    shell("pnpm tsc -p tsconfig.cjs.json"),
+    shell("pnpm tsc -p tsconfig.esm.json"),
   ]);
 
   await cherryPick({ inputDir: "../src", cwd: "./lib", typesDir: "./$types", cjsDir: "./$cjs", esmDir: "./$esm" });

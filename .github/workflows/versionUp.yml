@@ -19,5 +19,5 @@ jobs:
         run: |
           git config --global user.email "actions@gihub.com"
           git config --global user.name "gh-actions"
-          yarn install --frozen-lockfile
-          yarn lerna:version:up
+          pnpm install --frozen-lockfile
+          pnpm lerna:version:up
