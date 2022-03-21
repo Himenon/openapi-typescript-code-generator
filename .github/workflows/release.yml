@@ -1,12 +1,11 @@
-name: Version Up
+name: Release Workflow
 
 on:
-  push:
-    branches: [main]
+  release:
+    types: [created]
 
 jobs:
-  auto-version-up:
-    if: github.event_name != 'pull_request'
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Setup Git Config
@@ -23,9 +22,58 @@ jobs:
           version: 6.32.3
       - uses: actions/setup-node@v2
         with:
-          node-version: "16.x"
+          node-version: "16"
+          registry-url: https://npm.pkg.github.com
+          scope: "@Himenon"
           cache: "pnpm"
       - run: pnpm i --frozen-lockfile
-      - name: Auto version update
+      - run: |
+          pnpm build
+
+  release-github-registry:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Git Config
         run: |
-          pnpm lerna:version:up
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+          git config --global user.email "actions@gihub.com"
+          git config --global user.name "gh-actions"
+      - uses: actions/checkout@v3
+        with:
+          ref: main
+      - uses: pnpm/action-setup@v2.1.0
+        with:
+          version: 6.32.3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+          registry-url: https://npm.pkg.github.com
+          scope: "@Himenon"
+          cache: "pnpm"
+      - run: pnpm install
+      - run: |
+          pnpm build
+          pnpm -C ./lib release:github:registry
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  release-npm-registry:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: main
+      - uses: pnpm/action-setup@v2.1.0
+        with:
+          version: 6.32.3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16.x"
+          registry-url: "https://registry.npmjs.org"
+          cache: "pnpm"
+      - run: pnpm install
+      - run: pnpm build
+      - run: pnpm -C ./lib release:npm:registry
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
