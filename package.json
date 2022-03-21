@@ -119,6 +119,11 @@
   "peerDependencies": {
     "typescript": "4.2.3"
   },
+  "engines": {
+    "npm": "forbidden, use pnpm",
+    "pnpm": ">=6",
+    "yarn": "forbidden, use pnpm"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -127,10 +132,5 @@
       "style": "module",
       "parser": "typescript"
     }
-  },
-  {
-    "npm": "forbidden, use pnpm",
-    "pnpm": ">=6",
-    "yarn": "forbidden, use pnpm"
   }
 }
