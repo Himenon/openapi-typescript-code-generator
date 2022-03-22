@@ -9,22 +9,32 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [16]
         os: [windows-latest, ubuntu-latest]
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Setup Git Config
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+          git config --global user.email "actions@gihub.com"
+          git config --global user.name "gh-actions"
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2.1.0
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          version: 6.32.3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+          cache: "pnpm"
+      - run: pnpm i --frozen-lockfile
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-
       - name: Test & Build
         run: |
-          yarn install --frozen-lockfile
-          yarn build
-          yarn test
+          pnpm build
+          pnpm test
         env:
           CI: true

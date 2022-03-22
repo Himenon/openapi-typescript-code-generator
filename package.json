@@ -38,35 +38,24 @@
     "package.json"
   ],
   "scripts": {
-    "build": "yarn ts ./scripts/build.ts",
-    "clean": "yarn ts ./scripts/clean.ts",
+    "build": "pnpm ts ./scripts/build.ts",
+    "clean": "pnpm ts ./scripts/clean.ts",
     "format:code": "prettier \"**/*.{js,jsx,ts,tsx,json,yml,yaml,md,html}\" --write",
     "format:code:eslint": "eslint \"**/*.{ts,tsx}\" --fix",
     "format:yarn:lock": "yarn-deduplicate yarn.lock --strategy highest",
     "lerna:version:up": "lerna version --yes",
-    "release:github:registry": "yarn publish --registry https://npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}",
-    "release:npm:registry": "yarn publish",
-    "test": "run-s test:depcruise test:jest test:code:gen test:snapshot",
-    "test:code:gen": "yarn ts ./scripts/testCodeGen.ts",
+    "release:github:registry": "pnpm publish --registry https://npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}",
+    "release:npm:registry": "pnpm publish",
+    "test": "run-p test:depcruise test:jest test:code:gen test:snapshot",
+    "test:code:gen": "pnpm ts ./scripts/testCodeGen.ts",
     "test:depcruise": "depcruise --validate .dependency-cruiser.js src",
     "test:eslint": "eslint \"src/**/*.{ts,tsx}\"",
     "test:jest": "jest -c ./jest.config.js",
     "test:snapshot": "jest -c ./jest.snapshot.config.js",
     "ts": "ts-node -P tsconfig.build.json",
-    "update:snapshot": "yarn test:snapshot --updateSnapshot",
-    "validate": "yarn ts ./scripts/validate.ts",
-    "watch": "yarn ts ./scripts/watch.ts"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
-    }
+    "update:snapshot": "pnpm test:snapshot --updateSnapshot",
+    "watch": "pnpm ts ./scripts/watch.ts",
+    "validate": "pnpm ts ./scripts/validate.ts"
   },
   "resolutions": {
     "kind-of": "6.0.3",
@@ -98,7 +87,6 @@
     "eslint-plugin-import": "2.22.1",
     "execa": "5.0.0",
     "generate-changelog": "1.8.0",
-    "husky": "4.3.7",
     "import-sort-style-module": "6.0.0",
     "jest": "26.6.3",
     "jest-cli": "26.6.3",
@@ -110,6 +98,7 @@
     "prettier-plugin-import-sort": "0.0.6",
     "read-pkg-up": "^7.0.1",
     "rimraf": "3.0.2",
+    "simple-git-hooks": "^2.7.0",
     "sort-package-json": "1.49.0",
     "ts-jest": "26.5.4",
     "ts-node": "9.1.1",
@@ -119,6 +108,12 @@
   "peerDependencies": {
     "typescript": "4.2.3"
   },
+  "engines": {
+    "node": ">=16",
+    "npm": "forbidden, use pnpm",
+    "pnpm": ">=6",
+    "yarn": "forbidden, use pnpm"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -127,5 +122,8 @@
       "style": "module",
       "parser": "typescript"
     }
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged"
   }
 }

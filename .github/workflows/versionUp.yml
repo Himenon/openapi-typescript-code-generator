@@ -9,15 +9,23 @@ jobs:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-      - uses: actions/setup-node@v1
-        with:
-          node-version: "12.x"
-      - name: Auto version update
+      - name: Setup Git Config
         run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
           git config --global user.email "actions@gihub.com"
           git config --global user.name "gh-actions"
-          yarn install --frozen-lockfile
-          yarn lerna:version:up
+      - uses: actions/checkout@v3
+        with:
+          ref: main
+      - uses: pnpm/action-setup@v2.1.0
+        with:
+          version: 6.32.3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16.x"
+          cache: "pnpm"
+      - run: pnpm i --frozen-lockfile
+      - name: Auto version update
+        run: |
+          pnpm lerna:version:up

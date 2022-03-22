@@ -11,14 +11,14 @@ process.on("unhandledRejection", reason => {
 });
 
 const main = async () => {
-  console.log((await shell("yarn build", cwd)).stdout);
-  console.log((await shell("yarn run test:code:gen", cwd)).stdout);
+  console.log((await shell("pnpm build", cwd)).stdout);
+  console.log((await shell("pnpm run test:code:gen", cwd)).stdout);
 
   chokidar.watch("./src", {}).on("change", async path => {
     console.log(`Watch Change file ... ${path}`);
     try {
-      console.log((await shell("yarn build", cwd)).stdout);
-      console.log((await shell("yarn run test:code:gen", cwd)).stdout);
+      console.log((await shell("pnpm build", cwd)).stdout);
+      console.log((await shell("pnpm run test:code:gen", cwd)).stdout);
     } catch (error) {
       console.error("Failed");
     }
@@ -27,7 +27,7 @@ const main = async () => {
   chokidar.watch("./test", { ignored: [/code/] }).on("change", async path => {
     console.log(`Watch Change file ... ${path}`);
     try {
-      console.log((await shell("yarn run test:code:gen", cwd)).stdout);
+      console.log((await shell("pnpm run test:code:gen", cwd)).stdout);
     } catch (error) {
       console.error("Failed");
     }

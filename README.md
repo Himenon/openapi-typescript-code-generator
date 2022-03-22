@@ -376,7 +376,7 @@ git clone https://github.com/Himenon/openapi-typescript-code-generator.git
 cd openapi-typescript-code-generator
 yarn
 #### your change
-yarn build && yarn test
+pnpm build && pnpm test
 ```
 
 ## Useful development tools
