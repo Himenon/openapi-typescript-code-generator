@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.16.1"></a>
+## 0.16.1 (2022-03-22)
+
+
+### Chores
+
+* **pnpm:** update package manager ([#73](https://github.com/Himenon/openapi-typescript-code-generator/issues/73)) ([0e76dd6](https://github.com/Himenon/openapi-typescript-code-generator/commit/0e76dd6))
+
+
+
+
+
 <a name="0.16.0"></a>
 # 0.16.0 (2022-03-08)
 
