@@ -54,14 +54,8 @@
     "test:snapshot": "jest -c ./jest.snapshot.config.js",
     "ts": "ts-node -P tsconfig.build.json",
     "update:snapshot": "pnpm test:snapshot --updateSnapshot",
-    "validate": "pnpm ts ./scripts/validate.ts",
-    "watch": "pnpm ts ./scripts/watch.ts"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
+    "watch": "pnpm ts ./scripts/watch.ts",
+    "validate": "pnpm ts ./scripts/validate.ts"
   },
   "resolutions": {
     "kind-of": "6.0.3",
@@ -93,7 +87,6 @@
     "eslint-plugin-import": "2.22.1",
     "execa": "5.0.0",
     "generate-changelog": "1.8.0",
-    "husky": "4.3.7",
     "import-sort-style-module": "6.0.0",
     "jest": "26.6.3",
     "jest-cli": "26.6.3",
@@ -105,6 +98,7 @@
     "prettier-plugin-import-sort": "0.0.6",
     "read-pkg-up": "^7.0.1",
     "rimraf": "3.0.2",
+    "simple-git-hooks": "^2.7.0",
     "sort-package-json": "1.49.0",
     "ts-jest": "26.5.4",
     "ts-node": "9.1.1",
@@ -127,5 +121,8 @@
       "style": "module",
       "parser": "typescript"
     }
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged"
   }
 }
