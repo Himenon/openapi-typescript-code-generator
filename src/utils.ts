@@ -11,7 +11,7 @@ export const isAvailableVariableName = (text: string): boolean => {
 
 export const isFirstCharacterIsValidText = (text: string): boolean => {
   return /^[A-Za-z]+/.test(text);
-}
+};
 
 export const escapeText = (text: string): string => {
   if (isAvailableVariableName(text) && isFirstCharacterIsValidText(text)) {

@@ -105,7 +105,7 @@ export const create = (factory: Factory.Type, options?: Options): Types => {
   };
   const convertOperationId = (text: string): string => {
     return convertString(text).replace(/\./g, "$");
-  }
+  };
   return {
     escapeOperationIdText: (operationId: string): string => {
       return convertOperationId(operationId);
