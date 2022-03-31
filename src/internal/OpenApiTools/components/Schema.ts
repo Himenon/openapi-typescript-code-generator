@@ -27,7 +27,7 @@ export const generatePropertySignatures = (
       return factory.PropertySignature.create({
         name: convertContext.escapePropertySignatureName(propertyName),
         optional: !required.includes(propertyName),
-        comment: schema.description,
+        comment: [schema.title, schema.description].filter(v => !!v).join("\n\n"),
         type: factory.TypeNode.create({
           type: "any",
         }),
@@ -37,7 +37,7 @@ export const generatePropertySignatures = (
       name: convertContext.escapePropertySignatureName(propertyName),
       optional: !required.includes(propertyName),
       type: ToTypeNode.convert(entryPoint, currentPoint, factory, property, context, convertContext, { parent: schema }),
-      comment: typeof property !== "boolean" ? property.description : undefined,
+      comment: typeof property !== "boolean" ? [property.title, property.description].filter(v => !!v).join("\n\n") : undefined,
     });
   });
 };
@@ -86,7 +86,7 @@ export const generateArrayTypeAlias = (
   return factory.TypeAliasDeclaration.create({
     export: true,
     name: convertContext.escapeDeclarationText(name),
-    comment: schema.description,
+    comment: [schema.title, schema.description].filter(v => !!v).join("\n\n"),
     type: ToTypeNode.convert(entryPoint, currentPoint, factory, schema, context, convertContext),
   });
 };
@@ -119,7 +119,7 @@ export const generateNotInferedTypeAlias = (
     export: true,
     name: convertContext.escapeDeclarationText(name),
     type: typeNode,
-    comment: schema.description,
+    comment: [schema.title, schema.description].filter(v => !!v).join("\n\n"),
   });
 };
 
@@ -159,11 +159,12 @@ export const generateTypeAlias = (
       type: schema.type,
     });
   }
+
   return factory.TypeAliasDeclaration.create({
     export: true,
     name: convertContext.escapeDeclarationText(name),
     type,
-    comment: schema.description,
+    comment: [schema.title, schema.description].filter(v => !!v).join("\n\n"),
   });
 };
 
