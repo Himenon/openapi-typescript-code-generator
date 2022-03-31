@@ -13,7 +13,10 @@ Since the parameters extracted from OpenAPI can be used freely, it can be used f
 ## Installation
 
 ```bash
-npm i -D @himenon/openapi-typescript-code-generator
+npm  i   -D @himenon/openapi-typescript-code-generator
+# or
+pnpm i   -D @himenon/openapi-typescript-code-generator
+# or
 yarn add -D @himenon/openapi-typescript-code-generator
 ```
 
