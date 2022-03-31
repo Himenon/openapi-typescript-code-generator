@@ -53,7 +53,7 @@
     "test:jest": "jest -c ./jest.config.js",
     "test:snapshot": "jest -c ./jest.snapshot.config.js",
     "ts": "ts-node -P tsconfig.build.json",
-    "update:snapshot": "pnpm test:snapshot --updateSnapshot",
+    "update:snapshot": "pnpm jest -c ./jest.snapshot.config.js --updateSnapshot",
     "watch": "pnpm ts ./scripts/watch.ts",
     "validate": "pnpm ts ./scripts/validate.ts"
   },
@@ -104,9 +104,6 @@
     "ts-node": "9.1.1",
     "typescript": "4.2.3",
     "yarn-deduplicate": "3.1.0"
-  },
-  "peerDependencies": {
-    "typescript": "4.2.3"
   },
   "engines": {
     "pnpm": ">=6"
