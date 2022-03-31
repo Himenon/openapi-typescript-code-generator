@@ -116,13 +116,11 @@ import type * as Types from "@himenon/openapi-typescript-code-generator/types";
 /** ここにCode Templateの定義を記述してください  */
 const customGenerator: Types.CodeGenerator.CustomGenerator<{}> = {
   /** .... */
-}
+};
 
 const codeGenerator = new CodeGenerator("your/openapi/spec.yml");
 
-const code = codeGenerator.generateCode([
-  customGenerator,
-]);
+const code = codeGenerator.generateCode([customGenerator]);
 
 fs.writeFileSync("output/file/name", code, { encoding: "utf-8" });
 ```
@@ -148,7 +146,7 @@ const generator: Types.CodeGenerator.GenerateFunction<Option> = (payload: Types.
 const customGenerator: Types.CodeGenerator.CustomGenerator<Option> = {
   generator: generator,
   option: {},
-}
+};
 ```
 
 ### OpenAPI Schema から抽出した情報を利用した定義をする
@@ -159,19 +157,18 @@ const customGenerator: Types.CodeGenerator.CustomGenerator<Option> = {
 ```ts
 import * as Types from "@himenon/openapi-typescript-code-generator/types";
 
-interface Option {
-}
+interface Option {}
 
 const generator: Types.CodeGenerator.GenerateFunction<Option> = (payload: Types.CodeGenerator.Params[], option): string[] => {
-  return payload.map((params) => {
+  return payload.map(params => {
     return `function ${params.operationId}() { console.log("${params.comment}") }`;
-  })
+  });
 };
 
 const customGenerator: Types.CodeGenerator.CustomGenerator<Option> = {
   generator: generator,
   option: {},
-}
+};
 ```
 
 ### 任意の Data Types Format を定義する
@@ -234,9 +231,9 @@ const codeGenerator = new CodeGenerator(inputFilename, option);
 
 ```ts
 export namespace Schemas {
-    export type Binary = Blob;
-    export type IntOrString = number | string;
-    export type AandB = A & B;
+  export type Binary = Blob;
+  export type IntOrString = number | string;
+  export type AandB = A & B;
 }
 ```
 
@@ -249,25 +246,27 @@ TypeScript AST の API を利用したコードの拡張が可能です。
 import * as Types from "@himenon/openapi-typescript-code-generator/types";
 import { TsGenerator } from "@himenon/openapi-typescript-code-generator/api";
 
-interface Option {
-}
+interface Option {}
 
 const factory = TsGenerator.Factory.create();
 
-const generator: Types.CodeGenerator.GenerateFunction<Option> = (payload: Types.CodeGenerator.Params[], option): Types.CodeGenerator.IntermediateCode[] => {
-  return payload.map((params) => {
+const generator: Types.CodeGenerator.GenerateFunction<Option> = (
+  payload: Types.CodeGenerator.Params[],
+  option,
+): Types.CodeGenerator.IntermediateCode[] => {
+  return payload.map(params => {
     return factory.InterfaceDeclaration.create({
       export: true,
       name: params.functionName,
       members: [],
-    })
-  })
+    });
+  });
 };
 
 const customGenerator: Types.CodeGenerator.CustomGenerator<Option> = {
   generator: generator,
   option: {},
-}
+};
 ```
 
 ## API
