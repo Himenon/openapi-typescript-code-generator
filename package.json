@@ -2,7 +2,6 @@
   "name": "@himenon/openapi-typescript-code-generator",
   "version": "0.15.0",
   "private": true,
-  "type": "module",
   "description": "OpenAPI Code Generator using TypeScript AST.",
   "keywords": [
     "openapi",
@@ -27,6 +26,7 @@
     "url": "https://github.com/Himenon"
   },
   "sideEffects": false,
+  "type": "module",
   "main": "lib/$cjs/index.js",
   "module": "lib/$esm/index.js",
   "browser": "lib/$esm/index.js",
@@ -114,11 +114,11 @@
     "sort-package-json": "1.49.0",
     "ts-jest": "26.5.4",
     "ts-node": "10.4.0",
-    "typescript": "4.5.5",
+    "typescript": "beta",
     "yarn-deduplicate": "3.1.0"
   },
   "peerDependencies": {
-    "typescript": "4.5.5"
+    "typescript": "*"
   },
   "publishConfig": {
     "access": "public"
