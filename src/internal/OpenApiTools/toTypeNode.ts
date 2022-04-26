@@ -186,9 +186,18 @@ export const convert: Convert = (
   }
   switch (schema.type) {
     case "boolean": {
-      const typeNode = factory.TypeNode.create({
-        type: "boolean",
-      });
+      const items = schema.enum;
+      let typeNode: ts.TypeNode;
+      if (items && Guard.isBooleanArray(items)) {
+        typeNode = factory.TypeNode.create({
+          type: schema.type,
+          enum: items,
+        });
+      } else {
+        typeNode = factory.TypeNode.create({
+          type: schema.type,
+        });
+      }
       return nullable(factory, typeNode, !!schema.nullable);
     }
     case "null": {

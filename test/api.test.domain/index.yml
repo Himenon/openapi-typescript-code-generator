@@ -68,6 +68,15 @@ components:
     BooleanType:
       type: boolean
       description: Boolean Literal
+    BooleanEnumType:
+      type: boolean
+      enum: [true]
+    BooleanEnumType2:
+      type: boolean
+      enum: [false]
+    BooleanEnumType3:
+      type: boolean
+      enum: [true, false]
     ArrayStringType:
       type: array
       items:
