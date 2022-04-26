@@ -21,6 +21,7 @@ export interface NumberParams {
 
 export interface BooleanParams {
   type: "boolean";
+  enum?: boolean[];
 }
 
 export interface ObjectParams {
@@ -91,8 +92,14 @@ export const create = (context: Pick<ts.TransformationContext, "factory">): Fact
           });
         }
         return factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword);
-      case "boolean":
+      case "boolean": {
+        if (params.enum) {
+          return unionTypeNode({
+            typeNodes: params.enum.map(value => literalTypeNode({ value })),
+          });
+        }
         return factory.createKeywordTypeNode(ts.SyntaxKind.BooleanKeyword);
+      }
       case "object":
         return factory.createTypeLiteralNode(params.value);
       case "undefined":

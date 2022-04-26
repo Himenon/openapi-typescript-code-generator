@@ -29,6 +29,9 @@ export namespace Schemas {
     export type NumberDouble = number;
     /** Boolean Literal */
     export type BooleanType = boolean;
+    export type BooleanEnumType = true;
+    export type BooleanEnumType2 = false;
+    export type BooleanEnumType3 = true | false;
     export type ArrayStringType = string[];
     export type ArrayNumberType = number[];
     export type ArrayBooleanType = boolean[];
@@ -569,6 +572,9 @@ export namespace Schemas {
     export type NumberDouble = number;
     /** Boolean Literal */
     export type BooleanType = boolean;
+    export type BooleanEnumType = true;
+    export type BooleanEnumType2 = false;
+    export type BooleanEnumType3 = true | false;
     export type ArrayStringType = string[];
     export type ArrayNumberType = number[];
     export type ArrayBooleanType = boolean[];

@@ -38,6 +38,10 @@ export const isPrimitiveSchema = (schema: OpenApi.Schema): schema is Types.Primi
   return true;
 };
 
+export const isBooleanArray = (list: any[]): list is boolean[] => {
+  return !list.some(item => typeof item !== "boolean");
+};
+
 export const isNumberArray = (list: any[]): list is number[] => {
   return !list.some(item => typeof item !== "number");
 };

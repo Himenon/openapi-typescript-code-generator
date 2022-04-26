@@ -149,6 +149,11 @@ export const generateTypeAlias = (
         type: schema.type,
         enum: schema.enum,
       });
+    } else if (schema.type === "boolean") {
+      type = factory.TypeNode.create({
+        type: schema.type,
+        enum: Guard.isBooleanArray(schema.enum) ? schema.enum : undefined,
+      });
     } else {
       type = factory.TypeNode.create({
         type: schema.type,
