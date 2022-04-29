@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.18.1"></a>
+## 0.18.1 (2022-04-29)
+
+
+### Performance Improvements
+
+* **test:** using swc ([#77](https://github.com/Himenon/openapi-typescript-code-generator/issues/77)) ([d9565fe](https://github.com/Himenon/openapi-typescript-code-generator/commit/d9565fe))
+
+
+
+
+
 <a name="0.18.0"></a>
 # 0.18.0 (2022-04-26)
 
