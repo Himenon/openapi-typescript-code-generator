@@ -50,7 +50,7 @@
     "test:code:gen": "pnpm ts ./scripts/testCodeGen.ts",
     "test:depcruise": "depcruise --validate .dependency-cruiser.js src",
     "test:eslint": "eslint \"src/**/*.{ts,tsx}\"",
-    "test:jest": "jest -c ./jest.config.js",
+    "test:jest": "jest -c ./jest.config.js --collect-coverage",
     "test:snapshot": "jest -c ./jest.snapshot.config.js",
     "ts": "ts-node -P tsconfig.build.json",
     "update:snapshot": "pnpm jest -c ./jest.snapshot.config.js --updateSnapshot",
@@ -71,6 +71,9 @@
   "devDependencies": {
     "@commitlint/cli": "12.1.1",
     "@commitlint/config-conventional": "12.1.1",
+    "@swc/core": "^1.2.173",
+    "@swc/helpers": "^0.3.8",
+    "@swc/jest": "^0.2.20",
     "@types/chokidar": "2.1.3",
     "@types/jest": "26.0.22",
     "@types/js-yaml": "4.0.0",
