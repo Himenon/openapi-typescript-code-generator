@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.18.2"></a>
+## 0.18.2 (2022-05-06)
+
+
+### Bug Fixes
+
+* remove require import ([#80](https://github.com/Himenon/openapi-typescript-code-generator/issues/80)) ([682af97](https://github.com/Himenon/openapi-typescript-code-generator/commit/682af97))
+
+
+
+
+
 <a name="0.18.1"></a>
 ## 0.18.1 (2022-04-29)
 
