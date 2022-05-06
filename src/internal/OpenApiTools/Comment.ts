@@ -2,8 +2,7 @@ import { EOL } from "os";
 
 import type { OpenApi } from "../../types";
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const pkg = require("../../../package.json");
+import pkg from "../../../package.json";
 
 export const generateLeading = (schema: OpenApi.Document): string => {
   const messages: string[] = [];
