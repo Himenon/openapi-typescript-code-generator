@@ -19,7 +19,7 @@ jobs:
           ref: main
       - uses: pnpm/action-setup@v2.1.0
         with:
-          version: 6.32.3
+          version: 7.0.0
       - uses: actions/setup-node@v2
         with:
           node-version: "16"
@@ -29,6 +29,8 @@ jobs:
       - run: pnpm i --frozen-lockfile
       - run: |
           pnpm build
+        env:
+          CI: true
 
   release-github-registry:
     runs-on: ubuntu-latest
@@ -44,7 +46,7 @@ jobs:
           ref: main
       - uses: pnpm/action-setup@v2.1.0
         with:
-          version: 6.32.3
+          version: 7.0.0
       - uses: actions/setup-node@v2
         with:
           node-version: "16"
@@ -57,6 +59,7 @@ jobs:
           pnpm -C ./lib release:github:registry
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CI: true
 
   release-npm-registry:
     runs-on: ubuntu-latest
@@ -66,7 +69,7 @@ jobs:
           ref: main
       - uses: pnpm/action-setup@v2.1.0
         with:
-          version: 6.32.3
+          version: 7.0.0
       - uses: actions/setup-node@v2
         with:
           node-version: "16.x"
@@ -74,6 +77,8 @@ jobs:
           cache: "pnpm"
       - run: pnpm install
       - run: pnpm build
+        env:
+          CI: true
       - run: pnpm -C ./lib release:npm:registry
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
