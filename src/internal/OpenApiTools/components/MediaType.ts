@@ -15,6 +15,7 @@ export const generatePropertySignature = (
   converterContext: ConverterContext.Types,
 ): ts.PropertySignature => {
   return factory.PropertySignature.create({
+    readOnly: false,
     name: converterContext.escapePropertySignatureName(protocol),
     optional: false,
     type: ToTypeNode.convert(entryPoint, currentPoint, factory, schema, context, converterContext),

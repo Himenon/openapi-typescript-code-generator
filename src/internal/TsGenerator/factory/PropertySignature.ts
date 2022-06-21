@@ -4,6 +4,7 @@ import { generateComment } from "./utils";
 
 export interface Params {
   name: string;
+  readOnly: boolean;
   optional: boolean;
   type: ts.TypeNode;
   comment?: string;
@@ -15,7 +16,7 @@ export interface Factory {
 
 export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (params: Params): ts.PropertySignature => {
   const node = factory.createPropertySignature(
-    undefined,
+    params.readOnly ? [factory.createModifier(ts.SyntaxKind.ReadonlyKeyword)] : undefined,
     params.name,
     params.optional ? factory.createToken(ts.SyntaxKind.QuestionToken) : undefined,
     params.type,

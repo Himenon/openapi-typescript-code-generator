@@ -270,6 +270,7 @@ export const convert: Convert = (
 
       const value: ts.PropertySignature[] = Object.entries(schema.properties || {}).map(([name, jsonSchema]) => {
         return factory.PropertySignature.create({
+          readOnly: !!schema.readOnly,
           name: converterContext.escapePropertySignatureName(name),
           type: convert(entryPoint, currentPoint, factory, jsonSchema, context, converterContext, { parent: schema.properties }),
           optional: !required.includes(name),

@@ -62,16 +62,19 @@ const createQueryParamsDeclarations = (factory: TsGenerator.Factory.Type) => {
     name: "QueryParameter",
     members: [
       factory.PropertySignature.create({
+        readOnly: false,
         name: "value",
         optional: false,
         type: factory.TypeNode.create({ type: "any" }),
       }),
       factory.PropertySignature.create({
+        readOnly: false,
         name: "style",
         optional: true,
         type: factory.TypeNode.create({ type: "string", enum: ["form", "spaceDelimited", "pipeDelimited", "deepObject"] }),
       }),
       factory.PropertySignature.create({
+        readOnly: false,
         name: "explode",
         optional: false,
         type: factory.TypeNode.create({ type: "boolean" }),
@@ -191,6 +194,7 @@ export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Pa
   });
 
   const requestFunction = factory.PropertySignature.create({
+    readOnly: false,
     name: "request",
     optional: false,
     type: functionType,

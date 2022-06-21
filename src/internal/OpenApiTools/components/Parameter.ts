@@ -53,6 +53,7 @@ export const generatePropertySignatureObject = (
       const isPathProperty = localRef.in === "path";
       const name = converterContext.escapePropertySignatureName(localRef.name);
       const typeElement = factory.PropertySignature.create({
+        readOnly: false,
         name: name,
         optional: isPathProperty ? false : !localRef.required,
         comment: localRef.description,
@@ -68,6 +69,7 @@ export const generatePropertySignatureObject = (
     const isPathProperty = reference.data.in === "path";
     const name = converterContext.escapePropertySignatureName(reference.data.name);
     const typeElement = factory.PropertySignature.create({
+      readOnly: false,
       name: name,
       optional: isPathProperty ? false : !reference.data.required,
       comment: reference.data.description,
@@ -88,6 +90,7 @@ export const generatePropertySignatureObject = (
   const isPathProperty = parameter.in === "path";
   const name = converterContext.escapePropertySignatureName(parameter.name);
   const typeElement = factory.PropertySignature.create({
+    readOnly: false,
     name: name,
     optional: isPathProperty ? false : !parameter.required,
     type: ToTypeNode.convert(entryPoint, currentPoint, factory, parameter.schema || { type: "null" }, context, converterContext),
