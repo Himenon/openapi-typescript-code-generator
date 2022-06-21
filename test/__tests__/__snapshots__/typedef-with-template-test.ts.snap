@@ -493,6 +493,9 @@ exports[`Typedef with template api.v2.domain 1`] = `
 export namespace Schemas {
     export type Message = \\"hello\\" | \\"world\\";
     export type QueryParams = \\"a\\" | \\"b\\" | \\"c\\";
+    export interface ReadOnlyParams {
+        name?: string;
+    }
 }
 export interface Parameter$getHelloWorld {
     /** query word */
@@ -503,9 +506,21 @@ export interface Response$getHelloWorld$Status$200 {
         message?: Schemas.Message;
     };
 }
+export interface RequestBody$postHelloWorldReadonly {
+}
+export interface Response$postHelloWorldReadonly$Status$200 {
+    \\"application/json\\": {
+        message?: Schemas.Message;
+    };
+}
 export type ResponseContentType$getHelloWorld = keyof Response$getHelloWorld$Status$200;
 export interface Params$getHelloWorld {
     parameter: Parameter$getHelloWorld;
+}
+export type RequestContentType$postHelloWorldReadonly = keyof RequestBody$postHelloWorldReadonly;
+export type ResponseContentType$postHelloWorldReadonly = keyof Response$postHelloWorldReadonly$Status$200;
+export interface Params$postHelloWorldReadonly {
+    requestBody: RequestBody$postHelloWorldReadonly[\\"application/json\\"];
 }
 export type HttpMethod = \\"GET\\" | \\"PUT\\" | \\"POST\\" | \\"DELETE\\" | \\"OPTIONS\\" | \\"HEAD\\" | \\"PATCH\\" | \\"TRACE\\";
 export interface ObjectLike {
@@ -519,9 +534,10 @@ export interface QueryParameter {
 export interface QueryParameters {
     [key: string]: QueryParameter;
 }
-export type SuccessResponses = Response$getHelloWorld$Status$200;
+export type SuccessResponses = Response$getHelloWorld$Status$200 | Response$postHelloWorldReadonly$Status$200;
 export namespace ErrorResponse {
     export type getHelloWorld = void;
+    export type postHelloWorldReadonly = void;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(httpMethod: HttpMethod, url: string, headers: ObjectLike | any, requestBody: ObjectLike | any, queryParameters: QueryParameters | undefined, options?: RequestOption) => Promise<T>;
@@ -538,6 +554,14 @@ export class Client<RequestOption> {
             word: { value: params.parameter.word, explode: false }
         };
         return this.apiClient.request(\\"GET\\", url, headers, undefined, queryParameters, option);
+    }
+    public async postHelloWorldReadonly(params: Params$postHelloWorldReadonly, option?: RequestOption): Promise<Response$postHelloWorldReadonly$Status$200[\\"application/json\\"]> {
+        const url = this.baseUrl + \`/hello/world/readonly\`;
+        const headers = {
+            \\"Content-Type\\": \\"application/json\\",
+            Accept: \\"application/json\\"
+        };
+        return this.apiClient.request(\\"POST\\", url, headers, params.requestBody, undefined, option);
     }
 }
 "
