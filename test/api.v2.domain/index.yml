@@ -24,7 +24,7 @@ components:
     ReadOnlyParams:
       type: object
       properties:
-        name:
+        readonlyPropertyKey:
           type: string
           readOnly: true
 paths:

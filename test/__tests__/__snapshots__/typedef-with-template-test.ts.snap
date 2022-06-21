@@ -494,7 +494,7 @@ export namespace Schemas {
     export type Message = \\"hello\\" | \\"world\\";
     export type QueryParams = \\"a\\" | \\"b\\" | \\"c\\";
     export interface ReadOnlyParams {
-        name?: string;
+        readonly readonlyPropertyKey?: string;
     }
 }
 export interface Parameter$getHelloWorld {

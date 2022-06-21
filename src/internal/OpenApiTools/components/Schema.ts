@@ -25,7 +25,7 @@ export const generatePropertySignatures = (
   return Object.entries(schema.properties).map(([propertyName, property]) => {
     if (!property) {
       return factory.PropertySignature.create({
-        readOnly: !!schema.readOnly,
+        readOnly: false,
         name: convertContext.escapePropertySignatureName(propertyName),
         optional: !required.includes(propertyName),
         comment: [schema.title, schema.description].filter(v => !!v).join("\n\n"),
@@ -35,7 +35,7 @@ export const generatePropertySignatures = (
       });
     }
     return factory.PropertySignature.create({
-      readOnly: !!schema.readOnly,
+      readOnly: typeof property !== "boolean" ? !!property.readOnly : false,
       name: convertContext.escapePropertySignatureName(propertyName),
       optional: !required.includes(propertyName),
       type: ToTypeNode.convert(entryPoint, currentPoint, factory, property, context, convertContext, { parent: schema }),
