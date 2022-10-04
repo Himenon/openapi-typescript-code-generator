@@ -28,11 +28,17 @@ export class FileSystem {
   }
 
   public static existSync(entryPoint: string): boolean {
+    const fragmentIndex = entryPoint.indexOf(this.FRAGMENT);
+    const hasFragment = fragmentIndex !== -1;
+    if (hasFragment) {
+      const filename = entryPoint.substring(0, fragmentIndex);
+      return !!(fs.existsSync(filename) && fs.statSync(filename).isFile());
+    }
     return !!(fs.existsSync(entryPoint) && fs.statSync(entryPoint).isFile());
   }
 
   public static loadJsonOrYaml(entryPoint: string): any {
-    const hasFragment: boolean = new RegExp(this.FRAGMENT).test(entryPoint);
+    const hasFragment = entryPoint.indexOf(this.FRAGMENT) !== -1;
     if (hasFragment) {
       const [filename, fragment] = entryPoint.split(this.FRAGMENT);
       const data = this.internalLoadJsonOrYaml(filename);
