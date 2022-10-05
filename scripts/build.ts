@@ -11,14 +11,16 @@ import { shell } from "./tools/shell";
 const generateVersionTsFile = () => {
   const codes: string[] = [`export const Name = "${pkg.name}";`, `export const Version = "${pkg.version}";`];
   const tscCode = codes.join(EOL);
-  if (process.env.CI) {
-    console.log("Update src/meta.ts file.");
-    fs.writeFileSync("src/meta.ts", tscCode, "utf-8");
-  }
+  console.log("Update src/meta.ts file.");
+  const snapshot = fs.readFileSync("src/meta.ts", "utf-8");
+  fs.writeFileSync("src/meta.ts", tscCode, "utf-8");
+  return () => {
+    fs.writeFileSync("src/meta.ts", snapshot, "utf-8");
+  };
 };
 
 const main = async () => {
-  generateVersionTsFile();
+  const recovery = generateVersionTsFile();
 
   await Promise.all([
     shell("pnpm tsc -p tsconfig.esm.json -d --emitDeclarationOnly --outDir ./lib/\\$types"),
@@ -39,6 +41,7 @@ const main = async () => {
   });
 
   await copyPackageSet(exportsFiled);
+  recovery();
 };
 
 main().catch(error => {

@@ -377,9 +377,12 @@ If your changes are in line with the design concept, please submit a pull reques
 ```bash
 git clone https://github.com/Himenon/openapi-typescript-code-generator.git
 cd openapi-typescript-code-generator
-yarn
+pnpm i
 #### your change
-pnpm build && pnpm test
+pnpm build
+pnpm run test:code:gen
+pnpm run update:snapshot # if you changed
+pnpm run test
 ```
 
 ## Useful development tools
