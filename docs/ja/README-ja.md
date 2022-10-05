@@ -371,9 +371,12 @@ API 仕様書から TypeScript のコードへ変換するとき、参照関係�
 ```bash
 git clone https://github.com/Himenon/openapi-typescript-code-generator.git
 cd openapi-typescript-code-generator
-yarn
-# your change
-yarn build && yarn test
+pnpm i
+#### your change
+pnpm build
+pnpm run test:code:gen
+pnpm run update:snapshot # if you changed
+pnpm run test
 ```
 
 ### 便利な開発ツール
