@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.19.1"></a>
+## 0.19.1 (2022-10-06)
+
+
+### Bug Fixes
+
+* accessing nested object properties by reference ([#88](https://github.com/Himenon/openapi-typescript-code-generator/issues/88)) ([5279c58](https://github.com/Himenon/openapi-typescript-code-generator/commit/5279c58))
+
+
+
+
+
 <a name="0.19.0"></a>
 # 0.19.0 (2022-10-06)
 
