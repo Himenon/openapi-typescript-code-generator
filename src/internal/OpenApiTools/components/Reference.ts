@@ -142,14 +142,15 @@ export const generate = <T>(entryPoint: string, currentPoint: string, reference:
     targetPath = referencePoint.substring(fragmentIndex + 2);
   } else {
     const relativePathFromEntryPoint = path.relative(path.dirname(entryPoint), referencePoint); // components/hoge/fuga.yml
-    if (!relativePathFromEntryPoint.startsWith("components")) {
+    const pathArray: string[] = relativePathFromEntryPoint.split(path.sep); // ["components", "hoge", "fuga"]
+    if (pathArray[0] != "components") {
       throw new DevelopmentError(`targetPath is not start "components":\n${relativePathFromEntryPoint}`);
     }
 
     const ext = path.extname(relativePathFromEntryPoint); // .yml
-    targetPath = relativePathFromEntryPoint.substring(0, relativePathFromEntryPoint.length - ext.length); // components/hoge/fuga
+    targetPath = pathArray.join("/").substring(0, relativePathFromEntryPoint.length - ext.length); // components/hoge/fuga
   }
-  const pathArray: string[] = targetPath.split(path.sep); // ["components", "hoge", "fuga"]
+  const pathArray: string[] = targetPath.split("/"); // ["components", "hoge", "fuga"]
   const schemaName = pathArray[pathArray.length - 1]; // fuga
   const componentName = pathArray[0] === "components" ? pathArray[1] : "";
 
