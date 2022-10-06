@@ -35,7 +35,6 @@ jobs:
       - name: Test & Build
         run: |
           pnpm build
-          pnpm run test:code:gen
           pnpm test
         env:
           CI: true
