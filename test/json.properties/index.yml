@@ -1,0 +1,38 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: api.test.domain
+  description: Library test schema
+  license:
+    name: MIT
+
+servers:
+  - url: "http://dev.api.test.domain/"
+    description: Development Environment
+  - url: "https://api.test.domain/"
+    description: Production Environment
+
+tags:
+  - name: test
+
+components:
+  schemas:
+    Foo:
+      type: object
+      properties:
+        bar:
+          type: object
+          properties:
+            baz:
+              type: string
+            bazbaz:
+              type: object
+              properties:
+                hoge:
+                  type: number
+    Bar:
+      $ref: "#/components/schemas/Foo/properties/bar"
+    Baz:
+      $ref: "#/components/schemas/Bar/properties/baz"
+    Hoge:
+      $ref: "#/components/schemas/Bar/properties/bazbaz/properties/hoge"

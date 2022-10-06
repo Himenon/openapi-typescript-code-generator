@@ -1,5 +1,3 @@
-import DotProp from "dot-prop";
-
 import type { OpenApi } from "../../../types";
 import * as Logger from "../..//Logger";
 import { UnSupportError } from "../../Exception";
@@ -39,7 +37,7 @@ export const generateNamespace = (
               name: convertContext.escapeReferenceDeclarationText(maybeResolvedName),
             });
           }
-          const schema = DotProp.get(context.rootSchema, pathArray.join(".")) as any;
+          const schema = context.findSchemaByPathArray(pathArray);
           return ToTypeNode.convert(entryPoint, currentPoint, factory, schema, context, convertContext, { parent: schema });
         };
         return store.addStatement(`${basePath}/${name}`, {
@@ -82,7 +80,7 @@ export const generateNamespace = (
     const schema = InferredType.getInferredType(targetSchema);
     const path = `${basePath}/${name}`;
     if (!schema) {
-      // Schemaが特定できないためWarningを出力する
+      // Outputs Warning because Schema cannot be identified
       Logger.warn(`Warning: Schema could not be identified. Therefore, it is treated as any. ${name}`);
       return store.addStatement(
         path,

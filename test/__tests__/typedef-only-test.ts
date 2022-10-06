@@ -14,4 +14,9 @@ describe("Typedef only", () => {
     const text = Utils.replaceVersionInfo(generateCode);
     expect(text).toMatchSnapshot();
   });
+  test("Reference test that include fragments", () => {
+    const generateCode = fs.readFileSync("test/code/typedef-only/json.properties.ts", { encoding: "utf-8" });
+    const text = Utils.replaceVersionInfo(generateCode);
+    expect(text).toMatchSnapshot();
+  });
 });

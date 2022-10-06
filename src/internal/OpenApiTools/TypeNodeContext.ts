@@ -1,4 +1,5 @@
 import * as Path from "path";
+import DotProp from "dot-prop";
 
 import ts from "typescript";
 
@@ -8,6 +9,8 @@ import * as TypeScriptCodeGenerator from "../TsGenerator";
 import * as ConverterContext from "./ConverterContext";
 import * as ToTypeNode from "./toTypeNode";
 import type * as Walker from "./Walker";
+import * as Guard from "./Guard";
+import * as Reference from "./components/Reference";
 
 export interface ReferencePathSet {
   pathArray: string[];
@@ -93,6 +96,27 @@ export const create = (
     const { pathArray, base } = generatePath(entryPoint, currentPoint, referencePath);
     return calculateReferencePath(store, base, pathArray, converterContext);
   };
+  const findSchemaByPathArray = (
+    pathArray: string[],
+    remainPathArray: string[] = [],
+  ): OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition => {
+    const schema = DotProp.get<OpenApi.Schema>(rootSchema, pathArray.join("."));
+    if (!schema) {
+      return findSchemaByPathArray(pathArray.slice(0, pathArray.length - 1), [pathArray[pathArray.length - 1], ...remainPathArray]);
+    }
+    if (Guard.isReference(schema)) {
+      const target = Reference.generate(entryPoint, entryPoint, schema);
+      return findSchemaByPathArray(target.path.split("/"), remainPathArray);
+    }
+    if (remainPathArray.length) {
+      const lastSchema = DotProp.get<OpenApi.Schema>(schema, remainPathArray.join("."));
+      if (!lastSchema) {
+        throw new Error("Not found");
+      }
+      return lastSchema;
+    }
+    return schema;
+  };
   const setReferenceHandler: ToTypeNode.Context["setReferenceHandler"] = (currentPoint, reference) => {
     if (store.hasStatement(reference.path, ["interface", "typeAlias"])) {
       return;
@@ -107,6 +131,7 @@ export const create = (
           rootSchema,
           setReferenceHandler,
           resolveReferencePath,
+          findSchemaByPathArray,
         },
         converterContext,
       );
@@ -133,6 +158,7 @@ export const create = (
               rootSchema,
               setReferenceHandler,
               resolveReferencePath,
+              findSchemaByPathArray,
             },
             converterContext,
           ),
@@ -161,5 +187,10 @@ export const create = (
       }
     }
   };
-  return { rootSchema, setReferenceHandler: setReferenceHandler, resolveReferencePath: resolveReferencePath };
+  return {
+    rootSchema,
+    setReferenceHandler: setReferenceHandler,
+    resolveReferencePath: resolveReferencePath,
+    findSchemaByPathArray: findSchemaByPathArray,
+  };
 };
