@@ -1,4 +1,3 @@
-import DotProp from "dot-prop";
 import ts from "typescript";
 
 import type { OpenApi } from "../../types";
@@ -19,7 +18,9 @@ export interface ResolveReferencePath {
    * @example components.a.b.c.dの場合 ["a", "b", "c", "d"].length = 4
    **/
   depth: number;
-  /** 入力$refを分解したモノ（#は除く） */
+  /**
+   * Input $ref divided by / (except #)
+   */
   pathArray: string[];
 }
 
@@ -27,6 +28,7 @@ export interface Context {
   readonly rootSchema: OpenApi.Document;
   setReferenceHandler: (currentPoint: string, reference: Reference.Type<OpenApi.Schema | OpenApi.JSONSchemaDefinition>) => void;
   resolveReferencePath: (currentPoint: string, referencePath: string) => ResolveReferencePath;
+  findSchemaByPathArray: (paths: string[]) => OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition;
 }
 
 export type Convert = (
@@ -111,7 +113,7 @@ export const convert: Convert = (
       if (depth === 2) {
         return factory.TypeReferenceNode.create({ name: converterContext.escapeReferenceDeclarationText(maybeResolvedName) });
       } else {
-        const resolveSchema = DotProp.get(context.rootSchema, pathArray.join(".")) as any;
+        const resolveSchema = context.findSchemaByPathArray(pathArray);
         return convert(entryPoint, currentPoint, factory, resolveSchema, context, converterContext, { parent: schema });
       }
     }

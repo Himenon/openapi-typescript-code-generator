@@ -3,6 +3,7 @@ import * as Writer from "./writer";
 const main = () => {
   Writer.generateTypedefCodeOnly("test/api.test.domain/index.yml", "test/code/typedef-only/api.test.domain.ts", true);
   Writer.generateTypedefCodeOnly("test/infer.domain/index.yml", "test/code/typedef-only/infer.domain.ts", false);
+  Writer.generateTypedefCodeOnly("test/json.properties/index.yml", "test/code/typedef-only/json.properties.ts", false);
 
   Writer.generateTemplateCodeOnly("test/api.test.domain/index.yml", "test/code/template-only/api.test.domain.ts", true, { sync: false });
   Writer.generateTemplateCodeOnly("test/api.test.domain/index.yml", "test/code/template-only/sync-api.test.domain.ts", true, { sync: true });
