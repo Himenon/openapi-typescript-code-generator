@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.19.0"></a>
+# 0.19.0 (2022-10-06)
+
+
+### Features
+
+* supports fragment in remote reference ([#87](https://github.com/Himenon/openapi-typescript-code-generator/issues/87)) ([b5eb255](https://github.com/Himenon/openapi-typescript-code-generator/commit/b5eb255))
+
+
+
+
+
 <a name="0.18.3"></a>
 ## 0.18.3 (2022-05-06)
 
