@@ -36,3 +36,5 @@ components:
       $ref: "#/components/schemas/Bar/properties/baz"
     Hoge:
       $ref: "#/components/schemas/Bar/properties/bazbaz/properties/hoge"
+    BazBaz:
+      $ref: "#/components/schemas/Bar/properties/bazbaz"
