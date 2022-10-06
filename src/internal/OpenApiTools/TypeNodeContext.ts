@@ -105,15 +105,15 @@ export const create = (
       return findSchemaByPathArray(pathArray.slice(0, pathArray.length - 1), [pathArray[pathArray.length - 1], ...remainPathArray]);
     }
     if (Guard.isReference(schema)) {
-      const target = Reference.generate(entryPoint, entryPoint, schema);
-      return findSchemaByPathArray(target.path.split("/"), remainPathArray);
+      const ref = Reference.generate(entryPoint, entryPoint, schema);
+      return findSchemaByPathArray(ref.path.split("/"), remainPathArray);
     }
     if (remainPathArray.length) {
-      const lastSchema = DotProp.get<OpenApi.Schema>(schema, remainPathArray.join("."));
-      if (!lastSchema) {
+      const moreNestSchema = DotProp.get<OpenApi.Schema>(schema, remainPathArray.join("."));
+      if (!moreNestSchema) {
         throw new Error("Not found");
       }
-      return lastSchema;
+      return moreNestSchema;
     }
     return schema;
   };
