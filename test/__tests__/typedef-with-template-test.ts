@@ -29,4 +29,9 @@ describe("Typedef with template", () => {
     const text = Utils.replaceVersionInfo(generateCode);
     expect(text).toMatchSnapshot();
   });
+  test("remote-ref-access", () => {
+    const generateCode = fs.readFileSync(path.join(__dirname, "../code/typedef-with-template/remote-ref-access.ts"), { encoding: "utf-8" });
+    const text = Utils.replaceVersionInfo(generateCode);
+    expect(text).toMatchSnapshot();
+  });
 });
