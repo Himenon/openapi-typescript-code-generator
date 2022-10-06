@@ -24,6 +24,9 @@ const main = () => {
   Writer.generateTypedefWithTemplateCode("test/ref.access/index.yml", "test/code/typedef-with-template/ref-access.ts", false, {
     sync: false,
   });
+  Writer.generateTypedefWithTemplateCode("test/remote.ref.access/v1.yml", "test/code/typedef-with-template/remote-ref-access.ts", false, {
+    sync: false,
+  });
   Writer.generateTypedefWithTemplateCode("test/kubernetes/openapi-v1.18.5.json", "test/code/kubernetes/client-v1.18.5.ts", false, {
     sync: false,
   });
