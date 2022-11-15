@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.19.2"></a>
+## 0.19.2 (2022-11-15)
+
+
+### Bug Fixes
+
+* make nullable work in components/schema ([#92](https://github.com/Himenon/openapi-typescript-code-generator/issues/92)) ([33ded2b](https://github.com/Himenon/openapi-typescript-code-generator/commit/33ded2b))
+
+
+
+
+
 <a name="0.19.1"></a>
 ## 0.19.1 (2022-10-06)
 
