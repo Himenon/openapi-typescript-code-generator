@@ -137,17 +137,17 @@ export const generateNamespace = (
       );
     }
     if (Guard.isObjectSchema(schema)) {
-      return store.addStatement(
-        path,
-        {
-          kind: "interface",
-          name: convertContext.escapeDeclarationText(name),
-          value: Schema.generateInterface(entryPoint, currentPoint, factory, name, schema, context, convertContext),
-        },
-        { override: true },
-      );
-    }
-    if (Guard.isObjectSchema(schema)) {
+      if (schema.nullable) {
+        return store.addStatement(
+          path,
+          {
+            kind: "typeAlias",
+            name: convertContext.escapeDeclarationText(name),
+            value: Schema.generateTypeAliasDeclarationForObject(entryPoint, currentPoint, factory, name, schema, context, convertContext),
+          },
+          { override: true },
+        );
+      }
       return store.addStatement(
         path,
         {
