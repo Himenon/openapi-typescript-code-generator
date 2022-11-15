@@ -141,6 +141,13 @@ export namespace Schemas {
     export type RemoteRefArray = Schemas.Level1.Level2.Level3.RemoteArray;
     /** Level 4 */
     export type RemoteRefObject = Schemas.Level1.Level2.Level3.Level4.RemoteObject;
+    export type NullableString = string | null;
+    export type NullableBoolean = boolean | null;
+    export type NullableNumber = number | null;
+    export type NullableArray = string[] | null;
+    export type NullableObject = {
+        gt?: string;
+    } | null;
     export namespace DirectRef {
         export type ForHeader = string;
         export interface ForResponse {
