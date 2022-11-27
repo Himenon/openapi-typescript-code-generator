@@ -6,7 +6,7 @@ OpenAPI から抽出したパラメーターは自由に使うことができる
 
 ## Playground
 
-- [Playground](https://openapi-typescript-code-generator-playground.netlify.app)
+- [Playground](https://openapi-typescript-code-generator.netlify.app)
 
 ## DEMO
 
