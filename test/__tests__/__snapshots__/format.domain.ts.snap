@@ -29,13 +29,13 @@ export namespace Schemas {
     export type IntOrString = number | string;
     export type AandB = A & B;
 }
-export type HttpMethod = \\"GET\\" | \\"PUT\\" | \\"POST\\" | \\"DELETE\\" | \\"OPTIONS\\" | \\"HEAD\\" | \\"PATCH\\" | \\"TRACE\\";
+export type HttpMethod = "GET" | "PUT" | "POST" | "DELETE" | "OPTIONS" | "HEAD" | "PATCH" | "TRACE";
 export interface ObjectLike {
     [key: string]: any;
 }
 export interface QueryParameter {
     value: any;
-    style?: \\"form\\" | \\"spaceDelimited\\" | \\"pipeDelimited\\" | \\"deepObject\\";
+    style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
     explode: boolean;
 }
 export interface QueryParameters {
@@ -48,7 +48,7 @@ export interface ApiClient<RequestOption> {
 }
 export class Client<RequestOption> {
     private baseUrl: string;
-    constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) { this.baseUrl = baseUrl.replace(/\\\\/$/, \\"\\"); }
+    constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) { this.baseUrl = baseUrl.replace(/\\/$/, ""); }
 }
 "
 `;

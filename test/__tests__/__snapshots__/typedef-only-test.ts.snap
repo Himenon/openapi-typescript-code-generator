@@ -47,7 +47,7 @@ exports[`Typedef only typedef-api.test.domain 1`] = `
 export namespace Schemas {
     /** String Literal */
     export type StringType = string;
-    export type StringHasEnumType = \\"a\\" | \\"A\\" | \\"b\\" | \\"B\\" | \\"c\\" | \\"C\\";
+    export type StringHasEnumType = "a" | "A" | "b" | "B" | "c" | "C";
     export type StringDateType = string;
     export type StringDateTimeType = string;
     export type StringPasswordType = string;
@@ -193,19 +193,19 @@ export namespace Responses {
     /** Type Reference - string */
     export namespace LocalReferenceStringDateTimeType {
         export interface Content {
-            \\"application/json\\": Schemas.StringDateTimeType;
+            "application/json": Schemas.StringDateTimeType;
         }
     }
     /** Local Reference - object */
     export namespace LocalReferenceObjectType {
         export interface Content {
-            \\"application/json\\": Schemas.ObjectHasPropertiesType;
+            "application/json": Schemas.ObjectHasPropertiesType;
         }
     }
     /** Response -> Schema */
     export namespace ReferenceOfResponseToSchema {
         export interface Content {
-            \\"application/json\\": Schemas.DirectRef.ForResponse;
+            "application/json": Schemas.DirectRef.ForResponse;
         }
     }
     /** response A definition */
@@ -215,9 +215,9 @@ export namespace Responses {
             HeaderB: string;
         }
         export interface Content {
-            \\"application/json\\": {
+            "application/json": {
                 /** responseA description */
-                name?: \\"responseA\\";
+                name?: "responseA";
             };
         }
     }
@@ -225,8 +225,8 @@ export namespace Responses {
         /** response B definition */
         export namespace ResponseB {
             export interface Content {
-                \\"application/json\\": {
-                    name?: \\"responseB\\";
+                "application/json": {
+                    name?: "responseB";
                 };
             }
         }
@@ -234,8 +234,8 @@ export namespace Responses {
             /** response C definition */
             export namespace ResponseC {
                 export interface Content {
-                    \\"application/json\\": {
-                        name?: \\"responseC\\";
+                    "application/json": {
+                        name?: "responseC";
                     };
                 }
             }
@@ -249,9 +249,9 @@ export namespace Responses {
                 HeaderB: string;
             }
             export interface Content {
-                \\"application/json\\": {
+                "application/json": {
                     /** responseA description */
-                    name?: \\"responseA\\";
+                    name?: "responseA";
                 };
             }
         }
@@ -287,25 +287,25 @@ export namespace RequestBodies {
     /** Request body string type */
     export namespace StringType {
         export interface Content {
-            \\"application/json\\": string;
+            "application/json": string;
         }
     }
     /** Request body Local reference string type */
     export namespace LocalReferenceStringType {
         export interface Content {
-            \\"application/json\\": Schemas.StringHasEnumType;
+            "application/json": Schemas.StringHasEnumType;
         }
     }
     /** requestBodies -> schemas */
     export namespace ReferenceOfRequestBodyToSchema {
         export interface Content {
-            \\"application/json\\": Schemas.DirectRef.ForRequestBody;
+            "application/json": Schemas.DirectRef.ForRequestBody;
         }
     }
     /** Remote Request body A */
     export namespace RequestBodyA {
         export interface Content {
-            \\"application/json\\": {
+            "application/json": {
                 body?: string;
             };
         }
@@ -314,7 +314,7 @@ export namespace RequestBodies {
         /** Remote Request body B */
         export namespace RequestBodyB {
             export interface Content {
-                \\"application/json\\": {
+                "application/json": {
                     body?: string;
                 };
             }
@@ -323,7 +323,7 @@ export namespace RequestBodies {
             /** Remote Request body C */
             export namespace RequestBodyC {
                 export interface Content {
-                    \\"application/json\\": {
+                    "application/json": {
                         body?: string;
                     };
                 }
@@ -356,7 +356,7 @@ export namespace Schemas {
     export interface InferObject {
         filed?: string;
     }
-    export type InferStringEnum = \\"a\\" | \\"b\\" | \\"c\\";
+    export type InferStringEnum = "a" | "b" | "c";
     export type InferAnyNullable = null;
     export interface OptionalPropertiesAndAdditionalProperties {
         body?: {
