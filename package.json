@@ -56,6 +56,9 @@
     "watch": "pnpm ts ./scripts/watch.ts",
     "validate": "pnpm ts ./scripts/validate.ts"
   },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged"
+  },
   "resolutions": {
     "kind-of": "6.0.3",
     "node-fetch": "2.6.1"
@@ -64,7 +67,7 @@
     "@himenon/path-oriented-data-structure": "0.2.1",
     "@types/json-schema": "7.0.11",
     "ajv": "8.11.2",
-    "dot-prop": "7.2.0",
+    "dot-prop": "6.0.1",
     "js-yaml": "4.1.0"
   },
   "devDependencies": {
@@ -82,23 +85,23 @@
     "@typescript-eslint/parser": "5.48.0",
     "chokidar": "3.5.3",
     "conventional-changelog-angular-all": "1.7.0",
-    "cpy": "9.0.1",
+    "cpy": "8.1.2",
     "dependency-cruiser": "12.3.0",
     "eslint": "8.31.0",
     "eslint-config-prettier": "8.6.0",
     "eslint-plugin-import": "2.26.0",
-    "execa": "6.1.0",
+    "execa": "5.0.0",
     "generate-changelog": "1.8.0",
     "import-sort-style-module": "6.0.0",
     "jest": "29.3.1",
     "jest-cli": "29.3.1",
-    "lerna": "6.3.0",
+    "lerna": "4.0.0",
     "lint-staged": "13.1.0",
     "npm-run-all": "4.1.5",
     "openapi-schema-validator": "12.1.0",
     "prettier": "2.8.1",
     "prettier-plugin-import-sort": "0.0.7",
-    "read-pkg-up": "^9.1.0",
+    "read-pkg-up": "^7.0.1",
     "rimraf": "3.0.2",
     "simple-git-hooks": "^2.8.1",
     "sort-package-json": "2.1.0",
@@ -117,8 +120,5 @@
       "style": "module",
       "parser": "typescript"
     }
-  },
-  "simple-git-hooks": {
-    "pre-commit": "pnpm lint-staged"
   }
 }
