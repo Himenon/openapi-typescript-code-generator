@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.21.0"></a>
+# 0.21.0 (2023-01-03)
+
+
+### Features
+
+* support typescript >= 4.8 ([#96](https://github.com/Himenon/openapi-typescript-code-generator/issues/96)) ([f0e6d70](https://github.com/Himenon/openapi-typescript-code-generator/commit/f0e6d70))
+
+
+### BREAKING CHANGES
+
+* require typescript >= 4.8
+
+
+
+
+
 <a name="0.20.0"></a>
 # 0.20.0 (2023-01-03)
 
