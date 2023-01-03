@@ -13,7 +13,7 @@ exports[`Typedef with template api.test.domain 1`] = `
 export namespace Schemas {
     /** String Literal */
     export type StringType = string;
-    export type StringHasEnumType = \\"a\\" | \\"A\\" | \\"b\\" | \\"B\\" | \\"c\\" | \\"C\\";
+    export type StringHasEnumType = "a" | "A" | "b" | "B" | "c" | "C";
     export type StringDateType = string;
     export type StringDateTimeType = string;
     export type StringPasswordType = string;
@@ -159,19 +159,19 @@ export namespace Responses {
     /** Type Reference - string */
     export namespace LocalReferenceStringDateTimeType {
         export interface Content {
-            \\"application/json\\": Schemas.StringDateTimeType;
+            "application/json": Schemas.StringDateTimeType;
         }
     }
     /** Local Reference - object */
     export namespace LocalReferenceObjectType {
         export interface Content {
-            \\"application/json\\": Schemas.ObjectHasPropertiesType;
+            "application/json": Schemas.ObjectHasPropertiesType;
         }
     }
     /** Response -> Schema */
     export namespace ReferenceOfResponseToSchema {
         export interface Content {
-            \\"application/json\\": Schemas.DirectRef.ForResponse;
+            "application/json": Schemas.DirectRef.ForResponse;
         }
     }
     /** response A definition */
@@ -181,9 +181,9 @@ export namespace Responses {
             HeaderB: string;
         }
         export interface Content {
-            \\"application/json\\": {
+            "application/json": {
                 /** responseA description */
-                name?: \\"responseA\\";
+                name?: "responseA";
             };
         }
     }
@@ -191,8 +191,8 @@ export namespace Responses {
         /** response B definition */
         export namespace ResponseB {
             export interface Content {
-                \\"application/json\\": {
-                    name?: \\"responseB\\";
+                "application/json": {
+                    name?: "responseB";
                 };
             }
         }
@@ -200,8 +200,8 @@ export namespace Responses {
             /** response C definition */
             export namespace ResponseC {
                 export interface Content {
-                    \\"application/json\\": {
-                        name?: \\"responseC\\";
+                    "application/json": {
+                        name?: "responseC";
                     };
                 }
             }
@@ -215,9 +215,9 @@ export namespace Responses {
                 HeaderB: string;
             }
             export interface Content {
-                \\"application/json\\": {
+                "application/json": {
                     /** responseA description */
-                    name?: \\"responseA\\";
+                    name?: "responseA";
                 };
             }
         }
@@ -253,25 +253,25 @@ export namespace RequestBodies {
     /** Request body string type */
     export namespace StringType {
         export interface Content {
-            \\"application/json\\": string;
+            "application/json": string;
         }
     }
     /** Request body Local reference string type */
     export namespace LocalReferenceStringType {
         export interface Content {
-            \\"application/json\\": Schemas.StringHasEnumType;
+            "application/json": Schemas.StringHasEnumType;
         }
     }
     /** requestBodies -> schemas */
     export namespace ReferenceOfRequestBodyToSchema {
         export interface Content {
-            \\"application/json\\": Schemas.DirectRef.ForRequestBody;
+            "application/json": Schemas.DirectRef.ForRequestBody;
         }
     }
     /** Remote Request body A */
     export namespace RequestBodyA {
         export interface Content {
-            \\"application/json\\": {
+            "application/json": {
                 body?: string;
             };
         }
@@ -280,7 +280,7 @@ export namespace RequestBodies {
         /** Remote Request body B */
         export namespace RequestBodyB {
             export interface Content {
-                \\"application/json\\": {
+                "application/json": {
                     body?: string;
                 };
             }
@@ -289,7 +289,7 @@ export namespace RequestBodies {
             /** Remote Request body C */
             export namespace RequestBodyC {
                 export interface Content {
-                    \\"application/json\\": {
+                    "application/json": {
                         body?: string;
                     };
                 }
@@ -302,7 +302,7 @@ export interface Parameter$getIncludeLocalReference {
     StringQuery: string;
 }
 export interface Response$getIncludeLocalReference$Status$200 {
-    \\"application/json\\": {
+    "application/json": {
         meta: string;
     };
 }
@@ -311,34 +311,34 @@ export interface Parameter$getIncludeRemoteReference {
     IncludeRemoteReference: number;
 }
 export interface RequestBody$getIncludeRemoteReference {
-    \\"application/json\\": string;
+    "application/json": string;
 }
 export interface Parameter$getFullRemoteReference {
     /** Full Remote Reference */
     FullRemoteReferenceQuery: Schemas.FullRemoteReference.ForParameters;
 }
 export interface Response$getFullRemoteReference$Status$200 {
-    \\"application/json\\": {
+    "application/json": {
         /** responseA description */
-        name?: \\"responseA\\";
+        name?: "responseA";
     };
 }
 export interface Response$i$have$dot$Status$200 {
-    \\"application/json\\": {
+    "application/json": {
         books?: Schemas.Item[];
     };
 }
 export interface Response$getReferenceItems$Status$200 {
-    \\"application/json\\": {
+    "application/json": {
         books?: Schemas.Item[];
     };
 }
 export interface Parameter$searchBook {
-    \\"book.name\\": string;
-    \\"from.publishedAt\\"?: number;
+    "book.name": string;
+    "from.publishedAt"?: number;
 }
 export interface Response$searchBook$Status$200 {
-    \\"application/json\\": {
+    "application/json": {
         id?: number;
         bookTitle?: string;
     };
@@ -348,15 +348,15 @@ export interface Parameter$getBookById {
     id: string;
 }
 export interface Response$getBookById$Status$200 {
-    \\"application/json\\": Schemas.ObjectHasPropertiesType;
+    "application/json": Schemas.ObjectHasPropertiesType;
 }
 export interface Parameter$deleteBook {
     /** Number Book ID */
     id: number;
 }
 export interface Response$deleteBook$Status$200 {
-    \\"application/json\\": {
-        status?: \\"ok\\";
+    "application/json": {
+        status?: "ok";
     };
 }
 export type ResponseContentType$getIncludeLocalReference = keyof Response$getIncludeLocalReference$Status$200;
@@ -366,7 +366,7 @@ export interface Params$getIncludeLocalReference {
 export type RequestContentType$getIncludeRemoteReference = keyof RequestBody$getIncludeRemoteReference;
 export interface Params$getIncludeRemoteReference {
     parameter: Parameter$getIncludeRemoteReference;
-    requestBody: RequestBody$getIncludeRemoteReference[\\"application/json\\"];
+    requestBody: RequestBody$getIncludeRemoteReference["application/json"];
 }
 export type ResponseContentType$getFullRemoteReference = keyof Response$getFullRemoteReference$Status$200;
 export interface Params$getFullRemoteReference {
@@ -386,13 +386,13 @@ export type ResponseContentType$deleteBook = keyof Response$deleteBook$Status$20
 export interface Params$deleteBook {
     parameter: Parameter$deleteBook;
 }
-export type HttpMethod = \\"GET\\" | \\"PUT\\" | \\"POST\\" | \\"DELETE\\" | \\"OPTIONS\\" | \\"HEAD\\" | \\"PATCH\\" | \\"TRACE\\";
+export type HttpMethod = "GET" | "PUT" | "POST" | "DELETE" | "OPTIONS" | "HEAD" | "PATCH" | "TRACE";
 export interface ObjectLike {
     [key: string]: any;
 }
 export interface QueryParameter {
     value: any;
-    style?: \\"form\\" | \\"spaceDelimited\\" | \\"pipeDelimited\\" | \\"deepObject\\";
+    style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
     explode: boolean;
 }
 export interface QueryParameters {
@@ -414,74 +414,74 @@ export interface ApiClient<RequestOption> {
 }
 export class Client<RequestOption> {
     private baseUrl: string;
-    constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) { this.baseUrl = baseUrl.replace(/\\\\/$/, \\"\\"); }
-    public async getIncludeLocalReference(params: Params$getIncludeLocalReference, option?: RequestOption): Promise<Response$getIncludeLocalReference$Status$200[\\"application/json\\"]> {
+    constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) { this.baseUrl = baseUrl.replace(/\\/$/, ""); }
+    public async getIncludeLocalReference(params: Params$getIncludeLocalReference, option?: RequestOption): Promise<Response$getIncludeLocalReference$Status$200["application/json"]> {
         const url = this.baseUrl + \`/get/IncludeLocalReference\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
         const queryParameters: QueryParameters = {
             StringQuery: { value: params.parameter.StringQuery, explode: false }
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, queryParameters, option);
+        return this.apiClient.request("GET", url, headers, undefined, queryParameters, option);
     }
     public async getIncludeRemoteReference(params: Params$getIncludeRemoteReference, option?: RequestOption): Promise<void> {
         const url = this.baseUrl + \`/get/IncludeRemoteReference\`;
         const headers = {
-            \\"Content-Type\\": \\"application/json\\"
+            "Content-Type": "application/json"
         };
         const queryParameters: QueryParameters = {
             IncludeRemoteReference: { value: params.parameter.IncludeRemoteReference, explode: false }
         };
-        return this.apiClient.request(\\"GET\\", url, headers, params.requestBody, queryParameters, option);
+        return this.apiClient.request("GET", url, headers, params.requestBody, queryParameters, option);
     }
-    public async getFullRemoteReference(params: Params$getFullRemoteReference, option?: RequestOption): Promise<Response$getFullRemoteReference$Status$200[\\"application/json\\"]> {
+    public async getFullRemoteReference(params: Params$getFullRemoteReference, option?: RequestOption): Promise<Response$getFullRemoteReference$Status$200["application/json"]> {
         const url = this.baseUrl + \`/FullRemoteReference\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
         const queryParameters: QueryParameters = {
             FullRemoteReferenceQuery: { value: params.parameter.FullRemoteReferenceQuery, explode: false }
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, queryParameters, option);
+        return this.apiClient.request("GET", url, headers, undefined, queryParameters, option);
     }
-    public async i$have$dot(option?: RequestOption): Promise<Response$i$have$dot$Status$200[\\"application/json\\"]> {
+    public async i$have$dot(option?: RequestOption): Promise<Response$i$have$dot$Status$200["application/json"]> {
         const url = this.baseUrl + \`/i/have/dot\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
+        return this.apiClient.request("GET", url, headers, undefined, undefined, option);
     }
-    public async getReferenceItems(option?: RequestOption): Promise<Response$getReferenceItems$Status$200[\\"application/json\\"]> {
+    public async getReferenceItems(option?: RequestOption): Promise<Response$getReferenceItems$Status$200["application/json"]> {
         const url = this.baseUrl + \`/get/reference/items\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
+        return this.apiClient.request("GET", url, headers, undefined, undefined, option);
     }
-    public async searchBook(params: Params$searchBook, option?: RequestOption): Promise<Response$searchBook$Status$200[\\"application/json\\"]> {
-        const url = this.baseUrl + \`/get/search/\${params.parameter[\\"book.name\\"]}\`;
+    public async searchBook(params: Params$searchBook, option?: RequestOption): Promise<Response$searchBook$Status$200["application/json"]> {
+        const url = this.baseUrl + \`/get/search/\${params.parameter["book.name"]}\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
         const queryParameters: QueryParameters = {
-            \\"from.publishedAt\\": { value: params.parameter[\\"from.publishedAt\\"], explode: false }
+            "from.publishedAt": { value: params.parameter["from.publishedAt"], explode: false }
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, queryParameters, option);
+        return this.apiClient.request("GET", url, headers, undefined, queryParameters, option);
     }
-    public async getBookById(params: Params$getBookById, option?: RequestOption): Promise<Response$getBookById$Status$200[\\"application/json\\"]> {
+    public async getBookById(params: Params$getBookById, option?: RequestOption): Promise<Response$getBookById$Status$200["application/json"]> {
         const url = this.baseUrl + \`/get/books/\${params.parameter.id}\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
+        return this.apiClient.request("GET", url, headers, undefined, undefined, option);
     }
-    public async deleteBook(params: Params$deleteBook, option?: RequestOption): Promise<Response$deleteBook$Status$200[\\"application/json\\"]> {
+    public async deleteBook(params: Params$deleteBook, option?: RequestOption): Promise<Response$deleteBook$Status$200["application/json"]> {
         const url = this.baseUrl + \`/get/books/\${params.parameter.id}\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"DELETE\\", url, headers, undefined, undefined, option);
+        return this.apiClient.request("DELETE", url, headers, undefined, undefined, option);
     }
 }
 "
@@ -498,15 +498,15 @@ exports[`Typedef with template api.v2.domain 1`] = `
 
 
 export namespace Schemas {
-    export type Message = \\"hello\\" | \\"world\\";
-    export type QueryParams = \\"a\\" | \\"b\\" | \\"c\\";
+    export type Message = "hello" | "world";
+    export type QueryParams = "a" | "b" | "c";
 }
 export interface Parameter$getHelloWorld {
     /** query word */
     word: Schemas.QueryParams;
 }
 export interface Response$getHelloWorld$Status$200 {
-    \\"application/json\\": {
+    "application/json": {
         message?: Schemas.Message;
     };
 }
@@ -514,13 +514,13 @@ export type ResponseContentType$getHelloWorld = keyof Response$getHelloWorld$Sta
 export interface Params$getHelloWorld {
     parameter: Parameter$getHelloWorld;
 }
-export type HttpMethod = \\"GET\\" | \\"PUT\\" | \\"POST\\" | \\"DELETE\\" | \\"OPTIONS\\" | \\"HEAD\\" | \\"PATCH\\" | \\"TRACE\\";
+export type HttpMethod = "GET" | "PUT" | "POST" | "DELETE" | "OPTIONS" | "HEAD" | "PATCH" | "TRACE";
 export interface ObjectLike {
     [key: string]: any;
 }
 export interface QueryParameter {
     value: any;
-    style?: \\"form\\" | \\"spaceDelimited\\" | \\"pipeDelimited\\" | \\"deepObject\\";
+    style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
     explode: boolean;
 }
 export interface QueryParameters {
@@ -535,16 +535,16 @@ export interface ApiClient<RequestOption> {
 }
 export class Client<RequestOption> {
     private baseUrl: string;
-    constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) { this.baseUrl = baseUrl.replace(/\\\\/$/, \\"\\"); }
-    public async getHelloWorld(params: Params$getHelloWorld, option?: RequestOption): Promise<Response$getHelloWorld$Status$200[\\"application/json\\"]> {
+    constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) { this.baseUrl = baseUrl.replace(/\\/$/, ""); }
+    public async getHelloWorld(params: Params$getHelloWorld, option?: RequestOption): Promise<Response$getHelloWorld$Status$200["application/json"]> {
         const url = this.baseUrl + \`/hello/world\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
         const queryParameters: QueryParameters = {
             word: { value: params.parameter.word, explode: false }
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, queryParameters, option);
+        return this.apiClient.request("GET", url, headers, undefined, queryParameters, option);
     }
 }
 "
@@ -563,7 +563,7 @@ exports[`Typedef with template async-api.test.domain 1`] = `
 export namespace Schemas {
     /** String Literal */
     export type StringType = string;
-    export type StringHasEnumType = \\"a\\" | \\"A\\" | \\"b\\" | \\"B\\" | \\"c\\" | \\"C\\";
+    export type StringHasEnumType = "a" | "A" | "b" | "B" | "c" | "C";
     export type StringDateType = string;
     export type StringDateTimeType = string;
     export type StringPasswordType = string;
@@ -709,19 +709,19 @@ export namespace Responses {
     /** Type Reference - string */
     export namespace LocalReferenceStringDateTimeType {
         export interface Content {
-            \\"application/json\\": Schemas.StringDateTimeType;
+            "application/json": Schemas.StringDateTimeType;
         }
     }
     /** Local Reference - object */
     export namespace LocalReferenceObjectType {
         export interface Content {
-            \\"application/json\\": Schemas.ObjectHasPropertiesType;
+            "application/json": Schemas.ObjectHasPropertiesType;
         }
     }
     /** Response -> Schema */
     export namespace ReferenceOfResponseToSchema {
         export interface Content {
-            \\"application/json\\": Schemas.DirectRef.ForResponse;
+            "application/json": Schemas.DirectRef.ForResponse;
         }
     }
     /** response A definition */
@@ -731,9 +731,9 @@ export namespace Responses {
             HeaderB: string;
         }
         export interface Content {
-            \\"application/json\\": {
+            "application/json": {
                 /** responseA description */
-                name?: \\"responseA\\";
+                name?: "responseA";
             };
         }
     }
@@ -741,8 +741,8 @@ export namespace Responses {
         /** response B definition */
         export namespace ResponseB {
             export interface Content {
-                \\"application/json\\": {
-                    name?: \\"responseB\\";
+                "application/json": {
+                    name?: "responseB";
                 };
             }
         }
@@ -750,8 +750,8 @@ export namespace Responses {
             /** response C definition */
             export namespace ResponseC {
                 export interface Content {
-                    \\"application/json\\": {
-                        name?: \\"responseC\\";
+                    "application/json": {
+                        name?: "responseC";
                     };
                 }
             }
@@ -765,9 +765,9 @@ export namespace Responses {
                 HeaderB: string;
             }
             export interface Content {
-                \\"application/json\\": {
+                "application/json": {
                     /** responseA description */
-                    name?: \\"responseA\\";
+                    name?: "responseA";
                 };
             }
         }
@@ -803,25 +803,25 @@ export namespace RequestBodies {
     /** Request body string type */
     export namespace StringType {
         export interface Content {
-            \\"application/json\\": string;
+            "application/json": string;
         }
     }
     /** Request body Local reference string type */
     export namespace LocalReferenceStringType {
         export interface Content {
-            \\"application/json\\": Schemas.StringHasEnumType;
+            "application/json": Schemas.StringHasEnumType;
         }
     }
     /** requestBodies -> schemas */
     export namespace ReferenceOfRequestBodyToSchema {
         export interface Content {
-            \\"application/json\\": Schemas.DirectRef.ForRequestBody;
+            "application/json": Schemas.DirectRef.ForRequestBody;
         }
     }
     /** Remote Request body A */
     export namespace RequestBodyA {
         export interface Content {
-            \\"application/json\\": {
+            "application/json": {
                 body?: string;
             };
         }
@@ -830,7 +830,7 @@ export namespace RequestBodies {
         /** Remote Request body B */
         export namespace RequestBodyB {
             export interface Content {
-                \\"application/json\\": {
+                "application/json": {
                     body?: string;
                 };
             }
@@ -839,7 +839,7 @@ export namespace RequestBodies {
             /** Remote Request body C */
             export namespace RequestBodyC {
                 export interface Content {
-                    \\"application/json\\": {
+                    "application/json": {
                         body?: string;
                     };
                 }
@@ -852,7 +852,7 @@ export interface Parameter$getIncludeLocalReference {
     StringQuery: string;
 }
 export interface Response$getIncludeLocalReference$Status$200 {
-    \\"application/json\\": {
+    "application/json": {
         meta: string;
     };
 }
@@ -861,34 +861,34 @@ export interface Parameter$getIncludeRemoteReference {
     IncludeRemoteReference: number;
 }
 export interface RequestBody$getIncludeRemoteReference {
-    \\"application/json\\": string;
+    "application/json": string;
 }
 export interface Parameter$getFullRemoteReference {
     /** Full Remote Reference */
     FullRemoteReferenceQuery: Schemas.FullRemoteReference.ForParameters;
 }
 export interface Response$getFullRemoteReference$Status$200 {
-    \\"application/json\\": {
+    "application/json": {
         /** responseA description */
-        name?: \\"responseA\\";
+        name?: "responseA";
     };
 }
 export interface Response$i$have$dot$Status$200 {
-    \\"application/json\\": {
+    "application/json": {
         books?: Schemas.Item[];
     };
 }
 export interface Response$getReferenceItems$Status$200 {
-    \\"application/json\\": {
+    "application/json": {
         books?: Schemas.Item[];
     };
 }
 export interface Parameter$searchBook {
-    \\"book.name\\": string;
-    \\"from.publishedAt\\"?: number;
+    "book.name": string;
+    "from.publishedAt"?: number;
 }
 export interface Response$searchBook$Status$200 {
-    \\"application/json\\": {
+    "application/json": {
         id?: number;
         bookTitle?: string;
     };
@@ -898,15 +898,15 @@ export interface Parameter$getBookById {
     id: string;
 }
 export interface Response$getBookById$Status$200 {
-    \\"application/json\\": Schemas.ObjectHasPropertiesType;
+    "application/json": Schemas.ObjectHasPropertiesType;
 }
 export interface Parameter$deleteBook {
     /** Number Book ID */
     id: number;
 }
 export interface Response$deleteBook$Status$200 {
-    \\"application/json\\": {
-        status?: \\"ok\\";
+    "application/json": {
+        status?: "ok";
     };
 }
 export type ResponseContentType$getIncludeLocalReference = keyof Response$getIncludeLocalReference$Status$200;
@@ -916,7 +916,7 @@ export interface Params$getIncludeLocalReference {
 export type RequestContentType$getIncludeRemoteReference = keyof RequestBody$getIncludeRemoteReference;
 export interface Params$getIncludeRemoteReference {
     parameter: Parameter$getIncludeRemoteReference;
-    requestBody: RequestBody$getIncludeRemoteReference[\\"application/json\\"];
+    requestBody: RequestBody$getIncludeRemoteReference["application/json"];
 }
 export type ResponseContentType$getFullRemoteReference = keyof Response$getFullRemoteReference$Status$200;
 export interface Params$getFullRemoteReference {
@@ -936,13 +936,13 @@ export type ResponseContentType$deleteBook = keyof Response$deleteBook$Status$20
 export interface Params$deleteBook {
     parameter: Parameter$deleteBook;
 }
-export type HttpMethod = \\"GET\\" | \\"PUT\\" | \\"POST\\" | \\"DELETE\\" | \\"OPTIONS\\" | \\"HEAD\\" | \\"PATCH\\" | \\"TRACE\\";
+export type HttpMethod = "GET" | "PUT" | "POST" | "DELETE" | "OPTIONS" | "HEAD" | "PATCH" | "TRACE";
 export interface ObjectLike {
     [key: string]: any;
 }
 export interface QueryParameter {
     value: any;
-    style?: \\"form\\" | \\"spaceDelimited\\" | \\"pipeDelimited\\" | \\"deepObject\\";
+    style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
     explode: boolean;
 }
 export interface QueryParameters {
@@ -964,74 +964,74 @@ export interface ApiClient<RequestOption> {
 }
 export class Client<RequestOption> {
     private baseUrl: string;
-    constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) { this.baseUrl = baseUrl.replace(/\\\\/$/, \\"\\"); }
-    public getIncludeLocalReference(params: Params$getIncludeLocalReference, option?: RequestOption): Response$getIncludeLocalReference$Status$200[\\"application/json\\"] {
+    constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) { this.baseUrl = baseUrl.replace(/\\/$/, ""); }
+    public getIncludeLocalReference(params: Params$getIncludeLocalReference, option?: RequestOption): Response$getIncludeLocalReference$Status$200["application/json"] {
         const url = this.baseUrl + \`/get/IncludeLocalReference\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
         const queryParameters: QueryParameters = {
             StringQuery: { value: params.parameter.StringQuery, explode: false }
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, queryParameters, option);
+        return this.apiClient.request("GET", url, headers, undefined, queryParameters, option);
     }
     public getIncludeRemoteReference(params: Params$getIncludeRemoteReference, option?: RequestOption): void {
         const url = this.baseUrl + \`/get/IncludeRemoteReference\`;
         const headers = {
-            \\"Content-Type\\": \\"application/json\\"
+            "Content-Type": "application/json"
         };
         const queryParameters: QueryParameters = {
             IncludeRemoteReference: { value: params.parameter.IncludeRemoteReference, explode: false }
         };
-        return this.apiClient.request(\\"GET\\", url, headers, params.requestBody, queryParameters, option);
+        return this.apiClient.request("GET", url, headers, params.requestBody, queryParameters, option);
     }
-    public getFullRemoteReference(params: Params$getFullRemoteReference, option?: RequestOption): Response$getFullRemoteReference$Status$200[\\"application/json\\"] {
+    public getFullRemoteReference(params: Params$getFullRemoteReference, option?: RequestOption): Response$getFullRemoteReference$Status$200["application/json"] {
         const url = this.baseUrl + \`/FullRemoteReference\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
         const queryParameters: QueryParameters = {
             FullRemoteReferenceQuery: { value: params.parameter.FullRemoteReferenceQuery, explode: false }
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, queryParameters, option);
+        return this.apiClient.request("GET", url, headers, undefined, queryParameters, option);
     }
-    public i$have$dot(option?: RequestOption): Response$i$have$dot$Status$200[\\"application/json\\"] {
+    public i$have$dot(option?: RequestOption): Response$i$have$dot$Status$200["application/json"] {
         const url = this.baseUrl + \`/i/have/dot\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
+        return this.apiClient.request("GET", url, headers, undefined, undefined, option);
     }
-    public getReferenceItems(option?: RequestOption): Response$getReferenceItems$Status$200[\\"application/json\\"] {
+    public getReferenceItems(option?: RequestOption): Response$getReferenceItems$Status$200["application/json"] {
         const url = this.baseUrl + \`/get/reference/items\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
+        return this.apiClient.request("GET", url, headers, undefined, undefined, option);
     }
-    public searchBook(params: Params$searchBook, option?: RequestOption): Response$searchBook$Status$200[\\"application/json\\"] {
-        const url = this.baseUrl + \`/get/search/\${params.parameter[\\"book.name\\"]}\`;
+    public searchBook(params: Params$searchBook, option?: RequestOption): Response$searchBook$Status$200["application/json"] {
+        const url = this.baseUrl + \`/get/search/\${params.parameter["book.name"]}\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
         const queryParameters: QueryParameters = {
-            \\"from.publishedAt\\": { value: params.parameter[\\"from.publishedAt\\"], explode: false }
+            "from.publishedAt": { value: params.parameter["from.publishedAt"], explode: false }
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, queryParameters, option);
+        return this.apiClient.request("GET", url, headers, undefined, queryParameters, option);
     }
-    public getBookById(params: Params$getBookById, option?: RequestOption): Response$getBookById$Status$200[\\"application/json\\"] {
+    public getBookById(params: Params$getBookById, option?: RequestOption): Response$getBookById$Status$200["application/json"] {
         const url = this.baseUrl + \`/get/books/\${params.parameter.id}\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
+        return this.apiClient.request("GET", url, headers, undefined, undefined, option);
     }
-    public deleteBook(params: Params$deleteBook, option?: RequestOption): Response$deleteBook$Status$200[\\"application/json\\"] {
+    public deleteBook(params: Params$deleteBook, option?: RequestOption): Response$deleteBook$Status$200["application/json"] {
         const url = this.baseUrl + \`/get/books/\${params.parameter.id}\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"DELETE\\", url, headers, undefined, undefined, option);
+        return this.apiClient.request("DELETE", url, headers, undefined, undefined, option);
     }
 }
 "
@@ -1059,7 +1059,7 @@ export namespace Schemas {
     export interface InferObject {
         filed?: string;
     }
-    export type InferStringEnum = \\"a\\" | \\"b\\" | \\"c\\";
+    export type InferStringEnum = "a" | "b" | "c";
     export type InferAnyNullable = null;
     export interface OptionalPropertiesAndAdditionalProperties {
         body?: {
@@ -1070,13 +1070,13 @@ export namespace Schemas {
         };
     }
 }
-export type HttpMethod = \\"GET\\" | \\"PUT\\" | \\"POST\\" | \\"DELETE\\" | \\"OPTIONS\\" | \\"HEAD\\" | \\"PATCH\\" | \\"TRACE\\";
+export type HttpMethod = "GET" | "PUT" | "POST" | "DELETE" | "OPTIONS" | "HEAD" | "PATCH" | "TRACE";
 export interface ObjectLike {
     [key: string]: any;
 }
 export interface QueryParameter {
     value: any;
-    style?: \\"form\\" | \\"spaceDelimited\\" | \\"pipeDelimited\\" | \\"deepObject\\";
+    style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
     explode: boolean;
 }
 export interface QueryParameters {
@@ -1089,7 +1089,7 @@ export interface ApiClient<RequestOption> {
 }
 export class Client<RequestOption> {
     private baseUrl: string;
-    constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) { this.baseUrl = baseUrl.replace(/\\\\/$/, \\"\\"); }
+    constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) { this.baseUrl = baseUrl.replace(/\\/$/, ""); }
 }
 "
 `;
@@ -1132,21 +1132,21 @@ export interface Parameter$getBook {
     id: string;
 }
 export interface Response$getBook$Status$200 {
-    \\"application/json\\": Schemas.Book;
+    "application/json": Schemas.Book;
 }
 export interface Parameter$getDescription {
     /** Book ID */
     id: string;
 }
 export interface Response$getDescription$Status$200 {
-    \\"application/json\\": string;
+    "application/json": string;
 }
 export interface Parameter$getAuthor {
     /** Author Id */
     id: string;
 }
 export interface Response$getAuthor$Status$200 {
-    \\"application/json\\": {
+    "application/json": {
         name?: string;
         age?: string;
     };
@@ -1156,7 +1156,7 @@ export interface Parameter$getPublisher {
     id: string;
 }
 export interface Response$getPublisher$Status$200 {
-    \\"application/json\\": Schemas.Publisher;
+    "application/json": Schemas.Publisher;
 }
 export type ResponseContentType$getBook = keyof Response$getBook$Status$200;
 export interface Params$getBook {
@@ -1174,13 +1174,13 @@ export type ResponseContentType$getPublisher = keyof Response$getPublisher$Statu
 export interface Params$getPublisher {
     parameter: Parameter$getPublisher;
 }
-export type HttpMethod = \\"GET\\" | \\"PUT\\" | \\"POST\\" | \\"DELETE\\" | \\"OPTIONS\\" | \\"HEAD\\" | \\"PATCH\\" | \\"TRACE\\";
+export type HttpMethod = "GET" | "PUT" | "POST" | "DELETE" | "OPTIONS" | "HEAD" | "PATCH" | "TRACE";
 export interface ObjectLike {
     [key: string]: any;
 }
 export interface QueryParameter {
     value: any;
-    style?: \\"form\\" | \\"spaceDelimited\\" | \\"pipeDelimited\\" | \\"deepObject\\";
+    style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
     explode: boolean;
 }
 export interface QueryParameters {
@@ -1198,34 +1198,34 @@ export interface ApiClient<RequestOption> {
 }
 export class Client<RequestOption> {
     private baseUrl: string;
-    constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) { this.baseUrl = baseUrl.replace(/\\\\/$/, \\"\\"); }
-    public async getBook(params: Params$getBook, option?: RequestOption): Promise<Response$getBook$Status$200[\\"application/json\\"]> {
+    constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) { this.baseUrl = baseUrl.replace(/\\/$/, ""); }
+    public async getBook(params: Params$getBook, option?: RequestOption): Promise<Response$getBook$Status$200["application/json"]> {
         const url = this.baseUrl + \`/get/book/\${params.parameter.id}\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
+        return this.apiClient.request("GET", url, headers, undefined, undefined, option);
     }
-    public async getDescription(params: Params$getDescription, option?: RequestOption): Promise<Response$getDescription$Status$200[\\"application/json\\"]> {
+    public async getDescription(params: Params$getDescription, option?: RequestOption): Promise<Response$getDescription$Status$200["application/json"]> {
         const url = this.baseUrl + \`/get/book/\${params.parameter.id}/description\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
+        return this.apiClient.request("GET", url, headers, undefined, undefined, option);
     }
-    public async getAuthor(params: Params$getAuthor, option?: RequestOption): Promise<Response$getAuthor$Status$200[\\"application/json\\"]> {
+    public async getAuthor(params: Params$getAuthor, option?: RequestOption): Promise<Response$getAuthor$Status$200["application/json"]> {
         const url = this.baseUrl + \`/get/author/\${params.parameter.id}\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
+        return this.apiClient.request("GET", url, headers, undefined, undefined, option);
     }
-    public async getPublisher(params: Params$getPublisher, option?: RequestOption): Promise<Response$getPublisher$Status$200[\\"application/json\\"]> {
+    public async getPublisher(params: Params$getPublisher, option?: RequestOption): Promise<Response$getPublisher$Status$200["application/json"]> {
         const url = this.baseUrl + \`/get/publisher/\${params.parameter.id}\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
+        return this.apiClient.request("GET", url, headers, undefined, undefined, option);
     }
 }
 "
@@ -1280,28 +1280,28 @@ export interface Parameter$getBook {
     id: string;
 }
 export interface Response$getBook$Status$200 {
-    \\"application/json\\": Schemas.Book;
+    "application/json": Schemas.Book;
 }
 export interface Parameter$getDescription {
     /** Book ID */
     id: string;
 }
 export interface Response$getDescription$Status$200 {
-    \\"application/json\\": Schemas.Book.properties.metadata.properties.description;
+    "application/json": Schemas.Book.properties.metadata.properties.description;
 }
 export interface Parameter$getAuthor {
     /** Author Id */
     id: string;
 }
 export interface Response$getAuthor$Status$200 {
-    \\"application/json\\": Schemas.Author;
+    "application/json": Schemas.Author;
 }
 export interface Parameter$getPublisher {
     /** Publisher ID */
     id: string;
 }
 export interface Response$getPublisher$Status$200 {
-    \\"application/json\\": Schemas.Publisher;
+    "application/json": Schemas.Publisher;
 }
 export type ResponseContentType$getBook = keyof Response$getBook$Status$200;
 export interface Params$getBook {
@@ -1319,13 +1319,13 @@ export type ResponseContentType$getPublisher = keyof Response$getPublisher$Statu
 export interface Params$getPublisher {
     parameter: Parameter$getPublisher;
 }
-export type HttpMethod = \\"GET\\" | \\"PUT\\" | \\"POST\\" | \\"DELETE\\" | \\"OPTIONS\\" | \\"HEAD\\" | \\"PATCH\\" | \\"TRACE\\";
+export type HttpMethod = "GET" | "PUT" | "POST" | "DELETE" | "OPTIONS" | "HEAD" | "PATCH" | "TRACE";
 export interface ObjectLike {
     [key: string]: any;
 }
 export interface QueryParameter {
     value: any;
-    style?: \\"form\\" | \\"spaceDelimited\\" | \\"pipeDelimited\\" | \\"deepObject\\";
+    style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
     explode: boolean;
 }
 export interface QueryParameters {
@@ -1343,34 +1343,34 @@ export interface ApiClient<RequestOption> {
 }
 export class Client<RequestOption> {
     private baseUrl: string;
-    constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) { this.baseUrl = baseUrl.replace(/\\\\/$/, \\"\\"); }
-    public async getBook(params: Params$getBook, option?: RequestOption): Promise<Response$getBook$Status$200[\\"application/json\\"]> {
+    constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) { this.baseUrl = baseUrl.replace(/\\/$/, ""); }
+    public async getBook(params: Params$getBook, option?: RequestOption): Promise<Response$getBook$Status$200["application/json"]> {
         const url = this.baseUrl + \`/get/book/\${params.parameter.id}\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
+        return this.apiClient.request("GET", url, headers, undefined, undefined, option);
     }
-    public async getDescription(params: Params$getDescription, option?: RequestOption): Promise<Response$getDescription$Status$200[\\"application/json\\"]> {
+    public async getDescription(params: Params$getDescription, option?: RequestOption): Promise<Response$getDescription$Status$200["application/json"]> {
         const url = this.baseUrl + \`/get/book/\${params.parameter.id}/description\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
+        return this.apiClient.request("GET", url, headers, undefined, undefined, option);
     }
-    public async getAuthor(params: Params$getAuthor, option?: RequestOption): Promise<Response$getAuthor$Status$200[\\"application/json\\"]> {
+    public async getAuthor(params: Params$getAuthor, option?: RequestOption): Promise<Response$getAuthor$Status$200["application/json"]> {
         const url = this.baseUrl + \`/get/author/\${params.parameter.id}\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
+        return this.apiClient.request("GET", url, headers, undefined, undefined, option);
     }
-    public async getPublisher(params: Params$getPublisher, option?: RequestOption): Promise<Response$getPublisher$Status$200[\\"application/json\\"]> {
+    public async getPublisher(params: Params$getPublisher, option?: RequestOption): Promise<Response$getPublisher$Status$200["application/json"]> {
         const url = this.baseUrl + \`/get/publisher/\${params.parameter.id}\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
+        return this.apiClient.request("GET", url, headers, undefined, undefined, option);
     }
 }
 "

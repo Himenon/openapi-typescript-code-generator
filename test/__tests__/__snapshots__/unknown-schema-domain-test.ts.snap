@@ -19,19 +19,19 @@ export interface Parameter$getUnknown {
     id: number;
 }
 export interface Response$getUnknown$Status$200 {
-    \\"application/json\\": Schemas.Unknown;
+    "application/json": Schemas.Unknown;
 }
 export type ResponseContentType$getUnknown = keyof Response$getUnknown$Status$200;
 export interface Params$getUnknown {
     parameter: Parameter$getUnknown;
 }
-export type HttpMethod = \\"GET\\" | \\"PUT\\" | \\"POST\\" | \\"DELETE\\" | \\"OPTIONS\\" | \\"HEAD\\" | \\"PATCH\\" | \\"TRACE\\";
+export type HttpMethod = "GET" | "PUT" | "POST" | "DELETE" | "OPTIONS" | "HEAD" | "PATCH" | "TRACE";
 export interface ObjectLike {
     [key: string]: any;
 }
 export interface QueryParameter {
     value: any;
-    style?: \\"form\\" | \\"spaceDelimited\\" | \\"pipeDelimited\\" | \\"deepObject\\";
+    style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
     explode: boolean;
 }
 export interface QueryParameters {
@@ -46,13 +46,13 @@ export interface ApiClient<RequestOption> {
 }
 export class Client<RequestOption> {
     private baseUrl: string;
-    constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) { this.baseUrl = baseUrl.replace(/\\\\/$/, \\"\\"); }
-    public async getUnknown(params: Params$getUnknown, option?: RequestOption): Promise<Response$getUnknown$Status$200[\\"application/json\\"]> {
+    constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) { this.baseUrl = baseUrl.replace(/\\/$/, ""); }
+    public async getUnknown(params: Params$getUnknown, option?: RequestOption): Promise<Response$getUnknown$Status$200["application/json"]> {
         const url = this.baseUrl + \`/get/unknown\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
+        return this.apiClient.request("GET", url, headers, undefined, undefined, option);
     }
 }
 "

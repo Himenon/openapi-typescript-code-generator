@@ -42,7 +42,7 @@ export namespace Schemas {
         successfulRunHistoryLimit?: number;
         /**
          * UnsuccessfulRunHistoryLimit limits the number of old unsuccessful analysis runs and experiments to be retained in a history.
-         * Stages for unsuccessful: \\"Error\\", \\"Failed\\", \\"Inconclusive\\"
+         * Stages for unsuccessful: "Error", "Failed", "Inconclusive"
          */
         unsuccessfulRunHistoryLimit?: number;
     }
@@ -572,7 +572,7 @@ export namespace Schemas {
         /**
          * Filesystem type of the volume that you want to mount.
          * Tip: Ensure that the filesystem type is supported by the host operating system.
-         * Examples: \\"ext4\\", \\"xfs\\", \\"ntfs\\". Implicitly inferred to be \\"ext4\\" if unspecified.
+         * Examples: "ext4", "xfs", "ntfs". Implicitly inferred to be "ext4" if unspecified.
          * More info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore
          * TODO: how do we prevent errors in the filesystem from compromising the machine
          * +optional
@@ -581,14 +581,14 @@ export namespace Schemas {
         /**
          * The partition in the volume that you want to mount.
          * If omitted, the default is to mount by volume name.
-         * Examples: For volume /dev/sda1, you specify the partition as \\"1\\".
-         * Similarly, the volume partition for /dev/sda is \\"0\\" (or you can leave the property empty).
+         * Examples: For volume /dev/sda1, you specify the partition as "1".
+         * Similarly, the volume partition for /dev/sda is "0" (or you can leave the property empty).
          * +optional
          */
         partition?: number;
         /**
-         * Specify \\"true\\" to force and set the ReadOnly property in VolumeMounts to \\"true\\".
-         * If omitted, the default is \\"false\\".
+         * Specify "true" to force and set the ReadOnly property in VolumeMounts to "true".
+         * If omitted, the default is "false".
          * More info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore
          * +optional
          */
@@ -614,7 +614,7 @@ export namespace Schemas {
         /**
          * Filesystem type to mount.
          * Must be a filesystem type supported by the host operating system.
-         * Ex. \\"ext4\\", \\"xfs\\", \\"ntfs\\". Implicitly inferred to be \\"ext4\\" if unspecified.
+         * Ex. "ext4", "xfs", "ntfs". Implicitly inferred to be "ext4" if unspecified.
          * +optional
          */
         fsType?: string;
@@ -653,7 +653,7 @@ export namespace Schemas {
          */
         readOnly?: boolean;
         /**
-         * Filesystem type to mount. Ex. \\"ext4\\", \\"xfs\\", \\"ntfs\\".
+         * Filesystem type to mount. Ex. "ext4", "xfs", "ntfs".
          * If not provided, the empty value is passed to the associated CSI driver
          * which will determine the default filesystem to apply.
          * +optional
@@ -733,7 +733,7 @@ export namespace Schemas {
         /**
          * Filesystem type to mount.
          * Must be a filesystem type supported by the host operating system.
-         * Examples: \\"ext4\\", \\"xfs\\", \\"ntfs\\". Implicitly inferred to be \\"ext4\\" if unspecified.
+         * Examples: "ext4", "xfs", "ntfs". Implicitly inferred to be "ext4" if unspecified.
          * More info: https://examples.k8s.io/mysql-cinder-pd/README.md
          * +optional
          */
@@ -892,7 +892,7 @@ export namespace Schemas {
          * the system additional information about the network connections a
          * container uses, but is primarily informational. Not specifying a port here
          * DOES NOT prevent that port from being exposed. Any port which is
-         * listening on the default \\"0.0.0.0\\" address inside a container will be
+         * listening on the default "0.0.0.0" address inside a container will be
          * accessible from the network.
          * Cannot be updated.
          * +optional
@@ -1022,9 +1022,9 @@ export namespace Schemas {
         containerPort?: number;
         /**
          * Protocol for port. Must be UDP, TCP, or SCTP.
-         * Defaults to \\"TCP\\".
+         * Defaults to "TCP".
          * +optional
-         * +default=\\"TCP\\"
+         * +default="TCP"
          */
         protocol?: string;
         /**
@@ -1091,7 +1091,7 @@ export namespace Schemas {
     export interface k8s$io$api$core$v1$EmptyDirVolumeSource {
         /**
          * What type of storage medium should back this directory.
-         * The default is \\"\\" which means to use the node's default medium.
+         * The default is "" which means to use the node's default medium.
          * Must be an empty string (default) or Memory.
          * More info: https://kubernetes.io/docs/concepts/storage/volumes#emptydir
          * +optional
@@ -1120,7 +1120,7 @@ export namespace Schemas {
          * syntax can be escaped with a double $$, ie: $$(VAR_NAME). Escaped
          * references will never be expanded, regardless of whether the variable
          * exists or not.
-         * Defaults to \\"\\".
+         * Defaults to "".
          * +optional
          */
         value?: string;
@@ -1311,7 +1311,7 @@ export namespace Schemas {
          */
         readOnly?: boolean;
     }
-    /** ExecAction describes a \\"run in container\\" action. */
+    /** ExecAction describes a "run in container" action. */
     export interface k8s$io$api$core$v1$ExecAction {
         /**
          * Command is the command line to execute inside the container, the working directory for the
@@ -1342,7 +1342,7 @@ export namespace Schemas {
         /**
          * Filesystem type to mount.
          * Must be a filesystem type supported by the host operating system.
-         * Ex. \\"ext4\\", \\"xfs\\", \\"ntfs\\". Implicitly inferred to be \\"ext4\\" if unspecified.
+         * Ex. "ext4", "xfs", "ntfs". Implicitly inferred to be "ext4" if unspecified.
          * TODO: how do we prevent errors in the filesystem from compromising the machine
          * +optional
          */
@@ -1370,7 +1370,7 @@ export namespace Schemas {
         /**
          * Filesystem type to mount.
          * Must be a filesystem type supported by the host operating system.
-         * Ex. \\"ext4\\", \\"xfs\\", \\"ntfs\\". The default filesystem depends on FlexVolume script.
+         * Ex. "ext4", "xfs", "ntfs". The default filesystem depends on FlexVolume script.
          * +optional
          */
         fsType?: string;
@@ -1424,7 +1424,7 @@ export namespace Schemas {
         /**
          * Filesystem type of the volume that you want to mount.
          * Tip: Ensure that the filesystem type is supported by the host operating system.
-         * Examples: \\"ext4\\", \\"xfs\\", \\"ntfs\\". Implicitly inferred to be \\"ext4\\" if unspecified.
+         * Examples: "ext4", "xfs", "ntfs". Implicitly inferred to be "ext4" if unspecified.
          * More info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk
          * TODO: how do we prevent errors in the filesystem from compromising the machine
          * +optional
@@ -1433,8 +1433,8 @@ export namespace Schemas {
         /**
          * The partition in the volume that you want to mount.
          * If omitted, the default is to mount by volume name.
-         * Examples: For volume /dev/sda1, you specify the partition as \\"1\\".
-         * Similarly, the volume partition for /dev/sda is \\"0\\" (or you can leave the property empty).
+         * Examples: For volume /dev/sda1, you specify the partition as "1".
+         * Similarly, the volume partition for /dev/sda is "0" (or you can leave the property empty).
          * More info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk
          * +optional
          */
@@ -1506,7 +1506,7 @@ export namespace Schemas {
         port?: Schemas.k8s$io$apimachinery$pkg$util$intstr$IntOrString;
         /**
          * Host name to connect to, defaults to the pod IP. You probably want to set
-         * \\"Host\\" in httpHeaders instead.
+         * "Host" in httpHeaders instead.
          * +optional
          */
         host?: string;
@@ -1560,7 +1560,7 @@ export namespace Schemas {
         path?: string;
         /**
          * Type for HostPath Volume
-         * Defaults to \\"\\"
+         * Defaults to ""
          * More info: https://kubernetes.io/docs/concepts/storage/volumes#hostpath
          * +optional
          */
@@ -1590,7 +1590,7 @@ export namespace Schemas {
         /**
          * Filesystem type of the volume that you want to mount.
          * Tip: Ensure that the filesystem type is supported by the host operating system.
-         * Examples: \\"ext4\\", \\"xfs\\", \\"ntfs\\". Implicitly inferred to be \\"ext4\\" if unspecified.
+         * Examples: "ext4", "xfs", "ntfs". Implicitly inferred to be "ext4" if unspecified.
          * More info: https://kubernetes.io/docs/concepts/storage/volumes#iscsi
          * TODO: how do we prevent errors in the filesystem from compromising the machine
          * +optional
@@ -1706,7 +1706,7 @@ export namespace Schemas {
          * for each node that meets all of the scheduling requirements (resource
          * request, requiredDuringScheduling affinity expressions, etc.),
          * compute a sum by iterating through the elements of this field and adding
-         * \\"weight\\" to the sum if the node matches the corresponding matchExpressions; the
+         * "weight" to the sum if the node matches the corresponding matchExpressions; the
          * node(s) with the highest sum are the most preferred.
          * +optional
          */
@@ -1763,7 +1763,7 @@ export namespace Schemas {
     /** ObjectFieldSelector selects an APIVersioned field of an object. */
     export interface k8s$io$api$core$v1$ObjectFieldSelector {
         /**
-         * Version of the schema the FieldPath is written in terms of, defaults to \\"v1\\".
+         * Version of the schema the FieldPath is written in terms of, defaults to "v1".
          * +optional
          */
         apiVersion?: string;
@@ -1832,7 +1832,7 @@ export namespace Schemas {
         /**
          * Filesystem type to mount.
          * Must be a filesystem type supported by the host operating system.
-         * Ex. \\"ext4\\", \\"xfs\\", \\"ntfs\\". Implicitly inferred to be \\"ext4\\" if unspecified.
+         * Ex. "ext4", "xfs", "ntfs". Implicitly inferred to be "ext4" if unspecified.
          */
         fsType?: string;
     }
@@ -1857,7 +1857,7 @@ export namespace Schemas {
          * for each node that meets all of the scheduling requirements (resource
          * request, requiredDuringScheduling affinity expressions, etc.),
          * compute a sum by iterating through the elements of this field and adding
-         * \\"weight\\" to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+         * "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the
          * node(s) with the highest sum are the most preferred.
          * +optional
          */
@@ -1867,7 +1867,7 @@ export namespace Schemas {
         labelSelector?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$LabelSelector;
         /**
          * namespaces specifies which namespaces the labelSelector applies to (matches against);
-         * null or empty list means \\"this pod's namespace\\"
+         * null or empty list means "this pod's namespace"
          * +optional
          */
         namespaces?: string[];
@@ -1901,7 +1901,7 @@ export namespace Schemas {
          * for each node that meets all of the scheduling requirements (resource
          * request, requiredDuringScheduling anti-affinity expressions, etc.),
          * compute a sum by iterating through the elements of this field and adding
-         * \\"weight\\" to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+         * "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the
          * node(s) with the highest sum are the most preferred.
          * +optional
          */
@@ -2014,7 +2014,7 @@ export namespace Schemas {
          * volume types which support fsGroup based ownership(and permissions).
          * It will have no effect on ephemeral volume types such as: secret, configmaps
          * and emptydir.
-         * Valid values are \\"OnRootMismatch\\" and \\"Always\\". If not specified, \\"Always\\" is used.
+         * Valid values are "OnRootMismatch" and "Always". If not specified, "Always" is used.
          * +optional
          */
         fsGroupChangePolicy?: string;
@@ -2096,7 +2096,7 @@ export namespace Schemas {
         activeDeadlineSeconds?: string;
         /**
          * Set DNS policy for the pod.
-         * Defaults to \\"ClusterFirst\\".
+         * Defaults to "ClusterFirst".
          * Valid values are 'ClusterFirstWithHostNet', 'ClusterFirst', 'Default' or 'None'.
          * DNS parameters given in DNSConfig will be merged with the policy selected with DNSPolicy.
          * To have DNS options set along with hostNetwork, you have to specify DNS policy
@@ -2188,7 +2188,7 @@ export namespace Schemas {
          */
         hostname?: string;
         /**
-         * If specified, the fully qualified Pod hostname will be \\"<hostname>.<subdomain>.<pod namespace>.svc.<cluster domain>\\".
+         * If specified, the fully qualified Pod hostname will be "<hostname>.<subdomain>.<pod namespace>.svc.<cluster domain>".
          * If not specified, the pod will not have a domainname at all.
          * +optional
          */
@@ -2214,8 +2214,8 @@ export namespace Schemas {
          */
         hostAliases?: Schemas.k8s$io$api$core$v1$HostAlias[];
         /**
-         * If specified, indicates the pod's priority. \\"system-node-critical\\" and
-         * \\"system-cluster-critical\\" are two special keywords which indicate the
+         * If specified, indicates the pod's priority. "system-node-critical" and
+         * "system-cluster-critical" are two special keywords which indicate the
          * highest priorities with the former being the highest priority. Any other
          * name must be defined by creating a PriorityClass object with that name.
          * If not specified, the pod priority will be default or zero if there is no
@@ -2236,7 +2236,7 @@ export namespace Schemas {
         /**
          * If specified, all readiness gates will be evaluated for pod readiness.
          * A pod is ready when all its containers are ready AND
-         * all conditions specified in the readiness gates have status equal to \\"True\\"
+         * all conditions specified in the readiness gates have status equal to "True"
          * More info: https://git.k8s.io/enhancements/keps/sig-network/0007-pod-ready%2B%2B.md
          * +optional
          */
@@ -2244,7 +2244,7 @@ export namespace Schemas {
         /**
          * RuntimeClassName refers to a RuntimeClass object in the node.k8s.io group, which should be used
          * to run this pod.  If no RuntimeClass resource matches the named class, the pod will not be run.
-         * If unset or empty, the \\"legacy\\" RuntimeClass will be used, which is an implicit class with an
+         * If unset or empty, the "legacy" RuntimeClass will be used, which is an implicit class with an
          * empty definition that uses the default runtime handler.
          * More info: https://git.k8s.io/enhancements/keps/sig-node/runtime-class.md
          * This is a beta feature as of Kubernetes v1.14.
@@ -2295,7 +2295,7 @@ export namespace Schemas {
         /**
          * If true the pod's hostname will be configured as the pod's FQDN, rather than the leaf name (the default).
          * In Linux containers, this means setting the FQDN in the hostname field of the kernel (the nodename field of struct utsname).
-         * In Windows containers, this means setting the registry value of hostname for the registry key HKEY_LOCAL_MACHINE\\\\\\\\SYSTEM\\\\\\\\CurrentControlSet\\\\\\\\Services\\\\\\\\Tcpip\\\\\\\\Parameters to FQDN.
+         * In Windows containers, this means setting the registry value of hostname for the registry key HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Services\\\\Tcpip\\\\Parameters to FQDN.
          * If a pod does not have FQDN, this has no effect.
          * Default to false.
          * +optional
@@ -2313,7 +2313,7 @@ export namespace Schemas {
         /**
          * FSType represents the filesystem type to mount
          * Must be a filesystem type supported by the host operating system.
-         * Ex. \\"ext4\\", \\"xfs\\". Implicitly inferred to be \\"ext4\\" if unspecified.
+         * Ex. "ext4", "xfs". Implicitly inferred to be "ext4" if unspecified.
          */
         fsType?: string;
         /**
@@ -2443,7 +2443,7 @@ export namespace Schemas {
         /**
          * Filesystem type of the volume that you want to mount.
          * Tip: Ensure that the filesystem type is supported by the host operating system.
-         * Examples: \\"ext4\\", \\"xfs\\", \\"ntfs\\". Implicitly inferred to be \\"ext4\\" if unspecified.
+         * Examples: "ext4", "xfs", "ntfs". Implicitly inferred to be "ext4" if unspecified.
          * More info: https://kubernetes.io/docs/concepts/storage/volumes#rbd
          * TODO: how do we prevent errors in the filesystem from compromising the machine
          * +optional
@@ -2567,8 +2567,8 @@ export namespace Schemas {
         /**
          * Filesystem type to mount.
          * Must be a filesystem type supported by the host operating system.
-         * Ex. \\"ext4\\", \\"xfs\\", \\"ntfs\\".
-         * Default is \\"xfs\\".
+         * Ex. "ext4", "xfs", "ntfs".
+         * Default is "xfs".
          * +optional
          */
         fsType?: string;
@@ -2594,7 +2594,7 @@ export namespace Schemas {
          * localhostProfile indicates a profile defined in a file on the node should be used.
          * The profile must be preconfigured on the node to work.
          * Must be a descending path, relative to the kubelet's configured seccomp profile location.
-         * Must only be set if type is \\"Localhost\\".
+         * Must only be set if type is "Localhost".
          * +optional
          */
         localhostProfile?: string;
@@ -2805,7 +2805,7 @@ export namespace Schemas {
          * namespace is specified then the Pod's namespace will be used.  This allows the
          * Kubernetes name scoping to be mirrored within StorageOS for tighter integration.
          * Set VolumeName to any name to override the default behaviour.
-         * Set to \\"default\\" if you are not using namespaces within StorageOS.
+         * Set to "default" if you are not using namespaces within StorageOS.
          * Namespaces that do not pre-exist within StorageOS will be created.
          * +optional
          */
@@ -2813,7 +2813,7 @@ export namespace Schemas {
         /**
          * Filesystem type to mount.
          * Must be a filesystem type supported by the host operating system.
-         * Ex. \\"ext4\\", \\"xfs\\", \\"ntfs\\". Implicitly inferred to be \\"ext4\\" if unspecified.
+         * Ex. "ext4", "xfs", "ntfs". Implicitly inferred to be "ext4" if unspecified.
          * +optional
          */
         fsType?: string;
@@ -2904,7 +2904,7 @@ export namespace Schemas {
         /**
          * TopologyKey is the key of node labels. Nodes that have a label with this key
          * and identical values are considered to be in the same topology.
-         * We consider each <key, value> as a \\"bucket\\", and try to put balanced number
+         * We consider each <key, value> as a "bucket", and try to put balanced number
          * of pods into each bucket.
          * It's a required field.
          */
@@ -2916,9 +2916,9 @@ export namespace Schemas {
          * - ScheduleAnyway tells the scheduler to schedule the pod in any location,
          *   but giving higher precedence to topologies that would help reduce the
          *   skew.
-         * A constraint is considered \\"Unsatisfiable\\" for an incoming pod
+         * A constraint is considered "Unsatisfiable" for an incoming pod
          * if and only if every possible node assigment for that pod would violate
-         * \\"MaxSkew\\" on some topology.
+         * "MaxSkew" on some topology.
          * For example, in a 3-zone cluster, MaxSkew is set to 1, and pods with the same
          * labelSelector spread as 3/1/1:
          * +-------+-------+-------+
@@ -2986,7 +2986,7 @@ export namespace Schemas {
         mountPath?: string;
         /**
          * Path within the volume from which the container's volume should be mounted.
-         * Defaults to \\"\\" (volume's root).
+         * Defaults to "" (volume's root).
          * +optional
          */
         subPath?: string;
@@ -3001,7 +3001,7 @@ export namespace Schemas {
         /**
          * Expanded path within the volume from which the container's volume should be mounted.
          * Behaves similarly to SubPath but environment variable references $(VAR_NAME) are expanded using the container's environment.
-         * Defaults to \\"\\" (volume's root).
+         * Defaults to "" (volume's root).
          * SubPathExpr and SubPath are mutually exclusive.
          * +optional
          */
@@ -3055,7 +3055,7 @@ export namespace Schemas {
         /**
          * Filesystem type to mount.
          * Must be a filesystem type supported by the host operating system.
-         * Ex. \\"ext4\\", \\"xfs\\", \\"ntfs\\". Implicitly inferred to be \\"ext4\\" if unspecified.
+         * Ex. "ext4", "xfs", "ntfs". Implicitly inferred to be "ext4" if unspecified.
          * +optional
          */
         fsType?: string;
@@ -3109,18 +3109,18 @@ export namespace Schemas {
      * The serialization format is:
      *
      * <quantity>        ::= <signedNumber><suffix>
-     *   (Note that <suffix> may be empty, from the \\"\\" case in <decimalSI>.)
+     *   (Note that <suffix> may be empty, from the "" case in <decimalSI>.)
      * <digit>           ::= 0 | 1 | ... | 9
      * <digits>          ::= <digit> | <digit><digits>
      * <number>          ::= <digits> | <digits>.<digits> | <digits>. | .<digits>
-     * <sign>            ::= \\"+\\" | \\"-\\"
+     * <sign>            ::= "+" | "-"
      * <signedNumber>    ::= <number> | <sign><number>
      * <suffix>          ::= <binarySI> | <decimalExponent> | <decimalSI>
      * <binarySI>        ::= Ki | Mi | Gi | Ti | Pi | Ei
      *   (International System of units; See: http://physics.nist.gov/cuu/Units/binary.html)
-     * <decimalSI>       ::= m | \\"\\" | k | M | G | T | P | E
+     * <decimalSI>       ::= m | "" | k | M | G | T | P | E
      *   (Note that 1024 = 1Ki but 1000 = 1k; I didn't choose the capitalization.)
-     * <decimalExponent> ::= \\"e\\" <signedNumber> | \\"E\\" <signedNumber>
+     * <decimalExponent> ::= "e" <signedNumber> | "E" <signedNumber>
      *
      * No matter which of the three exponent forms is used, no quantity may represent
      * a number greater than 2^63-1 in magnitude, nor may it have more than 3 decimal
@@ -3131,7 +3131,7 @@ export namespace Schemas {
      * When a Quantity is parsed from a string, it will remember the type of suffix
      * it had, and will use the same type again when it is serialized.
      *
-     * Before serializing, Quantity will be put in \\"canonical form\\".
+     * Before serializing, Quantity will be put in "canonical form".
      * This means that Exponent/suffix will be adjusted up or down (with a
      * corresponding increase or decrease in Mantissa) such that:
      *   a. No precision is lost
@@ -3140,8 +3140,8 @@ export namespace Schemas {
      * The sign will be omitted unless the number is negative.
      *
      * Examples:
-     *   1.5 will be serialized as \\"1500m\\"
-     *   1.5Gi will be serialized as \\"1536Mi\\"
+     *   1.5 will be serialized as "1500m"
+     *   1.5Gi will be serialized as "1536Mi"
      *
      * Note that the quantity will NEVER be internally represented by a
      * floating point number. That is the whole point of this exercise.
@@ -3185,8 +3185,8 @@ export namespace Schemas {
     export interface k8s$io$apimachinery$pkg$apis$meta$v1$LabelSelector {
         /**
          * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
-         * map is equivalent to an element of matchExpressions, whose key field is \\"key\\", the
-         * operator is \\"In\\", and the values array contains only \\"value\\". The requirements are ANDed.
+         * map is equivalent to an element of matchExpressions, whose key field is "key", the
+         * operator is "In", and the values array contains only "value". The requirements are ANDed.
          * +optional
          */
         matchLabels?: {
@@ -3237,7 +3237,7 @@ export namespace Schemas {
         operation?: string;
         /**
          * APIVersion defines the version of this resource that this field set
-         * applies to. The format is \\"group/version\\" just like the top-level
+         * applies to. The format is "group/version" just like the top-level
          * APIVersion field. It is necessary to track the version of a field
          * set because it cannot be automatically converted.
          */
@@ -3245,7 +3245,7 @@ export namespace Schemas {
         time?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$Time;
         /**
          * FieldsType is the discriminator for the different fields format and version.
-         * There is currently only one possible value: \\"FieldsV1\\"
+         * There is currently only one possible value: "FieldsV1"
          */
         fieldsType?: string;
         fieldsV1?: Schemas.k8s$io$apimachinery$pkg$apis$meta$v1$FieldsV1;
@@ -3286,7 +3286,7 @@ export namespace Schemas {
         generateName?: string;
         /**
          * Namespace defines the space within which each name must be unique. An empty namespace is
-         * equivalent to the \\"default\\" namespace, but \\"default\\" is the canonical representation.
+         * equivalent to the "default" namespace, but "default" is the canonical representation.
          * Not all objects are required to be scoped to a namespace - the value of this field for
          * those objects will be empty.
          *
@@ -3409,7 +3409,7 @@ export namespace Schemas {
          * housekeeping, and users typically shouldn't need to set or
          * understand this field. A workflow can be the user's name, a
          * controller's name, or the name of a specific apply path like
-         * \\"ci-cd\\". The set of fields is always in the version that the
+         * "ci-cd". The set of fields is always in the version that the
          * workflow used when modifying the object.
          *
          * +optional
@@ -3445,11 +3445,11 @@ export namespace Schemas {
          */
         controller?: boolean;
         /**
-         * If true, AND if the owner has the \\"foregroundDeletion\\" finalizer, then
+         * If true, AND if the owner has the "foregroundDeletion" finalizer, then
          * the owner cannot be deleted from the key-value store until this
          * reference is removed.
          * Defaults to false.
-         * To set this field, a user needs \\"delete\\" permission of the owner,
+         * To set this field, a user needs "delete" permission of the owner,
          * otherwise 422 (Unprocessable Entity) will be returned.
          * +optional
          */
@@ -3608,106 +3608,106 @@ export namespace Schemas {
     }
 }
 export interface Response$RolloutService_GetNamespace$Status$200 {
-    \\"application/json\\": Schemas.rollout$NamespaceInfo;
+    "application/json": Schemas.rollout$NamespaceInfo;
 }
 export interface Response$RolloutService_GetNamespace$Status$default {
-    \\"application/json\\": Schemas.grpc$gateway$runtime$Error;
+    "application/json": Schemas.grpc$gateway$runtime$Error;
 }
 export interface Parameter$RolloutService_ListRolloutInfos {
     namespace: string;
 }
 export interface Response$RolloutService_ListRolloutInfos$Status$200 {
-    \\"application/json\\": Schemas.rollout$RolloutInfoList;
+    "application/json": Schemas.rollout$RolloutInfoList;
 }
 export interface Response$RolloutService_ListRolloutInfos$Status$default {
-    \\"application/json\\": Schemas.grpc$gateway$runtime$Error;
+    "application/json": Schemas.grpc$gateway$runtime$Error;
 }
 export interface Parameter$RolloutService_WatchRolloutInfos {
     namespace: string;
 }
 export interface Response$RolloutService_WatchRolloutInfos$Status$200 {
-    \\"application/json\\": {
+    "application/json": {
         result?: Schemas.rollout$RolloutWatchEvent;
         error?: Schemas.grpc$gateway$runtime$StreamError;
     };
 }
 export interface Response$RolloutService_WatchRolloutInfos$Status$default {
-    \\"application/json\\": Schemas.grpc$gateway$runtime$Error;
+    "application/json": Schemas.grpc$gateway$runtime$Error;
 }
 export interface Parameter$RolloutService_AbortRollout {
     namespace: string;
     name: string;
 }
 export interface RequestBody$RolloutService_AbortRollout {
-    \\"application/json\\": Schemas.rollout$AbortRolloutRequest;
+    "application/json": Schemas.rollout$AbortRolloutRequest;
 }
 export interface Response$RolloutService_AbortRollout$Status$200 {
-    \\"application/json\\": Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$Rollout;
+    "application/json": Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$Rollout;
 }
 export interface Response$RolloutService_AbortRollout$Status$default {
-    \\"application/json\\": Schemas.grpc$gateway$runtime$Error;
+    "application/json": Schemas.grpc$gateway$runtime$Error;
 }
 export interface Parameter$RolloutService_GetRolloutInfo {
     namespace: string;
     name: string;
 }
 export interface Response$RolloutService_GetRolloutInfo$Status$200 {
-    \\"application/json\\": Schemas.rollout$RolloutInfo;
+    "application/json": Schemas.rollout$RolloutInfo;
 }
 export interface Response$RolloutService_GetRolloutInfo$Status$default {
-    \\"application/json\\": Schemas.grpc$gateway$runtime$Error;
+    "application/json": Schemas.grpc$gateway$runtime$Error;
 }
 export interface Parameter$RolloutService_WatchRolloutInfo {
     namespace: string;
     name: string;
 }
 export interface Response$RolloutService_WatchRolloutInfo$Status$200 {
-    \\"application/json\\": {
+    "application/json": {
         result?: Schemas.rollout$RolloutInfo;
         error?: Schemas.grpc$gateway$runtime$StreamError;
     };
 }
 export interface Response$RolloutService_WatchRolloutInfo$Status$default {
-    \\"application/json\\": Schemas.grpc$gateway$runtime$Error;
+    "application/json": Schemas.grpc$gateway$runtime$Error;
 }
 export interface Parameter$RolloutService_PromoteRollout {
     namespace: string;
     name: string;
 }
 export interface RequestBody$RolloutService_PromoteRollout {
-    \\"application/json\\": Schemas.rollout$PromoteRolloutRequest;
+    "application/json": Schemas.rollout$PromoteRolloutRequest;
 }
 export interface Response$RolloutService_PromoteRollout$Status$200 {
-    \\"application/json\\": Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$Rollout;
+    "application/json": Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$Rollout;
 }
 export interface Response$RolloutService_PromoteRollout$Status$default {
-    \\"application/json\\": Schemas.grpc$gateway$runtime$Error;
+    "application/json": Schemas.grpc$gateway$runtime$Error;
 }
 export interface Parameter$RolloutService_RestartRollout {
     namespace: string;
     name: string;
 }
 export interface RequestBody$RolloutService_RestartRollout {
-    \\"application/json\\": Schemas.rollout$RestartRolloutRequest;
+    "application/json": Schemas.rollout$RestartRolloutRequest;
 }
 export interface Response$RolloutService_RestartRollout$Status$200 {
-    \\"application/json\\": Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$Rollout;
+    "application/json": Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$Rollout;
 }
 export interface Response$RolloutService_RestartRollout$Status$default {
-    \\"application/json\\": Schemas.grpc$gateway$runtime$Error;
+    "application/json": Schemas.grpc$gateway$runtime$Error;
 }
 export interface Parameter$RolloutService_RetryRollout {
     namespace: string;
     name: string;
 }
 export interface RequestBody$RolloutService_RetryRollout {
-    \\"application/json\\": Schemas.rollout$RetryRolloutRequest;
+    "application/json": Schemas.rollout$RetryRolloutRequest;
 }
 export interface Response$RolloutService_RetryRollout$Status$200 {
-    \\"application/json\\": Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$Rollout;
+    "application/json": Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$Rollout;
 }
 export interface Response$RolloutService_RetryRollout$Status$default {
-    \\"application/json\\": Schemas.grpc$gateway$runtime$Error;
+    "application/json": Schemas.grpc$gateway$runtime$Error;
 }
 export interface Parameter$RolloutService_SetRolloutImage {
     namespace: string;
@@ -3717,13 +3717,13 @@ export interface Parameter$RolloutService_SetRolloutImage {
     tag: string;
 }
 export interface RequestBody$RolloutService_SetRolloutImage {
-    \\"application/json\\": Schemas.rollout$SetImageRequest;
+    "application/json": Schemas.rollout$SetImageRequest;
 }
 export interface Response$RolloutService_SetRolloutImage$Status$200 {
-    \\"application/json\\": Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$Rollout;
+    "application/json": Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$Rollout;
 }
 export interface Response$RolloutService_SetRolloutImage$Status$default {
-    \\"application/json\\": Schemas.grpc$gateway$runtime$Error;
+    "application/json": Schemas.grpc$gateway$runtime$Error;
 }
 export interface Parameter$RolloutService_UndoRollout {
     namespace: string;
@@ -3731,19 +3731,19 @@ export interface Parameter$RolloutService_UndoRollout {
     revision: string;
 }
 export interface RequestBody$RolloutService_UndoRollout {
-    \\"application/json\\": Schemas.rollout$UndoRolloutRequest;
+    "application/json": Schemas.rollout$UndoRolloutRequest;
 }
 export interface Response$RolloutService_UndoRollout$Status$200 {
-    \\"application/json\\": Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$Rollout;
+    "application/json": Schemas.github$com$argoproj$argo_rollouts$pkg$apis$rollouts$v1alpha1$Rollout;
 }
 export interface Response$RolloutService_UndoRollout$Status$default {
-    \\"application/json\\": Schemas.grpc$gateway$runtime$Error;
+    "application/json": Schemas.grpc$gateway$runtime$Error;
 }
 export interface Response$RolloutService_Version$Status$200 {
-    \\"application/json\\": Schemas.rollout$VersionInfo;
+    "application/json": Schemas.rollout$VersionInfo;
 }
 export interface Response$RolloutService_Version$Status$default {
-    \\"application/json\\": Schemas.grpc$gateway$runtime$Error;
+    "application/json": Schemas.grpc$gateway$runtime$Error;
 }
 export type ResponseContentType$RolloutService_GetNamespace = keyof Response$RolloutService_GetNamespace$Status$200;
 export type ResponseContentType$RolloutService_ListRolloutInfos = keyof Response$RolloutService_ListRolloutInfos$Status$200;
@@ -3758,7 +3758,7 @@ export type RequestContentType$RolloutService_AbortRollout = keyof RequestBody$R
 export type ResponseContentType$RolloutService_AbortRollout = keyof Response$RolloutService_AbortRollout$Status$200;
 export interface Params$RolloutService_AbortRollout {
     parameter: Parameter$RolloutService_AbortRollout;
-    requestBody: RequestBody$RolloutService_AbortRollout[\\"application/json\\"];
+    requestBody: RequestBody$RolloutService_AbortRollout["application/json"];
 }
 export type ResponseContentType$RolloutService_GetRolloutInfo = keyof Response$RolloutService_GetRolloutInfo$Status$200;
 export interface Params$RolloutService_GetRolloutInfo {
@@ -3772,40 +3772,40 @@ export type RequestContentType$RolloutService_PromoteRollout = keyof RequestBody
 export type ResponseContentType$RolloutService_PromoteRollout = keyof Response$RolloutService_PromoteRollout$Status$200;
 export interface Params$RolloutService_PromoteRollout {
     parameter: Parameter$RolloutService_PromoteRollout;
-    requestBody: RequestBody$RolloutService_PromoteRollout[\\"application/json\\"];
+    requestBody: RequestBody$RolloutService_PromoteRollout["application/json"];
 }
 export type RequestContentType$RolloutService_RestartRollout = keyof RequestBody$RolloutService_RestartRollout;
 export type ResponseContentType$RolloutService_RestartRollout = keyof Response$RolloutService_RestartRollout$Status$200;
 export interface Params$RolloutService_RestartRollout {
     parameter: Parameter$RolloutService_RestartRollout;
-    requestBody: RequestBody$RolloutService_RestartRollout[\\"application/json\\"];
+    requestBody: RequestBody$RolloutService_RestartRollout["application/json"];
 }
 export type RequestContentType$RolloutService_RetryRollout = keyof RequestBody$RolloutService_RetryRollout;
 export type ResponseContentType$RolloutService_RetryRollout = keyof Response$RolloutService_RetryRollout$Status$200;
 export interface Params$RolloutService_RetryRollout {
     parameter: Parameter$RolloutService_RetryRollout;
-    requestBody: RequestBody$RolloutService_RetryRollout[\\"application/json\\"];
+    requestBody: RequestBody$RolloutService_RetryRollout["application/json"];
 }
 export type RequestContentType$RolloutService_SetRolloutImage = keyof RequestBody$RolloutService_SetRolloutImage;
 export type ResponseContentType$RolloutService_SetRolloutImage = keyof Response$RolloutService_SetRolloutImage$Status$200;
 export interface Params$RolloutService_SetRolloutImage {
     parameter: Parameter$RolloutService_SetRolloutImage;
-    requestBody: RequestBody$RolloutService_SetRolloutImage[\\"application/json\\"];
+    requestBody: RequestBody$RolloutService_SetRolloutImage["application/json"];
 }
 export type RequestContentType$RolloutService_UndoRollout = keyof RequestBody$RolloutService_UndoRollout;
 export type ResponseContentType$RolloutService_UndoRollout = keyof Response$RolloutService_UndoRollout$Status$200;
 export interface Params$RolloutService_UndoRollout {
     parameter: Parameter$RolloutService_UndoRollout;
-    requestBody: RequestBody$RolloutService_UndoRollout[\\"application/json\\"];
+    requestBody: RequestBody$RolloutService_UndoRollout["application/json"];
 }
 export type ResponseContentType$RolloutService_Version = keyof Response$RolloutService_Version$Status$200;
-export type HttpMethod = \\"GET\\" | \\"PUT\\" | \\"POST\\" | \\"DELETE\\" | \\"OPTIONS\\" | \\"HEAD\\" | \\"PATCH\\" | \\"TRACE\\";
+export type HttpMethod = "GET" | "PUT" | "POST" | "DELETE" | "OPTIONS" | "HEAD" | "PATCH" | "TRACE";
 export interface ObjectLike {
     [key: string]: any;
 }
 export interface QueryParameter {
     value: any;
-    style?: \\"form\\" | \\"spaceDelimited\\" | \\"pipeDelimited\\" | \\"deepObject\\";
+    style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
     explode: boolean;
 }
 export interface QueryParameters {
@@ -3831,96 +3831,96 @@ export interface ApiClient<RequestOption> {
 }
 export class Client<RequestOption> {
     private baseUrl: string;
-    constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) { this.baseUrl = baseUrl.replace(/\\\\/$/, \\"\\"); }
-    public async RolloutService_GetNamespace(option?: RequestOption): Promise<Response$RolloutService_GetNamespace$Status$200[\\"application/json\\"]> {
+    constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) { this.baseUrl = baseUrl.replace(/\\/$/, ""); }
+    public async RolloutService_GetNamespace(option?: RequestOption): Promise<Response$RolloutService_GetNamespace$Status$200["application/json"]> {
         const url = this.baseUrl + \`/api/v1/namespace\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
+        return this.apiClient.request("GET", url, headers, undefined, undefined, option);
     }
-    public async RolloutService_ListRolloutInfos(params: Params$RolloutService_ListRolloutInfos, option?: RequestOption): Promise<Response$RolloutService_ListRolloutInfos$Status$200[\\"application/json\\"]> {
+    public async RolloutService_ListRolloutInfos(params: Params$RolloutService_ListRolloutInfos, option?: RequestOption): Promise<Response$RolloutService_ListRolloutInfos$Status$200["application/json"]> {
         const url = this.baseUrl + \`/api/v1/rollouts/\${params.parameter.namespace}/info\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
+        return this.apiClient.request("GET", url, headers, undefined, undefined, option);
     }
-    public async RolloutService_WatchRolloutInfos(params: Params$RolloutService_WatchRolloutInfos, option?: RequestOption): Promise<Response$RolloutService_WatchRolloutInfos$Status$200[\\"application/json\\"]> {
+    public async RolloutService_WatchRolloutInfos(params: Params$RolloutService_WatchRolloutInfos, option?: RequestOption): Promise<Response$RolloutService_WatchRolloutInfos$Status$200["application/json"]> {
         const url = this.baseUrl + \`/api/v1/rollouts/\${params.parameter.namespace}/info/watch\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
+        return this.apiClient.request("GET", url, headers, undefined, undefined, option);
     }
-    public async RolloutService_AbortRollout(params: Params$RolloutService_AbortRollout, option?: RequestOption): Promise<Response$RolloutService_AbortRollout$Status$200[\\"application/json\\"]> {
+    public async RolloutService_AbortRollout(params: Params$RolloutService_AbortRollout, option?: RequestOption): Promise<Response$RolloutService_AbortRollout$Status$200["application/json"]> {
         const url = this.baseUrl + \`/api/v1/rollouts/\${params.parameter.namespace}/\${params.parameter.name}/abort\`;
         const headers = {
-            \\"Content-Type\\": \\"application/json\\",
-            Accept: \\"application/json\\"
+            "Content-Type": "application/json",
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"PUT\\", url, headers, params.requestBody, undefined, option);
+        return this.apiClient.request("PUT", url, headers, params.requestBody, undefined, option);
     }
-    public async RolloutService_GetRolloutInfo(params: Params$RolloutService_GetRolloutInfo, option?: RequestOption): Promise<Response$RolloutService_GetRolloutInfo$Status$200[\\"application/json\\"]> {
+    public async RolloutService_GetRolloutInfo(params: Params$RolloutService_GetRolloutInfo, option?: RequestOption): Promise<Response$RolloutService_GetRolloutInfo$Status$200["application/json"]> {
         const url = this.baseUrl + \`/api/v1/rollouts/\${params.parameter.namespace}/\${params.parameter.name}/info\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
+        return this.apiClient.request("GET", url, headers, undefined, undefined, option);
     }
-    public async RolloutService_WatchRolloutInfo(params: Params$RolloutService_WatchRolloutInfo, option?: RequestOption): Promise<Response$RolloutService_WatchRolloutInfo$Status$200[\\"application/json\\"]> {
+    public async RolloutService_WatchRolloutInfo(params: Params$RolloutService_WatchRolloutInfo, option?: RequestOption): Promise<Response$RolloutService_WatchRolloutInfo$Status$200["application/json"]> {
         const url = this.baseUrl + \`/api/v1/rollouts/\${params.parameter.namespace}/\${params.parameter.name}/info/watch\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
+        return this.apiClient.request("GET", url, headers, undefined, undefined, option);
     }
-    public async RolloutService_PromoteRollout(params: Params$RolloutService_PromoteRollout, option?: RequestOption): Promise<Response$RolloutService_PromoteRollout$Status$200[\\"application/json\\"]> {
+    public async RolloutService_PromoteRollout(params: Params$RolloutService_PromoteRollout, option?: RequestOption): Promise<Response$RolloutService_PromoteRollout$Status$200["application/json"]> {
         const url = this.baseUrl + \`/api/v1/rollouts/\${params.parameter.namespace}/\${params.parameter.name}/promote\`;
         const headers = {
-            \\"Content-Type\\": \\"application/json\\",
-            Accept: \\"application/json\\"
+            "Content-Type": "application/json",
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"PUT\\", url, headers, params.requestBody, undefined, option);
+        return this.apiClient.request("PUT", url, headers, params.requestBody, undefined, option);
     }
-    public async RolloutService_RestartRollout(params: Params$RolloutService_RestartRollout, option?: RequestOption): Promise<Response$RolloutService_RestartRollout$Status$200[\\"application/json\\"]> {
+    public async RolloutService_RestartRollout(params: Params$RolloutService_RestartRollout, option?: RequestOption): Promise<Response$RolloutService_RestartRollout$Status$200["application/json"]> {
         const url = this.baseUrl + \`/api/v1/rollouts/\${params.parameter.namespace}/\${params.parameter.name}/restart\`;
         const headers = {
-            \\"Content-Type\\": \\"application/json\\",
-            Accept: \\"application/json\\"
+            "Content-Type": "application/json",
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"PUT\\", url, headers, params.requestBody, undefined, option);
+        return this.apiClient.request("PUT", url, headers, params.requestBody, undefined, option);
     }
-    public async RolloutService_RetryRollout(params: Params$RolloutService_RetryRollout, option?: RequestOption): Promise<Response$RolloutService_RetryRollout$Status$200[\\"application/json\\"]> {
+    public async RolloutService_RetryRollout(params: Params$RolloutService_RetryRollout, option?: RequestOption): Promise<Response$RolloutService_RetryRollout$Status$200["application/json"]> {
         const url = this.baseUrl + \`/api/v1/rollouts/\${params.parameter.namespace}/\${params.parameter.name}/retry\`;
         const headers = {
-            \\"Content-Type\\": \\"application/json\\",
-            Accept: \\"application/json\\"
+            "Content-Type": "application/json",
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"PUT\\", url, headers, params.requestBody, undefined, option);
+        return this.apiClient.request("PUT", url, headers, params.requestBody, undefined, option);
     }
-    public async RolloutService_SetRolloutImage(params: Params$RolloutService_SetRolloutImage, option?: RequestOption): Promise<Response$RolloutService_SetRolloutImage$Status$200[\\"application/json\\"]> {
+    public async RolloutService_SetRolloutImage(params: Params$RolloutService_SetRolloutImage, option?: RequestOption): Promise<Response$RolloutService_SetRolloutImage$Status$200["application/json"]> {
         const url = this.baseUrl + \`/api/v1/rollouts/\${params.parameter.namespace}/\${params.parameter.rollout}/set/\${params.parameter.container}/\${params.parameter.image}/\${params.parameter.tag}\`;
         const headers = {
-            \\"Content-Type\\": \\"application/json\\",
-            Accept: \\"application/json\\"
+            "Content-Type": "application/json",
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"PUT\\", url, headers, params.requestBody, undefined, option);
+        return this.apiClient.request("PUT", url, headers, params.requestBody, undefined, option);
     }
-    public async RolloutService_UndoRollout(params: Params$RolloutService_UndoRollout, option?: RequestOption): Promise<Response$RolloutService_UndoRollout$Status$200[\\"application/json\\"]> {
+    public async RolloutService_UndoRollout(params: Params$RolloutService_UndoRollout, option?: RequestOption): Promise<Response$RolloutService_UndoRollout$Status$200["application/json"]> {
         const url = this.baseUrl + \`/api/v1/rollouts/\${params.parameter.namespace}/\${params.parameter.rollout}/undo/\${params.parameter.revision}\`;
         const headers = {
-            \\"Content-Type\\": \\"application/json\\",
-            Accept: \\"application/json\\"
+            "Content-Type": "application/json",
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"PUT\\", url, headers, params.requestBody, undefined, option);
+        return this.apiClient.request("PUT", url, headers, params.requestBody, undefined, option);
     }
-    public async RolloutService_Version(option?: RequestOption): Promise<Response$RolloutService_Version$Status$200[\\"application/json\\"]> {
+    public async RolloutService_Version(option?: RequestOption): Promise<Response$RolloutService_Version$Status$200["application/json"]> {
         const url = this.baseUrl + \`/api/v1/version\`;
         const headers = {
-            Accept: \\"application/json\\"
+            Accept: "application/json"
         };
-        return this.apiClient.request(\\"GET\\", url, headers, undefined, undefined, option);
+        return this.apiClient.request("GET", url, headers, undefined, undefined, option);
     }
 }
 "
