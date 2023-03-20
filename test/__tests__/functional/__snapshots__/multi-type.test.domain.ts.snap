@@ -47,6 +47,10 @@ export interface ApiClient<RequestOption> {
 }
 export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>, baseUrl: string) => {
     return {
+        /**
+         * operationId: putAnyOf
+         * Request URI: /pets
+         */
         putAnyOf: (params: Params$putAnyOf, option?: RequestOption): Promise<void> => {
             const url = baseUrl + \`/pets\`;
             const headers = {
@@ -54,6 +58,10 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request("PUT", url, headers, params.requestBody, undefined, option);
         },
+        /**
+         * operationId: patchOneOf
+         * Request URI: /pets
+         */
         patchOneOf: (params: Params$patchOneOf, option?: RequestOption): Promise<void> => {
             const url = baseUrl + \`/pets\`;
             const headers = {

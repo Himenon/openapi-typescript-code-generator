@@ -128,6 +128,10 @@ export interface ApiClient<RequestOption> {
 }
 export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>, baseUrl: string) => {
     return {
+        /**
+         * operationId: getIncludeLocalReference
+         * Request URI: /get/IncludeLocalReference
+         */
         getIncludeLocalReference: (params: Params$getIncludeLocalReference, option?: RequestOption): Promise<Response$getIncludeLocalReference$Status$200["application/json"]> => {
             const url = baseUrl + \`/get/IncludeLocalReference\`;
             const headers = {
@@ -138,6 +142,10 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request("GET", url, headers, undefined, queryParameters, option);
         },
+        /**
+         * operationId: getIncludeRemoteReference
+         * Request URI: /get/IncludeRemoteReference
+         */
         getIncludeRemoteReference: (params: Params$getIncludeRemoteReference, option?: RequestOption): Promise<void> => {
             const url = baseUrl + \`/get/IncludeRemoteReference\`;
             const headers = {
@@ -148,6 +156,10 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request("GET", url, headers, params.requestBody, queryParameters, option);
         },
+        /**
+         * operationId: getFullRemoteReference
+         * Request URI: /FullRemoteReference
+         */
         getFullRemoteReference: (params: Params$getFullRemoteReference, option?: RequestOption): Promise<Response$getFullRemoteReference$Status$200["application/json"]> => {
             const url = baseUrl + \`/FullRemoteReference\`;
             const headers = {
@@ -158,6 +170,10 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request("GET", url, headers, undefined, queryParameters, option);
         },
+        /**
+         * operationId: i.have.dot
+         * Request URI: /i/have/dot
+         */
         i$have$dot: (option?: RequestOption): Promise<Response$i$have$dot$Status$200["application/json"]> => {
             const url = baseUrl + \`/i/have/dot\`;
             const headers = {
@@ -165,6 +181,10 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request("GET", url, headers, undefined, undefined, option);
         },
+        /**
+         * operationId: getReferenceItems
+         * Request URI: /get/reference/items
+         */
         getReferenceItems: (option?: RequestOption): Promise<Response$getReferenceItems$Status$200["application/json"]> => {
             const url = baseUrl + \`/get/reference/items\`;
             const headers = {
@@ -172,6 +192,10 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request("GET", url, headers, undefined, undefined, option);
         },
+        /**
+         * operationId: searchBook
+         * Request URI: /get/search/{book.name}
+         */
         searchBook: (params: Params$searchBook, option?: RequestOption): Promise<Response$searchBook$Status$200["application/json"]> => {
             const url = baseUrl + \`/get/search/\${params.parameter["book.name"]}\`;
             const headers = {
@@ -182,6 +206,10 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request("GET", url, headers, undefined, queryParameters, option);
         },
+        /**
+         * operationId: getBookById
+         * Request URI: /get/books/{id}
+         */
         getBookById: (params: Params$getBookById, option?: RequestOption): Promise<Response$getBookById$Status$200["application/json"]> => {
             const url = baseUrl + \`/get/books/\${params.parameter.id}\`;
             const headers = {
@@ -189,6 +217,10 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request("GET", url, headers, undefined, undefined, option);
         },
+        /**
+         * operationId: deleteBook
+         * Request URI: /get/books/{id}
+         */
         deleteBook: (params: Params$deleteBook, option?: RequestOption): Promise<Response$deleteBook$Status$200["application/json"]> => {
             const url = baseUrl + \`/get/books/\${params.parameter.id}\`;
             const headers = {
