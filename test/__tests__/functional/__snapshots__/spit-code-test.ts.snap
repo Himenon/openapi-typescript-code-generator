@@ -230,7 +230,8 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
         }
     };
 };
-export type Client = ReturnType<typeof createClient>;
+type ClientFunction<RequestOption> = typeof createClient<RequestOption>;
+export type Client<RequestOption> = ReturnType<<ClientFunction<RequestOption>>;
 "
 `;
 
