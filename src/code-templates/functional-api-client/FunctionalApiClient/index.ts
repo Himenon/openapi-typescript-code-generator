@@ -12,10 +12,10 @@ export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Pa
       name: params.convertedParams.functionName,
       initializer: ArrowFunction.create(factory, params, option),
       comment: option.additionalMethodComment
-      ? [params.operationParams.comment, `operationId: ${params.operationId}`, `Request URI: ${params.operationParams.requestUri}`]
-          .filter(t => !!t)
-          .join(EOL)
-      : params.operationParams.comment,
+        ? [params.operationParams.comment, `operationId: ${params.operationId}`, `Request URI: ${params.operationParams.requestUri}`]
+            .filter(t => !!t)
+            .join(EOL)
+        : params.operationParams.comment,
     });
   });
 
