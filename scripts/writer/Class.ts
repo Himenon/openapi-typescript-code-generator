@@ -26,7 +26,7 @@ export const generateTemplateCodeOnly = (
   inputFilename: string,
   outputFilename: string,
   isValidate: boolean,
-  option: Templates.FunctionalApiClient.Option,
+  option: Templates.ClassApiClient.Option,
 ): void => {
   const codeGenerator = new CodeGenerator(inputFilename);
   if (isValidate) {
@@ -35,8 +35,8 @@ export const generateTemplateCodeOnly = (
     });
   }
 
-  const apiClientGeneratorTemplate: Types.CodeGenerator.CustomGenerator<Templates.FunctionalApiClient.Option> = {
-    generator: Templates.FunctionalApiClient.generator,
+  const apiClientGeneratorTemplate: Types.CodeGenerator.CustomGenerator<Templates.ClassApiClient.Option> = {
+    generator: Templates.ClassApiClient.generator,
     option: option,
   };
 
@@ -49,7 +49,7 @@ export const generateTypedefWithTemplateCode = (
   inputFilename: string,
   outputFilename: string,
   isValidate: boolean,
-  option: Templates.FunctionalApiClient.Option,
+  option: Templates.ClassApiClient.Option,
 ): void => {
   const codeGenerator = new CodeGenerator(inputFilename);
   if (isValidate) {
@@ -61,7 +61,7 @@ export const generateTypedefWithTemplateCode = (
   const code = codeGenerator.generateTypeDefinition([
     codeGenerator.getAdditionalTypeDefinitionCustomCodeGenerator(),
     {
-      generator: Templates.FunctionalApiClient.generator,
+      generator: Templates.ClassApiClient.generator,
       option: option,
     },
   ]);
@@ -72,8 +72,8 @@ export const generateTypedefWithTemplateCode = (
 export const generateSplitCode = (inputFilename: string, outputDir: string) => {
   const codeGenerator = new CodeGenerator(inputFilename);
 
-  const apiClientGeneratorTemplate: Types.CodeGenerator.CustomGenerator<Templates.FunctionalApiClient.Option> = {
-    generator: Templates.FunctionalApiClient.generator,
+  const apiClientGeneratorTemplate: Types.CodeGenerator.CustomGenerator<Templates.ClassApiClient.Option> = {
+    generator: Templates.ClassApiClient.generator,
     option: { sync: false, additionalMethodComment: true },
   };
 
@@ -147,8 +147,8 @@ export const generateFormatTypeCode = (inputFilename: string, outputFilename: st
   };
   const codeGenerator = new CodeGenerator(inputFilename, option);
 
-  const apiClientGeneratorTemplate: Types.CodeGenerator.CustomGenerator<Templates.FunctionalApiClient.Option> = {
-    generator: Templates.FunctionalApiClient.generator,
+  const apiClientGeneratorTemplate: Types.CodeGenerator.CustomGenerator<Templates.ClassApiClient.Option> = {
+    generator: Templates.ClassApiClient.generator,
     option: {},
   };
 

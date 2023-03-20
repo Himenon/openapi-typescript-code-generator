@@ -45,23 +45,32 @@ export namespace ErrorResponse {
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(httpMethod: HttpMethod, url: string, headers: ObjectLike | any, requestBody: ObjectLike | any, queryParameters: QueryParameters | undefined, options?: RequestOption) => Promise<T>;
 }
-export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>, baseUrl: string) => {
-    const putAnyOf = (params: Params$putAnyOf, option?: RequestOption): Promise<void> => {
-        const url = baseUrl + \`/pets\`;
+export class Client<RequestOption> {
+    private baseUrl: string;
+    constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) { this.baseUrl = baseUrl.replace(/\\/$/, ""); }
+    /**
+     * operationId: putAnyOf
+     * Request URI: /pets
+     */
+    public async putAnyOf(params: Params$putAnyOf, option?: RequestOption): Promise<void> {
+        const url = this.baseUrl + \`/pets\`;
         const headers = {
             "Content-Type": "application/json"
         };
-        return apiClient.request("PUT", url, headers, params.requestBody, undefined, option);
-    };
-    const patchOneOf = (params: Params$patchOneOf, option?: RequestOption): Promise<void> => {
-        const url = baseUrl + \`/pets\`;
+        return this.apiClient.request("PUT", url, headers, params.requestBody, undefined, option);
+    }
+    /**
+     * operationId: patchOneOf
+     * Request URI: /pets
+     */
+    public async patchOneOf(params: Params$patchOneOf, option?: RequestOption): Promise<void> {
+        const url = this.baseUrl + \`/pets\`;
         const headers = {
             "Content-Type": "application/json"
         };
-        return apiClient.request("PATCH", url, headers, params.requestBody, undefined, option);
-    };
-    return { putAnyOf, patchOneOf };
-};
+        return this.apiClient.request("PATCH", url, headers, params.requestBody, undefined, option);
+    }
+}
 "
 `;
 

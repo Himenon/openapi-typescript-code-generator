@@ -46,8 +46,9 @@ export namespace ErrorResponse { }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(httpMethod: HttpMethod, url: string, headers: ObjectLike | any, requestBody: ObjectLike | any, queryParameters: QueryParameters | undefined, options?: RequestOption) => Promise<T>;
 }
-export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>, baseUrl: string) => {
-    return {};
-};
+export class Client<RequestOption> {
+    private baseUrl: string;
+    constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) { this.baseUrl = baseUrl.replace(/\\/$/, ""); }
+}
 "
 `;

@@ -44,15 +44,16 @@ export namespace ErrorResponse {
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(httpMethod: HttpMethod, url: string, headers: ObjectLike | any, requestBody: ObjectLike | any, queryParameters: QueryParameters | undefined, options?: RequestOption) => Promise<T>;
 }
-export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>, baseUrl: string) => {
-    const getUnknown = (params: Params$getUnknown, option?: RequestOption): Promise<Response$getUnknown$Status$200["application/json"]> => {
-        const url = baseUrl + \`/get/unknown\`;
+export class Client<RequestOption> {
+    private baseUrl: string;
+    constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) { this.baseUrl = baseUrl.replace(/\\/$/, ""); }
+    public async getUnknown(params: Params$getUnknown, option?: RequestOption): Promise<Response$getUnknown$Status$200["application/json"]> {
+        const url = this.baseUrl + \`/get/unknown\`;
         const headers = {
             Accept: "application/json"
         };
-        return apiClient.request("GET", url, headers, undefined, undefined, option);
-    };
-    return { getUnknown };
-};
+        return this.apiClient.request("GET", url, headers, undefined, undefined, option);
+    }
+}
 "
 `;
