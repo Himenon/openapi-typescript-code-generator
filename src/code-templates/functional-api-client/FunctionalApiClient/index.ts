@@ -7,15 +7,43 @@ import * as Method from "./Method";
 
 export { Method };
 
-export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Params[], option: Option): ts.Block => {
+export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Params[], option: Option): ts.VariableStatement => {
   const variableStatements = list.map(params => {
     return Method.create(factory, params, option);
   });
-  
-  return factory.Block.create({
-    statements: [
-      ...variableStatements,
+
+  const arrowFunction = factory.ArrowFunction.create({
+    typeParameters: [
+      factory.TypeParameterDeclaration.create({
+        name: "RequestOption",
+      })
     ],
-    multiLine: true,
+    parameters: [
+      factory.ParameterDeclaration.create({
+        name: "baseUrl",
+        type: ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword)
+      })
+    ],
+    body: factory.Block.create({
+      statements: [
+        ...variableStatements,
+      ],
+      multiLine: true,
+    })
+  })
+
+  
+  
+  return factory.VariableStatement.create({
+    modifiers: [ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
+    declarationList: factory.VariableDeclarationList.create({
+      declarations: [
+        factory.VariableDeclaration.create({
+          name: "createClient",
+          initializer: arrowFunction,
+        })
+      ],
+      flag: "const"
+    })
   })
 };
