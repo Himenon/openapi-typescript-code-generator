@@ -42,7 +42,7 @@ import * as UnionTypeNode from "./UnionTypeNode";
 import * as VariableDeclaration from "./VariableDeclaration";
 import * as VariableDeclarationList from "./VariableDeclarationList";
 import * as VariableStatement from "./VariableStatement";
-
+import * as ShorthandPropertyAssignment from "./ShorthandPropertyAssignment";
 export interface Type {
   ArrowFunction: ArrowFunction.Factory;
   Block: Block.Factory;
@@ -86,6 +86,7 @@ export interface Type {
   StringLiteral: StringLiteral.Factory;
   FunctionTypeNode: FunctionTypeNode.Factory;
   TypeLiteralNode: TypeLiteralNode.Factory;
+  ShorthandPropertyAssignment: ShorthandPropertyAssignment.Factory;
 }
 
 export const create = (): Type => {
@@ -127,6 +128,7 @@ export const create = (): Type => {
     TemplateMiddle: TemplateMiddle.make(context),
     TemplateTail: TemplateTail.make(context),
     Identifier: Identifier.make(context),
+    ShorthandPropertyAssignment: ShorthandPropertyAssignment.make(context),
     PropertyAssignment: PropertyAssignment.make(context),
     ObjectLiteralExpression: ObjectLiteralExpression.make(context),
     ElementAccessExpression: ElementAccessExpression.make(context),
