@@ -3,8 +3,7 @@ import ts from "typescript";
 import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
 import type { Option } from "../../_shared/types";
-import * as ArrowFunction from "./Method";
-export { ArrowFunction as Method };
+import * as ArrowFunction from "./ArrowFunction";
 
 export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Params[], option: Option): ts.VariableStatement => {
   const properties = list.map(params => {
