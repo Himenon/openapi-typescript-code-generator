@@ -1,5 +1,4 @@
 import * as fs from "fs";
-import * as path from "path";
 
 import { CodeGenerator } from "../../src";
 import * as Templates from "../../src/templates";

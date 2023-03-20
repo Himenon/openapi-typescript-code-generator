@@ -79,5 +79,5 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
     }),
   );
 
-  return statements.length == 0 ? [factory.ReturnStatement.create({})] : statements;
+  return statements.length === 0 ? [factory.ReturnStatement.create({})] : statements;
 };

@@ -34,7 +34,7 @@ export interface Factory {
 
 // eslint-disable-next-line no-unused-vars
 export const findStatement =
-  (context: Pick<ts.TransformationContext, "factory">): Factory["findNamespace"] =>
+  (_context: Pick<ts.TransformationContext, "factory">): Factory["findNamespace"] =>
   (params: Params$FindStatement): ts.Statement | undefined => {
     let statement: ts.Statement | undefined;
     params.node.forEachChild(node => {

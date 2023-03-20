@@ -37,7 +37,7 @@ const withDefaults = ({ cwd = ".", ...options }: Option, additionalDefaults: { c
   ...options,
 });
 
-const noop = () => {};
+const noop = () => undefined;
 
 const findFiles = async ({ cwd, inputDir }: { cwd: string; inputDir: string }) => {
   const filePaths = fs.readdirSync(path.join(cwd, inputDir)).filter(p => p.match(/\.(js|jsx|ts|tsx)/));
@@ -47,7 +47,7 @@ const findFiles = async ({ cwd, inputDir }: { cwd: string; inputDir: string }) =
 const pkgCache = new WeakMap();
 
 const getPkgName = async (options: Option) => {
-  if (options.name != null) {
+  if (options.name !== null) {
     return options.name;
   }
   if (pkgCache.has(options)) {
