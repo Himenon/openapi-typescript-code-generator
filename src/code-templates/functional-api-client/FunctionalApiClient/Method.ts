@@ -155,10 +155,36 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
     }),
   );
 
+  const arrowFunction = factory.ArrowFunction.create({
+    typeParameters: [],
+    parameters: [
+      factory.ParameterDeclaration.create({
+        name: "params",
+        type: factory.TypeReferenceNode.create({
+          name: params.convertedParams.argumentParamsTypeDeclaration,
+        }),
+      }),
+      factory.ParameterDeclaration.create({
+        name: "option",
+        modifiers: undefined,
+        optional: true,
+        type: factory.TypeReferenceNode.create({
+          name: "RequestOption",
+        }),
+      }),
+    ],
+    type: returnType,
+    body: factory.Block.create({
+      statements: [],
+      multiLine: true,
+    }),
+  })
+
   const variableDeclarationList = factory.VariableDeclarationList.create({
     declarations: [
       factory.VariableDeclaration.create({
         name: convertedParams.functionName,
+        initializer: arrowFunction,
       })
     ],
     flag: "const",

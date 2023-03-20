@@ -20,6 +20,17 @@ export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Pa
     ],
     parameters: [
       factory.ParameterDeclaration.create({
+        name: "apiClient",
+        type: factory.TypeReferenceNode.create({
+          name: "ApiClient",
+          typeArguments: [
+            factory.TypeReferenceNode.create({
+              name: "RequestOption",
+            })
+          ],
+        }),
+      }),
+      factory.ParameterDeclaration.create({
         name: "baseUrl",
         type: ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
       }),
