@@ -7,23 +7,26 @@ import type { CodeGenerator } from "../../../../types";
 import * as Utils from "../../../class-api-client/utils";
 import * as PathParameter from "../PathParameter";
 
-const traverse = (expression: ts.Expression) => <T extends ts.Node>(context: Pick<ts.TransformationContext, "factory">) => (rootNode: T) => {
-  const visit = (node: ts.Node): ts.Node => {
-    if (!ts.isSourceFile(node)) {
-      return node;
-    }
-    return context.factory.updateSourceFile(
-      node,
-      [ts.factory.createExpressionStatement(expression)],
-      node.isDeclarationFile,
-      node.referencedFiles,
-      node.typeReferenceDirectives,
-      node.hasNoDefaultLib,
-      node.libReferenceDirectives,
-    );
+const traverse =
+  (expression: ts.Expression) =>
+  <T extends ts.Node>(context: Pick<ts.TransformationContext, "factory">) =>
+  (rootNode: T) => {
+    const visit = (node: ts.Node): ts.Node => {
+      if (!ts.isSourceFile(node)) {
+        return node;
+      }
+      return context.factory.updateSourceFile(
+        node,
+        [ts.factory.createExpressionStatement(expression)],
+        node.isDeclarationFile,
+        node.referencedFiles,
+        node.typeReferenceDirectives,
+        node.hasNoDefaultLib,
+        node.libReferenceDirectives,
+      );
+    };
+    return ts.visitNode(rootNode, visit);
   };
-  return ts.visitNode(rootNode, visit);
-};
 
 const getText = (expression: ts.Expression) => {
   const source = ts.createSourceFile("", "", ts.ScriptTarget.ESNext);
