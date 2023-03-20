@@ -1,4 +1,5 @@
 import ts from "typescript";
+import { generateComment } from "./utils";
 
 export interface Params$Create {
   typeParameters: ts.TypeParameterDeclaration[] | undefined;
@@ -6,6 +7,8 @@ export interface Params$Create {
   type?: ts.TypeNode;
   equalsGreaterThanToken?: ts.EqualsGreaterThanToken;
   body: ts.ConciseBody;
+  comment?: string;
+  deprecated?: boolean;
 }
 
 export interface Factory {
@@ -23,6 +26,10 @@ export const create =
       params.equalsGreaterThanToken,
       params.body,
     );
+    if (params.comment) {
+      const comment = generateComment(params.comment, params.deprecated);
+      return ts.addSyntheticLeadingComment(node, ts.SyntaxKind.MultiLineCommentTrivia, comment.value, comment.hasTrailingNewLine);
+    }
     return node;
   };
 

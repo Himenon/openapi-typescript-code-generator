@@ -13,6 +13,7 @@ export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Pa
   return factory.ReturnStatement.create({
     expression: factory.ObjectLiteralExpression.create({
       properties,
+      multiLine: true,
     }),
   });
 };
