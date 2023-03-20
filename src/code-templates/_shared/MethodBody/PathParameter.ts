@@ -9,23 +9,33 @@ export const isPathParameter = (params: any): params is CodeGenerator.PickedPara
   return params.in === "path";
 };
 
+export type BaseUrlType =  "class" | "variable";
+
 /**
  * const url = this.baseUrl + `[head]${params.parameter.[parameterName]}`;
  */
 const generateUrlVariableStatement = (
   factory: TsGenerator.Factory.Type,
+  baseUrlType: BaseUrlType,
   urlTemplate: Utils.Params$TemplateExpression,
 ): ts.VariableStatement => {
+  const left: Record<BaseUrlType, ts.Expression> =  
+  {
+    "class": factory.PropertyAccessExpression.create({
+      name: "baseUrl",
+      expression: "this",
+    }),
+    "variable": factory.Identifier.create({
+      name: "baseUrl"
+    })
+  }
   return factory.VariableStatement.create({
     declarationList: factory.VariableDeclarationList.create({
       declarations: [
         factory.VariableDeclaration.create({
           name: "url",
           initializer: factory.BinaryExpression.create({
-            left: factory.PropertyAccessExpression.create({
-              name: "baseUrl",
-              expression: "this",
-            }),
+            left: left[baseUrlType],
             operator: "+",
             right: Utils.generateTemplateExpression(factory, urlTemplate),
           }),
@@ -104,10 +114,11 @@ export const create = (
   factory: TsGenerator.Factory.Type,
   requestUri: string,
   pathParameters: CodeGenerator.PickedParameter[],
+  baseUrlType: BaseUrlType,
 ): ts.VariableStatement => {
   if (pathParameters.length > 0) {
     const urlTemplate = generateUrlTemplateExpression(factory, requestUri, pathParameters);
-    return generateUrlVariableStatement(factory, urlTemplate);
+    return generateUrlVariableStatement(factory, baseUrlType, urlTemplate);
   }
-  return generateUrlVariableStatement(factory, [{ type: "string", value: requestUri }]);
+  return generateUrlVariableStatement(factory, baseUrlType, [{ type: "string", value: requestUri }]);
 };

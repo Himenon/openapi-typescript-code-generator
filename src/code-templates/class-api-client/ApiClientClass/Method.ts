@@ -169,7 +169,7 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
     type: returnType,
     typeParameters: typeParameters,
     body: factory.Block.create({
-      statements: MethodBody.create(factory, params),
+      statements: MethodBody.create(factory, params, "class"),
       multiLine: true,
     }),
   });

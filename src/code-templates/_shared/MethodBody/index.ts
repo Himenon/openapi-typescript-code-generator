@@ -13,14 +13,14 @@ export interface Params$GenerateUrl {
   urlTemplate: Utils.Params$TemplateExpression;
 }
 
-export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params): ts.Statement[] => {
+export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params, baseUrlType: PathParameter.BaseUrlType): ts.Statement[] => {
   const statements: ts.Statement[] = [];
   const { convertedParams } = params;
   const { pickedParameters } = convertedParams;
 
   // Generate Path Parameter
   const pathParameters = pickedParameters.filter(PathParameter.isPathParameter);
-  statements.push(PathParameter.create(factory, params.operationParams.requestUri, pathParameters));
+  statements.push(PathParameter.create(factory, params.operationParams.requestUri, pathParameters, baseUrlType));
 
   const initialHeaderObject: Utils.LiteralExpressionObject = {};
   if (convertedParams.has2OrMoreRequestContentTypes) {
