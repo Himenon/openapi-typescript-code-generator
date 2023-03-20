@@ -23,6 +23,7 @@ export const create =
       params.equalsGreaterThanToken,
       params.body,
     );
+
     return node;
   };
 

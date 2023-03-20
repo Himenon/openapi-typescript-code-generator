@@ -1,4 +1,5 @@
 import ts from "typescript";
+import { generateComment } from "./utils";
 
 const flags = {
   const: ts.NodeFlags.Const,
@@ -7,6 +8,7 @@ const flags = {
 export interface Params {
   declarations: readonly ts.VariableDeclaration[];
   flag: keyof typeof flags;
+
 }
 
 export interface Factory {
