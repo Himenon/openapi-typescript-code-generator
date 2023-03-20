@@ -45,9 +45,10 @@ export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(httpMethod: HttpMethod, url: string, headers: ObjectLike | any, requestBody: ObjectLike | any, queryParameters: QueryParameters | undefined, options?: RequestOption) => Promise<T>;
 }
 export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>, baseUrl: string) => {
+    const _baseUrl = baseUrl.replace(/\\/$/, "");
     return {
         getUnknown: (params: Params$getUnknown, option?: RequestOption): Promise<Response$getUnknown$Status$200["application/json"]> => {
-            const url = baseUrl + \`/get/unknown\`;
+            const url = _baseUrl + \`/get/unknown\`;
             const headers = {
                 Accept: "application/json"
             };
