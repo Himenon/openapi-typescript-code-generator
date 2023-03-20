@@ -4,38 +4,36 @@ import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
 import * as Utils from "../../class-api-client/utils";
 import { escapeText2 as escapeText } from "../../../utils";
+import type { MethodType } from "./types";
 
 export const isPathParameter = (params: any): params is CodeGenerator.PickedParameter => {
   return params.in === "path";
 };
-
-export type BaseUrlType =  "class" | "variable";
 
 /**
  * const url = this.baseUrl + `[head]${params.parameter.[parameterName]}`;
  */
 const generateUrlVariableStatement = (
   factory: TsGenerator.Factory.Type,
-  baseUrlType: BaseUrlType,
   urlTemplate: Utils.Params$TemplateExpression,
+  methodType: MethodType,
 ): ts.VariableStatement => {
-  const left: Record<BaseUrlType, ts.Expression> =  
-  {
-    "class": factory.PropertyAccessExpression.create({
+  const left: Record<MethodType, ts.Expression> = {
+    class: factory.PropertyAccessExpression.create({
       name: "baseUrl",
       expression: "this",
     }),
-    "variable": factory.Identifier.create({
-      name: "baseUrl"
-    })
-  }
+    function: factory.Identifier.create({
+      name: "baseUrl",
+    }),
+  };
   return factory.VariableStatement.create({
     declarationList: factory.VariableDeclarationList.create({
       declarations: [
         factory.VariableDeclaration.create({
           name: "url",
           initializer: factory.BinaryExpression.create({
-            left: left[baseUrlType],
+            left: left[methodType],
             operator: "+",
             right: Utils.generateTemplateExpression(factory, urlTemplate),
           }),
@@ -114,11 +112,11 @@ export const create = (
   factory: TsGenerator.Factory.Type,
   requestUri: string,
   pathParameters: CodeGenerator.PickedParameter[],
-  baseUrlType: BaseUrlType,
+  methodType: MethodType,
 ): ts.VariableStatement => {
   if (pathParameters.length > 0) {
     const urlTemplate = generateUrlTemplateExpression(factory, requestUri, pathParameters);
-    return generateUrlVariableStatement(factory, baseUrlType, urlTemplate);
+    return generateUrlVariableStatement(factory, urlTemplate, methodType);
   }
-  return generateUrlVariableStatement(factory, baseUrlType, [{ type: "string", value: requestUri }]);
+  return generateUrlVariableStatement(factory, [{ type: "string", value: requestUri }], methodType);
 };

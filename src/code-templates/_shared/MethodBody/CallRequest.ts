@@ -3,6 +3,7 @@ import ts from "typescript";
 import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
 import * as Utils from "../../class-api-client/utils";
+import type { MethodType } from "./types";
 
 export interface Params {
   httpMethod: string;
@@ -12,9 +13,13 @@ export interface Params {
 /**
  * this.apiClient.request("GET", url, requestBody, headers, queryParameters);
  */
-export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params): ts.CallExpression => {
+export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params, methodType: MethodType): ts.CallExpression => {
   const { convertedParams } = params;
-  const expression = Utils.generateVariableIdentifier(factory, "this.apiClient.request");
+  const apiClientVariableIdentifier: Record<MethodType, string> = {
+    class: "this.apiClient.request",
+    function: "apiClient.request",
+  };
+  const expression = Utils.generateVariableIdentifier(factory, apiClientVariableIdentifier[methodType]);
   const argumentsArray = [
     factory.StringLiteral.create({ text: params.operationParams.httpMethod.toUpperCase() }),
     factory.Identifier.create({ name: "url" }),

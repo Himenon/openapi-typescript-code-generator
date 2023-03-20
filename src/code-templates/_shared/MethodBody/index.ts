@@ -8,19 +8,20 @@ import * as CallRequest from "./CallRequest";
 import * as HeaderParameter from "./HeaderParameter";
 import * as PathParameter from "./PathParameter";
 import * as QueryParameter from "./QueryParameter";
+import type { MethodType } from "./types";
 
 export interface Params$GenerateUrl {
   urlTemplate: Utils.Params$TemplateExpression;
 }
 
-export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params, baseUrlType: PathParameter.BaseUrlType): ts.Statement[] => {
+export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params, methodType: MethodType): ts.Statement[] => {
   const statements: ts.Statement[] = [];
   const { convertedParams } = params;
   const { pickedParameters } = convertedParams;
 
   // Generate Path Parameter
   const pathParameters = pickedParameters.filter(PathParameter.isPathParameter);
-  statements.push(PathParameter.create(factory, params.operationParams.requestUri, pathParameters, baseUrlType));
+  statements.push(PathParameter.create(factory, params.operationParams.requestUri, pathParameters, methodType));
 
   const initialHeaderObject: Utils.LiteralExpressionObject = {};
   if (convertedParams.has2OrMoreRequestContentTypes) {
@@ -75,7 +76,7 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
   // Generate CallRequest
   statements.push(
     factory.ReturnStatement.create({
-      expression: CallRequest.create(factory, params),
+      expression: CallRequest.create(factory, params, methodType),
     }),
   );
 
