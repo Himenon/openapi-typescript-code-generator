@@ -1,4 +1,3 @@
-import { EOL } from "os";
 import ts from "typescript";
 
 import type { TsGenerator } from "../../../api";
@@ -118,11 +117,9 @@ const methodTypeParameters = (factory: TsGenerator.Factory.Type, { convertedPara
 };
 
 /**
- * const {functionName} = async (params: {argumentParamsTypeDeclaration}<{RequestContentType}>): Promise<{requestBodyName}[ResponseContentType]> => {
- *
- * }
+ * async (params: {argumentParamsTypeDeclaration}<{RequestContentType}>): Promise<{requestBodyName}[ResponseContentType]> => {}
  */
-export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params, option: Option): ts.VariableStatement => {
+export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params, option: Option): ts.ArrowFunction => {
   const { convertedParams } = params;
   const typeParameters: ts.TypeParameterDeclaration[] = methodTypeParameters(factory, params);
   const methodArguments: ts.ParameterDeclaration[] = [];
@@ -154,7 +151,7 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
     }),
   );
 
-  const arrowFunction = factory.ArrowFunction.create({
+  return factory.ArrowFunction.create({
     typeParameters: typeParameters,
     parameters: methodArguments,
     type: returnType,
@@ -162,26 +159,5 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
       statements: MethodBody.create(factory, params, "function"),
       multiLine: true,
     }),
-  });
-
-  const variableDeclarationList = factory.VariableDeclarationList.create({
-    declarations: [
-      factory.VariableDeclaration.create({
-        name: convertedParams.functionName,
-        initializer: arrowFunction,
-
-      }),
-    ],
-    flag: "const",
-    comment: option.additionalMethodComment
-    ? [params.operationParams.comment, `operationId: ${params.operationId}`, `Request URI: ${params.operationParams.requestUri}`]
-        .filter(t => !!t)
-        .join(EOL)
-    : params.operationParams.comment,
-  deprecated: params.operationParams.deprecated,
-  });
-
-  return factory.VariableStatement.create({
-    declarationList: variableDeclarationList,
   });
 };

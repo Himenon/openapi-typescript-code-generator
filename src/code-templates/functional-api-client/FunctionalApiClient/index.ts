@@ -3,13 +3,22 @@ import ts from "typescript";
 import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
 import type { Option } from "../../_shared/types";
-import * as Method from "./Method";
-import * as ReturnStatement from "./ReturnStatement";
-export { Method };
+import * as ArrowFunction from "./Method";
+export { ArrowFunction as Method };
 
 export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Params[], option: Option): ts.VariableStatement => {
-  const variableStatements = list.map(params => {
-    return Method.create(factory, params, option);
+  const properties = list.map(params => {
+    return factory.PropertyAssignment.create({
+      name: params.convertedParams.functionName,
+      initializer: ArrowFunction.create(factory, params, option),
+    });
+  });
+
+  const returnValue = factory.ReturnStatement.create({
+    expression: factory.ObjectLiteralExpression.create({
+      properties,
+      multiLine: true,
+    }),
   });
 
   const arrowFunction = factory.ArrowFunction.create({
@@ -36,7 +45,7 @@ export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Pa
       }),
     ],
     body: factory.Block.create({
-      statements: [...variableStatements, ReturnStatement.create(factory, list)],
+      statements: [returnValue],
       multiLine: true,
     }),
   });
