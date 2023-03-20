@@ -35,4 +35,37 @@ describe("Typedef with template", () => {
     const text = Utils.replaceVersionInfo(generateCode);
     expect(text).toMatchSnapshot();
   });
+
+  test("functional-api.test.domain", () => {
+    const generateCode = fs.readFileSync("test/code/functional/typedef-with-template/api.test.domain.ts", { encoding: "utf-8" });
+    const text = Utils.replaceVersionInfo(generateCode);
+    expect(text).toMatchSnapshot();
+  });
+  test("functional-api.v2.domain", () => {
+    const generateCode = fs.readFileSync("test/code/functional/typedef-with-template/api.v2.domain.ts", { encoding: "utf-8" });
+    const text = Utils.replaceVersionInfo(generateCode);
+    expect(text).toMatchSnapshot();
+  });
+  test("functional-async-api.test.domain", () => {
+    const generateCode = fs.readFileSync("test/code/functional/typedef-with-template/sync-api.test.domain.ts", {
+      encoding: "utf-8",
+    });
+    const text = Utils.replaceVersionInfo(generateCode);
+    expect(text).toMatchSnapshot();
+  });
+  test("functional-infer.domain", () => {
+    const generateCode = fs.readFileSync("test/code/functional/typedef-with-template/infer.domain.ts", { encoding: "utf-8" });
+    const text = Utils.replaceVersionInfo(generateCode);
+    expect(text).toMatchSnapshot();
+  });
+  test("functional-ref-access", () => {
+    const generateCode = fs.readFileSync("test/code/functional/typedef-with-template/ref-access.ts", { encoding: "utf-8" });
+    const text = Utils.replaceVersionInfo(generateCode);
+    expect(text).toMatchSnapshot();
+  });
+  test("functional-remote-ref-access", () => {
+    const generateCode = fs.readFileSync("test/code/functional/typedef-with-template/remote-ref-access.ts", { encoding: "utf-8" });
+    const text = Utils.replaceVersionInfo(generateCode);
+    expect(text).toMatchSnapshot();
+  });
 });

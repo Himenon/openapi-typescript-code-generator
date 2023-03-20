@@ -8,4 +8,9 @@ describe("Format Types", () => {
     const text = Utils.replaceVersionInfo(generateCode);
     expect(text).toMatchSnapshot();
   });
+  test("functional-format.domain", () => {
+    const generateCode = fs.readFileSync("test/code/functional/format.domain/code.ts", { encoding: "utf-8" });
+    const text = Utils.replaceVersionInfo(generateCode);
+    expect(text).toMatchSnapshot();
+  });
 });

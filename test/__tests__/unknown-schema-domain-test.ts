@@ -8,4 +8,10 @@ describe("Unknown", () => {
     const text = Utils.replaceVersionInfo(generateCode);
     expect(text).toMatchSnapshot();
   });
+
+  test("functional-client.ts", () => {
+    const generateCode = fs.readFileSync("test/code/functional/unknown.schema.domain/client.ts", { encoding: "utf-8" });
+    const text = Utils.replaceVersionInfo(generateCode);
+    expect(text).toMatchSnapshot();
+  });
 });

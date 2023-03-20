@@ -8,4 +8,9 @@ describe("Argo Rollout", () => {
     const text = Utils.replaceVersionInfo(generateCode);
     expect(text).toMatchSnapshot();
   });
+  test("functional-client.ts", () => {
+    const generateCode = fs.readFileSync("test/code/functional/argo-rollout/client.ts", { encoding: "utf-8" });
+    const text = Utils.replaceVersionInfo(generateCode);
+    expect(text).toMatchSnapshot();
+  });
 });

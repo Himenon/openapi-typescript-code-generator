@@ -662,4 +662,668 @@ exports[`Parameter api.test.domain 1`] = `
 ]"
 `;
 
+exports[`Parameter functional-api.test.domain 1`] = `
+"[
+  {
+    "operationId": "getIncludeLocalReference",
+    "convertedParams": {
+      "escapedOperationId": "getIncludeLocalReference",
+      "argumentParamsTypeDeclaration": "Params$getIncludeLocalReference",
+      "functionName": "getIncludeLocalReference",
+      "requestContentTypeName": "RequestContentType$getIncludeLocalReference",
+      "responseContentTypeName": "ResponseContentType$getIncludeLocalReference",
+      "parameterName": "Parameter$getIncludeLocalReference",
+      "requestBodyName": "RequestBody$getIncludeLocalReference",
+      "hasRequestBody": false,
+      "hasParameter": true,
+      "pickedParameters": [
+        {
+          "name": "StringQuery",
+          "in": "query",
+          "required": true
+        }
+      ],
+      "requestContentTypes": [],
+      "responseSuccessNames": [
+        "Response$getIncludeLocalReference$Status$200"
+      ],
+      "responseFirstSuccessName": "Response$getIncludeLocalReference$Status$200",
+      "has2OrMoreSuccessNames": false,
+      "responseErrorNames": [],
+      "has2OrMoreRequestContentTypes": false,
+      "successResponseContentTypes": [
+        "application/json"
+      ],
+      "successResponseFirstContentType": "application/json",
+      "has2OrMoreSuccessResponseContentTypes": false,
+      "hasAdditionalHeaders": false,
+      "hasQueryParameters": true
+    },
+    "operationParams": {
+      "httpMethod": "get",
+      "requestUri": "/get/IncludeLocalReference",
+      "comment": "",
+      "deprecated": false,
+      "parameters": [
+        {
+          "name": "StringQuery",
+          "in": "query",
+          "description": "parameters.StringQueryParams",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success response of getA",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "meta"
+                ],
+                "properties": {
+                  "meta": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "operationId": "getIncludeRemoteReference",
+    "convertedParams": {
+      "escapedOperationId": "getIncludeRemoteReference",
+      "argumentParamsTypeDeclaration": "Params$getIncludeRemoteReference",
+      "functionName": "getIncludeRemoteReference",
+      "requestContentTypeName": "RequestContentType$getIncludeRemoteReference",
+      "responseContentTypeName": "ResponseContentType$getIncludeRemoteReference",
+      "parameterName": "Parameter$getIncludeRemoteReference",
+      "requestBodyName": "RequestBody$getIncludeRemoteReference",
+      "hasRequestBody": true,
+      "hasParameter": true,
+      "pickedParameters": [
+        {
+          "name": "IncludeRemoteReference",
+          "in": "query",
+          "required": true
+        }
+      ],
+      "requestContentTypes": [
+        "application/json"
+      ],
+      "requestFirstContentType": "application/json",
+      "responseSuccessNames": [],
+      "has2OrMoreSuccessNames": false,
+      "responseErrorNames": [],
+      "has2OrMoreRequestContentTypes": false,
+      "successResponseContentTypes": [],
+      "has2OrMoreSuccessResponseContentTypes": false,
+      "hasAdditionalHeaders": false,
+      "hasQueryParameters": true
+    },
+    "operationParams": {
+      "httpMethod": "get",
+      "requestUri": "/get/IncludeRemoteReference",
+      "comment": "",
+      "deprecated": false,
+      "requestBody": {
+        "description": "Request body string type",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "IncludeRemoteReference",
+          "in": "query",
+          "description": "remote reference parameter",
+          "required": true,
+          "schema": {
+            "type": "number"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "OK"
+        }
+      }
+    }
+  },
+  {
+    "operationId": "getFullRemoteReference",
+    "convertedParams": {
+      "escapedOperationId": "getFullRemoteReference",
+      "argumentParamsTypeDeclaration": "Params$getFullRemoteReference",
+      "functionName": "getFullRemoteReference",
+      "requestContentTypeName": "RequestContentType$getFullRemoteReference",
+      "responseContentTypeName": "ResponseContentType$getFullRemoteReference",
+      "parameterName": "Parameter$getFullRemoteReference",
+      "requestBodyName": "RequestBody$getFullRemoteReference",
+      "hasRequestBody": false,
+      "hasParameter": true,
+      "pickedParameters": [
+        {
+          "name": "FullRemoteReferenceQuery",
+          "in": "query",
+          "required": true
+        }
+      ],
+      "requestContentTypes": [],
+      "responseSuccessNames": [
+        "Response$getFullRemoteReference$Status$200"
+      ],
+      "responseFirstSuccessName": "Response$getFullRemoteReference$Status$200",
+      "has2OrMoreSuccessNames": false,
+      "responseErrorNames": [],
+      "has2OrMoreRequestContentTypes": false,
+      "successResponseContentTypes": [
+        "application/json"
+      ],
+      "successResponseFirstContentType": "application/json",
+      "has2OrMoreSuccessResponseContentTypes": false,
+      "hasAdditionalHeaders": false,
+      "hasQueryParameters": true
+    },
+    "operationParams": {
+      "httpMethod": "get",
+      "requestUri": "/FullRemoteReference",
+      "comment": "",
+      "deprecated": false,
+      "parameters": [
+        {
+          "name": "FullRemoteReferenceQuery",
+          "in": "query",
+          "description": "Full Remote Reference",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "description": "for parameters"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "response A definition",
+          "headers": {
+            "HeaderA": {
+              "description": "Header A",
+              "schema": {
+                "type": "integer"
+              }
+            },
+            "HeaderB": {
+              "description": "HeaderB",
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "enum": [
+                      "responseA"
+                    ],
+                    "description": "responseA description"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "operationId": "i.have.dot",
+    "convertedParams": {
+      "escapedOperationId": "i$have$dot",
+      "argumentParamsTypeDeclaration": "Params$i$have$dot",
+      "functionName": "i$have$dot",
+      "requestContentTypeName": "RequestContentType$i$have$dot",
+      "responseContentTypeName": "ResponseContentType$i$have$dot",
+      "parameterName": "Parameter$i$have$dot",
+      "requestBodyName": "RequestBody$i$have$dot",
+      "hasRequestBody": false,
+      "hasParameter": false,
+      "pickedParameters": [],
+      "requestContentTypes": [],
+      "responseSuccessNames": [
+        "Response$i$have$dot$Status$200"
+      ],
+      "responseFirstSuccessName": "Response$i$have$dot$Status$200",
+      "has2OrMoreSuccessNames": false,
+      "responseErrorNames": [],
+      "has2OrMoreRequestContentTypes": false,
+      "successResponseContentTypes": [
+        "application/json"
+      ],
+      "successResponseFirstContentType": "application/json",
+      "has2OrMoreSuccessResponseContentTypes": false,
+      "hasAdditionalHeaders": false,
+      "hasQueryParameters": false
+    },
+    "operationParams": {
+      "httpMethod": "get",
+      "requestUri": "/i/have/dot",
+      "comment": "",
+      "deprecated": false,
+      "parameters": [],
+      "responses": {
+        "200": {
+          "description": "Get Books",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "books": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "description": "Item Model",
+                      "required": [
+                        "name",
+                        "children"
+                      ],
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "children": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "required": [
+                              "id",
+                              "name"
+                            ],
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string",
+                                "description": "child name"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "operationId": "getReferenceItems",
+    "convertedParams": {
+      "escapedOperationId": "getReferenceItems",
+      "argumentParamsTypeDeclaration": "Params$getReferenceItems",
+      "functionName": "getReferenceItems",
+      "requestContentTypeName": "RequestContentType$getReferenceItems",
+      "responseContentTypeName": "ResponseContentType$getReferenceItems",
+      "parameterName": "Parameter$getReferenceItems",
+      "requestBodyName": "RequestBody$getReferenceItems",
+      "hasRequestBody": false,
+      "hasParameter": false,
+      "pickedParameters": [],
+      "requestContentTypes": [],
+      "responseSuccessNames": [
+        "Response$getReferenceItems$Status$200"
+      ],
+      "responseFirstSuccessName": "Response$getReferenceItems$Status$200",
+      "has2OrMoreSuccessNames": false,
+      "responseErrorNames": [],
+      "has2OrMoreRequestContentTypes": false,
+      "successResponseContentTypes": [
+        "application/json"
+      ],
+      "successResponseFirstContentType": "application/json",
+      "has2OrMoreSuccessResponseContentTypes": false,
+      "hasAdditionalHeaders": false,
+      "hasQueryParameters": false
+    },
+    "operationParams": {
+      "httpMethod": "get",
+      "requestUri": "/get/reference/items",
+      "comment": "",
+      "deprecated": false,
+      "parameters": [],
+      "responses": {
+        "200": {
+          "description": "Get Books",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "books": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "description": "Item Model",
+                      "required": [
+                        "name",
+                        "children"
+                      ],
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "children": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "required": [
+                              "id",
+                              "name"
+                            ],
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string",
+                                "description": "child name"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "operationId": "searchBook",
+    "convertedParams": {
+      "escapedOperationId": "searchBook",
+      "argumentParamsTypeDeclaration": "Params$searchBook",
+      "functionName": "searchBook",
+      "requestContentTypeName": "RequestContentType$searchBook",
+      "responseContentTypeName": "ResponseContentType$searchBook",
+      "parameterName": "Parameter$searchBook",
+      "requestBodyName": "RequestBody$searchBook",
+      "hasRequestBody": false,
+      "hasParameter": true,
+      "pickedParameters": [
+        {
+          "name": "book.name",
+          "in": "path",
+          "required": true
+        },
+        {
+          "name": "from.publishedAt",
+          "in": "query"
+        }
+      ],
+      "requestContentTypes": [],
+      "responseSuccessNames": [
+        "Response$searchBook$Status$200"
+      ],
+      "responseFirstSuccessName": "Response$searchBook$Status$200",
+      "has2OrMoreSuccessNames": false,
+      "responseErrorNames": [],
+      "has2OrMoreRequestContentTypes": false,
+      "successResponseContentTypes": [
+        "application/json"
+      ],
+      "successResponseFirstContentType": "application/json",
+      "has2OrMoreSuccessResponseContentTypes": false,
+      "hasAdditionalHeaders": false,
+      "hasQueryParameters": true
+    },
+    "operationParams": {
+      "httpMethod": "get",
+      "requestUri": "/get/search/{book.name}",
+      "comment": "",
+      "deprecated": false,
+      "parameters": [
+        {
+          "in": "path",
+          "name": "book.name",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "query",
+          "name": "from.publishedAt",
+          "schema": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Search Book Result",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "bookTitle": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "operationId": "getBookById",
+    "convertedParams": {
+      "escapedOperationId": "getBookById",
+      "argumentParamsTypeDeclaration": "Params$getBookById",
+      "functionName": "getBookById",
+      "requestContentTypeName": "RequestContentType$getBookById",
+      "responseContentTypeName": "ResponseContentType$getBookById",
+      "parameterName": "Parameter$getBookById",
+      "requestBodyName": "RequestBody$getBookById",
+      "hasRequestBody": false,
+      "hasParameter": true,
+      "pickedParameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "requestContentTypes": [],
+      "responseSuccessNames": [
+        "Response$getBookById$Status$200"
+      ],
+      "responseFirstSuccessName": "Response$getBookById$Status$200",
+      "has2OrMoreSuccessNames": false,
+      "responseErrorNames": [],
+      "has2OrMoreRequestContentTypes": false,
+      "successResponseContentTypes": [
+        "application/json"
+      ],
+      "successResponseFirstContentType": "application/json",
+      "has2OrMoreSuccessResponseContentTypes": false,
+      "hasAdditionalHeaders": false,
+      "hasQueryParameters": false
+    },
+    "operationParams": {
+      "httpMethod": "get",
+      "requestUri": "/get/books/{id}",
+      "comment": "",
+      "deprecated": false,
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "Book ID",
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "get books",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "stringType": {
+                    "type": "string"
+                  },
+                  "numberType": {
+                    "type": "number"
+                  },
+                  "booleanType": {
+                    "type": "boolean"
+                  },
+                  "arrayType": {
+                    "type": "string"
+                  },
+                  "objectType": {
+                    "type": "object",
+                    "required": [
+                      "requiredStringType"
+                    ],
+                    "properties": {
+                      "requiredStringType": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "stringType": "string-type",
+                  "numberType": 1,
+                  "booleanType": false,
+                  "arrayType": [],
+                  "objectType": {
+                    "requiredStringType": "required-string-type"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "operationId": "deleteBook",
+    "convertedParams": {
+      "escapedOperationId": "deleteBook",
+      "argumentParamsTypeDeclaration": "Params$deleteBook",
+      "functionName": "deleteBook",
+      "requestContentTypeName": "RequestContentType$deleteBook",
+      "responseContentTypeName": "ResponseContentType$deleteBook",
+      "parameterName": "Parameter$deleteBook",
+      "requestBodyName": "RequestBody$deleteBook",
+      "hasRequestBody": false,
+      "hasParameter": true,
+      "pickedParameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "requestContentTypes": [],
+      "responseSuccessNames": [
+        "Response$deleteBook$Status$200"
+      ],
+      "responseFirstSuccessName": "Response$deleteBook$Status$200",
+      "has2OrMoreSuccessNames": false,
+      "responseErrorNames": [],
+      "has2OrMoreRequestContentTypes": false,
+      "successResponseContentTypes": [
+        "application/json"
+      ],
+      "successResponseFirstContentType": "application/json",
+      "has2OrMoreSuccessResponseContentTypes": false,
+      "hasAdditionalHeaders": false,
+      "hasQueryParameters": false
+    },
+    "operationParams": {
+      "httpMethod": "delete",
+      "requestUri": "/get/books/{id}",
+      "comment": "",
+      "deprecated": false,
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "Number Book ID",
+          "schema": {
+            "type": "number",
+            "format": "uuid"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "get books",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "ok"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+]"
+`;
+
+exports[`Parameter functional-infer.domain 1`] = `"[]"`;
+
 exports[`Parameter infer.domain 1`] = `"[]"`;

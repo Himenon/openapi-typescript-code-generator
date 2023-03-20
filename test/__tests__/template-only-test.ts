@@ -18,4 +18,20 @@ describe("Template Only", () => {
     const text = Utils.replaceVersionInfo(generateCode);
     expect(text).toMatchSnapshot();
   });
+
+  test("functional-api.test.domain", () => {
+    const generateCode = fs.readFileSync("test/code/functional/template-only/api.test.domain.ts", { encoding: "utf-8" });
+    const text = Utils.replaceVersionInfo(generateCode);
+    expect(text).toMatchSnapshot();
+  });
+  test("functional-async-api.test.domain", () => {
+    const generateCode = fs.readFileSync("test/code/functional/template-only/sync-api.test.domain.ts", { encoding: "utf-8" });
+    const text = Utils.replaceVersionInfo(generateCode);
+    expect(text).toMatchSnapshot();
+  });
+  test("functional-infer.domain", () => {
+    const generateCode = fs.readFileSync("test/code/functional/template-only/infer.domain.ts", { encoding: "utf-8" });
+    const text = Utils.replaceVersionInfo(generateCode);
+    expect(text).toMatchSnapshot();
+  });
 });
