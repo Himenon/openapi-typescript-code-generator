@@ -24,7 +24,6 @@ export const create =
       return;
     })();
     const node = factory.createParameterDeclaration(
-      undefined,
       modifiers,
       undefined,
       factory.createIdentifier(params.name),
