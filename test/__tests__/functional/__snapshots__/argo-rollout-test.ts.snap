@@ -3920,7 +3920,21 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
         };
         return apiClient.request("GET", url, headers, undefined, undefined, option);
     };
-    return { RolloutService_GetNamespace, RolloutService_ListRolloutInfos, RolloutService_WatchRolloutInfos, RolloutService_AbortRollout, RolloutService_GetRolloutInfo, RolloutService_WatchRolloutInfo, RolloutService_PromoteRollout, RolloutService_RestartRollout, RolloutService_RetryRollout, RolloutService_SetRolloutImage, RolloutService_UndoRollout, RolloutService_Version };
+    return {
+        RolloutService_GetNamespace,
+        RolloutService_ListRolloutInfos,
+        RolloutService_WatchRolloutInfos,
+        RolloutService_AbortRollout,
+        RolloutService_GetRolloutInfo,
+        RolloutService_WatchRolloutInfo,
+        RolloutService_PromoteRollout,
+        RolloutService_RestartRollout,
+        RolloutService_RetryRollout,
+        RolloutService_SetRolloutImage,
+        RolloutService_UndoRollout,
+        RolloutService_Version
+    };
 };
+export type Client = ReturnType<typeof createClient>;
 "
 `;

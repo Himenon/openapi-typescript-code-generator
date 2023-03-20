@@ -481,8 +481,18 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
         };
         return apiClient.request("DELETE", url, headers, undefined, undefined, option);
     };
-    return { getIncludeLocalReference, getIncludeRemoteReference, getFullRemoteReference, i$have$dot, getReferenceItems, searchBook, getBookById, deleteBook };
+    return {
+        getIncludeLocalReference,
+        getIncludeRemoteReference,
+        getFullRemoteReference,
+        i$have$dot,
+        getReferenceItems,
+        searchBook,
+        getBookById,
+        deleteBook
+    };
 };
+export type Client = ReturnType<typeof createClient>;
 "
 `;
 
@@ -543,8 +553,11 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
         };
         return apiClient.request("GET", url, headers, undefined, queryParameters, option);
     };
-    return { getHelloWorld };
+    return {
+        getHelloWorld
+    };
 };
+export type Client = ReturnType<typeof createClient>;
 "
 `;
 
@@ -1029,8 +1042,18 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
         };
         return apiClient.request("DELETE", url, headers, undefined, undefined, option);
     };
-    return { getIncludeLocalReference, getIncludeRemoteReference, getFullRemoteReference, i$have$dot, getReferenceItems, searchBook, getBookById, deleteBook };
+    return {
+        getIncludeLocalReference,
+        getIncludeRemoteReference,
+        getFullRemoteReference,
+        i$have$dot,
+        getReferenceItems,
+        searchBook,
+        getBookById,
+        deleteBook
+    };
 };
+export type Client = ReturnType<typeof createClient>;
 "
 `;
 
@@ -1087,6 +1110,7 @@ export interface ApiClient<RequestOption> {
 export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>, baseUrl: string) => {
     return {};
 };
+export type Client = ReturnType<typeof createClient>;
 "
 `;
 
@@ -1221,8 +1245,14 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
         };
         return apiClient.request("GET", url, headers, undefined, undefined, option);
     };
-    return { getBook, getDescription, getAuthor, getPublisher };
+    return {
+        getBook,
+        getDescription,
+        getAuthor,
+        getPublisher
+    };
 };
+export type Client = ReturnType<typeof createClient>;
 "
 `;
 
@@ -1365,7 +1395,13 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
         };
         return apiClient.request("GET", url, headers, undefined, undefined, option);
     };
-    return { getBook, getDescription, getAuthor, getPublisher };
+    return {
+        getBook,
+        getDescription,
+        getAuthor,
+        getPublisher
+    };
 };
+export type Client = ReturnType<typeof createClient>;
 "
 `;

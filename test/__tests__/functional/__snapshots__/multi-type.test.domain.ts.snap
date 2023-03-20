@@ -46,6 +46,10 @@ export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(httpMethod: HttpMethod, url: string, headers: ObjectLike | any, requestBody: ObjectLike | any, queryParameters: QueryParameters | undefined, options?: RequestOption) => Promise<T>;
 }
 export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>, baseUrl: string) => {
+    /**
+     * operationId: putAnyOf
+     * Request URI: /pets
+     */
     const putAnyOf = (params: Params$putAnyOf, option?: RequestOption): Promise<void> => {
         const url = baseUrl + \`/pets\`;
         const headers = {
@@ -53,6 +57,10 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
         };
         return apiClient.request("PUT", url, headers, params.requestBody, undefined, option);
     };
+    /**
+     * operationId: patchOneOf
+     * Request URI: /pets
+     */
     const patchOneOf = (params: Params$patchOneOf, option?: RequestOption): Promise<void> => {
         const url = baseUrl + \`/pets\`;
         const headers = {
@@ -60,8 +68,12 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
         };
         return apiClient.request("PATCH", url, headers, params.requestBody, undefined, option);
     };
-    return { putAnyOf, patchOneOf };
+    return {
+        putAnyOf,
+        patchOneOf
+    };
 };
+export type Client = ReturnType<typeof createClient>;
 "
 `;
 

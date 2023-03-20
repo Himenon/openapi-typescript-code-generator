@@ -157,12 +157,6 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
   const arrowFunction = factory.ArrowFunction.create({
     typeParameters: typeParameters,
     parameters: methodArguments,
-    comment: option.additionalMethodComment
-    ? [params.operationParams.comment, `operationId: ${params.operationId}`, `Request URI: ${params.operationParams.requestUri}`]
-        .filter(t => !!t)
-        .join(EOL)
-    : params.operationParams.comment,
-    deprecated: params.operationParams.deprecated,
     type: returnType,
     body: factory.Block.create({
       statements: MethodBody.create(factory, params, "function"),
@@ -175,9 +169,16 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
       factory.VariableDeclaration.create({
         name: convertedParams.functionName,
         initializer: arrowFunction,
+
       }),
     ],
     flag: "const",
+    comment: option.additionalMethodComment
+    ? [params.operationParams.comment, `operationId: ${params.operationId}`, `Request URI: ${params.operationParams.requestUri}`]
+        .filter(t => !!t)
+        .join(EOL)
+    : params.operationParams.comment,
+  deprecated: params.operationParams.deprecated,
   });
 
   return factory.VariableStatement.create({
