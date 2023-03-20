@@ -47,6 +47,7 @@ export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(httpMethod: HttpMethod, url: string, headers: ObjectLike | any, requestBody: ObjectLike | any, queryParameters: QueryParameters | undefined, options?: RequestOption) => Promise<T>;
 }
 export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>, baseUrl: string) => {
+    const _baseUrl = baseUrl.replace(/\\/$/, "");
     return {};
 };
 type ClientFunction<RequestOption> = typeof createClient<RequestOption>;

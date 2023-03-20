@@ -24,7 +24,7 @@ const generateUrlVariableStatement = (
       expression: "this",
     }),
     function: factory.Identifier.create({
-      name: "baseUrl",
+      name: "_baseUrl",
     }),
   };
   return factory.VariableStatement.create({

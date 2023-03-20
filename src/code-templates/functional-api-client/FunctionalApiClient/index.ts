@@ -50,7 +50,26 @@ export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Pa
       }),
     ],
     body: factory.Block.create({
-      statements: [returnValue],
+      statements: [
+        factory.VariableStatement.create({
+          declarationList: factory.VariableDeclarationList.create({
+            flag: "const",
+            declarations: [
+              factory.VariableDeclaration.create({
+                name: "_baseUrl",
+                initializer: factory.CallExpression.create({
+                  expression: factory.PropertyAccessExpression.create({
+                    expression: "baseUrl",
+                    name: "replace",
+                  }),
+                  argumentsArray: [factory.RegularExpressionLiteral.create({ text: "/\\/$/" }), factory.StringLiteral.create({ text: "" })],
+                }),
+              }),
+            ],
+          }),
+        }),
+        returnValue,
+      ],
       multiLine: true,
     }),
   });

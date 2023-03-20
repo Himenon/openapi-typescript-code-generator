@@ -14,11 +14,9 @@ export const create =
   (params: Params$Create): ts.IndexSignatureDeclaration => {
     const node = factory.createIndexSignature(
       undefined,
-      undefined,
       // TODO Feature Development: Refactoring
       [
         factory.createParameterDeclaration(
-          undefined,
           undefined,
           undefined,
           factory.createIdentifier(params.name),
