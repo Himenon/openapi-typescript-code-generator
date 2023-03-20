@@ -11,8 +11,8 @@ describe("raw-json-generate", () => {
     const codeGenerator1 = new CodeGenerator(generateCode);
     const codeGenerator2 = new CodeGenerator("test/kubernetes/openapi-v1.18.5.json");
 
-    const apiClientGeneratorTemplate: Types.CodeGenerator.CustomGenerator<Templates.ApiClient.Option> = {
-      generator: Templates.ApiClient.generator,
+    const apiClientGeneratorTemplate: Types.CodeGenerator.CustomGenerator<Templates.ClassApiClient.Option> = {
+      generator: Templates.ClassApiClient.generator,
       option: {},
     };
 
@@ -31,8 +31,8 @@ describe("raw-json-generate", () => {
   test("yaml file path loadable", () => {
     const codeGenerator = new CodeGenerator("test/api.test.domain/index.yml");
 
-    const apiClientGeneratorTemplate: Types.CodeGenerator.CustomGenerator<Templates.ApiClient.Option> = {
-      generator: Templates.ApiClient.generator,
+    const apiClientGeneratorTemplate: Types.CodeGenerator.CustomGenerator<Templates.ClassApiClient.Option> = {
+      generator: Templates.ClassApiClient.generator,
       option: {},
     };
 

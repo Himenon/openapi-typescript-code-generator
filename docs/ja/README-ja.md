@@ -52,8 +52,8 @@ import type * as Types from "@himenon/openapi-typescript-code-generator/types";
 const main = () => {
   const codeGenerator = new CodeGenerator("your/openapi/spec.yml");
 
-  const apiClientGeneratorTemplate: Types.CodeGenerator.CustomGenerator<Templates.ApiClient.Option> = {
-    generator: Templates.ApiClient.generator,
+  const apiClientGeneratorTemplate: Types.CodeGenerator.CustomGenerator<Templates.FunctionalApiClient.Option> = {
+    generator: Templates.FunctionalApiClient.generator,
     option: {},
   };
 
@@ -80,8 +80,8 @@ import type * as Types from "@himenon/openapi-typescript-code-generator/types";
 const main = () => {
   const codeGenerator = new CodeGenerator("your/openapi/spec.yml");
 
-  const apiClientGeneratorTemplate: Types.CodeGenerator.CustomGenerator<Templates.ApiClient.Option> = {
-    generator: Templates.ApiClient.generator,
+  const apiClientGeneratorTemplate: Types.CodeGenerator.CustomGenerator<Templates.FunctionalApiClient.Option> = {
+    generator: Templates.FunctionalApiClient.generator,
     option: {},
   };
 
@@ -298,7 +298,7 @@ OpenAPI Schema から抽出したパラメーターを取得できます。
 
 #### getAdditionalTypeDefinitionCustomCodeGenerator
 
-`Templates.ApiClient`向けの型定義ファイルです。`generateTypeDefinition`に含めていない理由は、用途によってこの関数が生成する型定義を利用しない可能性があるためです。
+`Templates.FunctionalApiClient`向けの型定義ファイルです。`generateTypeDefinition`に含めていない理由は、用途によってこの関数が生成する型定義を利用しない可能性があるためです。
 
 ※ 将来的に`Templates`の API に移動する予定です。
 
