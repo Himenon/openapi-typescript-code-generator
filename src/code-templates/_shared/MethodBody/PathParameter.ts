@@ -1,9 +1,9 @@
 import ts from "typescript";
 
-import type { TsGenerator } from "../../../../api";
-import type { CodeGenerator } from "../../../../types";
-import * as Utils from "../../utils";
-import { escapeText2 as escapeText } from "../../../../utils";
+import type { TsGenerator } from "../../../api";
+import type { CodeGenerator } from "../../../types";
+import * as Utils from "../../class-api-client/utils";
+import { escapeText2 as escapeText } from "../../../utils";
 
 export const isPathParameter = (params: any): params is CodeGenerator.PickedParameter => {
   return params.in === "path";

@@ -3,7 +3,7 @@ import ts from "typescript";
 import { TsGenerator } from "../../api";
 import type { CodeGenerator } from "../../types";
 import * as ApiClientArgument from "../_shared/ApiClientArgument";
-import * as ApiClientClass from "./ApiClientClass";
+
 import type { Option } from "./types";
 
 export { Option };
@@ -26,9 +26,6 @@ export const generator: CodeGenerator.GenerateFunction<Option> = (
     if (typeDeclaration) {
       statements.push(typeDeclaration);
     }
-  });
-  ApiClientClass.create(factory, codeGeneratorParamsList, option || {}).forEach(newStatement => {
-    statements.push(newStatement);
   });
   return statements;
 };

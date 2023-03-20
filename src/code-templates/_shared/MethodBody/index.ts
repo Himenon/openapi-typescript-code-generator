@@ -1,9 +1,9 @@
 import ts from "typescript";
 
-import type { TsGenerator } from "../../../../api";
-import type { CodeGenerator } from "../../../../types";
-import { escapeText2 as escapeText } from "../../../../utils";
-import * as Utils from "../../utils";
+import type { TsGenerator } from "../../../api";
+import type { CodeGenerator } from "../../../types";
+import { escapeText2 as escapeText } from "../../../utils";
+import * as Utils from "../../class-api-client/utils";
 import * as CallRequest from "./CallRequest";
 import * as HeaderParameter from "./HeaderParameter";
 import * as PathParameter from "./PathParameter";

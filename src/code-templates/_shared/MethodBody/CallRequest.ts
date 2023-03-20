@@ -1,8 +1,8 @@
 import ts from "typescript";
 
-import type { TsGenerator } from "../../../../api";
-import type { CodeGenerator } from "../../../../types";
-import * as Utils from "../../utils";
+import type { TsGenerator } from "../../../api";
+import type { CodeGenerator } from "../../../types";
+import * as Utils from "../../class-api-client/utils";
 
 export interface Params {
   httpMethod: string;

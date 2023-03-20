@@ -2,9 +2,9 @@ import { EOL } from "os";
 
 import ts from "typescript";
 
-import { TsGenerator } from "../../../../../api";
-import type { CodeGenerator } from "../../../../../types";
-import * as Utils from "../../../utils";
+import { TsGenerator } from "../../../../api";
+import type { CodeGenerator } from "../../../../types";
+import * as Utils from "../../../class-api-client/utils";
 import * as PathParameter from "../PathParameter";
 
 const traverse = (expression: ts.Expression) => <T extends ts.Node>(context: Pick<ts.TransformationContext, "factory">) => (rootNode: T) => {
