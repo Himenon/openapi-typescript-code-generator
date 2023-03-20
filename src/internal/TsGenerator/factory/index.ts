@@ -1,5 +1,6 @@
 import ts from "typescript";
 
+import * as ArrowFunction from "./ArrowFunction";
 import * as BinaryExpression from "./BinaryExpression";
 import * as Block from "./Block";
 import * as CallExpression from "./CallExpression";
@@ -43,6 +44,7 @@ import * as VariableDeclarationList from "./VariableDeclarationList";
 import * as VariableStatement from "./VariableStatement";
 
 export interface Type {
+  ArrowFunction: ArrowFunction.Factory;
   Block: Block.Factory;
   ClassDeclaration: ClassDeclaration.Factory;
   InterfaceDeclaration: InterfaceDeclaration.Factory;
@@ -91,6 +93,7 @@ export const create = (): Type => {
     factory: ts.factory,
   };
   return {
+    ArrowFunction: ArrowFunction.make(context),
     Block: Block.make(context),
     ClassDeclaration: ClassDeclaration.make(context),
     ParameterDeclaration: ParameterDeclaration.make(context),

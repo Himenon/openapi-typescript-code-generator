@@ -3,6 +3,7 @@ import ts from "typescript";
 import { TsGenerator } from "../../api";
 import type { CodeGenerator } from "../../types";
 import * as ApiClientArgument from "../_shared/ApiClientArgument";
+import * as FunctionalApiClient from "./FunctionalApiClient";
 
 import type { Option } from "./types";
 
@@ -27,5 +28,7 @@ export const generator: CodeGenerator.GenerateFunction<Option> = (
       statements.push(typeDeclaration);
     }
   });
+  const apiClientStatement = FunctionalApiClient.create(factory, codeGeneratorParamsList, option || {});
+  statements.push(apiClientStatement);
   return statements;
 };

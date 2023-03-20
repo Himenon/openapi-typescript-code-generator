@@ -27,7 +27,7 @@ const main = async () => {
   chokidar.watch("./test", { ignored: [/code/] }).on("change", async path => {
     console.log(`Watch Change file ... ${path}`);
     try {
-      console.log((await shell("pnpm run test:code:gen", cwd)).stdout);
+      console.log((await shell("pnpm run test:code:gen2", cwd)).stdout);
     } catch (error) {
       console.error("Failed");
     }
