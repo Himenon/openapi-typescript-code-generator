@@ -485,7 +485,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
     };
 };
 type ClientFunction<RequestOption> = typeof createClient<RequestOption>;
-export type Client<RequestOption> = ReturnType<<ClientFunction<RequestOption>>;
+export type Client<RequestOption> = ReturnType<ClientFunction<RequestOption>>;
 "
 `;
 
@@ -550,7 +550,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
     };
 };
 type ClientFunction<RequestOption> = typeof createClient<RequestOption>;
-export type Client<RequestOption> = ReturnType<<ClientFunction<RequestOption>>;
+export type Client<RequestOption> = ReturnType<ClientFunction<RequestOption>>;
 "
 `;
 
@@ -1039,7 +1039,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
     };
 };
 type ClientFunction<RequestOption> = typeof createClient<RequestOption>;
-export type Client<RequestOption> = ReturnType<<ClientFunction<RequestOption>>;
+export type Client<RequestOption> = ReturnType<ClientFunction<RequestOption>>;
 "
 `;
 
@@ -1097,7 +1097,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
     return {};
 };
 type ClientFunction<RequestOption> = typeof createClient<RequestOption>;
-export type Client<RequestOption> = ReturnType<<ClientFunction<RequestOption>>;
+export type Client<RequestOption> = ReturnType<ClientFunction<RequestOption>>;
 "
 `;
 
@@ -1236,7 +1236,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
     };
 };
 type ClientFunction<RequestOption> = typeof createClient<RequestOption>;
-export type Client<RequestOption> = ReturnType<<ClientFunction<RequestOption>>;
+export type Client<RequestOption> = ReturnType<ClientFunction<RequestOption>>;
 "
 `;
 
@@ -1383,6 +1383,6 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
     };
 };
 type ClientFunction<RequestOption> = typeof createClient<RequestOption>;
-export type Client<RequestOption> = ReturnType<<ClientFunction<RequestOption>>;
+export type Client<RequestOption> = ReturnType<ClientFunction<RequestOption>>;
 "
 `;
