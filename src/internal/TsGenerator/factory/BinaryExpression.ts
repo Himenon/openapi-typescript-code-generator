@@ -15,10 +15,12 @@ export interface Factory {
   create: (params: Params) => ts.BinaryExpression;
 }
 
-export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (params: Params): ts.BinaryExpression => {
-  const node = factory.createBinaryExpression(params.left, operators[params.operator], params.right);
-  return node;
-};
+export const create =
+  ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] =>
+  (params: Params): ts.BinaryExpression => {
+    const node = factory.createBinaryExpression(params.left, operators[params.operator], params.right);
+    return node;
+  };
 
 export const make = (context: Pick<ts.TransformationContext, "factory">): Factory => {
   return {

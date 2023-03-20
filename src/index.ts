@@ -88,7 +88,7 @@ export class CodeGenerator {
   }
 
   /**
-   * Provides types for parameters for Templates.ApiClient.
+   * Provides types for parameters for Templates.FunctionalApiClient.
    *
    * This API will be moved to Templates in the future.
    */

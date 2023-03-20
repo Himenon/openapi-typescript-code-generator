@@ -10,12 +10,12 @@ export interface Factory {
   create: (params: Params) => ts.VariableDeclaration;
 }
 
-export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (
-  params: Params,
-): ts.VariableDeclaration => {
-  const node = factory.createVariableDeclaration(params.name, undefined, params.type, params.initializer);
-  return node;
-};
+export const create =
+  ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] =>
+  (params: Params): ts.VariableDeclaration => {
+    const node = factory.createVariableDeclaration(params.name, undefined, params.type, params.initializer);
+    return node;
+  };
 
 export const make = (context: Pick<ts.TransformationContext, "factory">): Factory => {
   return {

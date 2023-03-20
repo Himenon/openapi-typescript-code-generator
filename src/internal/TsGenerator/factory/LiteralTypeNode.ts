@@ -11,25 +11,27 @@ export interface Factory {
   create: (params: Params) => ts.LiteralTypeNode;
 }
 
-export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (params: Params): ts.LiteralTypeNode => {
-  const createNode = () => {
-    if (typeof params.value === "string") {
-      const literal = ts.setEmitFlags(factory.createStringLiteral(params.value), ts.EmitFlags.NoAsciiEscaping);
-      return factory.createLiteralTypeNode(literal);
-    }
+export const create =
+  ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] =>
+  (params: Params): ts.LiteralTypeNode => {
+    const createNode = () => {
+      if (typeof params.value === "string") {
+        const literal = ts.setEmitFlags(factory.createStringLiteral(params.value), ts.EmitFlags.NoAsciiEscaping);
+        return factory.createLiteralTypeNode(literal);
+      }
 
-    if (typeof params.value === "number") {
-      return factory.createLiteralTypeNode(factory.createNumericLiteral(params.value));
+      if (typeof params.value === "number") {
+        return factory.createLiteralTypeNode(factory.createNumericLiteral(params.value));
+      }
+      return factory.createLiteralTypeNode(params.value ? factory.createTrue() : factory.createFalse());
+    };
+    const node = createNode();
+    if (params.comment) {
+      const comment = generateComment(params.comment);
+      return ts.addSyntheticLeadingComment(node, ts.SyntaxKind.MultiLineCommentTrivia, comment.value, comment.hasTrailingNewLine);
     }
-    return factory.createLiteralTypeNode(params.value ? factory.createTrue() : factory.createFalse());
+    return node;
   };
-  const node = createNode();
-  if (params.comment) {
-    const comment = generateComment(params.comment);
-    return ts.addSyntheticLeadingComment(node, ts.SyntaxKind.MultiLineCommentTrivia, comment.value, comment.hasTrailingNewLine);
-  }
-  return node;
-};
 
 export const make = (context: Pick<ts.TransformationContext, "factory">): Factory => {
   return {

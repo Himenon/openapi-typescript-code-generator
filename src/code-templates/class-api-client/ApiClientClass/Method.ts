@@ -4,8 +4,8 @@ import ts from "typescript";
 
 import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
-import type { Option } from "../types";
-import * as MethodBody from "./MethodBody";
+import type { Option } from "../../_shared/types";
+import * as MethodBody from "../../_shared/MethodBody";
 
 export { MethodBody };
 
@@ -169,7 +169,7 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
     type: returnType,
     typeParameters: typeParameters,
     body: factory.Block.create({
-      statements: MethodBody.create(factory, params),
+      statements: MethodBody.create(factory, params, "class"),
       multiLine: true,
     }),
   });

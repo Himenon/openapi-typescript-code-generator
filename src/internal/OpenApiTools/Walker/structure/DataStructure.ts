@@ -17,8 +17,10 @@ export type GetChild<T extends Kind> = T extends NamespaceTree.Kind
   : never;
 
 // Type Safe method
-export const createGetChildByPaths = (operator: Operator<string>) => <T extends Kind>(path: string, kind: T): GetChild<T> | undefined => {
-  return operator.getChildByPaths(path, kind) as GetChild<T> | undefined;
-};
+export const createGetChildByPaths =
+  (operator: Operator<string>) =>
+  <T extends Kind>(path: string, kind: T): GetChild<T> | undefined => {
+    return operator.getChildByPaths(path, kind) as GetChild<T> | undefined;
+  };
 
 export type GetChildByPaths = <T extends Kind>(path: string, kind: T) => GetChild<T> | undefined;

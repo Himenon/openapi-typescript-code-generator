@@ -15,17 +15,17 @@ export interface Factory {
   create: (params: Params$Create) => ts.PropertyAccessExpression;
 }
 
-export const create = ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] => (
-  params: Params$Create,
-): ts.PropertyAccessExpression => {
-  let expression: ts.Expression = typeof params.expression === "string" ? factory.createIdentifier(params.expression) : params.expression;
-  const expressionMap = generateExpression(factory);
-  if (typeof params.expression === "string" && params.expression in expressionMap) {
-    expression = generateExpression(factory)[params.expression as "this"];
-  }
-  const node = factory.createPropertyAccessExpression(expression, factory.createIdentifier(params.name));
-  return node;
-};
+export const create =
+  ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] =>
+  (params: Params$Create): ts.PropertyAccessExpression => {
+    let expression: ts.Expression = typeof params.expression === "string" ? factory.createIdentifier(params.expression) : params.expression;
+    const expressionMap = generateExpression(factory);
+    if (typeof params.expression === "string" && params.expression in expressionMap) {
+      expression = generateExpression(factory)[params.expression as "this"];
+    }
+    const node = factory.createPropertyAccessExpression(expression, factory.createIdentifier(params.name));
+    return node;
+  };
 
 export const make = (context: Pick<ts.TransformationContext, "factory">): Factory => {
   return {
