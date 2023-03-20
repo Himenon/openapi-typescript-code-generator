@@ -47,6 +47,7 @@
     "release:npm:registry": "pnpm publish --no-git-checks",
     "test": "run-p test:depcruise test:jest test:code:gen test:snapshot",
     "test:code:gen": "pnpm ts ./scripts/testCodeGen.ts",
+    "test:code:gen2": "pnpm ts ./scripts/testCodeGenWithFunctional.ts",
     "test:depcruise": "depcruise --validate .dependency-cruiser.js src",
     "test:eslint": "eslint \"src/**/*.{ts,tsx}\"",
     "test:jest": "jest -c ./jest.config.js --collect-coverage",
