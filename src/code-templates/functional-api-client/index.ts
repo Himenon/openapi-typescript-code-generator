@@ -4,8 +4,9 @@ import { TsGenerator } from "../../api";
 import type { CodeGenerator } from "../../types";
 import * as ApiClientArgument from "../_shared/ApiClientArgument";
 import * as FunctionalApiClient from "./FunctionalApiClient";
+import * as ApiClientInterface from "../_shared/ApiClientInterface";
 
-import type { Option } from "./types";
+import type { Option } from "../_shared/types";
 
 export { Option };
 
@@ -28,6 +29,11 @@ export const generator: CodeGenerator.GenerateFunction<Option> = (
       statements.push(typeDeclaration);
     }
   });
+
+  ApiClientInterface.create(factory, codeGeneratorParamsList, option || {}).forEach(statement => {
+    statements.push(statement);
+  });
+
   const apiClientStatement = FunctionalApiClient.create(factory, codeGeneratorParamsList, option || {});
   statements.push(apiClientStatement);
   return statements;

@@ -2,7 +2,7 @@ import ts from "typescript";
 
 import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
-import type { Option } from "../types";
+import type { Option } from "../../_shared/types";
 import * as Method from "./Method";
 import * as ReturnStatement from "./ReturnStatement";
 export { Method };
@@ -26,7 +26,7 @@ export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Pa
           typeArguments: [
             factory.TypeReferenceNode.create({
               name: "RequestOption",
-            })
+            }),
           ],
         }),
       }),

@@ -1,10 +1,8 @@
-import { EOL } from "os";
-
 import ts from "typescript";
 
 import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
-import type { Option } from "../types";
+import type { Option } from "../../_shared/types";
 import * as MethodBody from "../../_shared/MethodBody";
 
 export { MethodBody };
@@ -156,39 +154,24 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
   );
 
   const arrowFunction = factory.ArrowFunction.create({
-    typeParameters: [],
-    parameters: [
-      factory.ParameterDeclaration.create({
-        name: "params",
-        type: factory.TypeReferenceNode.create({
-          name: params.convertedParams.argumentParamsTypeDeclaration,
-        }),
-      }),
-      factory.ParameterDeclaration.create({
-        name: "option",
-        modifiers: undefined,
-        optional: true,
-        type: factory.TypeReferenceNode.create({
-          name: "RequestOption",
-        }),
-      }),
-    ],
+    typeParameters: typeParameters,
+    parameters: methodArguments,
     type: returnType,
     body: factory.Block.create({
-      statements: MethodBody.create(factory, params, "variable"),
+      statements: MethodBody.create(factory, params, "function"),
       multiLine: true,
     }),
-  })
+  });
 
   const variableDeclarationList = factory.VariableDeclarationList.create({
     declarations: [
       factory.VariableDeclaration.create({
         name: convertedParams.functionName,
         initializer: arrowFunction,
-      })
+      }),
     ],
     flag: "const",
-  })
+  });
 
   return factory.VariableStatement.create({
     declarationList: variableDeclarationList,

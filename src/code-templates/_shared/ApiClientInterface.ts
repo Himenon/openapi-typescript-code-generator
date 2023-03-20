@@ -1,8 +1,8 @@
 import ts from "typescript";
 
-import type { TsGenerator } from "../../../api";
-import type { CodeGenerator } from "../../../types";
-import type { Option } from "../types";
+import type { TsGenerator } from "../../api";
+import type { CodeGenerator } from "../../types";
+import type { Option } from "./types";
 
 const httpMethodList: string[] = ["GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH", "TRACE"];
 
