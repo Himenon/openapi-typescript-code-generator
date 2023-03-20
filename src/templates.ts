@@ -1,1 +1,1 @@
-export * as ApiClient from "./code-templates/api-client";
+export * as ApiClient from "./code-templates/class-api-client";

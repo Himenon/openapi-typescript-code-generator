@@ -8,3 +8,6 @@ package-lock.json
 private_npm_cache
 test/code
 debug
+test/kubernetes
+test/argo-rollout
+CHANGELOG.md

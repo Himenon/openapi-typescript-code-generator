@@ -156,7 +156,7 @@ export const splitVariableText = (text: string): VariableElement[] => {
   // ["...."] にマッチする
   const pattern = '["[a-zA-Z_0-9.]+"]';
   // 'a.b.c["a"]["b"]'.split(/(\["[a-zA-Z_0-9\.]+"\])/g)
-  const splitTexts = text.split(/(\["[a-zA-Z_0-9\.]+"\])/g); // 区切り文字も含めて分割
+  const splitTexts = text.split(/(\["[a-zA-Z_0-9\\.]+"\])/g); // 区切り文字も含めて分割
   return splitTexts.reduce<VariableElement[]>((splitList, value) => {
     if (value === "") {
       return splitList;
@@ -164,7 +164,7 @@ export const splitVariableText = (text: string): VariableElement[] => {
     // ["book.name"] にマッチするか
     if (new RegExp(pattern).test(value)) {
       // ["book.name"] から book.name を抽出
-      const matchedValue = value.match(/[a-zA-Z_0-9\.]+/);
+      const matchedValue = value.match(/[a-zA-Z_0-9\\.]+/);
       if (matchedValue) {
         splitList.push({
           kind: "element-access",

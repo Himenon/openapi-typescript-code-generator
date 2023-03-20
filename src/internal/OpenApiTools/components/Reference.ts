@@ -143,7 +143,7 @@ export const generate = <T>(entryPoint: string, currentPoint: string, reference:
   } else {
     const relativePathFromEntryPoint = path.relative(path.dirname(entryPoint), referencePoint); // components/hoge/fuga.yml
     const pathArray: string[] = relativePathFromEntryPoint.split(path.sep); // ["components", "hoge", "fuga"]
-    if (pathArray[0] != "components") {
+    if (pathArray[0] !== "components") {
       throw new DevelopmentError(`targetPath is not start "components":\n${relativePathFromEntryPoint}`);
     }
 
