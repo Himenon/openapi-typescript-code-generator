@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.21.1"></a>
+## 0.21.1 (2023-03-20)
+
+
+### Code Refactoring
+
+* update deps and change directory ([#98](https://github.com/Himenon/openapi-typescript-code-generator/issues/98)) ([3024174](https://github.com/Himenon/openapi-typescript-code-generator/commit/3024174))
+
+
+
+
+
 <a name="0.21.0"></a>
 # 0.21.0 (2023-01-03)
 
