@@ -2,8 +2,8 @@ import ts from "typescript";
 
 import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
-import * as Utils from "../../class-api-client/utils";
 import { escapeText2 as escapeText } from "../../../utils";
+import * as Utils from "../../class-api-client/utils";
 import type { MethodType } from "./types";
 
 export const isPathParameter = (params: any): params is CodeGenerator.PickedParameter => {
@@ -18,25 +18,23 @@ const generateUrlVariableStatement = (
   urlTemplate: Utils.Params$TemplateExpression,
   methodType: MethodType,
 ): ts.VariableStatement => {
-  const left: Record<MethodType, ts.Expression> = {
-    class: factory.PropertyAccessExpression.create({
-      name: "baseUrl",
-      expression: "this",
+  const expression = {
+    class: factory.BinaryExpression.create({
+      left: factory.PropertyAccessExpression.create({
+        name: "baseUrl",
+        expression: "this",
+      }),
+      operator: "+",
+      right: Utils.generateTemplateExpression(factory, urlTemplate),
     }),
-    function: factory.Identifier.create({
-      name: "_baseUrl",
-    }),
+    function: Utils.generateTemplateExpression(factory, urlTemplate),
   };
   return factory.VariableStatement.create({
     declarationList: factory.VariableDeclarationList.create({
       declarations: [
         factory.VariableDeclaration.create({
           name: "url",
-          initializer: factory.BinaryExpression.create({
-            left: left[methodType],
-            operator: "+",
-            right: Utils.generateTemplateExpression(factory, urlTemplate),
-          }),
+          initializer: expression[methodType],
         }),
       ],
       flag: "const",

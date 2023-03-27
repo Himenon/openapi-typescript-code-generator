@@ -2,8 +2,8 @@ import ts from "typescript";
 
 import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
-import type { Option } from "../../_shared/types";
 import * as MethodBody from "../../_shared/MethodBody";
+import type { Option } from "../../_shared/types";
 
 export { MethodBody };
 
@@ -121,14 +121,35 @@ const methodTypeParameters = (factory: TsGenerator.Factory.Type, { convertedPara
  */
 export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params, option: Option): ts.ArrowFunction => {
   const { convertedParams } = params;
-  const typeParameters: ts.TypeParameterDeclaration[] = methodTypeParameters(factory, params);
+  const typeParameters: ts.TypeParameterDeclaration[] = [];
+  typeParameters.push(
+    factory.TypeParameterDeclaration.create({
+      name: "RequestOption",
+    }),
+  );
+  typeParameters.push(...methodTypeParameters(factory, params));
+
   const methodArguments: ts.ParameterDeclaration[] = [];
+  methodArguments.push(
+    factory.ParameterDeclaration.create({
+      name: "apiClient",
+      modifiers: undefined,
+      type: factory.TypeReferenceNode.create({
+        name: "ApiClient",
+        typeArguments: [
+          factory.TypeReferenceNode.create({
+            name: "RequestOption",
+          }),
+        ],
+      }),
+    }),
+  );
+
   const hasParamsArguments =
     convertedParams.hasParameter ||
     convertedParams.hasRequestBody ||
     convertedParams.has2OrMoreSuccessResponseContentTypes ||
     convertedParams.has2OrMoreRequestContentTypes;
-
   if (hasParamsArguments) {
     methodArguments.push(generateParams(factory, params));
   }
