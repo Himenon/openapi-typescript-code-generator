@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.24.0"></a>
+# 0.24.0 (2023-04-01)
+
+
+### Features
+
+* update version ([#107](https://github.com/Himenon/openapi-typescript-code-generator/issues/107)) ([f695f78](https://github.com/Himenon/openapi-typescript-code-generator/commit/f695f78))
+
+
+### BREAKING CHANGES
+
+* update api client interface
+
+
+
+
+
 <a name="0.23.0"></a>
 # 0.23.0 (2023-04-01)
 
