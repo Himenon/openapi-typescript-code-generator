@@ -115,35 +115,35 @@ const createEncodingInterface = (factory: TsGenerator.Factory.Type) => {
         optional: true,
         type: factory.TypeReferenceNode.create({
           name: "string",
-        })
+        }),
       }),
       factory.PropertySignature.create({
         name: "headers",
         optional: true,
         type: factory.TypeReferenceNode.create({
           name: "Record<string, any>",
-        })
+        }),
       }),
       factory.PropertySignature.create({
         name: "style",
         optional: true,
         type: factory.TypeReferenceNode.create({
           name: "string",
-        })
+        }),
       }),
       factory.PropertySignature.create({
         name: "explode",
         optional: true,
         type: factory.TypeReferenceNode.create({
           name: "boolean",
-        })
+        }),
       }),
       factory.PropertySignature.create({
         name: "allowReserved",
         optional: true,
         type: factory.TypeReferenceNode.create({
           name: "boolean",
-        })
+        }),
       }),
     ],
   });
