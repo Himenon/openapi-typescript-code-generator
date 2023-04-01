@@ -421,8 +421,8 @@ export interface RequestArgs {
     url: string;
     headers: ObjectLike | any;
     requestBody: ObjectLike | any;
-    queryParameters: QueryParameters | undefined;
     requestBodyEncoding?: Record<string, Encoding>;
+    queryParameters: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
@@ -613,8 +613,8 @@ export interface RequestArgs {
     url: string;
     headers: ObjectLike | any;
     requestBody: ObjectLike | any;
-    queryParameters: QueryParameters | undefined;
     requestBodyEncoding?: Record<string, Encoding>;
+    queryParameters: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
@@ -1064,8 +1064,8 @@ export interface RequestArgs {
     url: string;
     headers: ObjectLike | any;
     requestBody: ObjectLike | any;
-    queryParameters: QueryParameters | undefined;
     requestBodyEncoding?: Record<string, Encoding>;
+    queryParameters: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => T;
@@ -1260,8 +1260,8 @@ export interface RequestArgs {
     url: string;
     headers: ObjectLike | any;
     requestBody: ObjectLike | any;
-    queryParameters: QueryParameters | undefined;
     requestBodyEncoding?: Record<string, Encoding>;
+    queryParameters: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
@@ -1422,8 +1422,8 @@ export interface RequestArgs {
     url: string;
     headers: ObjectLike | any;
     requestBody: ObjectLike | any;
-    queryParameters: QueryParameters | undefined;
     requestBodyEncoding?: Record<string, Encoding>;
+    queryParameters: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
@@ -1662,8 +1662,8 @@ export interface RequestArgs {
     url: string;
     headers: ObjectLike | any;
     requestBody: ObjectLike | any;
-    queryParameters: QueryParameters | undefined;
     requestBodyEncoding?: Record<string, Encoding>;
+    queryParameters: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;

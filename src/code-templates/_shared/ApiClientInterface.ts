@@ -245,6 +245,11 @@ export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Pa
         type: objectLikeOrAnyType,
       }),
       factory.PropertySignature.create({
+        name: `requestBodyEncoding`,
+        optional: true,
+        type: factory.TypeReferenceNode.create({ name: "Record<string, Encoding>" }),
+      }),
+      factory.PropertySignature.create({
         name: `queryParameters`,
         optional: false,
         type: factory.UnionTypeNode.create({
@@ -255,11 +260,6 @@ export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Pa
             factory.TypeNode.create({ type: "undefined" }),
           ],
         }),
-      }),
-      factory.PropertySignature.create({
-        name: `requestBodyEncoding`,
-        optional: true,
-        type: factory.TypeReferenceNode.create({ name: "Record<string, Encoding>" }),
       }),
     ],
     typeParameters: [],
