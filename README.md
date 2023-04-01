@@ -400,3 +400,4 @@ TypeScript AST
 Validation Design
 
 - Copyright (c) 2018 Kogo Software LLC - [https://github.com/kogosoftwarellc/open-api/tree/master/packages/openapi-schema-validator#readme](openapi-schema-validator)
+
