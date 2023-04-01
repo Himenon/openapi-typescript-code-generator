@@ -409,8 +409,15 @@ export namespace ErrorResponse {
     export type getBookById = void;
     export type deleteBook = void;
 }
+export interface RequestArgs {
+    httpMethod: HttpMethod;
+    url: string;
+    headers: ObjectLike | any;
+    requestBody: ObjectLike | any;
+    queryParameters: QueryParameters | undefined;
+}
 export interface ApiClient<RequestOption> {
-    request: <T = SuccessResponses>(httpMethod: HttpMethod, url: string, headers: ObjectLike | any, requestBody: ObjectLike | any, queryParameters: QueryParameters | undefined, options?: RequestOption) => Promise<T>;
+    request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
 }
 export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>, baseUrl: string) => {
     const _baseUrl = baseUrl.replace(/\\/$/, "");
@@ -423,7 +430,13 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             const queryParameters: QueryParameters = {
                 StringQuery: { value: params.parameter.StringQuery, explode: false }
             };
-            return apiClient.request("GET", url, headers, undefined, queryParameters, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: queryParameters
+            }, option);
         },
         getIncludeRemoteReference: (params: Params$getIncludeRemoteReference, option?: RequestOption): Promise<void> => {
             const url = _baseUrl + \`/get/IncludeRemoteReference\`;
@@ -433,7 +446,13 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             const queryParameters: QueryParameters = {
                 IncludeRemoteReference: { value: params.parameter.IncludeRemoteReference, explode: false }
             };
-            return apiClient.request("GET", url, headers, params.requestBody, queryParameters, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: params.requestBody,
+                queryParameters: queryParameters
+            }, option);
         },
         getFullRemoteReference: (params: Params$getFullRemoteReference, option?: RequestOption): Promise<Response$getFullRemoteReference$Status$200["application/json"]> => {
             const url = _baseUrl + \`/FullRemoteReference\`;
@@ -443,21 +462,39 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             const queryParameters: QueryParameters = {
                 FullRemoteReferenceQuery: { value: params.parameter.FullRemoteReferenceQuery, explode: false }
             };
-            return apiClient.request("GET", url, headers, undefined, queryParameters, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: queryParameters
+            }, option);
         },
         i$have$dot: (option?: RequestOption): Promise<Response$i$have$dot$Status$200["application/json"]> => {
             const url = _baseUrl + \`/i/have/dot\`;
             const headers = {
                 Accept: "application/json"
             };
-            return apiClient.request("GET", url, headers, undefined, undefined, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: undefined
+            }, option);
         },
         getReferenceItems: (option?: RequestOption): Promise<Response$getReferenceItems$Status$200["application/json"]> => {
             const url = _baseUrl + \`/get/reference/items\`;
             const headers = {
                 Accept: "application/json"
             };
-            return apiClient.request("GET", url, headers, undefined, undefined, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: undefined
+            }, option);
         },
         searchBook: (params: Params$searchBook, option?: RequestOption): Promise<Response$searchBook$Status$200["application/json"]> => {
             const url = _baseUrl + \`/get/search/\${params.parameter["book.name"]}\`;
@@ -467,21 +504,39 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             const queryParameters: QueryParameters = {
                 "from.publishedAt": { value: params.parameter["from.publishedAt"], explode: false }
             };
-            return apiClient.request("GET", url, headers, undefined, queryParameters, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: queryParameters
+            }, option);
         },
         getBookById: (params: Params$getBookById, option?: RequestOption): Promise<Response$getBookById$Status$200["application/json"]> => {
             const url = _baseUrl + \`/get/books/\${params.parameter.id}\`;
             const headers = {
                 Accept: "application/json"
             };
-            return apiClient.request("GET", url, headers, undefined, undefined, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: undefined
+            }, option);
         },
         deleteBook: (params: Params$deleteBook, option?: RequestOption): Promise<Response$deleteBook$Status$200["application/json"]> => {
             const url = _baseUrl + \`/get/books/\${params.parameter.id}\`;
             const headers = {
                 Accept: "application/json"
             };
-            return apiClient.request("DELETE", url, headers, undefined, undefined, option);
+            return apiClient.request({
+                httpMethod: "DELETE",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: undefined
+            }, option);
         }
     };
 };
@@ -533,8 +588,15 @@ export type SuccessResponses = Response$getHelloWorld$Status$200;
 export namespace ErrorResponse {
     export type getHelloWorld = void;
 }
+export interface RequestArgs {
+    httpMethod: HttpMethod;
+    url: string;
+    headers: ObjectLike | any;
+    requestBody: ObjectLike | any;
+    queryParameters: QueryParameters | undefined;
+}
 export interface ApiClient<RequestOption> {
-    request: <T = SuccessResponses>(httpMethod: HttpMethod, url: string, headers: ObjectLike | any, requestBody: ObjectLike | any, queryParameters: QueryParameters | undefined, options?: RequestOption) => Promise<T>;
+    request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
 }
 export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>, baseUrl: string) => {
     const _baseUrl = baseUrl.replace(/\\/$/, "");
@@ -547,7 +609,13 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             const queryParameters: QueryParameters = {
                 word: { value: params.parameter.word, explode: false }
             };
-            return apiClient.request("GET", url, headers, undefined, queryParameters, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: queryParameters
+            }, option);
         }
     };
 };
@@ -965,8 +1033,15 @@ export namespace ErrorResponse {
     export type getBookById = void;
     export type deleteBook = void;
 }
+export interface RequestArgs {
+    httpMethod: HttpMethod;
+    url: string;
+    headers: ObjectLike | any;
+    requestBody: ObjectLike | any;
+    queryParameters: QueryParameters | undefined;
+}
 export interface ApiClient<RequestOption> {
-    request: <T = SuccessResponses>(httpMethod: HttpMethod, url: string, headers: ObjectLike | any, requestBody: ObjectLike | any, queryParameters: QueryParameters | undefined, options?: RequestOption) => T;
+    request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => T;
 }
 export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>, baseUrl: string) => {
     const _baseUrl = baseUrl.replace(/\\/$/, "");
@@ -979,7 +1054,13 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             const queryParameters: QueryParameters = {
                 StringQuery: { value: params.parameter.StringQuery, explode: false }
             };
-            return apiClient.request("GET", url, headers, undefined, queryParameters, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: queryParameters
+            }, option);
         },
         getIncludeRemoteReference: (params: Params$getIncludeRemoteReference, option?: RequestOption): void => {
             const url = _baseUrl + \`/get/IncludeRemoteReference\`;
@@ -989,7 +1070,13 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             const queryParameters: QueryParameters = {
                 IncludeRemoteReference: { value: params.parameter.IncludeRemoteReference, explode: false }
             };
-            return apiClient.request("GET", url, headers, params.requestBody, queryParameters, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: params.requestBody,
+                queryParameters: queryParameters
+            }, option);
         },
         getFullRemoteReference: (params: Params$getFullRemoteReference, option?: RequestOption): Response$getFullRemoteReference$Status$200["application/json"] => {
             const url = _baseUrl + \`/FullRemoteReference\`;
@@ -999,21 +1086,39 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             const queryParameters: QueryParameters = {
                 FullRemoteReferenceQuery: { value: params.parameter.FullRemoteReferenceQuery, explode: false }
             };
-            return apiClient.request("GET", url, headers, undefined, queryParameters, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: queryParameters
+            }, option);
         },
         i$have$dot: (option?: RequestOption): Response$i$have$dot$Status$200["application/json"] => {
             const url = _baseUrl + \`/i/have/dot\`;
             const headers = {
                 Accept: "application/json"
             };
-            return apiClient.request("GET", url, headers, undefined, undefined, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: undefined
+            }, option);
         },
         getReferenceItems: (option?: RequestOption): Response$getReferenceItems$Status$200["application/json"] => {
             const url = _baseUrl + \`/get/reference/items\`;
             const headers = {
                 Accept: "application/json"
             };
-            return apiClient.request("GET", url, headers, undefined, undefined, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: undefined
+            }, option);
         },
         searchBook: (params: Params$searchBook, option?: RequestOption): Response$searchBook$Status$200["application/json"] => {
             const url = _baseUrl + \`/get/search/\${params.parameter["book.name"]}\`;
@@ -1023,21 +1128,39 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             const queryParameters: QueryParameters = {
                 "from.publishedAt": { value: params.parameter["from.publishedAt"], explode: false }
             };
-            return apiClient.request("GET", url, headers, undefined, queryParameters, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: queryParameters
+            }, option);
         },
         getBookById: (params: Params$getBookById, option?: RequestOption): Response$getBookById$Status$200["application/json"] => {
             const url = _baseUrl + \`/get/books/\${params.parameter.id}\`;
             const headers = {
                 Accept: "application/json"
             };
-            return apiClient.request("GET", url, headers, undefined, undefined, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: undefined
+            }, option);
         },
         deleteBook: (params: Params$deleteBook, option?: RequestOption): Response$deleteBook$Status$200["application/json"] => {
             const url = _baseUrl + \`/get/books/\${params.parameter.id}\`;
             const headers = {
                 Accept: "application/json"
             };
-            return apiClient.request("DELETE", url, headers, undefined, undefined, option);
+            return apiClient.request({
+                httpMethod: "DELETE",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: undefined
+            }, option);
         }
     };
 };
@@ -1093,8 +1216,15 @@ export interface QueryParameters {
 }
 export type SuccessResponses = void;
 export namespace ErrorResponse { }
+export interface RequestArgs {
+    httpMethod: HttpMethod;
+    url: string;
+    headers: ObjectLike | any;
+    requestBody: ObjectLike | any;
+    queryParameters: QueryParameters | undefined;
+}
 export interface ApiClient<RequestOption> {
-    request: <T = SuccessResponses>(httpMethod: HttpMethod, url: string, headers: ObjectLike | any, requestBody: ObjectLike | any, queryParameters: QueryParameters | undefined, options?: RequestOption) => Promise<T>;
+    request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
 }
 export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>, baseUrl: string) => {
     const _baseUrl = baseUrl.replace(/\\/$/, "");
@@ -1204,8 +1334,15 @@ export namespace ErrorResponse {
     export type getAuthor = void;
     export type getPublisher = void;
 }
+export interface RequestArgs {
+    httpMethod: HttpMethod;
+    url: string;
+    headers: ObjectLike | any;
+    requestBody: ObjectLike | any;
+    queryParameters: QueryParameters | undefined;
+}
 export interface ApiClient<RequestOption> {
-    request: <T = SuccessResponses>(httpMethod: HttpMethod, url: string, headers: ObjectLike | any, requestBody: ObjectLike | any, queryParameters: QueryParameters | undefined, options?: RequestOption) => Promise<T>;
+    request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
 }
 export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>, baseUrl: string) => {
     const _baseUrl = baseUrl.replace(/\\/$/, "");
@@ -1215,28 +1352,52 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             const headers = {
                 Accept: "application/json"
             };
-            return apiClient.request("GET", url, headers, undefined, undefined, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: undefined
+            }, option);
         },
         getDescription: (params: Params$getDescription, option?: RequestOption): Promise<Response$getDescription$Status$200["application/json"]> => {
             const url = _baseUrl + \`/get/book/\${params.parameter.id}/description\`;
             const headers = {
                 Accept: "application/json"
             };
-            return apiClient.request("GET", url, headers, undefined, undefined, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: undefined
+            }, option);
         },
         getAuthor: (params: Params$getAuthor, option?: RequestOption): Promise<Response$getAuthor$Status$200["application/json"]> => {
             const url = _baseUrl + \`/get/author/\${params.parameter.id}\`;
             const headers = {
                 Accept: "application/json"
             };
-            return apiClient.request("GET", url, headers, undefined, undefined, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: undefined
+            }, option);
         },
         getPublisher: (params: Params$getPublisher, option?: RequestOption): Promise<Response$getPublisher$Status$200["application/json"]> => {
             const url = _baseUrl + \`/get/publisher/\${params.parameter.id}\`;
             const headers = {
                 Accept: "application/json"
             };
-            return apiClient.request("GET", url, headers, undefined, undefined, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: undefined
+            }, option);
         }
     };
 };
@@ -1352,8 +1513,15 @@ export namespace ErrorResponse {
     export type getAuthor = void;
     export type getPublisher = void;
 }
+export interface RequestArgs {
+    httpMethod: HttpMethod;
+    url: string;
+    headers: ObjectLike | any;
+    requestBody: ObjectLike | any;
+    queryParameters: QueryParameters | undefined;
+}
 export interface ApiClient<RequestOption> {
-    request: <T = SuccessResponses>(httpMethod: HttpMethod, url: string, headers: ObjectLike | any, requestBody: ObjectLike | any, queryParameters: QueryParameters | undefined, options?: RequestOption) => Promise<T>;
+    request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
 }
 export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>, baseUrl: string) => {
     const _baseUrl = baseUrl.replace(/\\/$/, "");
@@ -1363,28 +1531,52 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             const headers = {
                 Accept: "application/json"
             };
-            return apiClient.request("GET", url, headers, undefined, undefined, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: undefined
+            }, option);
         },
         getDescription: (params: Params$getDescription, option?: RequestOption): Promise<Response$getDescription$Status$200["application/json"]> => {
             const url = _baseUrl + \`/get/book/\${params.parameter.id}/description\`;
             const headers = {
                 Accept: "application/json"
             };
-            return apiClient.request("GET", url, headers, undefined, undefined, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: undefined
+            }, option);
         },
         getAuthor: (params: Params$getAuthor, option?: RequestOption): Promise<Response$getAuthor$Status$200["application/json"]> => {
             const url = _baseUrl + \`/get/author/\${params.parameter.id}\`;
             const headers = {
                 Accept: "application/json"
             };
-            return apiClient.request("GET", url, headers, undefined, undefined, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: undefined
+            }, option);
         },
         getPublisher: (params: Params$getPublisher, option?: RequestOption): Promise<Response$getPublisher$Status$200["application/json"]> => {
             const url = _baseUrl + \`/get/publisher/\${params.parameter.id}\`;
             const headers = {
                 Accept: "application/json"
             };
-            return apiClient.request("GET", url, headers, undefined, undefined, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: undefined
+            }, option);
         }
     };
 };

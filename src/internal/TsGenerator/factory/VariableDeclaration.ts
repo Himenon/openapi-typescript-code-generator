@@ -1,5 +1,4 @@
 import ts from "typescript";
-import { generateComment } from "./utils";
 
 export interface Params {
   name: string | ts.BindingName;

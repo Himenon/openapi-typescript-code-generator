@@ -123,8 +123,15 @@ export namespace ErrorResponse {
     export type getBookById = void;
     export type deleteBook = void;
 }
+export interface RequestArgs {
+    httpMethod: HttpMethod;
+    url: string;
+    headers: ObjectLike | any;
+    requestBody: ObjectLike | any;
+    queryParameters: QueryParameters | undefined;
+}
 export interface ApiClient<RequestOption> {
-    request: <T = SuccessResponses>(httpMethod: HttpMethod, url: string, headers: ObjectLike | any, requestBody: ObjectLike | any, queryParameters: QueryParameters | undefined, options?: RequestOption) => Promise<T>;
+    request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
 }
 export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>, baseUrl: string) => {
     const _baseUrl = baseUrl.replace(/\\/$/, "");
@@ -141,7 +148,13 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             const queryParameters: QueryParameters = {
                 StringQuery: { value: params.parameter.StringQuery, explode: false }
             };
-            return apiClient.request("GET", url, headers, undefined, queryParameters, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: queryParameters
+            }, option);
         },
         /**
          * operationId: getIncludeRemoteReference
@@ -155,7 +168,13 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             const queryParameters: QueryParameters = {
                 IncludeRemoteReference: { value: params.parameter.IncludeRemoteReference, explode: false }
             };
-            return apiClient.request("GET", url, headers, params.requestBody, queryParameters, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: params.requestBody,
+                queryParameters: queryParameters
+            }, option);
         },
         /**
          * operationId: getFullRemoteReference
@@ -169,7 +188,13 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             const queryParameters: QueryParameters = {
                 FullRemoteReferenceQuery: { value: params.parameter.FullRemoteReferenceQuery, explode: false }
             };
-            return apiClient.request("GET", url, headers, undefined, queryParameters, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: queryParameters
+            }, option);
         },
         /**
          * operationId: i.have.dot
@@ -180,7 +205,13 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             const headers = {
                 Accept: "application/json"
             };
-            return apiClient.request("GET", url, headers, undefined, undefined, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: undefined
+            }, option);
         },
         /**
          * operationId: getReferenceItems
@@ -191,7 +222,13 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             const headers = {
                 Accept: "application/json"
             };
-            return apiClient.request("GET", url, headers, undefined, undefined, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: undefined
+            }, option);
         },
         /**
          * operationId: searchBook
@@ -205,7 +242,13 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             const queryParameters: QueryParameters = {
                 "from.publishedAt": { value: params.parameter["from.publishedAt"], explode: false }
             };
-            return apiClient.request("GET", url, headers, undefined, queryParameters, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: queryParameters
+            }, option);
         },
         /**
          * operationId: getBookById
@@ -216,7 +259,13 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             const headers = {
                 Accept: "application/json"
             };
-            return apiClient.request("GET", url, headers, undefined, undefined, option);
+            return apiClient.request({
+                httpMethod: "GET",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: undefined
+            }, option);
         },
         /**
          * operationId: deleteBook
@@ -227,7 +276,13 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             const headers = {
                 Accept: "application/json"
             };
-            return apiClient.request("DELETE", url, headers, undefined, undefined, option);
+            return apiClient.request({
+                httpMethod: "DELETE",
+                url: url,
+                headers: headers,
+                requestBody: undefined,
+                queryParameters: undefined
+            }, option);
         }
     };
 };

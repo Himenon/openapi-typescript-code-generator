@@ -12,10 +12,10 @@ module.exports = {
       "@swc/jest",
       {
         jsc: {
-          parser :{
-            syntax: "typescript"
-          }
-        }
+          parser: {
+            syntax: "typescript",
+          },
+        },
       },
     ],
   },

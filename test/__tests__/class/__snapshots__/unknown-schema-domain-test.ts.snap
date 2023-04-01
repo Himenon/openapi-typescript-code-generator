@@ -41,8 +41,15 @@ export type SuccessResponses = Response$getUnknown$Status$200;
 export namespace ErrorResponse {
     export type getUnknown = void;
 }
+export interface RequestArgs {
+    httpMethod: HttpMethod;
+    url: string;
+    headers: ObjectLike | any;
+    requestBody: ObjectLike | any;
+    queryParameters: QueryParameters | undefined;
+}
 export interface ApiClient<RequestOption> {
-    request: <T = SuccessResponses>(httpMethod: HttpMethod, url: string, headers: ObjectLike | any, requestBody: ObjectLike | any, queryParameters: QueryParameters | undefined, options?: RequestOption) => Promise<T>;
+    request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
 }
 export class Client<RequestOption> {
     private baseUrl: string;
@@ -52,7 +59,13 @@ export class Client<RequestOption> {
         const headers = {
             Accept: "application/json"
         };
-        return this.apiClient.request("GET", url, headers, undefined, undefined, option);
+        return this.apiClient.request({
+            httpMethod: "GET",
+            url: url,
+            headers: headers,
+            requestBody: undefined,
+            queryParameters: undefined
+        }, option);
     }
 }
 "
