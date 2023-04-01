@@ -4,11 +4,29 @@ import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
 import * as Utils from "../utils";
 import type { MethodType } from "./types";
+import { Encoding } from "../../../typedef/OpenApi";
 
 export interface Params {
   httpMethod: string;
   hasRequestBody: boolean;
 }
+
+type EncodingMap = Record<string, Encoding>;
+
+const createEncodingParams = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params): ts.Expression => {
+  const content = params.operationParams.requestBody?.content;
+  if (!content) {
+    return factory.Identifier.create({ name: "undefined" });
+  }
+  const encodingMap = Object.keys(content).reduce<EncodingMap>((all, key) => {
+    const { encoding } = content[key];
+    if (!encoding) {
+      return all;
+    }
+    return { ...all, [key]: encoding };
+  }, {});
+  return factory.Identifier.create({ name: JSON.stringify(encodingMap, null, 2) });
+};
 
 /**
  * this.apiClient.request("GET", url, requestBody, headers, queryParameters);
@@ -46,6 +64,10 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
         initializer: convertedParams.hasQueryParameters
           ? factory.Identifier.create({ name: "queryParameters" })
           : factory.Identifier.create({ name: "undefined" }),
+      }),
+      factory.PropertyAssignment.create({
+        name: "encoding",
+        initializer: createEncodingParams(factory, params),
       }),
     ],
     multiLine: true,
