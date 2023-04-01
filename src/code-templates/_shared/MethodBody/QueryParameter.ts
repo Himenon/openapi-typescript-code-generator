@@ -2,7 +2,7 @@ import ts from "typescript";
 
 import type { TsGenerator } from "../../../api";
 import * as Utils from "../../../utils";
-import * as UtilsExtra from "../../class-api-client/utils";
+import * as UtilsExtra from "../utils";
 
 export interface Item {
   type: "string" | "variable";
