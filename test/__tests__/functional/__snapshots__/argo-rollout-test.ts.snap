@@ -3895,7 +3895,6 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 "Content-Type": "application/json",
                 Accept: "application/json"
             };
-            const requestEncodings = {};
             return apiClient.request({
                 httpMethod: "PUT",
                 url: url,
@@ -3939,7 +3938,6 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 "Content-Type": "application/json",
                 Accept: "application/json"
             };
-            const requestEncodings = {};
             return apiClient.request({
                 httpMethod: "PUT",
                 url: url,
@@ -3955,7 +3953,6 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 "Content-Type": "application/json",
                 Accept: "application/json"
             };
-            const requestEncodings = {};
             return apiClient.request({
                 httpMethod: "PUT",
                 url: url,
@@ -3971,7 +3968,6 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 "Content-Type": "application/json",
                 Accept: "application/json"
             };
-            const requestEncodings = {};
             return apiClient.request({
                 httpMethod: "PUT",
                 url: url,
@@ -3987,7 +3983,6 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 "Content-Type": "application/json",
                 Accept: "application/json"
             };
-            const requestEncodings = {};
             return apiClient.request({
                 httpMethod: "PUT",
                 url: url,
@@ -4003,7 +3998,6 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 "Content-Type": "application/json",
                 Accept: "application/json"
             };
-            const requestEncodings = {};
             return apiClient.request({
                 httpMethod: "PUT",
                 url: url,

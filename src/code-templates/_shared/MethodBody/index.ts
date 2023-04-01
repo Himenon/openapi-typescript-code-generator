@@ -99,7 +99,7 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
       }),
     });
 
-    if (identifier) {
+    if (identifier && Object.keys(encodingMap).length > 0) {
       statements.push(requestEncodingsVariableStatement);
     }
   }

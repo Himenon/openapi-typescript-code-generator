@@ -72,7 +72,6 @@ export class Client<RequestOption> {
         const headers = {
             "Content-Type": "application/json"
         };
-        const requestEncodings = {};
         return this.apiClient.request({
             httpMethod: "PUT",
             url: url,
@@ -91,7 +90,6 @@ export class Client<RequestOption> {
         const headers = {
             "Content-Type": "application/json"
         };
-        const requestEncodings = {};
         return this.apiClient.request({
             httpMethod: "PATCH",
             url: url,

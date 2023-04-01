@@ -103,7 +103,6 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             const headers = {
                 "Content-Type": "application/json"
             };
-            const requestEncodings = {};
             const queryParameters: QueryParameters = {
                 IncludeRemoteReference: { value: params.parameter.IncludeRemoteReference, explode: false }
             };
@@ -316,7 +315,6 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             const headers = {
                 "Content-Type": "application/json"
             };
-            const requestEncodings = {};
             const queryParameters: QueryParameters = {
                 IncludeRemoteReference: { value: params.parameter.IncludeRemoteReference, explode: false }
             };
