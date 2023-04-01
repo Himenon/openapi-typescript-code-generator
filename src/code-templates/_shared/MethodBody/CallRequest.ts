@@ -2,7 +2,7 @@ import ts from "typescript";
 
 import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
-import * as Utils from "../../class-api-client/utils";
+import * as Utils from "../utils";
 import type { MethodType } from "./types";
 
 export interface Params {
