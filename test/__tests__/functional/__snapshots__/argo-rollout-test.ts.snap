@@ -3826,11 +3826,19 @@ export namespace ErrorResponse {
     export type RolloutService_UndoRollout = void;
     export type RolloutService_Version = void;
 }
+export interface Encoding {
+    contentType?: string;
+    headers?: Record<string, any>;
+    style?: string;
+    explode?: boolean;
+    allowReserved?: boolean;
+}
 export interface RequestArgs {
     httpMethod: HttpMethod;
     url: string;
     headers: ObjectLike | any;
     requestBody: ObjectLike | any;
+    requestBodyEncoding?: Record<string, Encoding>;
     queryParameters: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
@@ -3849,6 +3857,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url: url,
                 headers: headers,
                 requestBody: undefined,
+                requestBodyEncoding: undefined,
                 queryParameters: undefined
             }, option);
         },
@@ -3862,6 +3871,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url: url,
                 headers: headers,
                 requestBody: undefined,
+                requestBodyEncoding: undefined,
                 queryParameters: undefined
             }, option);
         },
@@ -3875,6 +3885,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url: url,
                 headers: headers,
                 requestBody: undefined,
+                requestBodyEncoding: undefined,
                 queryParameters: undefined
             }, option);
         },
@@ -3889,6 +3900,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url: url,
                 headers: headers,
                 requestBody: params.requestBody,
+                requestBodyEncoding: requestEncodings["application/json"],
                 queryParameters: undefined
             }, option);
         },
@@ -3902,6 +3914,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url: url,
                 headers: headers,
                 requestBody: undefined,
+                requestBodyEncoding: undefined,
                 queryParameters: undefined
             }, option);
         },
@@ -3915,6 +3928,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url: url,
                 headers: headers,
                 requestBody: undefined,
+                requestBodyEncoding: undefined,
                 queryParameters: undefined
             }, option);
         },
@@ -3929,6 +3943,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url: url,
                 headers: headers,
                 requestBody: params.requestBody,
+                requestBodyEncoding: requestEncodings["application/json"],
                 queryParameters: undefined
             }, option);
         },
@@ -3943,6 +3958,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url: url,
                 headers: headers,
                 requestBody: params.requestBody,
+                requestBodyEncoding: requestEncodings["application/json"],
                 queryParameters: undefined
             }, option);
         },
@@ -3957,6 +3973,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url: url,
                 headers: headers,
                 requestBody: params.requestBody,
+                requestBodyEncoding: requestEncodings["application/json"],
                 queryParameters: undefined
             }, option);
         },
@@ -3971,6 +3988,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url: url,
                 headers: headers,
                 requestBody: params.requestBody,
+                requestBodyEncoding: requestEncodings["application/json"],
                 queryParameters: undefined
             }, option);
         },
@@ -3985,6 +4003,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url: url,
                 headers: headers,
                 requestBody: params.requestBody,
+                requestBodyEncoding: requestEncodings["application/json"],
                 queryParameters: undefined
             }, option);
         },
@@ -3998,6 +4017,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url: url,
                 headers: headers,
                 requestBody: undefined,
+                requestBodyEncoding: undefined,
                 queryParameters: undefined
             }, option);
         }

@@ -409,11 +409,19 @@ export namespace ErrorResponse {
     export type getBookById = void;
     export type deleteBook = void;
 }
+export interface Encoding {
+    contentType?: string;
+    headers?: Record<string, any>;
+    style?: string;
+    explode?: boolean;
+    allowReserved?: boolean;
+}
 export interface RequestArgs {
     httpMethod: HttpMethod;
     url: string;
     headers: ObjectLike | any;
     requestBody: ObjectLike | any;
+    requestBodyEncoding?: Record<string, Encoding>;
     queryParameters: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
@@ -435,6 +443,7 @@ export class Client<RequestOption> {
             url: url,
             headers: headers,
             requestBody: undefined,
+            requestBodyEncoding: undefined,
             queryParameters: queryParameters
         }, option);
     }
@@ -451,6 +460,7 @@ export class Client<RequestOption> {
             url: url,
             headers: headers,
             requestBody: params.requestBody,
+            requestBodyEncoding: requestEncodings["application/json"],
             queryParameters: queryParameters
         }, option);
     }
@@ -467,6 +477,7 @@ export class Client<RequestOption> {
             url: url,
             headers: headers,
             requestBody: undefined,
+            requestBodyEncoding: undefined,
             queryParameters: queryParameters
         }, option);
     }
@@ -480,6 +491,7 @@ export class Client<RequestOption> {
             url: url,
             headers: headers,
             requestBody: undefined,
+            requestBodyEncoding: undefined,
             queryParameters: undefined
         }, option);
     }
@@ -493,6 +505,7 @@ export class Client<RequestOption> {
             url: url,
             headers: headers,
             requestBody: undefined,
+            requestBodyEncoding: undefined,
             queryParameters: undefined
         }, option);
     }
@@ -509,6 +522,7 @@ export class Client<RequestOption> {
             url: url,
             headers: headers,
             requestBody: undefined,
+            requestBodyEncoding: undefined,
             queryParameters: queryParameters
         }, option);
     }
@@ -522,6 +536,7 @@ export class Client<RequestOption> {
             url: url,
             headers: headers,
             requestBody: undefined,
+            requestBodyEncoding: undefined,
             queryParameters: undefined
         }, option);
     }
@@ -535,6 +550,7 @@ export class Client<RequestOption> {
             url: url,
             headers: headers,
             requestBody: undefined,
+            requestBodyEncoding: undefined,
             queryParameters: undefined
         }, option);
     }
@@ -585,11 +601,19 @@ export type SuccessResponses = Response$getHelloWorld$Status$200;
 export namespace ErrorResponse {
     export type getHelloWorld = void;
 }
+export interface Encoding {
+    contentType?: string;
+    headers?: Record<string, any>;
+    style?: string;
+    explode?: boolean;
+    allowReserved?: boolean;
+}
 export interface RequestArgs {
     httpMethod: HttpMethod;
     url: string;
     headers: ObjectLike | any;
     requestBody: ObjectLike | any;
+    requestBodyEncoding?: Record<string, Encoding>;
     queryParameters: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
@@ -611,6 +635,7 @@ export class Client<RequestOption> {
             url: url,
             headers: headers,
             requestBody: undefined,
+            requestBodyEncoding: undefined,
             queryParameters: queryParameters
         }, option);
     }
@@ -1027,11 +1052,19 @@ export namespace ErrorResponse {
     export type getBookById = void;
     export type deleteBook = void;
 }
+export interface Encoding {
+    contentType?: string;
+    headers?: Record<string, any>;
+    style?: string;
+    explode?: boolean;
+    allowReserved?: boolean;
+}
 export interface RequestArgs {
     httpMethod: HttpMethod;
     url: string;
     headers: ObjectLike | any;
     requestBody: ObjectLike | any;
+    requestBodyEncoding?: Record<string, Encoding>;
     queryParameters: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
@@ -1053,6 +1086,7 @@ export class Client<RequestOption> {
             url: url,
             headers: headers,
             requestBody: undefined,
+            requestBodyEncoding: undefined,
             queryParameters: queryParameters
         }, option);
     }
@@ -1069,6 +1103,7 @@ export class Client<RequestOption> {
             url: url,
             headers: headers,
             requestBody: params.requestBody,
+            requestBodyEncoding: requestEncodings["application/json"],
             queryParameters: queryParameters
         }, option);
     }
@@ -1085,6 +1120,7 @@ export class Client<RequestOption> {
             url: url,
             headers: headers,
             requestBody: undefined,
+            requestBodyEncoding: undefined,
             queryParameters: queryParameters
         }, option);
     }
@@ -1098,6 +1134,7 @@ export class Client<RequestOption> {
             url: url,
             headers: headers,
             requestBody: undefined,
+            requestBodyEncoding: undefined,
             queryParameters: undefined
         }, option);
     }
@@ -1111,6 +1148,7 @@ export class Client<RequestOption> {
             url: url,
             headers: headers,
             requestBody: undefined,
+            requestBodyEncoding: undefined,
             queryParameters: undefined
         }, option);
     }
@@ -1127,6 +1165,7 @@ export class Client<RequestOption> {
             url: url,
             headers: headers,
             requestBody: undefined,
+            requestBodyEncoding: undefined,
             queryParameters: queryParameters
         }, option);
     }
@@ -1140,6 +1179,7 @@ export class Client<RequestOption> {
             url: url,
             headers: headers,
             requestBody: undefined,
+            requestBodyEncoding: undefined,
             queryParameters: undefined
         }, option);
     }
@@ -1153,6 +1193,7 @@ export class Client<RequestOption> {
             url: url,
             headers: headers,
             requestBody: undefined,
+            requestBodyEncoding: undefined,
             queryParameters: undefined
         }, option);
     }
@@ -1207,11 +1248,19 @@ export interface QueryParameters {
 }
 export type SuccessResponses = void;
 export namespace ErrorResponse { }
+export interface Encoding {
+    contentType?: string;
+    headers?: Record<string, any>;
+    style?: string;
+    explode?: boolean;
+    allowReserved?: boolean;
+}
 export interface RequestArgs {
     httpMethod: HttpMethod;
     url: string;
     headers: ObjectLike | any;
     requestBody: ObjectLike | any;
+    requestBodyEncoding?: Record<string, Encoding>;
     queryParameters: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
@@ -1288,6 +1337,29 @@ export interface Parameter$getPublisher {
 export interface Response$getPublisher$Status$200 {
     "application/json": Schemas.Publisher;
 }
+export interface RequestBody$createPublisher {
+    "application/x-www-form-urlencoded": {
+        color?: string[];
+    };
+}
+export interface Response$createPublisher$Status$200 {
+    "application/json": {
+        status?: string;
+    };
+}
+export interface RequestBody$createPublisherV2 {
+    "application/x-www-form-urlencoded": {
+        color?: string[];
+    };
+    "application/json": {
+        color?: string[];
+    };
+}
+export interface Response$createPublisherV2$Status$200 {
+    "application/json": {
+        status?: string;
+    };
+}
 export type ResponseContentType$getBook = keyof Response$getBook$Status$200;
 export interface Params$getBook {
     parameter: Parameter$getBook;
@@ -1304,6 +1376,19 @@ export type ResponseContentType$getPublisher = keyof Response$getPublisher$Statu
 export interface Params$getPublisher {
     parameter: Parameter$getPublisher;
 }
+export type RequestContentType$createPublisher = keyof RequestBody$createPublisher;
+export type ResponseContentType$createPublisher = keyof Response$createPublisher$Status$200;
+export interface Params$createPublisher {
+    requestBody: RequestBody$createPublisher["application/x-www-form-urlencoded"];
+}
+export type RequestContentType$createPublisherV2 = keyof RequestBody$createPublisherV2;
+export type ResponseContentType$createPublisherV2 = keyof Response$createPublisherV2$Status$200;
+export interface Params$createPublisherV2<T extends RequestContentType$createPublisherV2> {
+    headers: {
+        "Content-Type": T;
+    };
+    requestBody: RequestBody$createPublisherV2[T];
+}
 export type HttpMethod = "GET" | "PUT" | "POST" | "DELETE" | "OPTIONS" | "HEAD" | "PATCH" | "TRACE";
 export interface ObjectLike {
     [key: string]: any;
@@ -1316,18 +1401,28 @@ export interface QueryParameter {
 export interface QueryParameters {
     [key: string]: QueryParameter;
 }
-export type SuccessResponses = Response$getBook$Status$200 | Response$getDescription$Status$200 | Response$getAuthor$Status$200 | Response$getPublisher$Status$200;
+export type SuccessResponses = Response$getBook$Status$200 | Response$getDescription$Status$200 | Response$getAuthor$Status$200 | Response$getPublisher$Status$200 | Response$createPublisher$Status$200 | Response$createPublisherV2$Status$200;
 export namespace ErrorResponse {
     export type getBook = void;
     export type getDescription = void;
     export type getAuthor = void;
     export type getPublisher = void;
+    export type createPublisher = void;
+    export type createPublisherV2 = void;
+}
+export interface Encoding {
+    contentType?: string;
+    headers?: Record<string, any>;
+    style?: string;
+    explode?: boolean;
+    allowReserved?: boolean;
 }
 export interface RequestArgs {
     httpMethod: HttpMethod;
     url: string;
     headers: ObjectLike | any;
     requestBody: ObjectLike | any;
+    requestBodyEncoding?: Record<string, Encoding>;
     queryParameters: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
@@ -1346,6 +1441,7 @@ export class Client<RequestOption> {
             url: url,
             headers: headers,
             requestBody: undefined,
+            requestBodyEncoding: undefined,
             queryParameters: undefined
         }, option);
     }
@@ -1359,6 +1455,7 @@ export class Client<RequestOption> {
             url: url,
             headers: headers,
             requestBody: undefined,
+            requestBodyEncoding: undefined,
             queryParameters: undefined
         }, option);
     }
@@ -1372,6 +1469,7 @@ export class Client<RequestOption> {
             url: url,
             headers: headers,
             requestBody: undefined,
+            requestBodyEncoding: undefined,
             queryParameters: undefined
         }, option);
     }
@@ -1385,6 +1483,59 @@ export class Client<RequestOption> {
             url: url,
             headers: headers,
             requestBody: undefined,
+            requestBodyEncoding: undefined,
+            queryParameters: undefined
+        }, option);
+    }
+    public async createPublisher(params: Params$createPublisher, option?: RequestOption): Promise<Response$createPublisher$Status$200["application/json"]> {
+        const url = this.baseUrl + \`/create/publisher/{id}\`;
+        const headers = {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Accept: "application/json"
+        };
+        const requestEncodings = {
+  "application/x-www-form-urlencoded": {
+    "color": {
+      "style": "form",
+      "explode": false
+    }
+  }
+};
+        return this.apiClient.request({
+            httpMethod: "POST",
+            url: url,
+            headers: headers,
+            requestBody: params.requestBody,
+            requestBodyEncoding: requestEncodings["application/x-www-form-urlencoded"],
+            queryParameters: undefined
+        }, option);
+    }
+    public async createPublisherV2<RequestContentType extends RequestContentType$createPublisherV2>(params: Params$createPublisherV2<RequestContentType>, option?: RequestOption): Promise<Response$createPublisherV2$Status$200["application/json"]> {
+        const url = this.baseUrl + \`/create/v2/publisher/{id}\`;
+        const headers = {
+            "Content-Type": params.headers["Content-Type"],
+            Accept: "application/json"
+        };
+        const requestEncodings = {
+  "application/x-www-form-urlencoded": {
+    "color": {
+      "style": "form",
+      "explode": false
+    }
+  },
+  "application/json": {
+    "color": {
+      "style": "form",
+      "explode": false
+    }
+  }
+};
+        return this.apiClient.request({
+            httpMethod: "POST",
+            url: url,
+            headers: headers,
+            requestBody: params.requestBody,
+            requestBodyEncoding: requestEncodings[params.headers["Content-Type"]],
             queryParameters: undefined
         }, option);
     }
@@ -1499,11 +1650,19 @@ export namespace ErrorResponse {
     export type getAuthor = void;
     export type getPublisher = void;
 }
+export interface Encoding {
+    contentType?: string;
+    headers?: Record<string, any>;
+    style?: string;
+    explode?: boolean;
+    allowReserved?: boolean;
+}
 export interface RequestArgs {
     httpMethod: HttpMethod;
     url: string;
     headers: ObjectLike | any;
     requestBody: ObjectLike | any;
+    requestBodyEncoding?: Record<string, Encoding>;
     queryParameters: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
@@ -1522,6 +1681,7 @@ export class Client<RequestOption> {
             url: url,
             headers: headers,
             requestBody: undefined,
+            requestBodyEncoding: undefined,
             queryParameters: undefined
         }, option);
     }
@@ -1535,6 +1695,7 @@ export class Client<RequestOption> {
             url: url,
             headers: headers,
             requestBody: undefined,
+            requestBodyEncoding: undefined,
             queryParameters: undefined
         }, option);
     }
@@ -1548,6 +1709,7 @@ export class Client<RequestOption> {
             url: url,
             headers: headers,
             requestBody: undefined,
+            requestBodyEncoding: undefined,
             queryParameters: undefined
         }, option);
     }
@@ -1561,6 +1723,7 @@ export class Client<RequestOption> {
             url: url,
             headers: headers,
             requestBody: undefined,
+            requestBodyEncoding: undefined,
             queryParameters: undefined
         }, option);
     }

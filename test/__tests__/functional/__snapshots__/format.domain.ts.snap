@@ -43,11 +43,19 @@ export interface QueryParameters {
 }
 export type SuccessResponses = void;
 export namespace ErrorResponse { }
+export interface Encoding {
+    contentType?: string;
+    headers?: Record<string, any>;
+    style?: string;
+    explode?: boolean;
+    allowReserved?: boolean;
+}
 export interface RequestArgs {
     httpMethod: HttpMethod;
     url: string;
     headers: ObjectLike | any;
     requestBody: ObjectLike | any;
+    requestBodyEncoding?: Record<string, Encoding>;
     queryParameters: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {

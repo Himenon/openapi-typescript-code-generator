@@ -11,6 +11,24 @@ export interface Params {
 }
 
 /**
+ *
+ * const encodingMap = {
+ *   "application/json": {},
+ *   "application/x-www-form-urlencoded": {},
+ * }
+ */
+const createEncodingParams = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params): ts.Expression => {
+  const content = params.operationParams.requestBody?.content;
+  if (!content) {
+    return factory.Identifier.create({ name: "undefined" });
+  }
+  if (params.convertedParams.has2OrMoreRequestContentTypes) {
+    return factory.Identifier.create({ name: `requestEncodings[params.headers["Content-Type"]]` });
+  }
+  return factory.Identifier.create({ name: `requestEncodings["${params.convertedParams.requestFirstContentType}"]` });
+};
+
+/**
  * this.apiClient.request("GET", url, requestBody, headers, queryParameters);
  */
 export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params, methodType: MethodType): ts.CallExpression => {
@@ -40,6 +58,10 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
         initializer: convertedParams.hasRequestBody
           ? Utils.generateVariableIdentifier(factory, "params.requestBody")
           : factory.Identifier.create({ name: "undefined" }),
+      }),
+      factory.PropertyAssignment.create({
+        name: "requestBodyEncoding",
+        initializer: createEncodingParams(factory, params),
       }),
       factory.PropertyAssignment.create({
         name: "queryParameters",

@@ -42,11 +42,19 @@ export namespace ErrorResponse {
     export type putAnyOf = void;
     export type patchOneOf = void;
 }
+export interface Encoding {
+    contentType?: string;
+    headers?: Record<string, any>;
+    style?: string;
+    explode?: boolean;
+    allowReserved?: boolean;
+}
 export interface RequestArgs {
     httpMethod: HttpMethod;
     url: string;
     headers: ObjectLike | any;
     requestBody: ObjectLike | any;
+    requestBodyEncoding?: Record<string, Encoding>;
     queryParameters: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
@@ -69,6 +77,7 @@ export class Client<RequestOption> {
             url: url,
             headers: headers,
             requestBody: params.requestBody,
+            requestBodyEncoding: requestEncodings["application/json"],
             queryParameters: undefined
         }, option);
     }
@@ -86,6 +95,7 @@ export class Client<RequestOption> {
             url: url,
             headers: headers,
             requestBody: params.requestBody,
+            requestBodyEncoding: requestEncodings["application/json"],
             queryParameters: undefined
         }, option);
     }

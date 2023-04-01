@@ -105,6 +105,50 @@ const createObjectLikeInterface = (factory: TsGenerator.Factory.Type) => {
   });
 };
 
+const createEncodingInterface = (factory: TsGenerator.Factory.Type) => {
+  return factory.InterfaceDeclaration.create({
+    export: true,
+    name: "Encoding",
+    members: [
+      factory.PropertySignature.create({
+        name: "contentType",
+        optional: true,
+        type: factory.TypeReferenceNode.create({
+          name: "string",
+        }),
+      }),
+      factory.PropertySignature.create({
+        name: "headers",
+        optional: true,
+        type: factory.TypeReferenceNode.create({
+          name: "Record<string, any>",
+        }),
+      }),
+      factory.PropertySignature.create({
+        name: "style",
+        optional: true,
+        type: factory.TypeReferenceNode.create({
+          name: "string",
+        }),
+      }),
+      factory.PropertySignature.create({
+        name: "explode",
+        optional: true,
+        type: factory.TypeReferenceNode.create({
+          name: "boolean",
+        }),
+      }),
+      factory.PropertySignature.create({
+        name: "allowReserved",
+        optional: true,
+        type: factory.TypeReferenceNode.create({
+          name: "boolean",
+        }),
+      }),
+    ],
+  });
+};
+
 export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Params[], option: Option): ts.Statement[] => {
   const objectLikeOrAnyType = factory.UnionTypeNode.create({
     typeNodes: [
@@ -117,12 +161,15 @@ export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Pa
     ],
   });
 
+  const encodingInterface = createEncodingInterface(factory);
+
   const requestArgs = factory.ParameterDeclaration.create({
     name: "requestArgs",
     type: factory.TypeReferenceNode.create({
       name: "RequestArgs",
     }),
   });
+
   const options = factory.ParameterDeclaration.create({
     name: "options",
     optional: true,
@@ -198,6 +245,11 @@ export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Pa
         type: objectLikeOrAnyType,
       }),
       factory.PropertySignature.create({
+        name: `requestBodyEncoding`,
+        optional: true,
+        type: factory.TypeReferenceNode.create({ name: "Record<string, Encoding>" }),
+      }),
+      factory.PropertySignature.create({
         name: `queryParameters`,
         optional: false,
         type: factory.UnionTypeNode.create({
@@ -219,6 +271,7 @@ export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Pa
     ...createQueryParamsDeclarations(factory),
     createSuccessResponseTypeAlias("SuccessResponses", factory, successResponseNames),
     errorResponseNamespace,
+    encodingInterface,
     requestArgsInterfaceDeclaration,
     factory.InterfaceDeclaration.create({
       export: true,
