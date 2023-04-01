@@ -50,6 +50,7 @@
     "test:code:gen": "run-p test:code:gen:*",
     "test:code:gen:class": "pnpm ts ./scripts/testCodeGenWithClass.ts",
     "test:code:gen:function": "pnpm ts ./scripts/testCodeGenWithFunctional.ts",
+    "test:code:gen:currying-function": "pnpm ts ./scripts/testCodeGenWithCurryingFunctional.ts",
     "test:depcruise": "depcruise --validate .dependency-cruiser.js src",
     "test:eslint": "eslint \"src/**/*.{ts,tsx}\"",
     "test:jest": "jest -c ./jest.config.js --collect-coverage",
