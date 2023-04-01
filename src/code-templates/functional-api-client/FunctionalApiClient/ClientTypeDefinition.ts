@@ -7,14 +7,14 @@ export const create = (factory: TsGenerator.Factory.Type): ts.TypeAliasDeclarati
       name: "ClientFunction<RequestOption>",
       type: factory.TypeReferenceNode.create({
         name: `typeof createClient<RequestOption>`,
-      })
+      }),
     }),
     factory.TypeAliasDeclaration.create({
       export: true,
       name: "Client<RequestOption>",
       type: factory.TypeReferenceNode.create({
         name: `ReturnType<ClientFunction<RequestOption>>`,
-      })
-    })
-  ]
+      }),
+    }),
+  ];
 };

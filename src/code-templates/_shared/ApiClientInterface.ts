@@ -211,7 +211,7 @@ export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Pa
       }),
     ],
     typeParameters: [],
-  })
+  });
 
   return [
     createHttpMethod(factory),

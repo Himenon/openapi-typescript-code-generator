@@ -39,7 +39,7 @@ export const generator: CodeGenerator.GenerateFunction<Option> = (
   statements.push(apiClientStatement);
   ClientTypeDefinition.create(factory).forEach(statement => {
     statements.push(statement);
-  })
-  
+  });
+
   return statements;
 };
