@@ -4,14 +4,11 @@ import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
 import * as Utils from "../utils";
 import type { MethodType } from "./types";
-import { Encoding } from "../../../typedef/OpenApi";
 
 export interface Params {
   httpMethod: string;
   hasRequestBody: boolean;
 }
-
-type EncodingMap = Record<string, Encoding>;
 
 /**
  *
@@ -26,7 +23,7 @@ const createEncodingParams = (factory: TsGenerator.Factory.Type, params: CodeGen
     return factory.Identifier.create({ name: "undefined" });
   }
   if (params.convertedParams.has2OrMoreRequestContentTypes) {
-    return factory.Identifier.create({ name: `requestEncodings[params.headers["Content-Type"]]]` });
+    return factory.Identifier.create({ name: `requestEncodings[params.headers["Content-Type"]]` });
   }
   return factory.Identifier.create({ name: `requestEncodings["${params.convertedParams.requestFirstContentType}"]` });
 };

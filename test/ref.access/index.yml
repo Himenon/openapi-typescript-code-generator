@@ -149,3 +149,42 @@ paths:
                 properties:
                   status:
                     type: string
+  /create/v2/publisher/{id}:
+    post:
+      operationId: createPublisherV2
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                color:
+                  type: array
+                  items:
+                    type: string
+            encoding:
+              color:
+                style: form
+                explode: false
+          application/json:
+            schema:
+              type: object
+              properties:
+                color:
+                  type: array
+                  items:
+                    type: string
+            encoding:
+              color:
+                style: form
+                explode: false
+      responses:
+        200:
+          description: Create Publisher V2
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
