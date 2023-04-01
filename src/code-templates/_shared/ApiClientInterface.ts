@@ -117,33 +117,10 @@ export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Pa
     ],
   });
 
-  const httpMethod = factory.ParameterDeclaration.create({
-    name: "httpMethod",
+  const requestArgs = factory.ParameterDeclaration.create({
+    name: "requestArgs",
     type: factory.TypeReferenceNode.create({
-      name: "HttpMethod",
-    }),
-  });
-  const url = factory.ParameterDeclaration.create({
-    name: "url",
-    type: factory.TypeNode.create({ type: "string" }),
-  });
-  const headers = factory.ParameterDeclaration.create({
-    name: "headers",
-    type: objectLikeOrAnyType,
-  });
-  const requestBody = factory.ParameterDeclaration.create({
-    name: "requestBody",
-    type: objectLikeOrAnyType,
-  });
-  const queryParameters = factory.ParameterDeclaration.create({
-    name: "queryParameters",
-    type: factory.UnionTypeNode.create({
-      typeNodes: [
-        factory.TypeReferenceNode.create({
-          name: "QueryParameters",
-        }),
-        factory.TypeNode.create({ type: "undefined" }),
-      ],
+      name: "RequestArgs",
     }),
   });
   const options = factory.ParameterDeclaration.create({
@@ -186,7 +163,7 @@ export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Pa
         }),
       }),
     ],
-    parameters: [httpMethod, url, headers, requestBody, queryParameters, options],
+    parameters: [requestArgs, options],
     type: returnType,
   });
 
@@ -196,12 +173,53 @@ export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Pa
     type: functionType,
   });
 
+  const requestArgsInterfaceDeclaration = factory.InterfaceDeclaration.create({
+    export: true,
+    name: "RequestArgs",
+    members: [
+      factory.PropertySignature.create({
+        name: `httpMethod`,
+        optional: false,
+        type: factory.TypeReferenceNode.create({ name: "HttpMethod" }),
+      }),
+      factory.PropertySignature.create({
+        name: `url`,
+        optional: false,
+        type: factory.TypeReferenceNode.create({ name: "string" }),
+      }),
+      factory.PropertySignature.create({
+        name: `headers`,
+        optional: false,
+        type: objectLikeOrAnyType,
+      }),
+      factory.PropertySignature.create({
+        name: `requestBody`,
+        optional: false,
+        type: objectLikeOrAnyType,
+      }),
+      factory.PropertySignature.create({
+        name: `queryParameters`,
+        optional: false,
+        type: factory.UnionTypeNode.create({
+          typeNodes: [
+            factory.TypeReferenceNode.create({
+              name: "QueryParameters",
+            }),
+            factory.TypeNode.create({ type: "undefined" }),
+          ],
+        }),
+      }),
+    ],
+    typeParameters: [],
+  })
+
   return [
     createHttpMethod(factory),
     createObjectLikeInterface(factory),
     ...createQueryParamsDeclarations(factory),
     createSuccessResponseTypeAlias("SuccessResponses", factory, successResponseNames),
     errorResponseNamespace,
+    requestArgsInterfaceDeclaration,
     factory.InterfaceDeclaration.create({
       export: true,
       name: "ApiClient",
