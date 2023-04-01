@@ -9,20 +9,26 @@ import * as HeaderParameter from "./HeaderParameter";
 import * as PathParameter from "./PathParameter";
 import * as QueryParameter from "./QueryParameter";
 import type { MethodType } from "./types";
+import { Encoding } from "../../../typedef/OpenApi";
 
 export interface Params$GenerateUrl {
   urlTemplate: Utils.Params$TemplateExpression;
 }
 
+type EncodingMap = Record<string, Encoding>;
+
 export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params, methodType: MethodType): ts.Statement[] => {
   const statements: ts.Statement[] = [];
-  const { convertedParams } = params;
+  const { convertedParams, operationParams } = params;
   const { pickedParameters } = convertedParams;
 
   // Generate Path Parameter
   const pathParameters = pickedParameters.filter(PathParameter.isPathParameter);
   statements.push(PathParameter.create(factory, params.operationParams.requestUri, pathParameters, methodType));
 
+  /**
+   * Create Variable: const header = {};
+   */
   const initialHeaderObject: Utils.LiteralExpressionObject = {};
   if (convertedParams.has2OrMoreRequestContentTypes) {
     initialHeaderObject["Content-Type"] = {
@@ -58,6 +64,45 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
       object: headerObject,
     }),
   );
+
+  /**
+   * Create Variable: const requestEncoding = {};
+   */
+  const content = operationParams.requestBody?.content;
+  if (content) {
+    const encodingMap = Object.keys(content).reduce<EncodingMap>((all, key) => {
+      const { encoding } = content[key];
+      if (!encoding) {
+        return all;
+      }
+      return { ...all, [key]: encoding };
+    }, {});
+    let identifier: ts.Identifier | undefined;
+    if (convertedParams.has2OrMoreRequestContentTypes) {
+      identifier = factory.Identifier.create({
+        name: JSON.stringify(encodingMap, null, 2),
+      });
+    } else if (convertedParams.requestFirstContentType) {
+      identifier = factory.Identifier.create({
+        name: JSON.stringify({ [convertedParams.requestFirstContentType]: encodingMap[convertedParams.requestFirstContentType] }, null, 2),
+      });
+    }
+    const requestEncodingsVariableStatement = factory.VariableStatement.create({
+      declarationList: factory.VariableDeclarationList.create({
+        flag: "const",
+        declarations: [
+          factory.VariableDeclaration.create({
+            name: "requestEncodings",
+            initializer: identifier,
+          }),
+        ],
+      }),
+    });
+
+    if (identifier) {
+      statements.push(requestEncodingsVariableStatement);
+    }
+  }
 
   // Generate Query Parameter
   if (convertedParams.hasQueryParameters) {

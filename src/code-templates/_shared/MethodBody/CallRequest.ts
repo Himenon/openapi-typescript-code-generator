@@ -14,7 +14,7 @@ export interface Params {
 type EncodingMap = Record<string, Encoding>;
 
 /**
- * 
+ *
  * const encodingMap = {
  *   "application/json": {},
  *   "application/x-www-form-urlencoded": {},
@@ -25,18 +25,10 @@ const createEncodingParams = (factory: TsGenerator.Factory.Type, params: CodeGen
   if (!content) {
     return factory.Identifier.create({ name: "undefined" });
   }
-  const encodingMap = Object.keys(content).reduce<EncodingMap>((all, key) => {
-    const { encoding } = content[key];
-    if (!encoding) {
-      return all;
-    }
-    return { ...all, [key]: encoding };
-  }, {});
-  
-  if (Object.keys(encodingMap).length) {
-    console.log(encodingMap);
+  if (params.convertedParams.has2OrMoreRequestContentTypes) {
+    return factory.Identifier.create({ name: `requestEncodings[params.headers["Content-Type"]]]` });
   }
-  return factory.Identifier.create({ name: JSON.stringify(encodingMap, null, 2) });
+  return factory.Identifier.create({ name: `requestEncodings["${params.convertedParams.requestFirstContentType}"]` });
 };
 
 /**
@@ -71,14 +63,14 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
           : factory.Identifier.create({ name: "undefined" }),
       }),
       factory.PropertyAssignment.create({
+        name: "requestBodyEncoding",
+        initializer: createEncodingParams(factory, params),
+      }),
+      factory.PropertyAssignment.create({
         name: "queryParameters",
         initializer: convertedParams.hasQueryParameters
           ? factory.Identifier.create({ name: "queryParameters" })
           : factory.Identifier.create({ name: "undefined" }),
-      }),
-      factory.PropertyAssignment.create({
-        name: "encoding",
-        initializer: createEncodingParams(factory, params),
       }),
     ],
     multiLine: true,

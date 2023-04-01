@@ -122,7 +122,30 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Publisher"
-              encoding:
-                address:            # color=red,green,blue
-                  style: form
-                  explode: false
+  /create/publisher/{id}:
+    post:
+      operationId: createPublisher
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                color:
+                  type: array
+                  items:
+                    type: string
+            encoding:
+              color:
+                style: form
+                explode: false
+      responses:
+        200:
+          description: Get Publisher
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string

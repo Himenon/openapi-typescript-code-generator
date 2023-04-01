@@ -60,12 +60,20 @@ export namespace ErrorResponse {
     export type getBookById = void;
     export type deleteBook = void;
 }
+export interface Encoding {
+    contentType?: string;
+    headers?: Record<string, any>;
+    style?: string;
+    explode?: boolean;
+    allowReserved?: boolean;
+}
 export interface RequestArgs {
     httpMethod: HttpMethod;
     url: string;
     headers: ObjectLike | any;
     requestBody: ObjectLike | any;
     queryParameters: QueryParameters | undefined;
+    requestBodyEncoding?: Record<string, Encoding>;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
@@ -86,6 +94,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url: url,
                 headers: headers,
                 requestBody: undefined,
+                requestBodyEncoding: undefined,
                 queryParameters: queryParameters
             }, option);
         },
@@ -94,6 +103,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             const headers = {
                 "Content-Type": "application/json"
             };
+            const requestEncodings = {};
             const queryParameters: QueryParameters = {
                 IncludeRemoteReference: { value: params.parameter.IncludeRemoteReference, explode: false }
             };
@@ -102,6 +112,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url: url,
                 headers: headers,
                 requestBody: params.requestBody,
+                requestBodyEncoding: requestEncodings["application/json"],
                 queryParameters: queryParameters
             }, option);
         },
@@ -118,6 +129,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url: url,
                 headers: headers,
                 requestBody: undefined,
+                requestBodyEncoding: undefined,
                 queryParameters: queryParameters
             }, option);
         },
@@ -131,6 +143,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url: url,
                 headers: headers,
                 requestBody: undefined,
+                requestBodyEncoding: undefined,
                 queryParameters: undefined
             }, option);
         },
@@ -144,6 +157,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url: url,
                 headers: headers,
                 requestBody: undefined,
+                requestBodyEncoding: undefined,
                 queryParameters: undefined
             }, option);
         },
@@ -160,6 +174,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url: url,
                 headers: headers,
                 requestBody: undefined,
+                requestBodyEncoding: undefined,
                 queryParameters: queryParameters
             }, option);
         },
@@ -173,6 +188,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url: url,
                 headers: headers,
                 requestBody: undefined,
+                requestBodyEncoding: undefined,
                 queryParameters: undefined
             }, option);
         },
@@ -186,6 +202,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url: url,
                 headers: headers,
                 requestBody: undefined,
+                requestBodyEncoding: undefined,
                 queryParameters: undefined
             }, option);
         }
@@ -256,12 +273,20 @@ export namespace ErrorResponse {
     export type getBookById = void;
     export type deleteBook = void;
 }
+export interface Encoding {
+    contentType?: string;
+    headers?: Record<string, any>;
+    style?: string;
+    explode?: boolean;
+    allowReserved?: boolean;
+}
 export interface RequestArgs {
     httpMethod: HttpMethod;
     url: string;
     headers: ObjectLike | any;
     requestBody: ObjectLike | any;
     queryParameters: QueryParameters | undefined;
+    requestBodyEncoding?: Record<string, Encoding>;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => T;
@@ -282,6 +307,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url: url,
                 headers: headers,
                 requestBody: undefined,
+                requestBodyEncoding: undefined,
                 queryParameters: queryParameters
             }, option);
         },
@@ -290,6 +316,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             const headers = {
                 "Content-Type": "application/json"
             };
+            const requestEncodings = {};
             const queryParameters: QueryParameters = {
                 IncludeRemoteReference: { value: params.parameter.IncludeRemoteReference, explode: false }
             };
@@ -298,6 +325,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url: url,
                 headers: headers,
                 requestBody: params.requestBody,
+                requestBodyEncoding: requestEncodings["application/json"],
                 queryParameters: queryParameters
             }, option);
         },
@@ -314,6 +342,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url: url,
                 headers: headers,
                 requestBody: undefined,
+                requestBodyEncoding: undefined,
                 queryParameters: queryParameters
             }, option);
         },
@@ -327,6 +356,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url: url,
                 headers: headers,
                 requestBody: undefined,
+                requestBodyEncoding: undefined,
                 queryParameters: undefined
             }, option);
         },
@@ -340,6 +370,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url: url,
                 headers: headers,
                 requestBody: undefined,
+                requestBodyEncoding: undefined,
                 queryParameters: undefined
             }, option);
         },
@@ -356,6 +387,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url: url,
                 headers: headers,
                 requestBody: undefined,
+                requestBodyEncoding: undefined,
                 queryParameters: queryParameters
             }, option);
         },
@@ -369,6 +401,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url: url,
                 headers: headers,
                 requestBody: undefined,
+                requestBodyEncoding: undefined,
                 queryParameters: undefined
             }, option);
         },
@@ -382,6 +415,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url: url,
                 headers: headers,
                 requestBody: undefined,
+                requestBodyEncoding: undefined,
                 queryParameters: undefined
             }, option);
         }
@@ -416,12 +450,20 @@ export interface QueryParameters {
 }
 export type SuccessResponses = void;
 export namespace ErrorResponse { }
+export interface Encoding {
+    contentType?: string;
+    headers?: Record<string, any>;
+    style?: string;
+    explode?: boolean;
+    allowReserved?: boolean;
+}
 export interface RequestArgs {
     httpMethod: HttpMethod;
     url: string;
     headers: ObjectLike | any;
     requestBody: ObjectLike | any;
     queryParameters: QueryParameters | undefined;
+    requestBodyEncoding?: Record<string, Encoding>;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => T;

@@ -257,9 +257,9 @@ export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Pa
         }),
       }),
       factory.PropertySignature.create({
-        name: `encoding`,
+        name: `requestBodyEncoding`,
         optional: true,
-        type: factory.TypeReferenceNode.create({ name: "Encoding" }),
+        type: factory.TypeReferenceNode.create({ name: "Record<string, Encoding>" }),
       }),
     ],
     typeParameters: [],

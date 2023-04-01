@@ -41,12 +41,20 @@ export type SuccessResponses = Response$getUnknown$Status$200;
 export namespace ErrorResponse {
     export type getUnknown = void;
 }
+export interface Encoding {
+    contentType?: string;
+    headers?: Record<string, any>;
+    style?: string;
+    explode?: boolean;
+    allowReserved?: boolean;
+}
 export interface RequestArgs {
     httpMethod: HttpMethod;
     url: string;
     headers: ObjectLike | any;
     requestBody: ObjectLike | any;
     queryParameters: QueryParameters | undefined;
+    requestBodyEncoding?: Record<string, Encoding>;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
@@ -64,6 +72,7 @@ export class Client<RequestOption> {
             url: url,
             headers: headers,
             requestBody: undefined,
+            requestBodyEncoding: undefined,
             queryParameters: undefined
         }, option);
     }
