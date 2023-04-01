@@ -42,8 +42,15 @@ export namespace ErrorResponse {
     export type putAnyOf = void;
     export type patchOneOf = void;
 }
+export interface RequestArgs {
+    httpMethod: HttpMethod;
+    url: string;
+    headers: ObjectLike | any;
+    requestBody: ObjectLike | any;
+    queryParameters: QueryParameters | undefined;
+}
 export interface ApiClient<RequestOption> {
-    request: <T = SuccessResponses>(httpMethod: HttpMethod, url: string, headers: ObjectLike | any, requestBody: ObjectLike | any, queryParameters: QueryParameters | undefined, options?: RequestOption) => Promise<T>;
+    request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
 }
 export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>, baseUrl: string) => {
     const _baseUrl = baseUrl.replace(/\\/$/, "");
@@ -57,7 +64,13 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             const headers = {
                 "Content-Type": "application/json"
             };
-            return apiClient.request("PUT", url, headers, params.requestBody, undefined, option);
+            return apiClient.request({
+                httpMethod: "PUT",
+                url: url,
+                headers: headers,
+                requestBody: params.requestBody,
+                queryParameters: undefined
+            }, option);
         },
         /**
          * operationId: patchOneOf
@@ -68,7 +81,13 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             const headers = {
                 "Content-Type": "application/json"
             };
-            return apiClient.request("PATCH", url, headers, params.requestBody, undefined, option);
+            return apiClient.request({
+                httpMethod: "PATCH",
+                url: url,
+                headers: headers,
+                requestBody: params.requestBody,
+                queryParameters: undefined
+            }, option);
         }
     };
 };
