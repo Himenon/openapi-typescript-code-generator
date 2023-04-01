@@ -122,3 +122,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Publisher"
+              encoding:
+                address:            # color=red,green,blue
+                  style: form
+                  explode: false

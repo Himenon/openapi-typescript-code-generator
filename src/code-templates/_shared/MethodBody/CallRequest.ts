@@ -13,6 +13,13 @@ export interface Params {
 
 type EncodingMap = Record<string, Encoding>;
 
+/**
+ * 
+ * const encodingMap = {
+ *   "application/json": {},
+ *   "application/x-www-form-urlencoded": {},
+ * }
+ */
 const createEncodingParams = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params): ts.Expression => {
   const content = params.operationParams.requestBody?.content;
   if (!content) {
@@ -25,6 +32,10 @@ const createEncodingParams = (factory: TsGenerator.Factory.Type, params: CodeGen
     }
     return { ...all, [key]: encoding };
   }, {});
+  
+  if (Object.keys(encodingMap).length) {
+    console.log(encodingMap);
+  }
   return factory.Identifier.create({ name: JSON.stringify(encodingMap, null, 2) });
 };
 
