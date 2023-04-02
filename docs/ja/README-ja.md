@@ -203,12 +203,12 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
 
 #### `Templates.CurryingFunctionalApiClient.generator`
 
-**Tree Shaking対応**
+**Tree Shaking 対応**
 
-カリー化された関数ベースの API Client を提供しています。各`operationId`毎にAPI Clientを注入する形式を取っています。
-第1の関数引数には`ApiClient`を要求し、第2の関数の引数に`RequestArgs`を要求します。`ApiClient`のInterfaceは他と異なり、`uri`を引数として要求します。
+カリー化された関数ベースの API Client を提供しています。各`operationId`毎に API Client を注入する形式を取っています。
+第 1 の関数引数には`ApiClient`を要求し、第 2 の関数の引数に`RequestArgs`を要求します。`ApiClient`の Interface は他と異なり、`uri`を引数として要求します。
 
-Tree Shakingを利用するようなユースーケースで利用することを想定しています。
+Tree Shaking を利用するようなユースーケースで利用することを想定しています。
 
 ```ts
 export interface RequestArgs {
