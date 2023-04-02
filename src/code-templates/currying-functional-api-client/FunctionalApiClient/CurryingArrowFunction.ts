@@ -159,13 +159,13 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
       statements: MethodBody.create(factory, params, "currying-function"),
       multiLine: true,
     }),
-  })
+  });
 
   return factory.ArrowFunction.create({
     typeParameters: [
       factory.TypeParameterDeclaration.create({
-        name: "RequestOption"
-      })
+        name: "RequestOption",
+      }),
     ],
     parameters: [
       factory.ParameterDeclaration.create({

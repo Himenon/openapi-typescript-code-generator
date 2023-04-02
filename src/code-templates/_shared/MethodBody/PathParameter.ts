@@ -140,7 +140,7 @@ export const create = (
   if (methodType === "function") {
     const variableExpression = factory.Identifier.create({
       name: "_baseUrl",
-    })
+    });
     return generateUrlVariableStatement(factory, urlTemplate, variableExpression);
   }
   throw new Error(`Invalid MethodType: ${methodType}`);

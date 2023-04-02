@@ -150,7 +150,12 @@ const createEncodingInterface = (factory: TsGenerator.Factory.Type) => {
   });
 };
 
-export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Params[], methodType: MethodType, option: Option): ts.Statement[] => {
+export const create = (
+  factory: TsGenerator.Factory.Type,
+  list: CodeGenerator.Params[],
+  methodType: MethodType,
+  option: Option,
+): ts.Statement[] => {
   const objectLikeOrAnyType = factory.UnionTypeNode.create({
     typeNodes: [
       factory.TypeReferenceNode.create({

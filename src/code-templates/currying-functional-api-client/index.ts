@@ -38,7 +38,7 @@ export const generator: CodeGenerator.GenerateFunction<Option> = (
   const apiClientStatements = FunctionalApiClient.create(factory, codeGeneratorParamsList, option || {});
   apiClientStatements.forEach(apiClientStatement => {
     statements.push(apiClientStatement);
-  })
+  });
   ClientTypeDefinition.create(factory).forEach(statement => {
     statements.push(statement);
   });
