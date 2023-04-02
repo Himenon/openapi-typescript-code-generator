@@ -151,7 +151,7 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
     }),
   );
 
-  return factory.ArrowFunction.create({
+  const curryingFunction = factory.ArrowFunction.create({
     typeParameters: typeParameters,
     parameters: methodArguments,
     type: returnType,
@@ -159,5 +159,23 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
       statements: MethodBody.create(factory, params, "function"),
       multiLine: true,
     }),
+  })
+
+  return factory.ArrowFunction.create({
+    typeParameters: [
+      factory.TypeParameterDeclaration.create({
+        name: "RequestOption"
+      })
+    ],
+    parameters: [
+      factory.ParameterDeclaration.create({
+        name: "apiClient",
+        type: factory.TypeReferenceNode.create({
+          name: "ApiClient<RequestOption>",
+        }),
+      }),
+    ],
+    equalsGreaterThanToken: ts.factory.createToken(ts.SyntaxKind.EqualsGreaterThanToken),
+    body: curryingFunction,
   });
 };

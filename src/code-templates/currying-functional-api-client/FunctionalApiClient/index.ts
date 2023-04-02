@@ -4,7 +4,7 @@ import ts from "typescript";
 import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
 import type { Option } from "../../_shared/types";
-import * as ArrowFunction from "./ArrowFunction";
+import * as ArrowFunction from "./CurryingArrowFunction";
 
 export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Params[], option: Option): ts.VariableStatement => {
   const properties = list.map(params => {
