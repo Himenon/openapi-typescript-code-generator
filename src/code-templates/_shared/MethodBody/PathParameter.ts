@@ -16,30 +16,38 @@ export const isPathParameter = (params: any): params is CodeGenerator.PickedPara
 const generateUrlVariableStatement = (
   factory: TsGenerator.Factory.Type,
   urlTemplate: Utils.Params$TemplateExpression,
-  methodType: MethodType,
+  variableExpression: ts.Expression,
 ): ts.VariableStatement => {
-  const left: Record<MethodType, ts.Expression> = {
-    class: factory.PropertyAccessExpression.create({
-      name: "baseUrl",
-      expression: "this",
-    }),
-    function: factory.Identifier.create({
-      name: "_baseUrl",
-    }),
-    "currying-function": factory.Identifier.create({
-      name: "uri",
-    }),
-  };
   return factory.VariableStatement.create({
     declarationList: factory.VariableDeclarationList.create({
       declarations: [
         factory.VariableDeclaration.create({
           name: "url",
           initializer: factory.BinaryExpression.create({
-            left: left[methodType],
+            left: variableExpression,
             operator: "+",
             right: Utils.generateTemplateExpression(factory, urlTemplate),
           }),
+        }),
+      ],
+      flag: "const",
+    }),
+  });
+};
+
+/**
+ * const uri = `[head]${params.parameter.[parameterName]}`;
+ */
+const generateUriVariableStatement = (
+  factory: TsGenerator.Factory.Type,
+  urlTemplate: Utils.Params$TemplateExpression,
+): ts.VariableStatement => {
+  return factory.VariableStatement.create({
+    declarationList: factory.VariableDeclarationList.create({
+      declarations: [
+        factory.VariableDeclaration.create({
+          name: "uri",
+          initializer: Utils.generateTemplateExpression(factory, urlTemplate),
         }),
       ],
       flag: "const",
@@ -117,9 +125,23 @@ export const create = (
   pathParameters: CodeGenerator.PickedParameter[],
   methodType: MethodType,
 ): ts.VariableStatement => {
-  if (pathParameters.length > 0) {
-    const urlTemplate = generateUrlTemplateExpression(factory, requestUri, pathParameters);
-    return generateUrlVariableStatement(factory, urlTemplate, methodType);
+  const urlTemplate: Utils.Params$TemplateExpression =
+    pathParameters.length > 0 ? generateUrlTemplateExpression(factory, requestUri, pathParameters) : [{ type: "string", value: requestUri }];
+  if (methodType === "currying-function") {
+    return generateUriVariableStatement(factory, urlTemplate);
   }
-  return generateUrlVariableStatement(factory, [{ type: "string", value: requestUri }], methodType);
+  if (methodType === "class") {
+    const variableExpression = factory.PropertyAccessExpression.create({
+      name: "baseUrl",
+      expression: "this",
+    });
+    return generateUrlVariableStatement(factory, urlTemplate, variableExpression);
+  }
+  if (methodType === "function") {
+    const variableExpression = factory.Identifier.create({
+      name: "_baseUrl",
+    })
+    return generateUrlVariableStatement(factory, urlTemplate, variableExpression);
+  }
+  throw new Error(`Invalid MethodType: ${methodType}`);
 };
