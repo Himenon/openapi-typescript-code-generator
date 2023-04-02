@@ -48,7 +48,7 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
         initializer: factory.StringLiteral.create({ text: params.operationParams.httpMethod.toUpperCase() }),
       }),
       factory.ShorthandPropertyAssignment.create({
-        name: methodType === "currying-function" ? "uri" :  "url",
+        name: methodType === "currying-function" ? "uri" : "url",
       }),
       factory.ShorthandPropertyAssignment.create({
         name: "headers",
@@ -58,10 +58,11 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
           name: "requestBody",
           initializer: Utils.generateVariableIdentifier(factory, "params.requestBody"),
         }),
-      requestBodyEncoding && factory.PropertyAssignment.create({
-        name: "requestBodyEncoding",
-        initializer: requestBodyEncoding,
-      }),
+      requestBodyEncoding &&
+        factory.PropertyAssignment.create({
+          name: "requestBodyEncoding",
+          initializer: requestBodyEncoding,
+        }),
       convertedParams.hasQueryParameters &&
         factory.PropertyAssignment.create({
           name: "queryParameters",
