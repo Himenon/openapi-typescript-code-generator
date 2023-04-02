@@ -5,7 +5,6 @@ import type { CodeGenerator } from "../../types";
 import * as ApiClientArgument from "../_shared/ApiClientArgument";
 import * as FunctionalApiClient from "./FunctionalApiClient";
 import * as ApiClientInterface from "../_shared/ApiClientInterface";
-import * as ClientTypeDefinition from "./FunctionalApiClient/ClientTypeDefinition";
 
 import type { Option } from "../_shared/types";
 
@@ -38,9 +37,6 @@ export const generator: CodeGenerator.GenerateFunction<Option> = (
   const apiClientStatements = FunctionalApiClient.create(factory, codeGeneratorParamsList, option || {});
   apiClientStatements.forEach(apiClientStatement => {
     statements.push(apiClientStatement);
-  });
-  ClientTypeDefinition.create(factory).forEach(statement => {
-    statements.push(statement);
   });
 
   return statements;
