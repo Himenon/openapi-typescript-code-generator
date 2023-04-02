@@ -15,5 +15,5 @@ export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Pa
     return Method.create(factory, params, option);
   });
   const members = [Constructor.create(factory), ...methodList];
-  return [...ApiClientInterface.create(factory, list, option), Class.create(factory, members)];
+  return [...ApiClientInterface.create(factory, list, "class", option), Class.create(factory, members)];
 };
