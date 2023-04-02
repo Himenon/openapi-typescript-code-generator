@@ -53,9 +53,9 @@ export interface RequestArgs {
     httpMethod: HttpMethod;
     url: string;
     headers: ObjectLike | any;
-    requestBody: ObjectLike | any;
+    requestBody?: ObjectLike | any;
     requestBodyEncoding?: Record<string, Encoding>;
-    queryParameters: QueryParameters | undefined;
+    queryParameters?: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
@@ -74,11 +74,10 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "PUT",
-            url: url,
-            headers: headers,
+            url,
+            headers,
             requestBody: params.requestBody,
-            requestBodyEncoding: requestEncodings["application/json"],
-            queryParameters: undefined
+            requestBodyEncoding: requestEncodings["application/json"]
         }, option);
     }
     /**
@@ -92,11 +91,10 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "PATCH",
-            url: url,
-            headers: headers,
+            url,
+            headers,
             requestBody: params.requestBody,
-            requestBodyEncoding: requestEncodings["application/json"],
-            queryParameters: undefined
+            requestBodyEncoding: requestEncodings["application/json"]
         }, option);
     }
 }
