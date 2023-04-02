@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.26.0"></a>
+# 0.26.0 (2023-04-02)
+
+
+### Features
+
+* provide currying functional api client ([#109](https://github.com/Himenon/openapi-typescript-code-generator/issues/109)) ([40e359e](https://github.com/Himenon/openapi-typescript-code-generator/commit/40e359e))
+
+
+
+
+
 <a name="0.25.0"></a>
 # 0.25.0 (2023-04-01)
 
