@@ -3837,9 +3837,9 @@ export interface RequestArgs {
     httpMethod: HttpMethod;
     url: string;
     headers: ObjectLike | any;
-    requestBody: ObjectLike | any;
+    requestBody?: ObjectLike | any;
     requestBodyEncoding?: Record<string, Encoding>;
-    queryParameters: QueryParameters | undefined;
+    queryParameters?: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
@@ -3854,11 +3854,8 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "GET",
-            url: url,
-            headers: headers,
-            requestBody: undefined,
-            requestBodyEncoding: undefined,
-            queryParameters: undefined
+            url,
+            headers
         }, option);
     }
     public async RolloutService_ListRolloutInfos(params: Params$RolloutService_ListRolloutInfos, option?: RequestOption): Promise<Response$RolloutService_ListRolloutInfos$Status$200["application/json"]> {
@@ -3868,11 +3865,8 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "GET",
-            url: url,
-            headers: headers,
-            requestBody: undefined,
-            requestBodyEncoding: undefined,
-            queryParameters: undefined
+            url,
+            headers
         }, option);
     }
     public async RolloutService_WatchRolloutInfos(params: Params$RolloutService_WatchRolloutInfos, option?: RequestOption): Promise<Response$RolloutService_WatchRolloutInfos$Status$200["application/json"]> {
@@ -3882,11 +3876,8 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "GET",
-            url: url,
-            headers: headers,
-            requestBody: undefined,
-            requestBodyEncoding: undefined,
-            queryParameters: undefined
+            url,
+            headers
         }, option);
     }
     public async RolloutService_AbortRollout(params: Params$RolloutService_AbortRollout, option?: RequestOption): Promise<Response$RolloutService_AbortRollout$Status$200["application/json"]> {
@@ -3897,11 +3888,9 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "PUT",
-            url: url,
-            headers: headers,
-            requestBody: params.requestBody,
-            requestBodyEncoding: requestEncodings["application/json"],
-            queryParameters: undefined
+            url,
+            headers,
+            requestBody: params.requestBody
         }, option);
     }
     public async RolloutService_GetRolloutInfo(params: Params$RolloutService_GetRolloutInfo, option?: RequestOption): Promise<Response$RolloutService_GetRolloutInfo$Status$200["application/json"]> {
@@ -3911,11 +3900,8 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "GET",
-            url: url,
-            headers: headers,
-            requestBody: undefined,
-            requestBodyEncoding: undefined,
-            queryParameters: undefined
+            url,
+            headers
         }, option);
     }
     public async RolloutService_WatchRolloutInfo(params: Params$RolloutService_WatchRolloutInfo, option?: RequestOption): Promise<Response$RolloutService_WatchRolloutInfo$Status$200["application/json"]> {
@@ -3925,11 +3911,8 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "GET",
-            url: url,
-            headers: headers,
-            requestBody: undefined,
-            requestBodyEncoding: undefined,
-            queryParameters: undefined
+            url,
+            headers
         }, option);
     }
     public async RolloutService_PromoteRollout(params: Params$RolloutService_PromoteRollout, option?: RequestOption): Promise<Response$RolloutService_PromoteRollout$Status$200["application/json"]> {
@@ -3940,11 +3923,9 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "PUT",
-            url: url,
-            headers: headers,
-            requestBody: params.requestBody,
-            requestBodyEncoding: requestEncodings["application/json"],
-            queryParameters: undefined
+            url,
+            headers,
+            requestBody: params.requestBody
         }, option);
     }
     public async RolloutService_RestartRollout(params: Params$RolloutService_RestartRollout, option?: RequestOption): Promise<Response$RolloutService_RestartRollout$Status$200["application/json"]> {
@@ -3955,11 +3936,9 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "PUT",
-            url: url,
-            headers: headers,
-            requestBody: params.requestBody,
-            requestBodyEncoding: requestEncodings["application/json"],
-            queryParameters: undefined
+            url,
+            headers,
+            requestBody: params.requestBody
         }, option);
     }
     public async RolloutService_RetryRollout(params: Params$RolloutService_RetryRollout, option?: RequestOption): Promise<Response$RolloutService_RetryRollout$Status$200["application/json"]> {
@@ -3970,11 +3949,9 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "PUT",
-            url: url,
-            headers: headers,
-            requestBody: params.requestBody,
-            requestBodyEncoding: requestEncodings["application/json"],
-            queryParameters: undefined
+            url,
+            headers,
+            requestBody: params.requestBody
         }, option);
     }
     public async RolloutService_SetRolloutImage(params: Params$RolloutService_SetRolloutImage, option?: RequestOption): Promise<Response$RolloutService_SetRolloutImage$Status$200["application/json"]> {
@@ -3985,11 +3962,9 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "PUT",
-            url: url,
-            headers: headers,
-            requestBody: params.requestBody,
-            requestBodyEncoding: requestEncodings["application/json"],
-            queryParameters: undefined
+            url,
+            headers,
+            requestBody: params.requestBody
         }, option);
     }
     public async RolloutService_UndoRollout(params: Params$RolloutService_UndoRollout, option?: RequestOption): Promise<Response$RolloutService_UndoRollout$Status$200["application/json"]> {
@@ -4000,11 +3975,9 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "PUT",
-            url: url,
-            headers: headers,
-            requestBody: params.requestBody,
-            requestBodyEncoding: requestEncodings["application/json"],
-            queryParameters: undefined
+            url,
+            headers,
+            requestBody: params.requestBody
         }, option);
     }
     public async RolloutService_Version(option?: RequestOption): Promise<Response$RolloutService_Version$Status$200["application/json"]> {
@@ -4014,11 +3987,8 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "GET",
-            url: url,
-            headers: headers,
-            requestBody: undefined,
-            requestBodyEncoding: undefined,
-            queryParameters: undefined
+            url,
+            headers
         }, option);
     }
 }

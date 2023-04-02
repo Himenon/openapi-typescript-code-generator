@@ -68,6 +68,198 @@ const main = () => {
 main();
 ```
 
+### テンプレートコードの種類
+
+本ライブラリからは 3 種類提供しています。
+
+```ts
+import * as Templates from "@himenon/openapi-typescript-code-generator/templates";
+
+Templates.ClassApiClient.generator;
+Templates.FunctionalApiClient.generator;
+Templates.CurryingFunctionalApiClient.generator;
+```
+
+#### `Templates.ClassApiClient.generator`
+
+class ベースの API Client を提供しています。`constructor`より API Client の依存を注入して利用してください。
+
+```ts
+export interface RequestArgs {
+  httpMethod: HttpMethod;
+  url: string;
+  headers: ObjectLike | any;
+  requestBody?: ObjectLike | any;
+  requestBodyEncoding?: Record<string, Encoding>;
+  queryParameters?: QueryParameters | undefined;
+}
+
+export interface ApiClient<RequestOption> {
+  request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
+}
+
+export class Client<RequestOption> {
+  private baseUrl: string;
+  constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) {
+    this.baseUrl = baseUrl.replace(/\/$/, "");
+  }
+
+  public async createPublisherV2<RequestContentType extends RequestContentType$createPublisherV2>(
+    params: Params$createPublisherV2<RequestContentType>,
+    option?: RequestOption,
+  ): Promise<Response$createPublisherV2$Status$200["application/json"]> {
+    const url = this.baseUrl + `/create/v2/publisher/{id}`;
+    const headers = {
+      "Content-Type": params.headers["Content-Type"],
+      Accept: "application/json",
+    };
+    const requestEncodings = {
+      "application/x-www-form-urlencoded": {
+        color: {
+          style: "form",
+          explode: false,
+        },
+      },
+      "application/json": {
+        color: {
+          style: "form",
+          explode: false,
+        },
+      },
+    };
+    return this.apiClient.request(
+      {
+        httpMethod: "POST",
+        url,
+        headers,
+        requestBody: params.requestBody,
+        requestBodyEncoding: requestEncodings[params.headers["Content-Type"]],
+      },
+      option,
+    );
+  }
+}
+```
+
+#### `Templates.FunctionalApiClient.generator`
+
+関数 ベースの API Client を提供しています。`createClient`より API Client の依存を注入して利用してください。
+class ベースの API Client をそのまま関数ベースに置き換えたものです。
+
+```ts
+export interface RequestArgs {
+  httpMethod: HttpMethod;
+  url: string;
+  headers: ObjectLike | any;
+  requestBody?: ObjectLike | any;
+  requestBodyEncoding?: Record<string, Encoding>;
+  queryParameters?: QueryParameters | undefined;
+}
+
+export interface ApiClient<RequestOption> {
+  request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
+}
+
+export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>, baseUrl: string) => {
+  const _baseUrl = baseUrl.replace(/\/$/, "");
+  return {
+    createPublisherV2: <RequestContentType extends RequestContentType$createPublisherV2>(
+      params: Params$createPublisherV2<RequestContentType>,
+      option?: RequestOption,
+    ): Promise<Response$createPublisherV2$Status$200["application/json"]> => {
+      const url = _baseUrl + `/create/v2/publisher/{id}`;
+      const headers = {
+        "Content-Type": params.headers["Content-Type"],
+        Accept: "application/json",
+      };
+      const requestEncodings = {
+        "application/x-www-form-urlencoded": {
+          color: {
+            style: "form",
+            explode: false,
+          },
+        },
+        "application/json": {
+          color: {
+            style: "form",
+            explode: false,
+          },
+        },
+      };
+      return apiClient.request(
+        {
+          httpMethod: "POST",
+          url,
+          headers,
+          requestBody: params.requestBody,
+          requestBodyEncoding: requestEncodings[params.headers["Content-Type"]],
+        },
+        option,
+      );
+    },
+  };
+};
+```
+
+#### `Templates.CurryingFunctionalApiClient.generator`
+
+**Tree Shaking 対応**
+
+カリー化された関数ベースの API Client を提供しています。各`operationId`毎に API Client を注入する形式を取っています。
+第 1 の関数引数には`ApiClient`を要求し、第 2 の関数の引数に`RequestArgs`を要求します。`ApiClient`の Interface は他と異なり、`uri`を引数として要求します。
+
+Tree Shaking を利用するようなユースーケースで利用することを想定しています。
+
+```ts
+export interface RequestArgs {
+  httpMethod: HttpMethod;
+  uri: string; // <------------------ uriであることに注意
+  headers: ObjectLike | any;
+  requestBody?: ObjectLike | any;
+  requestBodyEncoding?: Record<string, Encoding>;
+  queryParameters?: QueryParameters | undefined;
+}
+export interface ApiClient<RequestOption> {
+  request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
+}
+export const createPublisherV2 =
+  <RequestOption>(apiClient: ApiClient<RequestOption>) =>
+  <RequestContentType extends RequestContentType$createPublisherV2>(
+    params: Params$createPublisherV2<RequestContentType>,
+    option?: RequestOption,
+  ): Promise<Response$createPublisherV2$Status$200["application/json"]> => {
+    const uri = `/create/v2/publisher/{id}`;
+    const headers = {
+      "Content-Type": params.headers["Content-Type"],
+      Accept: "application/json",
+    };
+    const requestEncodings = {
+      "application/x-www-form-urlencoded": {
+        color: {
+          style: "form",
+          explode: false,
+        },
+      },
+      "application/json": {
+        color: {
+          style: "form",
+          explode: false,
+        },
+      },
+    };
+    return apiClient.request(
+      {
+        httpMethod: "POST",
+        uri,
+        headers,
+        requestBody: params.requestBody,
+        requestBodyEncoding: requestEncodings[params.headers["Content-Type"]],
+      },
+      option,
+    );
+  };
+```
+
 ### 型定義ファイルと API Client の実装を分割する
 
 ```ts

@@ -4,6 +4,7 @@ import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
 import * as Utils from "../utils";
 import type { MethodType } from "./types";
+import { createEncodingMap } from "./createEncodingMap";
 
 export interface Params {
   httpMethod: string;
@@ -17,10 +18,14 @@ export interface Params {
  *   "application/x-www-form-urlencoded": {},
  * }
  */
-const createEncodingParams = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params): ts.Expression => {
+const createEncodingParams = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params): ts.Expression | undefined => {
   const content = params.operationParams.requestBody?.content;
   if (!content) {
-    return factory.Identifier.create({ name: "undefined" });
+    return;
+  }
+  const encodingMap = createEncodingMap(content);
+  if (Object.keys(encodingMap).length === 0) {
+    return;
   }
   if (params.convertedParams.has2OrMoreRequestContentTypes) {
     return factory.Identifier.create({ name: `requestEncodings[params.headers["Content-Type"]]` });
@@ -36,8 +41,10 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
   const apiClientVariableIdentifier: Record<MethodType, string> = {
     class: "this.apiClient.request",
     function: "apiClient.request",
+    "currying-function": "apiClient.request",
   };
   const expression = Utils.generateVariableIdentifier(factory, apiClientVariableIdentifier[methodType]);
+  const requestBodyEncoding = createEncodingParams(factory, params);
 
   const requestArgs = factory.ObjectLiteralExpression.create({
     properties: [
@@ -45,31 +52,28 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
         name: "httpMethod",
         initializer: factory.StringLiteral.create({ text: params.operationParams.httpMethod.toUpperCase() }),
       }),
-      factory.PropertyAssignment.create({
-        name: "url",
-        initializer: factory.Identifier.create({ name: "url" }),
+      factory.ShorthandPropertyAssignment.create({
+        name: methodType === "currying-function" ? "uri" : "url",
       }),
-      factory.PropertyAssignment.create({
+      factory.ShorthandPropertyAssignment.create({
         name: "headers",
-        initializer: factory.Identifier.create({ name: "headers" }),
       }),
-      factory.PropertyAssignment.create({
-        name: "requestBody",
-        initializer: convertedParams.hasRequestBody
-          ? Utils.generateVariableIdentifier(factory, "params.requestBody")
-          : factory.Identifier.create({ name: "undefined" }),
-      }),
-      factory.PropertyAssignment.create({
-        name: "requestBodyEncoding",
-        initializer: createEncodingParams(factory, params),
-      }),
-      factory.PropertyAssignment.create({
-        name: "queryParameters",
-        initializer: convertedParams.hasQueryParameters
-          ? factory.Identifier.create({ name: "queryParameters" })
-          : factory.Identifier.create({ name: "undefined" }),
-      }),
-    ],
+      convertedParams.hasRequestBody &&
+        factory.PropertyAssignment.create({
+          name: "requestBody",
+          initializer: Utils.generateVariableIdentifier(factory, "params.requestBody"),
+        }),
+      requestBodyEncoding &&
+        factory.PropertyAssignment.create({
+          name: "requestBodyEncoding",
+          initializer: requestBodyEncoding,
+        }),
+      convertedParams.hasQueryParameters &&
+        factory.PropertyAssignment.create({
+          name: "queryParameters",
+          initializer: factory.Identifier.create({ name: "queryParameters" }),
+        }),
+    ].flatMap(v => (v ? [v] : [])),
     multiLine: true,
   });
 

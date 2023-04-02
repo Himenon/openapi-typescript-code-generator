@@ -420,9 +420,9 @@ export interface RequestArgs {
     httpMethod: HttpMethod;
     url: string;
     headers: ObjectLike | any;
-    requestBody: ObjectLike | any;
+    requestBody?: ObjectLike | any;
     requestBodyEncoding?: Record<string, Encoding>;
-    queryParameters: QueryParameters | undefined;
+    queryParameters?: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
@@ -440,10 +440,8 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request({
                 httpMethod: "GET",
-                url: url,
-                headers: headers,
-                requestBody: undefined,
-                requestBodyEncoding: undefined,
+                url,
+                headers,
                 queryParameters: queryParameters
             }, option);
         },
@@ -457,10 +455,9 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request({
                 httpMethod: "GET",
-                url: url,
-                headers: headers,
+                url,
+                headers,
                 requestBody: params.requestBody,
-                requestBodyEncoding: requestEncodings["application/json"],
                 queryParameters: queryParameters
             }, option);
         },
@@ -474,10 +471,8 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request({
                 httpMethod: "GET",
-                url: url,
-                headers: headers,
-                requestBody: undefined,
-                requestBodyEncoding: undefined,
+                url,
+                headers,
                 queryParameters: queryParameters
             }, option);
         },
@@ -488,11 +483,8 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request({
                 httpMethod: "GET",
-                url: url,
-                headers: headers,
-                requestBody: undefined,
-                requestBodyEncoding: undefined,
-                queryParameters: undefined
+                url,
+                headers
             }, option);
         },
         getReferenceItems: (option?: RequestOption): Promise<Response$getReferenceItems$Status$200["application/json"]> => {
@@ -502,11 +494,8 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request({
                 httpMethod: "GET",
-                url: url,
-                headers: headers,
-                requestBody: undefined,
-                requestBodyEncoding: undefined,
-                queryParameters: undefined
+                url,
+                headers
             }, option);
         },
         searchBook: (params: Params$searchBook, option?: RequestOption): Promise<Response$searchBook$Status$200["application/json"]> => {
@@ -519,10 +508,8 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request({
                 httpMethod: "GET",
-                url: url,
-                headers: headers,
-                requestBody: undefined,
-                requestBodyEncoding: undefined,
+                url,
+                headers,
                 queryParameters: queryParameters
             }, option);
         },
@@ -533,11 +520,8 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request({
                 httpMethod: "GET",
-                url: url,
-                headers: headers,
-                requestBody: undefined,
-                requestBodyEncoding: undefined,
-                queryParameters: undefined
+                url,
+                headers
             }, option);
         },
         deleteBook: (params: Params$deleteBook, option?: RequestOption): Promise<Response$deleteBook$Status$200["application/json"]> => {
@@ -547,11 +531,8 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request({
                 httpMethod: "DELETE",
-                url: url,
-                headers: headers,
-                requestBody: undefined,
-                requestBodyEncoding: undefined,
-                queryParameters: undefined
+                url,
+                headers
             }, option);
         }
     };
@@ -615,9 +596,9 @@ export interface RequestArgs {
     httpMethod: HttpMethod;
     url: string;
     headers: ObjectLike | any;
-    requestBody: ObjectLike | any;
+    requestBody?: ObjectLike | any;
     requestBodyEncoding?: Record<string, Encoding>;
-    queryParameters: QueryParameters | undefined;
+    queryParameters?: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
@@ -635,10 +616,8 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request({
                 httpMethod: "GET",
-                url: url,
-                headers: headers,
-                requestBody: undefined,
-                requestBodyEncoding: undefined,
+                url,
+                headers,
                 queryParameters: queryParameters
             }, option);
         }
@@ -1069,9 +1048,9 @@ export interface RequestArgs {
     httpMethod: HttpMethod;
     url: string;
     headers: ObjectLike | any;
-    requestBody: ObjectLike | any;
+    requestBody?: ObjectLike | any;
     requestBodyEncoding?: Record<string, Encoding>;
-    queryParameters: QueryParameters | undefined;
+    queryParameters?: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => T;
@@ -1089,10 +1068,8 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request({
                 httpMethod: "GET",
-                url: url,
-                headers: headers,
-                requestBody: undefined,
-                requestBodyEncoding: undefined,
+                url,
+                headers,
                 queryParameters: queryParameters
             }, option);
         },
@@ -1106,10 +1083,9 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request({
                 httpMethod: "GET",
-                url: url,
-                headers: headers,
+                url,
+                headers,
                 requestBody: params.requestBody,
-                requestBodyEncoding: requestEncodings["application/json"],
                 queryParameters: queryParameters
             }, option);
         },
@@ -1123,10 +1099,8 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request({
                 httpMethod: "GET",
-                url: url,
-                headers: headers,
-                requestBody: undefined,
-                requestBodyEncoding: undefined,
+                url,
+                headers,
                 queryParameters: queryParameters
             }, option);
         },
@@ -1137,11 +1111,8 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request({
                 httpMethod: "GET",
-                url: url,
-                headers: headers,
-                requestBody: undefined,
-                requestBodyEncoding: undefined,
-                queryParameters: undefined
+                url,
+                headers
             }, option);
         },
         getReferenceItems: (option?: RequestOption): Response$getReferenceItems$Status$200["application/json"] => {
@@ -1151,11 +1122,8 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request({
                 httpMethod: "GET",
-                url: url,
-                headers: headers,
-                requestBody: undefined,
-                requestBodyEncoding: undefined,
-                queryParameters: undefined
+                url,
+                headers
             }, option);
         },
         searchBook: (params: Params$searchBook, option?: RequestOption): Response$searchBook$Status$200["application/json"] => {
@@ -1168,10 +1136,8 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request({
                 httpMethod: "GET",
-                url: url,
-                headers: headers,
-                requestBody: undefined,
-                requestBodyEncoding: undefined,
+                url,
+                headers,
                 queryParameters: queryParameters
             }, option);
         },
@@ -1182,11 +1148,8 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request({
                 httpMethod: "GET",
-                url: url,
-                headers: headers,
-                requestBody: undefined,
-                requestBodyEncoding: undefined,
-                queryParameters: undefined
+                url,
+                headers
             }, option);
         },
         deleteBook: (params: Params$deleteBook, option?: RequestOption): Response$deleteBook$Status$200["application/json"] => {
@@ -1196,11 +1159,8 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request({
                 httpMethod: "DELETE",
-                url: url,
-                headers: headers,
-                requestBody: undefined,
-                requestBodyEncoding: undefined,
-                queryParameters: undefined
+                url,
+                headers
             }, option);
         }
     };
@@ -1268,9 +1228,9 @@ export interface RequestArgs {
     httpMethod: HttpMethod;
     url: string;
     headers: ObjectLike | any;
-    requestBody: ObjectLike | any;
+    requestBody?: ObjectLike | any;
     requestBodyEncoding?: Record<string, Encoding>;
-    queryParameters: QueryParameters | undefined;
+    queryParameters?: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
@@ -1432,9 +1392,9 @@ export interface RequestArgs {
     httpMethod: HttpMethod;
     url: string;
     headers: ObjectLike | any;
-    requestBody: ObjectLike | any;
+    requestBody?: ObjectLike | any;
     requestBodyEncoding?: Record<string, Encoding>;
-    queryParameters: QueryParameters | undefined;
+    queryParameters?: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
@@ -1449,11 +1409,8 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request({
                 httpMethod: "GET",
-                url: url,
-                headers: headers,
-                requestBody: undefined,
-                requestBodyEncoding: undefined,
-                queryParameters: undefined
+                url,
+                headers
             }, option);
         },
         getDescription: (params: Params$getDescription, option?: RequestOption): Promise<Response$getDescription$Status$200["application/json"]> => {
@@ -1463,11 +1420,8 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request({
                 httpMethod: "GET",
-                url: url,
-                headers: headers,
-                requestBody: undefined,
-                requestBodyEncoding: undefined,
-                queryParameters: undefined
+                url,
+                headers
             }, option);
         },
         getAuthor: (params: Params$getAuthor, option?: RequestOption): Promise<Response$getAuthor$Status$200["application/json"]> => {
@@ -1477,11 +1431,8 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request({
                 httpMethod: "GET",
-                url: url,
-                headers: headers,
-                requestBody: undefined,
-                requestBodyEncoding: undefined,
-                queryParameters: undefined
+                url,
+                headers
             }, option);
         },
         getPublisher: (params: Params$getPublisher, option?: RequestOption): Promise<Response$getPublisher$Status$200["application/json"]> => {
@@ -1491,11 +1442,8 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request({
                 httpMethod: "GET",
-                url: url,
-                headers: headers,
-                requestBody: undefined,
-                requestBodyEncoding: undefined,
-                queryParameters: undefined
+                url,
+                headers
             }, option);
         },
         createPublisher: (params: Params$createPublisher, option?: RequestOption): Promise<Response$createPublisher$Status$200["application/json"]> => {
@@ -1514,11 +1462,10 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
 };
             return apiClient.request({
                 httpMethod: "POST",
-                url: url,
-                headers: headers,
+                url,
+                headers,
                 requestBody: params.requestBody,
-                requestBodyEncoding: requestEncodings["application/x-www-form-urlencoded"],
-                queryParameters: undefined
+                requestBodyEncoding: requestEncodings["application/x-www-form-urlencoded"]
             }, option);
         },
         createPublisherV2: <RequestContentType extends RequestContentType$createPublisherV2>(params: Params$createPublisherV2<RequestContentType>, option?: RequestOption): Promise<Response$createPublisherV2$Status$200["application/json"]> => {
@@ -1543,11 +1490,10 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
 };
             return apiClient.request({
                 httpMethod: "POST",
-                url: url,
-                headers: headers,
+                url,
+                headers,
                 requestBody: params.requestBody,
-                requestBodyEncoding: requestEncodings[params.headers["Content-Type"]],
-                queryParameters: undefined
+                requestBodyEncoding: requestEncodings[params.headers["Content-Type"]]
             }, option);
         }
     };
@@ -1675,9 +1621,9 @@ export interface RequestArgs {
     httpMethod: HttpMethod;
     url: string;
     headers: ObjectLike | any;
-    requestBody: ObjectLike | any;
+    requestBody?: ObjectLike | any;
     requestBodyEncoding?: Record<string, Encoding>;
-    queryParameters: QueryParameters | undefined;
+    queryParameters?: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
@@ -1692,11 +1638,8 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request({
                 httpMethod: "GET",
-                url: url,
-                headers: headers,
-                requestBody: undefined,
-                requestBodyEncoding: undefined,
-                queryParameters: undefined
+                url,
+                headers
             }, option);
         },
         getDescription: (params: Params$getDescription, option?: RequestOption): Promise<Response$getDescription$Status$200["application/json"]> => {
@@ -1706,11 +1649,8 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request({
                 httpMethod: "GET",
-                url: url,
-                headers: headers,
-                requestBody: undefined,
-                requestBodyEncoding: undefined,
-                queryParameters: undefined
+                url,
+                headers
             }, option);
         },
         getAuthor: (params: Params$getAuthor, option?: RequestOption): Promise<Response$getAuthor$Status$200["application/json"]> => {
@@ -1720,11 +1660,8 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request({
                 httpMethod: "GET",
-                url: url,
-                headers: headers,
-                requestBody: undefined,
-                requestBodyEncoding: undefined,
-                queryParameters: undefined
+                url,
+                headers
             }, option);
         },
         getPublisher: (params: Params$getPublisher, option?: RequestOption): Promise<Response$getPublisher$Status$200["application/json"]> => {
@@ -1734,11 +1671,8 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             };
             return apiClient.request({
                 httpMethod: "GET",
-                url: url,
-                headers: headers,
-                requestBody: undefined,
-                requestBodyEncoding: undefined,
-                queryParameters: undefined
+                url,
+                headers
             }, option);
         }
     };

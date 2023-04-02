@@ -3,6 +3,7 @@ import ts from "typescript";
 import type { TsGenerator } from "../../api";
 import type { CodeGenerator } from "../../types";
 import type { Option } from "./types";
+import type { MethodType } from "./MethodBody/types";
 
 const httpMethodList: string[] = ["GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH", "TRACE"];
 
@@ -149,7 +150,12 @@ const createEncodingInterface = (factory: TsGenerator.Factory.Type) => {
   });
 };
 
-export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Params[], option: Option): ts.Statement[] => {
+export const create = (
+  factory: TsGenerator.Factory.Type,
+  list: CodeGenerator.Params[],
+  methodType: MethodType,
+  option: Option,
+): ts.Statement[] => {
   const objectLikeOrAnyType = factory.UnionTypeNode.create({
     typeNodes: [
       factory.TypeReferenceNode.create({
@@ -230,7 +236,7 @@ export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Pa
         type: factory.TypeReferenceNode.create({ name: "HttpMethod" }),
       }),
       factory.PropertySignature.create({
-        name: `url`,
+        name: methodType === "currying-function" ? "uri" : "url",
         optional: false,
         type: factory.TypeReferenceNode.create({ name: "string" }),
       }),
@@ -241,7 +247,7 @@ export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Pa
       }),
       factory.PropertySignature.create({
         name: `requestBody`,
-        optional: false,
+        optional: true,
         type: objectLikeOrAnyType,
       }),
       factory.PropertySignature.create({
@@ -251,7 +257,7 @@ export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Pa
       }),
       factory.PropertySignature.create({
         name: `queryParameters`,
-        optional: false,
+        optional: true,
         type: factory.UnionTypeNode.create({
           typeNodes: [
             factory.TypeReferenceNode.create({

@@ -9,13 +9,7 @@ import * as HeaderParameter from "./HeaderParameter";
 import * as PathParameter from "./PathParameter";
 import * as QueryParameter from "./QueryParameter";
 import type { MethodType } from "./types";
-import { Encoding } from "../../../typedef/OpenApi";
-
-export interface Params$GenerateUrl {
-  urlTemplate: Utils.Params$TemplateExpression;
-}
-
-type EncodingMap = Record<string, Encoding>;
+import { createEncodingMap } from "./createEncodingMap";
 
 export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params, methodType: MethodType): ts.Statement[] => {
   const statements: ts.Statement[] = [];
@@ -70,13 +64,7 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
    */
   const content = operationParams.requestBody?.content;
   if (content) {
-    const encodingMap = Object.keys(content).reduce<EncodingMap>((all, key) => {
-      const { encoding } = content[key];
-      if (!encoding) {
-        return all;
-      }
-      return { ...all, [key]: encoding };
-    }, {});
+    const encodingMap = createEncodingMap(content);
     let identifier: ts.Identifier | undefined;
     if (convertedParams.has2OrMoreRequestContentTypes) {
       identifier = factory.Identifier.create({

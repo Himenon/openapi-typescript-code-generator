@@ -54,9 +54,9 @@ export interface RequestArgs {
     httpMethod: HttpMethod;
     url: string;
     headers: ObjectLike | any;
-    requestBody: ObjectLike | any;
+    requestBody?: ObjectLike | any;
     requestBodyEncoding?: Record<string, Encoding>;
-    queryParameters: QueryParameters | undefined;
+    queryParameters?: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;

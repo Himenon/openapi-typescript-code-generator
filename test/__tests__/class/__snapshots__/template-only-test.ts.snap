@@ -71,9 +71,9 @@ export interface RequestArgs {
     httpMethod: HttpMethod;
     url: string;
     headers: ObjectLike | any;
-    requestBody: ObjectLike | any;
+    requestBody?: ObjectLike | any;
     requestBodyEncoding?: Record<string, Encoding>;
-    queryParameters: QueryParameters | undefined;
+    queryParameters?: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
@@ -91,10 +91,8 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "GET",
-            url: url,
-            headers: headers,
-            requestBody: undefined,
-            requestBodyEncoding: undefined,
+            url,
+            headers,
             queryParameters: queryParameters
         }, option);
     }
@@ -108,10 +106,9 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "GET",
-            url: url,
-            headers: headers,
+            url,
+            headers,
             requestBody: params.requestBody,
-            requestBodyEncoding: requestEncodings["application/json"],
             queryParameters: queryParameters
         }, option);
     }
@@ -125,10 +122,8 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "GET",
-            url: url,
-            headers: headers,
-            requestBody: undefined,
-            requestBodyEncoding: undefined,
+            url,
+            headers,
             queryParameters: queryParameters
         }, option);
     }
@@ -139,11 +134,8 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "GET",
-            url: url,
-            headers: headers,
-            requestBody: undefined,
-            requestBodyEncoding: undefined,
-            queryParameters: undefined
+            url,
+            headers
         }, option);
     }
     public async getReferenceItems(option?: RequestOption): Promise<Response$getReferenceItems$Status$200["application/json"]> {
@@ -153,11 +145,8 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "GET",
-            url: url,
-            headers: headers,
-            requestBody: undefined,
-            requestBodyEncoding: undefined,
-            queryParameters: undefined
+            url,
+            headers
         }, option);
     }
     public async searchBook(params: Params$searchBook, option?: RequestOption): Promise<Response$searchBook$Status$200["application/json"]> {
@@ -170,10 +159,8 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "GET",
-            url: url,
-            headers: headers,
-            requestBody: undefined,
-            requestBodyEncoding: undefined,
+            url,
+            headers,
             queryParameters: queryParameters
         }, option);
     }
@@ -184,11 +171,8 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "GET",
-            url: url,
-            headers: headers,
-            requestBody: undefined,
-            requestBodyEncoding: undefined,
-            queryParameters: undefined
+            url,
+            headers
         }, option);
     }
     public async deleteBook(params: Params$deleteBook, option?: RequestOption): Promise<Response$deleteBook$Status$200["application/json"]> {
@@ -198,11 +182,8 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "DELETE",
-            url: url,
-            headers: headers,
-            requestBody: undefined,
-            requestBodyEncoding: undefined,
-            queryParameters: undefined
+            url,
+            headers
         }, option);
     }
 }
@@ -280,9 +261,9 @@ export interface RequestArgs {
     httpMethod: HttpMethod;
     url: string;
     headers: ObjectLike | any;
-    requestBody: ObjectLike | any;
+    requestBody?: ObjectLike | any;
     requestBodyEncoding?: Record<string, Encoding>;
-    queryParameters: QueryParameters | undefined;
+    queryParameters?: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => T;
@@ -300,10 +281,8 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "GET",
-            url: url,
-            headers: headers,
-            requestBody: undefined,
-            requestBodyEncoding: undefined,
+            url,
+            headers,
             queryParameters: queryParameters
         }, option);
     }
@@ -317,10 +296,9 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "GET",
-            url: url,
-            headers: headers,
+            url,
+            headers,
             requestBody: params.requestBody,
-            requestBodyEncoding: requestEncodings["application/json"],
             queryParameters: queryParameters
         }, option);
     }
@@ -334,10 +312,8 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "GET",
-            url: url,
-            headers: headers,
-            requestBody: undefined,
-            requestBodyEncoding: undefined,
+            url,
+            headers,
             queryParameters: queryParameters
         }, option);
     }
@@ -348,11 +324,8 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "GET",
-            url: url,
-            headers: headers,
-            requestBody: undefined,
-            requestBodyEncoding: undefined,
-            queryParameters: undefined
+            url,
+            headers
         }, option);
     }
     public getReferenceItems(option?: RequestOption): Response$getReferenceItems$Status$200["application/json"] {
@@ -362,11 +335,8 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "GET",
-            url: url,
-            headers: headers,
-            requestBody: undefined,
-            requestBodyEncoding: undefined,
-            queryParameters: undefined
+            url,
+            headers
         }, option);
     }
     public searchBook(params: Params$searchBook, option?: RequestOption): Response$searchBook$Status$200["application/json"] {
@@ -379,10 +349,8 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "GET",
-            url: url,
-            headers: headers,
-            requestBody: undefined,
-            requestBodyEncoding: undefined,
+            url,
+            headers,
             queryParameters: queryParameters
         }, option);
     }
@@ -393,11 +361,8 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "GET",
-            url: url,
-            headers: headers,
-            requestBody: undefined,
-            requestBodyEncoding: undefined,
-            queryParameters: undefined
+            url,
+            headers
         }, option);
     }
     public deleteBook(params: Params$deleteBook, option?: RequestOption): Response$deleteBook$Status$200["application/json"] {
@@ -407,11 +372,8 @@ export class Client<RequestOption> {
         };
         return this.apiClient.request({
             httpMethod: "DELETE",
-            url: url,
-            headers: headers,
-            requestBody: undefined,
-            requestBodyEncoding: undefined,
-            queryParameters: undefined
+            url,
+            headers
         }, option);
     }
 }
@@ -453,9 +415,9 @@ export interface RequestArgs {
     httpMethod: HttpMethod;
     url: string;
     headers: ObjectLike | any;
-    requestBody: ObjectLike | any;
+    requestBody?: ObjectLike | any;
     requestBodyEncoding?: Record<string, Encoding>;
-    queryParameters: QueryParameters | undefined;
+    queryParameters?: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => T;

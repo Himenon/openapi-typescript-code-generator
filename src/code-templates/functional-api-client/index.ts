@@ -31,7 +31,7 @@ export const generator: CodeGenerator.GenerateFunction<Option> = (
     }
   });
 
-  ApiClientInterface.create(factory, codeGeneratorParamsList, option || {}).forEach(statement => {
+  ApiClientInterface.create(factory, codeGeneratorParamsList, "function", option || {}).forEach(statement => {
     statements.push(statement);
   });
 
