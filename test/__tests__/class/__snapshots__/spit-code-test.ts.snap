@@ -180,7 +180,6 @@ export class Client<RequestOption> {
             url,
             headers,
             requestBody: params.requestBody,
-            requestBodyEncoding: requestEncodings["application/json"],
             queryParameters: queryParameters
         }, option);
     }

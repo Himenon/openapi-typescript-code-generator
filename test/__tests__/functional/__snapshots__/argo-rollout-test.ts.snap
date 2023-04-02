@@ -3890,8 +3890,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 httpMethod: "PUT",
                 url,
                 headers,
-                requestBody: params.requestBody,
-                requestBodyEncoding: requestEncodings["application/json"]
+                requestBody: params.requestBody
             }, option);
         },
         RolloutService_GetRolloutInfo: (params: Params$RolloutService_GetRolloutInfo, option?: RequestOption): Promise<Response$RolloutService_GetRolloutInfo$Status$200["application/json"]> => {
@@ -3926,8 +3925,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 httpMethod: "PUT",
                 url,
                 headers,
-                requestBody: params.requestBody,
-                requestBodyEncoding: requestEncodings["application/json"]
+                requestBody: params.requestBody
             }, option);
         },
         RolloutService_RestartRollout: (params: Params$RolloutService_RestartRollout, option?: RequestOption): Promise<Response$RolloutService_RestartRollout$Status$200["application/json"]> => {
@@ -3940,8 +3938,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 httpMethod: "PUT",
                 url,
                 headers,
-                requestBody: params.requestBody,
-                requestBodyEncoding: requestEncodings["application/json"]
+                requestBody: params.requestBody
             }, option);
         },
         RolloutService_RetryRollout: (params: Params$RolloutService_RetryRollout, option?: RequestOption): Promise<Response$RolloutService_RetryRollout$Status$200["application/json"]> => {
@@ -3954,8 +3951,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 httpMethod: "PUT",
                 url,
                 headers,
-                requestBody: params.requestBody,
-                requestBodyEncoding: requestEncodings["application/json"]
+                requestBody: params.requestBody
             }, option);
         },
         RolloutService_SetRolloutImage: (params: Params$RolloutService_SetRolloutImage, option?: RequestOption): Promise<Response$RolloutService_SetRolloutImage$Status$200["application/json"]> => {
@@ -3968,8 +3964,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 httpMethod: "PUT",
                 url,
                 headers,
-                requestBody: params.requestBody,
-                requestBodyEncoding: requestEncodings["application/json"]
+                requestBody: params.requestBody
             }, option);
         },
         RolloutService_UndoRollout: (params: Params$RolloutService_UndoRollout, option?: RequestOption): Promise<Response$RolloutService_UndoRollout$Status$200["application/json"]> => {
@@ -3982,8 +3977,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 httpMethod: "PUT",
                 url,
                 headers,
-                requestBody: params.requestBody,
-                requestBodyEncoding: requestEncodings["application/json"]
+                requestBody: params.requestBody
             }, option);
         },
         RolloutService_Version: (option?: RequestOption): Promise<Response$RolloutService_Version$Status$200["application/json"]> => {

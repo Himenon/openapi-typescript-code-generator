@@ -458,7 +458,6 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url,
                 headers,
                 requestBody: params.requestBody,
-                requestBodyEncoding: requestEncodings["application/json"],
                 queryParameters: queryParameters
             }, option);
         },
@@ -1087,7 +1086,6 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url,
                 headers,
                 requestBody: params.requestBody,
-                requestBodyEncoding: requestEncodings["application/json"],
                 queryParameters: queryParameters
             }, option);
         },

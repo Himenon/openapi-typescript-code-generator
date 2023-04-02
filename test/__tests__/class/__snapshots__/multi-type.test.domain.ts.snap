@@ -76,8 +76,7 @@ export class Client<RequestOption> {
             httpMethod: "PUT",
             url,
             headers,
-            requestBody: params.requestBody,
-            requestBodyEncoding: requestEncodings["application/json"]
+            requestBody: params.requestBody
         }, option);
     }
     /**
@@ -93,8 +92,7 @@ export class Client<RequestOption> {
             httpMethod: "PATCH",
             url,
             headers,
-            requestBody: params.requestBody,
-            requestBodyEncoding: requestEncodings["application/json"]
+            requestBody: params.requestBody
         }, option);
     }
 }

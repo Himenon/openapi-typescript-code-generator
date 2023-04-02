@@ -4,6 +4,7 @@ import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
 import * as Utils from "../utils";
 import type { MethodType } from "./types";
+import { createEncodingMap } from "./createEncodingMap";
 
 export interface Params {
   httpMethod: string;
@@ -20,6 +21,10 @@ export interface Params {
 const createEncodingParams = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params): ts.Expression | undefined => {
   const content = params.operationParams.requestBody?.content;
   if (!content) {
+    return;
+  }
+  const encodingMap = createEncodingMap(content);
+  if (Object.keys(encodingMap).length === 0) {
     return;
   }
   if (params.convertedParams.has2OrMoreRequestContentTypes) {
