@@ -36,6 +36,7 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
   const apiClientVariableIdentifier: Record<MethodType, string> = {
     class: "this.apiClient.request",
     function: "apiClient.request",
+    "currying-function": "apiClient.request",
   };
   const expression = Utils.generateVariableIdentifier(factory, apiClientVariableIdentifier[methodType]);
 

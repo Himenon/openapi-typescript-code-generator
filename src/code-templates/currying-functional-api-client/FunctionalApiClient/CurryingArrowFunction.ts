@@ -156,7 +156,7 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
     parameters: methodArguments,
     type: returnType,
     body: factory.Block.create({
-      statements: MethodBody.create(factory, params, "function"),
+      statements: MethodBody.create(factory, params, "currying-function"),
       multiLine: true,
     }),
   })

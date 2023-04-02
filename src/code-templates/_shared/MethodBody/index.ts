@@ -11,12 +11,7 @@ import * as QueryParameter from "./QueryParameter";
 import type { MethodType } from "./types";
 import { Encoding } from "../../../typedef/OpenApi";
 
-export interface Params$GenerateUrl {
-  urlTemplate: Utils.Params$TemplateExpression;
-}
-
 type EncodingMap = Record<string, Encoding>;
-
 export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params, methodType: MethodType): ts.Statement[] => {
   const statements: ts.Statement[] = [];
   const { convertedParams, operationParams } = params;

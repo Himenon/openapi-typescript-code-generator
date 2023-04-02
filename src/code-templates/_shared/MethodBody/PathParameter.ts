@@ -26,6 +26,9 @@ const generateUrlVariableStatement = (
     function: factory.Identifier.create({
       name: "_baseUrl",
     }),
+    "currying-function": factory.Identifier.create({
+      name: "uri",
+    }),
   };
   return factory.VariableStatement.create({
     declarationList: factory.VariableDeclarationList.create({
