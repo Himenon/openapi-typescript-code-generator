@@ -82,6 +82,9 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
           factory.VariableDeclaration.create({
             name: "requestEncodings",
             initializer: identifier,
+            type: factory.TypeReferenceNode.create({
+              name: "Record<string, Record<string, Encoding>>",
+            }),
           }),
         ],
       }),
