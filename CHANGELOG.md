@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.26.1"></a>
+## 0.26.1 (2023-04-04)
+
+
+### Bug Fixes
+
+* type of style property in requestEncodings ([#110](https://github.com/Himenon/openapi-typescript-code-generator/issues/110)) ([d709d5f](https://github.com/Himenon/openapi-typescript-code-generator/commit/d709d5f))
+
+
+
+
+
 <a name="0.26.0"></a>
 # 0.26.0 (2023-04-02)
 
