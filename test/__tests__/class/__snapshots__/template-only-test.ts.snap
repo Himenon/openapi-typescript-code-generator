@@ -63,7 +63,7 @@ export namespace ErrorResponse {
 export interface Encoding {
     contentType?: string;
     headers?: Record<string, any>;
-    style?: string;
+    style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
     explode?: boolean;
     allowReserved?: boolean;
 }
@@ -253,7 +253,7 @@ export namespace ErrorResponse {
 export interface Encoding {
     contentType?: string;
     headers?: Record<string, any>;
-    style?: string;
+    style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
     explode?: boolean;
     allowReserved?: boolean;
 }
@@ -407,7 +407,7 @@ export namespace ErrorResponse { }
 export interface Encoding {
     contentType?: string;
     headers?: Record<string, any>;
-    style?: string;
+    style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
     explode?: boolean;
     allowReserved?: boolean;
 }
