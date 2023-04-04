@@ -128,9 +128,7 @@ const createEncodingInterface = (factory: TsGenerator.Factory.Type) => {
       factory.PropertySignature.create({
         name: "style",
         optional: true,
-        type: factory.TypeReferenceNode.create({
-          name: "string",
-        }),
+        type: factory.TypeNode.create({ type: "string", enum: ["form", "spaceDelimited", "pipeDelimited", "deepObject"] }),
       }),
       factory.PropertySignature.create({
         name: "explode",

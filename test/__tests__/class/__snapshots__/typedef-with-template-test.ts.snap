@@ -412,7 +412,7 @@ export namespace ErrorResponse {
 export interface Encoding {
     contentType?: string;
     headers?: Record<string, any>;
-    style?: string;
+    style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
     explode?: boolean;
     allowReserved?: boolean;
 }
@@ -585,7 +585,7 @@ export namespace ErrorResponse {
 export interface Encoding {
     contentType?: string;
     headers?: Record<string, any>;
-    style?: string;
+    style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
     explode?: boolean;
     allowReserved?: boolean;
 }
@@ -1034,7 +1034,7 @@ export namespace ErrorResponse {
 export interface Encoding {
     contentType?: string;
     headers?: Record<string, any>;
-    style?: string;
+    style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
     explode?: boolean;
     allowReserved?: boolean;
 }
@@ -1211,7 +1211,7 @@ export namespace ErrorResponse { }
 export interface Encoding {
     contentType?: string;
     headers?: Record<string, any>;
-    style?: string;
+    style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
     explode?: boolean;
     allowReserved?: boolean;
 }
@@ -1373,7 +1373,7 @@ export namespace ErrorResponse {
 export interface Encoding {
     contentType?: string;
     headers?: Record<string, any>;
-    style?: string;
+    style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
     explode?: boolean;
     allowReserved?: boolean;
 }
@@ -1441,7 +1441,7 @@ export class Client<RequestOption> {
             "Content-Type": "application/x-www-form-urlencoded",
             Accept: "application/json"
         };
-        const requestEncodings = {
+        const requestEncodings: Record<string, Record<string, Encoding>> = {
   "application/x-www-form-urlencoded": {
     "color": {
       "style": "form",
@@ -1463,7 +1463,7 @@ export class Client<RequestOption> {
             "Content-Type": params.headers["Content-Type"],
             Accept: "application/json"
         };
-        const requestEncodings = {
+        const requestEncodings: Record<string, Record<string, Encoding>> = {
   "application/x-www-form-urlencoded": {
     "color": {
       "style": "form",
@@ -1599,7 +1599,7 @@ export namespace ErrorResponse {
 export interface Encoding {
     contentType?: string;
     headers?: Record<string, any>;
-    style?: string;
+    style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
     explode?: boolean;
     allowReserved?: boolean;
 }
