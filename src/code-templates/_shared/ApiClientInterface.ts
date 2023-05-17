@@ -124,7 +124,7 @@ const createEncodingInterface = (factory: TsGenerator.Factory.Type) => {
       }),
       factory.PropertySignature.create({
         name: "headers",
-        readOnly: true,
+        readOnly: false,
         optional: true,
         type: factory.TypeReferenceNode.create({
           name: "Record<string, any>",
@@ -251,26 +251,26 @@ export const create = (
       }),
       factory.PropertySignature.create({
         name: `headers`,
-        readOnly: true,
+        readOnly: false,
         optional: false,
         type: objectLikeOrAnyType,
       }),
       factory.PropertySignature.create({
         name: `requestBody`,
-        readOnly: true,
+        readOnly: false,
         optional: true,
         type: objectLikeOrAnyType,
       }),
       factory.PropertySignature.create({
         name: `requestBodyEncoding`,
-        readOnly: true,
+        readOnly: false,
         optional: true,
         type: factory.TypeReferenceNode.create({ name: "Record<string, Encoding>" }),
       }),
       factory.PropertySignature.create({
         name: `queryParameters`,
         optional: true,
-        readOnly: true,
+        readOnly: false,
         type: factory.UnionTypeNode.create({
           typeNodes: [
             factory.TypeReferenceNode.create({

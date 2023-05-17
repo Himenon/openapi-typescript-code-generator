@@ -44,7 +44,7 @@ export namespace ErrorResponse {
 }
 export interface Encoding {
     readonly contentType?: string;
-    readonly headers?: Record<string, any>;
+    headers?: Record<string, any>;
     readonly style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
     readonly explode?: boolean;
     readonly allowReserved?: boolean;
@@ -52,10 +52,10 @@ export interface Encoding {
 export interface RequestArgs {
     readonly httpMethod: HttpMethod;
     readonly url: string;
-    readonly headers: ObjectLike | any;
-    readonly requestBody?: ObjectLike | any;
-    readonly requestBodyEncoding?: Record<string, Encoding>;
-    readonly queryParameters?: QueryParameters | undefined;
+    headers: ObjectLike | any;
+    requestBody?: ObjectLike | any;
+    requestBodyEncoding?: Record<string, Encoding>;
+    queryParameters?: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
