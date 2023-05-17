@@ -124,15 +124,15 @@ export namespace ErrorResponse {
     export type deleteBook = void;
 }
 export interface Encoding {
-    contentType?: string;
+    readonly contentType?: string;
     headers?: Record<string, any>;
-    style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
-    explode?: boolean;
-    allowReserved?: boolean;
+    readonly style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
+    readonly explode?: boolean;
+    readonly allowReserved?: boolean;
 }
 export interface RequestArgs {
-    httpMethod: HttpMethod;
-    url: string;
+    readonly httpMethod: HttpMethod;
+    readonly url: string;
     headers: ObjectLike | any;
     requestBody?: ObjectLike | any;
     requestBodyEncoding?: Record<string, Encoding>;

@@ -1,2 +1,2 @@
 export const Name = "@himenon/openapi-typescript-code-generator";
-export const Version = "0.25.0";
+export const Version = "0.26.1";

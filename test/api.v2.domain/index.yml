@@ -21,6 +21,12 @@ components:
       $ref: "./components/schemas/Message.yml"
     QueryParams:
       $ref: "./components/schemas/QueryParams.yml"
+    ReadOnlyParams:
+      type: object
+      properties:
+        readonlyPropertyKey:
+          type: string
+          readOnly: true
 paths:
   /hello/world:
     get:
@@ -32,6 +38,24 @@ paths:
           schema:
             $ref: "#/components/schemas/QueryParams"
           required: true
+      responses:
+        200:
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    $ref: "#/components/schemas/Message"
+  /hello/world/readonly:
+    post:
+      operationId: postHelloWorldReadonly
+      requestBody:
+        description: ReadOnly Request Body
+        content:
+          application/json:
+            $ref: "#/components/schemas/ReadOnlyParams"
       responses:
         200:
           description: 成功

@@ -57,6 +57,7 @@ const createHeaders = (factory: TsGenerator.Factory.Type, { convertedParams }: C
   if (convertedParams.has2OrMoreRequestContentTypes) {
     members.push(
       factory.PropertySignature.create({
+        readOnly: false,
         name: `"Content-Type"`,
         optional: false,
         type: factory.TypeReferenceNode.create({ name: "T" }),
@@ -67,6 +68,7 @@ const createHeaders = (factory: TsGenerator.Factory.Type, { convertedParams }: C
   if (convertedParams.has2OrMoreSuccessResponseContentTypes) {
     members.push(
       factory.PropertySignature.create({
+        readOnly: false,
         name: `Accept`,
         optional: false,
         type: factory.TypeReferenceNode.create({ name: "U" }),
@@ -117,6 +119,7 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
   const headerDeclaration = createHeaders(factory, params);
   if (headerDeclaration) {
     const extraHeader = factory.PropertySignature.create({
+      readOnly: false,
       name: "headers",
       optional: false,
       type: headerDeclaration,
@@ -126,6 +129,7 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
 
   if (convertedParams.hasParameter) {
     const parameter = factory.PropertySignature.create({
+      readOnly: false,
       name: "parameter",
       optional: false,
       type: factory.TypeReferenceNode.create({
@@ -137,6 +141,7 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
 
   if (convertedParams.hasRequestBody) {
     const requestBody = factory.PropertySignature.create({
+      readOnly: false,
       name: "requestBody",
       optional: false,
       type: factory.IndexedAccessTypeNode.create({
