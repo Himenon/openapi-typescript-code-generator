@@ -410,19 +410,19 @@ export namespace ErrorResponse {
     export type deleteBook = void;
 }
 export interface Encoding {
-    contentType?: string;
-    headers?: Record<string, any>;
-    style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
-    explode?: boolean;
-    allowReserved?: boolean;
+    readonly contentType?: string;
+    readonly headers?: Record<string, any>;
+    readonly style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
+    readonly explode?: boolean;
+    readonly allowReserved?: boolean;
 }
 export interface RequestArgs {
-    httpMethod: HttpMethod;
-    url: string;
-    headers: ObjectLike | any;
-    requestBody?: ObjectLike | any;
-    requestBodyEncoding?: Record<string, Encoding>;
-    queryParameters?: QueryParameters | undefined;
+    readonly httpMethod: HttpMethod;
+    readonly url: string;
+    readonly headers: ObjectLike | any;
+    readonly requestBody?: ObjectLike | any;
+    readonly requestBodyEncoding?: Record<string, Encoding>;
+    readonly queryParameters?: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
@@ -555,6 +555,9 @@ exports[`Typedef with template api.v2.domain 1`] = `
 export namespace Schemas {
     export type Message = "hello" | "world";
     export type QueryParams = "a" | "b" | "c";
+    export interface ReadOnlyParams {
+        readonly readonlyPropertyKey?: string;
+    }
 }
 export interface Parameter$getHelloWorld {
     /** query word */
@@ -565,9 +568,21 @@ export interface Response$getHelloWorld$Status$200 {
         message?: Schemas.Message;
     };
 }
+export interface RequestBody$postHelloWorldReadonly {
+}
+export interface Response$postHelloWorldReadonly$Status$200 {
+    "application/json": {
+        message?: Schemas.Message;
+    };
+}
 export type ResponseContentType$getHelloWorld = keyof Response$getHelloWorld$Status$200;
 export interface Params$getHelloWorld {
     parameter: Parameter$getHelloWorld;
+}
+export type RequestContentType$postHelloWorldReadonly = keyof RequestBody$postHelloWorldReadonly;
+export type ResponseContentType$postHelloWorldReadonly = keyof Response$postHelloWorldReadonly$Status$200;
+export interface Params$postHelloWorldReadonly {
+    requestBody: RequestBody$postHelloWorldReadonly["application/json"];
 }
 export type HttpMethod = "GET" | "PUT" | "POST" | "DELETE" | "OPTIONS" | "HEAD" | "PATCH" | "TRACE";
 export interface ObjectLike {
@@ -581,24 +596,25 @@ export interface QueryParameter {
 export interface QueryParameters {
     [key: string]: QueryParameter;
 }
-export type SuccessResponses = Response$getHelloWorld$Status$200;
+export type SuccessResponses = Response$getHelloWorld$Status$200 | Response$postHelloWorldReadonly$Status$200;
 export namespace ErrorResponse {
     export type getHelloWorld = void;
+    export type postHelloWorldReadonly = void;
 }
 export interface Encoding {
-    contentType?: string;
-    headers?: Record<string, any>;
-    style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
-    explode?: boolean;
-    allowReserved?: boolean;
+    readonly contentType?: string;
+    readonly headers?: Record<string, any>;
+    readonly style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
+    readonly explode?: boolean;
+    readonly allowReserved?: boolean;
 }
 export interface RequestArgs {
-    httpMethod: HttpMethod;
-    url: string;
-    headers: ObjectLike | any;
-    requestBody?: ObjectLike | any;
-    requestBodyEncoding?: Record<string, Encoding>;
-    queryParameters?: QueryParameters | undefined;
+    readonly httpMethod: HttpMethod;
+    readonly url: string;
+    readonly headers: ObjectLike | any;
+    readonly requestBody?: ObjectLike | any;
+    readonly requestBodyEncoding?: Record<string, Encoding>;
+    readonly queryParameters?: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
@@ -619,6 +635,19 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 url,
                 headers,
                 queryParameters: queryParameters
+            }, option);
+        },
+        postHelloWorldReadonly: (params: Params$postHelloWorldReadonly, option?: RequestOption): Promise<Response$postHelloWorldReadonly$Status$200["application/json"]> => {
+            const url = _baseUrl + \`/hello/world/readonly\`;
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json"
+            };
+            return apiClient.request({
+                httpMethod: "POST",
+                url,
+                headers,
+                requestBody: params.requestBody
             }, option);
         }
     };
@@ -1038,19 +1067,19 @@ export namespace ErrorResponse {
     export type deleteBook = void;
 }
 export interface Encoding {
-    contentType?: string;
-    headers?: Record<string, any>;
-    style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
-    explode?: boolean;
-    allowReserved?: boolean;
+    readonly contentType?: string;
+    readonly headers?: Record<string, any>;
+    readonly style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
+    readonly explode?: boolean;
+    readonly allowReserved?: boolean;
 }
 export interface RequestArgs {
-    httpMethod: HttpMethod;
-    url: string;
-    headers: ObjectLike | any;
-    requestBody?: ObjectLike | any;
-    requestBodyEncoding?: Record<string, Encoding>;
-    queryParameters?: QueryParameters | undefined;
+    readonly httpMethod: HttpMethod;
+    readonly url: string;
+    readonly headers: ObjectLike | any;
+    readonly requestBody?: ObjectLike | any;
+    readonly requestBodyEncoding?: Record<string, Encoding>;
+    readonly queryParameters?: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => T;
@@ -1218,19 +1247,19 @@ export interface QueryParameters {
 export type SuccessResponses = void;
 export namespace ErrorResponse { }
 export interface Encoding {
-    contentType?: string;
-    headers?: Record<string, any>;
-    style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
-    explode?: boolean;
-    allowReserved?: boolean;
+    readonly contentType?: string;
+    readonly headers?: Record<string, any>;
+    readonly style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
+    readonly explode?: boolean;
+    readonly allowReserved?: boolean;
 }
 export interface RequestArgs {
-    httpMethod: HttpMethod;
-    url: string;
-    headers: ObjectLike | any;
-    requestBody?: ObjectLike | any;
-    requestBodyEncoding?: Record<string, Encoding>;
-    queryParameters?: QueryParameters | undefined;
+    readonly httpMethod: HttpMethod;
+    readonly url: string;
+    readonly headers: ObjectLike | any;
+    readonly requestBody?: ObjectLike | any;
+    readonly requestBodyEncoding?: Record<string, Encoding>;
+    readonly queryParameters?: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
@@ -1382,19 +1411,19 @@ export namespace ErrorResponse {
     export type createPublisherV2 = void;
 }
 export interface Encoding {
-    contentType?: string;
-    headers?: Record<string, any>;
-    style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
-    explode?: boolean;
-    allowReserved?: boolean;
+    readonly contentType?: string;
+    readonly headers?: Record<string, any>;
+    readonly style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
+    readonly explode?: boolean;
+    readonly allowReserved?: boolean;
 }
 export interface RequestArgs {
-    httpMethod: HttpMethod;
-    url: string;
-    headers: ObjectLike | any;
-    requestBody?: ObjectLike | any;
-    requestBodyEncoding?: Record<string, Encoding>;
-    queryParameters?: QueryParameters | undefined;
+    readonly httpMethod: HttpMethod;
+    readonly url: string;
+    readonly headers: ObjectLike | any;
+    readonly requestBody?: ObjectLike | any;
+    readonly requestBodyEncoding?: Record<string, Encoding>;
+    readonly queryParameters?: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
@@ -1611,19 +1640,19 @@ export namespace ErrorResponse {
     export type getPublisher = void;
 }
 export interface Encoding {
-    contentType?: string;
-    headers?: Record<string, any>;
-    style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
-    explode?: boolean;
-    allowReserved?: boolean;
+    readonly contentType?: string;
+    readonly headers?: Record<string, any>;
+    readonly style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
+    readonly explode?: boolean;
+    readonly allowReserved?: boolean;
 }
 export interface RequestArgs {
-    httpMethod: HttpMethod;
-    url: string;
-    headers: ObjectLike | any;
-    requestBody?: ObjectLike | any;
-    requestBodyEncoding?: Record<string, Encoding>;
-    queryParameters?: QueryParameters | undefined;
+    readonly httpMethod: HttpMethod;
+    readonly url: string;
+    readonly headers: ObjectLike | any;
+    readonly requestBody?: ObjectLike | any;
+    readonly requestBodyEncoding?: Record<string, Encoding>;
+    readonly queryParameters?: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;

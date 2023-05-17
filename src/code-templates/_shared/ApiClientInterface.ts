@@ -116,6 +116,7 @@ const createEncodingInterface = (factory: TsGenerator.Factory.Type) => {
     members: [
       factory.PropertySignature.create({
         name: "contentType",
+        readOnly: true,
         optional: true,
         type: factory.TypeReferenceNode.create({
           name: "string",
@@ -123,6 +124,7 @@ const createEncodingInterface = (factory: TsGenerator.Factory.Type) => {
       }),
       factory.PropertySignature.create({
         name: "headers",
+        readOnly: true,
         optional: true,
         type: factory.TypeReferenceNode.create({
           name: "Record<string, any>",
@@ -130,11 +132,13 @@ const createEncodingInterface = (factory: TsGenerator.Factory.Type) => {
       }),
       factory.PropertySignature.create({
         name: "style",
+        readOnly: true,
         optional: true,
         type: factory.TypeNode.create({ type: "string", enum: ["form", "spaceDelimited", "pipeDelimited", "deepObject"] }),
       }),
       factory.PropertySignature.create({
         name: "explode",
+        readOnly: true,
         optional: true,
         type: factory.TypeReferenceNode.create({
           name: "boolean",
@@ -142,6 +146,7 @@ const createEncodingInterface = (factory: TsGenerator.Factory.Type) => {
       }),
       factory.PropertySignature.create({
         name: "allowReserved",
+        readOnly: true,
         optional: true,
         type: factory.TypeReferenceNode.create({
           name: "boolean",
@@ -234,32 +239,38 @@ export const create = (
     members: [
       factory.PropertySignature.create({
         name: `httpMethod`,
+        readOnly: true,
         optional: false,
         type: factory.TypeReferenceNode.create({ name: "HttpMethod" }),
       }),
       factory.PropertySignature.create({
         name: methodType === "currying-function" ? "uri" : "url",
+        readOnly: true,
         optional: false,
         type: factory.TypeReferenceNode.create({ name: "string" }),
       }),
       factory.PropertySignature.create({
         name: `headers`,
+        readOnly: true,
         optional: false,
         type: objectLikeOrAnyType,
       }),
       factory.PropertySignature.create({
         name: `requestBody`,
+        readOnly: true,
         optional: true,
         type: objectLikeOrAnyType,
       }),
       factory.PropertySignature.create({
         name: `requestBodyEncoding`,
+        readOnly: true,
         optional: true,
         type: factory.TypeReferenceNode.create({ name: "Record<string, Encoding>" }),
       }),
       factory.PropertySignature.create({
         name: `queryParameters`,
         optional: true,
+        readOnly: true,
         type: factory.UnionTypeNode.create({
           typeNodes: [
             factory.TypeReferenceNode.create({

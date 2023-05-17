@@ -124,19 +124,19 @@ export namespace ErrorResponse {
     export type deleteBook = void;
 }
 export interface Encoding {
-    contentType?: string;
-    headers?: Record<string, any>;
-    style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
-    explode?: boolean;
-    allowReserved?: boolean;
+    readonly contentType?: string;
+    readonly headers?: Record<string, any>;
+    readonly style?: "form" | "spaceDelimited" | "pipeDelimited" | "deepObject";
+    readonly explode?: boolean;
+    readonly allowReserved?: boolean;
 }
 export interface RequestArgs {
-    httpMethod: HttpMethod;
-    url: string;
-    headers: ObjectLike | any;
-    requestBody?: ObjectLike | any;
-    requestBodyEncoding?: Record<string, Encoding>;
-    queryParameters?: QueryParameters | undefined;
+    readonly httpMethod: HttpMethod;
+    readonly url: string;
+    readonly headers: ObjectLike | any;
+    readonly requestBody?: ObjectLike | any;
+    readonly requestBodyEncoding?: Record<string, Encoding>;
+    readonly queryParameters?: QueryParameters | undefined;
 }
 export interface ApiClient<RequestOption> {
     request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
