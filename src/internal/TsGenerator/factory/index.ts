@@ -1,5 +1,6 @@
 import ts from "typescript";
 
+import * as ArrowFunction from "./ArrowFunction";
 import * as BinaryExpression from "./BinaryExpression";
 import * as Block from "./Block";
 import * as CallExpression from "./CallExpression";
@@ -41,8 +42,9 @@ import * as UnionTypeNode from "./UnionTypeNode";
 import * as VariableDeclaration from "./VariableDeclaration";
 import * as VariableDeclarationList from "./VariableDeclarationList";
 import * as VariableStatement from "./VariableStatement";
-
+import * as ShorthandPropertyAssignment from "./ShorthandPropertyAssignment";
 export interface Type {
+  ArrowFunction: ArrowFunction.Factory;
   Block: Block.Factory;
   ClassDeclaration: ClassDeclaration.Factory;
   InterfaceDeclaration: InterfaceDeclaration.Factory;
@@ -84,6 +86,7 @@ export interface Type {
   StringLiteral: StringLiteral.Factory;
   FunctionTypeNode: FunctionTypeNode.Factory;
   TypeLiteralNode: TypeLiteralNode.Factory;
+  ShorthandPropertyAssignment: ShorthandPropertyAssignment.Factory;
 }
 
 export const create = (): Type => {
@@ -91,6 +94,7 @@ export const create = (): Type => {
     factory: ts.factory,
   };
   return {
+    ArrowFunction: ArrowFunction.make(context),
     Block: Block.make(context),
     ClassDeclaration: ClassDeclaration.make(context),
     ParameterDeclaration: ParameterDeclaration.make(context),
@@ -124,6 +128,7 @@ export const create = (): Type => {
     TemplateMiddle: TemplateMiddle.make(context),
     TemplateTail: TemplateTail.make(context),
     Identifier: Identifier.make(context),
+    ShorthandPropertyAssignment: ShorthandPropertyAssignment.make(context),
     PropertyAssignment: PropertyAssignment.make(context),
     ObjectLiteralExpression: ObjectLiteralExpression.make(context),
     ElementAccessExpression: ElementAccessExpression.make(context),

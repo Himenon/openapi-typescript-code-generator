@@ -207,6 +207,26 @@ components:
       $ref: "./components/schemas/Level1/Level2/Level3/RemoteArray.yml"
     RemoteRefObject:
       $ref: "./components/schemas/Level1/Level2/Level3/Level4/RemoteObject.yml"
+    NullableString:
+      type: string
+      nullable: true
+    NullableBoolean:
+      type: boolean
+      nullable: true
+    NullableNumber:
+      type: number
+      nullable: true
+    NullableArray:
+      type: array
+      items:
+        type: string
+      nullable: true
+    NullableObject:
+      type: object
+      nullable: true
+      properties:
+        gt:
+          type: string
   headers:
     StringHeader:
       schema:

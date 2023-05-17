@@ -1,4 +1,4 @@
-import * as path from "path";
+import { posix as path } from "path";
 
 import type { OpenApi } from "../../../types";
 import { DevelopmentError, FeatureDevelopmentError, NotFoundFileError } from "../../Exception";
@@ -136,20 +136,27 @@ export const generate = <T>(entryPoint: string, currentPoint: string, reference:
     throw new NotFoundFileError(`Not found reference point from current point. \n Path: ${referencePoint}`);
   }
 
-  const relativePathFromEntryPoint = path.relative(path.dirname(entryPoint), referencePoint); // components/hoge/fuga.yml
-  const ext = path.extname(relativePathFromEntryPoint); // .yml
-  const pathArray: string[] = relativePathFromEntryPoint.replace(ext, "").split(path.sep); // ["components", "hoge", "fuga"]
-  const targetPath: string = pathArray.join("/"); // components/hoge/fuga
+  const fragmentIndex = referencePoint.indexOf("#/");
+  let targetPath: string;
+  if (fragmentIndex !== -1) {
+    targetPath = referencePoint.substring(fragmentIndex + 2);
+  } else {
+    const relativePathFromEntryPoint = path.relative(path.dirname(entryPoint), referencePoint); // components/hoge/fuga.yml
+    const pathArray: string[] = relativePathFromEntryPoint.split(path.sep); // ["components", "hoge", "fuga"]
+    if (pathArray[0] !== "components") {
+      throw new DevelopmentError(`targetPath is not start "components":\n${relativePathFromEntryPoint}`);
+    }
+
+    const ext = path.extname(relativePathFromEntryPoint); // .yml
+    targetPath = pathArray.join("/").substring(0, relativePathFromEntryPoint.length - ext.length); // components/hoge/fuga
+  }
+  const pathArray: string[] = targetPath.split("/"); // ["components", "hoge", "fuga"]
   const schemaName = pathArray[pathArray.length - 1]; // fuga
   const componentName = pathArray[0] === "components" ? pathArray[1] : "";
-  const data = FileSystem.loadJsonOrYaml(referencePoint);
 
+  const data = FileSystem.loadJsonOrYaml(referencePoint);
   if (Guard.isReference(data)) {
     return generate<T>(entryPoint, referencePoint, data);
-  }
-
-  if (!targetPath.startsWith("components")) {
-    throw new DevelopmentError(`targetPath is not start "components":\n${targetPath}`);
   }
 
   return {

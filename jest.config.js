@@ -1,3 +1,6 @@
+/**
+ * @type {import("@jest/types").Config.InitialOptions}
+ */
 module.exports = {
   automock: false,
   moduleFileExtensions: ["js", "json", "jsx", "ts", "tsx", "node"],

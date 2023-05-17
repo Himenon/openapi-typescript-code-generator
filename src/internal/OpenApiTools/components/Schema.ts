@@ -1,4 +1,4 @@
-import ts, { skipPartiallyEmittedExpressions } from "typescript";
+import ts from "typescript";
 
 import type { OpenApi } from "../../../types";
 import { FeatureDevelopmentError } from "../../Exception";
@@ -9,6 +9,20 @@ import * as ToTypeNode from "../toTypeNode";
 import type { AnySchema, ArraySchema, ObjectSchema, PrimitiveSchema } from "../types";
 import type * as Walker from "../Walker";
 import * as ExternalDocumentation from "./ExternalDocumentation";
+
+const nullable = (factory: Factory.Type, typeNode: ts.TypeNode, nullable: boolean): ts.TypeNode => {
+  if (nullable) {
+    return factory.UnionTypeNode.create({
+      typeNodes: [
+        typeNode,
+        factory.TypeNode.create({
+          type: "null",
+        }),
+      ],
+    });
+  }
+  return typeNode;
+};
 
 export const generatePropertySignatures = (
   entryPoint: string,
@@ -41,6 +55,41 @@ export const generatePropertySignatures = (
       type: ToTypeNode.convert(entryPoint, currentPoint, factory, property, context, convertContext, { parent: schema }),
       comment: typeof property !== "boolean" ? [property.title, property.description].filter(v => !!v).join("\n\n") : undefined,
     });
+  });
+};
+
+export const generateTypeAliasDeclarationForObject = (
+  entryPoint: string,
+  currentPoint: string,
+  factory: Factory.Type,
+  name: string,
+  schema: ObjectSchema,
+  context: ToTypeNode.Context,
+  convertContext: ConvertContext.Types,
+): ts.TypeAliasDeclaration => {
+  if (schema.type !== "object") {
+    throw new FeatureDevelopmentError("Please use generateTypeAlias");
+  }
+  let members: ts.TypeElement[] = [];
+  const propertySignatures = generatePropertySignatures(entryPoint, currentPoint, factory, schema, context, convertContext);
+  if (Guard.isObjectSchemaWithAdditionalProperties(schema)) {
+    const additionalProperties = ToTypeNode.convertAdditionalProperties(entryPoint, currentPoint, factory, schema, context, convertContext);
+    if (schema.additionalProperties === true) {
+      members = members.concat(additionalProperties);
+    } else {
+      members = [...propertySignatures, additionalProperties];
+    }
+  } else {
+    members = propertySignatures;
+  }
+  const typeNode = factory.TypeLiteralNode.create({
+    members,
+  });
+  return factory.TypeAliasDeclaration.create({
+    export: true,
+    name: convertContext.escapeDeclarationText(name),
+    comment: [schema.title, schema.description].filter(v => !!v).join("\n\n"),
+    type: nullable(factory, typeNode, schema.nullable === true),
   });
 };
 
@@ -166,11 +215,10 @@ export const generateTypeAlias = (
       type: schema.type,
     });
   }
-
   return factory.TypeAliasDeclaration.create({
     export: true,
     name: convertContext.escapeDeclarationText(name),
-    type,
+    type: nullable(factory, type, schema.nullable === true),
     comment: [schema.title, schema.description].filter(v => !!v).join("\n\n"),
   });
 };
@@ -241,11 +289,19 @@ export const addSchema = (
       value: generateArrayTypeAlias(entryPoint, currentPoint, factory, declarationName, schema, context, convertContext),
     });
   } else if (Guard.isObjectSchema(schema)) {
-    store.addStatement(targetPoint, {
-      kind: "interface",
-      name: convertContext.escapeDeclarationText(declarationName),
-      value: generateInterface(entryPoint, currentPoint, factory, declarationName, schema, context, convertContext),
-    });
+    if (schema.nullable) {
+      store.addStatement(targetPoint, {
+        kind: "typeAlias",
+        name: convertContext.escapeDeclarationText(declarationName),
+        value: generateTypeAliasDeclarationForObject(entryPoint, currentPoint, factory, declarationName, schema, context, convertContext),
+      });
+    } else {
+      store.addStatement(targetPoint, {
+        kind: "interface",
+        name: convertContext.escapeDeclarationText(declarationName),
+        value: generateInterface(entryPoint, currentPoint, factory, declarationName, schema, context, convertContext),
+      });
+    }
   } else if (Guard.isPrimitiveSchema(schema)) {
     store.addStatement(targetPoint, {
       kind: "typeAlias",

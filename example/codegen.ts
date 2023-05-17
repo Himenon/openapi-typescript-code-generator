@@ -7,8 +7,8 @@ import * as Types from "../lib/types"; // = @himenon/openapi-typescript-code-gen
 const main = () => {
   const codeGenerator = new CodeGenerator("./spec/openapi.yml");
   codeGenerator.validateOpenApiSchema({ logger: { displayLogLines: 1 } });
-  const apiClientGeneratorTemplate: Types.CodeGenerator.CustomGenerator<Templates.ApiClient.Option> = {
-    generator: Templates.ApiClient.generator,
+  const apiClientGeneratorTemplate: Types.CodeGenerator.CustomGenerator<Templates.FunctionalApiClient.Option> = {
+    generator: Templates.FunctionalApiClient.generator,
     option: {},
   };
 

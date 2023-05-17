@@ -3,6 +3,225 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.26.1"></a>
+## 0.26.1 (2023-04-04)
+
+
+### Bug Fixes
+
+* type of style property in requestEncodings ([#110](https://github.com/Himenon/openapi-typescript-code-generator/issues/110)) ([d709d5f](https://github.com/Himenon/openapi-typescript-code-generator/commit/d709d5f))
+
+
+
+
+
+<a name="0.26.0"></a>
+# 0.26.0 (2023-04-02)
+
+
+### Features
+
+* provide currying functional api client ([#109](https://github.com/Himenon/openapi-typescript-code-generator/issues/109)) ([40e359e](https://github.com/Himenon/openapi-typescript-code-generator/commit/40e359e))
+
+
+
+
+
+<a name="0.25.0"></a>
+# 0.25.0 (2023-04-01)
+
+
+### Features
+
+* support request body encoding option ([#108](https://github.com/Himenon/openapi-typescript-code-generator/issues/108)) ([025d53e](https://github.com/Himenon/openapi-typescript-code-generator/commit/025d53e))
+
+
+
+
+
+<a name="0.24.0"></a>
+# 0.24.0 (2023-04-01)
+
+
+### Features
+
+* update version ([#107](https://github.com/Himenon/openapi-typescript-code-generator/issues/107)) ([f695f78](https://github.com/Himenon/openapi-typescript-code-generator/commit/f695f78))
+
+
+### BREAKING CHANGES
+
+* update api client interface
+
+
+
+
+
+<a name="0.23.0"></a>
+# 0.23.0 (2023-04-01)
+
+
+### Features
+
+* **breaking change:** update apiClient arguments interface ([#106](https://github.com/Himenon/openapi-typescript-code-generator/issues/106)) ([a9e0a14](https://github.com/Himenon/openapi-typescript-code-generator/commit/a9e0a14))
+
+
+
+
+
+<a name="0.22.4"></a>
+## 0.22.4 (2023-04-01)
+
+
+### Code Refactoring
+
+* utils ([#105](https://github.com/Himenon/openapi-typescript-code-generator/issues/105)) ([58f3660](https://github.com/Himenon/openapi-typescript-code-generator/commit/58f3660))
+
+
+
+
+
+<a name="0.22.3"></a>
+## 0.22.3 (2023-03-20)
+
+
+### Bug Fixes
+
+* base url ([#102](https://github.com/Himenon/openapi-typescript-code-generator/issues/102)) ([3857267](https://github.com/Himenon/openapi-typescript-code-generator/commit/3857267))
+
+
+
+
+
+<a name="0.22.2"></a>
+## 0.22.2 (2023-03-20)
+
+
+### Bug Fixes
+
+* export type Client for FunctionalApiClient ([#101](https://github.com/Himenon/openapi-typescript-code-generator/issues/101)) ([aeb317b](https://github.com/Himenon/openapi-typescript-code-generator/commit/aeb317b))
+
+
+
+
+
+<a name="0.22.1"></a>
+## 0.22.1 (2023-03-20)
+
+
+### Bug Fixes
+
+* comment for functional api ([#100](https://github.com/Himenon/openapi-typescript-code-generator/issues/100)) ([24f4a55](https://github.com/Himenon/openapi-typescript-code-generator/commit/24f4a55))
+
+
+
+
+
+<a name="0.22.0"></a>
+# 0.22.0 (2023-03-20)
+
+
+### Features
+
+* functional api client ([#99](https://github.com/Himenon/openapi-typescript-code-generator/issues/99)) ([10d4857](https://github.com/Himenon/openapi-typescript-code-generator/commit/10d4857))
+
+
+### BREAKING CHANGES
+
+* `Templates.ApiClient.generator` -> `Templates.ClassApiClient.generator`
+
+
+
+
+
+<a name="0.21.1"></a>
+## 0.21.1 (2023-03-20)
+
+
+### Code Refactoring
+
+* update deps and change directory ([#98](https://github.com/Himenon/openapi-typescript-code-generator/issues/98)) ([3024174](https://github.com/Himenon/openapi-typescript-code-generator/commit/3024174))
+
+
+
+
+
+<a name="0.21.0"></a>
+# 0.21.0 (2023-01-03)
+
+
+### Features
+
+* support typescript >= 4.8 ([#96](https://github.com/Himenon/openapi-typescript-code-generator/issues/96)) ([f0e6d70](https://github.com/Himenon/openapi-typescript-code-generator/commit/f0e6d70))
+
+
+### BREAKING CHANGES
+
+* require typescript >= 4.8
+
+
+
+
+
+<a name="0.20.0"></a>
+# 0.20.0 (2023-01-03)
+
+
+### Features
+
+* update dependencies (typescript >= 4.9) ([#94](https://github.com/Himenon/openapi-typescript-code-generator/issues/94)) ([e914280](https://github.com/Himenon/openapi-typescript-code-generator/commit/e914280))
+
+
+
+
+
+<a name="0.19.3"></a>
+## 0.19.3 (2022-11-27)
+
+
+### Documentation
+
+* update playground link ([#93](https://github.com/Himenon/openapi-typescript-code-generator/issues/93)) ([556f0cb](https://github.com/Himenon/openapi-typescript-code-generator/commit/556f0cb))
+
+
+
+
+
+<a name="0.19.2"></a>
+## 0.19.2 (2022-11-15)
+
+
+### Bug Fixes
+
+* make nullable work in components/schema ([#92](https://github.com/Himenon/openapi-typescript-code-generator/issues/92)) ([33ded2b](https://github.com/Himenon/openapi-typescript-code-generator/commit/33ded2b))
+
+
+
+
+
+<a name="0.19.1"></a>
+## 0.19.1 (2022-10-06)
+
+
+### Bug Fixes
+
+* accessing nested object properties by reference ([#88](https://github.com/Himenon/openapi-typescript-code-generator/issues/88)) ([5279c58](https://github.com/Himenon/openapi-typescript-code-generator/commit/5279c58))
+
+
+
+
+
+<a name="0.19.0"></a>
+# 0.19.0 (2022-10-06)
+
+
+### Features
+
+* supports fragment in remote reference ([#87](https://github.com/Himenon/openapi-typescript-code-generator/issues/87)) ([b5eb255](https://github.com/Himenon/openapi-typescript-code-generator/commit/b5eb255))
+
+
+
+
+
 <a name="0.18.3"></a>
 ## 0.18.3 (2022-05-06)
 

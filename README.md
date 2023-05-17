@@ -8,7 +8,7 @@ Since the parameters extracted from OpenAPI can be used freely, it can be used f
 
 ## Playground
 
-- [Playground](https://openapi-typescript-code-generator-playground.netlify.app)
+- [Playground](https://openapi-typescript-code-generator.netlify.app/)
 
 ## Installation
 
@@ -58,8 +58,8 @@ import type * as Types from "@himenon/openapi-typescript-code-generator/types";
 const main = () => {
   const codeGenerator = new CodeGenerator("your/openapi/spec.yml");
 
-  const apiClientGeneratorTemplate: Types.CodeGenerator.CustomGenerator<Templates.ApiClient.Option> = {
-    generator: Templates.ApiClient.generator,
+  const apiClientGeneratorTemplate: Types.CodeGenerator.CustomGenerator<Templates.FunctionalApiClient.Option> = {
+    generator: Templates.FunctionalApiClient.generator,
     option: {},
   };
 
@@ -74,6 +74,196 @@ const main = () => {
 main();
 ```
 
+### The variation of template code
+
+This library provides three types of templates
+
+```ts
+import * as Templates from "@himenon/openapi-typescript-code-generator/templates";
+
+Templates.ClassApiClient.generator;
+Templates.FunctionalApiClient.generator;
+Templates.CurryingFunctionalApiClient.generator;
+```
+
+#### `Templates.ClassApiClient.generator`
+
+We provide a class-based API client. Please inject the API client dependency and use it instead of `constructor`.
+
+```ts
+export interface RequestArgs {
+  httpMethod: HttpMethod;
+  url: string;
+  headers: ObjectLike | any;
+  requestBody?: ObjectLike | any;
+  requestBodyEncoding?: Record<string, Encoding>;
+  queryParameters?: QueryParameters | undefined;
+}
+
+export interface ApiClient<RequestOption> {
+  request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
+}
+
+export class Client<RequestOption> {
+  private baseUrl: string;
+  constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) {
+    this.baseUrl = baseUrl.replace(/\/$/, "");
+  }
+
+  public async createPublisherV2<RequestContentType extends RequestContentType$createPublisherV2>(
+    params: Params$createPublisherV2<RequestContentType>,
+    option?: RequestOption,
+  ): Promise<Response$createPublisherV2$Status$200["application/json"]> {
+    const url = this.baseUrl + `/create/v2/publisher/{id}`;
+    const headers = {
+      "Content-Type": params.headers["Content-Type"],
+      Accept: "application/json",
+    };
+    const requestEncodings = {
+      "application/x-www-form-urlencoded": {
+        color: {
+          style: "form",
+          explode: false,
+        },
+      },
+      "application/json": {
+        color: {
+          style: "form",
+          explode: false,
+        },
+      },
+    };
+    return this.apiClient.request(
+      {
+        httpMethod: "POST",
+        url,
+        headers,
+        requestBody: params.requestBody,
+        requestBodyEncoding: requestEncodings[params.headers["Content-Type"]],
+      },
+      option,
+    );
+  }
+}
+```
+
+#### `Templates.FunctionalApiClient.generator`
+
+We also provide a function-based API client that replaces the class-based API client with `createClient`. Please inject the API client dependency and use it.
+
+```ts
+export interface RequestArgs {
+  httpMethod: HttpMethod;
+  url: string;
+  headers: ObjectLike | any;
+  requestBody?: ObjectLike | any;
+  requestBodyEncoding?: Record<string, Encoding>;
+  queryParameters?: QueryParameters | undefined;
+}
+
+export interface ApiClient<RequestOption> {
+  request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
+}
+
+export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>, baseUrl: string) => {
+  const _baseUrl = baseUrl.replace(/\/$/, "");
+  return {
+    createPublisherV2: <RequestContentType extends RequestContentType$createPublisherV2>(
+      params: Params$createPublisherV2<RequestContentType>,
+      option?: RequestOption,
+    ): Promise<Response$createPublisherV2$Status$200["application/json"]> => {
+      const url = _baseUrl + `/create/v2/publisher/{id}`;
+      const headers = {
+        "Content-Type": params.headers["Content-Type"],
+        Accept: "application/json",
+      };
+      const requestEncodings = {
+        "application/x-www-form-urlencoded": {
+          color: {
+            style: "form",
+            explode: false,
+          },
+        },
+        "application/json": {
+          color: {
+            style: "form",
+            explode: false,
+          },
+        },
+      };
+      return apiClient.request(
+        {
+          httpMethod: "POST",
+          url,
+          headers,
+          requestBody: params.requestBody,
+          requestBodyEncoding: requestEncodings[params.headers["Content-Type"]],
+        },
+        option,
+      );
+    },
+  };
+};
+```
+
+#### `Templates.CurryingFunctionalApiClient.generator`
+
+**Tree shaking support**
+
+We also provide a curried function-based API client that requires injection of API client for each `operationId`. The first function argument demands `ApiClient` while the second function argument demands `RequestArgs`. The `ApiClient` interface is different from the others, as it requires `uri` as an argument.
+
+This is designed for use cases that utilize **tree shaking**.
+
+```ts
+export interface RequestArgs {
+  httpMethod: HttpMethod;
+  uri: string; // <------------------ Note that the uri
+  headers: ObjectLike | any;
+  requestBody?: ObjectLike | any;
+  requestBodyEncoding?: Record<string, Encoding>;
+  queryParameters?: QueryParameters | undefined;
+}
+export interface ApiClient<RequestOption> {
+  request: <T = SuccessResponses>(requestArgs: RequestArgs, options?: RequestOption) => Promise<T>;
+}
+export const createPublisherV2 =
+  <RequestOption>(apiClient: ApiClient<RequestOption>) =>
+  <RequestContentType extends RequestContentType$createPublisherV2>(
+    params: Params$createPublisherV2<RequestContentType>,
+    option?: RequestOption,
+  ): Promise<Response$createPublisherV2$Status$200["application/json"]> => {
+    const uri = `/create/v2/publisher/{id}`;
+    const headers = {
+      "Content-Type": params.headers["Content-Type"],
+      Accept: "application/json",
+    };
+    const requestEncodings = {
+      "application/x-www-form-urlencoded": {
+        color: {
+          style: "form",
+          explode: false,
+        },
+      },
+      "application/json": {
+        color: {
+          style: "form",
+          explode: false,
+        },
+      },
+    };
+    return apiClient.request(
+      {
+        httpMethod: "POST",
+        uri,
+        headers,
+        requestBody: params.requestBody,
+        requestBodyEncoding: requestEncodings[params.headers["Content-Type"]],
+      },
+      option,
+    );
+  };
+```
+
 ### Split the type definition file and the API Client implementation
 
 ```ts
@@ -86,8 +276,8 @@ import type * as Types from "@himenon/openapi-typescript-code-generator/types";
 const main = () => {
   const codeGenerator = new CodeGenerator("your/openapi/spec.yml");
 
-  const apiClientGeneratorTemplate: Types.CodeGenerator.CustomGenerator<Templates.ApiClient.Option> = {
-    generator: Templates.ApiClient.generator,
+  const apiClientGeneratorTemplate: Types.CodeGenerator.CustomGenerator<Templates.FunctionalApiClient.Option> = {
+    generator: Templates.FunctionalApiClient.generator,
     option: {},
   };
 
@@ -304,7 +494,7 @@ It provides parameters extracted from OpenAPI Schema.
 
 #### getAdditionalTypeDefinitionCustomCodeGenerator
 
-This is a type definition file for `Templates.ApiClient`. The reason it is not included in `generateTypeDefinition` is that you may not use the type definition generated by this function depending on your usage.
+This is a type definition file for `Templates.FunctionalApiClient`. The reason it is not included in `generateTypeDefinition` is that you may not use the type definition generated by this function depending on your usage.
 
 ※ The reason it is not included in `generateTypeDefinition` is that you may not use the type definitions generated by this function depending on your application.
 
@@ -377,9 +567,12 @@ If your changes are in line with the design concept, please submit a pull reques
 ```bash
 git clone https://github.com/Himenon/openapi-typescript-code-generator.git
 cd openapi-typescript-code-generator
-yarn
+pnpm i
 #### your change
-pnpm build && pnpm test
+pnpm build
+pnpm run test:code:gen
+pnpm run update:snapshot # if you changed
+pnpm run test
 ```
 
 ## Useful development tools
