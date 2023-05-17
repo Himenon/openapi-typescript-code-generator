@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.27.0"></a>
+# 0.27.0 (2023-05-17)
+
+
+### Features
+
+* add readonly flag ([#82](https://github.com/Himenon/openapi-typescript-code-generator/issues/82)) ([01922e3](https://github.com/Himenon/openapi-typescript-code-generator/commit/01922e3))
+
+
+
+
+
 <a name="0.26.1"></a>
 ## 0.26.1 (2023-04-04)
 
