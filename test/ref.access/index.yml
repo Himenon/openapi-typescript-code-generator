@@ -188,3 +188,29 @@ paths:
                 properties:
                   status:
                     type: string
+
+  /author/author-{authorId}.a.{bookId}.b/book/{bookId}.json:
+    parameters:
+      - name: authorId
+        in: path
+        required: true
+        description: Author ID
+        schema:
+          type: string
+          format: uuid
+      - name: bookId
+        in: path
+        required: true
+        description: Book ID
+        schema:
+          type: string
+          format: uuid
+    get:
+      operationId: getBookById
+      responses:
+        200:
+          description: Get Books
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"

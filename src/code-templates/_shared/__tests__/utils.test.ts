@@ -83,4 +83,9 @@ describe("Utils", () => {
       },
     ]);
   });
+
+  test("multiSplitStringToArray", () => {
+    expect(Utils.multiSplitStringToArray("/{a}/b/{a}/c{a}/", ["{a}"])).toStrictEqual(["/", "{a}", "/b/", "{a}", "/c", "{a}", "/"]);
+    expect(Utils.multiSplitStringToArray("/a/b/{c}.json", ["{c}"])).toStrictEqual(["/a/b/", "{c}", ".json"]);
+  })
 });

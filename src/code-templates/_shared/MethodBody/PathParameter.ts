@@ -71,8 +71,8 @@ export const generateUrlTemplateExpression = (
     Object.keys(patternMap).forEach(pathParameterName => {
       if (new RegExp(pathParameterName).test(replacedText)) {
         const { text, escaped } = escapeText(patternMap[pathParameterName]);
-        const variableDeclaraText = escaped ? `params.parameter[${text}]` : `params.parameter.${text}`;
-        replacedText = replacedText.replace(new RegExp(pathParameterName, "g"), variableDeclaraText);
+        const variableDeclareText = escaped ? `params.parameter[${text}]` : `params.parameter.${text}`;
+        replacedText = replacedText.replace(new RegExp(pathParameterName, "g"), variableDeclareText);
       }
     });
     return replacedText === text ? undefined : replacedText;
@@ -111,7 +111,7 @@ export const generateUrlTemplateExpression = (
       } else {
         urlTemplate.push({
           type: "string",
-          value: value.startsWith("/") ? value : "/" + value,
+          value: value,
         });
       }
     }

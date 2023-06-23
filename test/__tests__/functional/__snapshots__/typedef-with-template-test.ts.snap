@@ -1360,6 +1360,15 @@ export interface Response$createPublisherV2$Status$200 {
         status?: string;
     };
 }
+export interface Parameter$getBookById {
+    /** Author ID */
+    authorId: string;
+    /** Book ID */
+    bookId: string;
+}
+export interface Response$getBookById$Status$200 {
+    "application/json": Schemas.Book;
+}
 export type ResponseContentType$getBook = keyof Response$getBook$Status$200;
 export interface Params$getBook {
     parameter: Parameter$getBook;
@@ -1389,6 +1398,10 @@ export interface Params$createPublisherV2<T extends RequestContentType$createPub
     };
     requestBody: RequestBody$createPublisherV2[T];
 }
+export type ResponseContentType$getBookById = keyof Response$getBookById$Status$200;
+export interface Params$getBookById {
+    parameter: Parameter$getBookById;
+}
 export type HttpMethod = "GET" | "PUT" | "POST" | "DELETE" | "OPTIONS" | "HEAD" | "PATCH" | "TRACE";
 export interface ObjectLike {
     [key: string]: any;
@@ -1401,7 +1414,7 @@ export interface QueryParameter {
 export interface QueryParameters {
     [key: string]: QueryParameter;
 }
-export type SuccessResponses = Response$getBook$Status$200 | Response$getDescription$Status$200 | Response$getAuthor$Status$200 | Response$getPublisher$Status$200 | Response$createPublisher$Status$200 | Response$createPublisherV2$Status$200;
+export type SuccessResponses = Response$getBook$Status$200 | Response$getDescription$Status$200 | Response$getAuthor$Status$200 | Response$getPublisher$Status$200 | Response$createPublisher$Status$200 | Response$createPublisherV2$Status$200 | Response$getBookById$Status$200;
 export namespace ErrorResponse {
     export type getBook = void;
     export type getDescription = void;
@@ -1409,6 +1422,7 @@ export namespace ErrorResponse {
     export type getPublisher = void;
     export type createPublisher = void;
     export type createPublisherV2 = void;
+    export type getBookById = void;
 }
 export interface Encoding {
     readonly contentType?: string;
@@ -1523,6 +1537,17 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 headers,
                 requestBody: params.requestBody,
                 requestBodyEncoding: requestEncodings[params.headers["Content-Type"]]
+            }, option);
+        },
+        getBookById: (params: Params$getBookById, option?: RequestOption): Promise<Response$getBookById$Status$200["application/json"]> => {
+            const url = _baseUrl + \`/author/author-\${params.parameter.authorId}.a.\${params.parameter.bookId}.b/book/\${params.parameter.bookId}.json\`;
+            const headers = {
+                Accept: "application/json"
+            };
+            return apiClient.request({
+                httpMethod: "GET",
+                url,
+                headers
             }, option);
         }
     };
