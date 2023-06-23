@@ -71,14 +71,15 @@ export const generateUrlTemplateExpression = (
     Object.keys(patternMap).forEach(pathParameterName => {
       if (new RegExp(pathParameterName).test(replacedText)) {
         const { text, escaped } = escapeText(patternMap[pathParameterName]);
-        const variableDeclaraText = escaped ? `params.parameter[${text}]` : `params.parameter.${text}`;
-        replacedText = replacedText.replace(new RegExp(pathParameterName, "g"), variableDeclaraText);
+        const variableDeclareText = escaped ? `params.parameter[${text}]` : `params.parameter.${text}`;
+        replacedText = replacedText.replace(new RegExp(pathParameterName, "g"), variableDeclareText);
       }
     });
     return replacedText === text ? undefined : replacedText;
   };
 
   const requestUrlTicks: string[] = Utils.multiSplitStringToArray(requestUri, Object.keys(patternMap));
+  console.log(JSON.stringify({ requestUri, requestUrlTicks, keys: Object.keys(patternMap) }));
   requestUrlTicks.forEach((requestUriTick, index) => {
     if (requestUri === "") {
       temporaryStringList.push("");
