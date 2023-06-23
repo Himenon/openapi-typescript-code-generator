@@ -17,11 +17,17 @@ tags:
 
 components:
   schemas:
+    BookID:
+      type: string
+      format: uuid
     Book:
       type: object
       required:
+        - id
         - metadata
       properties:
+        id:
+          $ref: "#/components/schemas/BookID"
         author:
           type: object
           properties:
@@ -56,8 +62,7 @@ paths:
         required: true
         description: Book ID
         schema:
-          type: string
-          format: uuid
+          $ref: "#/components/schemas/BookID"
     get:
       operationId: getBook
       responses:
@@ -74,8 +79,7 @@ paths:
         required: true
         description: Book ID
         schema:
-          type: string
-          format: uuid
+          $ref: "#/components/schemas/BookID"
     get:
       operationId: getDescription
       responses:

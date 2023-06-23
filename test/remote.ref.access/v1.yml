@@ -32,8 +32,7 @@ paths:
         required: true
         description: Book ID
         schema:
-          type: string
-          format: uuid
+          $ref: "v0.yml#/components/schemas/BookID"
     get:
       operationId: getBook
       responses:
@@ -50,8 +49,7 @@ paths:
         required: true
         description: Book ID
         schema:
-          type: string
-          format: uuid
+          $ref: "v0.yml#/components/schemas/BookID"
     get:
       operationId: getDescription
       responses:
