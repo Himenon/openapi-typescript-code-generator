@@ -1349,6 +1349,15 @@ export interface Response$createPublisherV2$Status$200 {
         status?: string;
     };
 }
+export interface Parameter$getBook {
+    /** Book ID */
+    authorId: string;
+    /** Book ID */
+    bookId: string;
+}
+export interface Response$getBook$Status$200 {
+    "application/json": Schemas.Book;
+}
 export type ResponseContentType$getBook = keyof Response$getBook$Status$200;
 export interface Params$getBook {
     parameter: Parameter$getBook;
@@ -1421,7 +1430,7 @@ export class Client<RequestOption> {
     private baseUrl: string;
     constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) { this.baseUrl = baseUrl.replace(/\\/$/, ""); }
     public async getBook(params: Params$getBook, option?: RequestOption): Promise<Response$getBook$Status$200["application/json"]> {
-        const url = this.baseUrl + \`/get/book/\${params.parameter.id}\`;
+        const url = this.baseUrl + \`/author/{author}/book/\${params.parameter.bookId}/.json\`;
         const headers = {
             Accept: "application/json"
         };
