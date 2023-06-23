@@ -189,12 +189,12 @@ paths:
                   status:
                     type: string
 
-  /author/{author}/book/{bookId}.json:
+  /author/author-{authorId}.a.{bookId}.b/book/{bookId}.json:
     parameters:
       - name: authorId
         in: path
         required: true
-        description: Book ID
+        description: Author ID
         schema:
           type: string
           format: uuid
@@ -206,7 +206,7 @@ paths:
           type: string
           format: uuid
     get:
-      operationId: getBook
+      operationId: getBookById
       responses:
         200:
           description: Get Books
