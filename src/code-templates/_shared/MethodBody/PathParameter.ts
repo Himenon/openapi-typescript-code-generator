@@ -79,7 +79,6 @@ export const generateUrlTemplateExpression = (
   };
 
   const requestUrlTicks: string[] = Utils.multiSplitStringToArray(requestUri, Object.keys(patternMap));
-  console.log(JSON.stringify({ requestUri, requestUrlTicks, keys: Object.keys(patternMap) }));
   requestUrlTicks.forEach((requestUriTick, index) => {
     if (requestUri === "") {
       temporaryStringList.push("");
@@ -112,7 +111,7 @@ export const generateUrlTemplateExpression = (
       } else {
         urlTemplate.push({
           type: "string",
-          value: value.startsWith("/") ? value : "/" + value,
+          value: value,
         });
       }
     }
