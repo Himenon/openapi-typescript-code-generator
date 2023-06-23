@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.27.1"></a>
+## 0.27.1 (2023-06-23)
+
+
+### Bug Fixes
+
+* separated strings are not restored correctly ([#112](https://github.com/Himenon/openapi-typescript-code-generator/issues/112)) ([c4b47c8](https://github.com/Himenon/openapi-typescript-code-generator/commit/c4b47c8))
+
+
+
+
+
 <a name="0.27.0"></a>
 # 0.27.0 (2023-05-17)
 
