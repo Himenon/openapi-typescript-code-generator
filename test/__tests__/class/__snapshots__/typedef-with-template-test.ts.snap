@@ -1529,7 +1529,7 @@ export class Client<RequestOption> {
         }, option);
     }
     public async getBookById(params: Params$getBookById, option?: RequestOption): Promise<Response$getBookById$Status$200["application/json"]> {
-        const url = this.baseUrl + \`/author/author-\${params.parameter.authorId}.a.\${params.parameter.bookId}.b/book/\${params.parameter.bookId}/.json\`;
+        const url = this.baseUrl + \`/author/author-\${params.parameter.authorId}.a.\${params.parameter.bookId}.b/book/\${params.parameter.bookId}.json\`;
         const headers = {
             Accept: "application/json"
         };
