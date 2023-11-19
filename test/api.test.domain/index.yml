@@ -439,6 +439,11 @@ paths:
           schema:
             type: integer
             format: int32
+          examples:
+            example1:
+              value: 20231119
+            example2:
+              value: 20240101
       responses:
         200:
           description: Search Book Result
