@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import { posix as path } from "path";
 
-export type SupportModuleType = "browser" | "node" | "require" | "import" | "default";
+export type SupportModuleType = "browser" | "node" | "require" | "import" | "default" | "types";
 
 export type SupportModule = {
   // eslint-disable-next-line no-unused-vars
