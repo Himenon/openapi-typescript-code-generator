@@ -36,7 +36,7 @@ const isSupportModuleType = (text: string | undefined): text is SupportModuleTyp
   if (!text) {
     return false;
   }
-  return ["node", "browser", "require", "import", "default"].includes(text);
+  return ["node", "browser", "require", "import", "default", "types"].includes(text);
 };
 
 const trimExtension = (p: string): string => {
