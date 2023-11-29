@@ -37,6 +37,7 @@ const main = async () => {
       node: "./$cjs",
       browser: "./$esm",
       default: "./$cjs",
+      types: "./$types",
     },
   });
 
