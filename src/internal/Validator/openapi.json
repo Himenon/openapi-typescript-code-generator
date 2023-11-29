@@ -570,7 +570,7 @@
           "type": "string"
         },
         "value": {
-          "$ref": "#/definitions/any"
+          "$ref": "#/definitions/defaultType"
         },
         "externalValue": {
           "type": "string"
