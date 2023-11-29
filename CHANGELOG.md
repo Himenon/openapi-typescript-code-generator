@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.27.3"></a>
+## 0.27.3 (2023-11-29)
+
+
+### Bug Fixes
+
+* parameters examples value validation ([#114](https://github.com/Himenon/openapi-typescript-code-generator/issues/114)) ([ef946bd](https://github.com/Himenon/openapi-typescript-code-generator/commit/ef946bd))
+
+
+
+
+
 <a name="0.27.2"></a>
 ## 0.27.2 (2023-11-29)
 
