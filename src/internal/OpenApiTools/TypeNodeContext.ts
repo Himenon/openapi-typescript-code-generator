@@ -101,7 +101,11 @@ export const create = (
     remainPathArray: string[] = [],
   ): OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition => {
     const schema = DotProp.get<OpenApi.Schema>(rootSchema, pathArray.join("."));
+    console.log(JSON.stringify({ pathArray, remainPathArray }));
     if (!schema) {
+      if (pathArray.length === 0) {
+        throw new Error("Not found");
+      }
       return findSchemaByPathArray(pathArray.slice(0, pathArray.length - 1), [pathArray[pathArray.length - 1], ...remainPathArray]);
     }
     if (Guard.isReference(schema)) {
