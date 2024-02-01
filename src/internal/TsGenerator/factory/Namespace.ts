@@ -90,9 +90,9 @@ export const update =
     const { node, statements } = params;
     if (node.body && ts.isModuleBlock(node.body)) {
       const body = ModuleBlock.update(context)({ node: node.body, statements });
-      return factory.updateModuleDeclaration(node, node.decorators, node.modifiers, node.name, body);
+      return factory.updateModuleDeclaration(node, node.modifiers,  node.name, body);
     }
-    return factory.updateModuleDeclaration(node, node.decorators, node.modifiers, node.name, node.body);
+    return factory.updateModuleDeclaration(node, node.modifiers, node.name, node.body);
   };
 
 export const addStatements =
@@ -102,9 +102,9 @@ export const addStatements =
     const { node, statements } = params;
     if (node.body && ts.isModuleBlock(node.body)) {
       const body = ModuleBlock.update(context)({ node: node.body, statements: node.body.statements.concat(statements) });
-      return factory.updateModuleDeclaration(node, node.decorators, node.modifiers, node.name, body);
+      return factory.updateModuleDeclaration(node, node.modifiers, node.name, body);
     }
-    return factory.updateModuleDeclaration(node, node.decorators, node.modifiers, node.name, node.body);
+    return factory.updateModuleDeclaration(node, node.modifiers, node.name, node.body);
   };
 
 export const make = (context: Pick<ts.TransformationContext, "factory">): Factory => {
