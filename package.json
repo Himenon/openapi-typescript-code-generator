@@ -54,10 +54,10 @@
     "test:code:gen:currying-function": "pnpm ts ./scripts/testCodeGenWithCurryingFunctional.ts",
     "test:depcruise": "depcruise --validate .dependency-cruiser.js src",
     "test:eslint": "eslint \"src/**/*.{ts,tsx}\"",
-    "test:jest": "jest -c ./jest.config.js --collect-coverage",
-    "test:snapshot": "jest -c ./jest.snapshot.config.js",
+    "test:jest": "jest -c ./jest.config.cjs --collect-coverage",
+    "test:snapshot": "jest -c ./jest.snapshot.config.cjs",
     "ts": "node --loader ts-node/esm --experimental-specifier-resolution=node",
-    "update:snapshot": "pnpm jest -c ./jest.snapshot.config.js --updateSnapshot",
+    "update:snapshot": "pnpm jest -c ./jest.snapshot.config.cjs --updateSnapshot",
     "watch": "pnpm ts ./scripts/watch.ts",
     "validate": "pnpm ts ./scripts/validate.ts"
   },

@@ -460,14 +460,6 @@ exports[`Parameter api.test.domain 1`] = `
           "schema": {
             "type": "integer",
             "format": "int32"
-          },
-          "examples": {
-            "example1": {
-              "value": 20231119
-            },
-            "example2": {
-              "value": 20240101
-            }
           }
         }
       ],
