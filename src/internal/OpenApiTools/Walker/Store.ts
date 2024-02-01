@@ -1,7 +1,7 @@
 import * as Path from "path";
 
 import { Tree } from "@himenon/path-oriented-data-structure";
-import Dot from "dot-prop";
+import DotProp from "dot-prop";
 import ts from "typescript";
 
 import type { OpenApi } from "../../../types";
@@ -139,7 +139,7 @@ class Store {
     if (!localPath.startsWith("components/pathItem")) {
       throw new Error("Only use start with 'component/pathItems': " + localPath);
     }
-    const result = Dot.getProperty(this.state.document, localPath.replace(/\//g, "."));
+    const result = DotProp.getProperty(this.state.document, localPath.replace(/\//g, "."));
     if (!result) {
       throw new Error(`Not found ${localPath}`);
     }
@@ -149,14 +149,14 @@ class Store {
     if (!localPath.startsWith("components/parameters")) {
       throw new Error("Only use start with 'component/parameters': " + localPath);
     }
-    const result = Dot.getProperty(this.state.document, localPath.replace(/\//g, "."));
+    const result = DotProp.getProperty(this.state.document, localPath.replace(/\//g, "."));
     if (!result) {
       throw new Error(`Not found ${localPath}`);
     }
     return result;
   }
   public isAfterDefined(referencePath: string): boolean {
-    return !!Dot.getProperty(this.state.document, referencePath.replace(/\//g, "."));
+    return !!DotProp.getProperty(this.state.document, referencePath.replace(/\//g, "."));
   }
 }
 

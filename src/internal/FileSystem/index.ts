@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 
-import Dot from "dot-prop";
+import DotProp from "dot-prop";
 import * as yaml from "js-yaml";
 
 import { UnSupportError } from "../Exception";
@@ -42,7 +42,7 @@ export class FileSystem {
     if (hasFragment) {
       const [filename, fragment] = entryPoint.split(this.FRAGMENT);
       const data = this.internalLoadJsonOrYaml(filename);
-      return Dot.getProperty(data, fragment.replace(/\//g, "."));
+      return DotProp.getProperty(data, fragment.replace(/\//g, "."));
     }
     return this.internalLoadJsonOrYaml(entryPoint);
   }
