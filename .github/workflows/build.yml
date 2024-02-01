@@ -9,7 +9,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20]
+        node-version: [20.x]
         os: [windows-latest, ubuntu-latest]
 
     steps:
@@ -25,7 +25,7 @@ jobs:
           version: 8.10.5
       - uses: actions/setup-node@v2
         with:
-          node-version: "20"
+          node-version: "20.x"
           cache: "pnpm"
       - run: pnpm i --frozen-lockfile
       - name: Use Node.js ${{ matrix.node-version }}
