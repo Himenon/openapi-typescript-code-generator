@@ -13,7 +13,7 @@
     "target": "es2022",
     "lib": ["dom", "es2023"],
     "rootDir": ".",
-    "outDir": "lib",
+    "outDir": "esm",
     "strict": true,
     "resolveJsonModule": true,
   },
