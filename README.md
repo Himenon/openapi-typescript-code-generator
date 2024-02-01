@@ -106,7 +106,10 @@ export interface ApiClient<RequestOption> {
 
 export class Client<RequestOption> {
   private baseUrl: string;
-  constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) {
+  constructor(
+    private apiClient: ApiClient<RequestOption>,
+    baseUrl: string,
+  ) {
     this.baseUrl = baseUrl.replace(/\/$/, "");
   }
 

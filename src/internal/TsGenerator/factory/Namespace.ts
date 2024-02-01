@@ -90,7 +90,7 @@ export const update =
     const { node, statements } = params;
     if (node.body && ts.isModuleBlock(node.body)) {
       const body = ModuleBlock.update(context)({ node: node.body, statements });
-      return factory.updateModuleDeclaration(node, node.modifiers,  node.name, body);
+      return factory.updateModuleDeclaration(node, node.modifiers, node.name, body);
     }
     return factory.updateModuleDeclaration(node, node.modifiers, node.name, node.body);
   };

@@ -17,7 +17,6 @@ export interface Factory {
 export const create =
   ({ factory }: Pick<ts.TransformationContext, "factory">): Factory["create"] =>
   (params: Params): ts.PropertySignature => {
-    
     const node = factory.createPropertySignature(
       params.readOnly ? [factory.createModifier(ts.SyntaxKind.ReadonlyKeyword)] : undefined,
       params.name,

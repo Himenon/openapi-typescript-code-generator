@@ -80,7 +80,10 @@ export interface ApiClient<RequestOption> {
   ) => Promise<T>;
 }
 export class Client<RequestOption> {
-  constructor(private apiClient: ApiClient<RequestOption>, private baseUrl: string) {}
+  constructor(
+    private apiClient: ApiClient<RequestOption>,
+    private baseUrl: string,
+  ) {}
   public async getBooks(option?: RequestOption): Promise<Response$getBooks$Status$200["application/json"]> {
     const url = this.baseUrl + `/get/books`;
     const headers = {

@@ -12,7 +12,10 @@ export class CodeGenerator {
   private rootSchema: Types.OpenApi.Document;
   private resolvedReferenceDocument: Types.OpenApi.Document;
   private parser: Api.OpenApiTools.Parser;
-  constructor(private readonly entryPointOrDocument: string | Types.OpenApi.Document, private option?: Option) {
+  constructor(
+    private readonly entryPointOrDocument: string | Types.OpenApi.Document,
+    private option?: Option,
+  ) {
     if (typeof entryPointOrDocument === "string") {
       this.rootSchema = Api.FileSystem.loadJsonOrYaml(entryPointOrDocument);
       this.resolvedReferenceDocument = Api.ResolveReference.resolve(

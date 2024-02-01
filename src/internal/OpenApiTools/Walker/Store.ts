@@ -24,7 +24,10 @@ class Store {
   private state: State.Type;
   private operator: Structure.OperatorType;
   private getChildByPaths: Structure.GetChildByPaths;
-  constructor(private factory: Factory.Type, rootDocument: OpenApi.Document) {
+  constructor(
+    private factory: Factory.Type,
+    rootDocument: OpenApi.Document,
+  ) {
     this.state = State.createDefaultState(rootDocument);
     const { operator, getChildByPaths } = Structure.create();
     this.operator = operator;
