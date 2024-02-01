@@ -100,7 +100,7 @@ export const create = (
     pathArray: string[],
     remainPathArray: string[] = [],
   ): OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition => {
-    const schema = DotProp.get<OpenApi.Schema>(rootSchema, pathArray.join("."));
+    const schema = DotProp.getProperty(rootSchema, pathArray.join("."));
     if (!schema) {
       return findSchemaByPathArray(pathArray.slice(0, pathArray.length - 1), [pathArray[pathArray.length - 1], ...remainPathArray]);
     }
@@ -109,7 +109,7 @@ export const create = (
       return findSchemaByPathArray(ref.path.split("/"), remainPathArray);
     }
     if (remainPathArray.length) {
-      const moreNestSchema = DotProp.get<OpenApi.Schema>(schema, remainPathArray.join("."));
+      const moreNestSchema = DotProp.getProperty(schema, remainPathArray.join("."));
       if (!moreNestSchema) {
         throw new Error("Not found");
       }

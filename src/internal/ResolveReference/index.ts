@@ -98,7 +98,7 @@ const resolveLocalReference = (entryPoint: string, currentPoint: string, obj: an
       }
       // "." in the key
       const escapedPath = ref.path.replace(/\./g, "\\.").replace(/\//g, ".");
-      return escapeFromJsonCyclic(DotProp.get(rootSchema, escapedPath));
+      return escapeFromJsonCyclic(DotProp.getProperty(rootSchema, escapedPath));
     }
     return obj;
   }

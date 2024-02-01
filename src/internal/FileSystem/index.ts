@@ -42,7 +42,7 @@ export class FileSystem {
     if (hasFragment) {
       const [filename, fragment] = entryPoint.split(this.FRAGMENT);
       const data = this.internalLoadJsonOrYaml(filename);
-      return Dot.get(data, fragment.replace(/\//g, "."));
+      return Dot.getProperty(data, fragment.replace(/\//g, "."));
     }
     return this.internalLoadJsonOrYaml(entryPoint);
   }

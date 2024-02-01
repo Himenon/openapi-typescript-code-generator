@@ -39,7 +39,7 @@
     "package.json"
   ],
   "scripts": {
-    "build": "tsc -b tsconfig.json",
+    "build": "tsc -b tsconfig.build.json",
     "clean": "pnpm ts ./scripts/clean.ts",
     "format": "run-s format:code format:code:eslint",
     "format:code": "prettier \"**/*.{js,jsx,ts,tsx,json,yml,yaml,md,html}\" --write",

@@ -136,7 +136,7 @@ class Store {
     if (!localPath.startsWith("components/pathItem")) {
       throw new Error("Only use start with 'component/pathItems': " + localPath);
     }
-    const result = Dot.get<OpenApi.PathItem>(this.state.document, localPath.replace(/\//g, "."));
+    const result = Dot.getProperty(this.state.document, localPath.replace(/\//g, "."));
     if (!result) {
       throw new Error(`Not found ${localPath}`);
     }
@@ -146,14 +146,14 @@ class Store {
     if (!localPath.startsWith("components/parameters")) {
       throw new Error("Only use start with 'component/parameters': " + localPath);
     }
-    const result = Dot.get<OpenApi.Parameter>(this.state.document, localPath.replace(/\//g, "."));
+    const result = Dot.getProperty(this.state.document, localPath.replace(/\//g, "."));
     if (!result) {
       throw new Error(`Not found ${localPath}`);
     }
     return result;
   }
   public isAfterDefined(referencePath: string): boolean {
-    return !!Dot.get(this.state.document, referencePath.replace(/\//g, "."));
+    return !!Dot.getProperty(this.state.document, referencePath.replace(/\//g, "."));
   }
 }
 
