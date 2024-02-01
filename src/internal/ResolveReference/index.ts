@@ -1,4 +1,4 @@
-import DotProp from "dot-prop";
+import * as DotProp from "dot-prop";
 
 import type { OpenApi } from "../../types";
 import { DevelopmentError } from "../Exception";

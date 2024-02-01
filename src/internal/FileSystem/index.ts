@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 
-import DotProp from "dot-prop";
+import * as DotProp from "dot-prop";
 import * as yaml from "js-yaml";
 
 import { UnSupportError } from "../Exception";
