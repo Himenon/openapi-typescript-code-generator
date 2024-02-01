@@ -2,7 +2,7 @@ import * as fs from "fs";
 import { posix as path } from "path";
 import { promisify } from "util";
 
-import readPkgUp from "read-pkg-up";
+import { readPackageUp } from "read-package-up";
 import * as rimraf from "rimraf";
 
 const mkDir = promisify(fs.mkdir);
@@ -53,7 +53,7 @@ const getPkgName = async (options: Option) => {
   if (pkgCache.has(options)) {
     return pkgCache.get(options);
   }
-  const result = await readPkgUp({ cwd: options.cwd });
+  const result = await readPackageUp({ cwd: options.cwd });
   if (!result) {
     throw new Error("Could not determine package name. No `name` option was passed and no package.json was found relative to: " + options.cwd);
   }
