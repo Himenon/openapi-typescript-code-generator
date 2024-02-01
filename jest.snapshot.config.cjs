@@ -6,6 +6,7 @@ module.exports = {
   moduleFileExtensions: ["js", "json", "jsx", "ts", "tsx", "node"],
   roots: ["<rootDir>/test"],
   testEnvironment: "node",
+  extensionsToTreatAsEsm: [".ts", ".tsx"],
   testMatch: ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[tj]s?(x)"],
   transform: {
     "^.+\\.(t|j)sx?$": [

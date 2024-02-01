@@ -4,7 +4,7 @@ import * as chokidar from "chokidar";
 
 import { shell } from "./tools/shell";
 
-const cwd = path.join(__dirname, "../");
+const cwd = path.join("../");
 
 process.on("unhandledRejection", reason => {
   console.log(reason);
