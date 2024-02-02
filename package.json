@@ -27,12 +27,17 @@
   },
   "sideEffects": false,
   "type": "module",
-  "main": "lib/$cjs/index.js",
-  "module": "lib/$esm/index.js",
-  "browser": "lib/$esm/index.js",
-  "types": "lib/$types/index.d.ts",
+  "exports": {
+    ".": "./esm/index.ts",
+    "./esm/templates": "./esm/templates.ja",
+    "./esm/types": "./esm/types.d.ts"
+  },
+  "main": "esm/index.js",
+  "module": "esm/index.js",
+  "browser": "esm/$index.js",
+  "types": "esm/index.d.ts",
   "directories": {
-    "lib": "lib"
+    "esm": "esm"
   },
   "files": [
     "lib",
