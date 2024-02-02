@@ -29,14 +29,15 @@
   "type": "module",
   "exports": {
     ".": "./esm/index.js",
+    "./esm": "./esm/index.js",
     "./esm/api": "./esm/api.js",
     "./esm/templates": "./esm/templates.js",
     "./esm/types": "./esm/types.d.ts"
   },
-  "main": "esm/index.js",
-  "module": "esm/index.js",
-  "browser": "esm/$index.js",
-  "types": "esm/index.d.ts",
+  "main": "./esm/index.js",
+  "module": "./esm/index.js",
+  "browser": "./esm/$index.js",
+  "types": "./esm/index.d.ts",
   "directories": {
     "esm": "esm"
   },
