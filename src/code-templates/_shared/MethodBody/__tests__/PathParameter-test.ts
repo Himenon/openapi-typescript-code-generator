@@ -1,11 +1,11 @@
-import { EOL } from "os";
-
 import ts from "typescript";
 
 import { TsGenerator } from "../../../../api";
 import type { CodeGenerator } from "../../../../types";
 import * as Utils from "../../utils";
 import * as PathParameter from "../PathParameter";
+
+const EOL = "\n";
 
 const traverse =
   (expression: ts.Expression) =>
@@ -45,17 +45,6 @@ describe("PathParameter Test", () => {
     return getText(expression);
   };
   test("generateUrlTemplateExpression", () => {
-    console.log(
-      JSON.stringify(
-        {
-          result: generate("/{a}", [{ in: "path", name: "a", required: true }]),
-          expect: "`/${params.parameter.a}`;" + EOL,
-          EOL,
-        },
-        null,
-        2,
-      ),
-    );
     expect(generate("/{a}", [{ in: "path", name: "a", required: true }])).toEqual("`/${params.parameter.a}`;" + EOL);
     expect(generate("/{a}/", [{ in: "path", name: "a", required: true }])).toEqual("`/${params.parameter.a}/`;" + EOL);
     expect(generate("/a/{b}", [{ in: "path", name: "b", required: true }])).toEqual("`/a/${params.parameter.b}`;" + EOL);
