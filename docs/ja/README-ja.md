@@ -439,7 +439,7 @@ TypeScript AST の API を利用したコードの拡張が可能です。
 
 ```ts
 import * as Types from "@himenon/openapi-typescript-code-generator/types";
-import { TsGenerator } from "@himenon/openapi-typescript-code-generator/api";
+import { TsGenerator } from "@himenon/openapi-typescript-code-generator/esm/api";
 
 interface Option {}
 
@@ -500,7 +500,7 @@ OpenAPI Schema から抽出したパラメーターを取得できます。
 ### TsGenerator
 
 ```ts
-import { TsGenerator } from "@himenon/openapi-typescript-code-generator/api";
+import { TsGenerator } from "@himenon/openapi-typescript-code-generator/esm/api";
 ```
 
 内部で利用している TypeScript AST のラッパー API です。
@@ -509,7 +509,7 @@ import { TsGenerator } from "@himenon/openapi-typescript-code-generator/api";
 ### OpenApiTools
 
 ```ts
-import { OpenApiTools } from "@himenon/openapi-typescript-code-generator/api";
+import { OpenApiTools } from "@himenon/openapi-typescript-code-generator/esm/api";
 ```
 
 #### Parser

@@ -28,8 +28,9 @@
   "sideEffects": false,
   "type": "module",
   "exports": {
-    ".": "./esm/index.ts",
-    "./esm/templates": "./esm/templates.ja",
+    ".": "./esm/index.js",
+    "./esm/api": "./esm/api.js",
+    "./esm/templates": "./esm/templates.js",
     "./esm/types": "./esm/types.d.ts"
   },
   "main": "esm/index.js",

@@ -443,7 +443,7 @@ You can directly use the API of TypeScript AST or use the wrapper API of TypeScr
 
 ```ts
 import * as Types from "@himenon/openapi-typescript-code-generator/types";
-import { TsGenerator } from "@himenon/openapi-typescript-code-generator/api";
+import { TsGenerator } from "@himenon/openapi-typescript-code-generator/esm/api";
 
 interface Option {}
 
@@ -504,7 +504,7 @@ This is a type definition file for `Templates.FunctionalApiClient`. The reason i
 ### TsGenerator
 
 ```ts
-import { TsGenerator } from "@himenon/openapi-typescript-code-generator/api";
+import { TsGenerator } from "@himenon/openapi-typescript-code-generator/esm/api";
 ```
 
 This is a wrapper API for the TypeScript AST used internally.
@@ -513,7 +513,7 @@ It is subject to change without notice.
 ### OpenApiTools
 
 ```ts
-import { OpenApiTools } from "@himenon/openapi-typescript-code-generator/api";
+import { OpenApiTools } from "@himenon/openapi-typescript-code-generator/esm/api";
 ```
 
 #### Parser
