@@ -56,7 +56,7 @@
     "test:eslint": "eslint \"src/**/*.{ts,tsx}\"",
     "test:jest": "NODE_OPTIONS=--experimental-vm-modules jest -c ./jest.config.cjs --collect-coverage",
     "test:snapshot": "jest -c ./jest.snapshot.config.cjs",
-    "ts": "node --loader ts-node/esm --experimental-specifier-resolution=node",
+    "ts": "node --no-warnings=ExperimentalWarning --loader ts-node/esm",
     "update:snapshot": "pnpm jest -c ./jest.snapshot.config.cjs --updateSnapshot",
     "watch": "pnpm ts ./scripts/watch.ts",
     "validate": "pnpm ts ./scripts/validate.ts"

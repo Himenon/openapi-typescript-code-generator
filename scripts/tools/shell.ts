@@ -1,6 +1,6 @@
-import execa from "execa";
+import { execa, ExecaChildProcess } from "execa";
 
-export const shell = (command: string, cwd: string = process.cwd()): execa.ExecaChildProcess<string> => {
+export const shell = (command: string, cwd: string = process.cwd()): ExecaChildProcess<string> => {
   return execa(command, {
     stdio: ["pipe", "pipe", "inherit"],
     shell: true,
