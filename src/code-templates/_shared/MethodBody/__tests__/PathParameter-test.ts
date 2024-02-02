@@ -45,11 +45,17 @@ describe("PathParameter Test", () => {
     return getText(expression);
   };
   test("generateUrlTemplateExpression", () => {
-    console.log({
-      result: generate("/{a}", [{ in: "path", name: "a", required: true }]),
-      expect: "`/${params.parameter.a}`;" + EOL,
-      EOL,
-    });
+    console.log(
+      JSON.stringify(
+        {
+          result: generate("/{a}", [{ in: "path", name: "a", required: true }]),
+          expect: "`/${params.parameter.a}`;" + EOL,
+          EOL,
+        },
+        null,
+        2,
+      ),
+    );
     expect(generate("/{a}", [{ in: "path", name: "a", required: true }])).toEqual("`/${params.parameter.a}`;" + EOL);
     expect(generate("/{a}/", [{ in: "path", name: "a", required: true }])).toEqual("`/${params.parameter.a}/`;" + EOL);
     expect(generate("/a/{b}", [{ in: "path", name: "b", required: true }])).toEqual("`/a/${params.parameter.b}`;" + EOL);
