@@ -46,8 +46,8 @@ main();
 import * as fs from "fs";
 
 import { CodeGenerator } from "@himenon/openapi-typescript-code-generator";
-import * as Templates from "@himenon/openapi-typescript-code-generator/templates";
-import type * as Types from "@himenon/openapi-typescript-code-generator/types";
+import * as Templates from "@himenon/openapi-typescript-code-generator/esm/templates";
+import type * as Types from "@himenon/openapi-typescript-code-generator/esm/types";
 
 const main = () => {
   const codeGenerator = new CodeGenerator("your/openapi/spec.yml");
@@ -73,7 +73,7 @@ main();
 本ライブラリからは 3 種類提供しています。
 
 ```ts
-import * as Templates from "@himenon/openapi-typescript-code-generator/templates";
+import * as Templates from "@himenon/openapi-typescript-code-generator/esm/templates";
 
 Templates.ClassApiClient.generator;
 Templates.FunctionalApiClient.generator;
@@ -269,8 +269,8 @@ export const createPublisherV2 =
 import * as fs from "fs";
 
 import { CodeGenerator } from "@himenon/openapi-typescript-code-generator";
-import * as Templates from "@himenon/openapi-typescript-code-generator/templates";
-import type * as Types from "@himenon/openapi-typescript-code-generator/types";
+import * as Templates from "@himenon/openapi-typescript-code-generator/esm/templates";
+import type * as Types from "@himenon/openapi-typescript-code-generator/esm/types";
 
 const main = () => {
   const codeGenerator = new CodeGenerator("your/openapi/spec.yml");
@@ -306,7 +306,7 @@ main();
 import * as fs from "fs";
 
 import { CodeGenerator } from "@himenon/openapi-typescript-code-generator";
-import type * as Types from "@himenon/openapi-typescript-code-generator/types";
+import type * as Types from "@himenon/openapi-typescript-code-generator/esm/types";
 
 /** ここにCode Templateの定義を記述してください  */
 const customGenerator: Types.CodeGenerator.CustomGenerator<{}> = {
