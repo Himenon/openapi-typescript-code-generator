@@ -1,2 +1,3 @@
-export const Name = "@himenon/openapi-typescript-code-generator";
-export const Version = "0.26.1";
+import pkgJson from "../package.json" with { type: "json" };
+export const Name = pkgJson.name;
+export const Version = pkgJson.version;
