@@ -49,9 +49,9 @@
       "require": "./dist/meta.cjs"
     }
   },
-  "main": "./dist/index.cjs",
+  "main": "./dist/index.js",
   "module": "./dist/index.js",
-  "browser": "./dist/$index.js",
+  "browser": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist",
