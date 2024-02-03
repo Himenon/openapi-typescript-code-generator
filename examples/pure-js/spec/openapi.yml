@@ -1,8 +1,8 @@
-openapi: 3.0.3
+openapi: 3.1.0
 info:
   version: 1.0.0
-  title: DEMO
-  description: demo spec
+  title: format.domain
+  description: Type Format
   license:
     name: MIT
 
@@ -12,42 +12,52 @@ servers:
   - url: "https://api.test.domain/"
     description: Production Environment
 
-paths:
-  /get/books:
-    get:
-      operationId: getBooks
-      responses:
-        200:
-          $ref: "./components/responses/Books.yml"
-  /search/books:
-    get:
-      operationId: searchBooks
-      parameters:
-        - in: query
-          name: filter
-          explode: true
-          style: deepObject
-          schema:
-            type: object
-            required:
-              - title
-              - author
-            properties:
-              title:
-                type: string
-              author:
-                type: string
-            additionalProperties:
-              type: string
-      responses:
-        200:
-          description: Get Books
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  books:
-                    type: array
-                    items:
-                      $ref: "./components/schemas/Book.yml"
+tags:
+  - name: test
+
+components:
+  schemas:
+    CustomType:
+      type: object
+      properties:
+        name:
+          type: string
+    BinaryFormat_String:
+      type: string
+      format: binary
+    IntOrStringFormat_String:
+      type: string
+      format: int-or-string
+    CustomTypeFormat_String:
+      type: string
+      format: custom-type
+    DateTimeFormat_String:
+      type: string
+      format: date-time
+    BinaryFormat_Int:
+      type: integer
+      format: binary
+    IntOrStringFormat_Int:
+      type: integer
+      format: int-or-string
+    CustomTypeFormat_Int:
+      type: integer
+      format: custom-type
+    DateTimeFormat_Int:
+      type: integer
+      format: date-time
+    ObjectPropertyCustomType:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+    Binary:
+      type: string
+      format: binary
+    IntOrString:
+      type: string
+      format: int-or-string
+    AandB:
+      type: string
+      format: A-and-B

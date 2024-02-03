@@ -28,21 +28,29 @@
   "sideEffects": false,
   "type": "module",
   "exports": {
-    ".": "./esm/index.js",
-    "./esm": "./esm/index.js",
-    "./esm/api": "./esm/api.js",
-    "./esm/templates": "./esm/templates.js",
-    "./esm/types": "./esm/types.d.ts"
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./dist/api": {
+      "import": "./dist/api.js",
+      "require": "./dist/api.cjs"
+    },
+    "./dist/templates": {
+      "import": "./dist/templates.js",
+      "require": "./dist/templates.cjs"
+    },
+    "./dist/types": {
+      "import": "./dist/types.js",
+      "require": "./dist/types.cjs"
+    }
   },
-  "main": "./esm/index.js",
-  "module": "./esm/index.js",
-  "browser": "./esm/$index.js",
-  "types": "./esm/index.d.ts",
-  "directories": {
-    "esm": "esm"
-  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "browser": "./dist/$index.js",
+  "types": "./dist/index.d.ts",
   "files": [
-    "lib",
+    "dist",
     "package.json"
   ],
   "scripts": {
@@ -124,6 +132,9 @@
     "ts-node": "10.9.2",
     "tsup": "^8.0.1",
     "typescript": "5.3.3"
+  },
+  "peerDependencies": {
+    "typescript": "^5.3.3"
   },
   "engines": {
     "pnpm": ">=6"
