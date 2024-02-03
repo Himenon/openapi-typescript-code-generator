@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import { posix as path } from "path";
 
-import { CodeGenerator, Option as CodeGeneratorOption } from "../../esm";
+import { CodeGenerator, Option as CodeGeneratorOption } from "../../dist";
 import * as Templates from "../../dist/templates";
 import type * as Types from "../../dist/types";
 
