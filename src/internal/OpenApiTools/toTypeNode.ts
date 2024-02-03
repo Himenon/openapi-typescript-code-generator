@@ -337,7 +337,9 @@ export const convertAdditionalProperties = (
   }
   const additionalProperties = factory.IndexSignatureDeclaration.create({
     name: "key",
-    type: convert(entryPoint, currentPoint, factory, schema.additionalProperties, setReference, convertContext, { parent: schema.properties }),
+    type: convert(entryPoint, currentPoint, factory, schema.additionalProperties, setReference, convertContext, {
+      parent: schema.properties,
+    }),
   });
   return additionalProperties;
 };
