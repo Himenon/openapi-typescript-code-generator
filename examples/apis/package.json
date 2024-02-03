@@ -4,21 +4,23 @@
   "private": true,
   "description": "Demo",
   "license": "MIT",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "codegen": "yarn ts ./codegen.ts",
-    "ts": "ts-node -P tsconfig.json"
+    "ts": "node --no-warnings=ExperimentalWarning --experimental-specifier-resolution=node --loader ts-node/esm"
   },
   "dependencies": {
     "@himenon/openapi-parameter-formatter": "0.3.1",
-    "axios": "1.2.2",
-    "superagent": "8.0.6"
+    "@himenon/openapi-typescript-code-generator": "link:../..",
+    "axios": "1.6.7",
+    "superagent": "8.1.2"
   },
   "devDependencies": {
-    "@types/node-fetch": "^2.6.2",
-    "@types/superagent": "^4.1.16",
-    "node-fetch": "^3.3.0",
-    "ts-node": "10.9.1",
-    "typescript": "4.9.4"
+    "@types/node-fetch": "^2.6.11",
+    "@types/superagent": "^8.1.3",
+    "node-fetch": "^3.3.2",
+    "ts-node": "10.9.2",
+    "typescript": "5.3.3"
   }
 }

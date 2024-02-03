@@ -325,7 +325,7 @@ fs.writeFileSync("output/file/name", code, { encoding: "utf-8" });
 独自定義のコードジェネレーターは`string`の配列を返すことができます。
 
 ```ts
-import * as Types from "@himenon/openapi-typescript-code-generator/types";
+import * as Types from "@himenon/openapi-typescript-code-generator/dist/types";
 
 interface Option {
   showLog?: boolean;
@@ -350,7 +350,7 @@ const customGenerator: Types.CodeGenerator.CustomGenerator<Option> = {
 利用可能なパラメーターは型定義を参照してください。
 
 ```ts
-import * as Types from "@himenon/openapi-typescript-code-generator/types";
+import * as Types from "@himenon/openapi-typescript-code-generator/dist/types";
 
 interface Option {}
 
@@ -438,7 +438,7 @@ TypeScript AST の API を利用したコードの拡張が可能です。
 直接 TypeScript の AST の API を利用したり、本ライブラリが提供する TypeScript AST のラッパー API を利用できます。
 
 ```ts
-import * as Types from "@himenon/openapi-typescript-code-generator/types";
+import * as Types from "@himenon/openapi-typescript-code-generator/dist/types";
 import { TsGenerator } from "@himenon/openapi-typescript-code-generator/dist/api";
 
 interface Option {}

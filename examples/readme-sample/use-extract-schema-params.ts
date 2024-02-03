@@ -1,4 +1,4 @@
-import * as Types from "@himenon/openapi-typescript-code-generator/types";
+import * as Types from "@himenon/openapi-typescript-code-generator/dist/types";
 
 interface Option {}
 
