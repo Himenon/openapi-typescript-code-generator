@@ -43,6 +43,10 @@
     "./dist/types": {
       "import": "./dist/types.js",
       "require": "./dist/types.cjs"
+    },
+    "./dist/meta": {
+      "import": "./dist/meta.js",
+      "require": "./dist/meta.cjs"
     }
   },
   "main": "./dist/index.cjs",
@@ -54,7 +58,7 @@
     "package.json"
   ],
   "scripts": {
-    "build": "tsc -b tsconfig.build.json",
+    "build": "tsup",
     "clean": "pnpm ts ./scripts/clean.ts",
     "format": "run-s format:code format:code:eslint",
     "format:code": "prettier \"**/*.{js,jsx,ts,tsx,json,yml,yaml,md,html}\" --write",

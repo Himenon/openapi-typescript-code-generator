@@ -13,3 +13,4 @@ test/argo-rollout
 CHANGELOG.md
 esm/
 dist/
+output/
