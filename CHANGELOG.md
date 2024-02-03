@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.2"></a>
+## 1.0.2 (2024-02-03)
+
+
+### Bug Fixes
+
+* meta file gets information from package.json ([#121](https://github.com/Himenon/openapi-typescript-code-generator/issues/121)) ([28cac39](https://github.com/Himenon/openapi-typescript-code-generator/commit/28cac39))
+
+
+
+
+
 <a name="1.0.1"></a>
 ## 1.0.1 (2024-02-03)
 
