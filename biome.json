@@ -16,6 +16,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "ignore": ["dist"]
+    "ignore": ["dist"],
+    "maxSize": 10485760
   }
 }

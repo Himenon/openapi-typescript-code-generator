@@ -83,6 +83,9 @@
   "lint-staged": {
     "*.{js,jsx,json,yml,yaml,html,md,ts,tsx}": [
       "biome format --write"
+    ],
+    "package.json": [
+      "sort-package-json"
     ]
   },
   "resolutions": {
