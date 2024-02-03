@@ -174,7 +174,7 @@ export const splitVariableText = (text: string): VariableElement[] => {
       return splitList;
     } else {
       const dotSplited = value.split(".");
-      const items = dotSplited.map<VariableAccessIdentifer>((childValue) => ({ kind: "string", value: childValue }));
+      const items = dotSplited.map<VariableAccessIdentifer>(childValue => ({ kind: "string", value: childValue }));
       return splitList.concat(items);
     }
   }, []);

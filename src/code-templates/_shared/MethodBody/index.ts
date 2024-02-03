@@ -48,7 +48,7 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
   }
 
   // Generate Header Parameter
-  const headerParameter = pickedParameters.filter((item) => item.in === "header");
+  const headerParameter = pickedParameters.filter(item => item.in === "header");
   const headerObject = Object.values(headerParameter).reduce<Utils.LiteralExpressionObject>((previous, current) => {
     return { ...previous, [current.name]: { type: "variable", value: `params.parameter.${current.name}` } };
   }, initialHeaderObject);
@@ -97,7 +97,7 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
 
   // Generate Query Parameter
   if (convertedParams.hasQueryParameters) {
-    const queryParameter = pickedParameters.filter((item) => item.in === "query");
+    const queryParameter = pickedParameters.filter(item => item.in === "query");
     const queryObject = Object.values(queryParameter).reduce<{ [key: string]: QueryParameter.Item }>((previous, current) => {
       const { text, escaped } = escapeText(current.name);
       const variableDeclareText = escaped ? `params.parameter[${text}]` : `params.parameter.${text}`;

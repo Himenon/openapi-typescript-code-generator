@@ -42,7 +42,7 @@ export const generatePropertySignatures = (
         readOnly: false,
         name: convertContext.escapePropertySignatureName(propertyName),
         optional: !required.includes(propertyName),
-        comment: [schema.title, schema.description].filter((v) => !!v).join("\n\n"),
+        comment: [schema.title, schema.description].filter(v => !!v).join("\n\n"),
         type: factory.TypeNode.create({
           type: "any",
         }),
@@ -53,7 +53,7 @@ export const generatePropertySignatures = (
       name: convertContext.escapePropertySignatureName(propertyName),
       optional: !required.includes(propertyName),
       type: ToTypeNode.convert(entryPoint, currentPoint, factory, property, context, convertContext, { parent: schema }),
-      comment: typeof property !== "boolean" ? [property.title, property.description].filter((v) => !!v).join("\n\n") : undefined,
+      comment: typeof property !== "boolean" ? [property.title, property.description].filter(v => !!v).join("\n\n") : undefined,
     });
   });
 };
@@ -88,7 +88,7 @@ export const generateTypeAliasDeclarationForObject = (
   return factory.TypeAliasDeclaration.create({
     export: true,
     name: convertContext.escapeDeclarationText(name),
-    comment: [schema.title, schema.description].filter((v) => !!v).join("\n\n"),
+    comment: [schema.title, schema.description].filter(v => !!v).join("\n\n"),
     type: nullable(factory, typeNode, schema.nullable === true),
   });
 };
@@ -137,7 +137,7 @@ export const generateArrayTypeAlias = (
   return factory.TypeAliasDeclaration.create({
     export: true,
     name: convertContext.escapeDeclarationText(name),
-    comment: [schema.title, schema.description].filter((v) => !!v).join("\n\n"),
+    comment: [schema.title, schema.description].filter(v => !!v).join("\n\n"),
     type: ToTypeNode.convert(entryPoint, currentPoint, factory, schema, context, convertContext),
   });
 };
@@ -170,7 +170,7 @@ export const generateNotInferedTypeAlias = (
     export: true,
     name: convertContext.escapeDeclarationText(name),
     type: typeNode,
-    comment: [schema.title, schema.description].filter((v) => !!v).join("\n\n"),
+    comment: [schema.title, schema.description].filter(v => !!v).join("\n\n"),
   });
 };
 
@@ -219,7 +219,7 @@ export const generateTypeAlias = (
     export: true,
     name: convertContext.escapeDeclarationText(name),
     type: nullable(factory, type, schema.nullable === true),
-    comment: [schema.title, schema.description].filter((v) => !!v).join("\n\n"),
+    comment: [schema.title, schema.description].filter(v => !!v).join("\n\n"),
   });
 };
 

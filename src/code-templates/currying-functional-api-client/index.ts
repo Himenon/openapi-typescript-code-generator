@@ -16,7 +16,7 @@ export const generator: CodeGenerator.GenerateFunction<Option> = (
 ): CodeGenerator.IntermediateCode[] => {
   const statements: ts.Statement[] = [];
   const factory = TsGenerator.Factory.create();
-  codeGeneratorParamsList.forEach((codeGeneratorParams) => {
+  codeGeneratorParamsList.forEach(codeGeneratorParams => {
     const { convertedParams } = codeGeneratorParams;
     if (convertedParams.hasRequestBody) {
       statements.push(ApiClientArgument.createRequestContentTypeReference(factory, codeGeneratorParams));
@@ -30,12 +30,12 @@ export const generator: CodeGenerator.GenerateFunction<Option> = (
     }
   });
 
-  ApiClientInterface.create(factory, codeGeneratorParamsList, "currying-function", option || {}).forEach((statement) => {
+  ApiClientInterface.create(factory, codeGeneratorParamsList, "currying-function", option || {}).forEach(statement => {
     statements.push(statement);
   });
 
   const apiClientStatements = FunctionalApiClient.create(factory, codeGeneratorParamsList, option || {});
-  apiClientStatements.forEach((apiClientStatement) => {
+  apiClientStatements.forEach(apiClientStatement => {
     statements.push(apiClientStatement);
   });
 

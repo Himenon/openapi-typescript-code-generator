@@ -82,7 +82,7 @@ export const generateNamespaceWithList = (
     name: Name.Components.Parameters,
   });
 
-  parameters.forEach((parameter) => {
+  parameters.forEach(parameter => {
     if (Guard.isReference(parameter)) {
       const reference = Reference.generate<OpenApi.Parameter>(entryPoint, currentPoint, parameter);
       if (reference.type === "local") {

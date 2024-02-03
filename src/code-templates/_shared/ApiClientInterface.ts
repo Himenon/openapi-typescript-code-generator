@@ -19,7 +19,7 @@ const createErrorResponsesTypeAlias = (typeName: string, factory: TsGenerator.Fa
     export: true,
     name: typeName,
     type: factory.UnionTypeNode.create({
-      typeNodes: errorResponseNames.map((name) => {
+      typeNodes: errorResponseNames.map(name => {
         return factory.TypeReferenceNode.create({
           name,
         });
@@ -40,7 +40,7 @@ const createSuccessResponseTypeAlias = (typeName: string, factory: TsGenerator.F
     export: true,
     name: typeName,
     type: factory.UnionTypeNode.create({
-      typeNodes: successResponseNames.map((name) => {
+      typeNodes: successResponseNames.map(name => {
         return factory.TypeReferenceNode.create({
           name,
         });
@@ -190,12 +190,12 @@ export const create = (
     }),
   });
 
-  const successResponseNames = list.map((item) => item.convertedParams.responseSuccessNames).flat();
+  const successResponseNames = list.map(item => item.convertedParams.responseSuccessNames).flat();
 
   const errorResponseNamespace = factory.Namespace.create({
     export: true,
     name: "ErrorResponse",
-    statements: list.map((item) => {
+    statements: list.map(item => {
       return createErrorResponsesTypeAlias(`${item.convertedParams.escapedOperationId}`, factory, item.convertedParams.responseErrorNames);
     }),
   });

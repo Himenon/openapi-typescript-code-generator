@@ -18,5 +18,10 @@
     "ignoreUnknown": true,
     "ignore": ["dist"],
     "maxSize": 10485760
+  },
+  "javascript": {
+    "formatter": {
+      "arrowParentheses": "asNeeded"
+    }
   }
 }

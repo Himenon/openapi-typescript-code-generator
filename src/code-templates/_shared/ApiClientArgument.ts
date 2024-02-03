@@ -28,7 +28,7 @@ export const createResponseContentTypeReference = (factory: TsGenerator.Factory.
       export: true,
       name: convertedParams.responseContentTypeName,
       type: factory.UnionTypeNode.create({
-        typeNodes: convertedParams.responseSuccessNames.map((item) => {
+        typeNodes: convertedParams.responseSuccessNames.map(item => {
           return factory.TypeOperatorNode.create({
             syntaxKind: "keyof",
             type: factory.TypeReferenceNode.create({

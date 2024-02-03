@@ -50,7 +50,7 @@ const generateResponseReturnType = (
     });
   } else if (successResponseNameList.length > 1) {
     objectType = factory.UnionTypeNode.create({
-      typeNodes: successResponseNameList.map((item) => factory.TypeReferenceNode.create({ name: item })),
+      typeNodes: successResponseNameList.map(item => factory.TypeReferenceNode.create({ name: item })),
     });
   }
 
@@ -162,7 +162,7 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
     parameters: methodArguments,
     comment: option.additionalMethodComment
       ? [params.operationParams.comment, `operationId: ${params.operationId}`, `Request URI: ${params.operationParams.requestUri}`]
-          .filter((t) => !!t)
+          .filter(t => !!t)
           .join(EOL)
       : params.operationParams.comment,
     deprecated: params.operationParams.deprecated,

@@ -14,7 +14,7 @@ export const generator: CodeGenerator.GenerateFunction<Option> = (
 ): CodeGenerator.IntermediateCode[] => {
   const statements: ts.Statement[] = [];
   const factory = TsGenerator.Factory.create();
-  codeGeneratorParamsList.forEach((codeGeneratorParams) => {
+  codeGeneratorParamsList.forEach(codeGeneratorParams => {
     const { convertedParams } = codeGeneratorParams;
     if (convertedParams.hasRequestBody) {
       statements.push(ApiClientArgument.createRequestContentTypeReference(factory, codeGeneratorParams));
@@ -27,7 +27,7 @@ export const generator: CodeGenerator.GenerateFunction<Option> = (
       statements.push(typeDeclaration);
     }
   });
-  ApiClientClass.create(factory, codeGeneratorParamsList, option || {}).forEach((newStatement) => {
+  ApiClientClass.create(factory, codeGeneratorParamsList, option || {}).forEach(newStatement => {
     statements.push(newStatement);
   });
   return statements;

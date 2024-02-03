@@ -55,7 +55,7 @@ export class CodeGenerator {
   public generateTypeDefinition(generatorTemplates?: Types.CodeGenerator.CustomGenerator<any>[], allowOperationIds?: string[]): string {
     const create = () => {
       const statements = this.parser.getOpenApiTypeDefinitionStatements();
-      generatorTemplates?.forEach((generatorTemplate) => {
+      generatorTemplates?.forEach(generatorTemplate => {
         const payload = this.parser.getCodeGeneratorParamsArray(allowOperationIds);
         const extraStatements = Api.TsGenerator.Utils.convertIntermediateCodes(generatorTemplate.generator(payload, generatorTemplate.option));
         statements.push(...extraStatements);
@@ -75,7 +75,7 @@ export class CodeGenerator {
     const payload = this.parser.getCodeGeneratorParamsArray(allowOperationIds);
     const create = () => {
       return generatorTemplates
-        .map((generatorTemplate) => {
+        .map(generatorTemplate => {
           return Api.TsGenerator.Utils.convertIntermediateCodes(generatorTemplate?.generator(payload, generatorTemplate.option));
         })
         .flat();

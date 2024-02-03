@@ -37,7 +37,7 @@ export const findStatement =
   (_context: Pick<ts.TransformationContext, "factory">): Factory["findNamespace"] =>
   (params: Params$FindStatement): ts.Statement | undefined => {
     let statement: ts.Statement | undefined;
-    params.node.forEachChild((node) => {
+    params.node.forEachChild(node => {
       if (ts.isModuleDeclaration(node) && node.name.text === params.name) {
         statement = node;
       }

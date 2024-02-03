@@ -83,7 +83,7 @@ export const generateReferenceNamespace = (
       kind: "namespace",
       name: Name.ComponentChild.Header,
     });
-    Object.values(headerNamespace.getChildren()).forEach((statement) => {
+    Object.values(headerNamespace.getChildren()).forEach(statement => {
       if (!statement) {
         return;
       }

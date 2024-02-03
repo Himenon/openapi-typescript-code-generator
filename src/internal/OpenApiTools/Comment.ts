@@ -21,7 +21,7 @@ export const generateLeading = (schema: OpenApi.Document): string => {
   }
   messages.push("");
   return messages
-    .map((message) => {
+    .map(message => {
       return `// ${message}`;
     })
     .join(EOL);

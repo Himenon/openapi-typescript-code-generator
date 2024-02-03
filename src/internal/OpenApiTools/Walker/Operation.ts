@@ -21,7 +21,7 @@ export const create = (rootSchema: OpenApi.Document): State => {
   const paths = rootSchema.paths || {};
   const state: State = {};
   Object.entries(paths).forEach(([requestUri, pathItem]) => {
-    httpMethodList.forEach((httpMethod) => {
+    httpMethodList.forEach(httpMethod => {
       const operation = pathItem[httpMethod];
       if (!operation) {
         return;

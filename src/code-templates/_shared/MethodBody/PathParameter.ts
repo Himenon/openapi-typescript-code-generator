@@ -68,7 +68,7 @@ export const generateUrlTemplateExpression = (
   // TODO generateVariableIdentifierに噛み合わ下げいいように変換する
   const replaceText = (text: string): string | undefined => {
     let replacedText = text;
-    Object.keys(patternMap).forEach((pathParameterName) => {
+    Object.keys(patternMap).forEach(pathParameterName => {
       if (new RegExp(pathParameterName).test(replacedText)) {
         const { text, escaped } = escapeText(patternMap[pathParameterName]);
         const variableDeclareText = escaped ? `params.parameter[${text}]` : `params.parameter.${text}`;

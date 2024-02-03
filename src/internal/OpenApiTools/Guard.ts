@@ -39,15 +39,15 @@ export const isPrimitiveSchema = (schema: OpenApi.Schema): schema is Types.Primi
 };
 
 export const isBooleanArray = (list: any[]): list is boolean[] => {
-  return !list.some((item) => typeof item !== "boolean");
+  return !list.some(item => typeof item !== "boolean");
 };
 
 export const isNumberArray = (list: any[]): list is number[] => {
-  return !list.some((item) => typeof item !== "number");
+  return !list.some(item => typeof item !== "number");
 };
 
 export const isStringArray = (list: any[]): list is string[] => {
-  return !list.some((item) => typeof item !== "string");
+  return !list.some(item => typeof item !== "string");
 };
 
 export const isObjectSchemaWithAdditionalProperties = (schema: Types.ObjectSchema): schema is Types.ObjectSchemaWithAdditionalProperties => {

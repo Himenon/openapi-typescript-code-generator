@@ -9,7 +9,7 @@ const generator: Types.CodeGenerator.GenerateFunction<Option> = (
   payload: Types.CodeGenerator.Params[],
   option,
 ): Types.CodeGenerator.IntermediateCode[] => {
-  return payload.map((params) => {
+  return payload.map(params => {
     return factory.InterfaceDeclaration.create({
       export: true,
       name: params.functionName,
