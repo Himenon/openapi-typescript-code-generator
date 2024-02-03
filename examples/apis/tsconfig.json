@@ -1,8 +1,13 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "esnext",
     "declaration": false,
+    "moduleResolution": "node",
   },
   "include": ["."],
   "exclude": ["node_modules"],
+  "ts-node": {
+    "esm": true,
+    "swc": true,
+  },
 }

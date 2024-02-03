@@ -7,7 +7,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "codegen": "yarn ts ./codegen.ts",
+    "codegen": "pnpm ts ./codegen.ts",
     "ts": "node --no-warnings=ExperimentalWarning --experimental-specifier-resolution=node --loader ts-node/esm"
   },
   "dependencies": {
