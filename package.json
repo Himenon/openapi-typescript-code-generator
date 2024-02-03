@@ -141,7 +141,7 @@
     "typescript": ">=5"
   },
   "engines": {
-    "pnpm": ">=6"
+    "pnpm": ">=8"
   },
   "publishConfig": {
     "access": "public"
