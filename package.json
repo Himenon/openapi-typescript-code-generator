@@ -82,7 +82,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,json,yml,yaml,html,md,ts,tsx}": [
-      "biome format --write"
+      "biome format --no-errors-on-unmatched --write"
     ],
     "package.json": [
       "sort-package-json"
