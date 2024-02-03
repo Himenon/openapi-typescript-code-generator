@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.28.0"></a>
+# 0.28.0 (2024-02-03)
+
+
+### Features
+
+* support ES Modules ([#119](https://github.com/Himenon/openapi-typescript-code-generator/issues/119)) ([8c1154c](https://github.com/Himenon/openapi-typescript-code-generator/commit/8c1154c))
+
+
+### BREAKING CHANGES
+
+* Support ES Modules & Require TypeScript >= 5
+
+
+
+
+
 <a name="0.27.4"></a>
 ## 0.27.4 (2023-11-29)
 
