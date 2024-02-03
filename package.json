@@ -1,7 +1,6 @@
 {
   "name": "@himenon/openapi-typescript-code-generator",
-  "version": "0.28.0",
-  "private": true,
+  "version": "1.0.0",
   "description": "OpenAPI Code Generator using TypeScript AST.",
   "keywords": [
     "openapi",
