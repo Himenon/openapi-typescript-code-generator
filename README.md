@@ -329,7 +329,7 @@ fs.writeFileSync("output/file/name", code, { encoding: "utf-8" });
 A self-defined code generator can return an array of `string`.
 
 ```ts
-import * as Types from "@himenon/openapi-typescript-code-generator/types";
+import * as Types from "@himenon/openapi-typescript-code-generator/dist/types";
 
 interface Option {
   showLog?: boolean;
@@ -354,7 +354,7 @@ The self-defined code generator can accept parameters extracted from OpenAPI Sch
 See Type definitions for available parameters.
 
 ```ts
-import * as Types from "@himenon/openapi-typescript-code-generator/types";
+import * as Types from "@himenon/openapi-typescript-code-generator/dist/types";
 
 interface Option {}
 
@@ -442,7 +442,7 @@ You can extend your code using the API of TypeScript AST.
 You can directly use the API of TypeScript AST or use the wrapper API of TypeScript AST provided by this library.
 
 ```ts
-import * as Types from "@himenon/openapi-typescript-code-generator/types";
+import * as Types from "@himenon/openapi-typescript-code-generator/dist/types";
 import { TsGenerator } from "@himenon/openapi-typescript-code-generator/dist/api";
 
 interface Option {}
