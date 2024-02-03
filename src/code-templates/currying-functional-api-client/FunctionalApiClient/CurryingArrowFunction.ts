@@ -48,7 +48,7 @@ const generateResponseReturnType = (
     });
   } else if (successResponseNameList.length > 1) {
     objectType = factory.UnionTypeNode.create({
-      typeNodes: successResponseNameList.map(item => factory.TypeReferenceNode.create({ name: item })),
+      typeNodes: successResponseNameList.map((item) => factory.TypeReferenceNode.create({ name: item })),
     });
   }
 

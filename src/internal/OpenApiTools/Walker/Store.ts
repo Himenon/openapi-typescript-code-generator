@@ -36,7 +36,7 @@ class Store {
 
   public convertNamespace(tree: Tree<Structure.NamespaceTree.Kind> | Structure.NamespaceTree.Item): ts.Statement {
     const statements: ts.Statement[] = [];
-    Object.values(tree.getChildren()).map(child => {
+    Object.values(tree.getChildren()).map((child) => {
       if (child instanceof Tree || child instanceof Structure.NamespaceTree.Item) {
         statements.push(this.convertNamespace(child));
       } else if (child instanceof Structure.InterfaceNode.Item) {
@@ -83,7 +83,7 @@ class Store {
    * @params path: "components/headers/hoge"
    */
   public hasStatement(path: string, types: Structure.DataStructure.Kind[]): boolean {
-    const alreadyRegistered = types.some(type => !!this.operator.getChildByPaths(path, type));
+    const alreadyRegistered = types.some((type) => !!this.operator.getChildByPaths(path, type));
     return alreadyRegistered;
   }
   /**

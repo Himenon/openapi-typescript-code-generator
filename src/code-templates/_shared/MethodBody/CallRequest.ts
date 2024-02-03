@@ -73,7 +73,7 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
           name: "queryParameters",
           initializer: factory.Identifier.create({ name: "queryParameters" }),
         }),
-    ].flatMap(v => (v ? [v] : [])),
+    ].flatMap((v) => (v ? [v] : [])),
     multiLine: true,
   });
 

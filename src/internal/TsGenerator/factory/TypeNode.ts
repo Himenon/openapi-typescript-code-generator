@@ -82,7 +82,7 @@ export const create =
         case "string":
           if (params.enum) {
             return unionTypeNode({
-              typeNodes: params.enum.map(value => literalTypeNode({ value })),
+              typeNodes: params.enum.map((value) => literalTypeNode({ value })),
             });
           }
           return factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword);
@@ -90,14 +90,14 @@ export const create =
         case "integer":
           if (params.enum) {
             return unionTypeNode({
-              typeNodes: params.enum.map(value => literalTypeNode({ value })),
+              typeNodes: params.enum.map((value) => literalTypeNode({ value })),
             });
           }
           return factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword);
         case "boolean": {
           if (params.enum) {
             return unionTypeNode({
-              typeNodes: params.enum.map(value => literalTypeNode({ value })),
+              typeNodes: params.enum.map((value) => literalTypeNode({ value })),
             });
           }
           return factory.createKeywordTypeNode(ts.SyntaxKind.BooleanKeyword);

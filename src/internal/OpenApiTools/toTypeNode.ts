@@ -55,7 +55,7 @@ export const generateMultiTypeNode = (
   convertContext: ConverterContext.Types,
   multiType: "oneOf" | "allOf" | "anyOf",
 ): ts.TypeNode => {
-  const typeNodes = schemas.map(schema => convert(entryPoint, currentPoint, factory, schema, setReference, convertContext));
+  const typeNodes = schemas.map((schema) => convert(entryPoint, currentPoint, factory, schema, setReference, convertContext));
   if (multiType === "oneOf") {
     return factory.UnionTypeNode.create({
       typeNodes,
@@ -287,7 +287,7 @@ export const convert: Convert = (
           }),
         });
 
-        const hasOptionalProperty = Object.keys(schema.properties || {}).some(key => !required.includes(key));
+        const hasOptionalProperty = Object.keys(schema.properties || {}).some((key) => !required.includes(key));
         if (hasOptionalProperty) {
           const objectTypeNode = factory.TypeNode.create({
             type: schema.type,
@@ -337,7 +337,9 @@ export const convertAdditionalProperties = (
   }
   const additionalProperties = factory.IndexSignatureDeclaration.create({
     name: "key",
-    type: convert(entryPoint, currentPoint, factory, schema.additionalProperties, setReference, convertContext, { parent: schema.properties }),
+    type: convert(entryPoint, currentPoint, factory, schema.additionalProperties, setReference, convertContext, {
+      parent: schema.properties,
+    }),
   });
   return additionalProperties;
 };

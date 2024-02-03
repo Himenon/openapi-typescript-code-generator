@@ -33,6 +33,6 @@ export const generateComment = (comment: string, deprecated?: boolean): Comment 
   }
   return {
     hasTrailingNewLine: true,
-    value: "*" + EOL + comments.map(comment => ` * ${comment}`).join(EOL) + EOL + " ",
+    value: "*" + EOL + comments.map((comment) => ` * ${comment}`).join(EOL) + EOL + " ",
   };
 };

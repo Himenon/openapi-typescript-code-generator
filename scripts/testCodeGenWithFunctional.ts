@@ -11,7 +11,9 @@ const main = () => {
   Writer.generateTemplateCodeOnly("test/api.test.domain/index.yml", "test/code/functional/template-only/sync-api.test.domain.ts", true, {
     sync: true,
   });
-  Writer.generateTemplateCodeOnly("test/infer.domain/index.yml", "test/code/functional/template-only/infer.domain.ts", false, { sync: true });
+  Writer.generateTemplateCodeOnly("test/infer.domain/index.yml", "test/code/functional/template-only/infer.domain.ts", false, {
+    sync: true,
+  });
 
   Writer.generateTypedefWithTemplateCode("test/api.v2.domain/index.yml", "test/code/functional/typedef-with-template/api.v2.domain.ts", false, {
     sync: false,

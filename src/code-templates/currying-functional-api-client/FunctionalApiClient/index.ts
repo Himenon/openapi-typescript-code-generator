@@ -7,11 +7,11 @@ import type { Option } from "../../_shared/types";
 import * as ArrowFunction from "./CurryingArrowFunction";
 
 export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Params[], option: Option): ts.Statement[] => {
-  const variableStatements = list.map(params => {
+  const variableStatements = list.map((params) => {
     return factory.VariableStatement.create({
       comment: option.additionalMethodComment
         ? [params.operationParams.comment, `operationId: ${params.operationId}`, `Request URI: ${params.operationParams.requestUri}`]
-            .filter(t => !!t)
+            .filter((t) => !!t)
             .join(EOL)
         : params.operationParams.comment,
       modifiers: [ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],

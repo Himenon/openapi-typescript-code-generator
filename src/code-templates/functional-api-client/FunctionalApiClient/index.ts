@@ -7,13 +7,13 @@ import type { Option } from "../../_shared/types";
 import * as ArrowFunction from "./ArrowFunction";
 
 export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Params[], option: Option): ts.VariableStatement => {
-  const properties = list.map(params => {
+  const properties = list.map((params) => {
     return factory.PropertyAssignment.create({
       name: params.convertedParams.functionName,
       initializer: ArrowFunction.create(factory, params, option),
       comment: option.additionalMethodComment
         ? [params.operationParams.comment, `operationId: ${params.operationId}`, `Request URI: ${params.operationParams.requestUri}`]
-            .filter(t => !!t)
+            .filter((t) => !!t)
             .join(EOL)
         : params.operationParams.comment,
     });

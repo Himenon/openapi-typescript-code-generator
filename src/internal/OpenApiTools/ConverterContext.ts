@@ -72,7 +72,7 @@ export interface Types {
 }
 
 const createFormatSchemaToTypeNode = (factory: Factory.Type, target: FormatConversion): ts.TypeNode => {
-  const typeNodes = target.output.type.map(value => {
+  const typeNodes = target.output.type.map((value) => {
     return factory.TypeReferenceNode.create({
       name: value,
     });
@@ -145,7 +145,7 @@ export const create = (factory: Factory.Type, options?: Options): Types => {
     generateFunctionName: (operationId: string) => {
       return convertOperationId(operationId);
     },
-    convertFormatTypeNode: schema => {
+    convertFormatTypeNode: (schema) => {
       const formatConversions = options?.formatConversions;
       if (!formatConversions || formatConversions.length === 0) {
         return;
@@ -156,7 +156,7 @@ export const create = (factory: Factory.Type, options?: Options): Types => {
       if (!schema.format) {
         return;
       }
-      const target = formatConversions.find(formatConvertion => formatConvertion.selector.format === schema.format);
+      const target = formatConversions.find((formatConvertion) => formatConvertion.selector.format === schema.format);
       if (!target) {
         return;
       }

@@ -11,7 +11,7 @@ import * as Method from "./Method";
 export { Method };
 
 export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Params[], option: Option): ts.Statement[] => {
-  const methodList = list.map(params => {
+  const methodList = list.map((params) => {
     return Method.create(factory, params, option);
   });
   const members = [Constructor.create(factory), ...methodList];
