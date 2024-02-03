@@ -12,3 +12,4 @@ test/kubernetes
 test/argo-rollout
 CHANGELOG.md
 esm/
+dist/
