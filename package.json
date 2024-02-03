@@ -138,7 +138,7 @@
     "typescript": "5.3.3"
   },
   "peerDependencies": {
-    "typescript": "^5.3.3"
+    "typescript": ">=5"
   },
   "engines": {
     "pnpm": ">=6"
