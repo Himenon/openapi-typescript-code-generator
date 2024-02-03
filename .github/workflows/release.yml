@@ -56,7 +56,7 @@ jobs:
       - run: pnpm install
       - run: |
           pnpm build
-          pnpm -C ./lib release:github:registry
+          pnpm release:github:registry
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CI: true
@@ -79,6 +79,6 @@ jobs:
       - run: pnpm build
         env:
           CI: true
-      - run: pnpm -C ./lib release:npm:registry
+      - run: pnpm release:npm:registry
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
