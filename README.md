@@ -52,8 +52,8 @@ main();
 import * as fs from "fs";
 
 import { CodeGenerator } from "@himenon/openapi-typescript-code-generator";
-import * as Templates from "@himenon/openapi-typescript-code-generator/esm/templates";
-import type * as Types from "@himenon/openapi-typescript-code-generator/esm/types";
+import * as Templates from "@himenon/openapi-typescript-code-generator/dist/templates";
+import type * as Types from "@himenon/openapi-typescript-code-generator/dist/types";
 
 const main = () => {
   const codeGenerator = new CodeGenerator("your/openapi/spec.yml");
@@ -79,7 +79,7 @@ main();
 This library provides three types of templates
 
 ```ts
-import * as Templates from "@himenon/openapi-typescript-code-generator/esm/templates";
+import * as Templates from "@himenon/openapi-typescript-code-generator/dist/templates";
 
 Templates.ClassApiClient.generator;
 Templates.FunctionalApiClient.generator;
@@ -273,8 +273,8 @@ export const createPublisherV2 =
 import * as fs from "fs";
 
 import { CodeGenerator } from "@himenon/openapi-typescript-code-generator";
-import * as Templates from "@himenon/openapi-typescript-code-generator/esm/templates";
-import type * as Types from "@himenon/openapi-typescript-code-generator/esm/types";
+import * as Templates from "@himenon/openapi-typescript-code-generator/dist/templates";
+import type * as Types from "@himenon/openapi-typescript-code-generator/dist/types";
 
 const main = () => {
   const codeGenerator = new CodeGenerator("your/openapi/spec.yml");
@@ -310,7 +310,7 @@ The examples in this section can be used in the following ways
 import * as fs from "fs";
 
 import { CodeGenerator } from "@himenon/openapi-typescript-code-generator";
-import type * as Types from "@himenon/openapi-typescript-code-generator/esm/types";
+import type * as Types from "@himenon/openapi-typescript-code-generator/dist/types";
 
 /** Write the definition of the Code Template here. */
 const customGenerator: Types.CodeGenerator.CustomGenerator<{}> = {
@@ -443,7 +443,7 @@ You can directly use the API of TypeScript AST or use the wrapper API of TypeScr
 
 ```ts
 import * as Types from "@himenon/openapi-typescript-code-generator/types";
-import { TsGenerator } from "@himenon/openapi-typescript-code-generator/esm/api";
+import { TsGenerator } from "@himenon/openapi-typescript-code-generator/dist/api";
 
 interface Option {}
 
@@ -504,7 +504,7 @@ This is a type definition file for `Templates.FunctionalApiClient`. The reason i
 ### TsGenerator
 
 ```ts
-import { TsGenerator } from "@himenon/openapi-typescript-code-generator/esm/api";
+import { TsGenerator } from "@himenon/openapi-typescript-code-generator/dist/api";
 ```
 
 This is a wrapper API for the TypeScript AST used internally.
@@ -513,7 +513,7 @@ It is subject to change without notice.
 ### OpenApiTools
 
 ```ts
-import { OpenApiTools } from "@himenon/openapi-typescript-code-generator/esm/api";
+import { OpenApiTools } from "@himenon/openapi-typescript-code-generator/dist/api";
 ```
 
 #### Parser

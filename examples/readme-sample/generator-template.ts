@@ -1,7 +1,7 @@
 import * as fs from "fs";
 
 import { CodeGenerator } from "@himenon/openapi-typescript-code-generator";
-import type * as Types from "@himenon/openapi-typescript-code-generator/esm/types";
+import type * as Types from "@himenon/openapi-typescript-code-generator/dist/types";
 
 /** ここにCode Templateの定義を記述してください  */
 const customGenerator: Types.CodeGenerator.CustomGenerator<{}> = {

@@ -1,4 +1,4 @@
-import { TsGenerator } from "@himenon/openapi-typescript-code-generator/esm/api";
+import { TsGenerator } from "@himenon/openapi-typescript-code-generator/dist/api";
 import * as Types from "@himenon/openapi-typescript-code-generator/types";
 
 interface Option {}
