@@ -6,7 +6,7 @@ import { CreateFunction, traverse } from "./traverse";
 
 export * as Utils from "./utils";
 
-export { CreateFunction, Factory };
+export { type CreateFunction, Factory };
 
 export type TransformerFactory<T extends ts.Node> = ts.TransformerFactory<T>;
 

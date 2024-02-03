@@ -1,8 +1,0 @@
-{
-  "compilerOptions": {
-    "module": "commonjs",
-    "declaration": false
-  },
-  "include": ["."],
-  "exclude": ["node_modules"]
-}

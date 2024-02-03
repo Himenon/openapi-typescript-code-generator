@@ -11,3 +11,6 @@ debug
 test/kubernetes
 test/argo-rollout
 CHANGELOG.md
+esm/
+dist/
+output/

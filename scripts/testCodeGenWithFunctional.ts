@@ -1,4 +1,4 @@
-import * as Writer from "./writer/Functional";
+import * as Writer from "./writer/Functional.js";
 
 const main = () => {
   Writer.generateTypedefCodeOnly("test/api.test.domain/index.yml", "test/code/functional/typedef-only/api.test.domain.ts", true);

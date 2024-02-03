@@ -1,11 +1,11 @@
-import { EOL } from "os";
-
 import ts from "typescript";
 
 import { TsGenerator } from "../../../../api";
 import type { CodeGenerator } from "../../../../types";
 import * as Utils from "../../utils";
 import * as PathParameter from "../PathParameter";
+
+const EOL = "\n";
 
 const traverse =
   (expression: ts.Expression) =>
@@ -45,17 +45,22 @@ describe("PathParameter Test", () => {
     return getText(expression);
   };
   test("generateUrlTemplateExpression", () => {
-    expect(generate("/{a}", [{ in: "path", name: "a", required: true }])).toBe("`/${params.parameter.a}`;" + EOL);
-    expect(generate("/{a}/", [{ in: "path", name: "a", required: true }])).toBe("`/${params.parameter.a}/`;" + EOL);
-    expect(generate("/a/{b}", [{ in: "path", name: "b", required: true }])).toBe("`/a/${params.parameter.b}`;" + EOL);
-    expect(generate("/a/{b}/", [{ in: "path", name: "b", required: true }])).toBe("`/a/${params.parameter.b}/`;" + EOL);
-    expect(generate("/a/{b}/c", [{ in: "path", name: "b", required: true }])).toBe("`/a/${params.parameter.b}/c`;" + EOL);
-    expect(generate("/a/{b}/c/", [{ in: "path", name: "b", required: true }])).toBe("`/a/${params.parameter.b}/c/`;" + EOL);
-    expect(generate("/a/b/{c}", [{ in: "path", name: "c", required: true }])).toBe("`/a/b/${params.parameter.c}`;" + EOL);
-    expect(generate("/a/b/{c}/", [{ in: "path", name: "c", required: true }])).toBe("`/a/b/${params.parameter.c}/`;" + EOL);
-    expect(generate("/a/b/{c}.json", [{ in: "path", name: "c", required: true }])).toBe("`/a/b/${params.parameter.c}.json`;" + EOL);
-    expect(generate("/{a}.json/{a}.json/{a}.json", [{ in: "path", name: "a", required: true }])).toBe("`/${params.parameter.a}.json/${params.parameter.a}.json/${params.parameter.a}.json`;" + EOL);
-    expect(generate("/.json.{a}.json/{a}.json.{a}", [{ in: "path", name: "a", required: true }])).toBe("`/.json.${params.parameter.a}.json/${params.parameter.a}.json.${params.parameter.a}`;" + EOL);
+    expect(generate("/{a}", [{ in: "path", name: "a", required: true }])).toEqual("`/${params.parameter.a}`;" + EOL);
+    expect(generate("/{a}/", [{ in: "path", name: "a", required: true }])).toEqual("`/${params.parameter.a}/`;" + EOL);
+    expect(generate("/a/{b}", [{ in: "path", name: "b", required: true }])).toEqual("`/a/${params.parameter.b}`;" + EOL);
+    expect(generate("/a/{b}/", [{ in: "path", name: "b", required: true }])).toEqual("`/a/${params.parameter.b}/`;" + EOL);
+    expect(generate("/a/{b}/c", [{ in: "path", name: "b", required: true }])).toEqual("`/a/${params.parameter.b}/c`;" + EOL);
+    expect(generate("/a/{b}/c/", [{ in: "path", name: "b", required: true }])).toEqual("`/a/${params.parameter.b}/c/`;" + EOL);
+    expect(generate("/a/b/{c}", [{ in: "path", name: "c", required: true }])).toEqual("`/a/b/${params.parameter.c}`;" + EOL);
+    expect(generate("/a/b/{c}", [{ in: "path", name: "c", required: true }])).toEqual("`/a/b/${params.parameter.c}`;" + EOL);
+    expect(generate("/a/b/{c}/", [{ in: "path", name: "c", required: true }])).toEqual("`/a/b/${params.parameter.c}/`;" + EOL);
+    expect(generate("/a/b/{c}.json", [{ in: "path", name: "c", required: true }])).toEqual("`/a/b/${params.parameter.c}.json`;" + EOL);
+    expect(generate("/{a}.json/{a}.json/{a}.json", [{ in: "path", name: "a", required: true }])).toEqual(
+      "`/${params.parameter.a}.json/${params.parameter.a}.json/${params.parameter.a}.json`;" + EOL,
+    );
+    expect(generate("/.json.{a}.json/{a}.json.{a}", [{ in: "path", name: "a", required: true }])).toEqual(
+      "`/.json.${params.parameter.a}.json/${params.parameter.a}.json.${params.parameter.a}`;" + EOL,
+    );
 
     expect(
       generate("/{a}/{b}", [

@@ -11,10 +11,10 @@ export type Kind = NamespaceTree.Kind | InterfaceNode.Kind | TypeAliasNode.Kind;
 export type GetChild<T extends Kind> = T extends NamespaceTree.Kind
   ? NamespaceTree.Item
   : T extends InterfaceNode.Kind
-  ? InterfaceNode.Item
-  : T extends TypeAliasNode.Kind
-  ? TypeAliasNode.Item
-  : never;
+    ? InterfaceNode.Item
+    : T extends TypeAliasNode.Kind
+      ? TypeAliasNode.Item
+      : never;
 
 // Type Safe method
 export const createGetChildByPaths =

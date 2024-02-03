@@ -4,18 +4,21 @@
     "declaration": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "jsx": "react",
-    "module": "commonjs",
+    "module": "esnext",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
     "noUnusedParameters": false,
     "skipLibCheck": true,
     "sourceMap": true,
-    "target": "es2019",
-    "lib": ["dom", "es2019"],
+    "target": "es2022",
+    "lib": ["dom", "es2023"],
     "rootDir": ".",
-    "outDir": "lib",
+    "outDir": "esm",
     "strict": true,
-    "resolveJsonModule": true
-  }
+    "resolveJsonModule": true,
+  },
+  "ts-node": {
+    "esm": true,
+    "swc": true,
+  },
 }

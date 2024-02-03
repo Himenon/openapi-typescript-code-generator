@@ -19,10 +19,10 @@ jobs:
           ref: main
       - uses: pnpm/action-setup@v2.1.0
         with:
-          version: 7.0.0
+          version: 8.15.1
       - uses: actions/setup-node@v2
         with:
-          node-version: "16"
+          node-version: "20.x"
           registry-url: https://npm.pkg.github.com
           scope: "@Himenon"
           cache: "pnpm"
@@ -46,10 +46,10 @@ jobs:
           ref: main
       - uses: pnpm/action-setup@v2.1.0
         with:
-          version: 7.0.0
+          version: 8.15.1
       - uses: actions/setup-node@v2
         with:
-          node-version: "16"
+          node-version: "20.x"
           registry-url: https://npm.pkg.github.com
           scope: "@Himenon"
           cache: "pnpm"
@@ -69,10 +69,10 @@ jobs:
           ref: main
       - uses: pnpm/action-setup@v2.1.0
         with:
-          version: 7.0.0
+          version: 8.15.1
       - uses: actions/setup-node@v2
         with:
-          node-version: "16.x"
+          node-version: "20.x"
           registry-url: "https://registry.npmjs.org"
           cache: "pnpm"
       - run: pnpm install

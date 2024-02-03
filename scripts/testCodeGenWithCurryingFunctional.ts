@@ -1,4 +1,4 @@
-import * as Writer from "./writer/CurryingFunctional";
+import * as Writer from "./writer/CurryingFunctional.js";
 
 const main = () => {
   Writer.generateTypedefCodeOnly("test/api.test.domain/index.yml", "test/code/currying-functional/typedef-only/api.test.domain.ts", true);

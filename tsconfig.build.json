@@ -1,8 +1,11 @@
 {
   "extends": "./tsconfig",
   "compilerOptions": {
-    "module": "commonjs",
-    "declaration": false
+    "rootDir": "src"
+  },
+  "ts-node": {
+    "esm": true,
+    "swc": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "./src/**/__tests__/*", "scripts"]

@@ -4,8 +4,8 @@ export type CreateFunction = (context: Pick<ts.TransformationContext, "factory">
 
 export const traverse =
   (create: CreateFunction) =>
-  <T extends ts.Node>(context: Pick<ts.TransformationContext, "factory">) =>
-  (rootNode: T) => {
+  <T extends ts.Node>(context: Pick<ts.TransformationContext, "factory">): ts.Transformer<T> =>
+  (rootNode: T): T => {
     const visit = (node: ts.Node): ts.Node => {
       if (!ts.isSourceFile(node)) {
         return node;
@@ -20,5 +20,5 @@ export const traverse =
         node.libReferenceDirectives,
       );
     };
-    return ts.visitNode(rootNode, visit);
+    return ts.visitNode(rootNode, visit) as T;
   };

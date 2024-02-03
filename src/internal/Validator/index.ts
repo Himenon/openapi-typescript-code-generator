@@ -4,9 +4,8 @@
 //
 import * as Ajv from "ajv";
 
-import type { OpenApi } from "../../types";
-import type { Validator } from "../../types";
-import openapiSchema from "./openapi.json";
+import type { OpenApi, Validator } from "../../types";
+import openapiSchema from "./openapi.json" assert { type: "json" };
 
 const showLogs = (logs: any[], logger?: Validator.Logger) => {
   if (logger && logger.displayLogLines && logger.displayLogLines > 0) {
