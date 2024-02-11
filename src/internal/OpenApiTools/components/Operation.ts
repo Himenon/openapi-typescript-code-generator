@@ -182,12 +182,21 @@ export const generateStatements = (
         });
       }
     } else {
-      statements.push(
-        RequestBody.generateInterface(entryPoint, currentPoint, factory, requestBodyName, operation.requestBody, context, converterContext),
-      );
-      store.updateOperationState(httpMethod, requestUri, operationId, {
-        requestBodyName: requestBodyName,
-      });
+      /**
+       * requestBody:
+       *   content:
+       *     application/json: {}
+       */
+      const hasValidMediaType =
+        Object.values(operation.requestBody.content).filter(mediaType => Object.values(mediaType).length > 0).length > 0;
+      if (hasValidMediaType) {
+        statements.push(
+          RequestBody.generateInterface(entryPoint, currentPoint, factory, requestBodyName, operation.requestBody, context, converterContext),
+        );
+        store.updateOperationState(httpMethod, requestUri, operationId, {
+          requestBodyName: requestBodyName,
+        });
+      }
     }
   }
 

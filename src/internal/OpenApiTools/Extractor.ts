@@ -36,7 +36,13 @@ const extractResponseNamesByStatusCode = (type: "success" | "error", responses: 
 };
 
 const getRequestContentTypeList = (requestBody: OpenApi.RequestBody): string[] => {
-  return Object.keys(requestBody.content);
+  return Object.entries(requestBody.content).reduce<string[]>((list, [key, mediaType]) => {
+    const hasValidContent = Object.values(mediaType).length > 0;
+    if (hasValidContent) {
+      return list.concat(key);
+    }
+    return list;
+  }, []);
 };
 
 const getSuccessResponseContentTypeList = (responses: { [statusCode: string]: OpenApi.Response }): string[] => {
