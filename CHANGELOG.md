@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.7"></a>
+## 1.0.7 (2024-02-11)
+
+
+### Styles
+
+* code format ([#128](https://github.com/Himenon/openapi-typescript-code-generator/issues/128)) ([a5c233e](https://github.com/Himenon/openapi-typescript-code-generator/commit/a5c233e))
+
+
+
+
+
 <a name="1.0.6"></a>
 ## 1.0.6 (2024-02-11)
 
