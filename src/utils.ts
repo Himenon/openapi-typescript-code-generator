@@ -6,7 +6,7 @@ export const requestContentType = (operationId: string): string => `RequestConte
 export const responseContentType = (operationId: string): string => `ResponseContentType$${operationId}`;
 
 export const isAvailableVariableName = (text: string): boolean => {
-  return /^[A-Za-z_0-9\s]+$/.test(text);
+  return /^[A-Za-z_0-9]+$/.test(text);
 };
 
 export const isFirstCharacterIsValidText = (text: string): boolean => {

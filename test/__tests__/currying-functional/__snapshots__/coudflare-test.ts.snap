@@ -30050,7 +30050,7 @@ export interface Response$radar$get$attacks$layer7$summary$by$managed$rules$Stat
             };
             summary_0: {
                 Bot: string;
-                HTTP Anomaly: string;
+                "HTTP Anomaly": string;
             };
         };
         success: boolean;
@@ -33453,7 +33453,7 @@ export interface Response$radar$get$http$summary$by$tls$version$Status$200 {
                 "TLS 1.1": string;
                 "TLS 1.2": string;
                 "TLS 1.3": string;
-                TLS QUIC: string;
+                "TLS QUIC": string;
             };
         };
         success: boolean;
@@ -33796,7 +33796,7 @@ export interface Response$radar$get$http$timeseries$group$by$tls$version$Status$
                 "TLS 1.1": string[];
                 "TLS 1.2": string[];
                 "TLS 1.3": string[];
-                TLS QUIC: string[];
+                "TLS QUIC": string[];
                 timestamps: string[];
             };
         };
