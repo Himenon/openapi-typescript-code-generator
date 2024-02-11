@@ -79,9 +79,9 @@ export const generateCodeGeneratorParamsArray = (
 ): CodeGenerator.Params[] => {
   const operationState = store.getNoReferenceOperationState();
   const params: CodeGenerator.Params[] = [];
-  Object.entries(operationState).forEach(([operationId, item]) => {
+  for (const [operationId, item] of Object.entries(operationState)) {
     if (allowOperationIds && !allowOperationIds.includes(operationId)) {
-      return;
+      continue;
     }
     const responseSuccessNames = extractResponseNamesByStatusCode("success", item.responses).map(statusCode =>
       converterContext.generateResponseName(operationId, statusCode),
@@ -125,7 +125,7 @@ export const generateCodeGeneratorParamsArray = (
       operationParams: item,
     };
     params.push(formatParams);
-  });
+  }
 
   return params;
 };
