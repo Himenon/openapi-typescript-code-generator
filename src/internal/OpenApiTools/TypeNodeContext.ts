@@ -7,10 +7,10 @@ import type { OpenApi } from "../../types";
 import { DevelopmentError } from "../Exception";
 import * as TypeScriptCodeGenerator from "../TsGenerator";
 import * as ConverterContext from "./ConverterContext";
-import * as ToTypeNode from "./toTypeNode";
-import type * as Walker from "./Walker";
 import * as Guard from "./Guard";
+import type * as Walker from "./Walker";
 import * as Reference from "./components/Reference";
+import * as ToTypeNode from "./toTypeNode";
 
 export interface ReferencePathSet {
   pathArray: string[];
@@ -52,15 +52,16 @@ const calculateReferencePath = (
       if (statement) {
         names.push(statement.name);
         return current;
-      } else if (statement2) {
+      }
+      if (statement2) {
         names.push(statement2.name);
         return current;
-      } else if (statement3) {
+      }
+      if (statement3) {
         names.push(statement3.name);
         return current;
-      } else {
-        unresolvedPaths.push(lastPath);
       }
+      unresolvedPaths.push(lastPath);
     } else {
       const statement = store.getStatement(current, "namespace");
       if (statement) {
@@ -73,7 +74,7 @@ const calculateReferencePath = (
     return current;
   }, base);
   if (names.length === 0) {
-    throw new DevelopmentError("Local Reference Error \n" + JSON.stringify({ pathArray, names, base }, null, 2));
+    throw new DevelopmentError(`Local Reference Error \n${JSON.stringify({ pathArray, names, base }, null, 2)}`);
   }
   const maybeResolvedNameFragments = names.concat(unresolvedPaths).map(converterContext.escapeDeclarationText);
   return {

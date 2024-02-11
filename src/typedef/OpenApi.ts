@@ -1,4 +1,4 @@
-import type { JSONSchema7, JSONSchema7TypeName, JSONSchema7Type as JSONSchemaType } from "json-schema";
+import type { JSONSchema7, JSONSchema7Type as JSONSchemaType, JSONSchema7TypeName } from "json-schema";
 
 export type JSONSchemaTypeName = JSONSchema7TypeName;
 

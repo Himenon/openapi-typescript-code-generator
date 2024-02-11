@@ -8,7 +8,7 @@ import type { OpenApi, Validator } from "../../types";
 import openapiSchema from "./openapi.json" assert { type: "json" };
 
 const showLogs = (logs: any[], logger?: Validator.Logger) => {
-  if (logger && logger.displayLogLines && logger.displayLogLines > 0) {
+  if (logger?.displayLogLines && logger.displayLogLines > 0) {
     const latestLogs = logs.slice(0, logger.displayLogLines);
     const moreLogNum = logs.length - latestLogs.length;
     console.error("Correct the validation error before generating the code.");

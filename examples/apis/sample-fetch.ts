@@ -17,7 +17,7 @@ const apiClientImpl: ApiClient<RequestOption> = {
     options?: RequestOption,
   ): Promise<any> => {
     const query = generateQueryString(queryParameters);
-    const requestUrl = query ? url + "?" + encodeURI(query) : url;
+    const requestUrl = query ? `${url}?${encodeURI(query)}` : url;
     const response = await fetch(requestUrl, {
       body: JSON.stringify(requestBody),
       headers,

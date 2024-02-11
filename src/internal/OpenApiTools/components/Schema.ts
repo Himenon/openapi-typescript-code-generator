@@ -5,9 +5,9 @@ import { FeatureDevelopmentError } from "../../Exception";
 import { Factory } from "../../TsGenerator";
 import * as ConvertContext from "../ConverterContext";
 import * as Guard from "../Guard";
+import type * as Walker from "../Walker";
 import * as ToTypeNode from "../toTypeNode";
 import type { AnySchema, ArraySchema, ObjectSchema, PrimitiveSchema } from "../types";
-import type * as Walker from "../Walker";
 import * as ExternalDocumentation from "./ExternalDocumentation";
 
 const nullable = (factory: Factory.Type, typeNode: ts.TypeNode, nullable: boolean): ts.TypeNode => {

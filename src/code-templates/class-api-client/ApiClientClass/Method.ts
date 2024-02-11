@@ -4,8 +4,8 @@ import ts from "typescript";
 
 import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
-import type { Option } from "../../_shared/types";
 import * as MethodBody from "../../_shared/MethodBody";
+import type { Option } from "../../_shared/types";
 
 export { MethodBody };
 

@@ -91,7 +91,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
   const _baseUrl = baseUrl.replace(/\/$/, "");
   return {
     getBooks: (option?: RequestOption): Promise<Response$getBooks$Status$200["application/json"]> => {
-      const url = _baseUrl + `/get/books`;
+      const url = `${_baseUrl}/get/books`;
       const headers = {
         Accept: "application/json",
       };
@@ -105,7 +105,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
       );
     },
     searchBooks: (params: Params$searchBooks, option?: RequestOption): Promise<Response$searchBooks$Status$200["application/json"]> => {
-      const url = _baseUrl + `/search/books`;
+      const url = `${_baseUrl}/search/books`;
       const headers = {
         Accept: "application/json",
       };

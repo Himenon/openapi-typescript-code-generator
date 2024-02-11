@@ -1,6 +1,6 @@
 import type { OpenApi } from "../../types";
-import * as Types from "./types";
 import { Def } from "./Walker";
+import * as Types from "./types";
 
 export const isReference = (data: any): data is OpenApi.Reference => {
   if (typeof data !== "object" || data === null) {

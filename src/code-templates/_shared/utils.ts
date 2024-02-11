@@ -53,43 +53,40 @@ const getTemplateSpan = (
           }),
         }),
       ];
-    } else {
-      return [
-        factory.TemplateSpan.create({
-          expression: currentItem.value,
-          literal: factory.TemplateTail.create({
-            text: "",
-          }),
-        }),
-        factory.TemplateSpan.create({
-          expression: nextItem.value,
-          literal: factory.TemplateMiddle.create({
-            text: "",
-          }),
-        }),
-      ];
     }
-  } else {
-    if (lastIndex === nextIndex) {
-      return [
-        factory.TemplateSpan.create({
-          expression: currentItem.value,
-          literal: factory.TemplateTail.create({
-            text: nextItem.value,
-          }),
+    return [
+      factory.TemplateSpan.create({
+        expression: currentItem.value,
+        literal: factory.TemplateTail.create({
+          text: "",
         }),
-      ];
-    } else {
-      return [
-        factory.TemplateSpan.create({
-          expression: currentItem.value,
-          literal: factory.TemplateMiddle.create({
-            text: nextItem.value,
-          }),
+      }),
+      factory.TemplateSpan.create({
+        expression: nextItem.value,
+        literal: factory.TemplateMiddle.create({
+          text: "",
         }),
-      ];
-    }
+      }),
+    ];
   }
+  if (lastIndex === nextIndex) {
+    return [
+      factory.TemplateSpan.create({
+        expression: currentItem.value,
+        literal: factory.TemplateTail.create({
+          text: nextItem.value,
+        }),
+      }),
+    ];
+  }
+  return [
+    factory.TemplateSpan.create({
+      expression: currentItem.value,
+      literal: factory.TemplateMiddle.create({
+        text: nextItem.value,
+      }),
+    }),
+  ];
 };
 
 /**
@@ -172,11 +169,10 @@ export const splitVariableText = (text: string): VariableElement[] => {
         });
       }
       return splitList;
-    } else {
-      const dotSplited = value.split(".");
-      const items = dotSplited.map<VariableAccessIdentifer>(childValue => ({ kind: "string", value: childValue }));
-      return splitList.concat(items);
     }
+    const dotSplited = value.split(".");
+    const items = dotSplited.map<VariableAccessIdentifer>(childValue => ({ kind: "string", value: childValue }));
+    return splitList.concat(items);
   }, []);
 };
 
@@ -185,7 +181,7 @@ export const generateVariableIdentifier = (
   name: string,
 ): ts.Identifier | ts.PropertyAccessExpression | ts.ElementAccessExpression => {
   if (name.startsWith("/")) {
-    throw new Error("can't start '/'. name=" + name);
+    throw new Error(`can't start '/'. name=${name}`);
   }
   const list = splitVariableText(name);
   // Object参照していない変数名の場合

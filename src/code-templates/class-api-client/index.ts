@@ -3,8 +3,8 @@ import ts from "typescript";
 import { TsGenerator } from "../../api";
 import type { CodeGenerator } from "../../types";
 import * as ApiClientArgument from "../_shared/ApiClientArgument";
-import * as ApiClientClass from "./ApiClientClass";
 import type { Option } from "../_shared/types";
+import * as ApiClientClass from "./ApiClientClass";
 
 export { Option };
 

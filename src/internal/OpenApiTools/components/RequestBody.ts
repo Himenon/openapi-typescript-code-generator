@@ -3,8 +3,8 @@ import ts from "typescript";
 import type { OpenApi } from "../../../types";
 import { Factory } from "../../TsGenerator";
 import * as ConverterContext from "../ConverterContext";
-import * as ToTypeNode from "../toTypeNode";
 import type * as Walker from "../Walker";
+import * as ToTypeNode from "../toTypeNode";
 import * as MediaType from "./MediaType";
 
 export const generateInterface = (

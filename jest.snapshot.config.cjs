@@ -8,7 +8,7 @@ module.exports = {
   testEnvironment: "node",
   extensionsToTreatAsEsm: [".ts", ".tsx"],
   testMatch: ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[tj]s?(x)"],
-  transformIgnorePatterns: [`/node_modules/(?!|dot-prop)`],
+  transformIgnorePatterns: ["/node_modules/(?!|dot-prop)"],
   transform: {
     "^.+\\.(t|j)sx?$": [
       "@swc/jest",

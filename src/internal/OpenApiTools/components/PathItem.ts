@@ -3,8 +3,8 @@ import ts from "typescript";
 import type { OpenApi } from "../../../types";
 import { Factory } from "../../TsGenerator";
 import * as ConverterContext from "../ConverterContext";
-import * as ToTypeNode from "../toTypeNode";
 import type * as Walker from "../Walker";
+import * as ToTypeNode from "../toTypeNode";
 import * as Operation from "./Operation";
 import * as Parameters from "./Parameters";
 import * as Servers from "./Servers";
@@ -22,7 +22,7 @@ export const generateNamespace = (
   options?: { topComment?: string },
 ): void => {
   const basePath = `${parentPath}/${name}`;
-  const topComment = options && options.topComment && options.topComment;
+  const topComment = options?.topComment;
   store.addStatement(basePath, {
     kind: "namespace",
     name,

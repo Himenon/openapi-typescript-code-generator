@@ -6,8 +6,8 @@ import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as InferredType from "../InferredType";
 import * as Name from "../Name";
-import * as ToTypeNode from "../toTypeNode";
 import type * as Walker from "../Walker";
+import * as ToTypeNode from "../toTypeNode";
 import * as Reference from "./Reference";
 import * as Schema from "./Schema";
 
@@ -169,6 +169,6 @@ export const generateNamespace = (
         { override: true },
       );
     }
-    throw new UnSupportError("schema.type = Array[] not supported. " + JSON.stringify(schema));
+    throw new UnSupportError(`schema.type = Array[] not supported. ${JSON.stringify(schema)}`);
   });
 };

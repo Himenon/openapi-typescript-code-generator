@@ -1,7 +1,7 @@
 import { TsGenerator } from "@himenon/openapi-typescript-code-generator/dist/api";
 import * as Types from "@himenon/openapi-typescript-code-generator/dist/types";
 
-interface Option {}
+type Option = {};
 
 const factory = TsGenerator.Factory.create();
 

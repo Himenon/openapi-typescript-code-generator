@@ -2,8 +2,8 @@ import * as DotProp from "dot-prop";
 
 import type { OpenApi } from "../../types";
 import { DevelopmentError } from "../Exception";
-import * as Reference from "../OpenApiTools/components/Reference";
 import * as Guard from "../OpenApiTools/Guard";
+import * as Reference from "../OpenApiTools/components/Reference";
 
 export { OpenApi };
 
@@ -87,13 +87,13 @@ const resolveLocalReference = (entryPoint: string, currentPoint: string, obj: an
         console.warn(`Feature support: ${obj.$ref}`);
         return {};
       }
-      throw new DevelopmentError("まずはremote referenceを解決してください\n" + JSON.stringify(obj, null, 2));
+      throw new DevelopmentError(`まずはremote referenceを解決してください\n${JSON.stringify(obj, null, 2)}`);
     }
     if (isLocalReference(obj)) {
       const ref = Reference.generateLocalReference(obj);
       if (!ref) {
         throw new DevelopmentError(
-          `This is an implementation error. Please report any reproducible information below.\nhttps://github.com/Himenon/openapi-typescript-code-generator/issues/new/choose\n`,
+          "This is an implementation error. Please report any reproducible information below.\nhttps://github.com/Himenon/openapi-typescript-code-generator/issues/new/choose\n",
         );
       }
       // "." in the key

@@ -8,8 +8,8 @@ import * as CallRequest from "./CallRequest";
 import * as HeaderParameter from "./HeaderParameter";
 import * as PathParameter from "./PathParameter";
 import * as QueryParameter from "./QueryParameter";
-import type { MethodType } from "./types";
 import { createEncodingMap } from "./createEncodingMap";
+import type { MethodType } from "./types";
 
 export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params, methodType: MethodType): ts.Statement[] => {
   const statements: ts.Statement[] = [];
@@ -27,7 +27,7 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
   if (convertedParams.has2OrMoreRequestContentTypes) {
     initialHeaderObject["Content-Type"] = {
       type: "variable",
-      value: `params.headers.Content-Type`,
+      value: "params.headers.Content-Type",
     };
   } else if (convertedParams.requestFirstContentType) {
     initialHeaderObject["Content-Type"] = {
@@ -36,12 +36,12 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
     };
   }
   if (convertedParams.has2OrMoreSuccessResponseContentTypes) {
-    initialHeaderObject["Accept"] = {
+    initialHeaderObject.Accept = {
       type: "variable",
-      value: `params.headers.Accept`,
+      value: "params.headers.Accept",
     };
   } else if (convertedParams.successResponseFirstContentType) {
-    initialHeaderObject["Accept"] = {
+    initialHeaderObject.Accept = {
       type: "string",
       value: convertedParams.successResponseFirstContentType,
     };

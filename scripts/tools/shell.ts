@@ -1,4 +1,4 @@
-import { execa, ExecaChildProcess } from "execa";
+import { ExecaChildProcess, execa } from "execa";
 
 export const shell = (command: string, cwd: string = process.cwd()): ExecaChildProcess<string> => {
   return execa(command, {
