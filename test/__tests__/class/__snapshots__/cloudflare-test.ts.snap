@@ -42676,21 +42676,17 @@ export interface Params$account$level$custom$nameservers$add$account$custom$name
     parameter: Parameter$account$level$custom$nameservers$add$account$custom$nameserver;
     requestBody: RequestBody$account$level$custom$nameservers$add$account$custom$nameserver["application/json"];
 }
-export type RequestContentType$account$level$custom$nameservers$delete$account$custom$nameserver = keyof RequestBody$account$level$custom$nameservers$delete$account$custom$nameserver;
 export type ResponseContentType$account$level$custom$nameservers$delete$account$custom$nameserver = keyof Response$account$level$custom$nameservers$delete$account$custom$nameserver$Status$200;
 export interface Params$account$level$custom$nameservers$delete$account$custom$nameserver {
     parameter: Parameter$account$level$custom$nameservers$delete$account$custom$nameserver;
-    requestBody: RequestBody$account$level$custom$nameservers$delete$account$custom$nameserver[T];
 }
 export type ResponseContentType$account$level$custom$nameservers$get$eligible$zones$for$account$custom$nameservers = keyof Response$account$level$custom$nameservers$get$eligible$zones$for$account$custom$nameservers$Status$200;
 export interface Params$account$level$custom$nameservers$get$eligible$zones$for$account$custom$nameservers {
     parameter: Parameter$account$level$custom$nameservers$get$eligible$zones$for$account$custom$nameservers;
 }
-export type RequestContentType$account$level$custom$nameservers$verify$account$custom$nameserver$glue$records = keyof RequestBody$account$level$custom$nameservers$verify$account$custom$nameserver$glue$records;
 export type ResponseContentType$account$level$custom$nameservers$verify$account$custom$nameserver$glue$records = keyof Response$account$level$custom$nameservers$verify$account$custom$nameserver$glue$records$Status$200;
 export interface Params$account$level$custom$nameservers$verify$account$custom$nameserver$glue$records {
     parameter: Parameter$account$level$custom$nameservers$verify$account$custom$nameserver$glue$records;
-    requestBody: RequestBody$account$level$custom$nameservers$verify$account$custom$nameserver$glue$records[T];
 }
 export type ResponseContentType$cloudflare$d1$list$databases = keyof Response$cloudflare$d1$list$databases$Status$200;
 export interface Params$cloudflare$d1$list$databases {
@@ -42822,11 +42818,9 @@ export interface Params$dlp$profiles$update$custom$profile {
     parameter: Parameter$dlp$profiles$update$custom$profile;
     requestBody: RequestBody$dlp$profiles$update$custom$profile["application/json"];
 }
-export type RequestContentType$dlp$profiles$delete$custom$profile = keyof RequestBody$dlp$profiles$delete$custom$profile;
 export type ResponseContentType$dlp$profiles$delete$custom$profile = keyof Response$dlp$profiles$delete$custom$profile$Status$200;
 export interface Params$dlp$profiles$delete$custom$profile {
     parameter: Parameter$dlp$profiles$delete$custom$profile;
-    requestBody: RequestBody$dlp$profiles$delete$custom$profile[T];
 }
 export type ResponseContentType$dlp$profiles$get$predefined$profile = keyof Response$dlp$profiles$get$predefined$profile$Status$200;
 export interface Params$dlp$profiles$get$predefined$profile {
@@ -42852,11 +42846,9 @@ export type ResponseContentType$dns$firewall$dns$firewall$cluster$details = keyo
 export interface Params$dns$firewall$dns$firewall$cluster$details {
     parameter: Parameter$dns$firewall$dns$firewall$cluster$details;
 }
-export type RequestContentType$dns$firewall$delete$dns$firewall$cluster = keyof RequestBody$dns$firewall$delete$dns$firewall$cluster;
 export type ResponseContentType$dns$firewall$delete$dns$firewall$cluster = keyof Response$dns$firewall$delete$dns$firewall$cluster$Status$200;
 export interface Params$dns$firewall$delete$dns$firewall$cluster {
     parameter: Parameter$dns$firewall$delete$dns$firewall$cluster;
-    requestBody: RequestBody$dns$firewall$delete$dns$firewall$cluster[T];
 }
 export type RequestContentType$dns$firewall$update$dns$firewall$cluster = keyof RequestBody$dns$firewall$update$dns$firewall$cluster;
 export type ResponseContentType$dns$firewall$update$dns$firewall$cluster = keyof Response$dns$firewall$update$dns$firewall$cluster$Status$200;
@@ -42926,11 +42918,9 @@ export interface Params$zero$trust$lists$update$zero$trust$list {
     parameter: Parameter$zero$trust$lists$update$zero$trust$list;
     requestBody: RequestBody$zero$trust$lists$update$zero$trust$list["application/json"];
 }
-export type RequestContentType$zero$trust$lists$delete$zero$trust$list = keyof RequestBody$zero$trust$lists$delete$zero$trust$list;
 export type ResponseContentType$zero$trust$lists$delete$zero$trust$list = keyof Response$zero$trust$lists$delete$zero$trust$list$Status$200;
 export interface Params$zero$trust$lists$delete$zero$trust$list {
     parameter: Parameter$zero$trust$lists$delete$zero$trust$list;
-    requestBody: RequestBody$zero$trust$lists$delete$zero$trust$list[T];
 }
 export type RequestContentType$zero$trust$lists$patch$zero$trust$list = keyof RequestBody$zero$trust$lists$patch$zero$trust$list;
 export type ResponseContentType$zero$trust$lists$patch$zero$trust$list = keyof Response$zero$trust$lists$patch$zero$trust$list$Status$200;
@@ -42962,11 +42952,9 @@ export interface Params$zero$trust$gateway$locations$update$zero$trust$gateway$l
     parameter: Parameter$zero$trust$gateway$locations$update$zero$trust$gateway$location;
     requestBody: RequestBody$zero$trust$gateway$locations$update$zero$trust$gateway$location["application/json"];
 }
-export type RequestContentType$zero$trust$gateway$locations$delete$zero$trust$gateway$location = keyof RequestBody$zero$trust$gateway$locations$delete$zero$trust$gateway$location;
 export type ResponseContentType$zero$trust$gateway$locations$delete$zero$trust$gateway$location = keyof Response$zero$trust$gateway$locations$delete$zero$trust$gateway$location$Status$200;
 export interface Params$zero$trust$gateway$locations$delete$zero$trust$gateway$location {
     parameter: Parameter$zero$trust$gateway$locations$delete$zero$trust$gateway$location;
-    requestBody: RequestBody$zero$trust$gateway$locations$delete$zero$trust$gateway$location[T];
 }
 export type ResponseContentType$zero$trust$accounts$get$logging$settings$for$the$zero$trust$account = keyof Response$zero$trust$accounts$get$logging$settings$for$the$zero$trust$account$Status$200;
 export interface Params$zero$trust$accounts$get$logging$settings$for$the$zero$trust$account {
@@ -42992,11 +42980,9 @@ export type ResponseContentType$zero$trust$gateway$proxy$endpoints$proxy$endpoin
 export interface Params$zero$trust$gateway$proxy$endpoints$proxy$endpoint$details {
     parameter: Parameter$zero$trust$gateway$proxy$endpoints$proxy$endpoint$details;
 }
-export type RequestContentType$zero$trust$gateway$proxy$endpoints$delete$proxy$endpoint = keyof RequestBody$zero$trust$gateway$proxy$endpoints$delete$proxy$endpoint;
 export type ResponseContentType$zero$trust$gateway$proxy$endpoints$delete$proxy$endpoint = keyof Response$zero$trust$gateway$proxy$endpoints$delete$proxy$endpoint$Status$200;
 export interface Params$zero$trust$gateway$proxy$endpoints$delete$proxy$endpoint {
     parameter: Parameter$zero$trust$gateway$proxy$endpoints$delete$proxy$endpoint;
-    requestBody: RequestBody$zero$trust$gateway$proxy$endpoints$delete$proxy$endpoint[T];
 }
 export type RequestContentType$zero$trust$gateway$proxy$endpoints$update$proxy$endpoint = keyof RequestBody$zero$trust$gateway$proxy$endpoints$update$proxy$endpoint;
 export type ResponseContentType$zero$trust$gateway$proxy$endpoints$update$proxy$endpoint = keyof Response$zero$trust$gateway$proxy$endpoints$update$proxy$endpoint$Status$200;
@@ -43024,11 +43010,9 @@ export interface Params$zero$trust$gateway$rules$update$zero$trust$gateway$rule 
     parameter: Parameter$zero$trust$gateway$rules$update$zero$trust$gateway$rule;
     requestBody: RequestBody$zero$trust$gateway$rules$update$zero$trust$gateway$rule["application/json"];
 }
-export type RequestContentType$zero$trust$gateway$rules$delete$zero$trust$gateway$rule = keyof RequestBody$zero$trust$gateway$rules$delete$zero$trust$gateway$rule;
 export type ResponseContentType$zero$trust$gateway$rules$delete$zero$trust$gateway$rule = keyof Response$zero$trust$gateway$rules$delete$zero$trust$gateway$rule$Status$200;
 export interface Params$zero$trust$gateway$rules$delete$zero$trust$gateway$rule {
     parameter: Parameter$zero$trust$gateway$rules$delete$zero$trust$gateway$rule;
-    requestBody: RequestBody$zero$trust$gateway$rules$delete$zero$trust$gateway$rule[T];
 }
 export type ResponseContentType$list$hyperdrive = keyof Response$list$hyperdrive$Status$200;
 export interface Params$list$hyperdrive {
@@ -43068,11 +43052,9 @@ export type ResponseContentType$cloudflare$images$image$details = keyof Response
 export interface Params$cloudflare$images$image$details {
     parameter: Parameter$cloudflare$images$image$details;
 }
-export type RequestContentType$cloudflare$images$delete$image = keyof RequestBody$cloudflare$images$delete$image;
 export type ResponseContentType$cloudflare$images$delete$image = keyof Response$cloudflare$images$delete$image$Status$200;
 export interface Params$cloudflare$images$delete$image {
     parameter: Parameter$cloudflare$images$delete$image;
-    requestBody: RequestBody$cloudflare$images$delete$image[T];
 }
 export type RequestContentType$cloudflare$images$update$image = keyof RequestBody$cloudflare$images$update$image;
 export type ResponseContentType$cloudflare$images$update$image = keyof Response$cloudflare$images$update$image$Status$200;
@@ -43106,11 +43088,9 @@ export type ResponseContentType$cloudflare$images$variants$variant$details = key
 export interface Params$cloudflare$images$variants$variant$details {
     parameter: Parameter$cloudflare$images$variants$variant$details;
 }
-export type RequestContentType$cloudflare$images$variants$delete$a$variant = keyof RequestBody$cloudflare$images$variants$delete$a$variant;
 export type ResponseContentType$cloudflare$images$variants$delete$a$variant = keyof Response$cloudflare$images$variants$delete$a$variant$Status$200;
 export interface Params$cloudflare$images$variants$delete$a$variant {
     parameter: Parameter$cloudflare$images$variants$delete$a$variant;
-    requestBody: RequestBody$cloudflare$images$variants$delete$a$variant[T];
 }
 export type RequestContentType$cloudflare$images$variants$update$a$variant = keyof RequestBody$cloudflare$images$variants$update$a$variant;
 export type ResponseContentType$cloudflare$images$variants$update$a$variant = keyof Response$cloudflare$images$variants$update$a$variant$Status$200;
@@ -43198,11 +43178,9 @@ export interface Params$put$accounts$account_identifier$logpush$jobs$job_identif
     parameter: Parameter$put$accounts$account_identifier$logpush$jobs$job_identifier;
     requestBody: RequestBody$put$accounts$account_identifier$logpush$jobs$job_identifier["application/json"];
 }
-export type RequestContentType$delete$accounts$account_identifier$logpush$jobs$job_identifier = keyof RequestBody$delete$accounts$account_identifier$logpush$jobs$job_identifier;
 export type ResponseContentType$delete$accounts$account_identifier$logpush$jobs$job_identifier = keyof Response$delete$accounts$account_identifier$logpush$jobs$job_identifier$Status$200;
 export interface Params$delete$accounts$account_identifier$logpush$jobs$job_identifier {
     parameter: Parameter$delete$accounts$account_identifier$logpush$jobs$job_identifier;
-    requestBody: RequestBody$delete$accounts$account_identifier$logpush$jobs$job_identifier[T];
 }
 export type RequestContentType$post$accounts$account_identifier$logpush$ownership = keyof RequestBody$post$accounts$account_identifier$logpush$ownership;
 export type ResponseContentType$post$accounts$account_identifier$logpush$ownership = keyof Response$post$accounts$account_identifier$logpush$ownership$Status$200;
@@ -43238,11 +43216,9 @@ export interface Params$put$accounts$account_identifier$logs$control$cmb$config 
     parameter: Parameter$put$accounts$account_identifier$logs$control$cmb$config;
     requestBody: RequestBody$put$accounts$account_identifier$logs$control$cmb$config["application/json"];
 }
-export type RequestContentType$delete$accounts$account_identifier$logs$control$cmb$config = keyof RequestBody$delete$accounts$account_identifier$logs$control$cmb$config;
 export type ResponseContentType$delete$accounts$account_identifier$logs$control$cmb$config = keyof Response$delete$accounts$account_identifier$logs$control$cmb$config$Status$200;
 export interface Params$delete$accounts$account_identifier$logs$control$cmb$config {
     parameter: Parameter$delete$accounts$account_identifier$logs$control$cmb$config;
-    requestBody: RequestBody$delete$accounts$account_identifier$logs$control$cmb$config[T];
 }
 export type ResponseContentType$pages$project$get$projects = keyof Response$pages$project$get$projects$Status$200;
 export interface Params$pages$project$get$projects {
@@ -43258,11 +43234,9 @@ export type ResponseContentType$pages$project$get$project = keyof Response$pages
 export interface Params$pages$project$get$project {
     parameter: Parameter$pages$project$get$project;
 }
-export type RequestContentType$pages$project$delete$project = keyof RequestBody$pages$project$delete$project;
 export type ResponseContentType$pages$project$delete$project = keyof Response$pages$project$delete$project$Status$200;
 export interface Params$pages$project$delete$project {
     parameter: Parameter$pages$project$delete$project;
-    requestBody: RequestBody$pages$project$delete$project[T];
 }
 export type RequestContentType$pages$project$update$project = keyof RequestBody$pages$project$update$project;
 export type ResponseContentType$pages$project$update$project = keyof Response$pages$project$update$project$Status$200;
@@ -43284,27 +43258,21 @@ export type ResponseContentType$pages$deployment$get$deployment$info = keyof Res
 export interface Params$pages$deployment$get$deployment$info {
     parameter: Parameter$pages$deployment$get$deployment$info;
 }
-export type RequestContentType$pages$deployment$delete$deployment = keyof RequestBody$pages$deployment$delete$deployment;
 export type ResponseContentType$pages$deployment$delete$deployment = keyof Response$pages$deployment$delete$deployment$Status$200;
 export interface Params$pages$deployment$delete$deployment {
     parameter: Parameter$pages$deployment$delete$deployment;
-    requestBody: RequestBody$pages$deployment$delete$deployment[T];
 }
 export type ResponseContentType$pages$deployment$get$deployment$logs = keyof Response$pages$deployment$get$deployment$logs$Status$200;
 export interface Params$pages$deployment$get$deployment$logs {
     parameter: Parameter$pages$deployment$get$deployment$logs;
 }
-export type RequestContentType$pages$deployment$retry$deployment = keyof RequestBody$pages$deployment$retry$deployment;
 export type ResponseContentType$pages$deployment$retry$deployment = keyof Response$pages$deployment$retry$deployment$Status$200;
 export interface Params$pages$deployment$retry$deployment {
     parameter: Parameter$pages$deployment$retry$deployment;
-    requestBody: RequestBody$pages$deployment$retry$deployment[T];
 }
-export type RequestContentType$pages$deployment$rollback$deployment = keyof RequestBody$pages$deployment$rollback$deployment;
 export type ResponseContentType$pages$deployment$rollback$deployment = keyof Response$pages$deployment$rollback$deployment$Status$200;
 export interface Params$pages$deployment$rollback$deployment {
     parameter: Parameter$pages$deployment$rollback$deployment;
-    requestBody: RequestBody$pages$deployment$rollback$deployment[T];
 }
 export type ResponseContentType$pages$domains$get$domains = keyof Response$pages$domains$get$domains$Status$200;
 export interface Params$pages$domains$get$domains {
@@ -43320,17 +43288,13 @@ export type ResponseContentType$pages$domains$get$domain = keyof Response$pages$
 export interface Params$pages$domains$get$domain {
     parameter: Parameter$pages$domains$get$domain;
 }
-export type RequestContentType$pages$domains$delete$domain = keyof RequestBody$pages$domains$delete$domain;
 export type ResponseContentType$pages$domains$delete$domain = keyof Response$pages$domains$delete$domain$Status$200;
 export interface Params$pages$domains$delete$domain {
     parameter: Parameter$pages$domains$delete$domain;
-    requestBody: RequestBody$pages$domains$delete$domain[T];
 }
-export type RequestContentType$pages$domains$patch$domain = keyof RequestBody$pages$domains$patch$domain;
 export type ResponseContentType$pages$domains$patch$domain = keyof Response$pages$domains$patch$domain$Status$200;
 export interface Params$pages$domains$patch$domain {
     parameter: Parameter$pages$domains$patch$domain;
-    requestBody: RequestBody$pages$domains$patch$domain[T];
 }
 export type ResponseContentType$pages$purge$build$cache = keyof Response$pages$purge$build$cache$Status$200;
 export interface Params$pages$purge$build$cache {
@@ -43402,11 +43366,9 @@ export interface Params$lists$update$a$list {
     parameter: Parameter$lists$update$a$list;
     requestBody: RequestBody$lists$update$a$list["application/json"];
 }
-export type RequestContentType$lists$delete$a$list = keyof RequestBody$lists$delete$a$list;
 export type ResponseContentType$lists$delete$a$list = keyof Response$lists$delete$a$list$Status$200;
 export interface Params$lists$delete$a$list {
     parameter: Parameter$lists$delete$a$list;
-    requestBody: RequestBody$lists$delete$a$list[T];
 }
 export type ResponseContentType$lists$get$list$items = keyof Response$lists$get$list$items$Status$200;
 export interface Params$lists$get$list$items {
@@ -43506,11 +43468,9 @@ export type ResponseContentType$stream$videos$list$videos = keyof Response$strea
 export interface Params$stream$videos$list$videos {
     parameter: Parameter$stream$videos$list$videos;
 }
-export type RequestContentType$stream$videos$initiate$video$uploads$using$tus = keyof RequestBody$stream$videos$initiate$video$uploads$using$tus;
 export type ResponseContentType$stream$videos$initiate$video$uploads$using$tus = keyof Response$stream$videos$initiate$video$uploads$using$tus$Status$200;
 export interface Params$stream$videos$initiate$video$uploads$using$tus {
     parameter: Parameter$stream$videos$initiate$video$uploads$using$tus;
-    requestBody: RequestBody$stream$videos$initiate$video$uploads$using$tus[T];
 }
 export type ResponseContentType$stream$videos$retrieve$video$details = keyof Response$stream$videos$retrieve$video$details$Status$200;
 export interface Params$stream$videos$retrieve$video$details {
@@ -43522,11 +43482,9 @@ export interface Params$stream$videos$update$video$details {
     parameter: Parameter$stream$videos$update$video$details;
     requestBody: RequestBody$stream$videos$update$video$details["application/json"];
 }
-export type RequestContentType$stream$videos$delete$video = keyof RequestBody$stream$videos$delete$video;
 export type ResponseContentType$stream$videos$delete$video = keyof Response$stream$videos$delete$video$Status$200;
 export interface Params$stream$videos$delete$video {
     parameter: Parameter$stream$videos$delete$video;
-    requestBody: RequestBody$stream$videos$delete$video[T];
 }
 export type ResponseContentType$list$audio$tracks = keyof Response$list$audio$tracks$Status$200;
 export interface Params$list$audio$tracks {
@@ -43558,21 +43516,17 @@ export interface Params$stream$subtitles$$captions$upload$captions$or$subtitles 
     parameter: Parameter$stream$subtitles$$captions$upload$captions$or$subtitles;
     requestBody: RequestBody$stream$subtitles$$captions$upload$captions$or$subtitles["multipart/form-data"];
 }
-export type RequestContentType$stream$subtitles$$captions$delete$captions$or$subtitles = keyof RequestBody$stream$subtitles$$captions$delete$captions$or$subtitles;
 export type ResponseContentType$stream$subtitles$$captions$delete$captions$or$subtitles = keyof Response$stream$subtitles$$captions$delete$captions$or$subtitles$Status$200;
 export interface Params$stream$subtitles$$captions$delete$captions$or$subtitles {
     parameter: Parameter$stream$subtitles$$captions$delete$captions$or$subtitles;
-    requestBody: RequestBody$stream$subtitles$$captions$delete$captions$or$subtitles[T];
 }
 export type ResponseContentType$stream$m$p$4$downloads$list$downloads = keyof Response$stream$m$p$4$downloads$list$downloads$Status$200;
 export interface Params$stream$m$p$4$downloads$list$downloads {
     parameter: Parameter$stream$m$p$4$downloads$list$downloads;
 }
-export type RequestContentType$stream$m$p$4$downloads$create$downloads = keyof RequestBody$stream$m$p$4$downloads$create$downloads;
 export type ResponseContentType$stream$m$p$4$downloads$create$downloads = keyof Response$stream$m$p$4$downloads$create$downloads$Status$200;
 export interface Params$stream$m$p$4$downloads$create$downloads {
     parameter: Parameter$stream$m$p$4$downloads$create$downloads;
-    requestBody: RequestBody$stream$m$p$4$downloads$create$downloads[T];
 }
 export type ResponseContentType$stream$m$p$4$downloads$delete$downloads = keyof Response$stream$m$p$4$downloads$delete$downloads$Status$200;
 export interface Params$stream$m$p$4$downloads$delete$downloads {
@@ -43610,17 +43564,13 @@ export type ResponseContentType$stream$signing$keys$list$signing$keys = keyof Re
 export interface Params$stream$signing$keys$list$signing$keys {
     parameter: Parameter$stream$signing$keys$list$signing$keys;
 }
-export type RequestContentType$stream$signing$keys$create$signing$keys = keyof RequestBody$stream$signing$keys$create$signing$keys;
 export type ResponseContentType$stream$signing$keys$create$signing$keys = keyof Response$stream$signing$keys$create$signing$keys$Status$200;
 export interface Params$stream$signing$keys$create$signing$keys {
     parameter: Parameter$stream$signing$keys$create$signing$keys;
-    requestBody: RequestBody$stream$signing$keys$create$signing$keys[T];
 }
-export type RequestContentType$stream$signing$keys$delete$signing$keys = keyof RequestBody$stream$signing$keys$delete$signing$keys;
 export type ResponseContentType$stream$signing$keys$delete$signing$keys = keyof Response$stream$signing$keys$delete$signing$keys$Status$200;
 export interface Params$stream$signing$keys$delete$signing$keys {
     parameter: Parameter$stream$signing$keys$delete$signing$keys;
-    requestBody: RequestBody$stream$signing$keys$delete$signing$keys[T];
 }
 export type ResponseContentType$stream$live$inputs$list$live$inputs = keyof Response$stream$live$inputs$list$live$inputs$Status$200;
 export interface Params$stream$live$inputs$list$live$inputs {
@@ -43642,11 +43592,9 @@ export interface Params$stream$live$inputs$update$a$live$input {
     parameter: Parameter$stream$live$inputs$update$a$live$input;
     requestBody: RequestBody$stream$live$inputs$update$a$live$input["application/json"];
 }
-export type RequestContentType$stream$live$inputs$delete$a$live$input = keyof RequestBody$stream$live$inputs$delete$a$live$input;
 export type ResponseContentType$stream$live$inputs$delete$a$live$input = keyof Response$stream$live$inputs$delete$a$live$input$Status$200;
 export interface Params$stream$live$inputs$delete$a$live$input {
     parameter: Parameter$stream$live$inputs$delete$a$live$input;
-    requestBody: RequestBody$stream$live$inputs$delete$a$live$input[T];
 }
 export type ResponseContentType$stream$live$inputs$list$all$outputs$associated$with$a$specified$live$input = keyof Response$stream$live$inputs$list$all$outputs$associated$with$a$specified$live$input$Status$200;
 export interface Params$stream$live$inputs$list$all$outputs$associated$with$a$specified$live$input {
@@ -43664,11 +43612,9 @@ export interface Params$stream$live$inputs$update$an$output {
     parameter: Parameter$stream$live$inputs$update$an$output;
     requestBody: RequestBody$stream$live$inputs$update$an$output["application/json"];
 }
-export type RequestContentType$stream$live$inputs$delete$an$output = keyof RequestBody$stream$live$inputs$delete$an$output;
 export type ResponseContentType$stream$live$inputs$delete$an$output = keyof Response$stream$live$inputs$delete$an$output$Status$200;
 export interface Params$stream$live$inputs$delete$an$output {
     parameter: Parameter$stream$live$inputs$delete$an$output;
-    requestBody: RequestBody$stream$live$inputs$delete$an$output[T];
 }
 export type ResponseContentType$stream$videos$storage$usage = keyof Response$stream$videos$storage$usage$Status$200;
 export interface Params$stream$videos$storage$usage {
@@ -43688,11 +43634,9 @@ export type ResponseContentType$stream$watermark$profile$watermark$profile$detai
 export interface Params$stream$watermark$profile$watermark$profile$details {
     parameter: Parameter$stream$watermark$profile$watermark$profile$details;
 }
-export type RequestContentType$stream$watermark$profile$delete$watermark$profiles = keyof RequestBody$stream$watermark$profile$delete$watermark$profiles;
 export type ResponseContentType$stream$watermark$profile$delete$watermark$profiles = keyof Response$stream$watermark$profile$delete$watermark$profiles$Status$200;
 export interface Params$stream$watermark$profile$delete$watermark$profiles {
     parameter: Parameter$stream$watermark$profile$delete$watermark$profiles;
-    requestBody: RequestBody$stream$watermark$profile$delete$watermark$profiles[T];
 }
 export type ResponseContentType$stream$webhook$view$webhooks = keyof Response$stream$webhook$view$webhooks$Status$200;
 export interface Params$stream$webhook$view$webhooks {
@@ -43704,11 +43648,9 @@ export interface Params$stream$webhook$create$webhooks {
     parameter: Parameter$stream$webhook$create$webhooks;
     requestBody: RequestBody$stream$webhook$create$webhooks["application/json"];
 }
-export type RequestContentType$stream$webhook$delete$webhooks = keyof RequestBody$stream$webhook$delete$webhooks;
 export type ResponseContentType$stream$webhook$delete$webhooks = keyof Response$stream$webhook$delete$webhooks$Status$200;
 export interface Params$stream$webhook$delete$webhooks {
     parameter: Parameter$stream$webhook$delete$webhooks;
-    requestBody: RequestBody$stream$webhook$delete$webhooks[T];
 }
 export type ResponseContentType$tunnel$route$list$tunnel$routes = keyof Response$tunnel$route$list$tunnel$routes$Status$200;
 export interface Params$tunnel$route$list$tunnel$routes {
@@ -43758,11 +43700,9 @@ export interface Params$tunnel$virtual$network$create$a$virtual$network {
     parameter: Parameter$tunnel$virtual$network$create$a$virtual$network;
     requestBody: RequestBody$tunnel$virtual$network$create$a$virtual$network["application/json"];
 }
-export type RequestContentType$tunnel$virtual$network$delete$a$virtual$network = keyof RequestBody$tunnel$virtual$network$delete$a$virtual$network;
 export type ResponseContentType$tunnel$virtual$network$delete$a$virtual$network = keyof Response$tunnel$virtual$network$delete$a$virtual$network$Status$200;
 export interface Params$tunnel$virtual$network$delete$a$virtual$network {
     parameter: Parameter$tunnel$virtual$network$delete$a$virtual$network;
-    requestBody: RequestBody$tunnel$virtual$network$delete$a$virtual$network[T];
 }
 export type RequestContentType$tunnel$virtual$network$update$a$virtual$network = keyof RequestBody$tunnel$virtual$network$update$a$virtual$network;
 export type ResponseContentType$tunnel$virtual$network$update$a$virtual$network = keyof Response$tunnel$virtual$network$update$a$virtual$network$Status$200;
@@ -43857,11 +43797,9 @@ export interface Params$namespace$worker$script$upload$worker$module<T extends R
     parameter: Parameter$namespace$worker$script$upload$worker$module;
     requestBody: RequestBody$namespace$worker$script$upload$worker$module[T];
 }
-export type RequestContentType$namespace$worker$script$delete$worker = keyof RequestBody$namespace$worker$script$delete$worker;
 export type ResponseContentType$namespace$worker$script$delete$worker = keyof Response$namespace$worker$script$delete$worker$Status$200;
 export interface Params$namespace$worker$script$delete$worker {
     parameter: Parameter$namespace$worker$script$delete$worker;
-    requestBody: RequestBody$namespace$worker$script$delete$worker[T];
 }
 export type ResponseContentType$namespace$worker$get$script$content = keyof Response$namespace$worker$get$script$content$Status$200;
 export interface Params$namespace$worker$get$script$content {
@@ -43897,11 +43835,9 @@ export type ResponseContentType$worker$domain$get$a$domain = keyof Response$work
 export interface Params$worker$domain$get$a$domain {
     parameter: Parameter$worker$domain$get$a$domain;
 }
-export type RequestContentType$worker$domain$detach$from$domain = keyof RequestBody$worker$domain$detach$from$domain;
 export type ResponseContentType$worker$domain$detach$from$domain = keyof Response$worker$domain$detach$from$domain$Status$200;
 export interface Params$worker$domain$detach$from$domain {
     parameter: Parameter$worker$domain$detach$from$domain;
-    requestBody: RequestBody$worker$domain$detach$from$domain[T];
 }
 export type ResponseContentType$durable$objects$namespace$list$namespaces = keyof Response$durable$objects$namespace$list$namespaces$Status$200;
 export interface Params$durable$objects$namespace$list$namespaces {
@@ -43931,11 +43867,9 @@ export interface Params$queue$update$queue {
     parameter: Parameter$queue$update$queue;
     requestBody: RequestBody$queue$update$queue["application/json"];
 }
-export type RequestContentType$queue$delete$queue = keyof RequestBody$queue$delete$queue;
 export type ResponseContentType$queue$delete$queue = keyof Response$queue$delete$queue$Status$200;
 export interface Params$queue$delete$queue {
     parameter: Parameter$queue$delete$queue;
-    requestBody: RequestBody$queue$delete$queue[T];
 }
 export type ResponseContentType$queue$list$queue$consumers = keyof Response$queue$list$queue$consumers$Status$200;
 export interface Params$queue$list$queue$consumers {
@@ -43953,11 +43887,9 @@ export interface Params$queue$update$queue$consumer {
     parameter: Parameter$queue$update$queue$consumer;
     requestBody: RequestBody$queue$update$queue$consumer["application/json"];
 }
-export type RequestContentType$queue$delete$queue$consumer = keyof RequestBody$queue$delete$queue$consumer;
 export type ResponseContentType$queue$delete$queue$consumer = keyof Response$queue$delete$queue$consumer$Status$200;
 export interface Params$queue$delete$queue$consumer {
     parameter: Parameter$queue$delete$queue$consumer;
-    requestBody: RequestBody$queue$delete$queue$consumer[T];
 }
 export type ResponseContentType$worker$script$list$workers = keyof Response$worker$script$list$workers$Status$200;
 export interface Params$worker$script$list$workers {
@@ -43976,11 +43908,9 @@ export interface Params$worker$script$upload$worker$module<T extends RequestCont
     parameter: Parameter$worker$script$upload$worker$module;
     requestBody: RequestBody$worker$script$upload$worker$module[T];
 }
-export type RequestContentType$worker$script$delete$worker = keyof RequestBody$worker$script$delete$worker;
 export type ResponseContentType$worker$script$delete$worker = keyof Response$worker$script$delete$worker$Status$200;
 export interface Params$worker$script$delete$worker {
     parameter: Parameter$worker$script$delete$worker;
-    requestBody: RequestBody$worker$script$delete$worker[T];
 }
 export type RequestContentType$worker$script$put$content = keyof RequestBody$worker$script$put$content;
 export type ResponseContentType$worker$script$put$content = keyof Response$worker$script$put$content$Status$200;
@@ -44016,17 +43946,13 @@ export type ResponseContentType$worker$tail$logs$list$tails = keyof Response$wor
 export interface Params$worker$tail$logs$list$tails {
     parameter: Parameter$worker$tail$logs$list$tails;
 }
-export type RequestContentType$worker$tail$logs$start$tail = keyof RequestBody$worker$tail$logs$start$tail;
 export type ResponseContentType$worker$tail$logs$start$tail = keyof Response$worker$tail$logs$start$tail$Status$200;
 export interface Params$worker$tail$logs$start$tail {
     parameter: Parameter$worker$tail$logs$start$tail;
-    requestBody: RequestBody$worker$tail$logs$start$tail[T];
 }
-export type RequestContentType$worker$tail$logs$delete$tail = keyof RequestBody$worker$tail$logs$delete$tail;
 export type ResponseContentType$worker$tail$logs$delete$tail = keyof Response$worker$tail$logs$delete$tail$Status$200;
 export interface Params$worker$tail$logs$delete$tail {
     parameter: Parameter$worker$tail$logs$delete$tail;
-    requestBody: RequestBody$worker$tail$logs$delete$tail[T];
 }
 export type ResponseContentType$worker$script$fetch$usage$model = keyof Response$worker$script$fetch$usage$model$Status$200;
 export interface Params$worker$script$fetch$usage$model {
@@ -44092,11 +44018,9 @@ export type ResponseContentType$ip$address$management$address$maps$address$map$d
 export interface Params$ip$address$management$address$maps$address$map$details {
     parameter: Parameter$ip$address$management$address$maps$address$map$details;
 }
-export type RequestContentType$ip$address$management$address$maps$delete$address$map = keyof RequestBody$ip$address$management$address$maps$delete$address$map;
 export type ResponseContentType$ip$address$management$address$maps$delete$address$map = keyof Response$ip$address$management$address$maps$delete$address$map$Status$200;
 export interface Params$ip$address$management$address$maps$delete$address$map {
     parameter: Parameter$ip$address$management$address$maps$delete$address$map;
-    requestBody: RequestBody$ip$address$management$address$maps$delete$address$map[T];
 }
 export type RequestContentType$ip$address$management$address$maps$update$address$map = keyof RequestBody$ip$address$management$address$maps$update$address$map;
 export type ResponseContentType$ip$address$management$address$maps$update$address$map = keyof Response$ip$address$management$address$maps$update$address$map$Status$200;
@@ -44104,29 +44028,21 @@ export interface Params$ip$address$management$address$maps$update$address$map {
     parameter: Parameter$ip$address$management$address$maps$update$address$map;
     requestBody: RequestBody$ip$address$management$address$maps$update$address$map["application/json"];
 }
-export type RequestContentType$ip$address$management$address$maps$add$an$ip$to$an$address$map = keyof RequestBody$ip$address$management$address$maps$add$an$ip$to$an$address$map;
 export type ResponseContentType$ip$address$management$address$maps$add$an$ip$to$an$address$map = keyof Response$ip$address$management$address$maps$add$an$ip$to$an$address$map$Status$200;
 export interface Params$ip$address$management$address$maps$add$an$ip$to$an$address$map {
     parameter: Parameter$ip$address$management$address$maps$add$an$ip$to$an$address$map;
-    requestBody: RequestBody$ip$address$management$address$maps$add$an$ip$to$an$address$map[T];
 }
-export type RequestContentType$ip$address$management$address$maps$remove$an$ip$from$an$address$map = keyof RequestBody$ip$address$management$address$maps$remove$an$ip$from$an$address$map;
 export type ResponseContentType$ip$address$management$address$maps$remove$an$ip$from$an$address$map = keyof Response$ip$address$management$address$maps$remove$an$ip$from$an$address$map$Status$200;
 export interface Params$ip$address$management$address$maps$remove$an$ip$from$an$address$map {
     parameter: Parameter$ip$address$management$address$maps$remove$an$ip$from$an$address$map;
-    requestBody: RequestBody$ip$address$management$address$maps$remove$an$ip$from$an$address$map[T];
 }
-export type RequestContentType$ip$address$management$address$maps$add$a$zone$membership$to$an$address$map = keyof RequestBody$ip$address$management$address$maps$add$a$zone$membership$to$an$address$map;
 export type ResponseContentType$ip$address$management$address$maps$add$a$zone$membership$to$an$address$map = keyof Response$ip$address$management$address$maps$add$a$zone$membership$to$an$address$map$Status$200;
 export interface Params$ip$address$management$address$maps$add$a$zone$membership$to$an$address$map {
     parameter: Parameter$ip$address$management$address$maps$add$a$zone$membership$to$an$address$map;
-    requestBody: RequestBody$ip$address$management$address$maps$add$a$zone$membership$to$an$address$map[T];
 }
-export type RequestContentType$ip$address$management$address$maps$remove$a$zone$membership$from$an$address$map = keyof RequestBody$ip$address$management$address$maps$remove$a$zone$membership$from$an$address$map;
 export type ResponseContentType$ip$address$management$address$maps$remove$a$zone$membership$from$an$address$map = keyof Response$ip$address$management$address$maps$remove$a$zone$membership$from$an$address$map$Status$200;
 export interface Params$ip$address$management$address$maps$remove$a$zone$membership$from$an$address$map {
     parameter: Parameter$ip$address$management$address$maps$remove$a$zone$membership$from$an$address$map;
-    requestBody: RequestBody$ip$address$management$address$maps$remove$a$zone$membership$from$an$address$map[T];
 }
 export type RequestContentType$ip$address$management$prefixes$upload$loa$document = keyof RequestBody$ip$address$management$prefixes$upload$loa$document;
 export type ResponseContentType$ip$address$management$prefixes$upload$loa$document = keyof Response$ip$address$management$prefixes$upload$loa$document$Status$201;
@@ -44152,11 +44068,9 @@ export type ResponseContentType$ip$address$management$prefixes$prefix$details = 
 export interface Params$ip$address$management$prefixes$prefix$details {
     parameter: Parameter$ip$address$management$prefixes$prefix$details;
 }
-export type RequestContentType$ip$address$management$prefixes$delete$prefix = keyof RequestBody$ip$address$management$prefixes$delete$prefix;
 export type ResponseContentType$ip$address$management$prefixes$delete$prefix = keyof Response$ip$address$management$prefixes$delete$prefix$Status$200;
 export interface Params$ip$address$management$prefixes$delete$prefix {
     parameter: Parameter$ip$address$management$prefixes$delete$prefix;
-    requestBody: RequestBody$ip$address$management$prefixes$delete$prefix[T];
 }
 export type RequestContentType$ip$address$management$prefixes$update$prefix$description = keyof RequestBody$ip$address$management$prefixes$update$prefix$description;
 export type ResponseContentType$ip$address$management$prefixes$update$prefix$description = keyof Response$ip$address$management$prefixes$update$prefix$description$Status$200;
@@ -44216,11 +44130,9 @@ export interface Params$ip$address$management$prefix$delegation$create$prefix$de
     parameter: Parameter$ip$address$management$prefix$delegation$create$prefix$delegation;
     requestBody: RequestBody$ip$address$management$prefix$delegation$create$prefix$delegation["application/json"];
 }
-export type RequestContentType$ip$address$management$prefix$delegation$delete$prefix$delegation = keyof RequestBody$ip$address$management$prefix$delegation$delete$prefix$delegation;
 export type ResponseContentType$ip$address$management$prefix$delegation$delete$prefix$delegation = keyof Response$ip$address$management$prefix$delegation$delete$prefix$delegation$Status$200;
 export interface Params$ip$address$management$prefix$delegation$delete$prefix$delegation {
     parameter: Parameter$ip$address$management$prefix$delegation$delete$prefix$delegation;
-    requestBody: RequestBody$ip$address$management$prefix$delegation$delete$prefix$delegation[T];
 }
 export type ResponseContentType$ip$address$management$service$bindings$list$services = keyof Response$ip$address$management$service$bindings$list$services$Status$200;
 export interface Params$ip$address$management$service$bindings$list$services {
@@ -44347,11 +44259,9 @@ export type ResponseContentType$ip$access$rules$for$an$account$get$an$ip$access$
 export interface Params$ip$access$rules$for$an$account$get$an$ip$access$rule {
     parameter: Parameter$ip$access$rules$for$an$account$get$an$ip$access$rule;
 }
-export type RequestContentType$ip$access$rules$for$an$account$delete$an$ip$access$rule = keyof RequestBody$ip$access$rules$for$an$account$delete$an$ip$access$rule;
 export type ResponseContentType$ip$access$rules$for$an$account$delete$an$ip$access$rule = keyof Response$ip$access$rules$for$an$account$delete$an$ip$access$rule$Status$200;
 export interface Params$ip$access$rules$for$an$account$delete$an$ip$access$rule {
     parameter: Parameter$ip$access$rules$for$an$account$delete$an$ip$access$rule;
-    requestBody: RequestBody$ip$access$rules$for$an$account$delete$an$ip$access$rule[T];
 }
 export type RequestContentType$ip$access$rules$for$an$account$update$an$ip$access$rule = keyof RequestBody$ip$access$rules$for$an$account$update$an$ip$access$rule;
 export type ResponseContentType$ip$access$rules$for$an$account$update$an$ip$access$rule = keyof Response$ip$access$rules$for$an$account$update$an$ip$access$rule$Status$200;
@@ -44423,11 +44333,9 @@ export interface Params$account$load$balancer$monitors$update$monitor {
     parameter: Parameter$account$load$balancer$monitors$update$monitor;
     requestBody: RequestBody$account$load$balancer$monitors$update$monitor["application/json"];
 }
-export type RequestContentType$account$load$balancer$monitors$delete$monitor = keyof RequestBody$account$load$balancer$monitors$delete$monitor;
 export type ResponseContentType$account$load$balancer$monitors$delete$monitor = keyof Response$account$load$balancer$monitors$delete$monitor$Status$200;
 export interface Params$account$load$balancer$monitors$delete$monitor {
     parameter: Parameter$account$load$balancer$monitors$delete$monitor;
-    requestBody: RequestBody$account$load$balancer$monitors$delete$monitor[T];
 }
 export type RequestContentType$account$load$balancer$monitors$patch$monitor = keyof RequestBody$account$load$balancer$monitors$patch$monitor;
 export type ResponseContentType$account$load$balancer$monitors$patch$monitor = keyof Response$account$load$balancer$monitors$patch$monitor$Status$200;
@@ -44471,11 +44379,9 @@ export interface Params$account$load$balancer$pools$update$pool {
     parameter: Parameter$account$load$balancer$pools$update$pool;
     requestBody: RequestBody$account$load$balancer$pools$update$pool["application/json"];
 }
-export type RequestContentType$account$load$balancer$pools$delete$pool = keyof RequestBody$account$load$balancer$pools$delete$pool;
 export type ResponseContentType$account$load$balancer$pools$delete$pool = keyof Response$account$load$balancer$pools$delete$pool$Status$200;
 export interface Params$account$load$balancer$pools$delete$pool {
     parameter: Parameter$account$load$balancer$pools$delete$pool;
-    requestBody: RequestBody$account$load$balancer$pools$delete$pool[T];
 }
 export type RequestContentType$account$load$balancer$pools$patch$pool = keyof RequestBody$account$load$balancer$pools$patch$pool;
 export type ResponseContentType$account$load$balancer$pools$patch$pool = keyof Response$account$load$balancer$pools$patch$pool$Status$200;
@@ -44559,11 +44465,9 @@ export interface Params$magic$gre$tunnels$update$gre$tunnel {
     parameter: Parameter$magic$gre$tunnels$update$gre$tunnel;
     requestBody: RequestBody$magic$gre$tunnels$update$gre$tunnel["application/json"];
 }
-export type RequestContentType$magic$gre$tunnels$delete$gre$tunnel = keyof RequestBody$magic$gre$tunnels$delete$gre$tunnel;
 export type ResponseContentType$magic$gre$tunnels$delete$gre$tunnel = keyof Response$magic$gre$tunnels$delete$gre$tunnel$Status$200;
 export interface Params$magic$gre$tunnels$delete$gre$tunnel {
     parameter: Parameter$magic$gre$tunnels$delete$gre$tunnel;
-    requestBody: RequestBody$magic$gre$tunnels$delete$gre$tunnel[T];
 }
 export type ResponseContentType$magic$ipsec$tunnels$list$ipsec$tunnels = keyof Response$magic$ipsec$tunnels$list$ipsec$tunnels$Status$200;
 export interface Params$magic$ipsec$tunnels$list$ipsec$tunnels {
@@ -44591,17 +44495,13 @@ export interface Params$magic$ipsec$tunnels$update$ipsec$tunnel {
     parameter: Parameter$magic$ipsec$tunnels$update$ipsec$tunnel;
     requestBody: RequestBody$magic$ipsec$tunnels$update$ipsec$tunnel["application/json"];
 }
-export type RequestContentType$magic$ipsec$tunnels$delete$ipsec$tunnel = keyof RequestBody$magic$ipsec$tunnels$delete$ipsec$tunnel;
 export type ResponseContentType$magic$ipsec$tunnels$delete$ipsec$tunnel = keyof Response$magic$ipsec$tunnels$delete$ipsec$tunnel$Status$200;
 export interface Params$magic$ipsec$tunnels$delete$ipsec$tunnel {
     parameter: Parameter$magic$ipsec$tunnels$delete$ipsec$tunnel;
-    requestBody: RequestBody$magic$ipsec$tunnels$delete$ipsec$tunnel[T];
 }
-export type RequestContentType$magic$ipsec$tunnels$generate$pre$shared$key$$$psk$$for$ipsec$tunnels = keyof RequestBody$magic$ipsec$tunnels$generate$pre$shared$key$$$psk$$for$ipsec$tunnels;
 export type ResponseContentType$magic$ipsec$tunnels$generate$pre$shared$key$$$psk$$for$ipsec$tunnels = keyof Response$magic$ipsec$tunnels$generate$pre$shared$key$$$psk$$for$ipsec$tunnels$Status$200;
 export interface Params$magic$ipsec$tunnels$generate$pre$shared$key$$$psk$$for$ipsec$tunnels {
     parameter: Parameter$magic$ipsec$tunnels$generate$pre$shared$key$$$psk$$for$ipsec$tunnels;
-    requestBody: RequestBody$magic$ipsec$tunnels$generate$pre$shared$key$$$psk$$for$ipsec$tunnels[T];
 }
 export type ResponseContentType$magic$static$routes$list$routes = keyof Response$magic$static$routes$list$routes$Status$200;
 export interface Params$magic$static$routes$list$routes {
@@ -44635,11 +44535,9 @@ export interface Params$magic$static$routes$update$route {
     parameter: Parameter$magic$static$routes$update$route;
     requestBody: RequestBody$magic$static$routes$update$route["application/json"];
 }
-export type RequestContentType$magic$static$routes$delete$route = keyof RequestBody$magic$static$routes$delete$route;
 export type ResponseContentType$magic$static$routes$delete$route = keyof Response$magic$static$routes$delete$route$Status$200;
 export interface Params$magic$static$routes$delete$route {
     parameter: Parameter$magic$static$routes$delete$route;
-    requestBody: RequestBody$magic$static$routes$delete$route[T];
 }
 export type ResponseContentType$account$members$list$members = keyof Response$account$members$list$members$Status$200;
 export interface Params$account$members$list$members {
@@ -44661,39 +44559,29 @@ export interface Params$account$members$update$member {
     parameter: Parameter$account$members$update$member;
     requestBody: RequestBody$account$members$update$member["application/json"];
 }
-export type RequestContentType$account$members$remove$member = keyof RequestBody$account$members$remove$member;
 export type ResponseContentType$account$members$remove$member = keyof Response$account$members$remove$member$Status$200;
 export interface Params$account$members$remove$member {
     parameter: Parameter$account$members$remove$member;
-    requestBody: RequestBody$account$members$remove$member[T];
 }
 export type ResponseContentType$magic$network$monitoring$configuration$list$account$configuration = keyof Response$magic$network$monitoring$configuration$list$account$configuration$Status$200;
 export interface Params$magic$network$monitoring$configuration$list$account$configuration {
     parameter: Parameter$magic$network$monitoring$configuration$list$account$configuration;
 }
-export type RequestContentType$magic$network$monitoring$configuration$update$an$entire$account$configuration = keyof RequestBody$magic$network$monitoring$configuration$update$an$entire$account$configuration;
 export type ResponseContentType$magic$network$monitoring$configuration$update$an$entire$account$configuration = keyof Response$magic$network$monitoring$configuration$update$an$entire$account$configuration$Status$200;
 export interface Params$magic$network$monitoring$configuration$update$an$entire$account$configuration {
     parameter: Parameter$magic$network$monitoring$configuration$update$an$entire$account$configuration;
-    requestBody: RequestBody$magic$network$monitoring$configuration$update$an$entire$account$configuration[T];
 }
-export type RequestContentType$magic$network$monitoring$configuration$create$account$configuration = keyof RequestBody$magic$network$monitoring$configuration$create$account$configuration;
 export type ResponseContentType$magic$network$monitoring$configuration$create$account$configuration = keyof Response$magic$network$monitoring$configuration$create$account$configuration$Status$200;
 export interface Params$magic$network$monitoring$configuration$create$account$configuration {
     parameter: Parameter$magic$network$monitoring$configuration$create$account$configuration;
-    requestBody: RequestBody$magic$network$monitoring$configuration$create$account$configuration[T];
 }
-export type RequestContentType$magic$network$monitoring$configuration$delete$account$configuration = keyof RequestBody$magic$network$monitoring$configuration$delete$account$configuration;
 export type ResponseContentType$magic$network$monitoring$configuration$delete$account$configuration = keyof Response$magic$network$monitoring$configuration$delete$account$configuration$Status$200;
 export interface Params$magic$network$monitoring$configuration$delete$account$configuration {
     parameter: Parameter$magic$network$monitoring$configuration$delete$account$configuration;
-    requestBody: RequestBody$magic$network$monitoring$configuration$delete$account$configuration[T];
 }
-export type RequestContentType$magic$network$monitoring$configuration$update$account$configuration$fields = keyof RequestBody$magic$network$monitoring$configuration$update$account$configuration$fields;
 export type ResponseContentType$magic$network$monitoring$configuration$update$account$configuration$fields = keyof Response$magic$network$monitoring$configuration$update$account$configuration$fields$Status$200;
 export interface Params$magic$network$monitoring$configuration$update$account$configuration$fields {
     parameter: Parameter$magic$network$monitoring$configuration$update$account$configuration$fields;
-    requestBody: RequestBody$magic$network$monitoring$configuration$update$account$configuration$fields[T];
 }
 export type ResponseContentType$magic$network$monitoring$configuration$list$rules$and$account$configuration = keyof Response$magic$network$monitoring$configuration$list$rules$and$account$configuration$Status$200;
 export interface Params$magic$network$monitoring$configuration$list$rules$and$account$configuration {
@@ -44703,39 +44591,29 @@ export type ResponseContentType$magic$network$monitoring$rules$list$rules = keyo
 export interface Params$magic$network$monitoring$rules$list$rules {
     parameter: Parameter$magic$network$monitoring$rules$list$rules;
 }
-export type RequestContentType$magic$network$monitoring$rules$update$rules = keyof RequestBody$magic$network$monitoring$rules$update$rules;
 export type ResponseContentType$magic$network$monitoring$rules$update$rules = keyof Response$magic$network$monitoring$rules$update$rules$Status$200;
 export interface Params$magic$network$monitoring$rules$update$rules {
     parameter: Parameter$magic$network$monitoring$rules$update$rules;
-    requestBody: RequestBody$magic$network$monitoring$rules$update$rules[T];
 }
-export type RequestContentType$magic$network$monitoring$rules$create$rules = keyof RequestBody$magic$network$monitoring$rules$create$rules;
 export type ResponseContentType$magic$network$monitoring$rules$create$rules = keyof Response$magic$network$monitoring$rules$create$rules$Status$200;
 export interface Params$magic$network$monitoring$rules$create$rules {
     parameter: Parameter$magic$network$monitoring$rules$create$rules;
-    requestBody: RequestBody$magic$network$monitoring$rules$create$rules[T];
 }
 export type ResponseContentType$magic$network$monitoring$rules$get$rule = keyof Response$magic$network$monitoring$rules$get$rule$Status$200;
 export interface Params$magic$network$monitoring$rules$get$rule {
     parameter: Parameter$magic$network$monitoring$rules$get$rule;
 }
-export type RequestContentType$magic$network$monitoring$rules$delete$rule = keyof RequestBody$magic$network$monitoring$rules$delete$rule;
 export type ResponseContentType$magic$network$monitoring$rules$delete$rule = keyof Response$magic$network$monitoring$rules$delete$rule$Status$200;
 export interface Params$magic$network$monitoring$rules$delete$rule {
     parameter: Parameter$magic$network$monitoring$rules$delete$rule;
-    requestBody: RequestBody$magic$network$monitoring$rules$delete$rule[T];
 }
-export type RequestContentType$magic$network$monitoring$rules$update$rule = keyof RequestBody$magic$network$monitoring$rules$update$rule;
 export type ResponseContentType$magic$network$monitoring$rules$update$rule = keyof Response$magic$network$monitoring$rules$update$rule$Status$200;
 export interface Params$magic$network$monitoring$rules$update$rule {
     parameter: Parameter$magic$network$monitoring$rules$update$rule;
-    requestBody: RequestBody$magic$network$monitoring$rules$update$rule[T];
 }
-export type RequestContentType$magic$network$monitoring$rules$update$advertisement$for$rule = keyof RequestBody$magic$network$monitoring$rules$update$advertisement$for$rule;
 export type ResponseContentType$magic$network$monitoring$rules$update$advertisement$for$rule = keyof Response$magic$network$monitoring$rules$update$advertisement$for$rule$Status$200;
 export interface Params$magic$network$monitoring$rules$update$advertisement$for$rule {
     parameter: Parameter$magic$network$monitoring$rules$update$advertisement$for$rule;
-    requestBody: RequestBody$magic$network$monitoring$rules$update$advertisement$for$rule[T];
 }
 export type ResponseContentType$m$tls$certificate$management$list$m$tls$certificates = keyof Response$m$tls$certificate$management$list$m$tls$certificates$Status$200;
 export interface Params$m$tls$certificate$management$list$m$tls$certificates {
@@ -44751,11 +44629,9 @@ export type ResponseContentType$m$tls$certificate$management$get$m$tls$certifica
 export interface Params$m$tls$certificate$management$get$m$tls$certificate {
     parameter: Parameter$m$tls$certificate$management$get$m$tls$certificate;
 }
-export type RequestContentType$m$tls$certificate$management$delete$m$tls$certificate = keyof RequestBody$m$tls$certificate$management$delete$m$tls$certificate;
 export type ResponseContentType$m$tls$certificate$management$delete$m$tls$certificate = keyof Response$m$tls$certificate$management$delete$m$tls$certificate$Status$200;
 export interface Params$m$tls$certificate$management$delete$m$tls$certificate {
     parameter: Parameter$m$tls$certificate$management$delete$m$tls$certificate;
-    requestBody: RequestBody$m$tls$certificate$management$delete$m$tls$certificate[T];
 }
 export type ResponseContentType$m$tls$certificate$management$list$m$tls$certificate$associations = keyof Response$m$tls$certificate$management$list$m$tls$certificate$associations$Status$200;
 export interface Params$m$tls$certificate$management$list$m$tls$certificate$associations {
@@ -44890,11 +44766,9 @@ export interface Params$secondary$dns$$$acl$$update$acl {
     parameter: Parameter$secondary$dns$$$acl$$update$acl;
     requestBody: RequestBody$secondary$dns$$$acl$$update$acl["application/json"];
 }
-export type RequestContentType$secondary$dns$$$acl$$delete$acl = keyof RequestBody$secondary$dns$$$acl$$delete$acl;
 export type ResponseContentType$secondary$dns$$$acl$$delete$acl = keyof Response$secondary$dns$$$acl$$delete$acl$Status$200;
 export interface Params$secondary$dns$$$acl$$delete$acl {
     parameter: Parameter$secondary$dns$$$acl$$delete$acl;
-    requestBody: RequestBody$secondary$dns$$$acl$$delete$acl[T];
 }
 export type ResponseContentType$secondary$dns$$$peer$$list$peers = keyof Response$secondary$dns$$$peer$$list$peers$Status$200;
 export interface Params$secondary$dns$$$peer$$list$peers {
@@ -44916,11 +44790,9 @@ export interface Params$secondary$dns$$$peer$$update$peer {
     parameter: Parameter$secondary$dns$$$peer$$update$peer;
     requestBody: RequestBody$secondary$dns$$$peer$$update$peer["application/json"];
 }
-export type RequestContentType$secondary$dns$$$peer$$delete$peer = keyof RequestBody$secondary$dns$$$peer$$delete$peer;
 export type ResponseContentType$secondary$dns$$$peer$$delete$peer = keyof Response$secondary$dns$$$peer$$delete$peer$Status$200;
 export interface Params$secondary$dns$$$peer$$delete$peer {
     parameter: Parameter$secondary$dns$$$peer$$delete$peer;
-    requestBody: RequestBody$secondary$dns$$$peer$$delete$peer[T];
 }
 export type ResponseContentType$secondary$dns$$$tsig$$list$tsi$gs = keyof Response$secondary$dns$$$tsig$$list$tsi$gs$Status$200;
 export interface Params$secondary$dns$$$tsig$$list$tsi$gs {
@@ -44942,11 +44814,9 @@ export interface Params$secondary$dns$$$tsig$$update$tsig {
     parameter: Parameter$secondary$dns$$$tsig$$update$tsig;
     requestBody: RequestBody$secondary$dns$$$tsig$$update$tsig["application/json"];
 }
-export type RequestContentType$secondary$dns$$$tsig$$delete$tsig = keyof RequestBody$secondary$dns$$$tsig$$delete$tsig;
 export type ResponseContentType$secondary$dns$$$tsig$$delete$tsig = keyof Response$secondary$dns$$$tsig$$delete$tsig$Status$200;
 export interface Params$secondary$dns$$$tsig$$delete$tsig {
     parameter: Parameter$secondary$dns$$$tsig$$delete$tsig;
-    requestBody: RequestBody$secondary$dns$$$tsig$$delete$tsig[T];
 }
 export type ResponseContentType$workers$kv$request$analytics$query$request$analytics = keyof Response$workers$kv$request$analytics$query$request$analytics$Status$200;
 export interface Params$workers$kv$request$analytics$query$request$analytics {
@@ -44972,11 +44842,9 @@ export interface Params$workers$kv$namespace$rename$a$namespace {
     parameter: Parameter$workers$kv$namespace$rename$a$namespace;
     requestBody: RequestBody$workers$kv$namespace$rename$a$namespace["application/json"];
 }
-export type RequestContentType$workers$kv$namespace$remove$a$namespace = keyof RequestBody$workers$kv$namespace$remove$a$namespace;
 export type ResponseContentType$workers$kv$namespace$remove$a$namespace = keyof Response$workers$kv$namespace$remove$a$namespace$Status$200;
 export interface Params$workers$kv$namespace$remove$a$namespace {
     parameter: Parameter$workers$kv$namespace$remove$a$namespace;
-    requestBody: RequestBody$workers$kv$namespace$remove$a$namespace[T];
 }
 export type RequestContentType$workers$kv$namespace$write$multiple$key$value$pairs = keyof RequestBody$workers$kv$namespace$write$multiple$key$value$pairs;
 export type ResponseContentType$workers$kv$namespace$write$multiple$key$value$pairs = keyof Response$workers$kv$namespace$write$multiple$key$value$pairs$Status$200;
@@ -45008,11 +44876,9 @@ export interface Params$workers$kv$namespace$write$key$value$pair$with$metadata 
     parameter: Parameter$workers$kv$namespace$write$key$value$pair$with$metadata;
     requestBody: RequestBody$workers$kv$namespace$write$key$value$pair$with$metadata["multipart/form-data"];
 }
-export type RequestContentType$workers$kv$namespace$delete$key$value$pair = keyof RequestBody$workers$kv$namespace$delete$key$value$pair;
 export type ResponseContentType$workers$kv$namespace$delete$key$value$pair = keyof Response$workers$kv$namespace$delete$key$value$pair$Status$200;
 export interface Params$workers$kv$namespace$delete$key$value$pair {
     parameter: Parameter$workers$kv$namespace$delete$key$value$pair;
-    requestBody: RequestBody$workers$kv$namespace$delete$key$value$pair[T];
 }
 export type ResponseContentType$account$subscriptions$list$subscriptions = keyof Response$account$subscriptions$list$subscriptions$Status$200;
 export interface Params$account$subscriptions$list$subscriptions {
@@ -45030,11 +44896,9 @@ export interface Params$account$subscriptions$update$subscription {
     parameter: Parameter$account$subscriptions$update$subscription;
     requestBody: RequestBody$account$subscriptions$update$subscription["application/json"];
 }
-export type RequestContentType$account$subscriptions$delete$subscription = keyof RequestBody$account$subscriptions$delete$subscription;
 export type ResponseContentType$account$subscriptions$delete$subscription = keyof Response$account$subscriptions$delete$subscription$Status$200;
 export interface Params$account$subscriptions$delete$subscription {
     parameter: Parameter$account$subscriptions$delete$subscription;
-    requestBody: RequestBody$account$subscriptions$delete$subscription[T];
 }
 export type ResponseContentType$vectorize$list$vectorize$indexes = keyof Response$vectorize$list$vectorize$indexes$Status$200;
 export interface Params$vectorize$list$vectorize$indexes {
@@ -45090,17 +44954,13 @@ export interface Params$vectorize$upsert$vector {
     parameter: Parameter$vectorize$upsert$vector;
     requestBody: RequestBody$vectorize$upsert$vector["application/x-ndjson"];
 }
-export type RequestContentType$ip$address$management$address$maps$add$an$account$membership$to$an$address$map = keyof RequestBody$ip$address$management$address$maps$add$an$account$membership$to$an$address$map;
 export type ResponseContentType$ip$address$management$address$maps$add$an$account$membership$to$an$address$map = keyof Response$ip$address$management$address$maps$add$an$account$membership$to$an$address$map$Status$200;
 export interface Params$ip$address$management$address$maps$add$an$account$membership$to$an$address$map {
     parameter: Parameter$ip$address$management$address$maps$add$an$account$membership$to$an$address$map;
-    requestBody: RequestBody$ip$address$management$address$maps$add$an$account$membership$to$an$address$map[T];
 }
-export type RequestContentType$ip$address$management$address$maps$remove$an$account$membership$from$an$address$map = keyof RequestBody$ip$address$management$address$maps$remove$an$account$membership$from$an$address$map;
 export type ResponseContentType$ip$address$management$address$maps$remove$an$account$membership$from$an$address$map = keyof Response$ip$address$management$address$maps$remove$an$account$membership$from$an$address$map$Status$200;
 export interface Params$ip$address$management$address$maps$remove$an$account$membership$from$an$address$map {
     parameter: Parameter$ip$address$management$address$maps$remove$an$account$membership$from$an$address$map;
-    requestBody: RequestBody$ip$address$management$address$maps$remove$an$account$membership$from$an$address$map[T];
 }
 export type ResponseContentType$urlscanner$search$scans = keyof Response$urlscanner$search$scans$Status$200;
 export interface Params$urlscanner$search$scans {
@@ -45217,23 +45077,17 @@ export type ResponseContentType$access$bookmark$applications$$$deprecated$$get$a
 export interface Params$access$bookmark$applications$$$deprecated$$get$a$bookmark$application {
     parameter: Parameter$access$bookmark$applications$$$deprecated$$get$a$bookmark$application;
 }
-export type RequestContentType$access$bookmark$applications$$$deprecated$$update$a$bookmark$application = keyof RequestBody$access$bookmark$applications$$$deprecated$$update$a$bookmark$application;
 export type ResponseContentType$access$bookmark$applications$$$deprecated$$update$a$bookmark$application = keyof Response$access$bookmark$applications$$$deprecated$$update$a$bookmark$application$Status$200;
 export interface Params$access$bookmark$applications$$$deprecated$$update$a$bookmark$application {
     parameter: Parameter$access$bookmark$applications$$$deprecated$$update$a$bookmark$application;
-    requestBody: RequestBody$access$bookmark$applications$$$deprecated$$update$a$bookmark$application[T];
 }
-export type RequestContentType$access$bookmark$applications$$$deprecated$$create$a$bookmark$application = keyof RequestBody$access$bookmark$applications$$$deprecated$$create$a$bookmark$application;
 export type ResponseContentType$access$bookmark$applications$$$deprecated$$create$a$bookmark$application = keyof Response$access$bookmark$applications$$$deprecated$$create$a$bookmark$application$Status$200;
 export interface Params$access$bookmark$applications$$$deprecated$$create$a$bookmark$application {
     parameter: Parameter$access$bookmark$applications$$$deprecated$$create$a$bookmark$application;
-    requestBody: RequestBody$access$bookmark$applications$$$deprecated$$create$a$bookmark$application[T];
 }
-export type RequestContentType$access$bookmark$applications$$$deprecated$$delete$a$bookmark$application = keyof RequestBody$access$bookmark$applications$$$deprecated$$delete$a$bookmark$application;
 export type ResponseContentType$access$bookmark$applications$$$deprecated$$delete$a$bookmark$application = keyof Response$access$bookmark$applications$$$deprecated$$delete$a$bookmark$application$Status$200;
 export interface Params$access$bookmark$applications$$$deprecated$$delete$a$bookmark$application {
     parameter: Parameter$access$bookmark$applications$$$deprecated$$delete$a$bookmark$application;
-    requestBody: RequestBody$access$bookmark$applications$$$deprecated$$delete$a$bookmark$application[T];
 }
 export type ResponseContentType$access$mtls$authentication$list$mtls$certificates = keyof Response$access$mtls$authentication$list$mtls$certificates$Status$200;
 export interface Params$access$mtls$authentication$list$mtls$certificates {
@@ -45515,11 +45369,9 @@ export interface Params$device$managed$networks$update$device$managed$network {
     parameter: Parameter$device$managed$networks$update$device$managed$network;
     requestBody: RequestBody$device$managed$networks$update$device$managed$network["application/json"];
 }
-export type RequestContentType$device$managed$networks$delete$device$managed$network = keyof RequestBody$device$managed$networks$delete$device$managed$network;
 export type ResponseContentType$device$managed$networks$delete$device$managed$network = keyof Response$device$managed$networks$delete$device$managed$network$Status$200;
 export interface Params$device$managed$networks$delete$device$managed$network {
     parameter: Parameter$device$managed$networks$delete$device$managed$network;
-    requestBody: RequestBody$device$managed$networks$delete$device$managed$network[T];
 }
 export type ResponseContentType$devices$list$device$settings$policies = keyof Response$devices$list$device$settings$policies$Status$200;
 export interface Params$devices$list$device$settings$policies {
@@ -45545,11 +45397,9 @@ export type ResponseContentType$devices$get$device$settings$policy$by$id = keyof
 export interface Params$devices$get$device$settings$policy$by$id {
     parameter: Parameter$devices$get$device$settings$policy$by$id;
 }
-export type RequestContentType$devices$delete$device$settings$policy = keyof RequestBody$devices$delete$device$settings$policy;
 export type ResponseContentType$devices$delete$device$settings$policy = keyof Response$devices$delete$device$settings$policy$Status$200;
 export interface Params$devices$delete$device$settings$policy {
     parameter: Parameter$devices$delete$device$settings$policy;
-    requestBody: RequestBody$devices$delete$device$settings$policy[T];
 }
 export type RequestContentType$devices$update$device$settings$policy = keyof RequestBody$devices$update$device$settings$policy;
 export type ResponseContentType$devices$update$device$settings$policy = keyof Response$devices$update$device$settings$policy$Status$200;
@@ -45637,11 +45487,9 @@ export interface Params$device$posture$rules$update$device$posture$rule {
     parameter: Parameter$device$posture$rules$update$device$posture$rule;
     requestBody: RequestBody$device$posture$rules$update$device$posture$rule["application/json"];
 }
-export type RequestContentType$device$posture$rules$delete$device$posture$rule = keyof RequestBody$device$posture$rules$delete$device$posture$rule;
 export type ResponseContentType$device$posture$rules$delete$device$posture$rule = keyof Response$device$posture$rules$delete$device$posture$rule$Status$200;
 export interface Params$device$posture$rules$delete$device$posture$rule {
     parameter: Parameter$device$posture$rules$delete$device$posture$rule;
-    requestBody: RequestBody$device$posture$rules$delete$device$posture$rule[T];
 }
 export type ResponseContentType$device$posture$integrations$list$device$posture$integrations = keyof Response$device$posture$integrations$list$device$posture$integrations$Status$200;
 export interface Params$device$posture$integrations$list$device$posture$integrations {
@@ -45657,11 +45505,9 @@ export type ResponseContentType$device$posture$integrations$device$posture$integ
 export interface Params$device$posture$integrations$device$posture$integration$details {
     parameter: Parameter$device$posture$integrations$device$posture$integration$details;
 }
-export type RequestContentType$device$posture$integrations$delete$device$posture$integration = keyof RequestBody$device$posture$integrations$delete$device$posture$integration;
 export type ResponseContentType$device$posture$integrations$delete$device$posture$integration = keyof Response$device$posture$integrations$delete$device$posture$integration$Status$200;
 export interface Params$device$posture$integrations$delete$device$posture$integration {
     parameter: Parameter$device$posture$integrations$delete$device$posture$integration;
-    requestBody: RequestBody$device$posture$integrations$delete$device$posture$integration[T];
 }
 export type RequestContentType$device$posture$integrations$update$device$posture$integration = keyof RequestBody$device$posture$integrations$update$device$posture$integration;
 export type ResponseContentType$device$posture$integrations$update$device$posture$integration = keyof Response$device$posture$integrations$update$device$posture$integration$Status$200;
@@ -45704,11 +45550,9 @@ export type ResponseContentType$origin$ca$get$certificate = keyof Response$origi
 export interface Params$origin$ca$get$certificate {
     parameter: Parameter$origin$ca$get$certificate;
 }
-export type RequestContentType$origin$ca$revoke$certificate = keyof RequestBody$origin$ca$revoke$certificate;
 export type ResponseContentType$origin$ca$revoke$certificate = keyof Response$origin$ca$revoke$certificate$Status$200;
 export interface Params$origin$ca$revoke$certificate {
     parameter: Parameter$origin$ca$revoke$certificate;
-    requestBody: RequestBody$origin$ca$revoke$certificate[T];
 }
 export type ResponseContentType$cloudflare$i$ps$cloudflare$ip$details = keyof Response$cloudflare$i$ps$cloudflare$ip$details$Status$200;
 export interface Params$cloudflare$i$ps$cloudflare$ip$details {
@@ -45728,11 +45572,9 @@ export interface Params$user$$s$account$memberships$update$membership {
     parameter: Parameter$user$$s$account$memberships$update$membership;
     requestBody: RequestBody$user$$s$account$memberships$update$membership["application/json"];
 }
-export type RequestContentType$user$$s$account$memberships$delete$membership = keyof RequestBody$user$$s$account$memberships$delete$membership;
 export type ResponseContentType$user$$s$account$memberships$delete$membership = keyof Response$user$$s$account$memberships$delete$membership$Status$200;
 export interface Params$user$$s$account$memberships$delete$membership {
     parameter: Parameter$user$$s$account$memberships$delete$membership;
-    requestBody: RequestBody$user$$s$account$memberships$delete$membership[T];
 }
 export type ResponseContentType$organizations$$$deprecated$$organization$details = keyof Response$organizations$$$deprecated$$organization$details$Status$200;
 export interface Params$organizations$$$deprecated$$organization$details {
@@ -45762,11 +45604,9 @@ export type ResponseContentType$organization$invites$invitation$details = keyof 
 export interface Params$organization$invites$invitation$details {
     parameter: Parameter$organization$invites$invitation$details;
 }
-export type RequestContentType$organization$invites$cancel$invitation = keyof RequestBody$organization$invites$cancel$invitation;
 export type ResponseContentType$organization$invites$cancel$invitation = keyof Response$organization$invites$cancel$invitation$Status$200;
 export interface Params$organization$invites$cancel$invitation {
     parameter: Parameter$organization$invites$cancel$invitation;
-    requestBody: RequestBody$organization$invites$cancel$invitation[T];
 }
 export type RequestContentType$organization$invites$edit$invitation$roles = keyof RequestBody$organization$invites$edit$invitation$roles;
 export type ResponseContentType$organization$invites$edit$invitation$roles = keyof Response$organization$invites$edit$invitation$roles$Status$200;
@@ -45782,11 +45622,9 @@ export type ResponseContentType$organization$members$member$details = keyof Resp
 export interface Params$organization$members$member$details {
     parameter: Parameter$organization$members$member$details;
 }
-export type RequestContentType$organization$members$remove$member = keyof RequestBody$organization$members$remove$member;
 export type ResponseContentType$organization$members$remove$member = keyof Response$organization$members$remove$member$Status$200;
 export interface Params$organization$members$remove$member {
     parameter: Parameter$organization$members$remove$member;
-    requestBody: RequestBody$organization$members$remove$member[T];
 }
 export type RequestContentType$organization$members$edit$member$roles = keyof RequestBody$organization$members$edit$member$roles;
 export type ResponseContentType$organization$members$edit$member$roles = keyof Response$organization$members$edit$member$roles$Status$200;
@@ -46476,11 +46314,9 @@ export type ResponseContentType$ip$access$rules$for$a$user$create$an$ip$access$r
 export interface Params$ip$access$rules$for$a$user$create$an$ip$access$rule {
     requestBody: RequestBody$ip$access$rules$for$a$user$create$an$ip$access$rule["application/json"];
 }
-export type RequestContentType$ip$access$rules$for$a$user$delete$an$ip$access$rule = keyof RequestBody$ip$access$rules$for$a$user$delete$an$ip$access$rule;
 export type ResponseContentType$ip$access$rules$for$a$user$delete$an$ip$access$rule = keyof Response$ip$access$rules$for$a$user$delete$an$ip$access$rule$Status$200;
 export interface Params$ip$access$rules$for$a$user$delete$an$ip$access$rule {
     parameter: Parameter$ip$access$rules$for$a$user$delete$an$ip$access$rule;
-    requestBody: RequestBody$ip$access$rules$for$a$user$delete$an$ip$access$rule[T];
 }
 export type RequestContentType$ip$access$rules$for$a$user$update$an$ip$access$rule = keyof RequestBody$ip$access$rules$for$a$user$update$an$ip$access$rule;
 export type ResponseContentType$ip$access$rules$for$a$user$update$an$ip$access$rule = keyof Response$ip$access$rules$for$a$user$update$an$ip$access$rule$Status$200;
@@ -46515,11 +46351,9 @@ export interface Params$load$balancer$monitors$update$monitor {
     parameter: Parameter$load$balancer$monitors$update$monitor;
     requestBody: RequestBody$load$balancer$monitors$update$monitor["application/json"];
 }
-export type RequestContentType$load$balancer$monitors$delete$monitor = keyof RequestBody$load$balancer$monitors$delete$monitor;
 export type ResponseContentType$load$balancer$monitors$delete$monitor = keyof Response$load$balancer$monitors$delete$monitor$Status$200;
 export interface Params$load$balancer$monitors$delete$monitor {
     parameter: Parameter$load$balancer$monitors$delete$monitor;
-    requestBody: RequestBody$load$balancer$monitors$delete$monitor[T];
 }
 export type RequestContentType$load$balancer$monitors$patch$monitor = keyof RequestBody$load$balancer$monitors$patch$monitor;
 export type ResponseContentType$load$balancer$monitors$patch$monitor = keyof Response$load$balancer$monitors$patch$monitor$Status$200;
@@ -46561,11 +46395,9 @@ export interface Params$load$balancer$pools$update$pool {
     parameter: Parameter$load$balancer$pools$update$pool;
     requestBody: RequestBody$load$balancer$pools$update$pool["application/json"];
 }
-export type RequestContentType$load$balancer$pools$delete$pool = keyof RequestBody$load$balancer$pools$delete$pool;
 export type ResponseContentType$load$balancer$pools$delete$pool = keyof Response$load$balancer$pools$delete$pool$Status$200;
 export interface Params$load$balancer$pools$delete$pool {
     parameter: Parameter$load$balancer$pools$delete$pool;
-    requestBody: RequestBody$load$balancer$pools$delete$pool[T];
 }
 export type RequestContentType$load$balancer$pools$patch$pool = keyof RequestBody$load$balancer$pools$patch$pool;
 export type ResponseContentType$load$balancer$pools$patch$pool = keyof Response$load$balancer$pools$patch$pool$Status$200;
@@ -46603,11 +46435,9 @@ export type ResponseContentType$user$$s$organizations$organization$details = key
 export interface Params$user$$s$organizations$organization$details {
     parameter: Parameter$user$$s$organizations$organization$details;
 }
-export type RequestContentType$user$$s$organizations$leave$organization = keyof RequestBody$user$$s$organizations$leave$organization;
 export type ResponseContentType$user$$s$organizations$leave$organization = keyof Response$user$$s$organizations$leave$organization$Status$200;
 export interface Params$user$$s$organizations$leave$organization {
     parameter: Parameter$user$$s$organizations$leave$organization;
-    requestBody: RequestBody$user$$s$organizations$leave$organization[T];
 }
 export type ResponseContentType$user$subscription$get$user$subscriptions = keyof Response$user$subscription$get$user$subscriptions$Status$200;
 export type RequestContentType$user$subscription$update$user$subscription = keyof RequestBody$user$subscription$update$user$subscription;
@@ -46616,11 +46446,9 @@ export interface Params$user$subscription$update$user$subscription {
     parameter: Parameter$user$subscription$update$user$subscription;
     requestBody: RequestBody$user$subscription$update$user$subscription["application/json"];
 }
-export type RequestContentType$user$subscription$delete$user$subscription = keyof RequestBody$user$subscription$delete$user$subscription;
 export type ResponseContentType$user$subscription$delete$user$subscription = keyof Response$user$subscription$delete$user$subscription$Status$200;
 export interface Params$user$subscription$delete$user$subscription {
     parameter: Parameter$user$subscription$delete$user$subscription;
-    requestBody: RequestBody$user$subscription$delete$user$subscription[T];
 }
 export type ResponseContentType$user$api$tokens$list$tokens = keyof Response$user$api$tokens$list$tokens$Status$200;
 export interface Params$user$api$tokens$list$tokens {
@@ -46641,11 +46469,9 @@ export interface Params$user$api$tokens$update$token {
     parameter: Parameter$user$api$tokens$update$token;
     requestBody: RequestBody$user$api$tokens$update$token["application/json"];
 }
-export type RequestContentType$user$api$tokens$delete$token = keyof RequestBody$user$api$tokens$delete$token;
 export type ResponseContentType$user$api$tokens$delete$token = keyof Response$user$api$tokens$delete$token$Status$200;
 export interface Params$user$api$tokens$delete$token {
     parameter: Parameter$user$api$tokens$delete$token;
-    requestBody: RequestBody$user$api$tokens$delete$token[T];
 }
 export type RequestContentType$user$api$tokens$roll$token = keyof RequestBody$user$api$tokens$roll$token;
 export type ResponseContentType$user$api$tokens$roll$token = keyof Response$user$api$tokens$roll$token$Status$200;
@@ -46916,11 +46742,9 @@ export interface Params$load$balancers$update$load$balancer {
     parameter: Parameter$load$balancers$update$load$balancer;
     requestBody: RequestBody$load$balancers$update$load$balancer["application/json"];
 }
-export type RequestContentType$load$balancers$delete$load$balancer = keyof RequestBody$load$balancers$delete$load$balancer;
 export type ResponseContentType$load$balancers$delete$load$balancer = keyof Response$load$balancers$delete$load$balancer$Status$200;
 export interface Params$load$balancers$delete$load$balancer {
     parameter: Parameter$load$balancers$delete$load$balancer;
-    requestBody: RequestBody$load$balancers$delete$load$balancer[T];
 }
 export type RequestContentType$load$balancers$patch$load$balancer = keyof RequestBody$load$balancers$patch$load$balancer;
 export type ResponseContentType$load$balancers$patch$load$balancer = keyof Response$load$balancers$patch$load$balancer$Status$200;
@@ -46932,11 +46756,9 @@ export type ResponseContentType$zones$0$get = keyof Response$zones$0$get$Status$
 export interface Params$zones$0$get {
     parameter: Parameter$zones$0$get;
 }
-export type RequestContentType$zones$0$delete = keyof RequestBody$zones$0$delete;
 export type ResponseContentType$zones$0$delete = keyof Response$zones$0$delete$Status$200;
 export interface Params$zones$0$delete {
     parameter: Parameter$zones$0$delete;
-    requestBody: RequestBody$zones$0$delete[T];
 }
 export type RequestContentType$zones$0$patch = keyof RequestBody$zones$0$patch;
 export type ResponseContentType$zones$0$patch = keyof Response$zones$0$patch$Status$200;
@@ -47142,11 +46964,9 @@ export type ResponseContentType$smart$tiered$cache$get$smart$tiered$cache$settin
 export interface Params$smart$tiered$cache$get$smart$tiered$cache$setting {
     parameter: Parameter$smart$tiered$cache$get$smart$tiered$cache$setting;
 }
-export type RequestContentType$smart$tiered$cache$delete$smart$tiered$cache$setting = keyof RequestBody$smart$tiered$cache$delete$smart$tiered$cache$setting;
 export type ResponseContentType$smart$tiered$cache$delete$smart$tiered$cache$setting = keyof Response$smart$tiered$cache$delete$smart$tiered$cache$setting$Status$200;
 export interface Params$smart$tiered$cache$delete$smart$tiered$cache$setting {
     parameter: Parameter$smart$tiered$cache$delete$smart$tiered$cache$setting;
-    requestBody: RequestBody$smart$tiered$cache$delete$smart$tiered$cache$setting[T];
 }
 export type RequestContentType$smart$tiered$cache$patch$smart$tiered$cache$setting = keyof RequestBody$smart$tiered$cache$patch$smart$tiered$cache$setting;
 export type ResponseContentType$smart$tiered$cache$patch$smart$tiered$cache$setting = keyof Response$smart$tiered$cache$patch$smart$tiered$cache$setting$Status$200;
@@ -47158,11 +46978,9 @@ export type ResponseContentType$zone$cache$settings$get$variants$setting = keyof
 export interface Params$zone$cache$settings$get$variants$setting {
     parameter: Parameter$zone$cache$settings$get$variants$setting;
 }
-export type RequestContentType$zone$cache$settings$delete$variants$setting = keyof RequestBody$zone$cache$settings$delete$variants$setting;
 export type ResponseContentType$zone$cache$settings$delete$variants$setting = keyof Response$zone$cache$settings$delete$variants$setting$Status$200;
 export interface Params$zone$cache$settings$delete$variants$setting {
     parameter: Parameter$zone$cache$settings$delete$variants$setting;
-    requestBody: RequestBody$zone$cache$settings$delete$variants$setting[T];
 }
 export type RequestContentType$zone$cache$settings$change$variants$setting = keyof RequestBody$zone$cache$settings$change$variants$setting;
 export type ResponseContentType$zone$cache$settings$change$variants$setting = keyof Response$zone$cache$settings$change$variants$setting$Status$200;
@@ -47200,11 +47018,9 @@ export interface Params$dns$records$for$a$zone$update$dns$record {
     parameter: Parameter$dns$records$for$a$zone$update$dns$record;
     requestBody: RequestBody$dns$records$for$a$zone$update$dns$record["application/json"];
 }
-export type RequestContentType$dns$records$for$a$zone$delete$dns$record = keyof RequestBody$dns$records$for$a$zone$delete$dns$record;
 export type ResponseContentType$dns$records$for$a$zone$delete$dns$record = keyof Response$dns$records$for$a$zone$delete$dns$record$Status$200;
 export interface Params$dns$records$for$a$zone$delete$dns$record {
     parameter: Parameter$dns$records$for$a$zone$delete$dns$record;
-    requestBody: RequestBody$dns$records$for$a$zone$delete$dns$record[T];
 }
 export type RequestContentType$dns$records$for$a$zone$patch$dns$record = keyof RequestBody$dns$records$for$a$zone$patch$dns$record;
 export type ResponseContentType$dns$records$for$a$zone$patch$dns$record = keyof Response$dns$records$for$a$zone$patch$dns$record$Status$200;
@@ -47222,21 +47038,17 @@ export interface Params$dns$records$for$a$zone$import$dns$records {
     parameter: Parameter$dns$records$for$a$zone$import$dns$records;
     requestBody: RequestBody$dns$records$for$a$zone$import$dns$records["multipart/form-data"];
 }
-export type RequestContentType$dns$records$for$a$zone$scan$dns$records = keyof RequestBody$dns$records$for$a$zone$scan$dns$records;
 export type ResponseContentType$dns$records$for$a$zone$scan$dns$records = keyof Response$dns$records$for$a$zone$scan$dns$records$Status$200;
 export interface Params$dns$records$for$a$zone$scan$dns$records {
     parameter: Parameter$dns$records$for$a$zone$scan$dns$records;
-    requestBody: RequestBody$dns$records$for$a$zone$scan$dns$records[T];
 }
 export type ResponseContentType$dnssec$dnssec$details = keyof Response$dnssec$dnssec$details$Status$200;
 export interface Params$dnssec$dnssec$details {
     parameter: Parameter$dnssec$dnssec$details;
 }
-export type RequestContentType$dnssec$delete$dnssec$records = keyof RequestBody$dnssec$delete$dnssec$records;
 export type ResponseContentType$dnssec$delete$dnssec$records = keyof Response$dnssec$delete$dnssec$records$Status$200;
 export interface Params$dnssec$delete$dnssec$records {
     parameter: Parameter$dnssec$delete$dnssec$records;
-    requestBody: RequestBody$dnssec$delete$dnssec$records[T];
 }
 export type RequestContentType$dnssec$edit$dnssec$status = keyof RequestBody$dnssec$edit$dnssec$status;
 export type ResponseContentType$dnssec$edit$dnssec$status = keyof Response$dnssec$edit$dnssec$status$Status$200;
@@ -47344,11 +47156,9 @@ export interface Params$put$zones$zone_identifier$logpush$jobs$job_identifier {
     parameter: Parameter$put$zones$zone_identifier$logpush$jobs$job_identifier;
     requestBody: RequestBody$put$zones$zone_identifier$logpush$jobs$job_identifier["application/json"];
 }
-export type RequestContentType$delete$zones$zone_identifier$logpush$jobs$job_identifier = keyof RequestBody$delete$zones$zone_identifier$logpush$jobs$job_identifier;
 export type ResponseContentType$delete$zones$zone_identifier$logpush$jobs$job_identifier = keyof Response$delete$zones$zone_identifier$logpush$jobs$job_identifier$Status$200;
 export interface Params$delete$zones$zone_identifier$logpush$jobs$job_identifier {
     parameter: Parameter$delete$zones$zone_identifier$logpush$jobs$job_identifier;
-    requestBody: RequestBody$delete$zones$zone_identifier$logpush$jobs$job_identifier[T];
 }
 export type RequestContentType$post$zones$zone_identifier$logpush$ownership = keyof RequestBody$post$zones$zone_identifier$logpush$ownership;
 export type ResponseContentType$post$zones$zone_identifier$logpush$ownership = keyof Response$post$zones$zone_identifier$logpush$ownership$Status$200;
@@ -47453,11 +47263,9 @@ export interface Params$page$rules$update$a$page$rule {
     parameter: Parameter$page$rules$update$a$page$rule;
     requestBody: RequestBody$page$rules$update$a$page$rule["application/json"];
 }
-export type RequestContentType$page$rules$delete$a$page$rule = keyof RequestBody$page$rules$delete$a$page$rule;
 export type ResponseContentType$page$rules$delete$a$page$rule = keyof Response$page$rules$delete$a$page$rule$Status$200;
 export interface Params$page$rules$delete$a$page$rule {
     parameter: Parameter$page$rules$delete$a$page$rule;
-    requestBody: RequestBody$page$rules$delete$a$page$rule[T];
 }
 export type RequestContentType$page$rules$edit$a$page$rule = keyof RequestBody$page$rules$edit$a$page$rule;
 export type ResponseContentType$page$rules$edit$a$page$rule = keyof Response$page$rules$edit$a$page$rule$Status$200;
@@ -48157,11 +47965,9 @@ export interface Params$worker$filters$$$deprecated$$update$filter {
     parameter: Parameter$worker$filters$$$deprecated$$update$filter;
     requestBody: RequestBody$worker$filters$$$deprecated$$update$filter["application/json"];
 }
-export type RequestContentType$worker$filters$$$deprecated$$delete$filter = keyof RequestBody$worker$filters$$$deprecated$$delete$filter;
 export type ResponseContentType$worker$filters$$$deprecated$$delete$filter = keyof Response$worker$filters$$$deprecated$$delete$filter$Status$200;
 export interface Params$worker$filters$$$deprecated$$delete$filter {
     parameter: Parameter$worker$filters$$$deprecated$$delete$filter;
-    requestBody: RequestBody$worker$filters$$$deprecated$$delete$filter[T];
 }
 export type ResponseContentType$worker$routes$list$routes = keyof Response$worker$routes$list$routes$Status$200;
 export interface Params$worker$routes$list$routes {
@@ -48183,11 +47989,9 @@ export interface Params$worker$routes$update$route {
     parameter: Parameter$worker$routes$update$route;
     requestBody: RequestBody$worker$routes$update$route["application/json"];
 }
-export type RequestContentType$worker$routes$delete$route = keyof RequestBody$worker$routes$delete$route;
 export type ResponseContentType$worker$routes$delete$route = keyof Response$worker$routes$delete$route$Status$200;
 export interface Params$worker$routes$delete$route {
     parameter: Parameter$worker$routes$delete$route;
-    requestBody: RequestBody$worker$routes$delete$route[T];
 }
 export type ResponseContentType$worker$script$$$deprecated$$download$worker = keyof Response$worker$script$$$deprecated$$download$worker$Status$200;
 export interface Params$worker$script$$$deprecated$$download$worker {
@@ -48199,11 +48003,9 @@ export interface Params$worker$script$$$deprecated$$upload$worker {
     parameter: Parameter$worker$script$$$deprecated$$upload$worker;
     requestBody: RequestBody$worker$script$$$deprecated$$upload$worker["application/javascript"];
 }
-export type RequestContentType$worker$script$$$deprecated$$delete$worker = keyof RequestBody$worker$script$$$deprecated$$delete$worker;
 export type ResponseContentType$worker$script$$$deprecated$$delete$worker = keyof Response$worker$script$$$deprecated$$delete$worker$Status$200;
 export interface Params$worker$script$$$deprecated$$delete$worker {
     parameter: Parameter$worker$script$$$deprecated$$delete$worker;
-    requestBody: RequestBody$worker$script$$$deprecated$$delete$worker[T];
 }
 export type ResponseContentType$worker$binding$$$deprecated$$list$bindings = keyof Response$worker$binding$$$deprecated$$list$bindings$Status$200;
 export interface Params$worker$binding$$$deprecated$$list$bindings {
@@ -48285,11 +48087,9 @@ export type ResponseContentType$custom$ssl$for$a$zone$ssl$configuration$details 
 export interface Params$custom$ssl$for$a$zone$ssl$configuration$details {
     parameter: Parameter$custom$ssl$for$a$zone$ssl$configuration$details;
 }
-export type RequestContentType$custom$ssl$for$a$zone$delete$ssl$configuration = keyof RequestBody$custom$ssl$for$a$zone$delete$ssl$configuration;
 export type ResponseContentType$custom$ssl$for$a$zone$delete$ssl$configuration = keyof Response$custom$ssl$for$a$zone$delete$ssl$configuration$Status$200;
 export interface Params$custom$ssl$for$a$zone$delete$ssl$configuration {
     parameter: Parameter$custom$ssl$for$a$zone$delete$ssl$configuration;
-    requestBody: RequestBody$custom$ssl$for$a$zone$delete$ssl$configuration[T];
 }
 export type RequestContentType$custom$ssl$for$a$zone$edit$ssl$configuration = keyof RequestBody$custom$ssl$for$a$zone$edit$ssl$configuration;
 export type ResponseContentType$custom$ssl$for$a$zone$edit$ssl$configuration = keyof Response$custom$ssl$for$a$zone$edit$ssl$configuration$Status$200;
@@ -48317,11 +48117,9 @@ export type ResponseContentType$custom$hostname$for$a$zone$custom$hostname$detai
 export interface Params$custom$hostname$for$a$zone$custom$hostname$details {
     parameter: Parameter$custom$hostname$for$a$zone$custom$hostname$details;
 }
-export type RequestContentType$custom$hostname$for$a$zone$delete$custom$hostname$$$and$any$issued$ssl$certificates$ = keyof RequestBody$custom$hostname$for$a$zone$delete$custom$hostname$$$and$any$issued$ssl$certificates$;
 export type ResponseContentType$custom$hostname$for$a$zone$delete$custom$hostname$$$and$any$issued$ssl$certificates$ = keyof Response$custom$hostname$for$a$zone$delete$custom$hostname$$$and$any$issued$ssl$certificates$$Status$200;
 export interface Params$custom$hostname$for$a$zone$delete$custom$hostname$$$and$any$issued$ssl$certificates$ {
     parameter: Parameter$custom$hostname$for$a$zone$delete$custom$hostname$$$and$any$issued$ssl$certificates$;
-    requestBody: RequestBody$custom$hostname$for$a$zone$delete$custom$hostname$$$and$any$issued$ssl$certificates$[T];
 }
 export type RequestContentType$custom$hostname$for$a$zone$edit$custom$hostname = keyof RequestBody$custom$hostname$for$a$zone$edit$custom$hostname;
 export type ResponseContentType$custom$hostname$for$a$zone$edit$custom$hostname = keyof Response$custom$hostname$for$a$zone$edit$custom$hostname$Status$200;
@@ -48339,11 +48137,9 @@ export interface Params$custom$hostname$fallback$origin$for$a$zone$update$fallba
     parameter: Parameter$custom$hostname$fallback$origin$for$a$zone$update$fallback$origin$for$custom$hostnames;
     requestBody: RequestBody$custom$hostname$fallback$origin$for$a$zone$update$fallback$origin$for$custom$hostnames["application/json"];
 }
-export type RequestContentType$custom$hostname$fallback$origin$for$a$zone$delete$fallback$origin$for$custom$hostnames = keyof RequestBody$custom$hostname$fallback$origin$for$a$zone$delete$fallback$origin$for$custom$hostnames;
 export type ResponseContentType$custom$hostname$fallback$origin$for$a$zone$delete$fallback$origin$for$custom$hostnames = keyof Response$custom$hostname$fallback$origin$for$a$zone$delete$fallback$origin$for$custom$hostnames$Status$200;
 export interface Params$custom$hostname$fallback$origin$for$a$zone$delete$fallback$origin$for$custom$hostnames {
     parameter: Parameter$custom$hostname$fallback$origin$for$a$zone$delete$fallback$origin$for$custom$hostnames;
-    requestBody: RequestBody$custom$hostname$fallback$origin$for$a$zone$delete$fallback$origin$for$custom$hostnames[T];
 }
 export type ResponseContentType$custom$pages$for$a$zone$list$custom$pages = keyof Response$custom$pages$for$a$zone$list$custom$pages$Status$200;
 export interface Params$custom$pages$for$a$zone$list$custom$pages {
@@ -48367,21 +48163,17 @@ export type ResponseContentType$email$routing$settings$get$email$routing$setting
 export interface Params$email$routing$settings$get$email$routing$settings {
     parameter: Parameter$email$routing$settings$get$email$routing$settings;
 }
-export type RequestContentType$email$routing$settings$disable$email$routing = keyof RequestBody$email$routing$settings$disable$email$routing;
 export type ResponseContentType$email$routing$settings$disable$email$routing = keyof Response$email$routing$settings$disable$email$routing$Status$200;
 export interface Params$email$routing$settings$disable$email$routing {
     parameter: Parameter$email$routing$settings$disable$email$routing;
-    requestBody: RequestBody$email$routing$settings$disable$email$routing[T];
 }
 export type ResponseContentType$email$routing$settings$email$routing$dns$settings = keyof Response$email$routing$settings$email$routing$dns$settings$Status$200;
 export interface Params$email$routing$settings$email$routing$dns$settings {
     parameter: Parameter$email$routing$settings$email$routing$dns$settings;
 }
-export type RequestContentType$email$routing$settings$enable$email$routing = keyof RequestBody$email$routing$settings$enable$email$routing;
 export type ResponseContentType$email$routing$settings$enable$email$routing = keyof Response$email$routing$settings$enable$email$routing$Status$200;
 export interface Params$email$routing$settings$enable$email$routing {
     parameter: Parameter$email$routing$settings$enable$email$routing;
-    requestBody: RequestBody$email$routing$settings$enable$email$routing[T];
 }
 export type ResponseContentType$email$routing$routing$rules$list$routing$rules = keyof Response$email$routing$routing$rules$list$routing$rules$Status$200;
 export interface Params$email$routing$routing$rules$list$routing$rules {
@@ -48449,11 +48241,9 @@ export interface Params$filters$update$a$filter {
     parameter: Parameter$filters$update$a$filter;
     requestBody: RequestBody$filters$update$a$filter["application/json"];
 }
-export type RequestContentType$filters$delete$a$filter = keyof RequestBody$filters$delete$a$filter;
 export type ResponseContentType$filters$delete$a$filter = keyof Response$filters$delete$a$filter$Status$200;
 export interface Params$filters$delete$a$filter {
     parameter: Parameter$filters$delete$a$filter;
-    requestBody: RequestBody$filters$delete$a$filter[T];
 }
 export type ResponseContentType$zone$lockdown$list$zone$lockdown$rules = keyof Response$zone$lockdown$list$zone$lockdown$rules$Status$200;
 export interface Params$zone$lockdown$list$zone$lockdown$rules {
@@ -48475,11 +48265,9 @@ export interface Params$zone$lockdown$update$a$zone$lockdown$rule {
     parameter: Parameter$zone$lockdown$update$a$zone$lockdown$rule;
     requestBody: RequestBody$zone$lockdown$update$a$zone$lockdown$rule["application/json"];
 }
-export type RequestContentType$zone$lockdown$delete$a$zone$lockdown$rule = keyof RequestBody$zone$lockdown$delete$a$zone$lockdown$rule;
 export type ResponseContentType$zone$lockdown$delete$a$zone$lockdown$rule = keyof Response$zone$lockdown$delete$a$zone$lockdown$rule$Status$200;
 export interface Params$zone$lockdown$delete$a$zone$lockdown$rule {
     parameter: Parameter$zone$lockdown$delete$a$zone$lockdown$rule;
-    requestBody: RequestBody$zone$lockdown$delete$a$zone$lockdown$rule[T];
 }
 export type ResponseContentType$firewall$rules$list$firewall$rules = keyof Response$firewall$rules$list$firewall$rules$Status$200;
 export interface Params$firewall$rules$list$firewall$rules {
@@ -48551,11 +48339,9 @@ export interface Params$user$agent$blocking$rules$update$a$user$agent$blocking$r
     parameter: Parameter$user$agent$blocking$rules$update$a$user$agent$blocking$rule;
     requestBody: RequestBody$user$agent$blocking$rules$update$a$user$agent$blocking$rule["application/json"];
 }
-export type RequestContentType$user$agent$blocking$rules$delete$a$user$agent$blocking$rule = keyof RequestBody$user$agent$blocking$rules$delete$a$user$agent$blocking$rule;
 export type ResponseContentType$user$agent$blocking$rules$delete$a$user$agent$blocking$rule = keyof Response$user$agent$blocking$rules$delete$a$user$agent$blocking$rule$Status$200;
 export interface Params$user$agent$blocking$rules$delete$a$user$agent$blocking$rule {
     parameter: Parameter$user$agent$blocking$rules$delete$a$user$agent$blocking$rule;
-    requestBody: RequestBody$user$agent$blocking$rules$delete$a$user$agent$blocking$rule[T];
 }
 export type ResponseContentType$waf$overrides$list$waf$overrides = keyof Response$waf$overrides$list$waf$overrides$Status$200;
 export interface Params$waf$overrides$list$waf$overrides {
@@ -48577,11 +48363,9 @@ export interface Params$waf$overrides$update$waf$override {
     parameter: Parameter$waf$overrides$update$waf$override;
     requestBody: RequestBody$waf$overrides$update$waf$override["application/json"];
 }
-export type RequestContentType$waf$overrides$delete$a$waf$override = keyof RequestBody$waf$overrides$delete$a$waf$override;
 export type ResponseContentType$waf$overrides$delete$a$waf$override = keyof Response$waf$overrides$delete$a$waf$override$Status$200;
 export interface Params$waf$overrides$delete$a$waf$override {
     parameter: Parameter$waf$overrides$delete$a$waf$override;
-    requestBody: RequestBody$waf$overrides$delete$a$waf$override[T];
 }
 export type ResponseContentType$waf$packages$list$waf$packages = keyof Response$waf$packages$list$waf$packages$Status$200;
 export interface Params$waf$packages$list$waf$packages {
@@ -48617,11 +48401,9 @@ export interface Params$health$checks$update$health$check {
     parameter: Parameter$health$checks$update$health$check;
     requestBody: RequestBody$health$checks$update$health$check["application/json"];
 }
-export type RequestContentType$health$checks$delete$health$check = keyof RequestBody$health$checks$delete$health$check;
 export type ResponseContentType$health$checks$delete$health$check = keyof Response$health$checks$delete$health$check$Status$200;
 export interface Params$health$checks$delete$health$check {
     parameter: Parameter$health$checks$delete$health$check;
-    requestBody: RequestBody$health$checks$delete$health$check[T];
 }
 export type RequestContentType$health$checks$patch$health$check = keyof RequestBody$health$checks$patch$health$check;
 export type ResponseContentType$health$checks$patch$health$check = keyof Response$health$checks$patch$health$check$Status$200;
@@ -48639,11 +48421,9 @@ export type ResponseContentType$health$checks$health$check$preview$details = key
 export interface Params$health$checks$health$check$preview$details {
     parameter: Parameter$health$checks$health$check$preview$details;
 }
-export type RequestContentType$health$checks$delete$preview$health$check = keyof RequestBody$health$checks$delete$preview$health$check;
 export type ResponseContentType$health$checks$delete$preview$health$check = keyof Response$health$checks$delete$preview$health$check$Status$200;
 export interface Params$health$checks$delete$preview$health$check {
     parameter: Parameter$health$checks$delete$preview$health$check;
-    requestBody: RequestBody$health$checks$delete$preview$health$check[T];
 }
 export type ResponseContentType$per$hostname$tls$settings$list = keyof Response$per$hostname$tls$settings$list$Status$200;
 export interface Params$per$hostname$tls$settings$list {
@@ -48673,11 +48453,9 @@ export type ResponseContentType$keyless$ssl$for$a$zone$get$keyless$ssl$configura
 export interface Params$keyless$ssl$for$a$zone$get$keyless$ssl$configuration {
     parameter: Parameter$keyless$ssl$for$a$zone$get$keyless$ssl$configuration;
 }
-export type RequestContentType$keyless$ssl$for$a$zone$delete$keyless$ssl$configuration = keyof RequestBody$keyless$ssl$for$a$zone$delete$keyless$ssl$configuration;
 export type ResponseContentType$keyless$ssl$for$a$zone$delete$keyless$ssl$configuration = keyof Response$keyless$ssl$for$a$zone$delete$keyless$ssl$configuration$Status$200;
 export interface Params$keyless$ssl$for$a$zone$delete$keyless$ssl$configuration {
     parameter: Parameter$keyless$ssl$for$a$zone$delete$keyless$ssl$configuration;
-    requestBody: RequestBody$keyless$ssl$for$a$zone$delete$keyless$ssl$configuration[T];
 }
 export type RequestContentType$keyless$ssl$for$a$zone$edit$keyless$ssl$configuration = keyof RequestBody$keyless$ssl$for$a$zone$edit$keyless$ssl$configuration;
 export type ResponseContentType$keyless$ssl$for$a$zone$edit$keyless$ssl$configuration = keyof Response$keyless$ssl$for$a$zone$edit$keyless$ssl$configuration$Status$200;
@@ -48721,11 +48499,9 @@ export type ResponseContentType$zone$level$authenticated$origin$pulls$get$certif
 export interface Params$zone$level$authenticated$origin$pulls$get$certificate$details {
     parameter: Parameter$zone$level$authenticated$origin$pulls$get$certificate$details;
 }
-export type RequestContentType$zone$level$authenticated$origin$pulls$delete$certificate = keyof RequestBody$zone$level$authenticated$origin$pulls$delete$certificate;
 export type ResponseContentType$zone$level$authenticated$origin$pulls$delete$certificate = keyof Response$zone$level$authenticated$origin$pulls$delete$certificate$Status$200;
 export interface Params$zone$level$authenticated$origin$pulls$delete$certificate {
     parameter: Parameter$zone$level$authenticated$origin$pulls$delete$certificate;
-    requestBody: RequestBody$zone$level$authenticated$origin$pulls$delete$certificate[T];
 }
 export type RequestContentType$per$hostname$authenticated$origin$pull$enable$or$disable$a$hostname$for$client$authentication = keyof RequestBody$per$hostname$authenticated$origin$pull$enable$or$disable$a$hostname$for$client$authentication;
 export type ResponseContentType$per$hostname$authenticated$origin$pull$enable$or$disable$a$hostname$for$client$authentication = keyof Response$per$hostname$authenticated$origin$pull$enable$or$disable$a$hostname$for$client$authentication$Status$200;
@@ -48751,11 +48527,9 @@ export type ResponseContentType$per$hostname$authenticated$origin$pull$get$the$h
 export interface Params$per$hostname$authenticated$origin$pull$get$the$hostname$client$certificate {
     parameter: Parameter$per$hostname$authenticated$origin$pull$get$the$hostname$client$certificate;
 }
-export type RequestContentType$per$hostname$authenticated$origin$pull$delete$hostname$client$certificate = keyof RequestBody$per$hostname$authenticated$origin$pull$delete$hostname$client$certificate;
 export type ResponseContentType$per$hostname$authenticated$origin$pull$delete$hostname$client$certificate = keyof Response$per$hostname$authenticated$origin$pull$delete$hostname$client$certificate$Status$200;
 export interface Params$per$hostname$authenticated$origin$pull$delete$hostname$client$certificate {
     parameter: Parameter$per$hostname$authenticated$origin$pull$delete$hostname$client$certificate;
-    requestBody: RequestBody$per$hostname$authenticated$origin$pull$delete$hostname$client$certificate[T];
 }
 export type ResponseContentType$zone$level$authenticated$origin$pulls$get$enablement$setting$for$zone = keyof Response$zone$level$authenticated$origin$pulls$get$enablement$setting$for$zone$Status$200;
 export interface Params$zone$level$authenticated$origin$pulls$get$enablement$setting$for$zone {
@@ -48787,17 +48561,13 @@ export interface Params$rate$limits$for$a$zone$update$a$rate$limit {
     parameter: Parameter$rate$limits$for$a$zone$update$a$rate$limit;
     requestBody: RequestBody$rate$limits$for$a$zone$update$a$rate$limit["application/json"];
 }
-export type RequestContentType$rate$limits$for$a$zone$delete$a$rate$limit = keyof RequestBody$rate$limits$for$a$zone$delete$a$rate$limit;
 export type ResponseContentType$rate$limits$for$a$zone$delete$a$rate$limit = keyof Response$rate$limits$for$a$zone$delete$a$rate$limit$Status$200;
 export interface Params$rate$limits$for$a$zone$delete$a$rate$limit {
     parameter: Parameter$rate$limits$for$a$zone$delete$a$rate$limit;
-    requestBody: RequestBody$rate$limits$for$a$zone$delete$a$rate$limit[T];
 }
-export type RequestContentType$secondary$dns$$$secondary$zone$$force$axfr = keyof RequestBody$secondary$dns$$$secondary$zone$$force$axfr;
 export type ResponseContentType$secondary$dns$$$secondary$zone$$force$axfr = keyof Response$secondary$dns$$$secondary$zone$$force$axfr$Status$200;
 export interface Params$secondary$dns$$$secondary$zone$$force$axfr {
     parameter: Parameter$secondary$dns$$$secondary$zone$$force$axfr;
-    requestBody: RequestBody$secondary$dns$$$secondary$zone$$force$axfr[T];
 }
 export type ResponseContentType$secondary$dns$$$secondary$zone$$secondary$zone$configuration$details = keyof Response$secondary$dns$$$secondary$zone$$secondary$zone$configuration$details$Status$200;
 export interface Params$secondary$dns$$$secondary$zone$$secondary$zone$configuration$details {
@@ -48815,11 +48585,9 @@ export interface Params$secondary$dns$$$secondary$zone$$create$secondary$zone$co
     parameter: Parameter$secondary$dns$$$secondary$zone$$create$secondary$zone$configuration;
     requestBody: RequestBody$secondary$dns$$$secondary$zone$$create$secondary$zone$configuration["application/json"];
 }
-export type RequestContentType$secondary$dns$$$secondary$zone$$delete$secondary$zone$configuration = keyof RequestBody$secondary$dns$$$secondary$zone$$delete$secondary$zone$configuration;
 export type ResponseContentType$secondary$dns$$$secondary$zone$$delete$secondary$zone$configuration = keyof Response$secondary$dns$$$secondary$zone$$delete$secondary$zone$configuration$Status$200;
 export interface Params$secondary$dns$$$secondary$zone$$delete$secondary$zone$configuration {
     parameter: Parameter$secondary$dns$$$secondary$zone$$delete$secondary$zone$configuration;
-    requestBody: RequestBody$secondary$dns$$$secondary$zone$$delete$secondary$zone$configuration[T];
 }
 export type ResponseContentType$secondary$dns$$$primary$zone$$primary$zone$configuration$details = keyof Response$secondary$dns$$$primary$zone$$primary$zone$configuration$details$Status$200;
 export interface Params$secondary$dns$$$primary$zone$$primary$zone$configuration$details {
@@ -48837,29 +48605,21 @@ export interface Params$secondary$dns$$$primary$zone$$create$primary$zone$config
     parameter: Parameter$secondary$dns$$$primary$zone$$create$primary$zone$configuration;
     requestBody: RequestBody$secondary$dns$$$primary$zone$$create$primary$zone$configuration["application/json"];
 }
-export type RequestContentType$secondary$dns$$$primary$zone$$delete$primary$zone$configuration = keyof RequestBody$secondary$dns$$$primary$zone$$delete$primary$zone$configuration;
 export type ResponseContentType$secondary$dns$$$primary$zone$$delete$primary$zone$configuration = keyof Response$secondary$dns$$$primary$zone$$delete$primary$zone$configuration$Status$200;
 export interface Params$secondary$dns$$$primary$zone$$delete$primary$zone$configuration {
     parameter: Parameter$secondary$dns$$$primary$zone$$delete$primary$zone$configuration;
-    requestBody: RequestBody$secondary$dns$$$primary$zone$$delete$primary$zone$configuration[T];
 }
-export type RequestContentType$secondary$dns$$$primary$zone$$disable$outgoing$zone$transfers = keyof RequestBody$secondary$dns$$$primary$zone$$disable$outgoing$zone$transfers;
 export type ResponseContentType$secondary$dns$$$primary$zone$$disable$outgoing$zone$transfers = keyof Response$secondary$dns$$$primary$zone$$disable$outgoing$zone$transfers$Status$200;
 export interface Params$secondary$dns$$$primary$zone$$disable$outgoing$zone$transfers {
     parameter: Parameter$secondary$dns$$$primary$zone$$disable$outgoing$zone$transfers;
-    requestBody: RequestBody$secondary$dns$$$primary$zone$$disable$outgoing$zone$transfers[T];
 }
-export type RequestContentType$secondary$dns$$$primary$zone$$enable$outgoing$zone$transfers = keyof RequestBody$secondary$dns$$$primary$zone$$enable$outgoing$zone$transfers;
 export type ResponseContentType$secondary$dns$$$primary$zone$$enable$outgoing$zone$transfers = keyof Response$secondary$dns$$$primary$zone$$enable$outgoing$zone$transfers$Status$200;
 export interface Params$secondary$dns$$$primary$zone$$enable$outgoing$zone$transfers {
     parameter: Parameter$secondary$dns$$$primary$zone$$enable$outgoing$zone$transfers;
-    requestBody: RequestBody$secondary$dns$$$primary$zone$$enable$outgoing$zone$transfers[T];
 }
-export type RequestContentType$secondary$dns$$$primary$zone$$force$dns$notify = keyof RequestBody$secondary$dns$$$primary$zone$$force$dns$notify;
 export type ResponseContentType$secondary$dns$$$primary$zone$$force$dns$notify = keyof Response$secondary$dns$$$primary$zone$$force$dns$notify$Status$200;
 export interface Params$secondary$dns$$$primary$zone$$force$dns$notify {
     parameter: Parameter$secondary$dns$$$primary$zone$$force$dns$notify;
-    requestBody: RequestBody$secondary$dns$$$primary$zone$$force$dns$notify[T];
 }
 export type ResponseContentType$secondary$dns$$$primary$zone$$get$outgoing$zone$transfer$status = keyof Response$secondary$dns$$$primary$zone$$get$outgoing$zone$transfer$status$Status$200;
 export interface Params$secondary$dns$$$primary$zone$$get$outgoing$zone$transfer$status {
@@ -48905,17 +48665,13 @@ export type ResponseContentType$certificate$packs$get$certificate$pack = keyof R
 export interface Params$certificate$packs$get$certificate$pack {
     parameter: Parameter$certificate$packs$get$certificate$pack;
 }
-export type RequestContentType$certificate$packs$delete$advanced$certificate$manager$certificate$pack = keyof RequestBody$certificate$packs$delete$advanced$certificate$manager$certificate$pack;
 export type ResponseContentType$certificate$packs$delete$advanced$certificate$manager$certificate$pack = keyof Response$certificate$packs$delete$advanced$certificate$manager$certificate$pack$Status$200;
 export interface Params$certificate$packs$delete$advanced$certificate$manager$certificate$pack {
     parameter: Parameter$certificate$packs$delete$advanced$certificate$manager$certificate$pack;
-    requestBody: RequestBody$certificate$packs$delete$advanced$certificate$manager$certificate$pack[T];
 }
-export type RequestContentType$certificate$packs$restart$validation$for$advanced$certificate$manager$certificate$pack = keyof RequestBody$certificate$packs$restart$validation$for$advanced$certificate$manager$certificate$pack;
 export type ResponseContentType$certificate$packs$restart$validation$for$advanced$certificate$manager$certificate$pack = keyof Response$certificate$packs$restart$validation$for$advanced$certificate$manager$certificate$pack$Status$200;
 export interface Params$certificate$packs$restart$validation$for$advanced$certificate$manager$certificate$pack {
     parameter: Parameter$certificate$packs$restart$validation$for$advanced$certificate$manager$certificate$pack;
-    requestBody: RequestBody$certificate$packs$restart$validation$for$advanced$certificate$manager$certificate$pack[T];
 }
 export type RequestContentType$certificate$packs$order$advanced$certificate$manager$certificate$pack = keyof RequestBody$certificate$packs$order$advanced$certificate$manager$certificate$pack;
 export type ResponseContentType$certificate$packs$order$advanced$certificate$manager$certificate$pack = keyof Response$certificate$packs$order$advanced$certificate$manager$certificate$pack$Status$200;
@@ -48971,11 +48727,9 @@ export interface Params$waiting$room$update$waiting$room {
     parameter: Parameter$waiting$room$update$waiting$room;
     requestBody: RequestBody$waiting$room$update$waiting$room["application/json"];
 }
-export type RequestContentType$waiting$room$delete$waiting$room = keyof RequestBody$waiting$room$delete$waiting$room;
 export type ResponseContentType$waiting$room$delete$waiting$room = keyof Response$waiting$room$delete$waiting$room$Status$200;
 export interface Params$waiting$room$delete$waiting$room {
     parameter: Parameter$waiting$room$delete$waiting$room;
-    requestBody: RequestBody$waiting$room$delete$waiting$room[T];
 }
 export type RequestContentType$waiting$room$patch$waiting$room = keyof RequestBody$waiting$room$patch$waiting$room;
 export type ResponseContentType$waiting$room$patch$waiting$room = keyof Response$waiting$room$patch$waiting$room$Status$200;
@@ -49003,11 +48757,9 @@ export interface Params$waiting$room$update$event {
     parameter: Parameter$waiting$room$update$event;
     requestBody: RequestBody$waiting$room$update$event["application/json"];
 }
-export type RequestContentType$waiting$room$delete$event = keyof RequestBody$waiting$room$delete$event;
 export type ResponseContentType$waiting$room$delete$event = keyof Response$waiting$room$delete$event$Status$200;
 export interface Params$waiting$room$delete$event {
     parameter: Parameter$waiting$room$delete$event;
-    requestBody: RequestBody$waiting$room$delete$event[T];
 }
 export type RequestContentType$waiting$room$patch$event = keyof RequestBody$waiting$room$patch$event;
 export type ResponseContentType$waiting$room$patch$event = keyof Response$waiting$room$patch$event$Status$200;
@@ -49035,11 +48787,9 @@ export interface Params$waiting$room$create$waiting$room$rule {
     parameter: Parameter$waiting$room$create$waiting$room$rule;
     requestBody: RequestBody$waiting$room$create$waiting$room$rule["application/json"];
 }
-export type RequestContentType$waiting$room$delete$waiting$room$rule = keyof RequestBody$waiting$room$delete$waiting$room$rule;
 export type ResponseContentType$waiting$room$delete$waiting$room$rule = keyof Response$waiting$room$delete$waiting$room$rule$Status$200;
 export interface Params$waiting$room$delete$waiting$room$rule {
     parameter: Parameter$waiting$room$delete$waiting$room$rule;
-    requestBody: RequestBody$waiting$room$delete$waiting$room$rule[T];
 }
 export type RequestContentType$waiting$room$patch$waiting$room$rule = keyof RequestBody$waiting$room$patch$waiting$room$rule;
 export type ResponseContentType$waiting$room$patch$waiting$room$rule = keyof Response$waiting$room$patch$waiting$room$rule$Status$200;
@@ -49087,11 +48837,9 @@ export type ResponseContentType$web3$hostname$web3$hostname$details = keyof Resp
 export interface Params$web3$hostname$web3$hostname$details {
     parameter: Parameter$web3$hostname$web3$hostname$details;
 }
-export type RequestContentType$web3$hostname$delete$web3$hostname = keyof RequestBody$web3$hostname$delete$web3$hostname;
 export type ResponseContentType$web3$hostname$delete$web3$hostname = keyof Response$web3$hostname$delete$web3$hostname$Status$200;
 export interface Params$web3$hostname$delete$web3$hostname {
     parameter: Parameter$web3$hostname$delete$web3$hostname;
-    requestBody: RequestBody$web3$hostname$delete$web3$hostname[T];
 }
 export type RequestContentType$web3$hostname$edit$web3$hostname = keyof RequestBody$web3$hostname$edit$web3$hostname;
 export type ResponseContentType$web3$hostname$edit$web3$hostname = keyof Response$web3$hostname$edit$web3$hostname$Status$200;
@@ -49129,11 +48877,9 @@ export interface Params$web3$hostname$edit$ipfs$universal$path$gateway$content$l
     parameter: Parameter$web3$hostname$edit$ipfs$universal$path$gateway$content$list$entry;
     requestBody: RequestBody$web3$hostname$edit$ipfs$universal$path$gateway$content$list$entry["application/json"];
 }
-export type RequestContentType$web3$hostname$delete$ipfs$universal$path$gateway$content$list$entry = keyof RequestBody$web3$hostname$delete$ipfs$universal$path$gateway$content$list$entry;
 export type ResponseContentType$web3$hostname$delete$ipfs$universal$path$gateway$content$list$entry = keyof Response$web3$hostname$delete$ipfs$universal$path$gateway$content$list$entry$Status$200;
 export interface Params$web3$hostname$delete$ipfs$universal$path$gateway$content$list$entry {
     parameter: Parameter$web3$hostname$delete$ipfs$universal$path$gateway$content$list$entry;
-    requestBody: RequestBody$web3$hostname$delete$ipfs$universal$path$gateway$content$list$entry[T];
 }
 export type ResponseContentType$spectrum$aggregate$analytics$get$current$aggregated$analytics = keyof Response$spectrum$aggregate$analytics$get$current$aggregated$analytics$Status$200;
 export interface Params$spectrum$aggregate$analytics$get$current$aggregated$analytics {
@@ -49167,11 +48913,9 @@ export interface Params$spectrum$applications$update$spectrum$application$config
     parameter: Parameter$spectrum$applications$update$spectrum$application$configuration$using$a$name$for$the$origin;
     requestBody: RequestBody$spectrum$applications$update$spectrum$application$configuration$using$a$name$for$the$origin["application/json"];
 }
-export type RequestContentType$spectrum$applications$delete$spectrum$application = keyof RequestBody$spectrum$applications$delete$spectrum$application;
 export type ResponseContentType$spectrum$applications$delete$spectrum$application = keyof Response$spectrum$applications$delete$spectrum$application$Status$200;
 export interface Params$spectrum$applications$delete$spectrum$application {
     parameter: Parameter$spectrum$applications$delete$spectrum$application;
-    requestBody: RequestBody$spectrum$applications$delete$spectrum$application[T];
 }
 export type HttpMethod = "GET" | "PUT" | "POST" | "DELETE" | "OPTIONS" | "HEAD" | "PATCH" | "TRACE";
 export interface ObjectLike {
@@ -51154,8 +50898,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /** Get Eligible Zones for Account Custom Nameservers */
@@ -51182,8 +50925,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "POST",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -51734,8 +51476,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -51834,8 +51575,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -52072,8 +51812,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -52184,8 +51923,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -52279,8 +52017,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -52376,8 +52113,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -52525,8 +52261,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -52650,8 +52385,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -52966,8 +52700,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -53082,8 +52815,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -53145,8 +52877,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -53225,8 +52956,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -53256,8 +52986,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "POST",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -53272,8 +53001,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "POST",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -53335,8 +53063,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -53351,8 +53078,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "PATCH",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -53611,8 +53337,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -53981,8 +53706,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "POST",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -54029,8 +53753,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -54141,8 +53864,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -54172,8 +53894,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "POST",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -54304,8 +54025,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "POST",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -54320,8 +54040,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -54404,8 +54123,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -54469,8 +54187,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -54551,8 +54268,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -54599,8 +54315,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -54808,8 +54523,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -55149,7 +54863,6 @@ export class Client<RequestOption> {
             httpMethod: "DELETE",
             url,
             headers,
-            requestBody: params.requestBody,
             queryParameters: queryParameters
         }, option);
     }
@@ -55294,8 +55007,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -55409,8 +55121,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -55474,8 +55185,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -55553,7 +55263,6 @@ export class Client<RequestOption> {
             httpMethod: "DELETE",
             url,
             headers,
-            requestBody: params.requestBody,
             queryParameters: queryParameters
         }, option);
     }
@@ -55690,8 +55399,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "POST",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -55706,8 +55414,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -55939,8 +55646,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -55972,8 +55678,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "PUT",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -55988,8 +55693,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -56004,8 +55708,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "PUT",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -56020,8 +55723,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -56115,8 +55817,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -56323,8 +56024,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -56828,8 +56528,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -57043,8 +56742,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -57193,8 +56891,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -57490,8 +57187,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -57587,8 +57283,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -57603,8 +57298,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "POST",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -57717,8 +57411,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -57805,8 +57498,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -57836,8 +57528,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "PUT",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -57852,8 +57543,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "POST",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -57868,8 +57558,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -57884,8 +57573,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "PATCH",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -57930,8 +57618,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "PUT",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -57946,8 +57633,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "POST",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -57977,8 +57663,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -57993,8 +57678,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "PATCH",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -58009,8 +57693,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "PATCH",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -58072,8 +57755,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -58533,8 +58215,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -58613,8 +58294,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -58693,8 +58373,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -58803,8 +58482,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -58921,8 +58599,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -58986,8 +58663,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -59166,8 +58842,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "PUT",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -59182,8 +58857,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -59607,8 +59281,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "PUT",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -59624,8 +59297,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "POST",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -59641,8 +59313,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -60586,8 +60257,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -60681,8 +60351,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -60970,8 +60639,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -61033,8 +60701,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -61183,8 +60850,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -61275,8 +60941,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -61407,8 +61072,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -61474,8 +61138,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -66204,8 +65867,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -66348,8 +66010,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -66498,8 +66159,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -66658,8 +66318,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -66706,8 +66365,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -66792,8 +66450,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -67758,8 +67415,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -67803,8 +67459,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -68508,8 +68163,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -68556,8 +68210,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -68720,8 +68373,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -68794,8 +68446,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "POST",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -68825,8 +68476,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -69246,8 +68896,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -69633,8 +69282,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -72002,8 +71650,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -72082,8 +71729,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -72133,8 +71779,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -72458,8 +72103,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -72559,8 +72203,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -72615,8 +72258,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -72708,8 +72350,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "POST",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -72739,8 +72380,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "POST",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -72980,8 +72620,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -73074,8 +72713,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -73324,8 +72962,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -73419,8 +73056,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -73561,8 +73197,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -73626,8 +73261,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -73730,8 +73364,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -73892,8 +73525,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -73978,8 +73610,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -74095,8 +73726,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -74111,8 +73741,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "POST",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -74176,8 +73805,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -74241,8 +73869,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -74257,8 +73884,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "POST",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -74273,8 +73899,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "POST",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -74289,8 +73914,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "POST",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -74442,8 +74066,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -74458,8 +74081,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "PATCH",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -74653,8 +74275,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -74750,8 +74371,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -74847,8 +74467,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -75012,8 +74631,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /** Edit Web3 Hostname */
@@ -75117,8 +74735,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
     /**
@@ -75274,8 +74891,7 @@ export class Client<RequestOption> {
         return this.apiClient.request({
             httpMethod: "DELETE",
             url,
-            headers,
-            requestBody: params.requestBody
+            headers
         }, option);
     }
 }
