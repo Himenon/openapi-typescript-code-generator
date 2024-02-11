@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.5"></a>
+## 1.0.5 (2024-02-11)
+
+
+### Bug Fixes
+
+* sanitize regex pattern ([#126](https://github.com/Himenon/openapi-typescript-code-generator/issues/126)) ([61399c0](https://github.com/Himenon/openapi-typescript-code-generator/commit/61399c0))
+
+
+
+
+
 <a name="1.0.4"></a>
 ## 1.0.4 (2024-02-04)
 
