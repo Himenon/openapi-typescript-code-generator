@@ -93,7 +93,7 @@ const createFormatSchemaToTypeNode = (factory: Factory.Type, target: FormatConve
 export const create = (factory: Factory.Type, options?: Options): Types => {
   const convertReservedWord = (word: string): string => {
     if (["import", "export"].includes(word)) {
-      return word + "_";
+      return `${word}_`;
     }
     return word;
   };
@@ -104,7 +104,7 @@ export const create = (factory: Factory.Type, options?: Options): Types => {
     return text.replace(/-/g, "$").replace(/\//g, "$");
   };
   const convertOperationId = (text: string): string => {
-    return convertString(text).replace(/\./g, "$");
+    return convertString(text).replace(/[^a-zA-Z0-9_]/g, "$");
   };
   return {
     escapeOperationIdText: (operationId: string): string => {

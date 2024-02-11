@@ -16,11 +16,17 @@ export const generateInterface = (
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
 ): ts.InterfaceDeclaration => {
+  /**
+   * requestBody:
+   *   content:
+   *     application/json: {}
+   */
+  const hasValidMediaType = Object.values(requestBody.content).filter(mediaType => Object.values(mediaType).length > 0).length > 0;
   const contentSignatures = MediaType.generatePropertySignatures(
     entryPoint,
     currentPoint,
     factory,
-    requestBody.content || {},
+    hasValidMediaType ? requestBody.content : {},
     context,
     converterContext,
   );

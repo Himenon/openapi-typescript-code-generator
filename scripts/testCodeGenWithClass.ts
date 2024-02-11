@@ -54,6 +54,8 @@ const main = () => {
   Writer.generateParameter("test/infer.domain/index.yml", "test/code/class/parameter/infer.domain.json");
 
   Writer.generateFormatTypeCode("test/format.domain/index.yml", "test/code/class/format.domain/code.ts");
+
+  Writer.generateFormatTypeCode("test/cloudflare/openapi.yaml", "test/code/class/cloudflare/client.ts");
 };
 
 main();

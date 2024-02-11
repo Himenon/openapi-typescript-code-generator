@@ -96,6 +96,8 @@ const main = () => {
   Writer.generateParameter("test/infer.domain/index.yml", "test/code/currying-functional/parameter/infer.domain.json");
 
   Writer.generateFormatTypeCode("test/format.domain/index.yml", "test/code/currying-functional/format.domain/code.ts");
+
+  Writer.generateFormatTypeCode("test/cloudflare/openapi.yaml", "test/code/currying-functional/cloudflare/client.ts");
 };
 
 main();

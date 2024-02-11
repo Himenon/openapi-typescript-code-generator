@@ -31,12 +31,15 @@ export const create = (rootSchema: OpenApi.Document): State => {
       }
       const parameters = [...(pathItem.parameters || []), ...(operation.parameters || [])] as OpenApi.Parameter[];
 
+      const requestBody = operation.requestBody as OpenApi.RequestBody | undefined;
+      const hasValidMediaType = Object.values(requestBody?.content || {}).filter(mediaType => Object.values(mediaType).length > 0).length > 0;
+
       state[operation.operationId] = {
         httpMethod,
         requestUri,
         comment: [operation.summary, operation.description].filter(Boolean).join(EOL),
         deprecated: !!operation.deprecated,
-        requestBody: operation.requestBody as OpenApi.RequestBody,
+        requestBody: hasValidMediaType ? requestBody : undefined,
         parameters: uniqParameters(parameters),
         responses: operation.responses as CodeGenerator.OpenApiResponses,
       };
