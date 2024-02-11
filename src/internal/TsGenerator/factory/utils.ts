@@ -28,11 +28,11 @@ export const generateComment = (comment: string, deprecated?: boolean): Comment 
   if (comments.length === 1) {
     return {
       hasTrailingNewLine: true,
-      value: "* " + comments.join("") + " ",
+      value: `* ${comments.join("")} `,
     };
   }
   return {
     hasTrailingNewLine: true,
-    value: "*" + EOL + comments.map(comment => ` * ${comment}`).join(EOL) + EOL + " ",
+    value: `*${EOL}${comments.map(comment => ` * ${comment}`).join(EOL)}${EOL} `,
   };
 };

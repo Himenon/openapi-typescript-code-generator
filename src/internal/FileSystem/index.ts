@@ -28,7 +28,7 @@ export class FileSystem {
   }
 
   public static existSync(entryPoint: string): boolean {
-    const fragmentIndex = entryPoint.indexOf(this.FRAGMENT);
+    const fragmentIndex = entryPoint.indexOf(FileSystem.FRAGMENT);
     const hasFragment = fragmentIndex !== -1;
     if (hasFragment) {
       const filename = entryPoint.substring(0, fragmentIndex);
@@ -38,12 +38,12 @@ export class FileSystem {
   }
 
   public static loadJsonOrYaml(entryPoint: string): any {
-    const hasFragment = entryPoint.indexOf(this.FRAGMENT) !== -1;
+    const hasFragment = entryPoint.indexOf(FileSystem.FRAGMENT) !== -1;
     if (hasFragment) {
-      const [filename, fragment] = entryPoint.split(this.FRAGMENT);
-      const data = this.internalLoadJsonOrYaml(filename);
+      const [filename, fragment] = entryPoint.split(FileSystem.FRAGMENT);
+      const data = FileSystem.internalLoadJsonOrYaml(filename);
       return DotProp.getProperty(data, fragment.replace(/\//g, "."));
     }
-    return this.internalLoadJsonOrYaml(entryPoint);
+    return FileSystem.internalLoadJsonOrYaml(entryPoint);
   }
 }

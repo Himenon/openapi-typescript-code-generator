@@ -74,11 +74,9 @@ export class CodeGenerator {
   public generateCode(generatorTemplates: Types.CodeGenerator.CustomGenerator<any>[], allowOperationIds?: string[]): string {
     const payload = this.parser.getCodeGeneratorParamsArray(allowOperationIds);
     const create = () => {
-      return generatorTemplates
-        .map(generatorTemplate => {
-          return Api.TsGenerator.Utils.convertIntermediateCodes(generatorTemplate?.generator(payload, generatorTemplate.option));
-        })
-        .flat();
+      return generatorTemplates.flatMap(generatorTemplate => {
+        return Api.TsGenerator.Utils.convertIntermediateCodes(generatorTemplate?.generator(payload, generatorTemplate.option));
+      });
     };
     return [Api.OpenApiTools.Comment.generateLeading(this.resolvedReferenceDocument), Api.TsGenerator.generate(create)].join(EOL + EOL + EOL);
   }

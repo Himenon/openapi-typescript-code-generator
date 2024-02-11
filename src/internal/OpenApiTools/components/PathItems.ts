@@ -4,8 +4,8 @@ import { Factory } from "../../TsGenerator";
 import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as Name from "../Name";
-import * as ToTypeNode from "../toTypeNode";
 import type * as Walker from "../Walker";
+import * as ToTypeNode from "../toTypeNode";
 import * as PathItem from "./PathItem";
 import * as Reference from "./Reference";
 
@@ -31,7 +31,8 @@ export const generateNamespace = (
       const reference = Reference.generate<OpenApi.PathItem>(entryPoint, currentPoint, pathItem);
       if (reference.type === "local") {
         throw new UnSupportError("can't use components.pathItems local reference");
-      } else if (reference.componentName) {
+      }
+      if (reference.componentName) {
         if (key !== reference.name) {
           throw new UnSupportError(`can't use difference pathItem key name. "${key}" !== "${reference.name}"`);
         }

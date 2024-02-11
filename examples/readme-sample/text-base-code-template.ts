@@ -5,7 +5,7 @@ interface Option {
 }
 
 const generator: Types.CodeGenerator.GenerateFunction<Option> = (payload: Types.CodeGenerator.Params[], option): string[] => {
-  if (option && option.showLog) {
+  if (option?.showLog) {
     console.log("show log message");
   }
   return ["Hello world"];

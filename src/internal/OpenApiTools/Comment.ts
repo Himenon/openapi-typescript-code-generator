@@ -2,7 +2,7 @@ import { EOL } from "os";
 
 import type { OpenApi } from "../../types";
 
-import { Version, Name } from "../../meta";
+import { Name, Version } from "../../meta";
 
 export const generateLeading = (schema: OpenApi.Document): string => {
   const messages: string[] = [];

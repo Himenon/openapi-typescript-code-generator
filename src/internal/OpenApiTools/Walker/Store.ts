@@ -137,7 +137,7 @@ class Store {
   }
   public getPathItem(localPath: string): OpenApi.PathItem {
     if (!localPath.startsWith("components/pathItem")) {
-      throw new Error("Only use start with 'component/pathItems': " + localPath);
+      throw new Error(`Only use start with 'component/pathItems': ${localPath}`);
     }
     const result = DotProp.getProperty(this.state.document, localPath.replace(/\//g, "."));
     if (!result) {
@@ -147,7 +147,7 @@ class Store {
   }
   public getParameter(localPath: string): OpenApi.Parameter {
     if (!localPath.startsWith("components/parameters")) {
-      throw new Error("Only use start with 'component/parameters': " + localPath);
+      throw new Error(`Only use start with 'component/parameters': ${localPath}`);
     }
     const result = DotProp.getProperty(this.state.document, localPath.replace(/\//g, "."));
     if (!result) {

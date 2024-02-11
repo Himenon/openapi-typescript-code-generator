@@ -33,7 +33,7 @@ const apiClientImpl: ApiClient<RequestOption> = {
     options?: RequestOption,
   ): Promise<any> => {
     const query = generateQueryString(queryParameters);
-    const requestUrl = query ? url + "?" + encodeURI(query) : url;
+    const requestUrl = query ? `${url}?${encodeURI(query)}` : url;
     const response = await axios.default.request({
       url: requestUrl,
       method: convertHttpMethodToAxiosMethod(httpMethod),

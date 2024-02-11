@@ -8,8 +8,8 @@ import { Factory } from "../../TsGenerator";
 import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as Name from "../Name";
-import * as ToTypeNode from "../toTypeNode";
 import type * as Walker from "../Walker";
+import * as ToTypeNode from "../toTypeNode";
 import * as ExternalDocumentation from "./ExternalDocumentation";
 import * as Parameter from "./Parameter";
 import * as Reference from "./Reference";
@@ -46,7 +46,7 @@ export const generateNamespace = (
   const basePath = `${parentPath}/${name}`;
   const operationId = operation.operationId;
   if (!operationId) {
-    throw new Error("not setting operationId\n" + JSON.stringify(operation));
+    throw new Error(`not setting operationId\n${JSON.stringify(operation)}`);
   }
   store.addStatement(basePath, {
     kind: "namespace",
@@ -136,7 +136,7 @@ export const generateStatements = (
   let statements: ts.Statement[] = [];
   const operationId = operation.operationId;
   if (!operationId) {
-    throw new Error("not setting operationId\n" + JSON.stringify(operation));
+    throw new Error(`not setting operationId\n${JSON.stringify(operation)}`);
   }
   store.updateOperationState(httpMethod, requestUri, operationId, {});
   const parameters = [...(pathItemParameters || []), ...(operation.parameters || [])];
@@ -157,7 +157,7 @@ export const generateStatements = (
             export: true,
             name: converterContext.generateRequestBodyName(operationId),
             type: factory.TypeReferenceNode.create({
-              name: context.resolveReferencePath(currentPoint, `${reference.path}`).name + "." + Name.ComponentChild.Content, // TODO Contextから作成？
+              name: `${context.resolveReferencePath(currentPoint, `${reference.path}`).name}.${Name.ComponentChild.Content}`, // TODO Contextから作成？
             }),
           }),
         );

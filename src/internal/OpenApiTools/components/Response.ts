@@ -4,8 +4,8 @@ import type { OpenApi } from "../../../types";
 import { Factory } from "../../TsGenerator";
 import * as ConverterContext from "../ConverterContext";
 import * as Name from "../Name";
-import * as ToTypeNode from "../toTypeNode";
 import type * as Walker from "../Walker";
+import * as ToTypeNode from "../toTypeNode";
 import * as Header from "./Header";
 import * as MediaType from "./MediaType";
 
@@ -110,7 +110,7 @@ export const generateReferenceNamespace = (
       export: true,
       name: Name.ComponentChild.Content,
       type: factory.TypeReferenceNode.create({
-        name: referenceNamespaceName + "." + Name.ComponentChild.Content, // TODO Contextから作成？
+        name: `${referenceNamespaceName}.${Name.ComponentChild.Content}`, // TODO Contextから作成？
       }),
     }),
   });

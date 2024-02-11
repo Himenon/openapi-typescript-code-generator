@@ -4,8 +4,8 @@ import { Factory } from "../../TsGenerator";
 import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as Name from "../Name";
-import * as ToTypeNode from "../toTypeNode";
 import type * as Walker from "../Walker";
+import * as ToTypeNode from "../toTypeNode";
 import * as Paramter from "./Parameter";
 import * as Reference from "./Reference";
 import * as Schema from "./Schema";
@@ -30,33 +30,32 @@ export const generateNamespace = (
       const reference = Reference.generate<OpenApi.Parameter>(entryPoint, currentPoint, parameter);
       if (reference.type === "local") {
         throw new UnSupportError("What is components.parameters local reference?");
-      } else {
-        if (!reference.data.schema) {
-          return;
-        }
-        Schema.addSchema(
-          entryPoint,
-          currentPoint,
-          store,
-          factory,
-          reference.path,
-          reference.name,
-          reference.data.schema,
-          context,
-          converterContext,
-        );
-        store.addStatement(`${basePath}/${name}`, {
-          kind: "typeAlias",
-          name: converterContext.escapeDeclarationText(name),
-          value: factory.TypeAliasDeclaration.create({
-            export: true,
-            name: converterContext.escapeDeclarationText(name),
-            type: factory.TypeReferenceNode.create({
-              name: context.resolveReferencePath(currentPoint, reference.path).name,
-            }),
-          }),
-        });
       }
+      if (!reference.data.schema) {
+        return;
+      }
+      Schema.addSchema(
+        entryPoint,
+        currentPoint,
+        store,
+        factory,
+        reference.path,
+        reference.name,
+        reference.data.schema,
+        context,
+        converterContext,
+      );
+      store.addStatement(`${basePath}/${name}`, {
+        kind: "typeAlias",
+        name: converterContext.escapeDeclarationText(name),
+        value: factory.TypeAliasDeclaration.create({
+          export: true,
+          name: converterContext.escapeDeclarationText(name),
+          type: factory.TypeReferenceNode.create({
+            name: context.resolveReferencePath(currentPoint, reference.path).name,
+          }),
+        }),
+      });
     } else {
       const path = `${basePath}/${name}`;
       store.addStatement(path, {

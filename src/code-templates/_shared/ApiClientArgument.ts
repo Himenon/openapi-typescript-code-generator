@@ -69,7 +69,7 @@ const createHeaders = (factory: TsGenerator.Factory.Type, { convertedParams }: C
     members.push(
       factory.PropertySignature.create({
         readOnly: false,
-        name: `Accept`,
+        name: "Accept",
         optional: false,
         type: factory.TypeReferenceNode.create({ name: "U" }),
       }),

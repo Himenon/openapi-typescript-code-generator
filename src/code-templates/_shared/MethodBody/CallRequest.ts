@@ -3,8 +3,8 @@ import ts from "typescript";
 import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
 import * as Utils from "../utils";
-import type { MethodType } from "./types";
 import { createEncodingMap } from "./createEncodingMap";
+import type { MethodType } from "./types";
 
 export interface Params {
   httpMethod: string;

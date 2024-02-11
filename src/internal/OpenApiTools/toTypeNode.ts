@@ -4,10 +4,10 @@ import type { OpenApi } from "../../types";
 import { UnSupportError } from "../Exception";
 import * as Logger from "../Logger";
 import { Factory } from "../TsGenerator";
-import * as Reference from "./components/Reference";
 import * as ConverterContext from "./ConverterContext";
 import * as Guard from "./Guard";
 import * as InferredType from "./InferredType";
+import * as Reference from "./components/Reference";
 import { ObjectSchemaWithAdditionalProperties } from "./types";
 
 export interface ResolveReferencePath {
@@ -112,10 +112,9 @@ export const convert: Convert = (
       const { maybeResolvedName, depth, pathArray } = context.resolveReferencePath(currentPoint, reference.path);
       if (depth === 2) {
         return factory.TypeReferenceNode.create({ name: converterContext.escapeReferenceDeclarationText(maybeResolvedName) });
-      } else {
-        const resolveSchema = context.findSchemaByPathArray(pathArray);
-        return convert(entryPoint, currentPoint, factory, resolveSchema, context, converterContext, { parent: schema });
       }
+      const resolveSchema = context.findSchemaByPathArray(pathArray);
+      return convert(entryPoint, currentPoint, factory, resolveSchema, context, converterContext, { parent: schema });
     }
     // サポートしているディレクトリに対して存在する場合
     if (reference.componentName) {
@@ -170,7 +169,7 @@ export const convert: Convert = (
       });
       return nullable(factory, typeNode, schema.nullable);
     }
-    if (option && option.parent) {
+    if (option?.parent) {
       const message = [
         "Schema Type is not found and is converted to the type any. The parent Schema is as follows.",
         "",

@@ -2,8 +2,8 @@ import ts from "typescript";
 
 import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
-import type { Option } from "../../_shared/types";
 import * as ApiClientInterface from "../../_shared/ApiClientInterface";
+import type { Option } from "../../_shared/types";
 import * as Class from "./Class";
 import * as Constructor from "./Constructor";
 import * as Method from "./Method";

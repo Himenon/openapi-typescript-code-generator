@@ -2,8 +2,8 @@ import ts from "typescript";
 
 import type { TsGenerator } from "../../api";
 import type { CodeGenerator } from "../../types";
-import type { Option } from "./types";
 import type { MethodType } from "./MethodBody/types";
+import type { Option } from "./types";
 
 const httpMethodList: string[] = ["GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH", "TRACE"];
 
@@ -190,7 +190,7 @@ export const create = (
     }),
   });
 
-  const successResponseNames = list.map(item => item.convertedParams.responseSuccessNames).flat();
+  const successResponseNames = list.flatMap(item => item.convertedParams.responseSuccessNames);
 
   const errorResponseNamespace = factory.Namespace.create({
     export: true,
@@ -238,7 +238,7 @@ export const create = (
     name: "RequestArgs",
     members: [
       factory.PropertySignature.create({
-        name: `httpMethod`,
+        name: "httpMethod",
         readOnly: true,
         optional: false,
         type: factory.TypeReferenceNode.create({ name: "HttpMethod" }),
@@ -250,25 +250,25 @@ export const create = (
         type: factory.TypeReferenceNode.create({ name: "string" }),
       }),
       factory.PropertySignature.create({
-        name: `headers`,
+        name: "headers",
         readOnly: false,
         optional: false,
         type: objectLikeOrAnyType,
       }),
       factory.PropertySignature.create({
-        name: `requestBody`,
+        name: "requestBody",
         readOnly: false,
         optional: true,
         type: objectLikeOrAnyType,
       }),
       factory.PropertySignature.create({
-        name: `requestBodyEncoding`,
+        name: "requestBodyEncoding",
         readOnly: false,
         optional: true,
         type: factory.TypeReferenceNode.create({ name: "Record<string, Encoding>" }),
       }),
       factory.PropertySignature.create({
-        name: `queryParameters`,
+        name: "queryParameters",
         optional: true,
         readOnly: false,
         type: factory.UnionTypeNode.create({

@@ -1,6 +1,6 @@
 import * as Types from "@himenon/openapi-typescript-code-generator/dist/types";
 
-interface Option {}
+type Option = {};
 
 const generator: Types.CodeGenerator.GenerateFunction<Option> = (payload: Types.CodeGenerator.Params[]): string[] => {
   return payload.map(params => {

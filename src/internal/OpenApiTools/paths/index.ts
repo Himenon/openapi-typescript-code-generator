@@ -2,12 +2,12 @@ import ts from "typescript";
 
 import type { OpenApi } from "../../../types";
 import { Factory } from "../../TsGenerator";
-import * as PathItem from "../components/PathItem";
-import * as Reference from "../components/Reference";
 import * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
-import * as ToTypeNode from "../toTypeNode";
 import type * as Walker from "../Walker";
+import * as PathItem from "../components/PathItem";
+import * as Reference from "../components/Reference";
+import * as ToTypeNode from "../toTypeNode";
 
 export const generateStatements = (
   entryPoint: string,
@@ -19,7 +19,7 @@ export const generateStatements = (
   converterContext: ConverterContext.Types,
 ): void => {
   const statements: ts.Statement[][] = [];
-  Object.entries(paths).forEach(([requestUri, pathItem]) => {
+  for (const [requestUri, pathItem] of Object.entries(paths)) {
     if (!requestUri.startsWith("/")) {
       throw new Error(`Not start slash: ${requestUri}`);
     }
@@ -55,7 +55,7 @@ export const generateStatements = (
     } else {
       statements.push(PathItem.generateStatements(entryPoint, currentPoint, store, factory, requestUri, pathItem, context, converterContext));
     }
-  });
+  }
 
   store.addAdditionalStatement(statements.flat());
 };
