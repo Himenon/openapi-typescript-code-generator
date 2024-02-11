@@ -14,10 +14,11 @@ const extractPickedParameter = (parameter: OpenApi.Parameter): CodeGenerator.Pic
 
 const extractResponseNamesByStatusCode = (type: "success" | "error", responses: { [statusCode: string]: OpenApi.Response }): string[] => {
   const statusCodeList: string[] = [];
-  Object.entries(responses || {}).forEach(([statusCodeLike, response]) => {
+  for (const [statusCodeLike, response] of Object.entries(responses || {})) {
+    const hasValidMediaType = Object.values(response.content || {}).filter(mediaType => Object.values(mediaType).length > 0).length > 0;
     // ContentTypeの定義が存在しない場合はstatusCodeを読み取らない
-    if (Object.keys(response.content || {}).length === 0) {
-      return;
+    if (!hasValidMediaType) {
+      continue;
     }
     if (typeof statusCodeLike === "string") {
       const statusCodeNumberValue = parseInt(statusCodeLike, 10);
@@ -31,7 +32,7 @@ const extractResponseNamesByStatusCode = (type: "success" | "error", responses: 
         }
       }
     }
-  });
+  }
   return statusCodeList;
 };
 
@@ -46,11 +47,21 @@ const getRequestContentTypeList = (requestBody: OpenApi.RequestBody): string[] =
 };
 
 const getSuccessResponseContentTypeList = (responses: { [statusCode: string]: OpenApi.Response }): string[] => {
-  let contentTypeList: string[] = [];
-  extractResponseNamesByStatusCode("success", responses).forEach(statusCode => {
+  const contentTypeList: string[] = [];
+  for (const statusCode of extractResponseNamesByStatusCode("success", responses)) {
     const response = responses[statusCode];
-    contentTypeList = contentTypeList.concat(Object.keys(response.content || {}));
-  });
+    /**
+     * responses:
+     *   200:
+     *     content:
+     *       application/json: {}
+     */
+    for (const [key, mediaType] of Object.entries(response.content || {})) {
+      if (Object.values(mediaType).length > 0) {
+        contentTypeList.push(key);
+      }
+    }
+  }
   return Array.from(new Set(contentTypeList));
 };
 
@@ -68,9 +79,9 @@ export const generateCodeGeneratorParamsArray = (
 ): CodeGenerator.Params[] => {
   const operationState = store.getNoReferenceOperationState();
   const params: CodeGenerator.Params[] = [];
-  Object.entries(operationState).forEach(([operationId, item]) => {
+  for (const [operationId, item] of Object.entries(operationState)) {
     if (allowOperationIds && !allowOperationIds.includes(operationId)) {
-      return;
+      continue;
     }
     const responseSuccessNames = extractResponseNamesByStatusCode("success", item.responses).map(statusCode =>
       converterContext.generateResponseName(operationId, statusCode),
@@ -114,7 +125,7 @@ export const generateCodeGeneratorParamsArray = (
       operationParams: item,
     };
     params.push(formatParams);
-  });
+  }
 
   return params;
 };
