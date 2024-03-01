@@ -3859,7 +3859,7 @@ export class Client<RequestOption> {
         }, option);
     }
     public async RolloutService_ListRolloutInfos(params: Params$RolloutService_ListRolloutInfos, option?: RequestOption): Promise<Response$RolloutService_ListRolloutInfos$Status$200["application/json"]> {
-        const url = this.baseUrl + \`/api/v1/rollouts/\${params.parameter.namespace}/info\`;
+        const url = this.baseUrl + \`/api/v1/rollouts/\${encodeURIComponent(params.parameter.namespace)}/info\`;
         const headers = {
             Accept: "application/json"
         };
@@ -3870,7 +3870,7 @@ export class Client<RequestOption> {
         }, option);
     }
     public async RolloutService_WatchRolloutInfos(params: Params$RolloutService_WatchRolloutInfos, option?: RequestOption): Promise<Response$RolloutService_WatchRolloutInfos$Status$200["application/json"]> {
-        const url = this.baseUrl + \`/api/v1/rollouts/\${params.parameter.namespace}/info/watch\`;
+        const url = this.baseUrl + \`/api/v1/rollouts/\${encodeURIComponent(params.parameter.namespace)}/info/watch\`;
         const headers = {
             Accept: "application/json"
         };
@@ -3881,7 +3881,7 @@ export class Client<RequestOption> {
         }, option);
     }
     public async RolloutService_AbortRollout(params: Params$RolloutService_AbortRollout, option?: RequestOption): Promise<Response$RolloutService_AbortRollout$Status$200["application/json"]> {
-        const url = this.baseUrl + \`/api/v1/rollouts/\${params.parameter.namespace}/\${params.parameter.name}/abort\`;
+        const url = this.baseUrl + \`/api/v1/rollouts/\${encodeURIComponent(params.parameter.namespace)}/\${encodeURIComponent(params.parameter.name)}/abort\`;
         const headers = {
             "Content-Type": "application/json",
             Accept: "application/json"
@@ -3894,7 +3894,7 @@ export class Client<RequestOption> {
         }, option);
     }
     public async RolloutService_GetRolloutInfo(params: Params$RolloutService_GetRolloutInfo, option?: RequestOption): Promise<Response$RolloutService_GetRolloutInfo$Status$200["application/json"]> {
-        const url = this.baseUrl + \`/api/v1/rollouts/\${params.parameter.namespace}/\${params.parameter.name}/info\`;
+        const url = this.baseUrl + \`/api/v1/rollouts/\${encodeURIComponent(params.parameter.namespace)}/\${encodeURIComponent(params.parameter.name)}/info\`;
         const headers = {
             Accept: "application/json"
         };
@@ -3905,7 +3905,7 @@ export class Client<RequestOption> {
         }, option);
     }
     public async RolloutService_WatchRolloutInfo(params: Params$RolloutService_WatchRolloutInfo, option?: RequestOption): Promise<Response$RolloutService_WatchRolloutInfo$Status$200["application/json"]> {
-        const url = this.baseUrl + \`/api/v1/rollouts/\${params.parameter.namespace}/\${params.parameter.name}/info/watch\`;
+        const url = this.baseUrl + \`/api/v1/rollouts/\${encodeURIComponent(params.parameter.namespace)}/\${encodeURIComponent(params.parameter.name)}/info/watch\`;
         const headers = {
             Accept: "application/json"
         };
@@ -3916,7 +3916,7 @@ export class Client<RequestOption> {
         }, option);
     }
     public async RolloutService_PromoteRollout(params: Params$RolloutService_PromoteRollout, option?: RequestOption): Promise<Response$RolloutService_PromoteRollout$Status$200["application/json"]> {
-        const url = this.baseUrl + \`/api/v1/rollouts/\${params.parameter.namespace}/\${params.parameter.name}/promote\`;
+        const url = this.baseUrl + \`/api/v1/rollouts/\${encodeURIComponent(params.parameter.namespace)}/\${encodeURIComponent(params.parameter.name)}/promote\`;
         const headers = {
             "Content-Type": "application/json",
             Accept: "application/json"
@@ -3929,7 +3929,7 @@ export class Client<RequestOption> {
         }, option);
     }
     public async RolloutService_RestartRollout(params: Params$RolloutService_RestartRollout, option?: RequestOption): Promise<Response$RolloutService_RestartRollout$Status$200["application/json"]> {
-        const url = this.baseUrl + \`/api/v1/rollouts/\${params.parameter.namespace}/\${params.parameter.name}/restart\`;
+        const url = this.baseUrl + \`/api/v1/rollouts/\${encodeURIComponent(params.parameter.namespace)}/\${encodeURIComponent(params.parameter.name)}/restart\`;
         const headers = {
             "Content-Type": "application/json",
             Accept: "application/json"
@@ -3942,7 +3942,7 @@ export class Client<RequestOption> {
         }, option);
     }
     public async RolloutService_RetryRollout(params: Params$RolloutService_RetryRollout, option?: RequestOption): Promise<Response$RolloutService_RetryRollout$Status$200["application/json"]> {
-        const url = this.baseUrl + \`/api/v1/rollouts/\${params.parameter.namespace}/\${params.parameter.name}/retry\`;
+        const url = this.baseUrl + \`/api/v1/rollouts/\${encodeURIComponent(params.parameter.namespace)}/\${encodeURIComponent(params.parameter.name)}/retry\`;
         const headers = {
             "Content-Type": "application/json",
             Accept: "application/json"
@@ -3955,7 +3955,7 @@ export class Client<RequestOption> {
         }, option);
     }
     public async RolloutService_SetRolloutImage(params: Params$RolloutService_SetRolloutImage, option?: RequestOption): Promise<Response$RolloutService_SetRolloutImage$Status$200["application/json"]> {
-        const url = this.baseUrl + \`/api/v1/rollouts/\${params.parameter.namespace}/\${params.parameter.rollout}/set/\${params.parameter.container}/\${params.parameter.image}/\${params.parameter.tag}\`;
+        const url = this.baseUrl + \`/api/v1/rollouts/\${encodeURIComponent(params.parameter.namespace)}/\${encodeURIComponent(params.parameter.rollout)}/set/\${encodeURIComponent(params.parameter.container)}/\${encodeURIComponent(params.parameter.image)}/\${encodeURIComponent(params.parameter.tag)}\`;
         const headers = {
             "Content-Type": "application/json",
             Accept: "application/json"
@@ -3968,7 +3968,7 @@ export class Client<RequestOption> {
         }, option);
     }
     public async RolloutService_UndoRollout(params: Params$RolloutService_UndoRollout, option?: RequestOption): Promise<Response$RolloutService_UndoRollout$Status$200["application/json"]> {
-        const url = this.baseUrl + \`/api/v1/rollouts/\${params.parameter.namespace}/\${params.parameter.rollout}/undo/\${params.parameter.revision}\`;
+        const url = this.baseUrl + \`/api/v1/rollouts/\${encodeURIComponent(params.parameter.namespace)}/\${encodeURIComponent(params.parameter.rollout)}/undo/\${encodeURIComponent(params.parameter.revision)}\`;
         const headers = {
             "Content-Type": "application/json",
             Accept: "application/json"

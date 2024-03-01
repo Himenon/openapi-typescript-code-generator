@@ -45,21 +45,35 @@ describe("PathParameter Test", () => {
     return getText(expression);
   };
   test("generateUrlTemplateExpression", () => {
-    expect(generate("/{a}", [{ in: "path", name: "a", required: true }])).toEqual(`\`/\${params.parameter.a}\`;${EOL}`);
-    expect(generate("/{a}/", [{ in: "path", name: "a", required: true }])).toEqual(`\`/\${params.parameter.a}/\`;${EOL}`);
-    expect(generate("/a/{b}", [{ in: "path", name: "b", required: true }])).toEqual(`\`/a/\${params.parameter.b}\`;${EOL}`);
-    expect(generate("/a/{b}/", [{ in: "path", name: "b", required: true }])).toEqual(`\`/a/\${params.parameter.b}/\`;${EOL}`);
-    expect(generate("/a/{b}/c", [{ in: "path", name: "b", required: true }])).toEqual(`\`/a/\${params.parameter.b}/c\`;${EOL}`);
-    expect(generate("/a/{b}/c/", [{ in: "path", name: "b", required: true }])).toEqual(`\`/a/\${params.parameter.b}/c/\`;${EOL}`);
-    expect(generate("/a/b/{c}", [{ in: "path", name: "c", required: true }])).toEqual(`\`/a/b/\${params.parameter.c}\`;${EOL}`);
-    expect(generate("/a/b/{c}", [{ in: "path", name: "c", required: true }])).toEqual(`\`/a/b/\${params.parameter.c}\`;${EOL}`);
-    expect(generate("/a/b/{c}/", [{ in: "path", name: "c", required: true }])).toEqual(`\`/a/b/\${params.parameter.c}/\`;${EOL}`);
-    expect(generate("/a/b/{c}.json", [{ in: "path", name: "c", required: true }])).toEqual(`\`/a/b/\${params.parameter.c}.json\`;${EOL}`);
+    expect(generate("/{a}", [{ in: "path", name: "a", required: true }])).toEqual(`\`/\${encodeURIComponent(params.parameter.a)}\`;${EOL}`);
+    expect(generate("/{a}/", [{ in: "path", name: "a", required: true }])).toEqual(`\`/\${encodeURIComponent(params.parameter.a)}/\`;${EOL}`);
+    expect(generate("/a/{b}", [{ in: "path", name: "b", required: true }])).toEqual(`\`/a/\${encodeURIComponent(params.parameter.b)}\`;${EOL}`);
+    expect(generate("/a/{b}/", [{ in: "path", name: "b", required: true }])).toEqual(
+      `\`/a/\${encodeURIComponent(params.parameter.b)}/\`;${EOL}`,
+    );
+    expect(generate("/a/{b}/c", [{ in: "path", name: "b", required: true }])).toEqual(
+      `\`/a/\${encodeURIComponent(params.parameter.b)}/c\`;${EOL}`,
+    );
+    expect(generate("/a/{b}/c/", [{ in: "path", name: "b", required: true }])).toEqual(
+      `\`/a/\${encodeURIComponent(params.parameter.b)}/c/\`;${EOL}`,
+    );
+    expect(generate("/a/b/{c}", [{ in: "path", name: "c", required: true }])).toEqual(
+      `\`/a/b/\${encodeURIComponent(params.parameter.c)}\`;${EOL}`,
+    );
+    expect(generate("/a/b/{c}", [{ in: "path", name: "c", required: true }])).toEqual(
+      `\`/a/b/\${encodeURIComponent(params.parameter.c)}\`;${EOL}`,
+    );
+    expect(generate("/a/b/{c}/", [{ in: "path", name: "c", required: true }])).toEqual(
+      `\`/a/b/\${encodeURIComponent(params.parameter.c)}/\`;${EOL}`,
+    );
+    expect(generate("/a/b/{c}.json", [{ in: "path", name: "c", required: true }])).toEqual(
+      `\`/a/b/\${encodeURIComponent(params.parameter.c)}.json\`;${EOL}`,
+    );
     expect(generate("/{a}.json/{a}.json/{a}.json", [{ in: "path", name: "a", required: true }])).toEqual(
-      `\`/\${params.parameter.a}.json/\${params.parameter.a}.json/\${params.parameter.a}.json\`;${EOL}`,
+      `\`/\${encodeURIComponent(params.parameter.a)}.json/\${encodeURIComponent(params.parameter.a)}.json/\${encodeURIComponent(params.parameter.a)}.json\`;${EOL}`,
     );
     expect(generate("/.json.{a}.json/{a}.json.{a}", [{ in: "path", name: "a", required: true }])).toEqual(
-      `\`/.json.\${params.parameter.a}.json/\${params.parameter.a}.json.\${params.parameter.a}\`;${EOL}`,
+      `\`/.json.\${encodeURIComponent(params.parameter.a)}.json/\${encodeURIComponent(params.parameter.a)}.json.\${encodeURIComponent(params.parameter.a)}\`;${EOL}`,
     );
 
     expect(
@@ -67,54 +81,54 @@ describe("PathParameter Test", () => {
         { in: "path", name: "a", required: true },
         { in: "path", name: "b", required: true },
       ]),
-    ).toBe(`\`/\${params.parameter.a}/\${params.parameter.b}\`;${EOL}`);
+    ).toBe(`\`/\${encodeURIComponent(params.parameter.a)}/\${encodeURIComponent(params.parameter.b)}\`;${EOL}`);
     expect(
       generate("/{a}/{b}/", [
         { in: "path", name: "a", required: true },
         { in: "path", name: "b", required: true },
       ]),
-    ).toBe(`\`/\${params.parameter.a}/\${params.parameter.b}/\`;${EOL}`);
+    ).toBe(`\`/\${encodeURIComponent(params.parameter.a)}/\${encodeURIComponent(params.parameter.b)}/\`;${EOL}`);
     expect(
       generate("/{a}/{b}/c", [
         { in: "path", name: "a", required: true },
         { in: "path", name: "b", required: true },
       ]),
-    ).toBe(`\`/\${params.parameter.a}/\${params.parameter.b}/c\`;${EOL}`);
+    ).toBe(`\`/\${encodeURIComponent(params.parameter.a)}/\${encodeURIComponent(params.parameter.b)}/c\`;${EOL}`);
     expect(
       generate("/{a}/{b}/c/", [
         { in: "path", name: "a", required: true },
         { in: "path", name: "b", required: true },
       ]),
-    ).toBe(`\`/\${params.parameter.a}/\${params.parameter.b}/c/\`;${EOL}`);
+    ).toBe(`\`/\${encodeURIComponent(params.parameter.a)}/\${encodeURIComponent(params.parameter.b)}/c/\`;${EOL}`);
     expect(
       generate("/{a}/b/{c}", [
         { in: "path", name: "a", required: true },
         { in: "path", name: "c", required: true },
       ]),
-    ).toBe(`\`/\${params.parameter.a}/b/\${params.parameter.c}\`;${EOL}`);
+    ).toBe(`\`/\${encodeURIComponent(params.parameter.a)}/b/\${encodeURIComponent(params.parameter.c)}\`;${EOL}`);
     expect(
       generate("/{a}/b/{c}/", [
         { in: "path", name: "a", required: true },
         { in: "path", name: "c", required: true },
       ]),
-    ).toBe(`\`/\${params.parameter.a}/b/\${params.parameter.c}/\`;${EOL}`);
+    ).toBe(`\`/\${encodeURIComponent(params.parameter.a)}/b/\${encodeURIComponent(params.parameter.c)}/\`;${EOL}`);
     expect(
       generate("/a/{b}/{c}", [
         { in: "path", name: "b", required: true },
         { in: "path", name: "c", required: true },
       ]),
-    ).toBe(`\`/a/\${params.parameter.b}/\${params.parameter.c}\`;${EOL}`);
+    ).toBe(`\`/a/\${encodeURIComponent(params.parameter.b)}/\${encodeURIComponent(params.parameter.c)}\`;${EOL}`);
     expect(
       generate("/a/{b}/{c}/", [
         { in: "path", name: "b", required: true },
         { in: "path", name: "c", required: true },
       ]),
-    ).toBe(`\`/a/\${params.parameter.b}/\${params.parameter.c}/\`;${EOL}`);
+    ).toBe(`\`/a/\${encodeURIComponent(params.parameter.b)}/\${encodeURIComponent(params.parameter.c)}/\`;${EOL}`);
     expect(
       generate("/a/{b}...{c}/", [
         { in: "path", name: "b", required: true },
         { in: "path", name: "c", required: true },
       ]),
-    ).toBe(`\`/a/\${params.parameter.b}...\${params.parameter.c}/\`;${EOL}`);
+    ).toBe(`\`/a/\${encodeURIComponent(params.parameter.b)}...\${encodeURIComponent(params.parameter.c)}/\`;${EOL}`);
   });
 });

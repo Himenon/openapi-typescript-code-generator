@@ -499,7 +499,7 @@ export class Client<RequestOption> {
         }, option);
     }
     public async searchBook(params: Params$searchBook, option?: RequestOption): Promise<Response$searchBook$Status$200["application/json"]> {
-        const url = this.baseUrl + \`/get/search/\${params.parameter["book.name"]}\`;
+        const url = this.baseUrl + \`/get/search/\${encodeURIComponent(params.parameter["book.name"])}\`;
         const headers = {
             Accept: "application/json"
         };
@@ -514,7 +514,7 @@ export class Client<RequestOption> {
         }, option);
     }
     public async getBookById(params: Params$getBookById, option?: RequestOption): Promise<Response$getBookById$Status$200["application/json"]> {
-        const url = this.baseUrl + \`/get/books/\${params.parameter.id}\`;
+        const url = this.baseUrl + \`/get/books/\${encodeURIComponent(params.parameter.id)}\`;
         const headers = {
             Accept: "application/json"
         };
@@ -525,7 +525,7 @@ export class Client<RequestOption> {
         }, option);
     }
     public async deleteBook(params: Params$deleteBook, option?: RequestOption): Promise<Response$deleteBook$Status$200["application/json"]> {
-        const url = this.baseUrl + \`/get/books/\${params.parameter.id}\`;
+        const url = this.baseUrl + \`/get/books/\${encodeURIComponent(params.parameter.id)}\`;
         const headers = {
             Accept: "application/json"
         };
@@ -1150,7 +1150,7 @@ export class Client<RequestOption> {
         }, option);
     }
     public searchBook(params: Params$searchBook, option?: RequestOption): Response$searchBook$Status$200["application/json"] {
-        const url = this.baseUrl + \`/get/search/\${params.parameter["book.name"]}\`;
+        const url = this.baseUrl + \`/get/search/\${encodeURIComponent(params.parameter["book.name"])}\`;
         const headers = {
             Accept: "application/json"
         };
@@ -1165,7 +1165,7 @@ export class Client<RequestOption> {
         }, option);
     }
     public getBookById(params: Params$getBookById, option?: RequestOption): Response$getBookById$Status$200["application/json"] {
-        const url = this.baseUrl + \`/get/books/\${params.parameter.id}\`;
+        const url = this.baseUrl + \`/get/books/\${encodeURIComponent(params.parameter.id)}\`;
         const headers = {
             Accept: "application/json"
         };
@@ -1176,7 +1176,7 @@ export class Client<RequestOption> {
         }, option);
     }
     public deleteBook(params: Params$deleteBook, option?: RequestOption): Response$deleteBook$Status$200["application/json"] {
-        const url = this.baseUrl + \`/get/books/\${params.parameter.id}\`;
+        const url = this.baseUrl + \`/get/books/\${encodeURIComponent(params.parameter.id)}\`;
         const headers = {
             Accept: "application/json"
         };
@@ -1435,7 +1435,7 @@ export class Client<RequestOption> {
     private baseUrl: string;
     constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) { this.baseUrl = baseUrl.replace(/\\/$/, ""); }
     public async getBook(params: Params$getBook, option?: RequestOption): Promise<Response$getBook$Status$200["application/json"]> {
-        const url = this.baseUrl + \`/get/book/\${params.parameter.id}\`;
+        const url = this.baseUrl + \`/get/book/\${encodeURIComponent(params.parameter.id)}\`;
         const headers = {
             Accept: "application/json"
         };
@@ -1446,7 +1446,7 @@ export class Client<RequestOption> {
         }, option);
     }
     public async getDescription(params: Params$getDescription, option?: RequestOption): Promise<Response$getDescription$Status$200["application/json"]> {
-        const url = this.baseUrl + \`/get/book/\${params.parameter.id}/description\`;
+        const url = this.baseUrl + \`/get/book/\${encodeURIComponent(params.parameter.id)}/description\`;
         const headers = {
             Accept: "application/json"
         };
@@ -1457,7 +1457,7 @@ export class Client<RequestOption> {
         }, option);
     }
     public async getAuthor(params: Params$getAuthor, option?: RequestOption): Promise<Response$getAuthor$Status$200["application/json"]> {
-        const url = this.baseUrl + \`/get/author/\${params.parameter.id}\`;
+        const url = this.baseUrl + \`/get/author/\${encodeURIComponent(params.parameter.id)}\`;
         const headers = {
             Accept: "application/json"
         };
@@ -1468,7 +1468,7 @@ export class Client<RequestOption> {
         }, option);
     }
     public async getPublisher(params: Params$getPublisher, option?: RequestOption): Promise<Response$getPublisher$Status$200["application/json"]> {
-        const url = this.baseUrl + \`/get/publisher/\${params.parameter.id}\`;
+        const url = this.baseUrl + \`/get/publisher/\${encodeURIComponent(params.parameter.id)}\`;
         const headers = {
             Accept: "application/json"
         };
@@ -1529,7 +1529,7 @@ export class Client<RequestOption> {
         }, option);
     }
     public async getBookById(params: Params$getBookById, option?: RequestOption): Promise<Response$getBookById$Status$200["application/json"]> {
-        const url = this.baseUrl + \`/author/author-\${params.parameter.authorId}.a.\${params.parameter.bookId}.b/book/\${params.parameter.bookId}.json\`;
+        const url = this.baseUrl + \`/author/author-\${encodeURIComponent(params.parameter.authorId)}.a.\${encodeURIComponent(params.parameter.bookId)}.b/book/\${encodeURIComponent(params.parameter.bookId)}.json\`;
         const headers = {
             Accept: "application/json"
         };
@@ -1672,7 +1672,7 @@ export class Client<RequestOption> {
     private baseUrl: string;
     constructor(private apiClient: ApiClient<RequestOption>, baseUrl: string) { this.baseUrl = baseUrl.replace(/\\/$/, ""); }
     public async getBook(params: Params$getBook, option?: RequestOption): Promise<Response$getBook$Status$200["application/json"]> {
-        const url = this.baseUrl + \`/get/book/\${params.parameter.id}\`;
+        const url = this.baseUrl + \`/get/book/\${encodeURIComponent(params.parameter.id)}\`;
         const headers = {
             Accept: "application/json"
         };
@@ -1683,7 +1683,7 @@ export class Client<RequestOption> {
         }, option);
     }
     public async getDescription(params: Params$getDescription, option?: RequestOption): Promise<Response$getDescription$Status$200["application/json"]> {
-        const url = this.baseUrl + \`/get/book/\${params.parameter.id}/description\`;
+        const url = this.baseUrl + \`/get/book/\${encodeURIComponent(params.parameter.id)}/description\`;
         const headers = {
             Accept: "application/json"
         };
@@ -1694,7 +1694,7 @@ export class Client<RequestOption> {
         }, option);
     }
     public async getAuthor(params: Params$getAuthor, option?: RequestOption): Promise<Response$getAuthor$Status$200["application/json"]> {
-        const url = this.baseUrl + \`/get/author/\${params.parameter.id}\`;
+        const url = this.baseUrl + \`/get/author/\${encodeURIComponent(params.parameter.id)}\`;
         const headers = {
             Accept: "application/json"
         };
@@ -1705,7 +1705,7 @@ export class Client<RequestOption> {
         }, option);
     }
     public async getPublisher(params: Params$getPublisher, option?: RequestOption): Promise<Response$getPublisher$Status$200["application/json"]> {
-        const url = this.baseUrl + \`/get/publisher/\${params.parameter.id}\`;
+        const url = this.baseUrl + \`/get/publisher/\${encodeURIComponent(params.parameter.id)}\`;
         const headers = {
             Accept: "application/json"
         };

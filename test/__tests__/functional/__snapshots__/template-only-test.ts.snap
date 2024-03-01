@@ -150,7 +150,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             }, option);
         },
         searchBook: (params: Params$searchBook, option?: RequestOption): Promise<Response$searchBook$Status$200["application/json"]> => {
-            const url = _baseUrl + \`/get/search/\${params.parameter["book.name"]}\`;
+            const url = _baseUrl + \`/get/search/\${encodeURIComponent(params.parameter["book.name"])}\`;
             const headers = {
                 Accept: "application/json"
             };
@@ -165,7 +165,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             }, option);
         },
         getBookById: (params: Params$getBookById, option?: RequestOption): Promise<Response$getBookById$Status$200["application/json"]> => {
-            const url = _baseUrl + \`/get/books/\${params.parameter.id}\`;
+            const url = _baseUrl + \`/get/books/\${encodeURIComponent(params.parameter.id)}\`;
             const headers = {
                 Accept: "application/json"
             };
@@ -176,7 +176,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             }, option);
         },
         deleteBook: (params: Params$deleteBook, option?: RequestOption): Promise<Response$deleteBook$Status$200["application/json"]> => {
-            const url = _baseUrl + \`/get/books/\${params.parameter.id}\`;
+            const url = _baseUrl + \`/get/books/\${encodeURIComponent(params.parameter.id)}\`;
             const headers = {
                 Accept: "application/json"
             };
@@ -343,7 +343,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             }, option);
         },
         searchBook: (params: Params$searchBook, option?: RequestOption): Response$searchBook$Status$200["application/json"] => {
-            const url = _baseUrl + \`/get/search/\${params.parameter["book.name"]}\`;
+            const url = _baseUrl + \`/get/search/\${encodeURIComponent(params.parameter["book.name"])}\`;
             const headers = {
                 Accept: "application/json"
             };
@@ -358,7 +358,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             }, option);
         },
         getBookById: (params: Params$getBookById, option?: RequestOption): Response$getBookById$Status$200["application/json"] => {
-            const url = _baseUrl + \`/get/books/\${params.parameter.id}\`;
+            const url = _baseUrl + \`/get/books/\${encodeURIComponent(params.parameter.id)}\`;
             const headers = {
                 Accept: "application/json"
             };
@@ -369,7 +369,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
             }, option);
         },
         deleteBook: (params: Params$deleteBook, option?: RequestOption): Response$deleteBook$Status$200["application/json"] => {
-            const url = _baseUrl + \`/get/books/\${params.parameter.id}\`;
+            const url = _baseUrl + \`/get/books/\${encodeURIComponent(params.parameter.id)}\`;
             const headers = {
                 Accept: "application/json"
             };
