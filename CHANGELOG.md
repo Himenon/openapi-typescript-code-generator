@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.8"></a>
+## 1.0.8 (2024-03-01)
+
+
+### Bug Fixes
+
+* path params must not contain any unescaped generic syntax characters ([#132](https://github.com/Himenon/openapi-typescript-code-generator/issues/132)) ([9fa1ce9](https://github.com/Himenon/openapi-typescript-code-generator/commit/9fa1ce9))
+
+
+
+
+
 <a name="1.0.7"></a>
 ## 1.0.7 (2024-02-11)
 
