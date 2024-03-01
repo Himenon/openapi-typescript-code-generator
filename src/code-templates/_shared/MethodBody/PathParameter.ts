@@ -96,6 +96,9 @@ export const generateUrlTemplateExpression = (
         temporaryStringList = [];
       }
 
+      /**
+       * @see https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#path-templating
+       */
       urlTemplate.push({
         type: "property",
         value: factory.CallExpression.create({
