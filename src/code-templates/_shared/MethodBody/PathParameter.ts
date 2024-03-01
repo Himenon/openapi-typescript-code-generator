@@ -73,7 +73,7 @@ export const generateUrlTemplateExpression = (
       if (new RegExp(pathParameterName).test(replacedText)) {
         const { text, escaped } = escapeText(patternMap[pathParameterName]);
         const variableDeclareText = escaped ? `params.parameter[${text}]` : `params.parameter.${text}`;
-        replacedText = replacedText.replace(new RegExp(pathParameterName, "g"), `encodeURIComponent(${variableDeclareText})`);
+        replacedText = replacedText.replace(new RegExp(pathParameterName, "g"), variableDeclareText);
       }
     }
     return replacedText === text ? undefined : replacedText;
@@ -95,9 +95,15 @@ export const generateUrlTemplateExpression = (
         });
         temporaryStringList = [];
       }
+
       urlTemplate.push({
         type: "property",
-        value: Utils.generateVariableIdentifier(factory, replacedText),
+        value: factory.CallExpression.create({
+          expression: factory.Identifier.create({
+            name: "encodeURIComponent",
+          }),
+          argumentsArray: [Utils.generateVariableIdentifier(factory, replacedText)],
+        }),
       });
     } else {
       temporaryStringList.push(requestUriTick);
