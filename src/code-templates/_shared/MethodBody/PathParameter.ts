@@ -61,20 +61,21 @@ export const generateUrlTemplateExpression = (
   pathParameters: CodeGenerator.PickedParameter[],
 ): Utils.Params$TemplateExpression => {
   const patternMap = pathParameters.reduce<{ [key: string]: string }>((previous, item) => {
-    return { ...previous, [`{${item.name}}`]: item.name };
+    previous[`{${item.name}}`] = item.name;
+    return previous;
   }, {});
   const urlTemplate: Utils.Params$TemplateExpression = [];
   let temporaryStringList: string[] = [];
   // TODO generateVariableIdentifierに噛み合わ下げいいように変換する
   const replaceText = (text: string): string | undefined => {
     let replacedText = text;
-    Object.keys(patternMap).forEach(pathParameterName => {
+    for (const pathParameterName of Object.keys(patternMap)) {
       if (new RegExp(pathParameterName).test(replacedText)) {
         const { text, escaped } = escapeText(patternMap[pathParameterName]);
         const variableDeclareText = escaped ? `params.parameter[${text}]` : `params.parameter.${text}`;
-        replacedText = replacedText.replace(new RegExp(pathParameterName, "g"), variableDeclareText);
+        replacedText = replacedText.replace(new RegExp(pathParameterName, "g"), `encodeURIComponent(${variableDeclareText})`);
       }
-    });
+    }
     return replacedText === text ? undefined : replacedText;
   };
 
