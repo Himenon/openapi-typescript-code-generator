@@ -61,7 +61,7 @@ module.exports = {
       },
       to: {
         dependencyTypes: ["npm-dev"],
-        pathNot: "typescript",
+        pathNot: ["typescript", "dot-prop", "@himenon/path-oriented-data-structure"],
       },
     },
     {
