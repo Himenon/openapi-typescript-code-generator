@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.9"></a>
+## 1.0.9 (2024-03-04)
+
+
+### Bug Fixes
+
+* **build:** bundle pure esm package ([#133](https://github.com/Himenon/openapi-typescript-code-generator/issues/133)) ([a3f034d](https://github.com/Himenon/openapi-typescript-code-generator/commit/a3f034d))
+
+
+
+
+
 <a name="1.0.8"></a>
 ## 1.0.8 (2024-03-01)
 
