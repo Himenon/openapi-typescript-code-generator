@@ -20,10 +20,10 @@ jobs:
           git config --global user.email "actions@gihub.com"
           git config --global user.name "gh-actions"
       - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2.1.0
+      - uses: pnpm/action-setup@v4
         with:
-          version: 8.15.1
-      - uses: actions/setup-node@v2
+          version: 9.10.0
+      - uses: actions/setup-node@v4
         with:
           node-version: "20.x"
           cache: "pnpm"
