@@ -14,10 +14,10 @@
     "lib": ["dom", "es2023"],
     "rootDir": ".",
     "strict": true,
-    "resolveJsonModule": true,
+    "resolveJsonModule": true
   },
   "ts-node": {
     "esm": true,
-    "swc": true,
-  },
+    "swc": true
+  }
 }
