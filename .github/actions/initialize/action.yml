@@ -1,0 +1,12 @@
+name: "initialize"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Git Config
+      run: |
+        git config --global core.autocrlf false
+        git config --global core.eol lf
+        git config --global user.email "actions@gihub.com"
+        git config --global user.name "gh-actions"
+      shell: bash
