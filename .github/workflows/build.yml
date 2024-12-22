@@ -7,19 +7,19 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
 
+    # @see https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#concurrency
+    concurrency:
+      group: ${{ github.workflow }}-${{ matrix.os }}-${{ github.ref }}
+      cancel-in-progress: true
+
     strategy:
       matrix:
         node-version: [22.x]
         os: [windows-latest, ubuntu-latest]
 
     steps:
-      - name: Setup Git Config
-        run: |
-          git config --global core.autocrlf false
-          git config --global core.eol lf
-          git config --global user.email "actions@gihub.com"
-          git config --global user.name "gh-actions"
       - uses: actions/checkout@v3
+      - uses: ./.github/actions/initialize
       - uses: pnpm/action-setup@v4
         with:
           version: 9.10.0
@@ -29,7 +29,7 @@ jobs:
           cache: "pnpm"
       - run: pnpm i --frozen-lockfile
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
       - name: Test & Build

@@ -9,15 +9,10 @@ jobs:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      - name: Setup Git Config
-        run: |
-          git config --global core.autocrlf false
-          git config --global core.eol lf
-          git config --global user.email "actions@gihub.com"
-          git config --global user.name "gh-actions"
       - uses: actions/checkout@v3
         with:
           ref: main
+      - uses: ./.github/actions/initialize
       - uses: pnpm/action-setup@v4
         with:
           version: 9.10.0
