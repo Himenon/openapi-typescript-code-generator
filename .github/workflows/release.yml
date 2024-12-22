@@ -7,6 +7,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: npm
+      permissions:
+        contents: read
+        id-token: write
     steps:
       - name: Setup Git Config
         run: |
@@ -79,6 +83,6 @@ jobs:
       - run: pnpm build
         env:
           CI: true
-      - run: pnpm release:npm:registry
+      - run: NPM_CONFIG_PROVENANCE=true pnpm release:npm:registry
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
