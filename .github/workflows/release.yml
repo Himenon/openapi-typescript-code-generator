@@ -4,9 +4,6 @@ on:
   release:
     types: [created]
 
-permissions:
-  id-token: write
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -53,6 +50,8 @@ jobs:
 
   release-npm-registry:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
       - uses: actions/checkout@v2
         with:
