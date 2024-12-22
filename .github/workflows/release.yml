@@ -8,61 +8,50 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup Git Config
-        run: |
-          git config --global core.autocrlf false
-          git config --global core.eol lf
-          git config --global user.email "actions@gihub.com"
-          git config --global user.name "gh-actions"
       - uses: actions/checkout@v3
         with:
           ref: main
+      - uses: ./.github/actions/initialize
       - uses: pnpm/action-setup@v4
         with:
           version: 9.10.0
       - uses: actions/setup-node@v4
         with:
-          node-version: "20.x"
+          node-version: "22.x"
           registry-url: https://npm.pkg.github.com
           scope: "@Himenon"
           cache: "pnpm"
       - run: pnpm i --frozen-lockfile
       - run: |
           pnpm build
-        env:
-          CI: true
 
   release-github-registry:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup Git Config
-        run: |
-          git config --global core.autocrlf false
-          git config --global core.eol lf
-          git config --global user.email "actions@gihub.com"
-          git config --global user.name "gh-actions"
       - uses: actions/checkout@v3
         with:
           ref: main
+      - uses: ./.github/actions/initialize
       - uses: pnpm/action-setup@v4
         with:
           version: 9.10.0
       - uses: actions/setup-node@v4
         with:
-          node-version: "20.x"
+          node-version: "22.x"
           registry-url: https://npm.pkg.github.com
           scope: "@Himenon"
           cache: "pnpm"
       - run: pnpm install
       - run: |
           pnpm build
-          pnpm release:github:registry
+          pnpm run release:github:registry
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CI: true
 
   release-npm-registry:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
       - uses: actions/checkout@v2
         with:
@@ -72,13 +61,11 @@ jobs:
           version: 9.10.0
       - uses: actions/setup-node@v4
         with:
-          node-version: "20.x"
+          node-version: "22.x"
           registry-url: "https://registry.npmjs.org"
           cache: "pnpm"
       - run: pnpm install
       - run: pnpm build
-        env:
-          CI: true
-      - run: pnpm release:npm:registry
+      - run: NPM_CONFIG_PROVENANCE=true pnpm run release:npm:registry
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
