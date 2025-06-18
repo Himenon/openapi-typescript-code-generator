@@ -1,0 +1,7 @@
+onlyBuiltDependencies:
+  - '@biomejs/biome'
+  - '@swc/core'
+  - esbuild
+  - nx
+  - simple-git-hooks
+  - unrs-resolver
