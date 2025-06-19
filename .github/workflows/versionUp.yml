@@ -14,8 +14,6 @@ jobs:
           ref: main
       - uses: ./.github/actions/initialize
       - uses: pnpm/action-setup@v4
-        with:
-          version: 9.10.0
       - uses: actions/setup-node@v4
         with:
           node-version: "22.x"
