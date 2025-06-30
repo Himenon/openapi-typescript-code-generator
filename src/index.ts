@@ -2,6 +2,7 @@ import { EOL } from "os";
 
 import * as Api from "./api";
 import type * as Types from "./types";
+import { generateValidRootSchema } from "./generateValidRootSchema";
 
 export interface Option {
   allowOperationIds?: string[];
@@ -17,7 +18,7 @@ export class CodeGenerator {
     private option?: Option,
   ) {
     if (typeof entryPointOrDocument === "string") {
-      this.rootSchema = Api.FileSystem.loadJsonOrYaml(entryPointOrDocument);
+      this.rootSchema = generateValidRootSchema(Api.FileSystem.loadJsonOrYaml(entryPointOrDocument));
       this.resolvedReferenceDocument = Api.ResolveReference.resolve(
         entryPointOrDocument,
         entryPointOrDocument,
