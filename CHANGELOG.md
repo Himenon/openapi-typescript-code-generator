@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.1.0"></a>
+# 1.1.0 (2025-06-30)
+
+
+### Features
+
+* Fallback to an alternate string if operationId is undefined. ([#139](https://github.com/Himenon/openapi-typescript-code-generator/issues/139)) ([35b9d6c](https://github.com/Himenon/openapi-typescript-code-generator/commit/35b9d6c))
+
+
+
+
+
 <a name="1.0.13"></a>
 ## 1.0.13 (2025-06-19)
 
