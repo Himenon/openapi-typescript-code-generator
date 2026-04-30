@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 
-import { ApiClient, Client, HttpMethod, ObjectLike, QueryParameters } from "./client";
+import { ApiClient, RequestArgs, createClient } from "./client";
 import { generateQueryString } from "./utils";
 
 export interface RequestOption {
@@ -8,28 +8,21 @@ export interface RequestOption {
 }
 
 const apiClientImpl: ApiClient<RequestOption> = {
-  request: async (
-    httpMethod: HttpMethod,
-    url: string,
-    headers: ObjectLike | any,
-    requestBody: ObjectLike | any,
-    queryParameters: QueryParameters | undefined,
-    options?: RequestOption,
-  ): Promise<any> => {
+  request: async (requestArgs: RequestArgs, _options?: RequestOption): Promise<any> => {
+    const { httpMethod, url, headers, requestBody, queryParameters } = requestArgs;
     const query = generateQueryString(queryParameters);
     const requestUrl = query ? `${url}?${encodeURI(query)}` : url;
     const response = await fetch(requestUrl, {
-      body: JSON.stringify(requestBody),
-      headers,
+      body: requestBody !== undefined ? JSON.stringify(requestBody) : undefined,
+      headers: headers as Record<string, string>,
       method: httpMethod,
-      timeout: options?.timeout,
     });
     return await response.json();
   },
 };
 
 const main = async () => {
-  const client = new Client<RequestOption>(apiClientImpl, "https://example.com");
+  const client = createClient<RequestOption>(apiClientImpl, "https://example.com");
   await client.getBooks({
     timeout: 1000,
   });

@@ -11,16 +11,16 @@
     "ts": "node --no-warnings=ExperimentalWarning --experimental-specifier-resolution=node --loader ts-node/esm"
   },
   "dependencies": {
-    "@himenon/openapi-parameter-formatter": "0.3.1",
+    "@himenon/openapi-parameter-formatter": "2.1.0",
     "@himenon/openapi-typescript-code-generator": "link:../..",
-    "axios": "1.6.7",
-    "superagent": "8.1.2"
+    "axios": "1.15.2",
+    "superagent": "10.3.0"
   },
   "devDependencies": {
-    "@types/node-fetch": "^2.6.12",
+    "@types/node-fetch": "^2.6.13",
     "@types/superagent": "^8.1.9",
     "node-fetch": "^3.3.2",
     "ts-node": "10.9.2",
-    "typescript": "5.3.3"
+    "typescript": "6.0.3"
   }
 }

@@ -1,4 +1,4 @@
-import { ApiClient, Client, HttpMethod, ObjectLike, QueryParameters } from "./client";
+import { ApiClient, RequestArgs, createClient } from "./client";
 import { generateQueryString } from "./utils";
 
 export interface RequestOption {
@@ -6,14 +6,8 @@ export interface RequestOption {
 }
 
 const apiClientImpl: ApiClient<RequestOption> = {
-  request: async (
-    httpMethod: HttpMethod,
-    url: string,
-    headers: ObjectLike | any,
-    requestBody: ObjectLike | any,
-    queryParameters: QueryParameters | undefined,
-    options?: RequestOption,
-  ): Promise<any> => {
+  request: async (requestArgs: RequestArgs, options?: RequestOption): Promise<any> => {
+    const { httpMethod, url, headers, requestBody, queryParameters } = requestArgs;
     const query = generateQueryString(queryParameters);
     const requestUrl = query ? `${url}?${encodeURI(query)}` : url;
     console.log({
@@ -30,7 +24,7 @@ const apiClientImpl: ApiClient<RequestOption> = {
 };
 
 const main = async () => {
-  const client = new Client<RequestOption>(apiClientImpl, "https://example.com");
+  const client = createClient<RequestOption>(apiClientImpl, "https://example.com");
   await client.getBooks({
     timeout: 1000,
   });

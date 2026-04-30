@@ -1,6 +1,6 @@
 import * as axios from "axios";
 
-import { ApiClient, Client, HttpMethod, ObjectLike, QueryParameters } from "./client";
+import { ApiClient, RequestArgs, createClient } from "./client";
 import { generateQueryString } from "./utils";
 
 export interface RequestOption {
@@ -9,34 +9,14 @@ export interface RequestOption {
   deadline?: number;
 }
 
-const convertHttpMethodToAxiosMethod = (httpMethod: HttpMethod): axios.Method => {
-  const patterns: { [key in HttpMethod]: axios.Method } = {
-    GET: "GET",
-    PUT: "PUT",
-    POST: "POST",
-    DELETE: "DELETE",
-    OPTIONS: "OPTIONS",
-    HEAD: "HEAD",
-    PATCH: "PATCH",
-    TRACE: "POST", // ?
-  };
-  return patterns[httpMethod];
-};
-
 const apiClientImpl: ApiClient<RequestOption> = {
-  request: async (
-    httpMethod: HttpMethod,
-    url: string,
-    headers: ObjectLike | any,
-    requestBody: ObjectLike | any,
-    queryParameters: QueryParameters | undefined,
-    options?: RequestOption,
-  ): Promise<any> => {
+  request: async (requestArgs: RequestArgs, options?: RequestOption): Promise<any> => {
+    const { httpMethod, url, headers, requestBody, queryParameters } = requestArgs;
     const query = generateQueryString(queryParameters);
     const requestUrl = query ? `${url}?${encodeURI(query)}` : url;
     const response = await axios.default.request({
       url: requestUrl,
-      method: convertHttpMethodToAxiosMethod(httpMethod),
+      method: httpMethod,
       headers,
       data: requestBody,
       timeout: options?.timeout,
@@ -46,7 +26,7 @@ const apiClientImpl: ApiClient<RequestOption> = {
 };
 
 const main = async () => {
-  const client = new Client<RequestOption>(apiClientImpl, "https://example.com");
+  const client = createClient<RequestOption>(apiClientImpl, "https://example.com");
   await client.getBooks({
     retries: 50,
   });
