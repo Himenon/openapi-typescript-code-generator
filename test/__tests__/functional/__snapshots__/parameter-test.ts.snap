@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Parameter api.test.domain 1`] = `
+exports[`Parameter > api.test.domain 1`] = `
 "[
   {
     "operationId": "getIncludeLocalReference",
@@ -670,4 +670,4 @@ exports[`Parameter api.test.domain 1`] = `
 ]"
 `;
 
-exports[`Parameter infer.domain 1`] = `"[]"`;
+exports[`Parameter > infer.domain 1`] = `"[]"`;
