@@ -14,3 +14,5 @@ CHANGELOG.md
 esm/
 dist/
 output/
+
+lefthook-local.yml
