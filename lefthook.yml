@@ -1,0 +1,10 @@
+pre-commit:
+  commands:
+    format:
+      glob: "*.{js,jsx,json,yml,yaml,html,md,ts,tsx}"
+      run: biome format --no-errors-on-unmatched --write {staged_files}
+      stage_fixed: true
+    sort-package-json:
+      glob: "package.json"
+      run: pnpm exec sort-package-json {staged_files}
+      stage_fixed: true
