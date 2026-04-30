@@ -1,4 +1,5 @@
 name: "initialize"
+description: "setup git commit user"
 
 runs:
   using: "composite"

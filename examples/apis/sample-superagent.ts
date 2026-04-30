@@ -1,6 +1,6 @@
-import * as Superagent from "superagent";
+import superagent from "superagent";
 
-import { ApiClient, Client, HttpMethod, ObjectLike, QueryParameters } from "./client";
+import { ApiClient, RequestArgs, createClient } from "./client";
 import { generateQueryString } from "./utils";
 
 export interface RequestOption {
@@ -10,20 +10,13 @@ export interface RequestOption {
 }
 
 const apiClientImpl: ApiClient<RequestOption> = {
-  request: (
-    httpMethod: HttpMethod,
-    url: string,
-    headers: ObjectLike | any,
-    requestBody: ObjectLike | any,
-    queryParameters: QueryParameters | undefined,
-    options?: RequestOption,
-  ): Promise<any> => {
+  request: (requestArgs: RequestArgs, options?: RequestOption): Promise<any> => {
+    const { httpMethod, url, headers, requestBody, queryParameters } = requestArgs;
     const query = generateQueryString(queryParameters);
     const requestUrl = query ? `${url}?${encodeURI(query)}` : url;
 
     return new Promise((resolve, reject) => {
-      const agent = Superagent;
-      const request = agent(httpMethod, requestUrl);
+      const request = superagent(httpMethod, requestUrl);
       if (headers) {
         request.set(headers);
       }
@@ -48,7 +41,7 @@ const apiClientImpl: ApiClient<RequestOption> = {
 };
 
 const main = async () => {
-  const client = new Client<RequestOption>(apiClientImpl, "https://example.com");
+  const client = createClient<RequestOption>(apiClientImpl, "https://example.com");
   await client.getBooks({
     retries: 50,
   });

@@ -21,6 +21,11 @@ export const create =
       }
 
       if (typeof params.value === "number") {
+        if (params.value < 0) {
+          return factory.createLiteralTypeNode(
+            factory.createPrefixUnaryExpression(ts.SyntaxKind.MinusToken, factory.createNumericLiteral(-params.value)),
+          );
+        }
         return factory.createLiteralTypeNode(factory.createNumericLiteral(params.value));
       }
       return factory.createLiteralTypeNode(params.value ? factory.createTrue() : factory.createFalse());

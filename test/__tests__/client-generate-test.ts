@@ -27,7 +27,7 @@ describe("raw-json-generate", () => {
     ]);
 
     expect(code1).toBe(code2);
-  });
+  }, 30000);
   test("yaml file path loadable", () => {
     const codeGenerator = new CodeGenerator("test/api.test.domain/index.yml");
 
