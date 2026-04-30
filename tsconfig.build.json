@@ -1,7 +1,9 @@
 {
   "extends": "./tsconfig",
   "compilerOptions": {
-    "rootDir": "src"
+    "rootDir": "src",
+    "ignoreDeprecations": "6.0",
+    "types": ["node"]
   },
   "ts-node": {
     "esm": true,
