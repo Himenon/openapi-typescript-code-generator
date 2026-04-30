@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.1.1"></a>
+## 1.1.1 (2026-04-30)
+
+
+### Chores
+
+* update dependencies and migrate tooling (lefthook, vitest, TypeScript 6.0 fixes) ([#140](https://github.com/Himenon/openapi-typescript-code-generator/issues/140)) ([748dc94](https://github.com/Himenon/openapi-typescript-code-generator/commit/748dc94))
+
+
+
+
+
 <a name="1.1.0"></a>
 # 1.1.0 (2025-06-30)
 
