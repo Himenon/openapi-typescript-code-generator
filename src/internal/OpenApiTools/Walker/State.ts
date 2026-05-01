@@ -1,5 +1,3 @@
-import ts from "typescript";
-
 import type { OpenApi } from "../../../types";
 
 export interface OperationState {
@@ -11,7 +9,7 @@ export interface OperationState {
 
 export interface Type {
   document: OpenApi.Document;
-  additionalStatements: ts.Statement[];
+  additionalStatements: string[];
   operations: {
     [operationId: string]: OperationState;
   };

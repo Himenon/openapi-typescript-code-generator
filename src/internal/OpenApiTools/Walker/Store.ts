@@ -2,7 +2,6 @@ import * as Path from "path";
 
 import { Tree } from "@himenon/path-oriented-data-structure";
 import * as DotProp from "dot-prop";
-import ts from "typescript";
 
 import type { OpenApi } from "../../../types";
 import { UnSupportError } from "../../Exception";
@@ -34,8 +33,8 @@ class Store {
     this.getChildByPaths = getChildByPaths;
   }
 
-  public convertNamespace(tree: Tree<Structure.NamespaceTree.Kind> | Structure.NamespaceTree.Item): ts.Statement {
-    const statements: ts.Statement[] = [];
+  public convertNamespace(tree: Tree<Structure.NamespaceTree.Kind> | Structure.NamespaceTree.Item): string {
+    const statements: string[] = [];
     Object.values(tree.getChildren()).map(child => {
       if (child instanceof Tree || child instanceof Structure.NamespaceTree.Item) {
         statements.push(this.convertNamespace(child));
@@ -63,10 +62,10 @@ class Store {
   private capitalizeFirstLetter(text: string): string {
     return text.charAt(0).toUpperCase() + text.slice(1);
   }
-  public getRootStatements(): ts.Statement[] {
+  public getRootStatements(): string[] {
     // Debug Point: 抽象的なデータ構造全体を把握するために出力すると良い
     // fs.writeFileSync("debug/tree.json", JSON.stringify(this.operator.getHierarchy(), null, 2), { encoding: "utf-8" });
-    const statements = Def.componentNames.reduce<ts.Statement[]>((statements, componentName) => {
+    const statements = Def.componentNames.reduce<string[]>((statements, componentName) => {
       const treeOfNamespace = this.getChildByPaths(componentName, "namespace");
       if (treeOfNamespace) {
         treeOfNamespace.name = this.capitalizeFirstLetter(treeOfNamespace.name);
@@ -76,7 +75,7 @@ class Store {
     }, []);
     return statements;
   }
-  public getAdditionalStatements(): ts.Statement[] {
+  public getAdditionalStatements(): string[] {
     return this.state.additionalStatements;
   }
   /**
@@ -132,7 +131,7 @@ class Store {
     }
     this.state.operations[operationId] = operationState;
   }
-  public addAdditionalStatement(statements: ts.Statement[]) {
+  public addAdditionalStatement(statements: string[]) {
     this.state.additionalStatements = this.state.additionalStatements.concat(statements);
   }
   public getPathItem(localPath: string): OpenApi.PathItem {
@@ -153,7 +152,7 @@ class Store {
     if (!result) {
       throw new Error(`Not found ${localPath}`);
     }
-    return result;
+    return result as OpenApi.Parameter;
   }
   public isAfterDefined(referencePath: string): boolean {
     return !!DotProp.getProperty(this.state.document, referencePath.replace(/\//g, "."));

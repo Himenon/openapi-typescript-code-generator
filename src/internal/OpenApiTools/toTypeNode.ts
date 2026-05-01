@@ -1,5 +1,3 @@
-import ts from "typescript";
-
 import type { OpenApi } from "../../types";
 import { UnSupportError } from "../Exception";
 import * as Logger from "../Logger";
@@ -39,7 +37,7 @@ export type Convert = (
   setReference: Context,
   convertContext: ConverterContext.Types,
   option?: Option,
-) => ts.TypeNode;
+) => string;
 
 export interface Option {
   parent?: any;
@@ -54,7 +52,7 @@ export const generateMultiTypeNode = (
   convert: Convert,
   convertContext: ConverterContext.Types,
   multiType: "oneOf" | "allOf" | "anyOf",
-): ts.TypeNode => {
+): string => {
   const typeNodes = schemas.map(schema => convert(entryPoint, currentPoint, factory, schema, setReference, convertContext));
   if (multiType === "oneOf") {
     return factory.UnionTypeNode.create({
@@ -74,8 +72,8 @@ export const generateMultiTypeNode = (
   });
 };
 
-const nullable = (factory: Factory.Type, typeNode: ts.TypeNode, nullable: boolean): ts.TypeNode => {
-  if (nullable) {
+const nullable = (factory: Factory.Type, typeNode: string, isNullable: boolean): string => {
+  if (isNullable) {
     return factory.UnionTypeNode.create({
       typeNodes: [
         typeNode,
@@ -96,7 +94,7 @@ export const convert: Convert = (
   context: Context,
   converterContext: ConverterContext.Types,
   option?: Option,
-): ts.TypeNode => {
+): string => {
   if (typeof schema === "boolean") {
     // https://swagger.io/docs/specification/data-models/dictionaries/#free-form
     return factory.TypeNode.create({
@@ -178,17 +176,14 @@ export const convert: Convert = (
       ].join("\n");
       Logger.info(message);
     }
-    const typeNode = factory.TypeNode.create({
+    return factory.TypeNode.create({
       type: "any",
     });
-    return typeNode;
-    // Logger.showFilePosition(entryPoint, currentPoint);
-    // throw new UnsetTypeError("Please set 'type' or '$ref' property \n" + JSON.stringify(schema));
   }
   switch (schema.type) {
     case "boolean": {
       const items = schema.enum;
-      let typeNode: ts.TypeNode;
+      let typeNode: string;
       if (items && Guard.isBooleanArray(items)) {
         typeNode = factory.TypeNode.create({
           type: schema.type,
@@ -209,7 +204,7 @@ export const convert: Convert = (
     case "integer":
     case "number": {
       const items = schema.enum;
-      let typeNode: ts.TypeNode;
+      let typeNode: string;
       const formatTypeNode = converterContext.convertFormatTypeNode(schema);
       if (formatTypeNode) {
         return formatTypeNode;
@@ -232,7 +227,7 @@ export const convert: Convert = (
       if (formatTypeNode) {
         return formatTypeNode;
       }
-      let typeNode: ts.TypeNode;
+      let typeNode: string;
       if (items && Guard.isStringArray(items)) {
         typeNode = factory.TypeNode.create({
           type: schema.type,
@@ -269,7 +264,7 @@ export const convert: Convert = (
         });
       }
 
-      const value: ts.PropertySignature[] = Object.entries(schema.properties || {}).map(([name, jsonSchema]) => {
+      const value: string[] = Object.entries(schema.properties || {}).map(([name, jsonSchema]) => {
         return factory.PropertySignature.create({
           readOnly: typeof jsonSchema !== "boolean" ? !!jsonSchema.readOnly : false,
           name: converterContext.escapePropertySignatureName(name),
@@ -315,7 +310,6 @@ export const convert: Convert = (
       return factory.TypeNode.create({
         type: "any",
       });
-    // throw new UnknownError("what is this? \n" + JSON.stringify(schema, null, 2));
   }
 };
 
@@ -326,7 +320,7 @@ export const convertAdditionalProperties = (
   schema: ObjectSchemaWithAdditionalProperties,
   setReference: Context,
   convertContext: ConverterContext.Types,
-): ts.IndexSignatureDeclaration => {
+): string => {
   // // https://swagger.io/docs/specification/data-models/dictionaries/#free-form
   if (schema.additionalProperties === true) {
     factory.TypeNode.create({
@@ -334,11 +328,10 @@ export const convertAdditionalProperties = (
       value: [],
     });
   }
-  const additionalProperties = factory.IndexSignatureDeclaration.create({
+  return factory.IndexSignatureDeclaration.create({
     name: "key",
     type: convert(entryPoint, currentPoint, factory, schema.additionalProperties, setReference, convertContext, {
       parent: schema.properties,
     }),
   });
-  return additionalProperties;
 };

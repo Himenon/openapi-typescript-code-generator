@@ -1,5 +1,3 @@
-import ts from "typescript";
-
 import * as Utils from "../../utils";
 import type { Factory } from "../TsGenerator";
 
@@ -68,10 +66,10 @@ export interface Types {
   generateParameterName: (operationId: string) => string;
   generateRequestBodyName: (operationId: string) => string;
   generateFunctionName: (operationId: string) => string;
-  convertFormatTypeNode: (schema: { format?: string }) => undefined | ts.TypeNode;
+  convertFormatTypeNode: (schema: { format?: string }) => string | undefined;
 }
 
-const createFormatSchemaToTypeNode = (factory: Factory.Type, target: FormatConversion): ts.TypeNode => {
+const createFormatSchemaToTypeNode = (factory: Factory.Type, target: FormatConversion): string => {
   const typeNodes = target.output.type.map(value => {
     return factory.TypeReferenceNode.create({
       name: value,
@@ -111,11 +109,9 @@ export const create = (factory: Factory.Type, options?: Options): Types => {
       return convertOperationId(operationId);
     },
     escapeDeclarationText: (text: string) => {
-      // console.log(`escapeDeclarationText: ${text}` + `-> ${convertReservedWord(convertString(text).replace(/\./g, "$"))}`.padStart(100, " "));
       return convertReservedWord(convertString(text).replace(/\./g, "$"));
     },
     escapeReferenceDeclarationText: (text: string) => {
-      // console.log(`escapeDeclarationText3: ${text}` + `-> ${convertReservedWord(convertString(text))}`.padStart(100, " "));
       return convertReservedWord(convertString(text));
     },
     escapePropertySignatureName: (text: string) => {

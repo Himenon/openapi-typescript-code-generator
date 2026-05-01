@@ -1,8 +1,6 @@
 import { EOL } from "os";
 import * as path from "path";
 
-import ts from "typescript";
-
 import type { OpenApi } from "../../../types";
 import { Factory } from "../../TsGenerator";
 import * as ConverterContext from "../ConverterContext";
@@ -132,8 +130,8 @@ export const generateStatements = (
   pathItemParameters: OpenApi.PathItem["parameters"],
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
-): ts.Statement[] => {
-  let statements: ts.Statement[] = [];
+): string[] => {
+  let statements: string[] = [];
   const operationId = operation.operationId;
   if (!operationId) {
     throw new Error(`not setting operationId\n${JSON.stringify(operation)}`);

@@ -1,5 +1,3 @@
-import ts from "typescript";
-
 import type { OpenApi } from "../../../types";
 import { Factory } from "../../TsGenerator";
 import * as ConverterContext from "../ConverterContext";
@@ -13,7 +11,7 @@ export const generatePropertySignature = (
   schema: OpenApi.Schema,
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
-): ts.PropertySignature => {
+): string => {
   return factory.PropertySignature.create({
     readOnly: false,
     name: converterContext.escapePropertySignatureName(protocol),
@@ -30,8 +28,8 @@ export const generatePropertySignatures = (
   content: Record<string, OpenApi.MediaType>,
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
-): ts.PropertySignature[] => {
-  return Object.entries(content).reduce<ts.PropertySignature[]>((previous, [protocol, mediaType]) => {
+): string[] => {
+  return Object.entries(content).reduce<string[]>((previous, [protocol, mediaType]) => {
     if (!mediaType.schema) {
       return previous;
     }
@@ -47,7 +45,7 @@ export const generateInterface = (
   content: Record<string, OpenApi.MediaType>,
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
-): ts.InterfaceDeclaration => {
+): string => {
   return factory.InterfaceDeclaration.create({
     export: true,
     name,

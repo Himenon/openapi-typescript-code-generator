@@ -1,7 +1,5 @@
 import * as path from "path";
 
-import ts from "typescript";
-
 import type { OpenApi } from "../../../types";
 import { UndefinedComponent } from "../../Exception";
 import { Factory } from "../../TsGenerator";
@@ -128,8 +126,8 @@ export const generateInterfacesWithStatusCode = (
   responses: OpenApi.Responses,
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
-): ts.Statement[] => {
-  const statements: ts.Statement[] = [];
+): string[] => {
+  const statements: string[] = [];
   Object.entries(responses).forEach(([statusCode, response]) => {
     if (!response) {
       return;

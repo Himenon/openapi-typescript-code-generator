@@ -1,8 +1,6 @@
 import * as Path from "path";
 import * as DotProp from "dot-prop";
 
-import ts from "typescript";
-
 import type { OpenApi } from "../../types";
 import { DevelopmentError } from "../Exception";
 import * as TypeScriptCodeGenerator from "../TsGenerator";
@@ -123,7 +121,7 @@ export const create = (
       return;
     }
     if (reference.type === "remote") {
-      const typeNode = ToTypeNode.convert(
+      const typeStr = ToTypeNode.convert(
         entryPoint,
         reference.referencePoint,
         factory,
@@ -136,40 +134,16 @@ export const create = (
         },
         converterContext,
       );
-      if (ts.isTypeLiteralNode(typeNode)) {
-        store.addStatement(reference.path, {
-          kind: "interface",
-          name: reference.name,
-          value: factory.InterfaceDeclaration.create({
-            export: true,
-            name: reference.name,
-            members: typeNode.members,
-          }),
-        });
-      } else {
-        const value = factory.TypeAliasDeclaration.create({
-          export: true,
-          name: converterContext.escapeDeclarationText(reference.name),
-          type: ToTypeNode.convert(
-            entryPoint,
-            reference.referencePoint,
-            factory,
-            reference.data,
-            {
-              rootSchema,
-              setReferenceHandler,
-              resolveReferencePath,
-              findSchemaByPathArray,
-            },
-            converterContext,
-          ),
-        });
-        store.addStatement(reference.path, {
-          name: reference.name,
-          kind: "typeAlias",
-          value,
-        });
-      }
+      const value = factory.TypeAliasDeclaration.create({
+        export: true,
+        name: converterContext.escapeDeclarationText(reference.name),
+        type: typeStr,
+      });
+      store.addStatement(reference.path, {
+        name: reference.name,
+        kind: "typeAlias",
+        value,
+      });
     } else if (reference.type === "local") {
       if (!store.isAfterDefined(reference.path)) {
         const { maybeResolvedName } = resolveReferencePath(currentPoint, reference.path);

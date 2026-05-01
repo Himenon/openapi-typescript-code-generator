@@ -1,5 +1,3 @@
-import ts from "typescript";
-
 import type { CodeGenerator, OpenApi } from "../../types";
 import * as TypeScriptCodeGenerator from "../TsGenerator";
 import * as ConvertContext from "./ConverterContext";
@@ -92,21 +90,6 @@ export class Parser {
           this.convertContext,
         );
       }
-      // if (rootSchema.components.securitySchemes) {
-      //   SecuritySchemas.generateNamespace(this.entryPoint, currentPoint, store, factory, rootSchema.components.securitySchemes);
-      // }
-      // if (rootSchema.components.pathItems) {
-      //   PathItems.generateNamespace(this.entryPoint, currentPoint, store, factory, rootSchema.components.pathItems, toTypeNodeContext);
-      // }
-      // TODO Feature Development
-      // if (rootSchema.components.links) {
-      //   statements.push(Links.generateNamespace(this.entryPoint, currentPoint, factory, rootSchema.components.links));
-      // }
-
-      // TODO Feature Development
-      // if (rootSchema.components.callbacks) {
-      //   statements.push(Callbacks.generateNamespace(this.entryPoint, currentPoint, factory, rootSchema.components.callbacks));
-      // }
     }
     if (rootSchema.paths) {
       Paths.generateStatements(
@@ -125,11 +108,11 @@ export class Parser {
     return Extractor.generateCodeGeneratorParamsArray(this.store, this.convertContext, allowOperationIds);
   }
 
-  public getOpenApiTypeDefinitionStatements(): ts.Statement[] {
+  public getOpenApiTypeDefinitionStatements(): string[] {
     return this.store.getRootStatements();
   }
 
-  public getAdditionalTypeStatements(): ts.Statement[] {
+  public getAdditionalTypeStatements(): string[] {
     return this.store.getAdditionalStatements();
   }
 }

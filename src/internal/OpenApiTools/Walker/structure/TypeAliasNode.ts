@@ -1,15 +1,14 @@
 import { Node as BaseNode } from "@himenon/path-oriented-data-structure";
-import ts from "typescript";
 
 export type Kind = "typeAlias";
 
 export interface Params {
   name: string;
-  value: ts.TypeAliasDeclaration;
+  value: string;
 }
 
 export class Item extends BaseNode<Kind> {
-  public value: ts.TypeAliasDeclaration;
+  public value: string;
   constructor(params: Params) {
     super("typeAlias", params.name);
     this.value = params.value;
