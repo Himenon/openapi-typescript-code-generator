@@ -1,7 +1,6 @@
-import ts from "typescript";
 import type { TsGenerator } from "../../../api";
 
-export const create = (factory: TsGenerator.Factory.Type): ts.TypeAliasDeclaration[] => {
+export const create = (factory: TsGenerator.Factory.Type): string[] => {
   return [
     factory.TypeAliasDeclaration.create({
       name: "ClientFunction<RequestOption>",

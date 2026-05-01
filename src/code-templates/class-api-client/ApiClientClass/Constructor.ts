@@ -1,11 +1,9 @@
-import ts from "typescript";
-
 import type { TsGenerator } from "../../../api";
 
 /**
  * constructor(private apiClient: ApiClient, private baseUrl: string) { }
  */
-export const create = (factory: TsGenerator.Factory.Type): ts.ConstructorDeclaration => {
+export const create = (factory: TsGenerator.Factory.Type): string => {
   const parameter1 = factory.ParameterDeclaration.create({
     modifiers: "private",
     name: "apiClient",

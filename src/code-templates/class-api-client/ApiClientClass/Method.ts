@@ -1,7 +1,5 @@
 import { EOL } from "os";
 
-import ts from "typescript";
-
 import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
 import * as MethodBody from "../../_shared/MethodBody";
@@ -10,7 +8,7 @@ import type { Option } from "../../_shared/types";
 export { MethodBody };
 
 const generateParams = (factory: TsGenerator.Factory.Type, { convertedParams }: CodeGenerator.Params) => {
-  const typeArguments: ts.TypeNode[] = [];
+  const typeArguments: string[] = [];
   if (convertedParams.has2OrMoreRequestContentTypes) {
     typeArguments.push(
       factory.TypeReferenceNode.create({
@@ -41,7 +39,7 @@ const generateResponseReturnType = (
   successResponseContentTypeList: string[],
   option: Option,
 ) => {
-  let objectType: ts.TypeNode = factory.TypeNode.create({
+  let objectType: string = factory.TypeNode.create({
     type: "void",
   });
   if (successResponseNameList.length === 1) {
@@ -66,7 +64,7 @@ const generateResponseReturnType = (
   }
 
   const isOnlyOneResponseContentType = successResponseContentTypeList.length === 1;
-  let indexType: ts.TypeNode = factory.TypeReferenceNode.create({
+  let indexType: string = factory.TypeReferenceNode.create({
     name: "ResponseContentType",
   });
   if (isOnlyOneResponseContentType) {
@@ -93,8 +91,8 @@ const generateResponseReturnType = (
   });
 };
 
-const methodTypeParameters = (factory: TsGenerator.Factory.Type, { convertedParams }: CodeGenerator.Params): ts.TypeParameterDeclaration[] => {
-  const typeParameters: ts.TypeParameterDeclaration[] = [];
+const methodTypeParameters = (factory: TsGenerator.Factory.Type, { convertedParams }: CodeGenerator.Params): string[] => {
+  const typeParameters: string[] = [];
   if (convertedParams.has2OrMoreRequestContentTypes) {
     typeParameters.push(
       factory.TypeParameterDeclaration.create({
@@ -124,10 +122,10 @@ const methodTypeParameters = (factory: TsGenerator.Factory.Type, { convertedPara
  *
  * }
  */
-export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params, option: Option): ts.MethodDeclaration => {
+export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params, option: Option): string => {
   const { convertedParams } = params;
-  const typeParameters: ts.TypeParameterDeclaration[] = methodTypeParameters(factory, params);
-  const methodArguments: ts.ParameterDeclaration[] = [];
+  const typeParameters: string[] = methodTypeParameters(factory, params);
+  const methodArguments: string[] = [];
   const hasParamsArguments =
     convertedParams.hasParameter ||
     convertedParams.hasRequestBody ||
@@ -138,7 +136,7 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
     methodArguments.push(generateParams(factory, params));
   }
 
-  const returnType: ts.TypeNode = generateResponseReturnType(
+  const returnType: string = generateResponseReturnType(
     factory,
     convertedParams.responseSuccessNames,
     convertedParams.successResponseContentTypes,

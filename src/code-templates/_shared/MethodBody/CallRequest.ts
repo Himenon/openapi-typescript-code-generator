@@ -1,5 +1,3 @@
-import ts from "typescript";
-
 import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
 import * as Utils from "../utils";
@@ -18,7 +16,7 @@ export interface Params {
  *   "application/x-www-form-urlencoded": {},
  * }
  */
-const createEncodingParams = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params): ts.Expression | undefined => {
+const createEncodingParams = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params): string | undefined => {
   const content = params.operationParams.requestBody?.content;
   if (!content) {
     return;
@@ -36,7 +34,7 @@ const createEncodingParams = (factory: TsGenerator.Factory.Type, params: CodeGen
 /**
  * this.apiClient.request("GET", url, requestBody, headers, queryParameters);
  */
-export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params, methodType: MethodType): ts.CallExpression => {
+export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params, methodType: MethodType): string => {
   const { convertedParams } = params;
   const apiClientVariableIdentifier: Record<MethodType, string> = {
     class: "this.apiClient.request",

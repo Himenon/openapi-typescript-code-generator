@@ -1,5 +1,3 @@
-import ts from "typescript";
-
 import type { TsGenerator } from "../../api";
 import * as Utils from "../../utils";
 
@@ -10,7 +8,7 @@ export interface StringItem {
 
 export interface ExpressionItem {
   type: "property";
-  value: ts.Expression;
+  value: string;
 }
 
 export type Item = StringItem | ExpressionItem;
@@ -24,7 +22,7 @@ const getTemplateSpan = (
   lastIndex: number,
   currentItem: ExpressionItem,
   nextItem: Item | undefined,
-): ts.TemplateSpan[] => {
+): string[] => {
   // == last
   if (!nextItem) {
     return [
@@ -99,7 +97,7 @@ const getTemplateSpan = (
  * `${a}b${c}`
  * ``
  */
-export const generateTemplateExpression = (factory: TsGenerator.Factory.Type, list: Params$TemplateExpression): ts.Expression => {
+export const generateTemplateExpression = (factory: TsGenerator.Factory.Type, list: Params$TemplateExpression): string => {
   if (list.length === 0) {
     return factory.NoSubstitutionTemplateLiteral.create({
       text: "",
@@ -117,7 +115,7 @@ export const generateTemplateExpression = (factory: TsGenerator.Factory.Type, li
   }
   const lastIndex = spanList.length - 1;
   const restValue = lastIndex % 2;
-  let templateSpans: ts.TemplateSpan[] = [];
+  let templateSpans: string[] = [];
   for (let i = 0; i <= (lastIndex - restValue) / 2; i++) {
     if (spanList.length === 0) {
       continue;
@@ -176,10 +174,7 @@ export const splitVariableText = (text: string): VariableElement[] => {
   }, []);
 };
 
-export const generateVariableIdentifier = (
-  factory: TsGenerator.Factory.Type,
-  name: string,
-): ts.Identifier | ts.PropertyAccessExpression | ts.ElementAccessExpression => {
+export const generateVariableIdentifier = (factory: TsGenerator.Factory.Type, name: string): string => {
   if (name.startsWith("/")) {
     throw new Error(`can't start '/'. name=${name}`);
   }
@@ -197,7 +192,7 @@ export const generateVariableIdentifier = (
     name: n2.value,
   });
 
-  return rest.reduce<ts.PropertyAccessExpression | ts.ElementAccessExpression>((previous, current) => {
+  return rest.reduce<string>((previous, current) => {
     if (current.kind === "string" && Utils.isAvailableVariableName(current.value)) {
       return factory.PropertyAccessExpression.create({
         expression: previous,
@@ -207,7 +202,7 @@ export const generateVariableIdentifier = (
     // 直接 .value でアクセスできない場合に ["value"] といった形で参照する
     return factory.ElementAccessExpression.create({
       expression: previous,
-      index: current.value,
+      argumentExpression: current.value,
     });
   }, first);
 };
@@ -219,8 +214,8 @@ export interface LiteralExpressionObject {
 export const generateObjectLiteralExpression = (
   factory: TsGenerator.Factory.Type,
   obj: LiteralExpressionObject,
-  extraProperties: ts.PropertyAssignment[] = [],
-): ts.ObjectLiteralExpression => {
+  extraProperties: string[] = [],
+): string => {
   const properties = Object.entries(obj).map(([key, item]) => {
     const initializer =
       item.type === "variable" ? generateVariableIdentifier(factory, item.value) : factory.StringLiteral.create({ text: item.value });
@@ -231,7 +226,7 @@ export const generateObjectLiteralExpression = (
   });
 
   return factory.ObjectLiteralExpression.create({
-    properties: extraProperties.concat(properties),
+    properties: [...extraProperties, ...properties],
     multiLine: true,
   });
 };
