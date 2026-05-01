@@ -1,3 +1,5 @@
+import { describe, expect, test } from "vitest";
+
 import { TsGenerator } from "../../../../api";
 import type { CodeGenerator } from "../../../../types";
 import * as Utils from "../../utils";
