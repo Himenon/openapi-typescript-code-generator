@@ -8,7 +8,9 @@ import * as ConverterContext from "./ConverterContext";
 import * as Guard from "./Guard";
 import type * as Walker from "./Walker";
 import * as Reference from "./components/Reference";
+import * as Schema from "./components/Schema";
 import * as ToTypeNode from "./toTypeNode";
+import type { ObjectSchema } from "./types";
 
 export interface ReferencePathSet {
   pathArray: string[];
@@ -121,29 +123,71 @@ export const create = (
       return;
     }
     if (reference.type === "remote") {
-      const typeStr = ToTypeNode.convert(
-        entryPoint,
-        reference.referencePoint,
-        factory,
-        reference.data,
-        {
-          rootSchema,
-          setReferenceHandler,
-          resolveReferencePath,
-          findSchemaByPathArray,
-        },
-        converterContext,
-      );
-      const value = factory.TypeAliasDeclaration.create({
-        export: true,
-        name: converterContext.escapeDeclarationText(reference.name),
-        type: typeStr,
-      });
-      store.addStatement(reference.path, {
-        name: reference.name,
-        kind: "typeAlias",
-        value,
-      });
+      const data = reference.data;
+      const context = { rootSchema, setReferenceHandler, resolveReferencePath, findSchemaByPathArray };
+      // Replicate ts.isTypeLiteralNode check: TypeLiteralNode is produced for plain object schemas
+      // (not nullable, not producing IntersectionTypeNode due to optional properties + additionalProperties)
+      const isTypeLiteralEquivalent = (() => {
+        if (typeof data === "boolean") return true;
+        if (Guard.isReference(data)) return false;
+        if (Guard.isOneOfSchema(data) || Guard.isAllOfSchema(data) || Guard.isAnyOfSchema(data)) return false;
+        if (Guard.isHasNoMembersObject(data)) return true;
+        if (!Guard.isObjectSchema(data)) return false;
+        if (data.nullable) return false;
+        if (data.additionalProperties && typeof data.additionalProperties === "object") {
+          const hasOptionalProp = Object.keys(data.properties || {}).some(key => !(data.required || []).includes(key));
+          if (hasOptionalProp) return false;
+        }
+        return true;
+      })();
+      if (isTypeLiteralEquivalent) {
+        let members: string[] = [];
+        if (
+          typeof data !== "boolean" &&
+          !Guard.isReference(data) &&
+          Guard.isObjectSchema(data) &&
+          !Guard.isHasNoMembersObject(data) &&
+          data.additionalProperties !== true
+        ) {
+          const objData = data as ObjectSchema;
+          const propertySignatures = Schema.generatePropertySignatures(
+            entryPoint,
+            reference.referencePoint,
+            factory,
+            objData,
+            context,
+            converterContext,
+          );
+          if (Guard.isObjectSchemaWithAdditionalProperties(objData)) {
+            const additionalProperties = ToTypeNode.convertAdditionalProperties(
+              entryPoint,
+              reference.referencePoint,
+              factory,
+              objData,
+              context,
+              converterContext,
+            );
+            members = [...propertySignatures, additionalProperties];
+          } else {
+            members = propertySignatures;
+          }
+        }
+        // Old code: factory.InterfaceDeclaration.create({ export: true, name: reference.name, members: typeNode.members })
+        // No comment was passed in the old code, so we don't pass one here either.
+        store.addStatement(reference.path, {
+          kind: "interface",
+          name: reference.name,
+          value: factory.InterfaceDeclaration.create({ export: true, name: reference.name, members }),
+        });
+      } else {
+        const typeStr = ToTypeNode.convert(entryPoint, reference.referencePoint, factory, data, context, converterContext);
+        const value = factory.TypeAliasDeclaration.create({
+          export: true,
+          name: converterContext.escapeDeclarationText(reference.name),
+          type: typeStr,
+        });
+        store.addStatement(reference.path, { name: reference.name, kind: "typeAlias", value });
+      }
     } else if (reference.type === "local") {
       if (!store.isAfterDefined(reference.path)) {
         const { maybeResolvedName } = resolveReferencePath(currentPoint, reference.path);

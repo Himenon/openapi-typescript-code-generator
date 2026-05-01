@@ -5,5 +5,5 @@ export { type CreateFunction } from "./traverse";
 export { Factory };
 
 export const generate = (createFunction: import("./traverse").CreateFunction): string => {
-  return createFunction().join("\n");
+  return createFunction().join("\n") + "\n";
 };

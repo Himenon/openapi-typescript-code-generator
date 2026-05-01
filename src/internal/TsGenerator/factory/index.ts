@@ -6,17 +6,34 @@ const escapeTemplateText = (text: string): string => text.replace(/\\/g, "\\\\")
 
 const escapeIdentifier = (text: string): string => text.replace(/-/g, "_");
 
+const indentLines = (s: string, indent: string): string =>
+  s
+    .split("\n")
+    .map(line => (line ? `${indent}${line}` : line))
+    .join("\n");
+
+const hasTopLevelOp = (s: string): boolean => {
+  let depth = 0;
+  for (let i = 0; i < s.length - 2; i++) {
+    const c = s[i];
+    if (c === "{" || c === "<" || c === "(" || c === "[") depth++;
+    else if (c === "}" || c === ">" || c === ")" || c === "]") depth--;
+    else if (depth === 0 && (s[i] === "|" || s[i] === "&") && s[i - 1] === " " && s[i + 1] === " ") return true;
+  }
+  return false;
+};
+
 const buildComment = (comment: string, deprecated?: boolean): string => {
   const escaped = comment
-    .replace(/\*\//g, "\\*\\/")
-    .replace(/\/\*/g, "/\\*")
-    .replace(/\*\/\*/g, "\\*\\/\\*");
+    .replace(/\*\//, "\\*\\\\/")
+    .replace(/\/\*/, "/\\\\*")
+    .replace(/\*\/\*/, "\\*\\/\\*");
   const lines = deprecated ? ["@deprecated", ...escaped.split(/\r?\n/)] : escaped.split(/\r?\n/);
   const filtered = lines.filter((line, i) => !(i === lines.length - 1 && line === ""));
   if (filtered.length === 1) {
     return `/** ${filtered[0]} */` + EOL;
   }
-  return `/**` + EOL + filtered.map(l => ` * ${l}`).join(EOL) + EOL + ` */` + EOL;
+  return `/**` + EOL + filtered.map(l => (l.trimEnd() ? ` * ${l.trimEnd()}` : ` *`)).join(EOL) + EOL + ` */` + EOL;
 };
 
 const addComment = (code: string, comment?: string, deprecated?: boolean): string => {
@@ -262,10 +279,10 @@ export const create = (): Type => {
           case "object": {
             const members = p.value || [];
             if (members.length === 0) return "{}";
-            return `{\n${members.map(m => `    ${m}`).join("\n")}\n}`;
+            return `{\n${members.map(m => indentLines(m, "    ")).join("\n")}\n}`;
           }
           case "array": {
-            const needsParens = (p.value.includes(" | ") || p.value.includes(" & ")) && !p.value.startsWith("(");
+            const needsParens = hasTopLevelOp(p.value) && !p.value.startsWith("(");
             return needsParens ? `(${p.value})[]` : `${p.value}[]`;
           }
           case "null":
@@ -295,26 +312,27 @@ export const create = (): Type => {
 
     UnionTypeNode: {
       create(p) {
-        return p.typeNodes.join(" | ");
+        return p.typeNodes.map(t => (hasTopLevelOp(t) && !t.startsWith("(") ? `(${t})` : t)).join(" | ");
       },
     },
 
     IntersectionTypeNode: {
       create(p) {
-        return p.typeNodes.join(" & ");
+        return p.typeNodes.map(t => (hasTopLevelOp(t) && !t.startsWith("(") ? `(${t})` : t)).join(" & ");
       },
     },
 
     TypeLiteralNode: {
       create(p) {
         if (p.members.length === 0) return "{}";
-        return `{\n${p.members.map(m => `    ${m}`).join("\n")}\n}`;
+        return `{\n${p.members.map(m => indentLines(m, "    ")).join("\n")}\n}`;
       },
     },
 
     IndexedAccessTypeNode: {
       create(p) {
-        return `${p.objectType}[${p.indexType}]`;
+        const obj = hasTopLevelOp(p.objectType) && !p.objectType.startsWith("(") ? `(${p.objectType})` : p.objectType;
+        return `${obj}[${p.indexType}]`;
       },
     },
 
@@ -441,7 +459,7 @@ export const create = (): Type => {
           return `{ ${p.properties.join(", ")} }`;
         }
         if (p.properties.length === 0) return "{}";
-        return `{\n${p.properties.map(prop => `    ${prop}`).join(",\n")}\n}`;
+        return `{\n${p.properties.map(prop => indentLines(prop, "    ")).join(",\n")}\n}`;
       },
     },
 
@@ -482,7 +500,10 @@ export const create = (): Type => {
     Block: {
       create(p) {
         if (p.statements.length === 0) return "{}";
-        return `{\n${p.statements.map(s => `    ${s}`).join("\n")}\n}`;
+        if (!p.multiLine) {
+          return `{ ${p.statements.join(" ")} }`;
+        }
+        return `{\n${p.statements.map(s => indentLines(s, "    ")).join("\n")}\n}`;
       },
     },
 
@@ -520,7 +541,7 @@ export const create = (): Type => {
       create(p) {
         const exp = p.export ? "export " : "";
         const typeParams = p.typeParameters?.length ? `<${p.typeParameters.join(", ")}>` : "";
-        const body = p.members.length > 0 ? `{\n${p.members.map(m => `    ${m}`).join("\n")}\n}` : "{}";
+        const body = p.members.length > 0 ? `{\n${p.members.map(m => indentLines(m, "    ")).join("\n")}\n}` : "{\n}";
         const node = `${exp}interface ${escapeIdentifier(p.name)}${typeParams} ${body}`;
         return addComment(node, p.comment, p.deprecated);
       },
@@ -554,7 +575,7 @@ export const create = (): Type => {
       create(p) {
         const exp = p.export ? "export " : "";
         const typeParams = p.typeParameterDeclaration.length ? `<${p.typeParameterDeclaration.join(", ")}>` : "";
-        const body = p.members.length > 0 ? `{\n${p.members.map(m => `    ${m}`).join("\n")}\n}` : "{}";
+        const body = p.members.length > 0 ? `{\n${p.members.map(m => indentLines(m, "    ")).join("\n")}\n}` : "{}";
         return `${exp}class ${p.name}${typeParams} ${body}`;
       },
     },
@@ -562,7 +583,7 @@ export const create = (): Type => {
     Namespace: {
       create(p) {
         const exp = p.export ? "export " : "";
-        const body = p.statements.length > 0 ? `{\n${p.statements.map(s => `    ${s}`).join("\n")}\n}` : "{}";
+        const body = p.statements.length > 0 ? `{\n${p.statements.map(s => indentLines(s, "    ")).join("\n")}\n}` : "{ }";
         const node = `${exp}namespace ${p.name} ${body}`;
         return addComment(node, p.comment, p.deprecated);
       },
@@ -575,23 +596,23 @@ export const create = (): Type => {
         const firstName = names[0];
         const restNames = names.slice(1);
         const exp = p.export ? "export " : "";
-        const body = p.statements.length > 0 ? `{\n${p.statements.map(s => `    ${s}`).join("\n")}\n}` : "{}";
+        const body = p.statements.length > 0 ? `{\n${p.statements.map(s => indentLines(s, "    ")).join("\n")}\n}` : "{}";
         let current = addComment(`${exp}namespace ${firstName} ${body}`, p.comment, p.deprecated);
         return restNames.reduce((prev, name) => {
-          return `export namespace ${name} {\n    ${prev}\n}`;
+          return `export namespace ${name} {\n${indentLines(prev, "    ")}\n}`;
         }, current);
       },
       update(p) {
         const insertPoint = p.node.lastIndexOf("}");
         if (insertPoint === -1) return p.node;
-        const added = p.statements.map(s => `    ${s}`).join("\n");
+        const added = p.statements.map(s => indentLines(s, "    ")).join("\n");
         return p.node.slice(0, insertPoint) + added + "\n}";
       },
       addStatements(p) {
         return p.statements.reduce((node, s) => {
           const insertPoint = node.lastIndexOf("}");
           if (insertPoint === -1) return node;
-          return node.slice(0, insertPoint) + `    ${s}\n` + "}";
+          return node.slice(0, insertPoint) + indentLines(s, "    ") + "\n}";
         }, p.node);
       },
     },

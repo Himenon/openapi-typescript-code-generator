@@ -63,42 +63,43 @@ export interface ApiClient<RequestOption> {
 export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>, baseUrl: string) => {
     const _baseUrl = baseUrl.replace(/\\/$/, "");
     return {
-    /**
- * operationId: putAnyOf
- * Request URI: /pets
- */
-putAnyOf: (params: Params$putAnyOf, option?: RequestOption): Promise<void> => {
-    const url = _baseUrl + \`/pets\`;
-    const headers = {
-    "Content-Type": "application/json"
-};
-    return apiClient.request({
-    httpMethod: "PUT",
-    url,
-    headers,
-    requestBody: params.requestBody
-}, option);
-},
-    /**
- * operationId: patchOneOf
- * Request URI: /pets
- */
-patchOneOf: (params: Params$patchOneOf, option?: RequestOption): Promise<void> => {
-    const url = _baseUrl + \`/pets\`;
-    const headers = {
-    "Content-Type": "application/json"
-};
-    return apiClient.request({
-    httpMethod: "PATCH",
-    url,
-    headers,
-    requestBody: params.requestBody
-}, option);
-}
-};
+        /**
+         * operationId: putAnyOf
+         * Request URI: /pets
+         */
+        putAnyOf: (params: Params$putAnyOf, option?: RequestOption): Promise<void> => {
+            const url = _baseUrl + \`/pets\`;
+            const headers = {
+                "Content-Type": "application/json"
+            };
+            return apiClient.request({
+                httpMethod: "PUT",
+                url,
+                headers,
+                requestBody: params.requestBody
+            }, option);
+        },
+        /**
+         * operationId: patchOneOf
+         * Request URI: /pets
+         */
+        patchOneOf: (params: Params$patchOneOf, option?: RequestOption): Promise<void> => {
+            const url = _baseUrl + \`/pets\`;
+            const headers = {
+                "Content-Type": "application/json"
+            };
+            return apiClient.request({
+                httpMethod: "PATCH",
+                url,
+                headers,
+                requestBody: params.requestBody
+            }, option);
+        }
+    };
 };
 type ClientFunction<RequestOption> = typeof createClient<RequestOption>;
-export type Client<RequestOption> = ReturnType<ClientFunction<RequestOption>>;"
+export type Client<RequestOption> = ReturnType<ClientFunction<RequestOption>>;
+"
 `;
 
 exports[`Multi Type > types 1`] = `
@@ -113,15 +114,16 @@ exports[`Multi Type > types 1`] = `
 
 export namespace Schemas {
     export interface Pet {
-    pet_type: string;
-}
+        pet_type: string;
+    }
     export type Dog = Schemas.Pet & {
-    bark?: boolean;
-    breed?: "Dingo" | "Husky" | "Retriever" | "Shepherd";
-};
+        bark?: boolean;
+        breed?: "Dingo" | "Husky" | "Retriever" | "Shepherd";
+    };
     export type Cat = Schemas.Pet & {
-    hunts?: boolean;
-    age?: number;
-};
-}"
+        hunts?: boolean;
+        age?: number;
+    };
+}
+"
 `;

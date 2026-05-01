@@ -186,7 +186,7 @@ export const generateTypeAlias = (
     formatTypeNode = convertContext.convertFormatTypeNode(schema);
   }
   if (formatTypeNode) {
-    type = formatTypeNode;
+    type = schema.nullable === true ? `(${formatTypeNode})` : formatTypeNode;
   } else if (schema.enum) {
     if (Guard.isNumberArray(schema.enum) && (schema.type === "number" || schema.type === "integer")) {
       type = factory.TypeNode.create({

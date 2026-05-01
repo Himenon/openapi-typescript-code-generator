@@ -202,7 +202,7 @@ export const generateVariableIdentifier = (factory: TsGenerator.Factory.Type, na
     // 直接 .value でアクセスできない場合に ["value"] といった形で参照する
     return factory.ElementAccessExpression.create({
       expression: previous,
-      argumentExpression: current.value,
+      argumentExpression: factory.StringLiteral.create({ text: current.value }),
     });
   }, first);
 };

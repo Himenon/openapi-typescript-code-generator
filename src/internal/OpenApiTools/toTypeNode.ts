@@ -43,6 +43,28 @@ export interface Option {
   parent?: any;
 }
 
+const isSingleElementUnionOrIntersection = (schema: OpenApi.JSONSchema | OpenApi.Reference): boolean => {
+  if (typeof schema === "boolean" || Guard.isReference(schema)) return false;
+  const s = schema as OpenApi.Schema;
+  if (Guard.isOneOfSchema(s)) return s.oneOf.length === 1;
+  if (Guard.isAllOfSchema(s)) return s.allOf.length === 1;
+  if (Guard.isAnyOfSchema(s)) return s.anyOf.length === 1;
+  if (s.enum && s.enum.length === 1) {
+    const effectiveType = s.type ?? "string";
+    if (effectiveType === "string" && Guard.isStringArray(s.enum)) return true;
+    if ((effectiveType === "number" || effectiveType === "integer") && Guard.isNumberArray(s.enum)) return true;
+    if (effectiveType === "boolean" && Guard.isBooleanArray(s.enum)) return true;
+  }
+  return false;
+};
+
+const wrapIfNeeded = (converted: string, schema: OpenApi.JSONSchema | OpenApi.Reference): string => {
+  if (isSingleElementUnionOrIntersection(schema) && !converted.startsWith("(")) {
+    return `(${converted})`;
+  }
+  return converted;
+};
+
 export const generateMultiTypeNode = (
   entryPoint: string,
   currentPoint: string,
@@ -53,7 +75,9 @@ export const generateMultiTypeNode = (
   convertContext: ConverterContext.Types,
   multiType: "oneOf" | "allOf" | "anyOf",
 ): string => {
-  const typeNodes = schemas.map(schema => convert(entryPoint, currentPoint, factory, schema, setReference, convertContext));
+  const typeNodes = schemas.map(schema =>
+    wrapIfNeeded(convert(entryPoint, currentPoint, factory, schema, setReference, convertContext), schema),
+  );
   if (multiType === "oneOf") {
     return factory.UnionTypeNode.create({
       typeNodes,
@@ -244,14 +268,22 @@ export const convert: Convert = (
       if (Array.isArray(schema.items) || typeof schema.items === "boolean") {
         throw new UnSupportError(`schema.items = ${JSON.stringify(schema.items)}`);
       }
-      const typeNode = factory.TypeNode.create({
-        type: schema.type,
-        value: schema.items
-          ? convert(entryPoint, currentPoint, factory, schema.items, context, converterContext, { parent: schema })
-          : factory.TypeNode.create({
-              type: "undefined",
-            }),
-      });
+      let itemValue: string;
+      if (schema.items) {
+        const itemsSchema = schema.items as OpenApi.Schema;
+        const itemFormatType = converterContext.convertFormatTypeNode(itemsSchema);
+        if (itemFormatType) {
+          itemValue = `(${itemFormatType})`;
+        } else {
+          itemValue = wrapIfNeeded(
+            convert(entryPoint, currentPoint, factory, schema.items, context, converterContext, { parent: schema }),
+            schema.items as OpenApi.Schema,
+          );
+        }
+      } else {
+        itemValue = factory.TypeNode.create({ type: "undefined" });
+      }
+      const typeNode = factory.TypeNode.create({ type: schema.type, value: itemValue });
       return nullable(factory, typeNode, !!schema.nullable);
     }
     case "object": {
