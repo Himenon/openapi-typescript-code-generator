@@ -73,6 +73,7 @@
     "test:snapshot": "vitest run --config ./vitest.snapshot.config.ts",
     "test:vitest": "vitest run --config ./vitest.config.ts --coverage",
     "ts": "node --no-warnings=ExperimentalWarning --experimental-specifier-resolution=node --loader ts-node/esm",
+    "type-check": "tsc --noEmit",
     "update:snapshot": "vitest run --config ./vitest.snapshot.config.ts --update",
     "validate": "pnpm ts ./scripts/validate.ts",
     "watch": "pnpm ts ./scripts/watch.ts"

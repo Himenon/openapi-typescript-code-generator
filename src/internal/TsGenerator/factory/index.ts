@@ -228,7 +228,8 @@ export const create = (): Type => {
       create(p) {
         const node = (() => {
           if (typeof p.value === "string") {
-            return `"${p.value}"`;
+            const escaped = p.value.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+            return `"${escaped}"`;
           }
           if (typeof p.value === "number") {
             return `${p.value}`;
@@ -244,7 +245,7 @@ export const create = (): Type => {
         switch (p.type) {
           case "string":
             if (p.enum) {
-              return p.enum.map(v => `"${v}"`).join(" | ");
+              return p.enum.map(v => `"${v.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`).join(" | ");
             }
             return "string";
           case "number":

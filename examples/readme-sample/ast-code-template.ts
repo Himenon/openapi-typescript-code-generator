@@ -12,7 +12,7 @@ const generator: Types.CodeGenerator.GenerateFunction<Option> = (
   return payload.map(params => {
     return factory.InterfaceDeclaration.create({
       export: true,
-      name: params.functionName,
+      name: params.convertedParams.functionName,
       members: [],
     });
   });

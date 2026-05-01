@@ -19,5 +19,6 @@
   "ts-node": {
     "esm": true,
     "swc": true
-  }
+  },
+  "exclude": ["test/code"]
 }

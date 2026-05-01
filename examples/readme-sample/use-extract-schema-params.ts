@@ -4,7 +4,7 @@ type Option = {};
 
 const generator: Types.CodeGenerator.GenerateFunction<Option> = (payload: Types.CodeGenerator.Params[]): string[] => {
   return payload.map(params => {
-    return `function ${params.operationId}() { console.log("${params.comment}") }`;
+    return `function ${params.operationId}() { console.log("${params.operationParams.comment}") }`;
   });
 };
 

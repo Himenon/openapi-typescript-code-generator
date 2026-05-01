@@ -4,6 +4,7 @@ import { CodeGenerator } from "@himenon/openapi-typescript-code-generator";
 import type * as Types from "@himenon/openapi-typescript-code-generator/dist/types";
 
 /** ここにCode Templateの定義を記述してください  */
+// @ts-ignore -- placeholder example, generator is intentionally omitted
 const customGenerator: Types.CodeGenerator.CustomGenerator<{}> = {
   /** .... */
 };
