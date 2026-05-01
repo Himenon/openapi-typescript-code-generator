@@ -1,5 +1,3 @@
-import type ts from "typescript";
-
 import type * as OpenApi from "./OpenApi";
 
 export type PickedParameter = Pick<OpenApi.Parameter, "name" | "in" | "required" | "style" | "explode">;
@@ -56,7 +54,7 @@ export interface Params {
 /**
  * Used to further transform the code created by the specified Generator Template.
  */
-export type IntermediateCode = string | ts.Statement;
+export type IntermediateCode = string;
 
 export type GenerateFunction<Option = {}> = (payload: Params[], option?: Option) => IntermediateCode[];
 
