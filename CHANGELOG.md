@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.1.2"></a>
+## 1.1.2 (2026-05-02)
+
+
+### Chores
+
+* maintenance and configuration updates ([#142](https://github.com/Himenon/openapi-typescript-code-generator/issues/142)) ([c24c384](https://github.com/Himenon/openapi-typescript-code-generator/commit/c24c384))
+
+
+
+
+
 <a name="1.1.1"></a>
 ## 1.1.1 (2026-04-30)
 
