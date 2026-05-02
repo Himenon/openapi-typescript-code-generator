@@ -2,17 +2,62 @@ import { EOL } from "os";
 
 // --- Private helpers ---
 
-const escapeTemplateText = (text: string): string => text.replace(/\\/g, "\\\\").replace(/`/g, "\\`").replace(/\$\{/g, "\\${");
+/**
+ * テンプレートリテラル内の特殊文字（\, `, ${）をエスケープします。
+ *
+ * @param text - エスケープ対象の文字列
+ * @returns エスケープ済みの文字列
+ *
+ * @example
+ * escapeTemplateText("const a = `${val}`") // "const a = \\`${val}\\`"
+ */
+export const escapeTemplateText = (text: string): string => text.replace(/\\/g, "\\\\").replace(/`/g, "\\`").replace(/\$\{/g, "\\${");
 
-const escapeIdentifier = (text: string): string => text.replace(/-/g, "_");
+/**
+ * 識別子として使用できない文字（現在はハイフンのみ）をアンダースコアに置換します。
+ *
+ * @param text - 置換対象の文字列
+ * @returns 置換後の文字列
+ *
+ * @example
+ * escapeIdentifier("my-var") // "my_var"
+ */
+export const escapeIdentifier = (text: string): string => text.replace(/-/g, "_");
 
-const indentLines = (s: string, indent: string): string =>
+/**
+ * 文字列の各行に指定されたインデントを付与します。
+ * 空行にはインデントを付与しません。
+ *
+ * @param s - インデントを付与する文字列
+ * @param indent - 付与するインデント文字列（スペースやタブなど）
+ * @returns インデントが付与された文字列
+ *
+ * @example
+ * indentLines("line1\n\nline2", "  ")
+ * // 返り値:
+ * // "  line1"
+ * // ""
+ * // "  line2"
+ */
+export const indentLines = (s: string, indent: string): string =>
   s
     .split("\n")
     .map(line => (line ? `${indent}${line}` : line))
     .join("\n");
 
-const hasTopLevelOp = (s: string): boolean => {
+/**
+ * 文字列のトップレベルに演算子（| または &）が含まれているか判定します。
+ * 括弧、型引数、オブジェクト定義などのネスト内にある演算子は無視されます。
+ *
+ * @param s - 判定対象の型定義文字列
+ * @returns トップレベルに演算子が含まれる場合は true、それ以外は false
+ *
+ * @example
+ * hasTopLevelOp("A | B") // true
+ * hasTopLevelOp("Array<A | B>") // false
+ * hasTopLevelOp("{ a: A | B }") // false
+ */
+export const hasTopLevelOp = (s: string): boolean => {
   let depth = 0;
   for (let i = 0; i < s.length - 2; i++) {
     const c = s[i];
@@ -23,7 +68,24 @@ const hasTopLevelOp = (s: string): boolean => {
   return false;
 };
 
-const buildComment = (comment: string, deprecated?: boolean): string => {
+/**
+ * JSDoc 形式のコメントブロックを生成します。
+ * 複数行のコメントや @deprecated タグにも対応しています。
+ *
+ * @param comment - コメント本文
+ * @param deprecated - @deprecated タグを含めるかどうか
+ * @returns 生成された JSDoc 文字列（末尾に改行を含む）
+ *
+ * @example
+ * buildComment("hello") // "/** hello *\/\n"
+ * buildComment("deprecated message", true)
+ * // 返り値:
+ * // "/**"
+ * // " * @deprecated"
+ * // " * deprecated message"
+ * // " *\/"
+ */
+export const buildComment = (comment: string, deprecated?: boolean): string => {
   const escaped = comment
     .replace(/\*\//, "\\*\\\\/")
     .replace(/\/\*/, "/\\\\*")
@@ -36,7 +98,22 @@ const buildComment = (comment: string, deprecated?: boolean): string => {
   return `/**` + EOL + filtered.map(l => (l.trimEnd() ? ` * ${l.trimEnd()}` : ` *`)).join(EOL) + EOL + ` */` + EOL;
 };
 
-const addComment = (code: string, comment?: string, deprecated?: boolean): string => {
+/**
+ * コードに JSDoc コメントを付与します。
+ * コメントも deprecated フラグもない場合は、元のコードをそのまま返します。
+ *
+ * @param code - 元のコード
+ * @param comment - コメント本文
+ * @param deprecated - @deprecated フラグ
+ * @returns コメントが付与されたコード
+ *
+ * @example
+ * addComment("const a = 1;", "My constant")
+ * // 返り値:
+ * // "/** My constant *\/"
+ * // "const a = 1;"
+ */
+export const addComment = (code: string, comment?: string, deprecated?: boolean): string => {
   if (!comment && !deprecated) return code;
   return buildComment(comment || "", deprecated) + code;
 };
