@@ -125,9 +125,9 @@ export const create = (
     if (reference.type === "remote") {
       const data = reference.data;
       const context = { rootSchema, setReferenceHandler, resolveReferencePath, findSchemaByPathArray };
-      // Replicate ts.isTypeLiteralNode check: TypeLiteralNode is produced for plain object schemas
-      // (not nullable, not producing IntersectionTypeNode due to optional properties + additionalProperties)
-      const isTypeLiteralEquivalent = (() => {
+      // Determine if the schema should be treated as an interface equivalent
+      // (e.g., plain object schemas that are not nullable and don't produce IntersectionTypeNode)
+      const isInterfaceEquivalent = (() => {
         if (typeof data === "boolean") return true;
         if (Guard.isReference(data)) return false;
         if (Guard.isOneOfSchema(data) || Guard.isAllOfSchema(data) || Guard.isAnyOfSchema(data)) return false;
@@ -140,7 +140,7 @@ export const create = (
         }
         return true;
       })();
-      if (isTypeLiteralEquivalent) {
+      if (isInterfaceEquivalent) {
         let members: string[] = [];
         if (
           typeof data !== "boolean" &&
@@ -172,8 +172,6 @@ export const create = (
             members = propertySignatures;
           }
         }
-        // Old code: factory.InterfaceDeclaration.create({ export: true, name: reference.name, members: typeNode.members })
-        // No comment was passed in the old code, so we don't pass one here either.
         store.addStatement(reference.path, {
           kind: "interface",
           name: reference.name,

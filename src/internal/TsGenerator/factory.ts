@@ -41,7 +41,7 @@ const addComment = (code: string, comment?: string, deprecated?: boolean): strin
   return buildComment(comment || "", deprecated) + code;
 };
 
-// --- Factory.Type interface ---
+// --- Factory interface ---
 
 export interface Type {
   Identifier: {
