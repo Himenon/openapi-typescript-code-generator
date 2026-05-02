@@ -16258,7 +16258,7 @@ export namespace Schemas {
         default_mode?: Schemas.waf$managed$rules_default_mode;
         mode?: Schemas.waf$managed$rules_mode_deny_traditional;
     };
-    /** Only available for the Waiting Room Advanced subscription. Additional hostname and path combinations to which this waiting room will be applied. There is an implied wildcard at the end of the path. The hostname and path combination must be unique to this and all other waiting rooms. */
+    /** Only available for the Waiting Room Advanced subscription. Additional hostname and path combinations to which this waiting room will be applied. There is an implied wildcard at the end of the path. The hostname and path combination must be unique to this and all other waiting rooms.  */
     export type waitingroom_additional_routes = {
         /** The hostname to which this waiting room will be applied (no wildcards). The hostname must be the primary domain, subdomain, or custom hostname (if using SSL for SaaS) of this zone. Please do not include the scheme (http:// or https://). */
         host?: string;
@@ -37074,7 +37074,7 @@ export interface Parameter$api$shield$schema$validation$enable$validation$for$a$
 }
 export interface RequestBody$api$shield$schema$validation$enable$validation$for$a$schema {
     "application/json": {
-        validation_enabled?: Schemas.api$shield_validation_enabled & (string);
+        validation_enabled?: Schemas.api$shield_validation_enabled & string;
     };
 }
 export interface Response$api$shield$schema$validation$enable$validation$for$a$schema$Status$200 {
@@ -65546,6 +65546,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
          * Internet traffic anomalies are signals that might point to an outage,
          *         These alerts are automatically detected by Radar and then manually verified by our team.
          *         This endpoint returns the latest alerts.
+         *
          */
         radar$get$traffic$anomalies: (params: Params$radar$get$traffic$anomalies, option?: RequestOption): Promise<Response$radar$get$traffic$anomalies$Status$200["application/json"]> => {
             const url = _baseUrl + \`/radar/traffic_anomalies\`;
@@ -65575,6 +65576,7 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
          * Internet traffic anomalies are signals that might point to an outage,
          *         These alerts are automatically detected by Radar and then manually verified by our team.
          *         This endpoint returns the sum of alerts grouped by location.
+         *
          */
         radar$get$traffic$anomalies$top: (params: Params$radar$get$traffic$anomalies$top, option?: RequestOption): Promise<Response$radar$get$traffic$anomalies$top$Status$200["application/json"]> => {
             const url = _baseUrl + \`/radar/traffic_anomalies/locations\`;
