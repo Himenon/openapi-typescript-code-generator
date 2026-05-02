@@ -20,5 +20,5 @@
     "esm": true,
     "swc": true
   },
-  "exclude": ["test/code"]
+  "exclude": ["test/code", "examples/"]
 }
