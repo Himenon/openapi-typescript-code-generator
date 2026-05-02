@@ -3,7 +3,7 @@
 [日本語](./docs/ja/README-ja.md)
 
 This library provides TypeScript type definitions and extracted parameters from OpenAPI v3.0.x compliant specifications.
-TypeScript AST is used to generate the code, which is accurately converted to TypeScript code.
+Template literals are used to generate the code, which is accurately converted to TypeScript code.
 Since the parameters extracted from OpenAPI can be used freely, it can be used for automatic generation of API Client and Server Side code, load balancer configuration files, etc.
 
 ## Playground
@@ -436,10 +436,10 @@ export namespace Schemas {
 }
 ```
 
-### Define a code template with TypeScript AST
+### Define a code template with Template literals
 
-You can extend your code using the API of TypeScript AST.
-You can directly use the API of TypeScript AST or use the wrapper API of TypeScript AST provided by this library.
+You can extend your code using the API for generating code.
+You can directly use the Template literals or use the wrapper API provided by this library.
 
 ```ts
 import * as Types from "@himenon/openapi-typescript-code-generator/dist/types";
@@ -456,7 +456,7 @@ const generator: Types.CodeGenerator.GenerateFunction<Option> = (
   return payload.map(params => {
     return factory.InterfaceDeclaration.create({
       export: true,
-      name: params.functionName,
+      name: params.convertedParams.functionName,
       members: [],
     });
   });
@@ -487,7 +487,7 @@ Generates code that converts OpenAPI Schema to TypeScript type definitions.
 #### generateCode
 
 You can specify several of your own code generators, and the generators can use parameters extracted from OpenAPI Schema.
-It internally performs the conversion of an array of `string` or `ts.Statement` as a string.
+It internally performs the conversion of an array of `string` as a string.
 
 For example, creating a generator in units of file divisions increases the reusability of the generator.
 
@@ -507,7 +507,7 @@ This is a type definition file for `Templates.FunctionalApiClient`. The reason i
 import { TsGenerator } from "@himenon/openapi-typescript-code-generator/dist/api";
 ```
 
-This is a wrapper API for the TypeScript AST used internally.
+This is an API for generating code using Template literals.
 It is subject to change without notice.
 
 ### OpenApiTools
@@ -561,7 +561,7 @@ If your changes are in line with the design concept, please submit a pull reques
 - Typedefs should not contain any entities (file size should be 0 when typedefs are converted to `.js`)
 - The directory structure should be mapped to the typedef structure.
 - No dependency on any API client library.
-- Can be extended by TypeScript AST.
+- Can be extended by Template literals.
 - Conform to the OpenAPI specification.
 - It should be a single file to maintain portability.
 
@@ -580,9 +580,9 @@ pnpm run test
 
 ## Useful development tools
 
-TypeScript AST
+Prettier (or other formatters)
 
-- https://ts-ast-viewer.com
+- https://prettier.io/
 
 ## LICENCE
 
