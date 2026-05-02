@@ -54803,12 +54803,12 @@ export const namespace$worker$script$upload$worker$module = <RequestOption>(apiC
         Accept: "application/json"
     };
     const requestEncodings: Record<string, Record<string, Encoding>> = {
-      "multipart/form-data": {
-        "<any part name>": {
-          "contentType": "application/javascript+module, text/javascript+module, application/javascript, text/javascript, application/wasm, text/plain, application/octet-stream"
-        }
-      }
-    };
+  "multipart/form-data": {
+    "<any part name>": {
+      "contentType": "application/javascript+module, text/javascript+module, application/javascript, text/javascript, application/wasm, text/plain, application/octet-stream"
+    }
+  }
+};
     return apiClient.request({
         httpMethod: "PUT",
         uri,
@@ -54862,12 +54862,12 @@ export const namespace$worker$put$script$content = <RequestOption>(apiClient: Ap
         "CF-WORKER-MAIN-MODULE-PART": params.parameter["CF-WORKER-MAIN-MODULE-PART"]
     };
     const requestEncodings: Record<string, Record<string, Encoding>> = {
-      "multipart/form-data": {
-        "<any part name>": {
-          "contentType": "application/javascript+module, text/javascript+module, application/javascript, text/javascript, application/wasm, text/plain, application/octet-stream"
-        }
-      }
-    };
+  "multipart/form-data": {
+    "<any part name>": {
+      "contentType": "application/javascript+module, text/javascript+module, application/javascript, text/javascript, application/wasm, text/plain, application/octet-stream"
+    }
+  }
+};
     return apiClient.request({
         httpMethod: "PUT",
         uri,
@@ -55195,12 +55195,12 @@ export const worker$script$upload$worker$module = <RequestOption>(apiClient: Api
         Accept: "application/json"
     };
     const requestEncodings: Record<string, Record<string, Encoding>> = {
-      "multipart/form-data": {
-        "<any part name>": {
-          "contentType": "application/javascript+module, text/javascript+module, application/javascript, text/javascript, application/wasm, text/plain, application/octet-stream"
-        }
-      }
-    };
+  "multipart/form-data": {
+    "<any part name>": {
+      "contentType": "application/javascript+module, text/javascript+module, application/javascript, text/javascript, application/wasm, text/plain, application/octet-stream"
+    }
+  }
+};
     const queryParameters: QueryParameters = {
         rollback_to: { value: params.parameter.rollback_to, explode: false }
     };
@@ -55243,12 +55243,12 @@ export const worker$script$put$content = <RequestOption>(apiClient: ApiClient<Re
         "CF-WORKER-MAIN-MODULE-PART": params.parameter["CF-WORKER-MAIN-MODULE-PART"]
     };
     const requestEncodings: Record<string, Record<string, Encoding>> = {
-      "multipart/form-data": {
-        "<any part name>": {
-          "contentType": "application/javascript+module, text/javascript+module, application/javascript, text/javascript, application/wasm, text/plain, application/octet-stream"
-        }
-      }
-    };
+  "multipart/form-data": {
+    "<any part name>": {
+      "contentType": "application/javascript+module, text/javascript+module, application/javascript, text/javascript, application/wasm, text/plain, application/octet-stream"
+    }
+  }
+};
     return apiClient.request({
         httpMethod: "PUT",
         uri,
@@ -55441,12 +55441,12 @@ export const worker$environment$put$script$content = <RequestOption>(apiClient: 
         "CF-WORKER-MAIN-MODULE-PART": params.parameter["CF-WORKER-MAIN-MODULE-PART"]
     };
     const requestEncodings: Record<string, Record<string, Encoding>> = {
-      "multipart/form-data": {
-        "<any part name>": {
-          "contentType": "application/javascript+module, text/javascript+module, application/javascript, text/javascript, application/wasm, text/plain, application/octet-stream"
-        }
-      }
-    };
+  "multipart/form-data": {
+    "<any part name>": {
+      "contentType": "application/javascript+module, text/javascript+module, application/javascript, text/javascript, application/wasm, text/plain, application/octet-stream"
+    }
+  }
+};
     return apiClient.request({
         httpMethod: "PUT",
         uri,

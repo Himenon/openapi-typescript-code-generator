@@ -1515,13 +1515,13 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 Accept: "application/json"
             };
             const requestEncodings: Record<string, Record<string, Encoding>> = {
-              "application/x-www-form-urlencoded": {
-                "color": {
-                  "style": "form",
-                  "explode": false
-                }
-              }
-            };
+  "application/x-www-form-urlencoded": {
+    "color": {
+      "style": "form",
+      "explode": false
+    }
+  }
+};
             return apiClient.request({
                 httpMethod: "POST",
                 url,
@@ -1537,19 +1537,19 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 Accept: "application/json"
             };
             const requestEncodings: Record<string, Record<string, Encoding>> = {
-              "application/x-www-form-urlencoded": {
-                "color": {
-                  "style": "form",
-                  "explode": false
-                }
-              },
-              "application/json": {
-                "color": {
-                  "style": "form",
-                  "explode": false
-                }
-              }
-            };
+  "application/x-www-form-urlencoded": {
+    "color": {
+      "style": "form",
+      "explode": false
+    }
+  },
+  "application/json": {
+    "color": {
+      "style": "form",
+      "explode": false
+    }
+  }
+};
             return apiClient.request({
                 httpMethod: "POST",
                 url,
