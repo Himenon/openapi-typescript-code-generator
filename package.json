@@ -7,7 +7,8 @@
     "openapi3",
     "openapi-codegen",
     "openapi-generator",
-    "typescript"
+    "typescript",
+    "typescript-ast"
   ],
   "homepage": "https://github.com/Himenon/openapi-typescript-code-generator#readme",
   "bugs": {
@@ -117,6 +118,9 @@
     "tsup": "^8.5.1",
     "typescript": "6.0.3",
     "vitest": "^4.1.5"
+  },
+  "peerDependencies": {
+    "typescript": ">=5"
   },
   "packageManager": "pnpm@10.33.2",
   "engines": {
