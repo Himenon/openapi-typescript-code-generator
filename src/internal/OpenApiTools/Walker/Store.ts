@@ -153,7 +153,7 @@ class Store {
     if (!result) {
       throw new Error(`Not found ${localPath}`);
     }
-    return result;
+    return result as OpenApi.Parameter;
   }
   public isAfterDefined(referencePath: string): boolean {
     return !!DotProp.getProperty(this.state.document, referencePath.replace(/\//g, "."));

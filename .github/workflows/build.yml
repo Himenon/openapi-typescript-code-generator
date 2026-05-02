@@ -33,6 +33,7 @@ jobs:
       - name: Test & Build
         run: |
           pnpm build
+          pnpm type-check
           pnpm test:code:gen
           pnpm test
         env:
