@@ -1,3 +1,4 @@
+import { describe, expect, it, test } from "vitest";
 import * as fs from "fs";
 
 import * as Utils from "../../utils";
