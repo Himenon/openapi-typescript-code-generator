@@ -1,5 +1,5 @@
-import { describe, expect, it, test } from "vitest";
 import ts from "typescript";
+import { describe, expect, it, test } from "vitest";
 
 import { TsGenerator } from "../../../../api";
 import type { CodeGenerator } from "../../../../types";

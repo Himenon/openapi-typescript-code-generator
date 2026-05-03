@@ -2,7 +2,7 @@ import ts from "typescript";
 
 import { DevelopmentError } from "../Exception";
 import * as Factory from "./factory";
-import { CreateFunction, traverse } from "./traverse";
+import { type CreateFunction, traverse } from "./traverse";
 
 export * as Utils from "./utils";
 

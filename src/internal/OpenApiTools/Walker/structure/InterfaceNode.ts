@@ -1,5 +1,5 @@
 import { Node as BaseNode } from "@himenon/path-oriented-data-structure";
-import ts from "typescript";
+import type ts from "typescript";
 
 export type Kind = "interface";
 

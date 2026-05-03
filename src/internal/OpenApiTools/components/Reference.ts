@@ -5,7 +5,7 @@ import { DevelopmentError, FeatureDevelopmentError, NotFoundFileError } from "..
 import { FileSystem } from "../../FileSystem";
 import * as Logger from "../../Logger";
 import * as Guard from "../Guard";
-import { Def } from "../Walker";
+import type { Def } from "../Walker";
 
 export type LocalReferencePattern =
   | "#/components/schemas/"

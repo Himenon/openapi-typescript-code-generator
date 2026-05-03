@@ -21,12 +21,15 @@
         "useNumberNamespace": "error",
         "noInferrableTypes": "error",
         "noUselessElse": "error"
+      },
+      "correctness": {
+        "noUnusedImports": "error"
       }
     }
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!**/dist"],
+    "includes": ["**", "!**/dist", "!**/coverage", "!examples"],
     "maxSize": 10485760
   },
   "javascript": {

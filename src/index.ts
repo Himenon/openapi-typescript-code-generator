@@ -1,8 +1,8 @@
 import { EOL } from "os";
 
 import * as Api from "./api";
-import type * as Types from "./types";
 import { generateValidRootSchema } from "./generateValidRootSchema";
+import type * as Types from "./types";
 
 export interface Option {
   allowOperationIds?: string[];

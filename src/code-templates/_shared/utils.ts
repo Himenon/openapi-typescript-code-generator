@@ -1,4 +1,4 @@
-import ts from "typescript";
+import type ts from "typescript";
 
 import type { TsGenerator } from "../../api";
 import * as Utils from "../../utils";

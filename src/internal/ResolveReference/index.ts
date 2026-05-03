@@ -2,10 +2,10 @@ import * as DotProp from "dot-prop";
 
 import type { OpenApi } from "../../types";
 import { DevelopmentError } from "../Exception";
-import * as Guard from "../OpenApiTools/Guard";
 import * as Reference from "../OpenApiTools/components/Reference";
+import * as Guard from "../OpenApiTools/Guard";
 
-export { OpenApi };
+export type { OpenApi };
 
 export type ObjectLike = { [key: string]: any };
 

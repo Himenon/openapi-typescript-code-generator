@@ -1,4 +1,4 @@
-import { type ResultPromise, execa } from "execa";
+import { execa, type ResultPromise } from "execa";
 
 export const shell = (command: string, cwd: string = process.cwd()): ResultPromise => {
   return execa(command, {

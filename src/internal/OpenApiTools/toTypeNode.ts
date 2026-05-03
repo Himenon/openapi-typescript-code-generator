@@ -1,14 +1,14 @@
-import ts from "typescript";
+import type ts from "typescript";
 
 import type { OpenApi } from "../../types";
 import { UnSupportError } from "../Exception";
 import * as Logger from "../Logger";
-import { Factory } from "../TsGenerator";
-import * as ConverterContext from "./ConverterContext";
+import type { Factory } from "../TsGenerator";
+import type * as ConverterContext from "./ConverterContext";
+import * as Reference from "./components/Reference";
 import * as Guard from "./Guard";
 import * as InferredType from "./InferredType";
-import * as Reference from "./components/Reference";
-import { ObjectSchemaWithAdditionalProperties } from "./types";
+import type { ObjectSchemaWithAdditionalProperties } from "./types";
 
 export interface ResolveReferencePath {
   name: string;
