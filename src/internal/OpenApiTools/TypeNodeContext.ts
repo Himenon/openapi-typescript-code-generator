@@ -1,5 +1,5 @@
+import * as Path from "node:path";
 import * as DotProp from "dot-prop";
-import * as Path from "path";
 
 import ts from "typescript";
 

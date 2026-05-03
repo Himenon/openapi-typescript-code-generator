@@ -1,4 +1,4 @@
-import * as path from "path";
+import * as path from "node:path";
 
 import type { OpenApi } from "../../../types";
 import type { Factory } from "../../TsGenerator";

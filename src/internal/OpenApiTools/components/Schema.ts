@@ -158,8 +158,8 @@ const createNullableTypeNodeOrAny = (factory: Factory.Type, schema: OpenApi.Sche
  * 型定義が特定できなかった場合に利用する
  */
 export const generateNotInferedTypeAlias = (
-  entryPoint: string,
-  currentPoint: string,
+  _entryPoint: string,
+  _currentPoint: string,
   factory: Factory.Type,
   name: string,
   schema: OpenApi.Schema,
@@ -175,8 +175,8 @@ export const generateNotInferedTypeAlias = (
 };
 
 export const generateTypeAlias = (
-  entryPoint: string,
-  currentPoint: string,
+  _entryPoint: string,
+  _currentPoint: string,
   factory: Factory.Type,
   name: string,
   schema: PrimitiveSchema | AnySchema,

@@ -1,4 +1,4 @@
-import { posix as path } from "path";
+import { posix as path } from "node:path";
 
 import type { OpenApi } from "../../../types";
 import { DevelopmentError, FeatureDevelopmentError, NotFoundFileError } from "../../Exception";

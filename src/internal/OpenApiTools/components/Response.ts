@@ -1,4 +1,4 @@
-import * as path from "path";
+import * as path from "node:path";
 
 import type { OpenApi } from "../../../types";
 import type { Factory } from "../../TsGenerator";
@@ -61,7 +61,7 @@ export const generateNamespace = (
 };
 
 export const generateReferenceNamespace = (
-  entryPoint: string,
+  _entryPoint: string,
   currentPoint: string,
   store: Walker.Store,
   factory: Factory.Type,

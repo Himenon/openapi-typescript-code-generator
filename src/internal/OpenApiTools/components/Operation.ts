@@ -1,5 +1,5 @@
-import { EOL } from "os";
-import * as path from "path";
+import { EOL } from "node:os";
+import * as path from "node:path";
 
 import type ts from "typescript";
 

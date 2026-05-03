@@ -1,7 +1,7 @@
-import * as fs from "fs";
+import * as fs from "node:fs";
+import * as path from "node:path";
 import * as yaml from "js-yaml";
 import OpenAPISchemaValidator from "openapi-schema-validator";
-import * as path from "path";
 
 const filename = path.join(__dirname, "../test/api.test.domain/index.yml");
 const data = fs.readFileSync(filename, { encoding: "utf-8" });

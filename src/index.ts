@@ -1,4 +1,4 @@
-import { EOL } from "os";
+import { EOL } from "node:os";
 
 import * as Api from "./api";
 import { generateValidRootSchema } from "./generateValidRootSchema";

@@ -19,7 +19,7 @@ export type Params$TemplateExpression = Item[];
 
 const getTemplateSpan = (
   factory: TsGenerator.Factory.Type,
-  currentIndex: number,
+  _currentIndex: number,
   nextIndex: number,
   lastIndex: number,
   currentItem: ExpressionItem,
