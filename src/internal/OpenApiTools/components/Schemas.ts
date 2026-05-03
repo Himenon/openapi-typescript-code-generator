@@ -1,13 +1,13 @@
 import type { OpenApi } from "../../../types";
-import * as Logger from "../..//Logger";
 import { UnSupportError } from "../../Exception";
-import { Factory } from "../../TsGenerator";
-import * as ConverterContext from "../ConverterContext";
+import * as Logger from "../..//Logger";
+import type { Factory } from "../../TsGenerator";
+import type * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as InferredType from "../InferredType";
 import * as Name from "../Name";
-import type * as Walker from "../Walker";
 import * as ToTypeNode from "../toTypeNode";
+import type * as Walker from "../Walker";
 import * as Reference from "./Reference";
 import * as Schema from "./Schema";
 

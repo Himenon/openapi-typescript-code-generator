@@ -1,16 +1,16 @@
-import * as Path from "path";
+import * as Path from "node:path";
 import * as DotProp from "dot-prop";
 
 import ts from "typescript";
 
 import type { OpenApi } from "../../types";
 import { DevelopmentError } from "../Exception";
-import * as TypeScriptCodeGenerator from "../TsGenerator";
-import * as ConverterContext from "./ConverterContext";
-import * as Guard from "./Guard";
-import type * as Walker from "./Walker";
+import type * as TypeScriptCodeGenerator from "../TsGenerator";
+import type * as ConverterContext from "./ConverterContext";
 import * as Reference from "./components/Reference";
+import * as Guard from "./Guard";
 import * as ToTypeNode from "./toTypeNode";
+import type * as Walker from "./Walker";
 
 export interface ReferencePathSet {
   pathArray: string[];

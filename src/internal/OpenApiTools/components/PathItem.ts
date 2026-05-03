@@ -1,10 +1,10 @@
-import ts from "typescript";
+import type ts from "typescript";
 
 import type { OpenApi } from "../../../types";
-import { Factory } from "../../TsGenerator";
-import * as ConverterContext from "../ConverterContext";
+import type { Factory } from "../../TsGenerator";
+import type * as ConverterContext from "../ConverterContext";
+import type * as ToTypeNode from "../toTypeNode";
 import type * as Walker from "../Walker";
-import * as ToTypeNode from "../toTypeNode";
 import * as Operation from "./Operation";
 import * as Parameters from "./Parameters";
 import * as Servers from "./Servers";

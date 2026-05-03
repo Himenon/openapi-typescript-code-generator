@@ -1,4 +1,4 @@
-import ts from "typescript";
+import type ts from "typescript";
 
 import type { TsGenerator } from "../../api";
 import * as Utils from "../../utils";
@@ -19,7 +19,7 @@ export type Params$TemplateExpression = Item[];
 
 const getTemplateSpan = (
   factory: TsGenerator.Factory.Type,
-  currentIndex: number,
+  _currentIndex: number,
   nextIndex: number,
   lastIndex: number,
   currentItem: ExpressionItem,

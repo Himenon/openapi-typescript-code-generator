@@ -1,15 +1,15 @@
-import * as path from "path";
+import * as path from "node:path";
 
-import ts from "typescript";
+import type ts from "typescript";
 
 import type { OpenApi } from "../../../types";
 import { UndefinedComponent } from "../../Exception";
-import { Factory } from "../../TsGenerator";
-import * as ConverterContext from "../ConverterContext";
+import type { Factory } from "../../TsGenerator";
+import type * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as Name from "../Name";
+import type * as ToTypeNode from "../toTypeNode";
 import type * as Walker from "../Walker";
-import * as ToTypeNode from "../toTypeNode";
 import * as MediaType from "./MediaType";
 import * as Reference from "./Reference";
 import * as Response from "./Response";

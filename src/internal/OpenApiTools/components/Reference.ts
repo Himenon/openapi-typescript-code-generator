@@ -1,11 +1,11 @@
-import { posix as path } from "path";
+import { posix as path } from "node:path";
 
 import type { OpenApi } from "../../../types";
 import { DevelopmentError, FeatureDevelopmentError, NotFoundFileError } from "../../Exception";
 import { FileSystem } from "../../FileSystem";
 import * as Logger from "../../Logger";
 import * as Guard from "../Guard";
-import { Def } from "../Walker";
+import type { Def } from "../Walker";
 
 export type LocalReferencePattern =
   | "#/components/schemas/"

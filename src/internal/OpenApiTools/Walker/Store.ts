@@ -1,12 +1,11 @@
-import * as Path from "path";
-
+import * as Path from "node:path";
 import { Tree } from "@himenon/path-oriented-data-structure";
 import * as DotProp from "dot-prop";
-import ts from "typescript";
+import type ts from "typescript";
 
 import type { OpenApi } from "../../../types";
 import { UnSupportError } from "../../Exception";
-import { Factory } from "../../TsGenerator";
+import type { Factory } from "../../TsGenerator";
 import * as Def from "./Definition";
 import * as Operation from "./Operation";
 import * as State from "./State";

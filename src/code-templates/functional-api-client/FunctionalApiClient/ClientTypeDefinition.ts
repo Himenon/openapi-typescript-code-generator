@@ -1,4 +1,4 @@
-import ts from "typescript";
+import type ts from "typescript";
 import type { TsGenerator } from "../../../api";
 
 export const create = (factory: TsGenerator.Factory.Type): ts.TypeAliasDeclaration[] => {

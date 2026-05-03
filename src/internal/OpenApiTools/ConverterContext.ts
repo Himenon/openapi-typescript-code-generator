@@ -1,4 +1,4 @@
-import ts from "typescript";
+import type ts from "typescript";
 
 import * as Utils from "../../utils";
 import type { Factory } from "../TsGenerator";

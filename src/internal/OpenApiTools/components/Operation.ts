@@ -1,15 +1,15 @@
-import { EOL } from "os";
-import * as path from "path";
+import { EOL } from "node:os";
+import * as path from "node:path";
 
-import ts from "typescript";
+import type ts from "typescript";
 
 import type { OpenApi } from "../../../types";
-import { Factory } from "../../TsGenerator";
-import * as ConverterContext from "../ConverterContext";
+import type { Factory } from "../../TsGenerator";
+import type * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as Name from "../Name";
+import type * as ToTypeNode from "../toTypeNode";
 import type * as Walker from "../Walker";
-import * as ToTypeNode from "../toTypeNode";
 import * as ExternalDocumentation from "./ExternalDocumentation";
 import * as Parameter from "./Parameter";
 import * as Reference from "./Reference";

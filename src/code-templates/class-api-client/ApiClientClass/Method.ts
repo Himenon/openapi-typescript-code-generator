@@ -1,6 +1,6 @@
-import { EOL } from "os";
+import { EOL } from "node:os";
 
-import ts from "typescript";
+import type ts from "typescript";
 
 import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";

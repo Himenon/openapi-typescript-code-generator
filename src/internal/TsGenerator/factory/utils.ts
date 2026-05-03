@@ -1,4 +1,4 @@
-import { EOL } from "os";
+import { EOL } from "node:os";
 
 export interface Comment {
   hasTrailingNewLine: boolean;

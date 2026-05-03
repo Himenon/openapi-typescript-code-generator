@@ -1,11 +1,11 @@
-import * as path from "path";
+import * as path from "node:path";
 
 import type { OpenApi } from "../../../types";
-import { Factory } from "../../TsGenerator";
-import * as ConverterContext from "../ConverterContext";
+import type { Factory } from "../../TsGenerator";
+import type * as ConverterContext from "../ConverterContext";
 import * as Name from "../Name";
+import type * as ToTypeNode from "../toTypeNode";
 import type * as Walker from "../Walker";
-import * as ToTypeNode from "../toTypeNode";
 import * as Header from "./Header";
 import * as MediaType from "./MediaType";
 
@@ -61,7 +61,7 @@ export const generateNamespace = (
 };
 
 export const generateReferenceNamespace = (
-  entryPoint: string,
+  _entryPoint: string,
   currentPoint: string,
   store: Walker.Store,
   factory: Factory.Type,

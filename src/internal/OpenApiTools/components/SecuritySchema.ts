@@ -1,7 +1,7 @@
-import ts from "typescript";
+import type ts from "typescript";
 
 import type { OpenApi } from "../../../types";
-import { Factory } from "../../TsGenerator";
+import type { Factory } from "../../TsGenerator";
 
 export const generatePropertySignatures = (
   _entryPoint: string,

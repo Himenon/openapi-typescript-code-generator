@@ -1,13 +1,13 @@
-import ts from "typescript";
+import type ts from "typescript";
 
 import type { OpenApi } from "../../../types";
-import { Factory } from "../../TsGenerator";
-import * as ConverterContext from "../ConverterContext";
-import * as Guard from "../Guard";
-import type * as Walker from "../Walker";
+import type { Factory } from "../../TsGenerator";
+import type * as ConverterContext from "../ConverterContext";
 import * as PathItem from "../components/PathItem";
 import * as Reference from "../components/Reference";
-import * as ToTypeNode from "../toTypeNode";
+import * as Guard from "../Guard";
+import type * as ToTypeNode from "../toTypeNode";
+import type * as Walker from "../Walker";
 
 export const generateStatements = (
   entryPoint: string,

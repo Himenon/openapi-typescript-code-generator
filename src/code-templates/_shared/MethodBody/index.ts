@@ -1,14 +1,14 @@
-import ts from "typescript";
+import type ts from "typescript";
 
 import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
 import { escapeText2 as escapeText } from "../../../utils";
-import * as Utils from "../utils";
+import type * as Utils from "../utils";
 import * as CallRequest from "./CallRequest";
+import { createEncodingMap } from "./createEncodingMap";
 import * as HeaderParameter from "./HeaderParameter";
 import * as PathParameter from "./PathParameter";
 import * as QueryParameter from "./QueryParameter";
-import { createEncodingMap } from "./createEncodingMap";
 import type { MethodType } from "./types";
 
 export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params, methodType: MethodType): ts.Statement[] => {

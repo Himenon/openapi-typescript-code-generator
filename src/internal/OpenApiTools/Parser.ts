@@ -1,17 +1,17 @@
-import ts from "typescript";
+import type ts from "typescript";
 
 import type { CodeGenerator, OpenApi } from "../../types";
 import * as TypeScriptCodeGenerator from "../TsGenerator";
 import * as ConvertContext from "./ConverterContext";
-import * as Extractor from "./Extractor";
-import * as TypeNodeContext from "./TypeNodeContext";
-import { Store } from "./Walker";
 import * as Headers from "./components/Headers";
 import * as Parameters from "./components/Parameters";
 import * as RequestBodies from "./components/RequestBodies";
 import * as Responses from "./components/Responses";
 import * as Schemas from "./components/Schemas";
+import * as Extractor from "./Extractor";
 import * as Paths from "./paths";
+import * as TypeNodeContext from "./TypeNodeContext";
+import { Store } from "./Walker";
 
 export { ConvertContext };
 

@@ -1,4 +1,4 @@
-import { ApiClient, RequestArgs, createClient } from "./client";
+import { type ApiClient, createClient, type RequestArgs } from "./client";
 import { generateQueryString } from "./utils";
 
 export interface RequestOption {
