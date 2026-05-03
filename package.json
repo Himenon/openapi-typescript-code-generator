@@ -59,7 +59,7 @@
   "scripts": {
     "build": "tsup",
     "clean": "pnpm ts ./scripts/clean.ts",
-    "format": "biome format --write --unsafe .",
+    "format": "biome check --write --unsafe .",
     "lerna:version:up": "lerna version --yes",
     "lint": "biome check .",
     "release:github:registry": "pnpm publish  --no-git-checks --registry https://npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}",
