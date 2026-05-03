@@ -35,6 +35,7 @@ jobs:
           pnpm build
           pnpm type-check
           pnpm test:code:gen
+          pnpm lint
           pnpm test
         env:
           CI: true
