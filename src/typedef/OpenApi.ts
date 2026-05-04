@@ -1,4 +1,4 @@
-import type { JSONSchema7, JSONSchema7Type as JSONSchemaType, JSONSchema7TypeName } from "json-schema";
+import type { JSONSchema7, JSONSchema7TypeName, JSONSchema7Type as JSONSchemaType } from "json-schema";
 
 export type JSONSchemaTypeName = JSONSchema7TypeName;
 
@@ -8,7 +8,7 @@ export interface JSONSchema extends JSONSchema7 {
 
 export type JSONSchemaDefinition = JSONSchema | boolean; // JSONSchema7Definition
 
-export { JSONSchemaType };
+export type { JSONSchemaType };
 
 /**
  * @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#serverVariableObject

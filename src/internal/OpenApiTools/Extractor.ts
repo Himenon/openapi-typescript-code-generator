@@ -1,5 +1,5 @@
 import type { CodeGenerator, OpenApi } from "../../types";
-import * as ConverterContext from "./ConverterContext";
+import type * as ConverterContext from "./ConverterContext";
 import type * as Walker from "./Walker";
 
 const extractPickedParameter = (parameter: OpenApi.Parameter): CodeGenerator.PickedParameter => {
@@ -21,7 +21,7 @@ const extractResponseNamesByStatusCode = (type: "success" | "error", responses: 
       continue;
     }
     if (typeof statusCodeLike === "string") {
-      const statusCodeNumberValue = parseInt(statusCodeLike, 10);
+      const statusCodeNumberValue = Number.parseInt(statusCodeLike, 10);
       if (type === "success") {
         if (200 <= statusCodeNumberValue && statusCodeNumberValue < 300) {
           statusCodeList.push(statusCodeNumberValue.toString());

@@ -1,15 +1,20 @@
+<<<<<<< HEAD
+=======
+import type ts from "typescript";
+
+>>>>>>> 7b64d04cab4a272c3f6e680fa294110083ae3879
 import type { CodeGenerator, OpenApi } from "../../types";
 import * as TypeScriptCodeGenerator from "../TsGenerator";
 import * as ConvertContext from "./ConverterContext";
-import * as Extractor from "./Extractor";
-import * as TypeNodeContext from "./TypeNodeContext";
-import { Store } from "./Walker";
 import * as Headers from "./components/Headers";
 import * as Parameters from "./components/Parameters";
 import * as RequestBodies from "./components/RequestBodies";
 import * as Responses from "./components/Responses";
 import * as Schemas from "./components/Schemas";
+import * as Extractor from "./Extractor";
 import * as Paths from "./paths";
+import * as TypeNodeContext from "./TypeNodeContext";
+import { Store } from "./Walker";
 
 export { ConvertContext };
 

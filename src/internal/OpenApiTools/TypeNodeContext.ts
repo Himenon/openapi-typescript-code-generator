@@ -1,16 +1,20 @@
-import * as Path from "path";
+import * as Path from "node:path";
 import * as DotProp from "dot-prop";
 
 import type { OpenApi } from "../../types";
 import { DevelopmentError } from "../Exception";
-import * as TypeScriptCodeGenerator from "../TsGenerator";
-import * as ConverterContext from "./ConverterContext";
-import * as Guard from "./Guard";
-import type * as Walker from "./Walker";
+import type * as TypeScriptCodeGenerator from "../TsGenerator";
+import type * as ConverterContext from "./ConverterContext";
 import * as Reference from "./components/Reference";
+<<<<<<< HEAD
 import * as Schema from "./components/Schema";
 import * as ToTypeNode from "./toTypeNode";
 import type { ObjectSchema } from "./types";
+=======
+import * as Guard from "./Guard";
+import * as ToTypeNode from "./toTypeNode";
+import type * as Walker from "./Walker";
+>>>>>>> 7b64d04cab4a272c3f6e680fa294110083ae3879
 
 export interface ReferencePathSet {
   pathArray: string[];

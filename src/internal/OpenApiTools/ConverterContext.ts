@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+import type ts from "typescript";
+
+>>>>>>> 7b64d04cab4a272c3f6e680fa294110083ae3879
 import * as Utils from "../../utils";
 import type { Factory } from "../TsGenerator";
 

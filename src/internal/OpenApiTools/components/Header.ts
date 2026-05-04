@@ -1,6 +1,11 @@
+<<<<<<< HEAD
+=======
+import type ts from "typescript";
+
+>>>>>>> 7b64d04cab4a272c3f6e680fa294110083ae3879
 import type { OpenApi } from "../../../types";
-import { Factory } from "../../TsGenerator";
-import * as ConverterContext from "../ConverterContext";
+import type { Factory } from "../../TsGenerator";
+import type * as ConverterContext from "../ConverterContext";
 import * as Guard from "../Guard";
 import * as ToTypeNode from "../toTypeNode";
 import * as Reference from "./Reference";

@@ -1,7 +1,7 @@
-import * as fs from "fs";
-import { posix as path } from "path";
+import * as fs from "node:fs";
+import { posix as path } from "node:path";
 
-import { CodeGenerator, Option as CodeGeneratorOption } from "../../dist";
+import { CodeGenerator, type Option as CodeGeneratorOption } from "../../dist";
 import * as Templates from "../../dist/templates";
 import type * as Types from "../../dist/types";
 

@@ -1,6 +1,5 @@
-import * as fs from "fs";
-
 import { CodeGenerator } from "@himenon/openapi-typescript-code-generator";
+import * as fs from "fs";
 
 const main = () => {
   const codeGenerator = new CodeGenerator("spec/openapi.yml");

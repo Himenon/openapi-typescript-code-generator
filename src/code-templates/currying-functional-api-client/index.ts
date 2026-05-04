@@ -1,12 +1,16 @@
+<<<<<<< HEAD
+=======
+import type ts from "typescript";
+
+>>>>>>> 7b64d04cab4a272c3f6e680fa294110083ae3879
 import { TsGenerator } from "../../api";
 import type { CodeGenerator } from "../../types";
 import * as ApiClientArgument from "../_shared/ApiClientArgument";
 import * as ApiClientInterface from "../_shared/ApiClientInterface";
+import type { Option } from "../_shared/types";
 import * as FunctionalApiClient from "./FunctionalApiClient";
 
-import type { Option } from "../_shared/types";
-
-export { Option };
+export type { Option };
 
 export const generator: CodeGenerator.GenerateFunction<Option> = (
   codeGeneratorParamsList: CodeGenerator.Params[],

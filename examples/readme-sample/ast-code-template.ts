@@ -1,5 +1,5 @@
 import { TsGenerator } from "@himenon/openapi-typescript-code-generator/dist/api";
-import * as Types from "@himenon/openapi-typescript-code-generator/dist/types";
+import type * as Types from "@himenon/openapi-typescript-code-generator/dist/types";
 
 type Option = {};
 

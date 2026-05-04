@@ -1,7 +1,12 @@
 {
   "name": "@himenon/openapi-typescript-code-generator",
+<<<<<<< HEAD
   "version": "1.1.1",
   "description": "OpenAPI Code Generator using Template literals.",
+=======
+  "version": "1.1.3",
+  "description": "OpenAPI Code Generator using TypeScript AST.",
+>>>>>>> 7b64d04cab4a272c3f6e680fa294110083ae3879
   "keywords": [
     "openapi",
     "openapi3",
@@ -58,9 +63,9 @@
   "scripts": {
     "build": "tsup",
     "clean": "pnpm ts ./scripts/clean.ts",
-    "format": "biome format --write .",
+    "format": "biome check --write --unsafe .",
     "lerna:version:up": "lerna version --yes",
-    "lint": "biome lint .",
+    "lint": "biome check .",
     "release:github:registry": "pnpm publish  --no-git-checks --registry https://npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}",
     "release:npm:registry": "pnpm publish --no-git-checks",
     "test": "run-p test:depcruise test:vitest test:code:gen:* test:snapshot",

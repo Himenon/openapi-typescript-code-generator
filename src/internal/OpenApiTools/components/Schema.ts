@@ -1,11 +1,16 @@
+<<<<<<< HEAD
+=======
+import type ts from "typescript";
+
+>>>>>>> 7b64d04cab4a272c3f6e680fa294110083ae3879
 import type { OpenApi } from "../../../types";
 import { FeatureDevelopmentError } from "../../Exception";
-import { Factory } from "../../TsGenerator";
-import * as ConvertContext from "../ConverterContext";
+import type { Factory } from "../../TsGenerator";
+import type * as ConvertContext from "../ConverterContext";
 import * as Guard from "../Guard";
-import type * as Walker from "../Walker";
 import * as ToTypeNode from "../toTypeNode";
 import type { AnySchema, ArraySchema, ObjectSchema, PrimitiveSchema } from "../types";
+import type * as Walker from "../Walker";
 import * as ExternalDocumentation from "./ExternalDocumentation";
 
 const nullable = (factory: Factory.Type, typeNode: string, isNullable: boolean): string => {
@@ -156,8 +161,8 @@ const createNullableTypeNodeOrAny = (factory: Factory.Type, schema: OpenApi.Sche
  * 型定義が特定できなかった場合に利用する
  */
 export const generateNotInferedTypeAlias = (
-  entryPoint: string,
-  currentPoint: string,
+  _entryPoint: string,
+  _currentPoint: string,
   factory: Factory.Type,
   name: string,
   schema: OpenApi.Schema,
@@ -173,8 +178,8 @@ export const generateNotInferedTypeAlias = (
 };
 
 export const generateTypeAlias = (
-  entryPoint: string,
-  currentPoint: string,
+  _entryPoint: string,
+  _currentPoint: string,
   factory: Factory.Type,
   name: string,
   schema: PrimitiveSchema | AnySchema,

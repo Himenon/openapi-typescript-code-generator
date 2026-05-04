@@ -1,6 +1,6 @@
 import * as Formatter from "@himenon/openapi-parameter-formatter";
 
-import { QueryParameters } from "./client";
+import type { QueryParameters } from "./client";
 
 export const generateQueryString = (queryParameters: QueryParameters | undefined): string | undefined => {
   if (!queryParameters) {

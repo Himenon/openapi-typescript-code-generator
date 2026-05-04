@@ -1,2 +1,2 @@
 export * as Comment from "./Comment";
-export { Parser, ConvertContext } from "./Parser";
+export { ConvertContext, Parser } from "./Parser";

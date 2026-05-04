@@ -1,4 +1,4 @@
-import { Encoding, MediaType } from "../../../typedef/OpenApi";
+import type { Encoding, MediaType } from "../../../typedef/OpenApi";
 
 type EncodingMap = Record<string, Encoding>;
 

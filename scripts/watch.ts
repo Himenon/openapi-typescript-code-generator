@@ -15,7 +15,7 @@ const main = async () => {
     try {
       console.log((await shell("pnpm build")).stdout);
       console.log((await shell("pnpm run test:code:gen")).stdout);
-    } catch (error) {
+    } catch (_error) {
       console.error("Failed");
     }
   });
@@ -24,7 +24,7 @@ const main = async () => {
     console.log(`Watch Change file ... ${path}`);
     try {
       console.log((await shell("pnpm run test:code:gen")).stdout);
-    } catch (error) {
+    } catch (_error) {
       console.error("Failed");
     }
   });
