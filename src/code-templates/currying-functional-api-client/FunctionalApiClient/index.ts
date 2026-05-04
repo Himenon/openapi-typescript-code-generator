@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-import { EOL } from "os";
-=======
 import { EOL } from "node:os";
-import ts from "typescript";
->>>>>>> 7b64d04cab4a272c3f6e680fa294110083ae3879
 
 import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";

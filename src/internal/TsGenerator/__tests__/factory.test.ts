@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { EOL } from "os";
+import { EOL } from "node:os";
+import { describe, expect, it } from "vitest";
 import * as Factory from "../factory";
 
 describe("TsGenerator Factory Helpers", () => {

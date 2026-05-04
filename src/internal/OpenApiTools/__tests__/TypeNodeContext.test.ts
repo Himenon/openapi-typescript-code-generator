@@ -1,5 +1,4 @@
-import { posix as Path } from "path";
-import { describe, it, expect, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import * as TypeNodeContext from "../TypeNodeContext";
 
 describe("TypeNodeContext", () => {

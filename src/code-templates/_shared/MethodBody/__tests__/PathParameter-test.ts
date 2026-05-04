@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-import ts from "typescript";
->>>>>>> 7b64d04cab4a272c3f6e680fa294110083ae3879
 import { describe, expect, test } from "vitest";
 
 import { TsGenerator } from "../../../../api";
@@ -16,23 +12,23 @@ describe("PathParameter Test", () => {
     return Utils.generateTemplateExpression(factory, urlTemplates);
   };
   test("generateUrlTemplateExpression", () => {
-    expect(generate("/{a}", [{ in: "path", name: "a", required: true }])).toEqual(`\`/\${encodeURIComponent(params.parameter.a)}\``);
-    expect(generate("/{a}/", [{ in: "path", name: "a", required: true }])).toEqual(`\`/\${encodeURIComponent(params.parameter.a)}/\``);
-    expect(generate("/a/{b}", [{ in: "path", name: "b", required: true }])).toEqual(`\`/a/\${encodeURIComponent(params.parameter.b)}\``);
-    expect(generate("/a/{b}/", [{ in: "path", name: "b", required: true }])).toEqual(`\`/a/\${encodeURIComponent(params.parameter.b)}/\``);
-    expect(generate("/a/{b}/c", [{ in: "path", name: "b", required: true }])).toEqual(`\`/a/\${encodeURIComponent(params.parameter.b)}/c\``);
-    expect(generate("/a/{b}/c/", [{ in: "path", name: "b", required: true }])).toEqual(`\`/a/\${encodeURIComponent(params.parameter.b)}/c/\``);
-    expect(generate("/a/b/{c}", [{ in: "path", name: "c", required: true }])).toEqual(`\`/a/b/\${encodeURIComponent(params.parameter.c)}\``);
-    expect(generate("/a/b/{c}", [{ in: "path", name: "c", required: true }])).toEqual(`\`/a/b/\${encodeURIComponent(params.parameter.c)}\``);
-    expect(generate("/a/b/{c}/", [{ in: "path", name: "c", required: true }])).toEqual(`\`/a/b/\${encodeURIComponent(params.parameter.c)}/\``);
+    expect(generate("/{a}", [{ in: "path", name: "a", required: true }])).toEqual("`/${encodeURIComponent(params.parameter.a)}`");
+    expect(generate("/{a}/", [{ in: "path", name: "a", required: true }])).toEqual("`/${encodeURIComponent(params.parameter.a)}/`");
+    expect(generate("/a/{b}", [{ in: "path", name: "b", required: true }])).toEqual("`/a/${encodeURIComponent(params.parameter.b)}`");
+    expect(generate("/a/{b}/", [{ in: "path", name: "b", required: true }])).toEqual("`/a/${encodeURIComponent(params.parameter.b)}/`");
+    expect(generate("/a/{b}/c", [{ in: "path", name: "b", required: true }])).toEqual("`/a/${encodeURIComponent(params.parameter.b)}/c`");
+    expect(generate("/a/{b}/c/", [{ in: "path", name: "b", required: true }])).toEqual("`/a/${encodeURIComponent(params.parameter.b)}/c/`");
+    expect(generate("/a/b/{c}", [{ in: "path", name: "c", required: true }])).toEqual("`/a/b/${encodeURIComponent(params.parameter.c)}`");
+    expect(generate("/a/b/{c}", [{ in: "path", name: "c", required: true }])).toEqual("`/a/b/${encodeURIComponent(params.parameter.c)}`");
+    expect(generate("/a/b/{c}/", [{ in: "path", name: "c", required: true }])).toEqual("`/a/b/${encodeURIComponent(params.parameter.c)}/`");
     expect(generate("/a/b/{c}.json", [{ in: "path", name: "c", required: true }])).toEqual(
-      `\`/a/b/\${encodeURIComponent(params.parameter.c)}.json\``,
+      "`/a/b/${encodeURIComponent(params.parameter.c)}.json`",
     );
     expect(generate("/{a}.json/{a}.json/{a}.json", [{ in: "path", name: "a", required: true }])).toEqual(
-      `\`/\${encodeURIComponent(params.parameter.a)}.json/\${encodeURIComponent(params.parameter.a)}.json/\${encodeURIComponent(params.parameter.a)}.json\``,
+      "`/${encodeURIComponent(params.parameter.a)}.json/${encodeURIComponent(params.parameter.a)}.json/${encodeURIComponent(params.parameter.a)}.json`",
     );
     expect(generate("/.json.{a}.json/{a}.json.{a}", [{ in: "path", name: "a", required: true }])).toEqual(
-      `\`/.json.\${encodeURIComponent(params.parameter.a)}.json/\${encodeURIComponent(params.parameter.a)}.json.\${encodeURIComponent(params.parameter.a)}\``,
+      "`/.json.${encodeURIComponent(params.parameter.a)}.json/${encodeURIComponent(params.parameter.a)}.json.${encodeURIComponent(params.parameter.a)}`",
     );
 
     expect(
@@ -40,54 +36,54 @@ describe("PathParameter Test", () => {
         { in: "path", name: "a", required: true },
         { in: "path", name: "b", required: true },
       ]),
-    ).toBe(`\`/\${encodeURIComponent(params.parameter.a)}/\${encodeURIComponent(params.parameter.b)}\``);
+    ).toBe("`/${encodeURIComponent(params.parameter.a)}/${encodeURIComponent(params.parameter.b)}`");
     expect(
       generate("/{a}/{b}/", [
         { in: "path", name: "a", required: true },
         { in: "path", name: "b", required: true },
       ]),
-    ).toBe(`\`/\${encodeURIComponent(params.parameter.a)}/\${encodeURIComponent(params.parameter.b)}/\``);
+    ).toBe("`/${encodeURIComponent(params.parameter.a)}/${encodeURIComponent(params.parameter.b)}/`");
     expect(
       generate("/{a}/{b}/c", [
         { in: "path", name: "a", required: true },
         { in: "path", name: "b", required: true },
       ]),
-    ).toBe(`\`/\${encodeURIComponent(params.parameter.a)}/\${encodeURIComponent(params.parameter.b)}/c\``);
+    ).toBe("`/${encodeURIComponent(params.parameter.a)}/${encodeURIComponent(params.parameter.b)}/c`");
     expect(
       generate("/{a}/{b}/c/", [
         { in: "path", name: "a", required: true },
         { in: "path", name: "b", required: true },
       ]),
-    ).toBe(`\`/\${encodeURIComponent(params.parameter.a)}/\${encodeURIComponent(params.parameter.b)}/c/\``);
+    ).toBe("`/${encodeURIComponent(params.parameter.a)}/${encodeURIComponent(params.parameter.b)}/c/`");
     expect(
       generate("/{a}/b/{c}", [
         { in: "path", name: "a", required: true },
         { in: "path", name: "c", required: true },
       ]),
-    ).toBe(`\`/\${encodeURIComponent(params.parameter.a)}/b/\${encodeURIComponent(params.parameter.c)}\``);
+    ).toBe("`/${encodeURIComponent(params.parameter.a)}/b/${encodeURIComponent(params.parameter.c)}`");
     expect(
       generate("/{a}/b/{c}/", [
         { in: "path", name: "a", required: true },
         { in: "path", name: "c", required: true },
       ]),
-    ).toBe(`\`/\${encodeURIComponent(params.parameter.a)}/b/\${encodeURIComponent(params.parameter.c)}/\``);
+    ).toBe("`/${encodeURIComponent(params.parameter.a)}/b/${encodeURIComponent(params.parameter.c)}/`");
     expect(
       generate("/a/{b}/{c}", [
         { in: "path", name: "b", required: true },
         { in: "path", name: "c", required: true },
       ]),
-    ).toBe(`\`/a/\${encodeURIComponent(params.parameter.b)}/\${encodeURIComponent(params.parameter.c)}\``);
+    ).toBe("`/a/${encodeURIComponent(params.parameter.b)}/${encodeURIComponent(params.parameter.c)}`");
     expect(
       generate("/a/{b}/{c}/", [
         { in: "path", name: "b", required: true },
         { in: "path", name: "c", required: true },
       ]),
-    ).toBe(`\`/a/\${encodeURIComponent(params.parameter.b)}/\${encodeURIComponent(params.parameter.c)}/\``);
+    ).toBe("`/a/${encodeURIComponent(params.parameter.b)}/${encodeURIComponent(params.parameter.c)}/`");
     expect(
       generate("/a/{b}...{c}/", [
         { in: "path", name: "b", required: true },
         { in: "path", name: "c", required: true },
       ]),
-    ).toBe(`\`/a/\${encodeURIComponent(params.parameter.b)}...\${encodeURIComponent(params.parameter.c)}/\``);
+    ).toBe("`/a/${encodeURIComponent(params.parameter.b)}...${encodeURIComponent(params.parameter.c)}/`");
   });
 });

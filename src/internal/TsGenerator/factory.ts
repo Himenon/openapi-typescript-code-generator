@@ -1,4 +1,4 @@
-import { EOL } from "os";
+import { EOL } from "node:os";
 
 // --- Private helpers ---
 
@@ -93,9 +93,9 @@ export const buildComment = (comment: string, deprecated?: boolean): string => {
   const lines = deprecated ? ["@deprecated", ...escaped.split(/\r?\n/)] : escaped.split(/\r?\n/);
   const filtered = lines.filter((line, i) => !(i === lines.length - 1 && line === ""));
   if (filtered.length === 1) {
-    return `/** ${filtered[0]} */` + EOL;
+    return `/** ${filtered[0]} */${EOL}`;
   }
-  return `/**` + EOL + filtered.map(l => (l.trimEnd() ? ` * ${l.trimEnd()}` : ` *`)).join(EOL) + EOL + ` */` + EOL;
+  return `/**${EOL}${filtered.map(l => (l.trimEnd() ? ` * ${l.trimEnd()}` : " *")).join(EOL)}${EOL} */${EOL}`;
 };
 
 /**
@@ -455,7 +455,7 @@ export const create = (): Type => {
 
     PropertyDeclaration: {
       create(p) {
-        const mods = p.modifiers?.length ? p.modifiers.join(" ") + " " : "";
+        const mods = p.modifiers?.length ? `${p.modifiers.join(" ")} ` : "";
         const token = p.questionOrExclamationToken || "";
         const type = p.type ? `: ${p.type}` : "";
         const init = p.initializer ? ` = ${p.initializer}` : "";
@@ -600,7 +600,7 @@ export const create = (): Type => {
 
     VariableStatement: {
       create(p) {
-        const mods = p.modifiers?.length ? p.modifiers.join(" ") + " " : "";
+        const mods = p.modifiers?.length ? `${p.modifiers.join(" ")} ` : "";
         const node = `${mods}${p.declarationList};`;
         return addComment(node, p.comment, p.deprecated);
       },
@@ -630,7 +630,7 @@ export const create = (): Type => {
         if (p.private) modifiers.push("private");
         else modifiers.push("public");
         if (p.async) modifiers.push("async");
-        const mods = modifiers.join(" ") + " ";
+        const mods = `${modifiers.join(" ")} `;
         const typeParams = p.typeParameters?.length ? `<${p.typeParameters.join(", ")}>` : "";
         const params = `(${(p.parameters || []).join(", ")})`;
         const ret = p.type ? `: ${p.type}` : "";
@@ -674,7 +674,7 @@ export const create = (): Type => {
         const restNames = names.slice(1);
         const exp = p.export ? "export " : "";
         const body = p.statements.length > 0 ? `{\n${p.statements.map(s => indentLines(s, "    ")).join("\n")}\n}` : "{}";
-        let current = addComment(`${exp}namespace ${firstName} ${body}`, p.comment, p.deprecated);
+        const current = addComment(`${exp}namespace ${firstName} ${body}`, p.comment, p.deprecated);
         return restNames.reduce((prev, name) => {
           return `export namespace ${name} {\n${indentLines(prev, "    ")}\n}`;
         }, current);
@@ -683,13 +683,13 @@ export const create = (): Type => {
         const insertPoint = p.node.lastIndexOf("}");
         if (insertPoint === -1) return p.node;
         const added = p.statements.map(s => indentLines(s, "    ")).join("\n");
-        return p.node.slice(0, insertPoint) + added + "\n}";
+        return `${p.node.slice(0, insertPoint) + added}\n}`;
       },
       addStatements(p) {
         return p.statements.reduce((node, s) => {
           const insertPoint = node.lastIndexOf("}");
           if (insertPoint === -1) return node;
-          return node.slice(0, insertPoint) + indentLines(s, "    ") + "\n}";
+          return `${node.slice(0, insertPoint) + indentLines(s, "    ")}\n}`;
         }, p.node);
       },
     },

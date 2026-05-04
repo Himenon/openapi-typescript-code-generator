@@ -1,6 +1,5 @@
+import * as fs from "node:fs";
 import { describe, expect, test } from "vitest";
-
-import * as fs from "fs";
 
 import * as Utils from "../../utils";
 

@@ -1,12 +1,7 @@
 {
   "name": "@himenon/openapi-typescript-code-generator",
-<<<<<<< HEAD
-  "version": "1.1.1",
-  "description": "OpenAPI Code Generator using Template literals.",
-=======
   "version": "1.1.3",
-  "description": "OpenAPI Code Generator using TypeScript AST.",
->>>>>>> 7b64d04cab4a272c3f6e680fa294110083ae3879
+  "description": "OpenAPI Code Generator using Template literals.",
   "keywords": [
     "openapi",
     "openapi3",

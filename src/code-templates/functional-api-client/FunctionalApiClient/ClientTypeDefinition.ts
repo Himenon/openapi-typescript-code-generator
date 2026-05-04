@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-import type ts from "typescript";
->>>>>>> 7b64d04cab4a272c3f6e680fa294110083ae3879
 import type { TsGenerator } from "../../../api";
 
 export const create = (factory: TsGenerator.Factory.Type): string[] => {

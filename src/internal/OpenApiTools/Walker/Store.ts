@@ -1,10 +1,6 @@
 import * as Path from "node:path";
 import { Tree } from "@himenon/path-oriented-data-structure";
 import * as DotProp from "dot-prop";
-<<<<<<< HEAD
-=======
-import type ts from "typescript";
->>>>>>> 7b64d04cab4a272c3f6e680fa294110083ae3879
 
 import type { OpenApi } from "../../../types";
 import { UnSupportError } from "../../Exception";
