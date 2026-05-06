@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.2"></a>
+## 2.0.2 (2026-05-06)
+
+
+### Chores
+
+* **workflow:** switch npm release to OIDC ([#146](https://github.com/Himenon/openapi-typescript-code-generator/issues/146)) ([158965f](https://github.com/Himenon/openapi-typescript-code-generator/commit/158965f))
+
+
+
+
+
 <a name="2.0.1"></a>
 ## 2.0.1 (2026-05-06)
 
