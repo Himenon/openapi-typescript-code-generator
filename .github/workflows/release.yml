@@ -48,6 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
+      contents: read
     steps:
       - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
         with:
@@ -61,5 +62,3 @@ jobs:
       - run: pnpm install
       - run: pnpm build
       - run: NPM_CONFIG_PROVENANCE=true pnpm run release:npm:registry
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
