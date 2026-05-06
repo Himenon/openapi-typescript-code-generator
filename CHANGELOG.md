@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.3"></a>
+## 2.0.3 (2026-05-06)
+
+
+### Chores
+
+* improve release workflow and bump node version to v24 ([#147](https://github.com/Himenon/openapi-typescript-code-generator/issues/147)) ([1e6d988](https://github.com/Himenon/openapi-typescript-code-generator/commit/1e6d988))
+
+
+
+
+
 <a name="2.0.2"></a>
 ## 2.0.2 (2026-05-06)
 
