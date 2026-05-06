@@ -9,7 +9,7 @@
     "openapi-generator",
     "typescript"
   ],
-  "homepage": "https://github.com/Himenon/openapi-typescript-code-generator#readme",
+  "homepage": "https://github.com/Himenon/openapi-typescript-code-generator",
   "bugs": {
     "url": "https://github.com/Himenon/openapi-typescript-code-generator/issues"
   },
@@ -66,8 +66,8 @@
     "format": "biome check --write --unsafe .",
     "lerna:version:up": "lerna version --yes",
     "lint": "biome check .",
-    "release:github:registry": "pnpm publish  --no-git-checks --registry https://npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}",
-    "release:npm:registry": "pnpm publish --no-git-checks",
+    "release:npm:registry": "pnpm publish --access public --no-git-checks",
+    "release:github:registry": "pnpm publish --access public --no-git-checks",
     "test": "run-p test:depcruise test:vitest test:code:gen:* test:snapshot",
     "test:code:gen": "run-p test:code:gen:*",
     "test:code:gen:class": "pnpm ts ./scripts/testCodeGenWithClass.ts",
