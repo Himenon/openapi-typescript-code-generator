@@ -1,5 +1,3 @@
-import type ts from "typescript";
-
 import type { OpenApi } from "../../../types";
 import { FeatureDevelopmentError } from "../../Exception";
 import type { Factory } from "../../TsGenerator";
@@ -10,8 +8,8 @@ import type { AnySchema, ArraySchema, ObjectSchema, PrimitiveSchema } from "../t
 import type * as Walker from "../Walker";
 import * as ExternalDocumentation from "./ExternalDocumentation";
 
-const nullable = (factory: Factory.Type, typeNode: ts.TypeNode, nullable: boolean): ts.TypeNode => {
-  if (nullable) {
+const nullable = (factory: Factory.Type, typeNode: string, isNullable: boolean): string => {
+  if (isNullable) {
     return factory.UnionTypeNode.create({
       typeNodes: [
         typeNode,
@@ -31,7 +29,7 @@ export const generatePropertySignatures = (
   schema: ObjectSchema,
   context: ToTypeNode.Context,
   convertContext: ConvertContext.Types,
-): ts.PropertySignature[] => {
+): string[] => {
   if (!schema.properties) {
     return [];
   }
@@ -66,11 +64,11 @@ export const generateTypeAliasDeclarationForObject = (
   schema: ObjectSchema,
   context: ToTypeNode.Context,
   convertContext: ConvertContext.Types,
-): ts.TypeAliasDeclaration => {
+): string => {
   if (schema.type !== "object") {
     throw new FeatureDevelopmentError("Please use generateTypeAlias");
   }
-  let members: ts.TypeElement[] = [];
+  let members: string[] = [];
   const propertySignatures = generatePropertySignatures(entryPoint, currentPoint, factory, schema, context, convertContext);
   if (Guard.isObjectSchemaWithAdditionalProperties(schema)) {
     const additionalProperties = ToTypeNode.convertAdditionalProperties(entryPoint, currentPoint, factory, schema, context, convertContext);
@@ -101,11 +99,11 @@ export const generateInterface = (
   schema: ObjectSchema,
   context: ToTypeNode.Context,
   convertContext: ConvertContext.Types,
-): ts.InterfaceDeclaration => {
+): string => {
   if (schema.type !== "object") {
     throw new FeatureDevelopmentError("Please use generateTypeAlias");
   }
-  let members: ts.TypeElement[] = [];
+  let members: string[] = [];
   const propertySignatures = generatePropertySignatures(entryPoint, currentPoint, factory, schema, context, convertContext);
   if (Guard.isObjectSchemaWithAdditionalProperties(schema)) {
     const additionalProperties = ToTypeNode.convertAdditionalProperties(entryPoint, currentPoint, factory, schema, context, convertContext);
@@ -133,7 +131,7 @@ export const generateArrayTypeAlias = (
   schema: ArraySchema,
   context: ToTypeNode.Context,
   convertContext: ConvertContext.Types,
-): ts.TypeAliasDeclaration => {
+): string => {
   return factory.TypeAliasDeclaration.create({
     export: true,
     name: convertContext.escapeDeclarationText(name),
@@ -142,7 +140,7 @@ export const generateArrayTypeAlias = (
   });
 };
 
-const createNullableTypeNodeOrAny = (factory: Factory.Type, schema: OpenApi.Schema) => {
+const createNullableTypeNodeOrAny = (factory: Factory.Type, schema: OpenApi.Schema): string => {
   const typeNode = factory.TypeNode.create({
     type: "any",
   });
@@ -164,7 +162,7 @@ export const generateNotInferedTypeAlias = (
   name: string,
   schema: OpenApi.Schema,
   convertContext: ConvertContext.Types,
-) => {
+): string => {
   const typeNode = createNullableTypeNodeOrAny(factory, schema);
   return factory.TypeAliasDeclaration.create({
     export: true,
@@ -181,14 +179,14 @@ export const generateTypeAlias = (
   name: string,
   schema: PrimitiveSchema | AnySchema,
   convertContext: ConvertContext.Types,
-): ts.TypeAliasDeclaration => {
-  let type: ts.TypeNode;
-  let formatTypeNode: ts.TypeNode | undefined;
+): string => {
+  let type: string;
+  let formatTypeNode: string | undefined;
   if (schema.format && schema.type !== "any") {
     formatTypeNode = convertContext.convertFormatTypeNode(schema);
   }
   if (formatTypeNode) {
-    type = formatTypeNode;
+    type = schema.nullable === true ? `(${formatTypeNode})` : formatTypeNode;
   } else if (schema.enum) {
     if (Guard.isNumberArray(schema.enum) && (schema.type === "number" || schema.type === "integer")) {
       type = factory.TypeNode.create({
@@ -232,7 +230,7 @@ export const generateMultiTypeAlias = (
   context: ToTypeNode.Context,
   multiType: "oneOf" | "allOf" | "anyOf",
   convertContext: ConvertContext.Types,
-): ts.TypeAliasDeclaration => {
+): string => {
   const type = ToTypeNode.generateMultiTypeNode(
     entryPoint,
     currentPoint,

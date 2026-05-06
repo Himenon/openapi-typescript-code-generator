@@ -1,5 +1,3 @@
-import type ts from "typescript";
-
 import type { OpenApi } from "../../../types";
 import type { Factory } from "../../TsGenerator";
 import type * as ConverterContext from "../ConverterContext";
@@ -15,7 +13,7 @@ export const generateTypeNode = (
   header: OpenApi.Header,
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
-): ts.TypeAliasDeclaration => {
+): string => {
   return factory.TypeAliasDeclaration.create({
     export: true,
     name: converterContext.escapeDeclarationText(name),
@@ -31,7 +29,7 @@ export const generatePropertySignature = (
   header: OpenApi.Header | OpenApi.Reference,
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
-): ts.PropertySignature => {
+): string => {
   if (Guard.isReference(header)) {
     const reference = Reference.generate<OpenApi.Header>(entryPoint, currentPoint, header);
     if (reference.type === "local") {
@@ -69,7 +67,7 @@ export const generatePropertySignatures = (
   headers: Record<string, OpenApi.Header | OpenApi.Reference>,
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
-): ts.PropertySignature[] => {
+): string[] => {
   return Object.entries(headers).map(([headerName, header]) => {
     return generatePropertySignature(entryPoint, currentPoint, factory, headerName, header, context, converterContext);
   });
@@ -83,7 +81,7 @@ export const generateInterface = (
   headers: Record<string, OpenApi.Header | OpenApi.Reference>,
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
-): ts.InterfaceDeclaration => {
+): string => {
   return factory.InterfaceDeclaration.create({
     export: true,
     name: converterContext.escapeDeclarationText(name),

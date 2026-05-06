@@ -1,5 +1,3 @@
-import ts from "typescript";
-
 import type { TsGenerator } from "../../../api";
 
 /**
@@ -7,15 +5,15 @@ import type { TsGenerator } from "../../../api";
  *   {members}
  * }
  */
-export const create = (factory: TsGenerator.Factory.Type, members: ts.ClassElement[]): ts.ClassDeclaration => {
+export const create = (factory: TsGenerator.Factory.Type, members: string[]): string => {
   return factory.ClassDeclaration.create({
     name: "Client",
     export: true,
     members: [
       factory.PropertyDeclaration.create({
-        modifiers: [ts.factory.createModifier(ts.SyntaxKind.PrivateKeyword)],
+        modifiers: ["private"],
         name: "baseUrl",
-        type: ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
+        type: "string",
       }),
       ...members,
     ],

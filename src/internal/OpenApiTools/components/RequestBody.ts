@@ -1,5 +1,3 @@
-import type ts from "typescript";
-
 import type { OpenApi } from "../../../types";
 import type { Factory } from "../../TsGenerator";
 import type * as ConverterContext from "../ConverterContext";
@@ -15,7 +13,7 @@ export const generateInterface = (
   requestBody: OpenApi.RequestBody,
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
-): ts.InterfaceDeclaration => {
+): string => {
   /**
    * requestBody:
    *   content:

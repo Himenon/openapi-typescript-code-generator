@@ -1,15 +1,14 @@
 import { Node as BaseNode } from "@himenon/path-oriented-data-structure";
-import type ts from "typescript";
 
 export type Kind = "interface";
 
 export interface Params {
   name: string;
-  value: ts.InterfaceDeclaration;
+  value: string;
 }
 
 export class Item extends BaseNode<Kind> {
-  public value: ts.InterfaceDeclaration;
+  public value: string;
   constructor(params: Params) {
     super("interface", params.name);
     this.value = params.value;

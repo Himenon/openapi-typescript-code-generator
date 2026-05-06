@@ -1,12 +1,11 @@
 import { EOL } from "node:os";
-import ts from "typescript";
 
 import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
 import type { Option } from "../../_shared/types";
 import * as ArrowFunction from "./CurryingArrowFunction";
 
-export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Params[], option: Option): ts.Statement[] => {
+export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Params[], option: Option): string[] => {
   const variableStatements = list.map(params => {
     return factory.VariableStatement.create({
       comment: option.additionalMethodComment
@@ -14,7 +13,7 @@ export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Pa
             .filter(t => !!t)
             .join(EOL)
         : params.operationParams.comment,
-      modifiers: [ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
+      modifiers: ["export"],
       declarationList: factory.VariableDeclarationList.create({
         declarations: [
           factory.VariableDeclaration.create({

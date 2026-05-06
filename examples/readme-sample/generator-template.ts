@@ -3,6 +3,7 @@ import type * as Types from "@himenon/openapi-typescript-code-generator/dist/typ
 import * as fs from "fs";
 
 /** ここにCode Templateの定義を記述してください  */
+// @ts-ignore -- placeholder example, generator is intentionally omitted
 const customGenerator: Types.CodeGenerator.CustomGenerator<{}> = {
   /** .... */
 };

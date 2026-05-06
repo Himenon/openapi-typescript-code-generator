@@ -1,5 +1,3 @@
-import type ts from "typescript";
-
 import type { TsGenerator } from "../../api";
 import type { CodeGenerator } from "../../types";
 
@@ -52,7 +50,7 @@ export const createResponseContentTypeReference = (factory: TsGenerator.Factory.
 };
 
 const createHeaders = (factory: TsGenerator.Factory.Type, { convertedParams }: CodeGenerator.Params) => {
-  const members = [];
+  const members: string[] = [];
 
   if (convertedParams.has2OrMoreRequestContentTypes) {
     members.push(
@@ -90,10 +88,10 @@ const createHeaders = (factory: TsGenerator.Factory.Type, { convertedParams }: C
  *   requestBody: {requestBodyName}[T];
  * }
  */
-export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params): ts.InterfaceDeclaration | undefined => {
+export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params): string | undefined => {
   const { convertedParams } = params;
-  const typeParameters: ts.TypeParameterDeclaration[] = [];
-  const members: ts.TypeElement[] = [];
+  const typeParameters: string[] = [];
+  const members: string[] = [];
   if (convertedParams.hasRequestBody && convertedParams.has2OrMoreRequestContentTypes) {
     typeParameters.push(
       factory.TypeParameterDeclaration.create({

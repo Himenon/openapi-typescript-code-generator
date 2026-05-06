@@ -1,12 +1,11 @@
 import { EOL } from "node:os";
-import ts from "typescript";
 
 import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
 import type { Option } from "../../_shared/types";
 import * as ArrowFunction from "./ArrowFunction";
 
-export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Params[], option: Option): ts.VariableStatement => {
+export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Params[], option: Option): string => {
   const properties = list.map(params => {
     return factory.PropertyAssignment.create({
       name: params.convertedParams.functionName,
@@ -46,7 +45,7 @@ export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Pa
       }),
       factory.ParameterDeclaration.create({
         name: "baseUrl",
-        type: ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
+        type: "string",
       }),
     ],
     body: factory.Block.create({
@@ -75,7 +74,7 @@ export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Pa
   });
 
   return factory.VariableStatement.create({
-    modifiers: [ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
+    modifiers: ["export"],
     declarationList: factory.VariableDeclarationList.create({
       declarations: [
         factory.VariableDeclaration.create({

@@ -58,7 +58,7 @@ export class CodeGenerator {
       const statements = this.parser.getOpenApiTypeDefinitionStatements();
       generatorTemplates?.forEach(generatorTemplate => {
         const payload = this.parser.getCodeGeneratorParamsArray(allowOperationIds);
-        const extraStatements = Api.TsGenerator.Utils.convertIntermediateCodes(generatorTemplate.generator(payload, generatorTemplate.option));
+        const extraStatements = generatorTemplate.generator(payload, generatorTemplate.option);
         statements.push(...extraStatements);
       });
       return statements;
@@ -76,7 +76,7 @@ export class CodeGenerator {
     const payload = this.parser.getCodeGeneratorParamsArray(allowOperationIds);
     const create = () => {
       return generatorTemplates.flatMap(generatorTemplate => {
-        return Api.TsGenerator.Utils.convertIntermediateCodes(generatorTemplate?.generator(payload, generatorTemplate.option));
+        return generatorTemplate?.generator(payload, generatorTemplate.option);
       });
     };
     return [Api.OpenApiTools.Comment.generateLeading(this.resolvedReferenceDocument), Api.TsGenerator.generate(create)].join(EOL + EOL + EOL);

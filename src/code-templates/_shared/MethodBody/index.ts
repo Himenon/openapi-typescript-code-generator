@@ -1,5 +1,3 @@
-import type ts from "typescript";
-
 import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
 import { escapeText2 as escapeText } from "../../../utils";
@@ -11,8 +9,8 @@ import * as PathParameter from "./PathParameter";
 import * as QueryParameter from "./QueryParameter";
 import type { MethodType } from "./types";
 
-export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params, methodType: MethodType): ts.Statement[] => {
-  const statements: ts.Statement[] = [];
+export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.Params, methodType: MethodType): string[] => {
+  const statements: string[] = [];
   const { convertedParams, operationParams } = params;
   const { pickedParameters } = convertedParams;
 
@@ -65,7 +63,7 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
   const content = operationParams.requestBody?.content;
   if (content) {
     const encodingMap = createEncodingMap(content);
-    let identifier: ts.Identifier | undefined;
+    let identifier: string | undefined;
     if (convertedParams.has2OrMoreRequestContentTypes) {
       identifier = factory.Identifier.create({
         name: JSON.stringify(encodingMap, null, 2),

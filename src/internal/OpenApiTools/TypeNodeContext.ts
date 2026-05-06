@@ -1,15 +1,15 @@
 import * as Path from "node:path";
 import * as DotProp from "dot-prop";
 
-import ts from "typescript";
-
 import type { OpenApi } from "../../types";
 import { DevelopmentError } from "../Exception";
 import type * as TypeScriptCodeGenerator from "../TsGenerator";
 import type * as ConverterContext from "./ConverterContext";
 import * as Reference from "./components/Reference";
+import * as Schema from "./components/Schema";
 import * as Guard from "./Guard";
 import * as ToTypeNode from "./toTypeNode";
+import type { ObjectSchema } from "./types";
 import type * as Walker from "./Walker";
 
 export interface ReferencePathSet {
@@ -17,7 +17,19 @@ export interface ReferencePathSet {
   base: string;
 }
 
-const generatePath = (entryPoint: string, currentPoint: string, referencePath: string): ReferencePathSet => {
+/**
+ * エントリポイント、現在のファイルパス、参照パスから、相対的なパスの配列とベースディレクトリを生成します。
+ *
+ * @param entryPoint - OpenAPI定義のエントリポイント（例: "openapi.yml"）
+ * @param currentPoint - 現在処理中のファイルパス（例: "components/schemas/A.yml"）
+ * @param referencePath - 参照先のパス（例: "components/schemas/B.yml"）
+ * @returns パスの配列とベースディレクトリのセット
+ *
+ * @example
+ * generatePath("openapi.yml", "components/schemas/User.yml", "components/schemas/Common.yml")
+ * // 返り値の例: { pathArray: ["Common"], base: "components/schemas" }
+ */
+export const generatePath = (entryPoint: string, currentPoint: string, referencePath: string): ReferencePathSet => {
   const ext = Path.extname(currentPoint); // .yml
   const from = Path.relative(Path.dirname(entryPoint), currentPoint).replace(ext, ""); // components/schemas/A/B
   const base = Path.dirname(from).replace(Path.sep, "/");
@@ -29,7 +41,16 @@ const generatePath = (entryPoint: string, currentPoint: string, referencePath: s
   };
 };
 
-const calculateReferencePath = (
+/**
+ * store を参照して、参照先のパスから TypeScript の型名や名前空間の階層を計算します。
+ *
+ * @param store - 型定義の情報を保持するストア
+ * @param base - 探索のベースディレクトリ
+ * @param pathArray - 探索対象のパス配列
+ * @param converterContext - 変換コンテキスト
+ * @returns 解決された型名や未解決のパス、階層の深さなどの情報
+ */
+export const calculateReferencePath = (
   store: Walker.Store,
   base: string,
   pathArray: string[],
@@ -123,52 +144,68 @@ export const create = (
       return;
     }
     if (reference.type === "remote") {
-      const typeNode = ToTypeNode.convert(
-        entryPoint,
-        reference.referencePoint,
-        factory,
-        reference.data,
-        {
-          rootSchema,
-          setReferenceHandler,
-          resolveReferencePath,
-          findSchemaByPathArray,
-        },
-        converterContext,
-      );
-      if (ts.isTypeLiteralNode(typeNode)) {
-        store.addStatement(reference.path, {
-          kind: "interface",
-          name: reference.name,
-          value: factory.InterfaceDeclaration.create({
-            export: true,
-            name: reference.name,
-            members: typeNode.members,
-          }),
-        });
-      } else {
-        const value = factory.TypeAliasDeclaration.create({
-          export: true,
-          name: converterContext.escapeDeclarationText(reference.name),
-          type: ToTypeNode.convert(
+      const data = reference.data;
+      const context = { rootSchema, setReferenceHandler, resolveReferencePath, findSchemaByPathArray };
+      // Determine if the schema should be treated as an interface equivalent
+      // (e.g., plain object schemas that are not nullable and don't produce IntersectionTypeNode)
+      const isInterfaceEquivalent = (() => {
+        if (typeof data === "boolean") return true;
+        if (Guard.isReference(data)) return false;
+        if (Guard.isOneOfSchema(data) || Guard.isAllOfSchema(data) || Guard.isAnyOfSchema(data)) return false;
+        if (Guard.isHasNoMembersObject(data)) return true;
+        if (!Guard.isObjectSchema(data)) return false;
+        if (data.nullable) return false;
+        if (data.additionalProperties && typeof data.additionalProperties === "object") {
+          const hasOptionalProp = Object.keys(data.properties || {}).some(key => !(data.required || []).includes(key));
+          if (hasOptionalProp) return false;
+        }
+        return true;
+      })();
+      if (isInterfaceEquivalent) {
+        let members: string[] = [];
+        if (
+          typeof data !== "boolean" &&
+          !Guard.isReference(data) &&
+          Guard.isObjectSchema(data) &&
+          !Guard.isHasNoMembersObject(data) &&
+          data.additionalProperties !== true
+        ) {
+          const objData = data as ObjectSchema;
+          const propertySignatures = Schema.generatePropertySignatures(
             entryPoint,
             reference.referencePoint,
             factory,
-            reference.data,
-            {
-              rootSchema,
-              setReferenceHandler,
-              resolveReferencePath,
-              findSchemaByPathArray,
-            },
+            objData,
+            context,
             converterContext,
-          ),
-        });
+          );
+          if (Guard.isObjectSchemaWithAdditionalProperties(objData)) {
+            const additionalProperties = ToTypeNode.convertAdditionalProperties(
+              entryPoint,
+              reference.referencePoint,
+              factory,
+              objData,
+              context,
+              converterContext,
+            );
+            members = [...propertySignatures, additionalProperties];
+          } else {
+            members = propertySignatures;
+          }
+        }
         store.addStatement(reference.path, {
+          kind: "interface",
           name: reference.name,
-          kind: "typeAlias",
-          value,
+          value: factory.InterfaceDeclaration.create({ export: true, name: reference.name, members }),
         });
+      } else {
+        const typeStr = ToTypeNode.convert(entryPoint, reference.referencePoint, factory, data, context, converterContext);
+        const value = factory.TypeAliasDeclaration.create({
+          export: true,
+          name: converterContext.escapeDeclarationText(reference.name),
+          type: typeStr,
+        });
+        store.addStatement(reference.path, { name: reference.name, kind: "typeAlias", value });
       }
     } else if (reference.type === "local") {
       if (!store.isAfterDefined(reference.path)) {

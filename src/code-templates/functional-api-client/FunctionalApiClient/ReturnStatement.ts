@@ -1,9 +1,7 @@
-import type ts from "typescript";
-
 import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
 
-export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Params[]): ts.ReturnStatement => {
+export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Params[]): string => {
   const properties = list.map(item => {
     return factory.ShorthandPropertyAssignment.create({
       name: item.convertedParams.functionName,

@@ -1,5 +1,3 @@
-import type ts from "typescript";
-
 import type { OpenApi } from "../../../types";
 import type { Factory } from "../../TsGenerator";
 
@@ -8,8 +6,8 @@ export const generatePropertySignatures = (
   _currentPoint: string,
   factory: Factory.Type,
   securitySchema: OpenApi.SecuritySchema,
-): ts.PropertySignature[] => {
-  const signatures: ts.PropertySignature[] = [
+): string[] => {
+  return [
     factory.PropertySignature.create({
       readOnly: false,
       name: "type",
@@ -35,8 +33,6 @@ export const generatePropertySignatures = (
       type: factory.LiteralTypeNode.create({ value: securitySchema.openIdConnectUrl }),
     }),
   ];
-
-  return signatures;
 };
 
 export const generateInterface = (
@@ -45,7 +41,7 @@ export const generateInterface = (
   factory: Factory.Type,
   name: string,
   securitySchema: OpenApi.SecuritySchema,
-): ts.InterfaceDeclaration => {
+): string => {
   return factory.InterfaceDeclaration.create({
     export: true,
     name,

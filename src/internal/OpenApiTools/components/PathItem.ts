@@ -1,5 +1,3 @@
-import type ts from "typescript";
-
 import type { OpenApi } from "../../../types";
 import type { Factory } from "../../TsGenerator";
 import type * as ConverterContext from "../ConverterContext";
@@ -154,8 +152,8 @@ export const generateStatements = (
   pathItem: OpenApi.PathItem,
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
-): ts.Statement[] => {
-  const statements: ts.Statement[][] = [];
+): string[] => {
+  const statements: string[][] = [];
   if (pathItem.get) {
     statements.push(
       Operation.generateStatements(
@@ -284,10 +282,6 @@ export const generateStatements = (
       ),
     );
   }
-  // TODO Check usage
-  // if (pathItem.parameters) {
-  //   Parameters.generateNamespaceWithList(entryPoint, currentPoint, store, factory, pathItem.parameters, context);
-  // }
 
   return statements.flat();
 };

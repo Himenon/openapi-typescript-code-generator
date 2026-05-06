@@ -1,5 +1,3 @@
-import type ts from "typescript";
-
 import type { OpenApi } from "../../../types";
 import type { Factory } from "../../TsGenerator";
 import type * as ConverterContext from "../ConverterContext";
@@ -15,7 +13,7 @@ export const generateTypeNode = (
   parameter: OpenApi.Parameter,
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
-): ts.TypeNode => {
+): string => {
   return ToTypeNode.convert(entryPoint, currentPoint, factory, parameter.schema || { type: "null" }, context, converterContext);
 };
 
@@ -27,7 +25,7 @@ export const generateTypeAlias = (
   parameter: OpenApi.Parameter,
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
-): ts.TypeAliasDeclaration => {
+): string => {
   return factory.TypeAliasDeclaration.create({
     export: true,
     name: converterContext.escapeDeclarationText(name),
@@ -44,7 +42,7 @@ export const generatePropertySignatureObject = (
   parameter: OpenApi.Parameter | OpenApi.Reference,
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
-): { name: string; typeElement: ts.PropertySignature } => {
+): { name: string; typeElement: string } => {
   if (Guard.isReference(parameter)) {
     const reference = Reference.generate<OpenApi.Parameter>(entryPoint, currentPoint, parameter);
     if (reference.type === "local") {
@@ -110,8 +108,8 @@ export const generatePropertySignatures = (
   parameters: (OpenApi.Parameter | OpenApi.Reference)[],
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
-): ts.PropertySignature[] => {
-  const typeElementMap = parameters.reduce<Record<string, ts.PropertySignature>>((all, parameter) => {
+): string[] => {
+  const typeElementMap = parameters.reduce<Record<string, string>>((all, parameter) => {
     const { name, typeElement } = generatePropertySignatureObject(
       entryPoint,
       currentPoint,
@@ -135,7 +133,7 @@ export const generateInterface = (
   parameters: (OpenApi.Parameter | OpenApi.Reference)[],
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
-): ts.InterfaceDeclaration => {
+): string => {
   return factory.InterfaceDeclaration.create({
     export: true,
     name,
@@ -155,7 +153,7 @@ export const generateAliasInterface = (
   parameters: (OpenApi.Parameter | OpenApi.Reference)[],
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
-): ts.InterfaceDeclaration => {
+): string => {
   return factory.InterfaceDeclaration.create({
     export: true,
     name: converterContext.escapeDeclarationText(name),

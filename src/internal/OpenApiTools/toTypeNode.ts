@@ -1,5 +1,3 @@
-import type ts from "typescript";
-
 import type { OpenApi } from "../../types";
 import { UnSupportError } from "../Exception";
 import * as Logger from "../Logger";
@@ -39,11 +37,33 @@ export type Convert = (
   setReference: Context,
   convertContext: ConverterContext.Types,
   option?: Option,
-) => ts.TypeNode;
+) => string;
 
 export interface Option {
   parent?: any;
 }
+
+const isSingleElementUnionOrIntersection = (schema: OpenApi.JSONSchema | OpenApi.Reference): boolean => {
+  if (typeof schema === "boolean" || Guard.isReference(schema)) return false;
+  const s = schema as OpenApi.Schema;
+  if (Guard.isOneOfSchema(s)) return s.oneOf.length === 1;
+  if (Guard.isAllOfSchema(s)) return s.allOf.length === 1;
+  if (Guard.isAnyOfSchema(s)) return s.anyOf.length === 1;
+  if (s.enum && s.enum.length === 1) {
+    const effectiveType = s.type ?? "string";
+    if (effectiveType === "string" && Guard.isStringArray(s.enum)) return true;
+    if ((effectiveType === "number" || effectiveType === "integer") && Guard.isNumberArray(s.enum)) return true;
+    if (effectiveType === "boolean" && Guard.isBooleanArray(s.enum)) return true;
+  }
+  return false;
+};
+
+const wrapIfNeeded = (converted: string, schema: OpenApi.JSONSchema | OpenApi.Reference): string => {
+  if (isSingleElementUnionOrIntersection(schema) && !converted.startsWith("(")) {
+    return `(${converted})`;
+  }
+  return converted;
+};
 
 export const generateMultiTypeNode = (
   entryPoint: string,
@@ -54,8 +74,10 @@ export const generateMultiTypeNode = (
   convert: Convert,
   convertContext: ConverterContext.Types,
   multiType: "oneOf" | "allOf" | "anyOf",
-): ts.TypeNode => {
-  const typeNodes = schemas.map(schema => convert(entryPoint, currentPoint, factory, schema, setReference, convertContext));
+): string => {
+  const typeNodes = schemas.map(schema =>
+    wrapIfNeeded(convert(entryPoint, currentPoint, factory, schema, setReference, convertContext), schema),
+  );
   if (multiType === "oneOf") {
     return factory.UnionTypeNode.create({
       typeNodes,
@@ -74,8 +96,8 @@ export const generateMultiTypeNode = (
   });
 };
 
-const nullable = (factory: Factory.Type, typeNode: ts.TypeNode, nullable: boolean): ts.TypeNode => {
-  if (nullable) {
+const nullable = (factory: Factory.Type, typeNode: string, isNullable: boolean): string => {
+  if (isNullable) {
     return factory.UnionTypeNode.create({
       typeNodes: [
         typeNode,
@@ -96,7 +118,7 @@ export const convert: Convert = (
   context: Context,
   converterContext: ConverterContext.Types,
   option?: Option,
-): ts.TypeNode => {
+): string => {
   if (typeof schema === "boolean") {
     // https://swagger.io/docs/specification/data-models/dictionaries/#free-form
     return factory.TypeNode.create({
@@ -178,17 +200,14 @@ export const convert: Convert = (
       ].join("\n");
       Logger.info(message);
     }
-    const typeNode = factory.TypeNode.create({
+    return factory.TypeNode.create({
       type: "any",
     });
-    return typeNode;
-    // Logger.showFilePosition(entryPoint, currentPoint);
-    // throw new UnsetTypeError("Please set 'type' or '$ref' property \n" + JSON.stringify(schema));
   }
   switch (schema.type) {
     case "boolean": {
       const items = schema.enum;
-      let typeNode: ts.TypeNode;
+      let typeNode: string;
       if (items && Guard.isBooleanArray(items)) {
         typeNode = factory.TypeNode.create({
           type: schema.type,
@@ -209,7 +228,7 @@ export const convert: Convert = (
     case "integer":
     case "number": {
       const items = schema.enum;
-      let typeNode: ts.TypeNode;
+      let typeNode: string;
       const formatTypeNode = converterContext.convertFormatTypeNode(schema);
       if (formatTypeNode) {
         return formatTypeNode;
@@ -232,7 +251,7 @@ export const convert: Convert = (
       if (formatTypeNode) {
         return formatTypeNode;
       }
-      let typeNode: ts.TypeNode;
+      let typeNode: string;
       if (items && Guard.isStringArray(items)) {
         typeNode = factory.TypeNode.create({
           type: schema.type,
@@ -249,14 +268,22 @@ export const convert: Convert = (
       if (Array.isArray(schema.items) || typeof schema.items === "boolean") {
         throw new UnSupportError(`schema.items = ${JSON.stringify(schema.items)}`);
       }
-      const typeNode = factory.TypeNode.create({
-        type: schema.type,
-        value: schema.items
-          ? convert(entryPoint, currentPoint, factory, schema.items, context, converterContext, { parent: schema })
-          : factory.TypeNode.create({
-              type: "undefined",
-            }),
-      });
+      let itemValue: string;
+      if (schema.items) {
+        const itemsSchema = schema.items as OpenApi.Schema;
+        const itemFormatType = converterContext.convertFormatTypeNode(itemsSchema);
+        if (itemFormatType) {
+          itemValue = `(${itemFormatType})`;
+        } else {
+          itemValue = wrapIfNeeded(
+            convert(entryPoint, currentPoint, factory, schema.items, context, converterContext, { parent: schema }),
+            schema.items as OpenApi.Schema,
+          );
+        }
+      } else {
+        itemValue = factory.TypeNode.create({ type: "undefined" });
+      }
+      const typeNode = factory.TypeNode.create({ type: schema.type, value: itemValue });
       return nullable(factory, typeNode, !!schema.nullable);
     }
     case "object": {
@@ -269,7 +296,7 @@ export const convert: Convert = (
         });
       }
 
-      const value: ts.PropertySignature[] = Object.entries(schema.properties || {}).map(([name, jsonSchema]) => {
+      const value: string[] = Object.entries(schema.properties || {}).map(([name, jsonSchema]) => {
         return factory.PropertySignature.create({
           readOnly: typeof jsonSchema !== "boolean" ? !!jsonSchema.readOnly : false,
           name: converterContext.escapePropertySignatureName(name),
@@ -315,7 +342,6 @@ export const convert: Convert = (
       return factory.TypeNode.create({
         type: "any",
       });
-    // throw new UnknownError("what is this? \n" + JSON.stringify(schema, null, 2));
   }
 };
 
@@ -326,7 +352,7 @@ export const convertAdditionalProperties = (
   schema: ObjectSchemaWithAdditionalProperties,
   setReference: Context,
   convertContext: ConverterContext.Types,
-): ts.IndexSignatureDeclaration => {
+): string => {
   // // https://swagger.io/docs/specification/data-models/dictionaries/#free-form
   if (schema.additionalProperties === true) {
     factory.TypeNode.create({
@@ -334,11 +360,10 @@ export const convertAdditionalProperties = (
       value: [],
     });
   }
-  const additionalProperties = factory.IndexSignatureDeclaration.create({
+  return factory.IndexSignatureDeclaration.create({
     name: "key",
     type: convert(entryPoint, currentPoint, factory, schema.additionalProperties, setReference, convertContext, {
       parent: schema.properties,
     }),
   });
-  return additionalProperties;
 };

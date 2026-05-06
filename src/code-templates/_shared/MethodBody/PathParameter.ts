@@ -1,5 +1,3 @@
-import type ts from "typescript";
-
 import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
 import { escapeText2 as escapeText } from "../../../utils";
@@ -16,8 +14,8 @@ export const isPathParameter = (params: any): params is CodeGenerator.PickedPara
 const generateUrlVariableStatement = (
   factory: TsGenerator.Factory.Type,
   urlTemplate: Utils.Params$TemplateExpression,
-  variableExpression: ts.Expression,
-): ts.VariableStatement => {
+  variableExpression: string,
+): string => {
   return factory.VariableStatement.create({
     declarationList: factory.VariableDeclarationList.create({
       declarations: [
@@ -38,10 +36,7 @@ const generateUrlVariableStatement = (
 /**
  * const uri = `[head]${params.parameter.[parameterName]}`;
  */
-const generateUriVariableStatement = (
-  factory: TsGenerator.Factory.Type,
-  urlTemplate: Utils.Params$TemplateExpression,
-): ts.VariableStatement => {
+const generateUriVariableStatement = (factory: TsGenerator.Factory.Type, urlTemplate: Utils.Params$TemplateExpression): string => {
   return factory.VariableStatement.create({
     declarationList: factory.VariableDeclarationList.create({
       declarations: [
@@ -134,7 +129,7 @@ export const create = (
   requestUri: string,
   pathParameters: CodeGenerator.PickedParameter[],
   methodType: MethodType,
-): ts.VariableStatement => {
+): string => {
   const urlTemplate: Utils.Params$TemplateExpression =
     pathParameters.length > 0 ? generateUrlTemplateExpression(factory, requestUri, pathParameters) : [{ type: "string", value: requestUri }];
   if (methodType === "currying-function") {

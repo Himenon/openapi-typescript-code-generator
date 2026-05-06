@@ -1,5 +1,3 @@
-import ts from "typescript";
-
 import type { TsGenerator } from "../../../api";
 import * as Utils from "../../../utils";
 import * as UtilsExtra from "../utils";
@@ -18,9 +16,9 @@ export interface Params {
   };
 }
 
-export const create = (factory: TsGenerator.Factory.Type, params: Params): ts.VariableStatement => {
-  const properties: ts.PropertyAssignment[] = Object.entries(params.object).reduce<ts.PropertyAssignment[]>((previous, [key, item]) => {
-    const childProperties: ts.PropertyAssignment[] = [
+export const create = (factory: TsGenerator.Factory.Type, params: Params): string => {
+  const properties: string[] = Object.entries(params.object).reduce<string[]>((previous, [key, item]) => {
+    const childProperties: string[] = [
       factory.PropertyAssignment.create({
         name: "value",
         initializer:
@@ -40,7 +38,7 @@ export const create = (factory: TsGenerator.Factory.Type, params: Params): ts.Va
     childProperties.push(
       factory.PropertyAssignment.create({
         name: "explode",
-        initializer: item.explode ? ts.factory.createTrue() : ts.factory.createFalse(),
+        initializer: item.explode ? "true" : "false",
       }),
     );
     const childObjectInitializer = factory.ObjectLiteralExpression.create({
