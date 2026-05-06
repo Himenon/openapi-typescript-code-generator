@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.2.0"></a>
+# 1.2.0 (2026-05-06)
+
+
+### Features
+
+* Completely remove TypeScript AST dependency and migrate to string-based code generation ([#141](https://github.com/Himenon/openapi-typescript-code-generator/issues/141)) ([16f101d](https://github.com/Himenon/openapi-typescript-code-generator/commit/16f101d))
+
+
+
+
+
 <a name="1.1.3"></a>
 ## 1.1.3 (2026-05-03)
 
