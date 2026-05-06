@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.3.0"></a>
+# 1.3.0 (2026-05-06)
+
+
+### Features
+
+* support subpath exports ([#144](https://github.com/Himenon/openapi-typescript-code-generator/issues/144)) ([f2b2a57](https://github.com/Himenon/openapi-typescript-code-generator/commit/f2b2a57))
+
+
+
+
+
 <a name="1.2.0"></a>
 # 1.2.0 (2026-05-06)
 
