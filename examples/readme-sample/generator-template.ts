@@ -1,5 +1,5 @@
 import { CodeGenerator } from "@himenon/openapi-typescript-code-generator";
-import type * as Types from "@himenon/openapi-typescript-code-generator/dist/types";
+import type * as Types from "@himenon/openapi-typescript-code-generator/types";
 import * as fs from "fs";
 
 /** ここにCode Templateの定義を記述してください  */
