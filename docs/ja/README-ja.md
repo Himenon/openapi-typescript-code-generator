@@ -46,8 +46,8 @@ main();
 import * as fs from "fs";
 
 import { CodeGenerator } from "@himenon/openapi-typescript-code-generator";
-import * as Templates from "@himenon/openapi-typescript-code-generator/dist/templates";
-import type * as Types from "@himenon/openapi-typescript-code-generator/dist/types";
+import * as Templates from "@himenon/openapi-typescript-code-generator/templates";
+import type * as Types from "@himenon/openapi-typescript-code-generator/types";
 
 const main = () => {
   const codeGenerator = new CodeGenerator("your/openapi/spec.yml");
@@ -73,7 +73,7 @@ main();
 本ライブラリからは 3 種類提供しています。
 
 ```ts
-import * as Templates from "@himenon/openapi-typescript-code-generator/dist/templates";
+import * as Templates from "@himenon/openapi-typescript-code-generator/templates";
 
 Templates.ClassApiClient.generator;
 Templates.FunctionalApiClient.generator;
@@ -269,8 +269,8 @@ export const createPublisherV2 =
 import * as fs from "fs";
 
 import { CodeGenerator } from "@himenon/openapi-typescript-code-generator";
-import * as Templates from "@himenon/openapi-typescript-code-generator/dist/templates";
-import type * as Types from "@himenon/openapi-typescript-code-generator/dist/types";
+import * as Templates from "@himenon/openapi-typescript-code-generator/templates";
+import type * as Types from "@himenon/openapi-typescript-code-generator/types";
 
 const main = () => {
   const codeGenerator = new CodeGenerator("your/openapi/spec.yml");
@@ -306,7 +306,7 @@ main();
 import * as fs from "fs";
 
 import { CodeGenerator } from "@himenon/openapi-typescript-code-generator";
-import type * as Types from "@himenon/openapi-typescript-code-generator/dist/types";
+import type * as Types from "@himenon/openapi-typescript-code-generator/types";
 
 /** ここにCode Templateの定義を記述してください  */
 const customGenerator: Types.CodeGenerator.CustomGenerator<{}> = {
@@ -325,7 +325,7 @@ fs.writeFileSync("output/file/name", code, { encoding: "utf-8" });
 独自定義のコードジェネレーターは`string`の配列を返すことができます。
 
 ```ts
-import * as Types from "@himenon/openapi-typescript-code-generator/dist/types";
+import * as Types from "@himenon/openapi-typescript-code-generator/types";
 
 interface Option {
   showLog?: boolean;
@@ -350,7 +350,7 @@ const customGenerator: Types.CodeGenerator.CustomGenerator<Option> = {
 利用可能なパラメーターは型定義を参照してください。
 
 ```ts
-import * as Types from "@himenon/openapi-typescript-code-generator/dist/types";
+import * as Types from "@himenon/openapi-typescript-code-generator/types";
 
 interface Option {}
 
@@ -438,8 +438,8 @@ export namespace Schemas {
 直接テンプレートリテラルを利用したり、本ライブラリが提供するコード生成用 API を利用できます。
 
 ```ts
-import * as Types from "@himenon/openapi-typescript-code-generator/dist/types";
-import { TsGenerator } from "@himenon/openapi-typescript-code-generator/dist/api";
+import * as Types from "@himenon/openapi-typescript-code-generator/types";
+import { TsGenerator } from "@himenon/openapi-typescript-code-generator/api";
 
 interface Option {}
 
@@ -500,7 +500,7 @@ OpenAPI Schema から抽出したパラメーターを取得できます。
 ### TsGenerator
 
 ```ts
-import { TsGenerator } from "@himenon/openapi-typescript-code-generator/dist/api";
+import { TsGenerator } from "@himenon/openapi-typescript-code-generator/api";
 ```
 
 内部で利用している、テンプレートリテラルを用いてコードを生成するための API です。
@@ -509,7 +509,7 @@ import { TsGenerator } from "@himenon/openapi-typescript-code-generator/dist/api
 ### OpenApiTools
 
 ```ts
-import { OpenApiTools } from "@himenon/openapi-typescript-code-generator/dist/api";
+import { OpenApiTools } from "@himenon/openapi-typescript-code-generator/api";
 ```
 
 #### Parser

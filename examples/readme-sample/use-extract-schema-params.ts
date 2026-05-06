@@ -1,4 +1,4 @@
-import type * as Types from "@himenon/openapi-typescript-code-generator/dist/types";
+import type * as Types from "@himenon/openapi-typescript-code-generator/types";
 
 type Option = {};
 
