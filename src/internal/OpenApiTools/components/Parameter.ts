@@ -109,7 +109,16 @@ export const generatePropertySignatures = (
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
 ): string[] => {
-  const typeElementMap = parameters.reduce<Record<string, string>>((all, parameter) => {
+  // Path parameters must be processed last so they win over same-named query/header
+  // parameters when building the TypeScript interface (path params are always required).
+  const sorted = [...parameters].sort((a, b): number => {
+    const aIsPath = !Guard.isReference(a) && a.in === "path";
+    const bIsPath = !Guard.isReference(b) && b.in === "path";
+    if (aIsPath && !bIsPath) return 1;
+    if (!aIsPath && bIsPath) return -1;
+    return 0;
+  });
+  const typeElementMap = sorted.reduce<Record<string, string>>((all, parameter) => {
     const { name, typeElement } = generatePropertySignatureObject(
       entryPoint,
       currentPoint,

@@ -334,8 +334,8 @@ export interface Response$getReferenceItems$Status$200 {
     };
 }
 export interface Parameter$searchBook {
-    "book.name": string;
     "from.publishedAt"?: number;
+    "book.name": string;
 }
 export interface Response$searchBook$Status$200 {
     "application/json": {
@@ -1010,8 +1010,8 @@ export interface Response$getReferenceItems$Status$200 {
     };
 }
 export interface Parameter$searchBook {
-    "book.name": string;
     "from.publishedAt"?: number;
+    "book.name": string;
 }
 export interface Response$searchBook$Status$200 {
     "application/json": {
@@ -1774,20 +1774,20 @@ export interface Response$getItemById$Status$200 {
     };
 }
 export interface Parameter$getNodeProxyWithPath {
+    path: string;
     name: string;
-    path?: string;
 }
 export interface Response$getNodeProxyWithPath$Status$200 {
     "application/json": string;
 }
 export interface Parameter$headNodeProxyWithPath {
+    path: string;
     name: string;
-    path?: string;
 }
 export interface Parameter$getUserPost {
+    include?: string;
     userId: string;
     postId: number;
-    include?: string;
 }
 export interface Response$getUserPost$Status$200 {
     "application/json": {
