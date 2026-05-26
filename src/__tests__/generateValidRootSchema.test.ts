@@ -20,7 +20,7 @@ describe("generateValidRootSchema", () => {
                   schema: { type: "string" },
                 },
               ],
-              responses: {},
+              responses: { default: { description: "default" } },
             },
           },
         },
@@ -42,7 +42,7 @@ describe("generateValidRootSchema", () => {
               operationId: "getItemById",
               // required フィールド自体を省略
               parameters: [{ in: "path", name: "id", required: undefined as unknown as boolean, schema: { type: "string" } }],
-              responses: {},
+              responses: { default: { description: "default" } },
             },
           },
         },
@@ -63,7 +63,7 @@ describe("generateValidRootSchema", () => {
             parameters: [{ in: "path", name: "id", required: false, schema: { type: "string" } }],
             get: {
               operationId: "getItemById",
-              responses: {},
+              responses: { default: { description: "default" } },
             },
           },
         },
@@ -101,7 +101,7 @@ describe("generateValidRootSchema", () => {
             get: {
               operationId: "getItems",
               parameters: [{ in: "query", name: "filter", required: false, schema: { type: "string" } }],
-              responses: {},
+              responses: { default: { description: "default" } },
             },
           },
         },
@@ -122,7 +122,7 @@ describe("generateValidRootSchema", () => {
             get: {
               operationId: "getItemById",
               parameters: [{ in: "path", name: "id", required: true, schema: { type: "string" } }],
-              responses: {},
+              responses: { default: { description: "default" } },
             },
           },
         },
