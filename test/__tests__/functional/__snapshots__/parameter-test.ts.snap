@@ -689,8 +689,7 @@ exports[`Parameter > required フィールドを省略したパスパラメー�
       "pickedParameters": [
         {
           "name": "id",
-          "in": "path",
-          "required": true
+          "in": "path"
         }
       ],
       "requestContentTypes": [],
@@ -720,8 +719,7 @@ exports[`Parameter > required フィールドを省略したパスパラメー�
           "name": "id",
           "schema": {
             "type": "string"
-          },
-          "required": true
+          }
         }
       ],
       "responses": {
@@ -761,13 +759,11 @@ exports[`Parameter > required フィールドを省略したパスパラメー�
       "pickedParameters": [
         {
           "name": "name",
-          "in": "path",
-          "required": true
+          "in": "path"
         },
         {
           "name": "path",
-          "in": "path",
-          "required": true
+          "in": "path"
         },
         {
           "name": "path",
@@ -801,16 +797,14 @@ exports[`Parameter > required フィールドを省略したパスパラメー�
           "name": "name",
           "schema": {
             "type": "string"
-          },
-          "required": true
+          }
         },
         {
           "in": "path",
           "name": "path",
           "schema": {
             "type": "string"
-          },
-          "required": true
+          }
         },
         {
           "in": "query",
@@ -849,13 +843,11 @@ exports[`Parameter > required フィールドを省略したパスパラメー�
       "pickedParameters": [
         {
           "name": "name",
-          "in": "path",
-          "required": true
+          "in": "path"
         },
         {
           "name": "path",
-          "in": "path",
-          "required": true
+          "in": "path"
         },
         {
           "name": "path",
@@ -883,16 +875,14 @@ exports[`Parameter > required フィールドを省略したパスパラメー�
           "name": "name",
           "schema": {
             "type": "string"
-          },
-          "required": true
+          }
         },
         {
           "in": "path",
           "name": "path",
           "schema": {
             "type": "string"
-          },
-          "required": true
+          }
         },
         {
           "in": "query",
@@ -924,13 +914,11 @@ exports[`Parameter > required フィールドを省略したパスパラメー�
       "pickedParameters": [
         {
           "name": "userId",
-          "in": "path",
-          "required": true
+          "in": "path"
         },
         {
           "name": "postId",
-          "in": "path",
-          "required": true
+          "in": "path"
         },
         {
           "name": "include",
@@ -964,16 +952,14 @@ exports[`Parameter > required フィールドを省略したパスパラメー�
           "name": "userId",
           "schema": {
             "type": "string"
-          },
-          "required": true
+          }
         },
         {
           "in": "path",
           "name": "postId",
           "schema": {
             "type": "integer"
-          },
-          "required": true
+          }
         },
         {
           "in": "query",
