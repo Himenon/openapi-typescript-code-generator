@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.5"></a>
+## 2.0.5 (2026-05-26)
+
+
+### Bug Fixes
+
+* path parameters with same name as query parameters are always required in generated TypeScript interfaces ([#150](https://github.com/Himenon/openapi-typescript-code-generator/issues/150)) ([fb586ad](https://github.com/Himenon/openapi-typescript-code-generator/commit/fb586ad))
+
+
+
+
+
 <a name="2.0.4"></a>
 ## 2.0.4 (2026-05-26)
 
