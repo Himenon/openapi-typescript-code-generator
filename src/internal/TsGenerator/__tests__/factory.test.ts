@@ -8,6 +8,7 @@ describe("TsGenerator Factory Helpers", () => {
       // バックスラッシュ、バッククォート、${ をエスケープする
       expect(Factory.escapeTemplateText("path\\to\\file")).toBe("path\\\\to\\\\file");
       expect(Factory.escapeTemplateText("`quoted`")).toBe("\\`quoted\\`");
+      // biome-ignore lint/suspicious/noTemplateCurlyInString: intentional - testing escaping of template literal placeholders
       expect(Factory.escapeTemplateText("${variable}")).toBe("\\${variable}");
     });
   });

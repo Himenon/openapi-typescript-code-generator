@@ -334,8 +334,8 @@ export interface Response$getReferenceItems$Status$200 {
     };
 }
 export interface Parameter$searchBook {
-    "book.name": string;
     "from.publishedAt"?: number;
+    "book.name": string;
 }
 export interface Response$searchBook$Status$200 {
     "application/json": {
@@ -1010,8 +1010,8 @@ export interface Response$getReferenceItems$Status$200 {
     };
 }
 export interface Parameter$searchBook {
-    "book.name": string;
     "from.publishedAt"?: number;
+    "book.name": string;
 }
 export interface Response$searchBook$Status$200 {
     "application/json": {
@@ -1773,10 +1773,21 @@ export interface Response$getItemById$Status$200 {
         name?: string;
     };
 }
+export interface Parameter$getNodeProxyWithPath {
+    path: string;
+    name: string;
+}
+export interface Response$getNodeProxyWithPath$Status$200 {
+    "application/json": string;
+}
+export interface Parameter$headNodeProxyWithPath {
+    path: string;
+    name: string;
+}
 export interface Parameter$getUserPost {
+    include?: string;
     userId: string;
     postId: number;
-    include?: string;
 }
 export interface Response$getUserPost$Status$200 {
     "application/json": {
@@ -1787,6 +1798,13 @@ export interface Response$getUserPost$Status$200 {
 export type ResponseContentType$getItemById = keyof Response$getItemById$Status$200;
 export interface Params$getItemById {
     parameter: Parameter$getItemById;
+}
+export type ResponseContentType$getNodeProxyWithPath = keyof Response$getNodeProxyWithPath$Status$200;
+export interface Params$getNodeProxyWithPath {
+    parameter: Parameter$getNodeProxyWithPath;
+}
+export interface Params$headNodeProxyWithPath {
+    parameter: Parameter$headNodeProxyWithPath;
 }
 export type ResponseContentType$getUserPost = keyof Response$getUserPost$Status$200;
 export interface Params$getUserPost {
@@ -1804,9 +1822,11 @@ export interface QueryParameter {
 export interface QueryParameters {
     [key: string]: QueryParameter;
 }
-export type SuccessResponses = Response$getItemById$Status$200 | Response$getUserPost$Status$200;
+export type SuccessResponses = Response$getItemById$Status$200 | Response$getNodeProxyWithPath$Status$200 | Response$getUserPost$Status$200;
 export namespace ErrorResponse {
     export type getItemById = void;
+    export type getNodeProxyWithPath = void;
+    export type headNodeProxyWithPath = void;
     export type getUserPost = void;
 }
 export interface Encoding {
@@ -1840,6 +1860,36 @@ export const createClient = <RequestOption>(apiClient: ApiClient<RequestOption>,
                 httpMethod: "GET",
                 url,
                 headers
+            }, option);
+        },
+        /** PathItem レベルのパスパラメータ継承 (GET) */
+        getNodeProxyWithPath: (params: Params$getNodeProxyWithPath, option?: RequestOption): Promise<Response$getNodeProxyWithPath$Status$200["application/json"]> => {
+            const url = _baseUrl + \`/nodes/\${encodeURIComponent(params.parameter.name)}/proxy/\${encodeURIComponent(params.parameter.path)}\`;
+            const headers = {
+                Accept: "application/json"
+            };
+            const queryParameters: QueryParameters = {
+                path: { value: params.parameter.path, explode: false }
+            };
+            return apiClient.request({
+                httpMethod: "GET",
+                url,
+                headers,
+                queryParameters: queryParameters
+            }, option);
+        },
+        /** PathItem レベルのパスパラメータ継承 (HEAD) */
+        headNodeProxyWithPath: (params: Params$headNodeProxyWithPath, option?: RequestOption): Promise<void> => {
+            const url = _baseUrl + \`/nodes/\${encodeURIComponent(params.parameter.name)}/proxy/\${encodeURIComponent(params.parameter.path)}\`;
+            const headers = {};
+            const queryParameters: QueryParameters = {
+                path: { value: params.parameter.path, explode: false }
+            };
+            return apiClient.request({
+                httpMethod: "HEAD",
+                url,
+                headers,
+                queryParameters: queryParameters
             }, option);
         },
         /** 複数のパスパラメータで required を省略したケース */

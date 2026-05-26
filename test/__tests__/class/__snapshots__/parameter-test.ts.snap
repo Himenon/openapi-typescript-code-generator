@@ -689,8 +689,7 @@ exports[`Parameter > required フィールドを省略したパスパラメー�
       "pickedParameters": [
         {
           "name": "id",
-          "in": "path",
-          "required": true
+          "in": "path"
         }
       ],
       "requestContentTypes": [],
@@ -720,8 +719,7 @@ exports[`Parameter > required フィールドを省略したパスパラメー�
           "name": "id",
           "schema": {
             "type": "string"
-          },
-          "required": true
+          }
         }
       ],
       "responses": {
@@ -747,6 +745,161 @@ exports[`Parameter > required フィールドを省略したパスパラメー�
     }
   },
   {
+    "operationId": "getNodeProxyWithPath",
+    "convertedParams": {
+      "escapedOperationId": "getNodeProxyWithPath",
+      "argumentParamsTypeDeclaration": "Params$getNodeProxyWithPath",
+      "functionName": "getNodeProxyWithPath",
+      "requestContentTypeName": "RequestContentType$getNodeProxyWithPath",
+      "responseContentTypeName": "ResponseContentType$getNodeProxyWithPath",
+      "parameterName": "Parameter$getNodeProxyWithPath",
+      "requestBodyName": "RequestBody$getNodeProxyWithPath",
+      "hasRequestBody": false,
+      "hasParameter": true,
+      "pickedParameters": [
+        {
+          "name": "name",
+          "in": "path"
+        },
+        {
+          "name": "path",
+          "in": "path"
+        },
+        {
+          "name": "path",
+          "in": "query"
+        }
+      ],
+      "requestContentTypes": [],
+      "responseSuccessNames": [
+        "Response$getNodeProxyWithPath$Status$200"
+      ],
+      "responseFirstSuccessName": "Response$getNodeProxyWithPath$Status$200",
+      "has2OrMoreSuccessNames": false,
+      "responseErrorNames": [],
+      "has2OrMoreRequestContentTypes": false,
+      "successResponseContentTypes": [
+        "application/json"
+      ],
+      "successResponseFirstContentType": "application/json",
+      "has2OrMoreSuccessResponseContentTypes": false,
+      "hasAdditionalHeaders": false,
+      "hasQueryParameters": true
+    },
+    "operationParams": {
+      "httpMethod": "get",
+      "requestUri": "/nodes/{name}/proxy/{path}",
+      "comment": "PathItem レベルのパスパラメータ継承 (GET)",
+      "deprecated": false,
+      "parameters": [
+        {
+          "in": "path",
+          "name": "name",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "path",
+          "name": "path",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "query",
+          "name": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "operationId": "headNodeProxyWithPath",
+    "convertedParams": {
+      "escapedOperationId": "headNodeProxyWithPath",
+      "argumentParamsTypeDeclaration": "Params$headNodeProxyWithPath",
+      "functionName": "headNodeProxyWithPath",
+      "requestContentTypeName": "RequestContentType$headNodeProxyWithPath",
+      "responseContentTypeName": "ResponseContentType$headNodeProxyWithPath",
+      "parameterName": "Parameter$headNodeProxyWithPath",
+      "requestBodyName": "RequestBody$headNodeProxyWithPath",
+      "hasRequestBody": false,
+      "hasParameter": true,
+      "pickedParameters": [
+        {
+          "name": "name",
+          "in": "path"
+        },
+        {
+          "name": "path",
+          "in": "path"
+        },
+        {
+          "name": "path",
+          "in": "query"
+        }
+      ],
+      "requestContentTypes": [],
+      "responseSuccessNames": [],
+      "has2OrMoreSuccessNames": false,
+      "responseErrorNames": [],
+      "has2OrMoreRequestContentTypes": false,
+      "successResponseContentTypes": [],
+      "has2OrMoreSuccessResponseContentTypes": false,
+      "hasAdditionalHeaders": false,
+      "hasQueryParameters": true
+    },
+    "operationParams": {
+      "httpMethod": "head",
+      "requestUri": "/nodes/{name}/proxy/{path}",
+      "comment": "PathItem レベルのパスパラメータ継承 (HEAD)",
+      "deprecated": false,
+      "parameters": [
+        {
+          "in": "path",
+          "name": "name",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "path",
+          "name": "path",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "query",
+          "name": "path",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "OK"
+        }
+      }
+    }
+  },
+  {
     "operationId": "getUserPost",
     "convertedParams": {
       "escapedOperationId": "getUserPost",
@@ -761,13 +914,11 @@ exports[`Parameter > required フィールドを省略したパスパラメー�
       "pickedParameters": [
         {
           "name": "userId",
-          "in": "path",
-          "required": true
+          "in": "path"
         },
         {
           "name": "postId",
-          "in": "path",
-          "required": true
+          "in": "path"
         },
         {
           "name": "include",
@@ -801,16 +952,14 @@ exports[`Parameter > required フィールドを省略したパスパラメー�
           "name": "userId",
           "schema": {
             "type": "string"
-          },
-          "required": true
+          }
         },
         {
           "in": "path",
           "name": "postId",
           "schema": {
             "type": "integer"
-          },
-          "required": true
+          }
         },
         {
           "in": "query",
