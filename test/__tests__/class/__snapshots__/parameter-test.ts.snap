@@ -671,3 +671,176 @@ exports[`Parameter > api.test.domain 1`] = `
 `;
 
 exports[`Parameter > infer.domain 1`] = `"[]"`;
+
+exports[`Parameter > required フィールドを省略したパスパラメータは pickedParameters で required: true として扱われること 1`] = `
+"[
+  {
+    "operationId": "getItemById",
+    "convertedParams": {
+      "escapedOperationId": "getItemById",
+      "argumentParamsTypeDeclaration": "Params$getItemById",
+      "functionName": "getItemById",
+      "requestContentTypeName": "RequestContentType$getItemById",
+      "responseContentTypeName": "ResponseContentType$getItemById",
+      "parameterName": "Parameter$getItemById",
+      "requestBodyName": "RequestBody$getItemById",
+      "hasRequestBody": false,
+      "hasParameter": true,
+      "pickedParameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "requestContentTypes": [],
+      "responseSuccessNames": [
+        "Response$getItemById$Status$200"
+      ],
+      "responseFirstSuccessName": "Response$getItemById$Status$200",
+      "has2OrMoreSuccessNames": false,
+      "responseErrorNames": [],
+      "has2OrMoreRequestContentTypes": false,
+      "successResponseContentTypes": [
+        "application/json"
+      ],
+      "successResponseFirstContentType": "application/json",
+      "has2OrMoreSuccessResponseContentTypes": false,
+      "hasAdditionalHeaders": false,
+      "hasQueryParameters": false
+    },
+    "operationParams": {
+      "httpMethod": "get",
+      "requestUri": "/items/{id}",
+      "comment": "required フィールドを省略したパスパラメータ",
+      "deprecated": false,
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "operationId": "getUserPost",
+    "convertedParams": {
+      "escapedOperationId": "getUserPost",
+      "argumentParamsTypeDeclaration": "Params$getUserPost",
+      "functionName": "getUserPost",
+      "requestContentTypeName": "RequestContentType$getUserPost",
+      "responseContentTypeName": "ResponseContentType$getUserPost",
+      "parameterName": "Parameter$getUserPost",
+      "requestBodyName": "RequestBody$getUserPost",
+      "hasRequestBody": false,
+      "hasParameter": true,
+      "pickedParameters": [
+        {
+          "name": "userId",
+          "in": "path",
+          "required": true
+        },
+        {
+          "name": "postId",
+          "in": "path",
+          "required": true
+        },
+        {
+          "name": "include",
+          "in": "query"
+        }
+      ],
+      "requestContentTypes": [],
+      "responseSuccessNames": [
+        "Response$getUserPost$Status$200"
+      ],
+      "responseFirstSuccessName": "Response$getUserPost$Status$200",
+      "has2OrMoreSuccessNames": false,
+      "responseErrorNames": [],
+      "has2OrMoreRequestContentTypes": false,
+      "successResponseContentTypes": [
+        "application/json"
+      ],
+      "successResponseFirstContentType": "application/json",
+      "has2OrMoreSuccessResponseContentTypes": false,
+      "hasAdditionalHeaders": false,
+      "hasQueryParameters": true
+    },
+    "operationParams": {
+      "httpMethod": "get",
+      "requestUri": "/users/{userId}/posts/{postId}",
+      "comment": "複数のパスパラメータで required を省略したケース",
+      "deprecated": false,
+      "parameters": [
+        {
+          "in": "path",
+          "name": "userId",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        },
+        {
+          "in": "path",
+          "name": "postId",
+          "schema": {
+            "type": "integer"
+          },
+          "required": true
+        },
+        {
+          "in": "query",
+          "name": "include",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "string"
+                  },
+                  "postId": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+]"
+`;

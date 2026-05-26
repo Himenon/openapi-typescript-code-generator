@@ -1,0 +1,61 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: path-parameter
+  description: Test schema for path parameters without explicit required field
+
+servers:
+  - url: "https://api.example.com/"
+
+paths:
+  /items/{id}:
+    get:
+      operationId: getItemById
+      summary: required フィールドを省略したパスパラメータ
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+
+  /users/{userId}/posts/{postId}:
+    get:
+      operationId: getUserPost
+      summary: 複数のパスパラメータで required を省略したケース
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+        - in: path
+          name: postId
+          schema:
+            type: integer
+        - in: query
+          name: include
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                  postId:
+                    type: integer

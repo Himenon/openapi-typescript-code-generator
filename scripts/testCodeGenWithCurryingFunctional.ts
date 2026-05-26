@@ -95,6 +95,14 @@ const main = () => {
   Writer.generateParameter("test/api.test.domain/index.yml", "test/code/currying-functional/parameter/api.test.domain.json");
   Writer.generateParameter("test/infer.domain/index.yml", "test/code/currying-functional/parameter/infer.domain.json");
 
+  Writer.generateTypedefWithTemplateCode(
+    "test/path-parameter/index.yml",
+    "test/code/currying-functional/typedef-with-template/path-parameter.ts",
+    false,
+    { sync: false },
+  );
+  Writer.generateParameter("test/path-parameter/index.yml", "test/code/currying-functional/parameter/path-parameter.json");
+
   Writer.generateFormatTypeCode("test/format.domain/index.yml", "test/code/currying-functional/format.domain/code.ts");
 
   Writer.generateFormatTypeCode("test/cloudflare/openapi.yaml", "test/code/currying-functional/cloudflare/client.ts");
