@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.4"></a>
+## 2.0.4 (2026-05-26)
+
+
+### Bug Fixes
+
+* always treat path parameters as required per OpenAPI 3.x spec ([#149](https://github.com/Himenon/openapi-typescript-code-generator/issues/149)) ([106fddd](https://github.com/Himenon/openapi-typescript-code-generator/commit/106fddd)), closes [#148](https://github.com/Himenon/openapi-typescript-code-generator/issues/148)
+
+
+
+
+
 <a name="2.0.3"></a>
 ## 2.0.3 (2026-05-06)
 
