@@ -30,6 +30,41 @@ paths:
                   name:
                     type: string
 
+  # Kubernetes の /api/v1/nodes/{name}/proxy/{path} に相当するパターン:
+  # - パスパラメータを PathItem レベルで定義 (required を省略)
+  # - パスパラメータと同名のクエリパラメータ (path) を持つ
+  # - GET / HEAD の両オペレーションが PathItem パラメータを継承 (operation レベルに parameters を持たない)
+  /nodes/{name}/proxy/{path}:
+    parameters:
+      - in: path
+        name: name
+        schema:
+          type: string
+      - in: path
+        name: path
+        schema:
+          type: string
+      - in: query
+        name: path
+        schema:
+          type: string
+    get:
+      operationId: getNodeProxyWithPath
+      summary: PathItem レベルのパスパラメータ継承 (GET)
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+    head:
+      operationId: headNodeProxyWithPath
+      summary: PathItem レベルのパスパラメータ継承 (HEAD)
+      responses:
+        "200":
+          description: OK
+
   /users/{userId}/posts/{postId}:
     get:
       operationId: getUserPost
