@@ -4,6 +4,11 @@ import { describe, expect, test } from "vitest";
 import * as Utils from "../../utils";
 
 describe("Typedef with template", () => {
+  test("required フィールドを省略したパスパラメータは必須の型として生成されること", () => {
+    const generateCode = fs.readFileSync("test/code/class/typedef-with-template/path-parameter.ts", { encoding: "utf-8" });
+    const text = Utils.replaceVersionInfo(generateCode);
+    expect(text).toMatchSnapshot();
+  });
   test("api.test.domain", () => {
     const generateCode = fs.readFileSync("test/code/class/typedef-with-template/api.test.domain.ts", { encoding: "utf-8" });
     const text = Utils.replaceVersionInfo(generateCode);

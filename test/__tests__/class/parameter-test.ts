@@ -14,4 +14,9 @@ describe("Parameter", () => {
     const text = Utils.replaceVersionInfo(generateCode);
     expect(text).toMatchSnapshot();
   });
+  test("required フィールドを省略したパスパラメータは pickedParameters で required: true として扱われること", () => {
+    const generateCode = fs.readFileSync("test/code/class/parameter/path-parameter.json", { encoding: "utf-8" });
+    const text = Utils.replaceVersionInfo(generateCode);
+    expect(text).toMatchSnapshot();
+  });
 });
