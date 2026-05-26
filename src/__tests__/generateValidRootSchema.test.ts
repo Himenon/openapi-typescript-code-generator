@@ -1,3 +1,4 @@
+import assert from "node:assert";
 import { describe, expect, it } from "vitest";
 import { generateValidRootSchema } from "../generateValidRootSchema";
 import type * as Types from "../types";
@@ -28,7 +29,13 @@ describe("generateValidRootSchema", () => {
 
       const result = generateValidRootSchema(input);
 
-      const parameter = result.paths!["/items/{id}"]!.get!.parameters![0] as Types.OpenApi.Parameter;
+      const paths = result.paths;
+      assert(paths);
+      const pathItem = paths["/items/{id}"];
+      assert(pathItem);
+      const parameters = pathItem.get?.parameters;
+      assert(parameters);
+      const parameter = parameters[0] as Types.OpenApi.Parameter;
       expect(parameter.required).toBe(true);
     });
 
@@ -50,7 +57,13 @@ describe("generateValidRootSchema", () => {
 
       const result = generateValidRootSchema(input);
 
-      const parameter = result.paths!["/items/{id}"]!.get!.parameters![0] as Types.OpenApi.Parameter;
+      const paths = result.paths;
+      assert(paths);
+      const pathItem = paths["/items/{id}"];
+      assert(pathItem);
+      const parameters = pathItem.get?.parameters;
+      assert(parameters);
+      const parameter = parameters[0] as Types.OpenApi.Parameter;
       expect(parameter.required).toBe(true);
     });
 
@@ -71,7 +84,13 @@ describe("generateValidRootSchema", () => {
 
       const result = generateValidRootSchema(input);
 
-      const parameter = result.paths!["/items/{id}"]!.parameters![0] as Types.OpenApi.Parameter;
+      const paths = result.paths;
+      assert(paths);
+      const pathItem = paths["/items/{id}"];
+      assert(pathItem);
+      const parameters = pathItem.parameters;
+      assert(parameters);
+      const parameter = parameters[0] as Types.OpenApi.Parameter;
       expect(parameter.required).toBe(true);
     });
 
@@ -88,7 +107,9 @@ describe("generateValidRootSchema", () => {
 
       const result = generateValidRootSchema(input);
 
-      const parameter = result.components!.parameters!["ItemId"] as Types.OpenApi.Parameter;
+      const componentsParameters = result.components?.parameters;
+      assert(componentsParameters);
+      const parameter = componentsParameters.ItemId as Types.OpenApi.Parameter;
       expect(parameter.required).toBe(true);
     });
 
@@ -109,7 +130,13 @@ describe("generateValidRootSchema", () => {
 
       const result = generateValidRootSchema(input);
 
-      const parameter = result.paths!["/items"]!.get!.parameters![0] as Types.OpenApi.Parameter;
+      const paths = result.paths;
+      assert(paths);
+      const pathItem = paths["/items"];
+      assert(pathItem);
+      const parameters = pathItem.get?.parameters;
+      assert(parameters);
+      const parameter = parameters[0] as Types.OpenApi.Parameter;
       expect(parameter.required).toBe(false);
     });
 
@@ -130,7 +157,13 @@ describe("generateValidRootSchema", () => {
 
       const result = generateValidRootSchema(input);
 
-      const parameter = result.paths!["/items/{id}"]!.get!.parameters![0] as Types.OpenApi.Parameter;
+      const paths = result.paths;
+      assert(paths);
+      const pathItem = paths["/items/{id}"];
+      assert(pathItem);
+      const parameters = pathItem.get?.parameters;
+      assert(parameters);
+      const parameter = parameters[0] as Types.OpenApi.Parameter;
       expect(parameter.required).toBe(true);
     });
   });

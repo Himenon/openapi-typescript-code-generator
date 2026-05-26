@@ -53,12 +53,9 @@ const main = () => {
   Writer.generateParameter("test/api.test.domain/index.yml", "test/code/class/parameter/api.test.domain.json");
   Writer.generateParameter("test/infer.domain/index.yml", "test/code/class/parameter/infer.domain.json");
 
-  Writer.generateTypedefWithTemplateCode(
-    "test/path-parameter/index.yml",
-    "test/code/class/typedef-with-template/path-parameter.ts",
-    false,
-    { sync: false },
-  );
+  Writer.generateTypedefWithTemplateCode("test/path-parameter/index.yml", "test/code/class/typedef-with-template/path-parameter.ts", false, {
+    sync: false,
+  });
   Writer.generateParameter("test/path-parameter/index.yml", "test/code/class/parameter/path-parameter.json");
 
   Writer.generateFormatTypeCode("test/format.domain/index.yml", "test/code/class/format.domain/code.ts");
