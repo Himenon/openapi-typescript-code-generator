@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.6"></a>
+## 2.0.6 (2026-05-27)
+
+
+### Bug Fixes
+
+* preserve parameter order while ensuring path parameters win over same-named query parameters ([#151](https://github.com/Himenon/openapi-typescript-code-generator/issues/151)) ([4637eda](https://github.com/Himenon/openapi-typescript-code-generator/commit/4637eda)), closes [#150](https://github.com/Himenon/openapi-typescript-code-generator/issues/150)
+
+
+
+
+
 <a name="2.0.5"></a>
 ## 2.0.5 (2026-05-26)
 
