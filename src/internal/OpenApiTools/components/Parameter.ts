@@ -100,6 +100,28 @@ export const generatePropertySignatureObject = (
   };
 };
 
+/**
+ * パラメータの `in` プロパティを返す。
+ *
+ * inline パラメータはそのまま `in` を返す。
+ * `$ref` 参照の場合はローカル参照を解決して store から実体を取得する。
+ * store に存在しない場合（リモート参照など）は `undefined` を返す。
+ */
+const resolveParameterIn = (store: Walker.Store, parameter: OpenApi.Parameter | OpenApi.Reference): string | undefined => {
+  if (!Guard.isReference(parameter)) {
+    return parameter.in;
+  }
+  const localRef = Reference.generateLocalReference(parameter);
+  if (!localRef) {
+    return undefined;
+  }
+  try {
+    return store.getParameter(localRef.path).in;
+  } catch {
+    return undefined;
+  }
+};
+
 export const generatePropertySignatures = (
   entryPoint: string,
   currentPoint: string,
@@ -109,16 +131,11 @@ export const generatePropertySignatures = (
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
 ): string[] => {
-  // Path parameters must be processed last so they win over same-named query/header
-  // parameters when building the TypeScript interface (path params are always required).
-  const sorted = [...parameters].sort((a, b): number => {
-    const aIsPath = !Guard.isReference(a) && a.in === "path";
-    const bIsPath = !Guard.isReference(b) && b.in === "path";
-    if (aIsPath && !bIsPath) return 1;
-    if (!aIsPath && bIsPath) return -1;
-    return 0;
-  });
-  const typeElementMap = sorted.reduce<Record<string, string>>((all, parameter) => {
+  // 入力順を維持しながら、同名パラメータが存在する場合は path パラメータを優先する。
+  // Map はキーの挿入順を保持するため、既存キーへの set() は値のみ更新し順序は変わらない。
+  // これにより OpenAPI spec の記述順を崩さず、path パラメータの required が保たれる。
+  const typeElementMap = new Map<string, string>();
+  for (const parameter of parameters) {
     const { name, typeElement } = generatePropertySignatureObject(
       entryPoint,
       currentPoint,
@@ -128,9 +145,12 @@ export const generatePropertySignatures = (
       context,
       converterContext,
     );
-    return { ...all, [name]: typeElement };
-  }, {});
-  return Object.values(typeElementMap);
+    const isPath = resolveParameterIn(store, parameter) === "path";
+    if (!typeElementMap.has(name) || isPath) {
+      typeElementMap.set(name, typeElement);
+    }
+  }
+  return [...typeElementMap.values()];
 };
 
 export const generateInterface = (

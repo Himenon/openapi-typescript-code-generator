@@ -225,6 +225,94 @@
     }
   },
   {
+    "operationId": "getPodProxyWithPath",
+    "convertedParams": {
+      "escapedOperationId": "getPodProxyWithPath",
+      "argumentParamsTypeDeclaration": "Params$getPodProxyWithPath",
+      "functionName": "getPodProxyWithPath",
+      "requestContentTypeName": "RequestContentType$getPodProxyWithPath",
+      "responseContentTypeName": "ResponseContentType$getPodProxyWithPath",
+      "parameterName": "Parameter$getPodProxyWithPath",
+      "requestBodyName": "RequestBody$getPodProxyWithPath",
+      "hasRequestBody": false,
+      "hasParameter": true,
+      "pickedParameters": [
+        {
+          "name": "name",
+          "in": "path"
+        },
+        {
+          "name": "path",
+          "in": "path",
+          "required": true
+        },
+        {
+          "name": "path",
+          "in": "query"
+        }
+      ],
+      "requestContentTypes": [],
+      "responseSuccessNames": [
+        "Response$getPodProxyWithPath$Status$200"
+      ],
+      "responseFirstSuccessName": "Response$getPodProxyWithPath$Status$200",
+      "has2OrMoreSuccessNames": false,
+      "responseErrorNames": [],
+      "has2OrMoreRequestContentTypes": false,
+      "successResponseContentTypes": [
+        "application/json"
+      ],
+      "successResponseFirstContentType": "application/json",
+      "has2OrMoreSuccessResponseContentTypes": false,
+      "hasAdditionalHeaders": false,
+      "hasQueryParameters": true
+    },
+    "operationParams": {
+      "httpMethod": "get",
+      "requestUri": "/pods/{name}/proxy/{path}",
+      "comment": "$ref パラメータで同名の pathパラメータと queryパラメータが競合するケース",
+      "deprecated": false,
+      "parameters": [
+        {
+          "in": "path",
+          "name": "name",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "path",
+          "name": "path",
+          "required": true,
+          "description": "URL パスの一部として使用されるパスパラメータ",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "query",
+          "name": "path",
+          "description": "クエリパラメータとして使用される path（省略可能）",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
     "operationId": "getUserPost",
     "convertedParams": {
       "escapedOperationId": "getUserPost",
