@@ -1,5 +1,3 @@
-import { EOL } from "node:os";
-
 import * as Api from "./api";
 import { generateValidRootSchema } from "./generateValidRootSchema";
 import type * as Types from "./types";
@@ -63,7 +61,7 @@ export class CodeGenerator {
       });
       return statements;
     };
-    return [Api.OpenApiTools.Comment.generateLeading(this.resolvedReferenceDocument), Api.TsGenerator.generate(create)].join(EOL + EOL + EOL);
+    return [Api.OpenApiTools.Comment.generateLeading(this.resolvedReferenceDocument), Api.TsGenerator.generate(create)].join("\n\n\n");
   }
 
   /**
@@ -79,7 +77,7 @@ export class CodeGenerator {
         return generatorTemplate?.generator(payload, generatorTemplate.option);
       });
     };
-    return [Api.OpenApiTools.Comment.generateLeading(this.resolvedReferenceDocument), Api.TsGenerator.generate(create)].join(EOL + EOL + EOL);
+    return [Api.OpenApiTools.Comment.generateLeading(this.resolvedReferenceDocument), Api.TsGenerator.generate(create)].join("\n\n\n");
   }
 
   /**

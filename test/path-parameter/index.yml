@@ -65,6 +65,28 @@ paths:
         "200":
           description: OK
 
+  # Kubernetes の /api/v1/namespaces/{namespace}/pods/{name}/proxy/{path} に相当するパターン:
+  # - pathパラメータと queryパラメータが共に $ref で定義され、同名 (path) を持つ
+  # - pathパラメータの $ref (required:true) が query パラメータの $ref (optional) に上書きされないことを検証する
+  /pods/{name}/proxy/{path}:
+    parameters:
+      - in: path
+        name: name
+        schema:
+          type: string
+      - $ref: "#/components/parameters/path-as-path-param"
+      - $ref: "#/components/parameters/path-as-query-param"
+    get:
+      operationId: getPodProxyWithPath
+      summary: $ref パラメータで同名の pathパラメータと queryパラメータが競合するケース
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+
   /users/{userId}/posts/{postId}:
     get:
       operationId: getUserPost
@@ -94,3 +116,19 @@ paths:
                     type: string
                   postId:
                     type: integer
+
+components:
+  parameters:
+    path-as-path-param:
+      in: path
+      name: path
+      required: true
+      description: URL パスの一部として使用されるパスパラメータ
+      schema:
+        type: string
+    path-as-query-param:
+      in: query
+      name: path
+      description: クエリパラメータとして使用される path（省略可能）
+      schema:
+        type: string

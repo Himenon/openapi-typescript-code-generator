@@ -20,5 +20,5 @@
     "esm": true,
     "swc": true
   },
-  "exclude": ["test/code", "examples/"]
+  "exclude": ["test/code", "examples/", "test/__tests__/**/__snapshots__/**"]
 }

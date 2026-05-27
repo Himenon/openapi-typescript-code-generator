@@ -4,15 +4,15 @@ import { describe, expect, test } from "vitest";
 import * as Utils from "../../utils";
 
 describe("Multi Type", () => {
-  test("types", () => {
+  test("types", async () => {
     const generateCode = fs.readFileSync("test/code/functional/mulit-type-test.domain/types.ts", { encoding: "utf-8" });
     const text = Utils.replaceVersionInfo(generateCode);
-    expect(text).toMatchSnapshot();
+    await expect(text).toMatchFileSnapshot("./__snapshots__/mulit-type-test.domain/types.ts");
   });
 
-  test("apiClient", () => {
+  test("apiClient", async () => {
     const generateCode = fs.readFileSync("test/code/functional/mulit-type-test.domain/apiClient.ts", { encoding: "utf-8" });
     const text = Utils.replaceVersionInfo(generateCode);
-    expect(text).toMatchSnapshot();
+    await expect(text).toMatchFileSnapshot("./__snapshots__/mulit-type-test.domain/apiClient.ts");
   });
 });

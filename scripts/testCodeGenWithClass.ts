@@ -40,6 +40,9 @@ const main = () => {
   Writer.generateTypedefWithTemplateCode("test/kubernetes/openapi-v1.18.5.json", "test/code/class/kubernetes/client-v1.18.5.ts", false, {
     sync: false,
   });
+  Writer.generateTypedefWithTemplateCode("test/kubernetes/openapi-v1.28.6.json", "test/code/class/kubernetes/client-v1.28.6.ts", false, {
+    sync: false,
+  });
   Writer.generateTypedefWithTemplateCode("test/argo-rollout/index.json", "test/code/class/argo-rollout/client.ts", false, {
     sync: false,
   });

@@ -1,4 +1,3 @@
-import { EOL } from "node:os";
 import { Name, Version } from "../../meta";
 import type { OpenApi } from "../../types";
 
@@ -22,5 +21,5 @@ export const generateLeading = (schema: OpenApi.Document): string => {
     .map(message => {
       return `// ${message}`;
     })
-    .join(EOL);
+    .join("\n");
 };

@@ -4,9 +4,9 @@ import { describe, expect, test } from "vitest";
 import * as Utils from "../../utils";
 
 describe("Format Types", () => {
-  test("format.domain", () => {
+  test("format.domain", async () => {
     const generateCode = fs.readFileSync("test/code/functional/format.domain/code.ts", { encoding: "utf-8" });
     const text = Utils.replaceVersionInfo(generateCode);
-    expect(text).toMatchSnapshot();
+    await expect(text).toMatchFileSnapshot("./__snapshots__/format.domain/code.ts");
   });
 });

@@ -1,4 +1,3 @@
-import { EOL } from "node:os";
 import { describe, expect, it } from "vitest";
 import * as Factory from "../factory";
 
@@ -50,17 +49,17 @@ describe("TsGenerator Factory Helpers", () => {
 
   describe("buildComment", () => {
     it("単一ラインのコメントを生成できること", () => {
-      expect(Factory.buildComment("hello")).toBe(`/** hello */${EOL}`);
+      expect(Factory.buildComment("hello")).toBe(`/** hello */${"\n"}`);
     });
 
     it("複数ラインのコメントを生成できること", () => {
       const input = "line1\nline2";
-      const expected = `/**${EOL} * line1${EOL} * line2${EOL} */${EOL}`;
+      const expected = `/**${"\n"} * line1${"\n"} * line2${"\n"} */${"\n"}`;
       expect(Factory.buildComment(input)).toBe(expected);
     });
 
     it("deprecated フラグがある場合に @deprecated タグを付与すること", () => {
-      const expected = `/**${EOL} * @deprecated${EOL} * old feature${EOL} */${EOL}`;
+      const expected = `/**${"\n"} * @deprecated${"\n"} * old feature${"\n"} */${"\n"}`;
       expect(Factory.buildComment("old feature", true)).toBe(expected);
     });
 
@@ -75,7 +74,7 @@ describe("TsGenerator Factory Helpers", () => {
       const code = "const a = 1;";
       const comment = "my variable";
       const result = Factory.addComment(code, comment);
-      expect(result).toBe(`/** my variable */${EOL}${code}`);
+      expect(result).toBe(`/** my variable */${"\n"}${code}`);
     });
 
     it("コメントも deprecated もない場合は元のコードを返すこと", () => {

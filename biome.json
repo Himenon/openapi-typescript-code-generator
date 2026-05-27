@@ -40,7 +40,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!**/dist", "!coverage", "!examples", "!test/code"],
+    "includes": ["**", "!**/dist", "!coverage", "!examples", "!test/code", "!**/__snapshots__"],
     "maxSize": 10485760
   },
   "javascript": {

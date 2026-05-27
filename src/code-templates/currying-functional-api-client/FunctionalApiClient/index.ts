@@ -1,5 +1,3 @@
-import { EOL } from "node:os";
-
 import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
 import type { Option } from "../../_shared/types";
@@ -11,7 +9,7 @@ export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Pa
       comment: option.additionalMethodComment
         ? [params.operationParams.comment, `operationId: ${params.operationId}`, `Request URI: ${params.operationParams.requestUri}`]
             .filter(t => !!t)
-            .join(EOL)
+            .join("\n")
         : params.operationParams.comment,
       modifiers: ["export"],
       declarationList: factory.VariableDeclarationList.create({

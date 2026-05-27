@@ -1,5 +1,3 @@
-import { EOL } from "node:os";
-
 // --- Private helpers ---
 
 /**
@@ -93,9 +91,9 @@ export const buildComment = (comment: string, deprecated?: boolean): string => {
   const lines = deprecated ? ["@deprecated", ...escaped.split(/\r?\n/)] : escaped.split(/\r?\n/);
   const filtered = lines.filter((line, i) => !(i === lines.length - 1 && line === ""));
   if (filtered.length === 1) {
-    return `/** ${filtered[0]} */${EOL}`;
+    return `/** ${filtered[0]} */\n`;
   }
-  return `/**${EOL}${filtered.map(l => (l.trimEnd() ? ` * ${l.trimEnd()}` : " *")).join(EOL)}${EOL} */${EOL}`;
+  return `/**\n${filtered.map(l => (l.trimEnd() ? ` * ${l.trimEnd()}` : " *")).join("\n")}\n */\n`;
 };
 
 /**

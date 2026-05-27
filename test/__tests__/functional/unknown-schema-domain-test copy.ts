@@ -4,9 +4,9 @@ import { describe, expect, test } from "vitest";
 import * as Utils from "../../utils";
 
 describe("Unknown", () => {
-  test("client.ts", () => {
+  test("client.ts", async () => {
     const generateCode = fs.readFileSync("test/code/functional/unknown.schema.domain/client.ts", { encoding: "utf-8" });
     const text = Utils.replaceVersionInfo(generateCode);
-    expect(text).toMatchSnapshot();
+    await expect(text).toMatchFileSnapshot("./__snapshots__/unknown.schema.domain/client.ts");
   });
 });
