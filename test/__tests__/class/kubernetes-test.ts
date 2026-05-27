@@ -9,4 +9,9 @@ describe("Kubernetes", () => {
     const text = Utils.replaceVersionInfo(generateCode);
     await expect(text).toMatchFileSnapshot("./__snapshots__/kubernetes/client-v1.18.5.ts");
   });
+  test("client-v1.28.6.ts", async () => {
+    const generateCode = fs.readFileSync("test/code/class/kubernetes/client-v1.28.6.ts", { encoding: "utf-8" });
+    const text = Utils.replaceVersionInfo(generateCode);
+    await expect(text).toMatchFileSnapshot("./__snapshots__/kubernetes/client-v1.28.6.ts");
+  });
 });
