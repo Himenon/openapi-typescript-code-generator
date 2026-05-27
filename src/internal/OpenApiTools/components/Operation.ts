@@ -1,4 +1,3 @@
-import { EOL } from "node:os";
 import * as path from "node:path";
 
 import type { OpenApi } from "../../../types";
@@ -26,7 +25,7 @@ const generateComment = (operation: OpenApi.Operation): string => {
   if (operation.tags) {
     comments.push(`tags: ${operation.tags.join(", ")}`);
   }
-  return comments.join(EOL);
+  return comments.join("\n");
 };
 
 export const generateNamespace = (

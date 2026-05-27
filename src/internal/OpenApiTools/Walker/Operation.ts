@@ -1,5 +1,3 @@
-import { EOL } from "node:os";
-
 import type { CodeGenerator, OpenApi } from "../../../types";
 
 const httpMethodList = ["get", "put", "post", "delete", "options", "head", "patch", "trace"] as const;
@@ -37,7 +35,7 @@ export const create = (rootSchema: OpenApi.Document): State => {
       state[operation.operationId] = {
         httpMethod,
         requestUri,
-        comment: [operation.summary, operation.description].filter(Boolean).join(EOL),
+        comment: [operation.summary, operation.description].filter(Boolean).join("\n"),
         deprecated: !!operation.deprecated,
         requestBody: hasValidMediaType ? requestBody : undefined,
         parameters: uniqParameters(parameters),

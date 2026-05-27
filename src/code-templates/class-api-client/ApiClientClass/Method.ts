@@ -1,5 +1,3 @@
-import { EOL } from "node:os";
-
 import type { TsGenerator } from "../../../api";
 import type { CodeGenerator } from "../../../types";
 import * as MethodBody from "../../_shared/MethodBody";
@@ -161,7 +159,7 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
     comment: option.additionalMethodComment
       ? [params.operationParams.comment, `operationId: ${params.operationId}`, `Request URI: ${params.operationParams.requestUri}`]
           .filter(t => !!t)
-          .join(EOL)
+          .join("\n")
       : params.operationParams.comment,
     deprecated: params.operationParams.deprecated,
     type: returnType,
