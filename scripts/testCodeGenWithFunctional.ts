@@ -81,6 +81,10 @@ const main = () => {
   Writer.generateFormatTypeCode("test/format.domain/index.yml", "test/code/functional/format.domain/code.ts");
 
   Writer.generateFormatTypeCode("test/cloudflare/openapi.yaml", "test/code/functional/cloudflare/client.ts");
+
+  Writer.generateTypedefWithTemplateCode("test/example-validation/index.yml", "test/code/functional/example-validation/client.ts", true, {
+    sync: false,
+  });
 };
 
 main();
