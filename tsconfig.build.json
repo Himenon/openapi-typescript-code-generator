@@ -5,6 +5,10 @@
     "ignoreDeprecations": "6.0",
     "types": ["node"]
   },
+  "ts-node": {
+    "esm": true,
+    "swc": true
+  },
   "include": ["src"],
   "exclude": ["node_modules", "./src/**/__tests__/*", "scripts"]
 }

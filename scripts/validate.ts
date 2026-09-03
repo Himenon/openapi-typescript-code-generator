@@ -1,7 +1,10 @@
 import * as fs from "node:fs";
+import { createRequire } from "node:module";
 import * as path from "node:path";
 import * as yaml from "js-yaml";
-import OpenAPISchemaValidator from "openapi-schema-validator";
+
+const require = createRequire(import.meta.url);
+const OpenAPISchemaValidator = require("openapi-schema-validator").default;
 
 const filename = path.join(import.meta.dirname, "../test/api.test.domain/index.yml");
 const data = fs.readFileSync(filename, { encoding: "utf-8" });
@@ -16,4 +19,6 @@ const validator = new OpenAPISchemaValidator({
 
 const message = validator.validate(yaml.load(data) as any);
 
-fs.writeFileSync(path.join(import.meta.dirname, "../debug/validate.json"), JSON.stringify(message, null, 2), { encoding: "utf-8" });
+const outputFilename = path.join(import.meta.dirname, "../debug/validate.json");
+fs.mkdirSync(path.dirname(outputFilename), { recursive: true });
+fs.writeFileSync(outputFilename, `${JSON.stringify(message, null, 2)}\n`, { encoding: "utf-8" });
