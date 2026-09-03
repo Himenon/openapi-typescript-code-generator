@@ -1,6 +1,6 @@
 import * as chokidar from "chokidar";
 
-import { shell } from "./tools/shell.js";
+import { shell } from "./tools/shell.ts";
 
 process.on("unhandledRejection", reason => {
   console.log(reason);

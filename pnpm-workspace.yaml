@@ -1,13 +1,10 @@
-onlyBuiltDependencies:
-  - '@biomejs/biome'
-  - '@swc/core'
-  - esbuild
-  - nx
-  - simple-git-hooks
-  - unrs-resolver
-
-
 minimumReleaseAgeExclude:
   - "@himenon/path-oriented-data-structure"
 
 minimumReleaseAge: 10080
+
+allowBuilds:
+  '@swc/core': true
+  esbuild: true
+  lefthook: true
+  nx: true

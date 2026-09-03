@@ -1,9 +1,9 @@
 import * as fs from "node:fs";
 import { posix as path } from "node:path";
 
-import { CodeGenerator, type Option as CodeGeneratorOption } from "../../dist";
-import * as Templates from "../../dist/templates";
-import type * as Types from "../../dist/types";
+import { CodeGenerator, type Option as CodeGeneratorOption } from "../../dist/index.js";
+import * as Templates from "../../dist/templates.js";
+import type * as Types from "../../dist/types.js";
 
 const writeText = (filename: string, text: string): void => {
   fs.mkdirSync(path.dirname(filename), { recursive: true });

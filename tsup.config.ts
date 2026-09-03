@@ -6,7 +6,7 @@ export default defineConfig({
   target: "es2023",
   format: ["cjs", "esm"],
   clean: true,
-  dts: true,
+  dts: false,
   tsconfig: "./tsconfig.build.json",
   sourcemap: true,
 });

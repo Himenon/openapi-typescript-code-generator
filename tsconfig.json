@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
+    "allowImportingTsExtensions": true,
     "declaration": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -15,10 +16,6 @@
     "rootDir": ".",
     "strict": true,
     "resolveJsonModule": true
-  },
-  "ts-node": {
-    "esm": true,
-    "swc": true
   },
   "exclude": ["test/code", "examples/", "test/__tests__/**/__snapshots__/**"]
 }
