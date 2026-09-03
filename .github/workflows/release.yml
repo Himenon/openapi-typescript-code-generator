@@ -19,9 +19,8 @@ jobs:
           registry-url: https://npm.pkg.github.com
           scope: "@Himenon"
           cache: "pnpm"
-      - run: pnpm i --frozen-lockfile
-      - run: |
-          pnpm build
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
 
   release-github-registry:
     runs-on: ubuntu-latest
@@ -37,7 +36,7 @@ jobs:
           registry-url: https://npm.pkg.github.com
           scope: "@Himenon"
           cache: "pnpm"
-      - run: pnpm install
+      - run: pnpm install --frozen-lockfile
       - run: |
           pnpm build
           pnpm run release:github:registry
@@ -59,6 +58,6 @@ jobs:
           node-version: "24.x"
           registry-url: "https://registry.npmjs.org"
           cache: "pnpm"
-      - run: pnpm install
+      - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: NPM_CONFIG_PROVENANCE=true pnpm run release:npm:registry

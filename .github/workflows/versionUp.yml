@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: "24.x"
           cache: "pnpm"
-      - run: pnpm i --frozen-lockfile
+      - run: pnpm install --frozen-lockfile
       - name: Auto version update
         run: |
           pnpm lerna:version:up
