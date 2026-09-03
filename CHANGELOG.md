@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.8"></a>
+## 2.0.8 (2026-09-03)
+
+
+### Bug Fixes
+
+* accept non-object OpenAPI example values ([#155](https://github.com/Himenon/openapi-typescript-code-generator/issues/155)) ([60f251c](https://github.com/Himenon/openapi-typescript-code-generator/commit/60f251c)), closes [#154](https://github.com/Himenon/openapi-typescript-code-generator/issues/154)
+
+
+
+
+
 <a name="2.0.7"></a>
 ## 2.0.7 (2026-06-02)
 
