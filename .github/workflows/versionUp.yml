@@ -19,4 +19,4 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Auto version update
         run: |
-          pnpm lerna:version:up
+          ./node_modules/.bin/lerna version --yes
