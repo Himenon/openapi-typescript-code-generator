@@ -414,7 +414,7 @@
           "$ref": "#/definitions/schemaOrReference"
         },
         "example": {
-          "$ref": "#/definitions/any"
+          "$ref": "#/definitions/defaultType"
         },
         "examples": {
           "$ref": "#/definitions/examplesOrReferences"
@@ -460,7 +460,7 @@
           "$ref": "#/definitions/schemaOrReference"
         },
         "example": {
-          "$ref": "#/definitions/any"
+          "$ref": "#/definitions/defaultType"
         },
         "examples": {
           "$ref": "#/definitions/examplesOrReferences"
@@ -642,7 +642,7 @@
           "$ref": "#/definitions/schemaOrReference"
         },
         "example": {
-          "$ref": "#/definitions/any"
+          "$ref": "#/definitions/defaultType"
         },
         "examples": {
           "$ref": "#/definitions/examplesOrReferences"
@@ -1002,7 +1002,7 @@
     "anyOrExpression": {
       "oneOf": [
         {
-          "$ref": "#/definitions/any"
+          "$ref": "#/definitions/defaultType"
         },
         {
           "$ref": "#/definitions/expression"

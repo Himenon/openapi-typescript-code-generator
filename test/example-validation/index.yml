@@ -1,0 +1,35 @@
+openapi: 3.0.0
+info:
+  title: Example validation
+  version: 1.0.0
+paths:
+  /chat:
+    get:
+      operationId: getChat
+      parameters:
+        - name: message
+          in: query
+          required: false
+          schema:
+            type: string
+          example: hello
+      responses:
+        '200':
+          description: SSE stream
+          headers:
+            X-Has-More:
+              schema:
+                type: boolean
+              example: false
+          content:
+            text/event-stream:
+              schema:
+                type: string
+              example: |
+                event: message
+                data: hello
+          links:
+            next:
+              operationId: getChat
+              parameters:
+                message: hello
