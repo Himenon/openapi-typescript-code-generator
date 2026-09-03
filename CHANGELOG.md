@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.9"></a>
+## 2.0.9 (2026-09-03)
+
+
+### Bug Fixes
+
+* lockfile ([#159](https://github.com/Himenon/openapi-typescript-code-generator/issues/159)) ([12b4cfb](https://github.com/Himenon/openapi-typescript-code-generator/commit/12b4cfb))
+
+
+
+
+
 <a name="2.0.8"></a>
 ## 2.0.8 (2026-09-03)
 
