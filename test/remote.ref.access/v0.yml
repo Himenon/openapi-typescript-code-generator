@@ -17,11 +17,17 @@ tags:
 
 components:
   schemas:
+    BookID:
+      type: string
+      format: uuid
     Book:
       type: object
       required:
+        - id
         - metadata
       properties:
+        id:
+          $ref: "#/components/schemas/BookID"
         author:
           type: object
           properties:
