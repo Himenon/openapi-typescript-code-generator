@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.10"></a>
+## 2.0.10 (2026-09-07)
+
+
+### Bug Fixes
+
+* resolve nested remote schema references ([#160](https://github.com/Himenon/openapi-typescript-code-generator/issues/160)) ([8474ab0](https://github.com/Himenon/openapi-typescript-code-generator/commit/8474ab0)), closes [#90](https://github.com/Himenon/openapi-typescript-code-generator/issues/90) [#90](https://github.com/Himenon/openapi-typescript-code-generator/issues/90) [#90](https://github.com/Himenon/openapi-typescript-code-generator/issues/90)
+
+
+
+
+
 <a name="2.0.9"></a>
 ## 2.0.9 (2026-09-03)
 
