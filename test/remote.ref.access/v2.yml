@@ -1,0 +1,13 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: v2.remote.ref.access.test
+  description: Chained remote reference test schema
+  license:
+    name: MIT
+
+components:
+  schemas:
+    BookID:
+      type: string
+      format: uuid

@@ -8,7 +8,9 @@
 
 
 export namespace Schemas {
+    export type BookIDAlias = string;
     export interface Book {
+        id: Schemas.BookIDAlias;
         author?: {
             name?: string;
             age?: string;
@@ -40,17 +42,18 @@ export namespace Schemas {
     }
     export type Author = Schemas.Book.properties.author;
     export type Publisher = Schemas.Book.properties.publisher;
+    export type BookID = string;
 }
 export interface Parameter$getBook {
     /** Book ID */
-    id: string;
+    id: Schemas.BookID;
 }
 export interface Response$getBook$Status$200 {
     "application/json": Schemas.Book;
 }
 export interface Parameter$getDescription {
     /** Book ID */
-    id: string;
+    id: Schemas.BookID;
 }
 export interface Response$getDescription$Status$200 {
     "application/json": Schemas.Book.properties.metadata.properties.description;
