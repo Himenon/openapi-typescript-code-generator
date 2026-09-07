@@ -41,6 +41,17 @@ describe("TypeNodeContext", () => {
       expect(result.base).toBe("components/schemas");
       expect(result.pathArray).toEqual(["Common"]);
     });
+
+    it("フラグメントを含むリモート参照元でもドキュメント単位でパスを計算できること", () => {
+      const entryPoint = "test/remote.ref.access/v1.yml";
+      const currentPoint = "test/remote.ref.access/v0.yml#/components/schemas/Book";
+      const referencePath = "components/schemas/BookID";
+
+      const result = TypeNodeContext.generatePath(entryPoint, currentPoint, referencePath);
+
+      expect(result.base).toBe(".");
+      expect(result.pathArray).toEqual(["components", "schemas", "BookID"]);
+    });
   });
 
   describe("calculateReferencePath", () => {

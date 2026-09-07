@@ -118,6 +118,17 @@ export const generateReferencePoint = (currentPoint: string, reference: OpenApi.
   return referencePoint;
 };
 
+/**
+ * JSON Pointerのフラグメントを除いた参照先のファイルパスを返す。
+ *
+ * 参照先はネストした参照を解決する際の現在のドキュメントとして使用する。
+ * フラグメントはそのドキュメント内のデータを示すが、ネストした相対参照のパス解決には影響させない。
+ */
+export const getDocumentPoint = (referencePoint: string): string => {
+  const fragmentIndex = referencePoint.indexOf("#/");
+  return fragmentIndex === -1 ? referencePoint : referencePoint.substring(0, fragmentIndex);
+};
+
 export const generate = <T>(entryPoint: string, currentPoint: string, reference: OpenApi.Reference): Type<T> => {
   const localReference = generateLocalReference(reference);
   if (localReference) {
@@ -129,6 +140,8 @@ export const generate = <T>(entryPoint: string, currentPoint: string, reference:
   }
 
   const referencePoint = generateReferencePoint(currentPoint, reference);
+  // 参照先の値を読み込む際はフラグメントを保持するが、その値に含まれる相対参照はドキュメントパスを基準に解決する。
+  const documentPoint = getDocumentPoint(referencePoint);
 
   if (!FileSystem.existSync(referencePoint)) {
     Logger.showFilePosition(entryPoint, currentPoint, referencePoint);
@@ -156,12 +169,12 @@ export const generate = <T>(entryPoint: string, currentPoint: string, reference:
 
   const data = FileSystem.loadJsonOrYaml(referencePoint);
   if (Guard.isReference(data)) {
-    return generate<T>(entryPoint, referencePoint, data);
+    return generate<T>(entryPoint, documentPoint, data);
   }
 
   return {
     type: "remote",
-    referencePoint,
+    referencePoint: documentPoint,
     path: targetPath,
     name: schemaName,
     componentName: Guard.isComponentName(componentName) ? componentName : undefined,
@@ -178,6 +191,8 @@ export const resolveRemoteReference = (
     return { referencePoint: currentPoint, data: reference };
   }
   const referencePoint = generateReferencePoint(currentPoint, reference);
+  // 解決したデータはフラグメントで選択される場合があるが、ネストした相対参照は常に格納元のドキュメントを基準にする。
+  const documentPoint = getDocumentPoint(referencePoint);
   if (!FileSystem.existSync(referencePoint)) {
     Logger.showFilePosition(entryPoint, currentPoint, referencePoint);
     Logger.error(JSON.stringify(reference, null, 2));
@@ -185,10 +200,10 @@ export const resolveRemoteReference = (
   }
   const data = FileSystem.loadJsonOrYaml(referencePoint);
   if (Guard.isReference(data)) {
-    return resolveRemoteReference(entryPoint, referencePoint, data);
+    return resolveRemoteReference(entryPoint, documentPoint, data);
   }
   return {
-    referencePoint,
+    referencePoint: documentPoint,
     data,
   };
 };

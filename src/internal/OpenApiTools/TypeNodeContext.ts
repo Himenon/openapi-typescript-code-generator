@@ -3,6 +3,7 @@ import * as DotProp from "dot-prop";
 
 import type { OpenApi } from "../../types";
 import { DevelopmentError } from "../Exception";
+import { FileSystem } from "../FileSystem";
 import type * as TypeScriptCodeGenerator from "../TsGenerator";
 import type * as ConverterContext from "./ConverterContext";
 import * as Reference from "./components/Reference";
@@ -30,8 +31,11 @@ export interface ReferencePathSet {
  * // 返り値の例: { pathArray: ["Common"], base: "components/schemas" }
  */
 export const generatePath = (entryPoint: string, currentPoint: string, referencePath: string): ReferencePathSet => {
-  const ext = Path.extname(currentPoint); // .yml
-  const from = Path.relative(Path.dirname(entryPoint), currentPoint).replace(ext, ""); // components/schemas/A/B
+  // JSON Pointerのフラグメントはドキュメント内の位置を示すため、ファイルシステム上の相対パス計算には影響させない。
+  const documentEntryPoint = Reference.getDocumentPoint(entryPoint);
+  const documentCurrentPoint = Reference.getDocumentPoint(currentPoint);
+  const ext = Path.extname(documentCurrentPoint); // .yml
+  const from = Path.relative(Path.dirname(documentEntryPoint), documentCurrentPoint).replace(ext, ""); // components/schemas/A/B
   const base = Path.dirname(from).replace(Path.sep, "/");
   const result = Path.posix.relative(base, referencePath); // remoteの場合? localの場合 referencePath.split("/")
   const pathArray = result.split("/");
@@ -119,33 +123,50 @@ export const create = (
     return calculateReferencePath(store, base, pathArray, converterContext);
   };
   const findSchemaByPathArray = (
+    currentPoint: string,
     pathArray: string[],
-    remainPathArray: string[] = [],
+    visited: Set<string> = new Set(),
   ): OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition => {
-    const schema = DotProp.getProperty(rootSchema, pathArray.join("."));
-    if (!schema) {
-      return findSchemaByPathArray(pathArray.slice(0, pathArray.length - 1), [pathArray[pathArray.length - 1], ...remainPathArray]);
+    // 参照解決はドキュメント境界をまたぐ可能性があるため、エントリポイントではなく現在の参照を所有するドキュメントを基準に解決する。
+    const documentPoint = Reference.getDocumentPoint(currentPoint);
+    // スキーマが自身を参照する場合にコールスタックがあふれないよう、再帰済みの参照を追跡する。
+    const visitKey = `${documentPoint}|${pathArray.join("/")}`;
+    if (visited.has(visitKey)) {
+      throw new DevelopmentError(`Circular schema reference \n${JSON.stringify({ currentPoint, pathArray }, null, 2)}`);
     }
-    if (Guard.isReference(schema)) {
-      const ref = Reference.generate(entryPoint, entryPoint, schema);
-      return findSchemaByPathArray(ref.path.split("/"), remainPathArray);
-    }
-    if (remainPathArray.length) {
-      const moreNestSchema = DotProp.getProperty(schema, remainPathArray.join("."));
-      if (!moreNestSchema) {
-        throw new Error("Not found");
+    visited.add(visitKey);
+
+    // エントリポイントは既に読み込み済みだが、リモートドキュメントは自身のファイルから読み込む。
+    const isEntryPoint = Path.resolve(documentPoint) === Path.resolve(Reference.getDocumentPoint(entryPoint));
+    const document = isEntryPoint ? rootSchema : FileSystem.loadJsonOrYaml(documentPoint);
+    let schema: unknown = document;
+    // パスを1要素ずつたどり、途中で参照が見つかった場合は参照先ドキュメントで残りのパスを解決する。
+    for (const [index, path] of pathArray.entries()) {
+      schema = DotProp.getProperty(schema, [path]);
+      if (schema === undefined) {
+        throw new DevelopmentError(
+          `Schema not found \n${JSON.stringify({ currentPoint: documentPoint, pathArray, missingPath: pathArray.slice(0, index + 1) }, null, 2)}`,
+        );
       }
-      return moreNestSchema;
+      if (Guard.isReference(schema)) {
+        // 参照をたどると解決対象のドキュメントが変わる可能性がある。
+        const ref = Reference.generate(entryPoint, documentPoint, schema);
+        const nextPoint = ref.type === "local" ? documentPoint : ref.referencePoint;
+        return findSchemaByPathArray(nextPoint, [...ref.path.split("/"), ...pathArray.slice(index + 1)], visited);
+      }
     }
-    return schema;
+    if (schema === document) {
+      throw new DevelopmentError(`Schema path is empty \n${JSON.stringify({ currentPoint: documentPoint, pathArray }, null, 2)}`);
+    }
+    return schema as OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition;
   };
   const setReferenceHandler: ToTypeNode.Context["setReferenceHandler"] = (currentPoint, reference) => {
     if (store.hasStatement(reference.path, ["interface", "typeAlias"])) {
       return;
     }
+    const context = { rootSchema, setReferenceHandler, resolveReferencePath, findSchemaByPathArray };
     if (reference.type === "remote") {
       const data = reference.data;
-      const context = { rootSchema, setReferenceHandler, resolveReferencePath, findSchemaByPathArray };
       // Determine if the schema should be treated as an interface equivalent
       // (e.g., plain object schemas that are not nullable and don't produce IntersectionTypeNode)
       const isInterfaceEquivalent = (() => {
@@ -208,6 +229,28 @@ export const create = (
         store.addStatement(reference.path, { name: reference.name, kind: "typeAlias", value });
       }
     } else if (reference.type === "local") {
+      // リモートドキュメント内のローカル参照は、エントリポイントのルートスキーマではなく、
+      // そのリモートドキュメントを基準に解決する。
+      const isExternalDocument =
+        Path.resolve(Reference.getDocumentPoint(currentPoint)) !== Path.resolve(Reference.getDocumentPoint(entryPoint));
+      if (isExternalDocument) {
+        const schema = findSchemaByPathArray(currentPoint, reference.path.split("/"));
+        const declarationName = Path.posix.basename(reference.path);
+        if (typeof schema === "boolean") {
+          store.addStatement(reference.path, {
+            name: declarationName,
+            kind: "typeAlias",
+            value: factory.TypeAliasDeclaration.create({
+              export: true,
+              name: converterContext.escapeDeclarationText(declarationName),
+              type: ToTypeNode.convert(entryPoint, currentPoint, factory, schema, context, converterContext),
+            }),
+          });
+        } else if (!Guard.isReference(schema)) {
+          Schema.addSchema(entryPoint, currentPoint, store, factory, reference.path, declarationName, schema, context, converterContext);
+        }
+        return;
+      }
       if (!store.isAfterDefined(reference.path)) {
         const { maybeResolvedName } = resolveReferencePath(currentPoint, reference.path);
         const value = factory.TypeAliasDeclaration.create({

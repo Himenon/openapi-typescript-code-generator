@@ -30,14 +30,14 @@ export const generateNamespace = (
       const schema = targetSchema;
       const reference = Reference.generate<OpenApi.Schema>(entryPoint, currentPoint, schema);
       if (reference.type === "local") {
-        const { maybeResolvedName, depth, pathArray } = context.resolveReferencePath(currentPoint, reference.path);
+        const { maybeResolvedName, depth } = context.resolveReferencePath(currentPoint, reference.path);
         const createTypeNode = () => {
           if (depth === 2) {
             return factory.TypeReferenceNode.create({
               name: convertContext.escapeReferenceDeclarationText(maybeResolvedName),
             });
           }
-          const schema = context.findSchemaByPathArray(pathArray);
+          const schema = context.findSchemaByPathArray(currentPoint, reference.path.split("/"));
           return ToTypeNode.convert(entryPoint, currentPoint, factory, schema, context, convertContext, { parent: schema });
         };
         return store.addStatement(`${basePath}/${name}`, {

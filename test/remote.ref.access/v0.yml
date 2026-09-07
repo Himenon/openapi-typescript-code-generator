@@ -20,6 +20,8 @@ components:
     BookID:
       type: string
       format: uuid
+    BookIDAlias:
+      $ref: "v2.yml#/components/schemas/BookID"
     Book:
       type: object
       required:
@@ -27,7 +29,7 @@ components:
         - metadata
       properties:
         id:
-          $ref: "#/components/schemas/BookID"
+          $ref: "#/components/schemas/BookIDAlias"
         author:
           type: object
           properties:

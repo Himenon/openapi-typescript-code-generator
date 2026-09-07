@@ -26,7 +26,7 @@ export interface Context {
   readonly rootSchema: OpenApi.Document;
   setReferenceHandler: (currentPoint: string, reference: Reference.Type<OpenApi.Schema | OpenApi.JSONSchemaDefinition>) => void;
   resolveReferencePath: (currentPoint: string, referencePath: string) => ResolveReferencePath;
-  findSchemaByPathArray: (paths: string[]) => OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition;
+  findSchemaByPathArray: (currentPoint: string, paths: string[]) => OpenApi.Schema | OpenApi.Reference | OpenApi.JSONSchemaDefinition;
 }
 
 export type Convert = (
@@ -131,11 +131,11 @@ export const convert: Convert = (
     if (reference.type === "local") {
       // Type Aliasを作成 (or すでにある場合は作成しない)
       context.setReferenceHandler(currentPoint, reference);
-      const { maybeResolvedName, depth, pathArray } = context.resolveReferencePath(currentPoint, reference.path);
+      const { maybeResolvedName, depth } = context.resolveReferencePath(currentPoint, reference.path);
       if (depth === 2) {
         return factory.TypeReferenceNode.create({ name: converterContext.escapeReferenceDeclarationText(maybeResolvedName) });
       }
-      const resolveSchema = context.findSchemaByPathArray(pathArray);
+      const resolveSchema = context.findSchemaByPathArray(currentPoint, reference.path.split("/"));
       return convert(entryPoint, currentPoint, factory, resolveSchema, context, converterContext, { parent: schema });
     }
     // サポートしているディレクトリに対して存在する場合
