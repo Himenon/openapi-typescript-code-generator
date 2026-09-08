@@ -36,7 +36,7 @@ export const generatePropertySignatures = (
   }
   const required: string[] = schema.required || [];
   return Object.entries(schema.properties).map(([propertyName, property]) => {
-    if (property === undefined) {
+    if (property === undefined || property === null) {
       return factory.PropertySignature.create({
         readOnly: false,
         name: convertContext.escapePropertySignatureName(propertyName),
@@ -48,11 +48,12 @@ export const generatePropertySignatures = (
       });
     }
     return factory.PropertySignature.create({
-      readOnly: typeof property !== "boolean" ? !!property.readOnly : false,
+      readOnly: typeof property === "object" && property !== null ? !!property.readOnly : false,
       name: convertContext.escapePropertySignatureName(propertyName),
       optional: !required.includes(propertyName),
       type: ToTypeNode.convert(entryPoint, currentPoint, factory, property, context, convertContext, { parent: schema, schemaRoot: schema }),
-      comment: typeof property !== "boolean" ? [property.title, property.description].filter(v => !!v).join("\n\n") : undefined,
+      comment:
+        typeof property === "object" && property !== null ? [property.title, property.description].filter(v => !!v).join("\n\n") : undefined,
     });
   });
 };

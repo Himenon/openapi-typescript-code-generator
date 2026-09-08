@@ -450,15 +450,23 @@ export const convert: Convert = (
       }
 
       const value: string[] = Object.entries(schema.properties || {}).map(([name, jsonSchema]) => {
+        if (jsonSchema === undefined || jsonSchema === null) {
+          return factory.PropertySignature.create({
+            readOnly: false,
+            name: converterContext.escapePropertySignatureName(name),
+            type: factory.TypeNode.create({ type: "any" }),
+            optional: !required.includes(name),
+          });
+        }
         return factory.PropertySignature.create({
-          readOnly: typeof jsonSchema !== "boolean" ? !!jsonSchema.readOnly : false,
+          readOnly: typeof jsonSchema === "object" && jsonSchema !== null ? !!jsonSchema.readOnly : false,
           name: converterContext.escapePropertySignatureName(name),
           type: convert(entryPoint, currentPoint, factory, jsonSchema, context, converterContext, {
             parent: schema,
             schemaRoot,
           }),
           optional: !required.includes(name),
-          comment: typeof jsonSchema !== "boolean" ? jsonSchema.description : undefined,
+          comment: typeof jsonSchema === "object" && jsonSchema !== null ? jsonSchema.description : undefined,
         });
       });
       if (schema.additionalProperties) {

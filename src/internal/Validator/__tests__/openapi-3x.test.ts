@@ -259,4 +259,22 @@ describe("OpenAPI 3.x generation", () => {
     expect(clientCode).toContain('httpMethod: "QUERY"');
     expect(clientCode).toContain('httpMethod: "PURGE" as HttpMethod');
   });
+
+  test("treats a null property schema as any for legacy fixtures", () => {
+    const document = structuredClone(openapi31Document);
+    document.components = {
+      schemas: {
+        NullProperty: {
+          type: "object",
+          properties: {
+            legacy: null as never,
+          },
+        },
+      },
+    };
+
+    const code = new CodeGenerator(document).generateTypeDefinition();
+
+    expect(code).toContain("legacy?: any;");
+  });
 });
