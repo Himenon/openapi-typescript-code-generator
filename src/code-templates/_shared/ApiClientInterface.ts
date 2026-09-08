@@ -3,7 +3,7 @@ import type { CodeGenerator } from "../../types";
 import type { MethodType } from "./MethodBody/types";
 import type { Option } from "./types";
 
-const httpMethodList: string[] = ["GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH", "TRACE", "QUERY"];
+const httpMethodList: string[] = ["GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH", "TRACE"];
 
 const createErrorResponsesTypeAlias = (typeName: string, factory: TsGenerator.Factory.Type, errorResponseNames: string[]) => {
   if (errorResponseNames.length === 0) {
@@ -47,11 +47,13 @@ const createSuccessResponseTypeAlias = (typeName: string, factory: TsGenerator.F
   });
 };
 
-const createHttpMethod = (factory: TsGenerator.Factory.Type) => {
+const createHttpMethod = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Params[]) => {
+  // OpenAPI 3.2 で QUERY が使われる場合だけ、生成するクライアントの HTTP メソッド型に追加します。
+  const methods = list.some(item => item.operationParams.httpMethod.toLowerCase() === "query") ? [...httpMethodList, "QUERY"] : httpMethodList;
   return factory.TypeAliasDeclaration.create({
     export: true,
     name: "HttpMethod",
-    type: factory.TypeNode.create({ type: "string", enum: httpMethodList }),
+    type: factory.TypeNode.create({ type: "string", enum: methods }),
   });
 };
 
@@ -278,7 +280,7 @@ export const create = (factory: TsGenerator.Factory.Type, list: CodeGenerator.Pa
   });
 
   return [
-    createHttpMethod(factory),
+    createHttpMethod(factory, list),
     createObjectLikeInterface(factory),
     ...createQueryParamsDeclarations(factory),
     createSuccessResponseTypeAlias("SuccessResponses", factory, successResponseNames),

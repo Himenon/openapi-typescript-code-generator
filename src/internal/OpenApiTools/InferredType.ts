@@ -33,7 +33,8 @@ export const getInferredType = (schema: OpenApi.Schema): OpenApi.Schema | undefi
     if (enumTypes.length > 1) {
       return { ...schema, type: enumTypes };
     }
-    return { ...schema, type: enumTypes[0] || "string" };
+    // 単一型 enum の既存推論は維持し、OpenAPI 3.1 で追加された異種 enum のみ type 配列へ推論します。
+    return { ...schema, type: "string" };
   }
   // type: objectを指定せずに、propertiesのみを指定している場合に type object変換する
   if (schema.properties) {

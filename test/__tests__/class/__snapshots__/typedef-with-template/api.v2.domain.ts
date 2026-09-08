@@ -24,6 +24,7 @@ export interface Response$getHelloWorld$Status$200 {
     };
 }
 export interface RequestBody$postHelloWorldReadonly {
+    "application/json": Schemas.ReadOnlyParams;
 }
 export interface Response$postHelloWorldReadonly$Status$200 {
     "application/json": {
