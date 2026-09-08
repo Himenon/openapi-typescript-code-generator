@@ -6,6 +6,38 @@ import * as ToTypeNode from "../toTypeNode";
 import type * as Walker from "../Walker";
 import * as Reference from "./Reference";
 
+const getParameterSchema = (parameter: OpenApi.Parameter): OpenApi.JSONSchemaDefinition | OpenApi.Reference | undefined => {
+  if (parameter.schema !== undefined) {
+    return parameter.schema;
+  }
+  // OpenAPI 3.2 で querystring パラメータの content によるスキーマ指定を扱います。
+  const mediaType = Object.values(parameter.content || {})[0];
+  if (Guard.isReference(mediaType)) {
+    return mediaType;
+  }
+  return mediaType?.schema ?? mediaType?.itemSchema;
+};
+
+const generateParameterTypeNode = (
+  entryPoint: string,
+  currentPoint: string,
+  factory: Factory.Type,
+  parameter: OpenApi.Parameter,
+  context: ToTypeNode.Context,
+  converterContext: ConverterContext.Types,
+): string => {
+  const schema = getParameterSchema(parameter) ?? { type: "null" };
+  return ToTypeNode.convert(
+    entryPoint,
+    currentPoint,
+    factory,
+    schema,
+    context,
+    converterContext,
+    typeof schema === "object" && !Guard.isReference(schema) ? { schemaRoot: schema } : undefined,
+  );
+};
+
 export const generateTypeNode = (
   entryPoint: string,
   currentPoint: string,
@@ -14,7 +46,7 @@ export const generateTypeNode = (
   context: ToTypeNode.Context,
   converterContext: ConverterContext.Types,
 ): string => {
-  return ToTypeNode.convert(entryPoint, currentPoint, factory, parameter.schema || { type: "null" }, context, converterContext);
+  return generateParameterTypeNode(entryPoint, currentPoint, factory, parameter, context, converterContext);
 };
 
 export const generateTypeAlias = (
@@ -71,14 +103,7 @@ export const generatePropertySignatureObject = (
       name: name,
       optional: isPathProperty ? false : !reference.data.required,
       comment: reference.data.description,
-      type: ToTypeNode.convert(
-        entryPoint,
-        reference.referencePoint,
-        factory,
-        reference.data.schema || { type: "null" },
-        context,
-        converterContext,
-      ),
+      type: generateParameterTypeNode(entryPoint, reference.referencePoint, factory, reference.data, context, converterContext),
     });
     return {
       name,
@@ -91,7 +116,7 @@ export const generatePropertySignatureObject = (
     readOnly: false,
     name: name,
     optional: isPathProperty ? false : !parameter.required,
-    type: ToTypeNode.convert(entryPoint, currentPoint, factory, parameter.schema || { type: "null" }, context, converterContext),
+    type: generateTypeNode(entryPoint, currentPoint, factory, parameter, context, converterContext),
     comment: parameter.description,
   });
   return {

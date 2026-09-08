@@ -2,7 +2,9 @@ import type { CodeGenerator, OpenApi } from "../../types";
 import * as TypeScriptCodeGenerator from "../TsGenerator";
 import * as ConvertContext from "./ConverterContext";
 import * as Headers from "./components/Headers";
+import * as MediaTypes from "./components/MediaTypes";
 import * as Parameters from "./components/Parameters";
+import * as PathItems from "./components/PathItems";
 import * as RequestBodies from "./components/RequestBodies";
 import * as Responses from "./components/Responses";
 import * as Schemas from "./components/Schemas";
@@ -42,6 +44,18 @@ export class Parser {
           this.store,
           this.factory,
           rootSchema.components.schemas,
+          toTypeNodeContext,
+          this.convertContext,
+        );
+      }
+      if (rootSchema.components.mediaTypes) {
+        // OpenAPI 3.2 で再利用可能な Media Type が追加されました。
+        MediaTypes.generateNamespace(
+          this.entryPoint,
+          this.currentPoint,
+          this.store,
+          this.factory,
+          rootSchema.components.mediaTypes,
           toTypeNodeContext,
           this.convertContext,
         );
@@ -86,6 +100,18 @@ export class Parser {
           this.store,
           this.factory,
           rootSchema.components.requestBodies,
+          toTypeNodeContext,
+          this.convertContext,
+        );
+      }
+      if (rootSchema.components.pathItems) {
+        // OpenAPI 3.1 で components.pathItems に再利用可能な Path Item が追加されました。
+        PathItems.generateNamespace(
+          this.entryPoint,
+          this.currentPoint,
+          this.store,
+          this.factory,
+          rootSchema.components.pathItems,
           toTypeNodeContext,
           this.convertContext,
         );

@@ -1,5 +1,5 @@
 {
-  "title": "A JSON Schema for OpenAPI 3.0.",
+  "title": "A JSON Schema for OpenAPI 3.x.",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "description": "This is the root document object of the OpenAPI document.",
@@ -12,7 +12,8 @@
   },
   "properties": {
     "openapi": {
-      "type": "string"
+      "type": "string",
+      "pattern": "^3\\.\\d+\\.\\d+(-.+)?$"
     },
     "info": {
       "$ref": "#/definitions/info"
@@ -23,6 +24,18 @@
         "$ref": "#/definitions/server"
       },
       "uniqueItems": true
+    },
+    "webhooks": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/pathItemsOrReference"
+      }
+    },
+    "jsonSchemaDialect": {
+      "type": "string"
+    },
+    "$self": {
+      "type": "string"
     },
     "paths": {
       "$ref": "#/definitions/paths"
@@ -61,6 +74,9 @@
       },
       "properties": {
         "title": {
+          "type": "string"
+        },
+        "summary": {
           "type": "string"
         },
         "description": {
@@ -117,6 +133,9 @@
         },
         "url": {
           "type": "string"
+        },
+        "identifier": {
+          "type": "string"
         }
       }
     },
@@ -139,6 +158,9 @@
         },
         "variables": {
           "$ref": "#/definitions/serverVariables"
+        },
+        "name": {
+          "type": "string"
         }
       }
     },
@@ -207,6 +229,9 @@
         },
         "pathItems": {
           "$ref": "#/definitions/pathItemsOrReferences"
+        },
+        "mediaTypes": {
+          "$ref": "#/definitions/mediaTypesOrReferences"
         }
       }
     },
@@ -271,6 +296,15 @@
         },
         "trace": {
           "$ref": "#/definitions/operation"
+        },
+        "query": {
+          "$ref": "#/definitions/operation"
+        },
+        "additionalOperations": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/operation"
+          }
         },
         "servers": {
           "type": "array",
@@ -456,8 +490,23 @@
         }
       },
       "properties": {
+        "description": {
+          "type": "string"
+        },
         "schema": {
           "$ref": "#/definitions/schemaOrReference"
+        },
+        "itemSchema": {
+          "$ref": "#/definitions/schemaOrReference"
+        },
+        "prefixEncoding": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/encoding"
+          }
+        },
+        "itemEncoding": {
+          "$ref": "#/definitions/encoding"
         },
         "example": {
           "$ref": "#/definitions/defaultType"
@@ -494,6 +543,18 @@
         },
         "allowReserved": {
           "type": "boolean"
+        },
+        "encoding": {
+          "$ref": "#/definitions/encodings"
+        },
+        "prefixEncoding": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/encoding"
+          }
+        },
+        "itemEncoding": {
+          "$ref": "#/definitions/encoding"
         }
       }
     },
@@ -518,7 +579,6 @@
     "response": {
       "type": "object",
       "description": "Describes a single response from an API Operation, including design-time, static  `links` to operations based on the response.",
-      "required": ["description"],
       "additionalProperties": false,
       "patternProperties": {
         "^x-": {
@@ -526,6 +586,9 @@
         }
       },
       "properties": {
+        "summary": {
+          "type": "string"
+        },
         "description": {
           "type": "string"
         },
@@ -573,6 +636,12 @@
           "$ref": "#/definitions/defaultType"
         },
         "externalValue": {
+          "type": "string"
+        },
+        "dataValue": {
+          "$ref": "#/definitions/defaultType"
+        },
+        "serializedValue": {
           "type": "string"
         }
       }
@@ -666,11 +735,20 @@
         "name": {
           "type": "string"
         },
+        "summary": {
+          "type": "string"
+        },
         "description": {
           "type": "string"
         },
         "externalDocs": {
           "$ref": "#/definitions/externalDocs"
+        },
+        "parent": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
         }
       }
     },
@@ -687,13 +765,19 @@
       "properties": {
         "$ref": {
           "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
         }
       }
     },
     "schema": {
       "type": "object",
       "description": "The Schema Object allows the definition of input and output data types. These types can be objects, but also primitives and arrays. This object is an extended subset of the JSON Schema Specification Wright Draft 00.  For more information about the properties, see JSON Schema Core and JSON Schema Validation. Unless stated otherwise, the property definitions follow the JSON Schema.",
-      "additionalProperties": false,
+      "additionalProperties": true,
       "patternProperties": {
         "^x-": {
           "$ref": "#/definitions/specificationExtension"
@@ -753,13 +837,13 @@
           "$ref": "http://json-schema.org/draft-07/schema#/properties/maximum"
         },
         "exclusiveMaximum": {
-          "$ref": "http://json-schema.org/draft-07/schema#/properties/exclusiveMaximum"
+          "type": ["number", "boolean"]
         },
         "minimum": {
           "$ref": "http://json-schema.org/draft-07/schema#/properties/minimum"
         },
         "exclusiveMinimum": {
-          "$ref": "http://json-schema.org/draft-07/schema#/properties/exclusiveMinimum"
+          "type": ["number", "boolean"]
         },
         "maxLength": {
           "$ref": "http://json-schema.org/draft-07/schema#/properties/maxLength"
@@ -792,7 +876,19 @@
           "$ref": "http://json-schema.org/draft-07/schema#/properties/enum"
         },
         "type": {
-          "type": "string"
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            }
+          ]
         },
         "allOf": {
           "type": "array",
@@ -816,7 +912,7 @@
           "minItems": 1
         },
         "not": {
-          "$ref": "#/definitions/schema"
+          "$ref": "#/definitions/schemaOrReference"
         },
         "items": {
           "anyOf": [
@@ -870,6 +966,9 @@
         },
         "mapping": {
           "$ref": "#/definitions/strings"
+        },
+        "defaultMapping": {
+          "type": "string"
         }
       }
     },
@@ -883,6 +982,9 @@
         }
       },
       "properties": {
+        "nodeType": {
+          "enum": ["element", "attribute", "text", "cdata", "none"]
+        },
         "name": {
           "type": "string"
         },
@@ -913,6 +1015,9 @@
       "properties": {
         "type": {
           "type": "string"
+        },
+        "deprecated": {
+          "type": "boolean"
         },
         "description": {
           "type": "string"
@@ -1090,12 +1195,15 @@
       ]
     },
     "schemaOrReference": {
-      "oneOf": [
+      "anyOf": [
         {
           "$ref": "#/definitions/schema"
         },
         {
           "$ref": "#/definitions/reference"
+        },
+        {
+          "type": "boolean"
         }
       ]
     },
@@ -1148,7 +1256,30 @@
     "mediaTypes": {
       "type": "object",
       "additionalProperties": {
-        "$ref": "#/definitions/mediaType"
+        "$ref": "#/definitions/mediaTypeOrReference"
+      }
+    },
+    "mediaTypeOrReference": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/mediaType"
+        },
+        {
+          "$ref": "#/definitions/reference"
+        }
+      ]
+    },
+    "mediaTypesOrReferences": {
+      "type": "object",
+      "additionalProperties": {
+        "oneOf": [
+          {
+            "$ref": "#/definitions/mediaType"
+          },
+          {
+            "$ref": "#/definitions/reference"
+          }
+        ]
       }
     },
     "parametersOrReferences": {

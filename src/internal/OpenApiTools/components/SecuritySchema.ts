@@ -7,32 +7,28 @@ export const generatePropertySignatures = (
   factory: Factory.Type,
   securitySchema: OpenApi.SecuritySchema,
 ): string[] => {
-  return [
-    factory.PropertySignature.create({
-      readOnly: false,
-      name: "type",
-      optional: false,
-      type: factory.LiteralTypeNode.create({ value: securitySchema.type }),
-    }),
-    factory.PropertySignature.create({
-      readOnly: false,
-      name: "name",
-      optional: false,
-      type: factory.LiteralTypeNode.create({ value: securitySchema.name }),
-    }),
-    factory.PropertySignature.create({
-      readOnly: false,
-      name: "in",
-      optional: false,
-      type: factory.LiteralTypeNode.create({ value: securitySchema.in }),
-    }),
-    factory.PropertySignature.create({
-      readOnly: false,
-      name: "openIdConnectUrl",
-      optional: false,
-      type: factory.LiteralTypeNode.create({ value: securitySchema.openIdConnectUrl }),
-    }),
+  const properties: Array<[string, string | boolean | undefined]> = [
+    ["type", securitySchema.type],
+    ["deprecated", securitySchema.deprecated],
+    ["name", securitySchema.name],
+    ["in", securitySchema.in],
+    ["scheme", securitySchema.scheme],
+    ["bearerFormat", securitySchema.bearerFormat],
+    ["openIdConnectUrl", securitySchema.openIdConnectUrl],
   ];
+  return properties.flatMap(([name, value]) => {
+    if (value === undefined) {
+      return [];
+    }
+    return [
+      factory.PropertySignature.create({
+        readOnly: false,
+        name,
+        optional: false,
+        type: factory.LiteralTypeNode.create({ value }),
+      }),
+    ];
+  });
 };
 
 export const generateInterface = (

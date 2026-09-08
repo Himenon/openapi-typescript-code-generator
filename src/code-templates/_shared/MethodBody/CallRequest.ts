@@ -4,6 +4,8 @@ import * as Utils from "../utils";
 import { createEncodingMap } from "./createEncodingMap";
 import type { MethodType } from "./types";
 
+const standardHttpMethods = new Set(["GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH", "TRACE", "QUERY"]);
+
 export interface Params {
   httpMethod: string;
   hasRequestBody: boolean;
@@ -43,12 +45,16 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
   };
   const expression = Utils.generateVariableIdentifier(factory, apiClientVariableIdentifier[methodType]);
   const requestBodyEncoding = createEncodingParams(factory, params);
+  const httpMethod = params.operationParams.httpMethod.toUpperCase();
+  const httpMethodLiteral = factory.StringLiteral.create({ text: httpMethod });
+  // OpenAPI 3.2 の additionalOperations は任意の HTTP メソッド名を許可します。
+  const httpMethodInitializer = standardHttpMethods.has(httpMethod) ? httpMethodLiteral : `${httpMethodLiteral} as HttpMethod`;
 
   const requestArgs = factory.ObjectLiteralExpression.create({
     properties: [
       factory.PropertyAssignment.create({
         name: "httpMethod",
-        initializer: factory.StringLiteral.create({ text: params.operationParams.httpMethod.toUpperCase() }),
+        initializer: httpMethodInitializer,
       }),
       factory.ShorthandPropertyAssignment.create({
         name: methodType === "currying-function" ? "uri" : "url",

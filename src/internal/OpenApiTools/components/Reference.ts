@@ -17,7 +17,8 @@ export type LocalReferencePattern =
   | "#/components/securitySchemes/"
   | "#/components/links/"
   | "#/components/callbacks/"
-  | "#/components/pathItems/";
+  | "#/components/pathItems/"
+  | "#/components/mediaTypes/";
 
 export interface LocalReference {
   type: "local";
@@ -69,6 +70,7 @@ const localReferencePatterns: readonly LocalReferencePattern[] = [
   "#/components/links/",
   "#/components/callbacks/",
   "#/components/pathItems/",
+  "#/components/mediaTypes/",
 ];
 
 export const localReferenceComponents = {
@@ -82,6 +84,7 @@ export const localReferenceComponents = {
   "#/components/links/": "components/links",
   "#/components/callbacks/": "components/callbacks",
   "#/components/pathItems/": "components/pathItems",
+  "#/components/mediaTypes/": "components/mediaTypes",
 } as const;
 
 export const getLocalReferencePattern = (reference: OpenApi.Reference) => {

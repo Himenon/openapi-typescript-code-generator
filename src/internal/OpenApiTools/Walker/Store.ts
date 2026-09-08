@@ -134,7 +134,7 @@ class Store {
     this.state.additionalStatements = this.state.additionalStatements.concat(statements);
   }
   public getPathItem(localPath: string): OpenApi.PathItem {
-    if (!localPath.startsWith("components/pathItem")) {
+    if (!localPath.startsWith("components/pathItems")) {
       throw new Error(`Only use start with 'component/pathItems': ${localPath}`);
     }
     const result = DotProp.getProperty(this.state.document, localPath.replace(/\//g, "."));
@@ -152,6 +152,16 @@ class Store {
       throw new Error(`Not found ${localPath}`);
     }
     return result as OpenApi.Parameter;
+  }
+  public getMediaType(localPath: string): OpenApi.MediaType | OpenApi.Reference {
+    if (!localPath.startsWith("components/mediaTypes")) {
+      throw new Error(`Only use start with 'components/mediaTypes': ${localPath}`);
+    }
+    const result = DotProp.getProperty(this.state.document, localPath.replace(/\//g, "."));
+    if (!result) {
+      throw new Error(`Not found ${localPath}`);
+    }
+    return result as OpenApi.MediaType | OpenApi.Reference;
   }
   public isAfterDefined(referencePath: string): boolean {
     return !!DotProp.getProperty(this.state.document, referencePath.replace(/\//g, "."));

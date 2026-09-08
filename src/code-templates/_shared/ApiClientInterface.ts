@@ -3,7 +3,7 @@ import type { CodeGenerator } from "../../types";
 import type { MethodType } from "./MethodBody/types";
 import type { Option } from "./types";
 
-const httpMethodList: string[] = ["GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH", "TRACE"];
+const httpMethodList: string[] = ["GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH", "TRACE", "QUERY"];
 
 const createErrorResponsesTypeAlias = (typeName: string, factory: TsGenerator.Factory.Type, errorResponseNames: string[]) => {
   if (errorResponseNames.length === 0) {

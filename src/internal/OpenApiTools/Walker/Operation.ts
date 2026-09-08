@@ -1,6 +1,6 @@
 import type { CodeGenerator, OpenApi } from "../../../types";
 
-const httpMethodList = ["get", "put", "post", "delete", "options", "head", "patch", "trace"] as const;
+const httpMethodList = ["get", "put", "post", "delete", "options", "head", "patch", "trace", "query"] as const;
 
 export interface State {
   [operationId: string]: CodeGenerator.OpenApiOperation;
@@ -19,15 +19,22 @@ export const create = (rootSchema: OpenApi.Document): State => {
   const paths = rootSchema.paths || {};
   const state: State = {};
   Object.entries(paths).forEach(([requestUri, pathItem]) => {
-    httpMethodList.forEach(httpMethod => {
-      const operation = pathItem[httpMethod];
+    const pathItemData = pathItem as OpenApi.PathItem;
+    if (pathItemData.$ref) {
+      return;
+    }
+    const operations: Record<string, OpenApi.Operation | undefined> = {
+      ...Object.fromEntries(httpMethodList.map(httpMethod => [httpMethod, pathItemData[httpMethod]])),
+      ...pathItemData.additionalOperations,
+    };
+    Object.entries(operations).forEach(([httpMethod, operation]) => {
       if (!operation) {
         return;
       }
       if (!operation.operationId) {
         return;
       }
-      const parameters = [...(pathItem.parameters || []), ...(operation.parameters || [])] as OpenApi.Parameter[];
+      const parameters = [...(pathItemData.parameters || []), ...(operation.parameters || [])] as OpenApi.Parameter[];
 
       const requestBody = operation.requestBody as OpenApi.RequestBody | undefined;
       const hasValidMediaType = Object.values(requestBody?.content || {}).filter(mediaType => Object.values(mediaType).length > 0).length > 0;

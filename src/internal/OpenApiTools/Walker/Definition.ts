@@ -1,4 +1,12 @@
-export type ComponentName = "schemas" | "headers" | "responses" | "parameters" | "requestBodies" | "securitySchemes" | "pathItems";
+export type ComponentName =
+  | "schemas"
+  | "headers"
+  | "responses"
+  | "parameters"
+  | "requestBodies"
+  | "securitySchemes"
+  | "pathItems"
+  | "mediaTypes";
 
 export const componentNames: ComponentName[] = [
   "schemas",
@@ -8,4 +16,5 @@ export const componentNames: ComponentName[] = [
   "requestBodies",
   "securitySchemes",
   "pathItems",
+  "mediaTypes",
 ];

@@ -2,7 +2,7 @@
 
 [日本語](./docs/ja/README-ja.md)
 
-This library provides TypeScript type definitions and extracted parameters from OpenAPI v3.0.x compliant specifications.
+This library provides TypeScript type definitions and extracted parameters from OpenAPI v3.x compliant specifications.
 Template literals are used to generate the code, which is accurately converted to TypeScript code.
 Since the parameters extracted from OpenAPI can be used freely, it can be used for automatic generation of API Client and Server Side code, load balancer configuration files, etc.
 

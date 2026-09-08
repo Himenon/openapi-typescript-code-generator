@@ -23,7 +23,7 @@ export class CodeGenerator {
         JSON.parse(JSON.stringify(this.rootSchema)),
       );
     } else {
-      this.rootSchema = entryPointOrDocument;
+      this.rootSchema = generateValidRootSchema(entryPointOrDocument);
       this.resolvedReferenceDocument = Api.ResolveReference.resolve(".", ".", JSON.parse(JSON.stringify(this.rootSchema)));
     }
     this.parser = this.createParser();

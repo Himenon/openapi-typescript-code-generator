@@ -44,6 +44,33 @@ const isLocalReference = (obj: any): boolean => {
   return !isRemoteReference(obj);
 };
 
+const resolveJsonPointer = (rootSchema: any, reference: string): any => {
+  if (reference === "#") {
+    return rootSchema;
+  }
+  if (!reference.startsWith("#/")) {
+    return undefined;
+  }
+  return reference
+    .slice(2)
+    .split("/")
+    .reduce((current, token) => {
+      if (current === null || (typeof current !== "object" && !Array.isArray(current))) {
+        return undefined;
+      }
+      const key = token.replace(/~1/g, "/").replace(/~0/g, "~");
+      return current[key];
+    }, rootSchema);
+};
+
+const mergeReferenceSiblings = (reference: any, resolved: any): any => {
+  if (!isObject(reference) || !isObject(resolved)) {
+    return resolved;
+  }
+  const siblings = Object.fromEntries(Object.entries(reference).filter(([key]) => key !== "$ref"));
+  return Object.keys(siblings).length > 0 ? { ...resolved, ...siblings } : resolved;
+};
+
 const resolveRemoteReference = (entryPoint: string, currentPoint: string, obj: any, parentKey?: string): any => {
   // console.log(parentKey);
   if (Guard.isReference(obj)) {
@@ -62,7 +89,7 @@ const resolveRemoteReference = (entryPoint: string, currentPoint: string, obj: a
         Object.entries(data).forEach(([key, value]) => {
           data[key] = resolveRemoteReference(entryPoint, referencePoint, value, [parentKey, key].join("."));
         });
-        return data;
+        return mergeReferenceSiblings(obj, data);
       }
     }
     return obj;
@@ -92,13 +119,18 @@ const resolveLocalReference = (entryPoint: string, currentPoint: string, obj: an
     if (isLocalReference(obj)) {
       const ref = Reference.generateLocalReference(obj);
       if (!ref) {
-        throw new DevelopmentError(
-          "This is an implementation error. Please report any reproducible information below.\nhttps://github.com/Himenon/openapi-typescript-code-generator/issues/new/choose\n",
-        );
+        // OpenAPI 3.1 では $defs など components 以外の JSON Pointer も参照できます。
+        const resolved = resolveJsonPointer(rootSchema, obj.$ref);
+        if (resolved === undefined) {
+          // Schema Object 内の相対 JSON Pointer（例: #/$defs/Foo）は、文書全体ではなく
+          // その Schema Object を基準に解決するため、ここでは参照を保持します。
+          return obj;
+        }
+        return mergeReferenceSiblings(obj, escapeFromJsonCyclic(resolved));
       }
       // "." in the key
       const escapedPath = ref.path.replace(/\./g, "\\.").replace(/\//g, ".");
-      return escapeFromJsonCyclic(DotProp.getProperty(rootSchema, escapedPath));
+      return mergeReferenceSiblings(obj, escapeFromJsonCyclic(DotProp.getProperty(rootSchema, escapedPath)));
     }
     return obj;
   }

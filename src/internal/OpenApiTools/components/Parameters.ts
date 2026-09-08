@@ -31,7 +31,7 @@ export const generateNamespace = (
       if (reference.type === "local") {
         throw new UnSupportError("What is components.parameters local reference?");
       }
-      if (!reference.data.schema) {
+      if (reference.data.schema === undefined) {
         return;
       }
       Schema.addSchema(

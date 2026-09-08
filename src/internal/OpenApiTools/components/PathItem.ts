@@ -138,6 +138,36 @@ export const generateNamespace = (
       converterContext,
     );
   }
+  // OpenAPI 3.2 で追加された QUERY メソッドを生成します。
+  if (pathItem.query) {
+    Operation.generateNamespace(
+      entryPoint,
+      currentPoint,
+      store,
+      factory,
+      basePath,
+      "QUERY",
+      pathItem.query,
+      pathItem.parameters,
+      context,
+      converterContext,
+    );
+  }
+  // OpenAPI 3.2 で追加された additionalOperations の標準外 HTTP メソッドを生成します。
+  Object.entries(pathItem.additionalOperations || {}).forEach(([httpMethod, operation]) => {
+    Operation.generateNamespace(
+      entryPoint,
+      currentPoint,
+      store,
+      factory,
+      basePath,
+      httpMethod,
+      operation,
+      pathItem.parameters,
+      context,
+      converterContext,
+    );
+  });
   if (pathItem.parameters) {
     Parameters.generateNamespaceWithList(entryPoint, currentPoint, store, factory, pathItem.parameters, context, converterContext);
   }
@@ -282,6 +312,40 @@ export const generateStatements = (
       ),
     );
   }
+  // OpenAPI 3.2 で追加された QUERY メソッドを生成します。
+  if (pathItem.query) {
+    statements.push(
+      Operation.generateStatements(
+        entryPoint,
+        currentPoint,
+        store,
+        factory,
+        requestUri,
+        "QUERY",
+        pathItem.query,
+        pathItem.parameters,
+        context,
+        converterContext,
+      ),
+    );
+  }
+  // OpenAPI 3.2 で追加された additionalOperations の標準外 HTTP メソッドを生成します。
+  Object.entries(pathItem.additionalOperations || {}).forEach(([httpMethod, operation]) => {
+    statements.push(
+      Operation.generateStatements(
+        entryPoint,
+        currentPoint,
+        store,
+        factory,
+        requestUri,
+        httpMethod,
+        operation,
+        pathItem.parameters,
+        context,
+        converterContext,
+      ),
+    );
+  });
 
   return statements.flat();
 };

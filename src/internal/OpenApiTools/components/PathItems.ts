@@ -30,7 +30,12 @@ export const generateNamespace = (
     if (Guard.isReference(pathItem)) {
       const reference = Reference.generate<OpenApi.PathItem>(entryPoint, currentPoint, pathItem);
       if (reference.type === "local") {
-        throw new UnSupportError("can't use components.pathItems local reference");
+        // OpenAPI 3.1 で追加された components.pathItems のローカル参照を展開します。
+        const resolvedPathItem = store.getPathItem(reference.path);
+        if (Guard.isReference(resolvedPathItem)) {
+          throw new UnSupportError(`can't resolve components.pathItems local reference "${pathItem.$ref}"`);
+        }
+        return PathItem.generateNamespace(entryPoint, currentPoint, store, factory, basePath, key, resolvedPathItem, context, converterContext);
       }
       if (reference.componentName) {
         if (key !== reference.name) {

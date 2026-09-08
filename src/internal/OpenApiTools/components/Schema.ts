@@ -3,8 +3,9 @@ import { FeatureDevelopmentError } from "../../Exception";
 import type { Factory } from "../../TsGenerator";
 import type * as ConvertContext from "../ConverterContext";
 import * as Guard from "../Guard";
+import * as InferredType from "../InferredType";
 import * as ToTypeNode from "../toTypeNode";
-import type { AnySchema, ArraySchema, ObjectSchema, PrimitiveSchema } from "../types";
+import type { AnySchema, ArraySchema, ObjectSchema, PrimitiveSchema, TypeArraySchema } from "../types";
 import type * as Walker from "../Walker";
 import * as ExternalDocumentation from "./ExternalDocumentation";
 
@@ -35,7 +36,7 @@ export const generatePropertySignatures = (
   }
   const required: string[] = schema.required || [];
   return Object.entries(schema.properties).map(([propertyName, property]) => {
-    if (!property) {
+    if (property === undefined) {
       return factory.PropertySignature.create({
         readOnly: false,
         name: convertContext.escapePropertySignatureName(propertyName),
@@ -50,7 +51,7 @@ export const generatePropertySignatures = (
       readOnly: typeof property !== "boolean" ? !!property.readOnly : false,
       name: convertContext.escapePropertySignatureName(propertyName),
       optional: !required.includes(propertyName),
-      type: ToTypeNode.convert(entryPoint, currentPoint, factory, property, context, convertContext, { parent: schema }),
+      type: ToTypeNode.convert(entryPoint, currentPoint, factory, property, context, convertContext, { parent: schema, schemaRoot: schema }),
       comment: typeof property !== "boolean" ? [property.title, property.description].filter(v => !!v).join("\n\n") : undefined,
     });
   });
@@ -136,7 +137,7 @@ export const generateArrayTypeAlias = (
     export: true,
     name: convertContext.escapeDeclarationText(name),
     comment: [schema.title, schema.description].filter(v => !!v).join("\n\n"),
-    type: ToTypeNode.convert(entryPoint, currentPoint, factory, schema, context, convertContext),
+    type: ToTypeNode.convert(entryPoint, currentPoint, factory, schema, context, convertContext, { schemaRoot: schema }),
   });
 };
 
@@ -181,11 +182,15 @@ export const generateTypeAlias = (
   convertContext: ConvertContext.Types,
 ): string => {
   let type: string;
+  const constTypeNode = ToTypeNode.generateLiteralTypeNode(factory, schema.const);
   let formatTypeNode: string | undefined;
   if (schema.format && schema.type !== "any") {
     formatTypeNode = convertContext.convertFormatTypeNode(schema);
   }
-  if (formatTypeNode) {
+  // OpenAPI 3.1 で追加された JSON Schema の const は enum よりも具体的なリテラル型です。
+  if (Object.hasOwn(schema, "const") && constTypeNode) {
+    type = constTypeNode;
+  } else if (formatTypeNode) {
     type = schema.nullable === true ? `(${formatTypeNode})` : formatTypeNode;
   } else if (schema.enum) {
     if (Guard.isNumberArray(schema.enum) && (schema.type === "number" || schema.type === "integer")) {
@@ -221,15 +226,34 @@ export const generateTypeAlias = (
   });
 };
 
+/** OpenAPI 3.1 で追加された type 配列を、複数型の union として出力します。 */
+export const generateTypeAliasForTypeArray = (
+  entryPoint: string,
+  currentPoint: string,
+  factory: Factory.Type,
+  name: string,
+  schema: TypeArraySchema,
+  context: ToTypeNode.Context,
+  convertContext: ConvertContext.Types,
+): string => {
+  return factory.TypeAliasDeclaration.create({
+    export: true,
+    name: convertContext.escapeDeclarationText(name),
+    type: ToTypeNode.convert(entryPoint, currentPoint, factory, schema, context, convertContext, { schemaRoot: schema }),
+    comment: [schema.title, schema.description].filter(v => !!v).join("\n\n"),
+  });
+};
+
 export const generateMultiTypeAlias = (
   entryPoint: string,
   currentPoint: string,
   factory: Factory.Type,
   name: string,
-  schemas: OpenApi.Schema[],
+  schemas: OpenApi.JSONSchemaDefinition[],
   context: ToTypeNode.Context,
   multiType: "oneOf" | "allOf" | "anyOf",
   convertContext: ConvertContext.Types,
+  schemaRoot?: OpenApi.Schema,
 ): string => {
   const type = ToTypeNode.generateMultiTypeNode(
     entryPoint,
@@ -240,6 +264,7 @@ export const generateMultiTypeAlias = (
     ToTypeNode.convert,
     convertContext,
     multiType,
+    schemaRoot,
   );
   return factory.TypeAliasDeclaration.create({
     export: true,
@@ -255,56 +280,118 @@ export const addSchema = (
   factory: Factory.Type,
   targetPoint: string,
   declarationName: string,
-  schema: OpenApi.Schema | undefined,
+  schema: OpenApi.JSONSchemaDefinition | undefined,
   context: ToTypeNode.Context,
   convertContext: ConvertContext.Types,
 ): void => {
-  if (!schema) {
+  if (schema === undefined) {
     return;
   }
-  if (Guard.isAllOfSchema(schema)) {
+  if (typeof schema === "boolean") {
+    // OpenAPI 3.1 で boolean schema が利用可能になりました。
     store.addStatement(targetPoint, {
       kind: "typeAlias",
       name: convertContext.escapeDeclarationText(declarationName),
-      value: generateMultiTypeAlias(entryPoint, currentPoint, factory, declarationName, schema.allOf, context, "allOf", convertContext),
+      value: factory.TypeAliasDeclaration.create({
+        export: true,
+        name: convertContext.escapeDeclarationText(declarationName),
+        type: ToTypeNode.convert(entryPoint, currentPoint, factory, schema, context, convertContext),
+      }),
     });
-  } else if (Guard.isOneOfSchema(schema)) {
+    return;
+  }
+  const inferredSchema = InferredType.getInferredType(schema);
+  if (!inferredSchema) {
     store.addStatement(targetPoint, {
       kind: "typeAlias",
       name: convertContext.escapeDeclarationText(declarationName),
-      value: generateMultiTypeAlias(entryPoint, currentPoint, factory, declarationName, schema.oneOf, context, "oneOf", convertContext),
+      value: generateNotInferedTypeAlias(entryPoint, currentPoint, factory, declarationName, schema, convertContext),
     });
-  } else if (Guard.isAnyOfSchema(schema)) {
+    return;
+  }
+  const targetSchema = inferredSchema;
+  if (Guard.isTypeArraySchema(targetSchema)) {
+    // OpenAPI 3.1 で追加された type 配列をリモート参照先でも union として出力します。
     store.addStatement(targetPoint, {
       kind: "typeAlias",
       name: convertContext.escapeDeclarationText(declarationName),
-      value: generateMultiTypeAlias(entryPoint, currentPoint, factory, declarationName, schema.anyOf, context, "allOf", convertContext),
+      value: generateTypeAliasForTypeArray(entryPoint, currentPoint, factory, declarationName, targetSchema, context, convertContext),
     });
-  } else if (Guard.isArraySchema(schema)) {
+    return;
+  }
+  if (Guard.isAllOfSchema(targetSchema)) {
     store.addStatement(targetPoint, {
       kind: "typeAlias",
       name: convertContext.escapeDeclarationText(declarationName),
-      value: generateArrayTypeAlias(entryPoint, currentPoint, factory, declarationName, schema, context, convertContext),
+      value: generateMultiTypeAlias(
+        entryPoint,
+        currentPoint,
+        factory,
+        declarationName,
+        targetSchema.allOf,
+        context,
+        "allOf",
+        convertContext,
+        targetSchema,
+      ),
     });
-  } else if (Guard.isObjectSchema(schema)) {
-    if (schema.nullable) {
+  } else if (Guard.isOneOfSchema(targetSchema)) {
+    store.addStatement(targetPoint, {
+      kind: "typeAlias",
+      name: convertContext.escapeDeclarationText(declarationName),
+      value: generateMultiTypeAlias(
+        entryPoint,
+        currentPoint,
+        factory,
+        declarationName,
+        targetSchema.oneOf,
+        context,
+        "oneOf",
+        convertContext,
+        targetSchema,
+      ),
+    });
+  } else if (Guard.isAnyOfSchema(targetSchema)) {
+    store.addStatement(targetPoint, {
+      kind: "typeAlias",
+      name: convertContext.escapeDeclarationText(declarationName),
+      value: generateMultiTypeAlias(
+        entryPoint,
+        currentPoint,
+        factory,
+        declarationName,
+        targetSchema.anyOf,
+        context,
+        "anyOf",
+        convertContext,
+        targetSchema,
+      ),
+    });
+  } else if (Guard.isArraySchema(targetSchema)) {
+    store.addStatement(targetPoint, {
+      kind: "typeAlias",
+      name: convertContext.escapeDeclarationText(declarationName),
+      value: generateArrayTypeAlias(entryPoint, currentPoint, factory, declarationName, targetSchema, context, convertContext),
+    });
+  } else if (Guard.isObjectSchema(targetSchema)) {
+    if (targetSchema.nullable) {
       store.addStatement(targetPoint, {
         kind: "typeAlias",
         name: convertContext.escapeDeclarationText(declarationName),
-        value: generateTypeAliasDeclarationForObject(entryPoint, currentPoint, factory, declarationName, schema, context, convertContext),
+        value: generateTypeAliasDeclarationForObject(entryPoint, currentPoint, factory, declarationName, targetSchema, context, convertContext),
       });
     } else {
       store.addStatement(targetPoint, {
         kind: "interface",
         name: convertContext.escapeDeclarationText(declarationName),
-        value: generateInterface(entryPoint, currentPoint, factory, declarationName, schema, context, convertContext),
+        value: generateInterface(entryPoint, currentPoint, factory, declarationName, targetSchema, context, convertContext),
       });
     }
-  } else if (Guard.isPrimitiveSchema(schema)) {
+  } else if (Guard.isPrimitiveSchema(targetSchema)) {
     store.addStatement(targetPoint, {
       kind: "typeAlias",
       name: convertContext.escapeDeclarationText(declarationName),
-      value: generateTypeAlias(entryPoint, currentPoint, factory, declarationName, schema, convertContext),
+      value: generateTypeAlias(entryPoint, currentPoint, factory, declarationName, targetSchema, convertContext),
     });
   }
 };

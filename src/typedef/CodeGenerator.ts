@@ -39,7 +39,7 @@ export interface ConvertedParams {
   successResponseFirstContentType: string | undefined; // successResponseContentTypes.length === 1
   has2OrMoreSuccessResponseContentTypes: boolean; // successResponseContentTypes.length > 1
   hasAdditionalHeaders: boolean; // has2OrMoreRequestContentTypes || has2OrMoreSuccessResponseContentTypes
-  hasQueryParameters: boolean; // parameters.in === "query" && parameters.length > 0
+  hasQueryParameters: boolean; // parameters.in が "query" または "querystring"
   // Arguments
   hasParameter: boolean;
   hasRequestBody: boolean;
