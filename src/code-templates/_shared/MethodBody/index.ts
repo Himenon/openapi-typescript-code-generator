@@ -95,7 +95,8 @@ export const create = (factory: TsGenerator.Factory.Type, params: CodeGenerator.
 
   // Generate Query Parameter
   if (convertedParams.hasQueryParameters) {
-    const queryParameter = pickedParameters.filter(item => item.in === "query");
+    // OpenAPI 3.2 の querystring パラメータもクエリ文字列へ渡します。
+    const queryParameter = pickedParameters.filter(item => item.in === "query" || item.in === "querystring");
     const queryObject = Object.values(queryParameter).reduce<{ [key: string]: QueryParameter.Item }>((previous, current) => {
       const { text, escaped } = escapeText(current.name);
       const variableDeclareText = escaped ? `params.parameter[${text}]` : `params.parameter.${text}`;

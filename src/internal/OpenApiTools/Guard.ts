@@ -9,9 +9,11 @@ export const isReference = (data: any): data is OpenApi.Reference => {
   return typeof data.$ref === "string";
 };
 
-export const isUnSupportSchema = (schema: OpenApi.Schema): schema is Types.UnSupportSchema => {
+export const isTypeArraySchema = (schema: OpenApi.Schema): schema is Types.TypeArraySchema => {
   return Array.isArray(schema.type);
 };
+
+export const isUnSupportSchema = isTypeArraySchema;
 
 export const isObjectSchema = (schema: OpenApi.Schema): schema is Types.ObjectSchema => {
   return schema.type === "object";
@@ -67,5 +69,5 @@ export const isAnyOfSchema = (schema: OpenApi.Schema): schema is Types.AnyOfSche
 };
 
 export const isComponentName = (name: string): name is Def.ComponentName => {
-  return ["schemas", "headers", "responses", "parameters", "requestBodies", "securitySchemes", "pathItems"].includes(name);
+  return ["schemas", "headers", "responses", "parameters", "requestBodies", "securitySchemes", "pathItems", "mediaTypes"].includes(name);
 };

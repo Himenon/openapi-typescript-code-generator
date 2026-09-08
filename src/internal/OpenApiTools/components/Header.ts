@@ -17,7 +17,7 @@ export const generateTypeNode = (
   return factory.TypeAliasDeclaration.create({
     export: true,
     name: converterContext.escapeDeclarationText(name),
-    type: ToTypeNode.convert(entryPoint, currentPoint, factory, header.schema || { type: "null" }, context, converterContext),
+    type: ToTypeNode.convert(entryPoint, currentPoint, factory, header.schema ?? { type: "null" }, context, converterContext),
   });
 };
 
@@ -56,7 +56,7 @@ export const generatePropertySignature = (
     readOnly: false,
     name: converterContext.escapePropertySignatureName(name),
     optional: false,
-    type: ToTypeNode.convert(entryPoint, currentPoint, factory, header.schema || { type: "null" }, context, converterContext),
+    type: ToTypeNode.convert(entryPoint, currentPoint, factory, header.schema ?? { type: "null" }, context, converterContext),
   });
 };
 

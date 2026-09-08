@@ -1,6 +1,6 @@
 # @himenon/openapi-typescript-code-generator
 
-このライブラリは OpenAPI v3.0.x 系に準拠した仕様書から TypeScript の型定義と抽出したパラメーターを提供します。
+このライブラリは OpenAPI v3.x 系に準拠した仕様書から TypeScript の型定義と抽出したパラメーターを提供します。
 コードの生成にはテンプレートリテラルを利用し、正確に TypeScript のコードへ変換します。
 OpenAPI から抽出したパラメーターは自由に使うことができるため、API Client や Server Side 用のコード、ロードバランサーの設定ファイルなどの自動生成に役立てることができます。
 

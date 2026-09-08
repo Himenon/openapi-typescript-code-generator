@@ -69,7 +69,8 @@ const hasQueryParameters = (parameters?: OpenApi.Parameter[]): boolean => {
   if (!parameters) {
     return false;
   }
-  return parameters.filter(parameter => parameter.in === "query").length > 0;
+  // OpenAPI 3.2 で追加された querystring もクエリ文字列として扱います。
+  return parameters.some(parameter => parameter.in === "query" || parameter.in === "querystring");
 };
 
 export const generateCodeGeneratorParamsArray = (

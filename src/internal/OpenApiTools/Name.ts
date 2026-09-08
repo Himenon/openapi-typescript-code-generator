@@ -6,6 +6,7 @@ export const Components = {
   PathItems: "PathItems",
   RequestBodies: "RequestBodies",
   Responses: "Responses",
+  MediaTypes: "MediaTypes",
 } as const;
 
 export const ComponentChild = {

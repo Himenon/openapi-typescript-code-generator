@@ -293,4 +293,46 @@ export namespace RequestBodies {
             }
         }
     }
+    export namespace ForPaths {
+        export namespace IncludeRemoteReference {
+            export interface Content {
+                "application/json": string;
+            }
+        }
+    }
+}
+export namespace PathItems {
+    export namespace IncludeLocalReference {
+        /** tags: local */
+        export namespace GET {
+            export interface Parameter {
+                /** parameters.StringQueryParams */
+                StringQuery: Parameters.StringQueryParams;
+            }
+            export namespace Response {
+                /** Success response of getA */
+                export namespace Status$200 {
+                    export interface Content {
+                        "application/json": {
+                            meta: string;
+                        };
+                    }
+                }
+            }
+        }
+    }
+    export namespace IncludeRemoteReference {
+        /** tags: remote */
+        export namespace GET {
+            export interface Parameter {
+                /** remote reference parameter */
+                IncludeRemoteReference: number;
+            }
+            export type RequestBody = RequestBodies.ForPaths.IncludeRemoteReference.Content;
+            export namespace Response {
+                /** OK */
+                export namespace Status$200 { }
+            }
+        }
+    }
 }

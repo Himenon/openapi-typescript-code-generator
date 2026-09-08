@@ -129,7 +129,7 @@ export interface Type {
     create(p: { text: string }): string;
   };
   LiteralTypeNode: {
-    create(p: { value: string | boolean | number; comment?: string }): string;
+    create(p: { value: string | boolean | number | null; comment?: string }): string;
   };
   TypeNode: {
     create(
@@ -319,6 +319,9 @@ export const create = (): Type => {
     LiteralTypeNode: {
       create(p) {
         const node = (() => {
+          if (p.value === null) {
+            return "null";
+          }
           if (typeof p.value === "string") {
             const escaped = p.value.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
             return `"${escaped}"`;
