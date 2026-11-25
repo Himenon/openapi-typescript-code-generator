@@ -8,3 +8,9 @@ allowBuilds:
   esbuild: true
   lefthook: true
   nx: true
+
+overrides:
+  dot-prop@<4.2.1: ^4.2.1
+  minimatch@>=7.0.0 <11.0.1: ^11.0.1
+  glob@>=9.0.0 <14.0.2: ^14.0.2
+  undici@>=7.0.0 <7.30.1: ^7.30.1
