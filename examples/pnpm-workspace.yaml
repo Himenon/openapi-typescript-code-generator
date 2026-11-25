@@ -1,0 +1,5 @@
+packages:
+  - apis
+  - pure-js
+
+minimumReleaseAge: 10080
